@@ -1,0 +1,57 @@
+;;;;; version 1.2.3 (Mar. 5. 2014)
+
+* NEW With on Constructed Contracts
+
+
+
+;;;;; version 1.2.2 (Feb. 26. 2014)
+
+* NEW flag eanble assertion
+
+
+
+;;;;; version 1.2.1 (Feb. 26. 2014)
+
+* NEW contract constructor
+
+
+
+;;;;; version 1.2.0 (Feb. 26. 2014)
+
+* NEW isNativeFunction
+
+* NEW bind function
+
+* NEW DependentContract
+** Contract Constructores
+
+* CHANGE predicates
+** use BaseContract
+
+* NEW identity preserving menbrane
+
+
+
+;;;;; version 1.1.1 (Feb. 6. 2014)
+
+* NEW isNativeFunction
+** uses a fresh global object
+** uses a initial Function.prototype.toString
+
+* NEW evalInSandbox
+* NEW evalNewInSandbox
+
+* ObjectContarcts is read-assert
+
+* protect predicate argument
+
+* BUGFIX
+** And Contract with Object and Funtion Contract
+
+* Function Contract is C-->C
+** to access arg1, use an object Contract with 0:C
+
+* function contracts are dependent contract
+** args is protected
+
+* flag to eval in sandbox

@@ -1,0 +1,13 @@
+;;;;; Feb. 26. 2014
+
+* Blame Messages
+** use proxy arguments
+** and the callback logic for blaming.
+** Each callback call has to contain the argument
+** and the contract.  
+
+
+
+* Catch Exception in Sandbox/ Predicate Evaluation
+
+* Change Constructores of Function Contracts
