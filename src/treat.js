@@ -25,15 +25,9 @@
                         load('src/' + files[i]);
                 }
         }
-
-       
+ 
         loadSource(base);
         loadSource(core);
-
-
-
-        
-
 
 })(load, print);
 
