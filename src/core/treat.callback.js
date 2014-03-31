@@ -34,8 +34,11 @@
                 }
 
                 this.subHandler = function(arg, msg) {
-                        sub = arg;
-                        subMsg = msg;
+                        // no false update
+                        if(sub!=false) {
+                                sub = arg;
+                                subMsg = msg;
+                        }
                         evalCallback()
                 }
         }
@@ -58,13 +61,19 @@
                 }
 
                 this.leftHandler = function(arg, msg) {
-                        left = arg;
-                        leftMsg = msg;
+                        // no false update
+                        if(left!=false) {
+                                left = arg;
+                                leftMsg = msg;
+                        }
                         evalCallback(msg)
                 }
                 this.rightHandler = function(arg, msg) {
-                        right = arg;
-                        rightMsg = msg;
+                        // no false update
+                        if(right!=false) {
+                                right = arg;
+                                rightMsg = msg;
+                        }
                         evalCallback(msg);
                 }
         }
@@ -87,13 +96,19 @@
                 }
 
                 this.leftHandler = function(arg, msg) {
-                        left = arg;
-                        leftMsg = msg;
+                        // no false update
+                        if(left!=false) {
+                                left = arg;
+                                leftMsg = msg;
+                        }
                         evalCallback(msg)
                 }
                 this.rightHandler = function(arg, msg) {
-                        right = arg;
-                        rightMsg = msg;
+                        // no false update
+                        if(right!=false) {
+                                right = arg;
+                                rightMsg = msg;
+                        }
                         evalCallback(msg);
                 }
         }
@@ -111,8 +126,11 @@
                 }
 
                 this.subHandler = function(arg, msg) {
-                        sub = arg;
-                        subMsg = msg;
+                        // no false update
+                        if(sub!=false) {
+                                sub = arg;
+                                subMsg = msg;
+                        }
                         evalCallback()
                 }
         }
