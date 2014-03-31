@@ -13,8 +13,6 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 load("src/treat.js");
-load("test/JSContract/contracts.js");
-
-
+load("test/contracts.js");
 
 quit();

@@ -13,11 +13,9 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 load("src/treat.js");
-load("test/JSContract/contracts.js");
+load("test/contracts.js");
 
-
-
-// TODO
+//  makes TreatJS available under $
 var $ = _ ;
 
 load("test/JSContract/basecontracts.js");
@@ -36,8 +34,4 @@ load("test/JSContract/constructor.js");
 load("test/JSContract/sandbox.js");
 load("test/JSContract/bind.js");
 
-
-
-
 quit();
-

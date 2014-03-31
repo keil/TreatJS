@@ -32,15 +32,18 @@
                                 callback(sub, subMsg);
                         }
                 }
-
-                this.subHandler = function(arg, msg) {
-                        // no false update
-                        if(sub!=false) {
-                                sub = arg;
-                                subMsg = msg;
-                        }
-                        evalCallback()
+                function updateSub(arg, msg) {
+                        sub = (sub!=false) ? arg : sub;
+                        subMsg = (sub!=false) ? msg : subMsg;
                 }
+
+                Object.defineProperties(this, {
+                        "subHandler": {
+                                get: function(arg, msg) {
+                                        updateSub(arg, msg);
+                                        evalCallback()
+                                }}
+                });
         }
 
         function AndCallback(callback) {
@@ -59,23 +62,27 @@
                                 callback(true, leftMsg+" [[AND]] "+rightMsg);
                         }
                 }
+                function updateLeft(arg, msg) {
+                        left = (left!=false) ? arg : left;
+                        leftMsg = (left!=false) ? msg : leftMsg;
+                }
+                function updateRight(arg, msg) {
+                        right = (right!=false) ? arg : right;
+                        rightMsg = (right!=false) ? msg : rightMsg;
+                }
 
-                this.leftHandler = function(arg, msg) {
-                        // no false update
-                        if(left!=false) {
-                                left = arg;
-                                leftMsg = msg;
-                        }
-                        evalCallback(msg)
-                }
-                this.rightHandler = function(arg, msg) {
-                        // no false update
-                        if(right!=false) {
-                                right = arg;
-                                rightMsg = msg;
-                        }
-                        evalCallback(msg);
-                }
+                Object.defineProperties(this, {
+                        "leftHandler": {
+                                get: function(arg, msg) {
+                                        updateLeft(arg, msg);
+                                        evalCallback()
+                                }},
+                        "rightHandler": {
+                                get: function(arg, msg) {
+                                        updateRight(arg, msg);
+                                        evalCallback()
+                                }},
+                });
         }
 
         function OrCallback(callback) {
@@ -94,23 +101,28 @@
                                 callback(true, leftMsg+" [[OR]] "+rightMsg);
                         }
                 }
+                function updateLeft(arg, msg) {
+                        left = (left!=false) ? arg : left;
+                        leftMsg = (left!=false) ? msg : leftMsg;
+                }
+                function updateRight(arg, msg) {
+                        right = (right!=false) ? arg : right;
+                        rightMsg = (right!=false) ? msg : rightMsg;
+                }
 
-                this.leftHandler = function(arg, msg) {
-                        // no false update
-                        if(left!=false) {
-                                left = arg;
-                                leftMsg = msg;
-                        }
-                        evalCallback(msg)
-                }
-                this.rightHandler = function(arg, msg) {
-                        // no false update
-                        if(right!=false) {
-                                right = arg;
-                                rightMsg = msg;
-                        }
-                        evalCallback(msg);
-                }
+                Object.defineProperties(this, {
+                        "leftHandler": {
+                                get: function(arg, msg) {
+                                        updateLeft(arg, msg);
+                                        evalCallback()
+                                }},
+                        "rightHandler": {
+                                get: function(arg, msg) {
+                                        updateRight(arg, msg);
+                                        evalCallback()
+                                }},
+
+                });
         }
 
         function NotCallback(callback) {
@@ -124,15 +136,18 @@
                                 callback(!sub, "[[NOT]] "+subMsg);
                         }
                 }
-
-                this.subHandler = function(arg, msg) {
-                        // no false update
-                        if(sub!=false) {
-                                sub = arg;
-                                subMsg = msg;
-                        }
-                        evalCallback()
+                function updateSub(arg, msg) {
+                        sub = (sub!=false) ? arg : sub;
+                        subMsg = (sub!=false) ? msg : subMsg;
                 }
+
+                Object.defineProperties(this, {
+                        "subHandler": {
+                                get: function(arg, msg) {
+                                        updateSub(arg, msg);
+                                        evalCallback()
+                                }}
+                });
         }
 
         _.Callback = Callback;

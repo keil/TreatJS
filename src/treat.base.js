@@ -27,7 +27,7 @@ var _ = (function() {
         _.toString = (function() { return '[[TreatJS]]'; });
 
         /* Backup Function.prototype.toString;
-         */
+        */
 
         // new Base object
         _.Base = new Object();

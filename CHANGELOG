@@ -1,3 +1,11 @@
+;;;;; TreatJS 1.0.x (Mar. 5. 2014)
+
+# Callback
+* Use getter and setter in callbacks
+
+
+
+
 ;;;;; version 1.2.3 (Mar. 5. 2014)
 
 * NEW With on Constructed Contracts

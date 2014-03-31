@@ -33,9 +33,3 @@
         loadSource(core, 'src/');
 
 })(load, print);
-
-
-
-// TODO:
-// debug package, mit prinbt, und log functionen
-
