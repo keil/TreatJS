@@ -125,6 +125,17 @@
                 else if (contract instanceof ObjectContract) {
                         if(!(arg instanceof Object)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
 
+// TODO, callback
+
+                        if(contract.strict) {
+                                   // TODO test
+                                var callback = (contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
+
+                               contract.properties.foreach(function(identifier, contract) {
+                                        arg[identifier] = assertWith(arg[identifier], contract, global, callback.subHandler);
+                               });                         
+                        }
+
                         var handler = new ObjectHandler(contract, global, callback);
                         var proxy = new Proxy(arg, handler);
                         return proxy;
@@ -283,7 +294,7 @@
 
                         var args = assertWith(args, contract.domain, global, callback.leftHandler);
                         var val = target.apply(thisArg, args);  
-                        return assertWith(val, range, contract.global, callback.rightHandler);
+                        return assertWith(val, contract.range, global, callback.rightHandler);
                 };
                 this.construct = function(target, args) {
                         var obj = Object.create(target.prototype);
@@ -346,6 +357,8 @@
 
                         return (contract.hasOwnProperty(name)) ? assertWith(target[name], contract[name], global, callback.subHandler) : target[name]; 
                 };
+
+             //   this.set = function()
         }
 
 
@@ -407,13 +420,7 @@
         // TODO
 
         _.construct = construct;
-        //        _.constructWith = constructWith;
-
-
         _.assert = assert;
-        //       _.assertWith = assertWith;
-
-        //       _.Global = Global;
 
 
 

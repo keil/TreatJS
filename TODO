@@ -33,8 +33,7 @@
 
 ;;;;; Tasks
 
-# Callback
-* Use getter and setter in callbacks
+
 
 # Truty and Falsey
 * Evaluate Predicates to true-Values

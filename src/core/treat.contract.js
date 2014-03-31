@@ -74,7 +74,7 @@
         //|_| \_,_|_||_|_\_\\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
         function FunctionContract(domain, range, sign) {
-                if(!(this instanceof FunctionContract)) return new FunctionContract(domain, range, strict, sign);
+                if(!(this instanceof FunctionContract)) return new FunctionContract(domain, range, sign);
 
                 if(!(domain instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
                 if(!(range instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
@@ -128,6 +128,7 @@
         function ObjectContract(properties, strict, sign) {
                 if(!(this instanceof ObjectContract)) return new ObjectContract(properties);
 
+                // TODO
                 if(!(properties instanceof Object)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
                 for(property in properties) {
                         if(!(properties[property] instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
