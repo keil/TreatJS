@@ -14,20 +14,23 @@
  */
 (function(load, logger) {
 
+        // libraries
+        var lib = ['lib_padding.js'];
         // base source files
         var base = ['treat.system.js','treat.base.js','treat.config.js'];
         // core api
         var core = ['core/treat.violation.js','core/treat.sandbox.js','core/treat.callback.js','core/treat.contract.js','core/treat.assert.js',];
 
-        function loadSource(files) {
+        function loadSource(files, base) {
                 if(load) for(var i=0; i<files.length; i++) {
-                        logger("@LOAD srv/" + files[i]);
-                        load('src/' + files[i]);
+                        logger("@LOAD " + base + files[i]);
+                        load(base + files[i]);
                 }
         }
  
-        loadSource(base);
-        loadSource(core);
+        loadSource(lib, 'lib/');
+        loadSource(base, 'src/');
+        loadSource(core, 'src/');
 
 })(load, print);
 
