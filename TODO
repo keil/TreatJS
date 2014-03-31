@@ -11,3 +11,16 @@
 * Catch Exception in Sandbox/ Predicate Evaluation
 
 * Change Constructores of Function Contracts
+
+
+;;;;; Mrz. 31. 2014
+
+* cleanup system
+* logger
+* debugger
+* systeout
+
+
+* Exceptions
+
+* Remove SnadboxBaseContract from _ Object

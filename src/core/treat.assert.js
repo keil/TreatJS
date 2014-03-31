@@ -98,7 +98,7 @@
                 if(contract instanceof FunctionContract) {
                         if(!(arg instanceof Function)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
 
-                        var handler = new FunctionHandler(contract.domain, contract.range, global, callback);
+                        var handler = new FunctionHandler(contract, global, callback);
                         var proxy = new Proxy(arg, handler);
                         return proxy;
                 }
@@ -111,7 +111,7 @@
                 if(contract instanceof MethodContract) {
                         if(!(arg instanceof Function)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
 
-                        var handler = new MethodHandler(contract.domain, contract.range, contract.context, global, callback);
+                        var handler = new MethodHandler(contract, global, callback);
                         var proxy = new Proxy(arg, handler);
                         return proxy;
                 }
@@ -125,7 +125,7 @@
                 else if (contract instanceof ObjectContract) {
                         if(!(arg instanceof Object)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
 
-                        var handler = new ObjectHandler(contract.properties, global, callback);
+                        var handler = new ObjectHandler(contract, global, callback);
                         var proxy = new Proxy(arg, handler);
                         return proxy;
                 }
@@ -139,7 +139,7 @@
                 if(contract instanceof DependentContract) {
                         if(!(arg instanceof Function)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
 
-                        var handler = new DependentHandler(contract.constructor, global, callback);
+                        var handler = new DependentHandler(contract, global, callback);
                         var proxy = new Proxy(arg, handler);
                         return proxy;
                 }
@@ -270,11 +270,15 @@
         //| |  | | (_| | | | | (_| | |  __/ |   
         //|_|  |_|\__,_|_| |_|\__,_|_|\___|_|   
 
-        function FunctionHandler(domain, range, global, callback) {
+        function FunctionHandler(contract, global, callback) {
                 this.apply = function(target, thisArg, args) {
-                        var args = assertWith(args, domain, global, callback);
+
+                        var callback = ()_.AndCallback(callback);
+
+
+                        var args = assertWith(args, domain, global, callback.leftHandler);
                         var val = target.apply(thisArg, args);  
-                        return assertWith(val, range, global, callback);
+                        return assertWith(val, range, global, callback.rightHandler);
                 };
                 this.construct = function(target, args) {
                         var obj = Object.create(target.prototype);
@@ -283,7 +287,7 @@
                 };
         }
 
-        function MethodHandler(domain, range, context, global, callback) {
+        function MethodHandler(contract, global, callback) {
                 this.apply = function(target, thisArg, args) {
                         var args = assertWith(args, domain, global, callback);
                         var thisArg = assertWith(thisArg, context, global, callback);

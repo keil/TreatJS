@@ -12,21 +12,27 @@
  * $Rev: 23677 $
  */
 
+// TODO inclide lib and p[adding
+
 // load libraries
 load("lib/lib_padding.js");
 //load("lib/lib_harmony_weakmap.js");
 //load("lib/lib_apache_assert.js");
 
 // load system
-load("system.js");
+//load("system.js");
+
+
+load("src/treat.js");
+
 
 // load JavaScript Contract 
-load("src/JSContract/jscontract.base.js");
-load("src/JSContract/jscontract.config.js");
-load("src/JSContract/jscontract.violation.js");
-load("src/JSContract/jscontract.sandbox.js");
-load("src/JSContract/jscontract.callback.js");
-load("src/JSContract/jscontract.contract.js");
+//load("src/JSContract/jscontract.base.js");
+//load("src/JSContract/jscontract.config.js");
+//load("src/JSContract/jscontract.violation.js");
+//load("src/JSContract/jscontract.sandbox.js");
+//load("src/JSContract/jscontract.callback.js");
+//load("src/JSContract/jscontract.contract.js");
 
 
 
@@ -35,7 +41,7 @@ load("src/JSContract/jscontract.contract.js");
 //////////////////////////////////////////////////
 
 // some predefined contracts
-load("test/JSContract/contracts.js");
+//load("test/JSContract/contracts.js");
 
 // contract tests
 if(false) {
@@ -56,7 +62,7 @@ if(false) {
         load("test/JSContract/sandbox.js");
         load("test/JSContract/bind.js");
 }
-
+var $ = _ ;
 //load("test/JSContract/dependentcontracts.js");
 //load("test/JSContract/constructor.js");
 
@@ -173,5 +179,34 @@ print("???" + (x instanceof $.ContractPrototype));
 
 
 
+function ChaCha() {
+
+        var val = 4711;
+
+        Object.defineProperties(this, {
+                "a": { get: function () { return val; } },
+                "b": { set: function (arg) { val=arg; } }
+        });
+
+}
+
+var x = new ChaCha();
+var y = new ChaCha();
+
+print("> " + x.a);
+print("> " + x.b);
+
+x.a=654;
+
+print("> " + x.a);
+print("> " + x.b);
+
+x.b = 76543456;
+
+print("> " + x.a);
+print("> " + x.b);
+
+print("> " + y.a);
+print("> " + y.b);
 
 quit();
