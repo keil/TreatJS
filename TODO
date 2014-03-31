@@ -24,3 +24,45 @@
 * Exceptions
 
 * Remove SnadboxBaseContract from _ Object
+
+
+
+;;;;; Bugs
+
+
+
+;;;;; Tasks
+
+# Callback
+* Use getter and setter in callbacks
+
+# Truty and Falsey
+* Evaluate Predicates to true-Values
+
+# Exceptions
+* Catch Exceptions in Predicate Evaluation
+
+# Cache for Predicates
+* Cache if possible
+
+# Sandbox Contract
+* SandboxContract should not be accessible
+
+# Convenience Contract
+* Strict vs. Weak (Function, Method, Object)
+* Negative vs. Positive (Function, Method, Dependent, Obejct)
+* Different Argument Types
+
+# Object Contracts
+* Take use of a mapping for Object Contracts
+
+
+;;;;; Minor
+
+# Sample Contracts
+
+# Header File
+* Licence
+* Documentation/API
+* GitHub (publish JSConTest2)
+
