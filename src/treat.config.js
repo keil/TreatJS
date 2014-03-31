@@ -12,7 +12,6 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-
 (function(_) {
 
         _.Config = new Object();
