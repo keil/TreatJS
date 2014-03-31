@@ -273,12 +273,17 @@
         function FunctionHandler(contract, global, callback) {
                 this.apply = function(target, thisArg, args) {
 
-                        var callback = ()_.AndCallback(callback);
+                        // TODO test
+                        var callback = (contract.sign) ? _.AndCallback(callback) : _.AndCallback(_.NotCallback(callback).subHandler());
+
+                        //  TODO TEST
+                     //   var domain = _.ObjectContract(contract.domain.properties, contract.strict, true);
+                     //   var range = contract.range;
 
 
-                        var args = assertWith(args, domain, global, callback.leftHandler);
+                        var args = assertWith(args, contract.domain, global, callback.leftHandler);
                         var val = target.apply(thisArg, args);  
-                        return assertWith(val, range, global, callback.rightHandler);
+                        return assertWith(val, range, contract.global, callback.rightHandler);
                 };
                 this.construct = function(target, args) {
                         var obj = Object.create(target.prototype);
@@ -289,10 +294,25 @@
 
         function MethodHandler(contract, global, callback) {
                 this.apply = function(target, thisArg, args) {
-                        var args = assertWith(args, domain, global, callback);
-                        var thisArg = assertWith(thisArg, context, global, callback);
+                        // TODO test
+
+                        // TODO test
+                        var callback1 = (contract.sign) ? _.AndCallback(callback) : _.AndCallback(_.NotCallback(callback).subHandler());
+                        var callback2 = _.AndCallback(callback1.rightHandler());      
+
+/*
+                        if(contract.sign) {
+                                var callback1 = _.AndCallback(callback);
+                                var callback2 = _.AndCallback(callback1.rightHandler());
+                        } else if(!contract.sign) {
+                                var callback1 = _.AndCallback(_.NotCallback(callback).subHandler());
+                                                  
+                        }
+ */                     
+                        var args = assertWith(args, contract.domain, global, callback2.leftHandler);
+                        var thisArg = assertWith(thisArg, context, global, callback1.leftHandler());
                         var val = target.apply(thisArg, args);  
-                        return assertWith(val, range, global, callback);
+                        return assertWith(val, range, global, callback2.rightHandler);
                 };
                 this.construct = function(target, args) {
                         var obj = Object.create(target.prototype);
@@ -304,12 +324,12 @@
         function DependentHandler(constructor, global, callback) {
                 this.apply = function(target, thisArg, args) { 
 
-                        var argsArray = new Array();
-                        argsArray.push(args);
+                        // TODO test
+                        var callback = (contract.sign) ? _.Callback(callback) : _.NotCallback(callback).subHandler();
 
-                        var contract = constructWith(argsArray, constructor, global);
+                        var contract = constructWith(args, constructor, global);
                         var val = target.apply(thisArg, args); 
-                        return assertWith(val, contract, global, callback);
+                        return assertWith(val, contract, global, callback.subHandler());
                 };
                 this.construct = function(target, args) {
                         var obj = Object.create(target.prototype);
@@ -320,7 +340,11 @@
 
         function ObjectHandler(contract, global, callback) {
                 this.get = function(target, name, receiver) {
-                        return (contract.hasOwnProperty(name)) ? assertWith(target[name], contract[name], global, callback) : target[name]; 
+
+                        // TODO test
+                        var callback = (contract.sign) ? _.Callback(callback) : _.NotCallback(callback).subHandler();
+
+                        return (contract.hasOwnProperty(name)) ? assertWith(target[name], contract[name], global, callback.subHandler()) : target[name]; 
                 };
         }
 

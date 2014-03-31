@@ -73,15 +73,13 @@
         //| _| || | ' \| / /  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
         //|_| \_,_|_||_|_\_\\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
-        function FunctionContract(domain, range, strict, sign) {
+        function FunctionContract(domain, range, sign) {
                 if(!(this instanceof FunctionContract)) return new FunctionContract(domain, range, strict, sign);
 
                 if(!(domain instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
                 if(!(range instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
                 Object.defineProperties(this, {
-                        "strict": {
-                                get: function () { return ((strict) ? true : false); } },
                         "sign": {
                                 get: function () { return ((sign) ? true : false); } },
                         "domain": {
@@ -107,8 +105,6 @@
                 if(!(context instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
                 Object.defineProperties(this, {
-                        "strict": {
-                                get: function () { return ((strict) ? true : false); } },
                         "sign": {
                                 get: function () { return ((sign) ? true : false); } },
                         "domain": {
