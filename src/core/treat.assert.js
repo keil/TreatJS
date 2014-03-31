@@ -249,7 +249,7 @@
 
                         return arg;
                 }
-              
+
                 //  ___             _               _           
                 // / __|___ _ _  __| |_ _ _ _  _ __| |_ ___ _ _ 
                 //| (__/ _ \ ' \(_-<  _| '_| || / _|  _/ _ \ '_|
@@ -262,135 +262,8 @@
                 else error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
         }
 
-        // _    _                 _ _           
-        //| |  | |               | | |          
-        //| |__| | __ _ _ __   __| | | ___ _ __ 
-        //|  __  |/ _` | '_ \ / _` | |/ _ \ '__|
-        //| |  | | (_| | | | | (_| | |  __/ |   
-        //|_|  |_|\__,_|_| |_|\__,_|_|\___|_|   
-
-        function FunctionHandler(domain, range, global, callback) {
-                this.apply = function(target, thisArg, args) {
-                        var args = assertWith(args, domain, global, callback);
-                        var val = target.apply(thisArg, args);  
-                        return assertWith(val, range, global, callback);
-                };
-                this.construct = function(target, args) {
-                        var obj = Object.create(target.prototype);
-                        this.apply(target, obj, args);
-                        return obj;
-                };
-        }
-
-        function MethodHandler(domain, range, context, global, callback) {
-                this.apply = function(target, thisArg, args) {
-                        var args = assertWith(args, domain, global, callback);
-                        var thisArg = assertWith(thisArg, context, global, callback);
-                        var val = target.apply(thisArg, args);  
-                        return assertWith(val, range, global, callback);
-                };
-                this.construct = function(target, args) {
-                        var obj = Object.create(target.prototype);
-                        this.apply(target, obj, args);
-                        return obj;
-                };
-        }
-
-        function DependentHandler(constructor, global, callback) {
-                this.apply = function(target, thisArg, args) { 
-
-                        var argsArray = new Array();
-                        argsArray.push(args);
-
-                        var contract = constructWith(argsArray, constructor, global);
-                        var val = target.apply(thisArg, args); 
-                        return assertWith(val, contract, global, callback);
-                };
-                this.construct = function(target, args) {
-                        var obj = Object.create(target.prototype);
-                        this.apply(target, this, args);
-                        return obj;
-                };
-        }
-
-        function ObjectHandler(contract, global, callback) {
-                this.get = function(target, name, receiver) {
-                        return (contract.hasOwnProperty(name)) ? assertWith(target[name], contract[name], global, callback) : target[name]; 
-                };
-        }
-
-        //  _____                _                   _             
-        // / ____|              | |                 | |            
-        //| |     ___  _ __  ___| |_ _ __ _   _  ___| |_ ___  _ __ 
-        //| |    / _ \| '_ \/ __| __| '__| | | |/ __| __/ _ \| '__|
-        //| |___| (_) | | | \__ \ |_| |  | |_| | (__| || (_) | |   
-        // \_____\___/|_| |_|___/\__|_|   \__,_|\___|\__\___/|_|   
-
-        function Constructor() {}
-        Constructor.prototype = new Contract();
-
-        function ContractConstructor(constructor, name) {
-                if(!(this instanceof ContractConstructor)) return new ContractConstructor(constructor, name);
-
-                if(!(constructor instanceof Function)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-
-                this.constructor = constructor;
-                this.name = name;
-                this.toString = function() { return "[[" + ((name!=undefined) ? name : constructor.toString()) + "]]"; };
-        }
-        ContractConstructor.prototype = new Constructor();
-
-        //                     _                   _   
-        //                    | |                 | |  
-        //  ___ ___  _ __  ___| |_ _ __ _   _  ___| |_ 
-        // / __/ _ \| '_ \/ __| __| '__| | | |/ __| __|
-        //| (_| (_) | | | \__ \ |_| |  | |_| | (__| |_ 
-        // \___\___/|_| |_|___/\__|_|   \__,_|\___|\__|
-
-        function construct(constructor) {
-                if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
-
-                var args = Array.slice(arguments);
-                args.shift();
-                return constructWith(args, constructor, new Global());
-        }
-
-        function constructWith(args, constructor, global) {
-                if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
-
-                var globalArg = global.dump(); 
-                var thisArg = undefined;
-                var argsArray = args;
-
-                var newglobal = {};
-                globalArg["$"] = newglobal;
-
-                newglobal.BaseContract = function (predicate, name) {
-                        return SandboxContract(predicate, globalArg, name);
-                };
-
-                newglobal.FunctionContract = FunctionContract;
-                //newglobal.SFunctionContract = SFunctionContract;
-                newglobal.DependentContract = DependentContract;
-                newglobal.ObjectContract = ObjectContract;
-
-                newglobal.With = WithContract;
-
-                newglobal.And = AndContract;
-                newglobal.Or = OrContract;
-                newglobal.Not = NotContract;
-
-                newglobal.Constructor = ContractConstructor;
-
-                newglobal.assert = assert;
-                newglobal.construct = construct;
-
-                var contract = (_.eval(constructor.constructor, globalArg, thisArg, argsArray));
-
-                if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-                return contract;
-        }
-
+        _.assert = assert;
+        _.assertWith = assertWith;
 
 })(_);
 

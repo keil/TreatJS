@@ -17,7 +17,7 @@
         // base source files
         var base = ['treat.system.js','treat.base.js','treat.config.js'];
         // core api
-        var core = ['core/treat.violation.js','core/treat.sandbox.js','core/treat.callback.js','core/treat.contract.js'];
+        var core = ['core/treat.violation.js','core/treat.sandbox.js','core/treat.callback.js','core/treat.constructor.js','core/treat.contract.js'];
 
         function loadSource(files) {
                 if(load) for(var i=0; i<files.length; i++) {
