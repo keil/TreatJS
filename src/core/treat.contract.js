@@ -291,6 +291,33 @@
         }
         ContractConstructor.prototype = new Constructor();
 
+        //  ___ _     _          _ 
+        // / __| |___| |__  __ _| |
+        //| (_ | / _ \ '_ \/ _` | |
+        // \___|_\___/_.__/\__,_|_|
+
+        function Global(global) {
+                if(!(this instanceof Global)) return new Global(global);
+
+                global = (global==undefined) ? {} : global;
+
+                this.dump = function() {
+                        return global; 
+                }
+
+                this.clone = function() {
+                        var newglobal = {};
+                        for(key in global) newglobal[key] = global[key];
+                        return new Global(newglobal);
+                }
+
+                this.merge = function(binding) {
+                        var newglobal = this.clone().dump();
+                        for(key in binding) newglobal[key] = binding[key];
+                        return new Global(newglobal);
+                }
+        }
+
         _.ContractPrototype = Contract;
         _.ConstructorPrototype = Constructor;
 
@@ -308,5 +335,7 @@
         _.Not = NotContract;
 
         _.Constructor = ContractConstructor;
+
+        _.Global = Global;
 
 })(_);

@@ -36,32 +36,7 @@
         var OrContract = _.Or;
         var NotContract = _.Not;
 
-        //  ___ _     _          _ 
-        // / __| |___| |__  __ _| |
-        //| (_ | / _ \ '_ \/ _` | |
-        // \___|_\___/_.__/\__,_|_|
-
-        function Global(global) {
-                if(!(this instanceof Global)) return new Global(global);
-
-                global = (global==undefined) ? {} : global;
-
-                this.dump = function() {
-                        return global; 
-                }
-
-                this.clone = function() {
-                        var newglobal = {};
-                        for(key in global) newglobal[key] = global[key];
-                        return new Global(newglobal);
-                }
-
-                this.merge = function(binding) {
-                        var newglobal = this.clone().dump();
-                        for(key in binding) newglobal[key] = binding[key];
-                        return new Global(newglobal);
-                }
-        }
+        var Global = _.Global;
 
         //                         _   
         //                        | |  
@@ -262,8 +237,70 @@
                 else error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
         }
 
+        //                     _                   _   
+        //                    | |                 | |  
+        //  ___ ___  _ __  ___| |_ _ __ _   _  ___| |_ 
+        // / __/ _ \| '_ \/ __| __| '__| | | |/ __| __|
+        //| (_| (_) | | | \__ \ |_| |  | |_| | (__| |_ 
+        // \___\___/|_| |_|___/\__|_|   \__,_|\___|\__|
+
+        function construct(constructor) {
+                if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
+
+                var args = Array.slice(arguments);
+                args.shift();
+                return constructWith(args, constructor, new Global());
+        }
+
+        function constructWith(args, constructor, global) {
+                if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
+
+                var globalArg = global.dump(); 
+                var thisArg = undefined;
+                var argsArray = args;
+
+                var newglobal = {};
+                globalArg["$"] = newglobal;
+
+                newglobal.BaseContract = function (predicate, name) {
+                        return SandboxContract(predicate, globalArg, name);
+                };
+
+
+                //TODO, bind cintracts
+
+                newglobal.FunctionContract = FunctionContract;
+                //newglobal.SFunctionContract = SFunctionContract;
+                newglobal.DependentContract = DependentContract;
+                newglobal.ObjectContract = ObjectContract;
+
+                newglobal.With = WithContract;
+
+                newglobal.And = AndContract;
+                newglobal.Or = OrContract;
+                newglobal.Not = NotContract;
+
+                newglobal.Constructor = ContractConstructor;
+
+                newglobal.assert = assert;
+                newglobal.construct = construct;
+
+                var contract = (_.eval(constructor.constructor, globalArg, thisArg, argsArray));
+
+                if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+                return contract;
+        }
+
+// TODO
+
+        _.construct = construct;
+//        _.constructWith = constructWith;
+
+
         _.assert = assert;
-        _.assertWith = assertWith;
+ //       _.assertWith = assertWith;
+
+ //       _.Global = Global;
 
 })(_);
 
