@@ -24,6 +24,7 @@
         var ContractConstructor = _.Constructor;
 
         var BaseContract = _.BaseContract;
+        var SandboxContract = _.SandboxContract;
 
         var FunctionContract = _.FunctionContract;
         var MethodContract = _.MethodContract;
@@ -36,7 +37,32 @@
         var OrContract = _.Or;
         var NotContract = _.Not;
 
-        var Global = _.Global;
+        //  ___ _     _          _ 
+        // / __| |___| |__  __ _| |
+        //| (_ | / _ \ '_ \/ _` | |
+        // \___|_\___/_.__/\__,_|_|
+
+        function Global(global) {
+                if(!(this instanceof Global)) return new Global(global);
+
+                global = (global==undefined) ? {} : global;
+
+                this.dump = function() {
+                        return global; 
+                }
+
+                this.clone = function() {
+                        var newglobal = {};
+                        for(key in global) newglobal[key] = global[key];
+                        return new Global(newglobal);
+                }
+
+                this.merge = function(binding) {
+                        var newglobal = this.clone().dump();
+                        for(key in binding) newglobal[key] = binding[key];
+                        return new Global(newglobal);
+                }
+        }
 
         //                         _   
         //                        | |  
@@ -237,6 +263,65 @@
                 else error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
         }
 
+        // _    _                 _ _           
+        //| |  | |               | | |          
+        //| |__| | __ _ _ __   __| | | ___ _ __ 
+        //|  __  |/ _` | '_ \ / _` | |/ _ \ '__|
+        //| |  | | (_| | | | | (_| | |  __/ |   
+        //|_|  |_|\__,_|_| |_|\__,_|_|\___|_|   
+
+        function FunctionHandler(domain, range, global, callback) {
+                this.apply = function(target, thisArg, args) {
+                        var args = assertWith(args, domain, global, callback);
+                        var val = target.apply(thisArg, args);  
+                        return assertWith(val, range, global, callback);
+                };
+                this.construct = function(target, args) {
+                        var obj = Object.create(target.prototype);
+                        this.apply(target, obj, args);
+                        return obj;
+                };
+        }
+
+        function MethodHandler(domain, range, context, global, callback) {
+                this.apply = function(target, thisArg, args) {
+                        var args = assertWith(args, domain, global, callback);
+                        var thisArg = assertWith(thisArg, context, global, callback);
+                        var val = target.apply(thisArg, args);  
+                        return assertWith(val, range, global, callback);
+                };
+                this.construct = function(target, args) {
+                        var obj = Object.create(target.prototype);
+                        this.apply(target, obj, args);
+                        return obj;
+                };
+        }
+
+        function DependentHandler(constructor, global, callback) {
+                this.apply = function(target, thisArg, args) { 
+
+                        var argsArray = new Array();
+                        argsArray.push(args);
+
+                        var contract = constructWith(argsArray, constructor, global);
+                        var val = target.apply(thisArg, args); 
+                        return assertWith(val, contract, global, callback);
+                };
+                this.construct = function(target, args) {
+                        var obj = Object.create(target.prototype);
+                        this.apply(target, this, args);
+                        return obj;
+                };
+        }
+
+        function ObjectHandler(contract, global, callback) {
+                this.get = function(target, name, receiver) {
+                        return (contract.hasOwnProperty(name)) ? assertWith(target[name], contract[name], global, callback) : target[name]; 
+                };
+        }
+
+
+
         //                     _                   _   
         //                    | |                 | |  
         //  ___ ___  _ __  ___| |_ _ __ _   _  ___| |_ 
@@ -291,16 +376,18 @@
                 return contract;
         }
 
-// TODO
+        // TODO
 
         _.construct = construct;
-//        _.constructWith = constructWith;
+        //        _.constructWith = constructWith;
 
 
         _.assert = assert;
- //       _.assertWith = assertWith;
+        //       _.assertWith = assertWith;
 
- //       _.Global = Global;
+        //       _.Global = Global;
+
+
 
 })(_);
 

@@ -322,6 +322,7 @@
         _.ConstructorPrototype = Constructor;
 
         _.BaseContract = BaseContract;
+        _.SandboxContract = SandboxContract;
 
         _.FunctionContract = FunctionContract;
         _.MethodContract = MethodContract;
