@@ -27,16 +27,31 @@
 
         function Contract() {};
 
+        // ___                ___         _               _   
+        //| _ ) __ _ ___ ___ / __|___ _ _| |_ _ _ __ _ __| |_ 
+        //| _ \/ _` (_-</ -_) (__/ _ \ ' \  _| '_/ _` / _|  _|
+        //|___/\__,_/__/\___|\___\___/_||_\__|_| \__,_\__|\__|
+
         function BaseContract(predicate, name) {
                 if(!(this instanceof BaseContract)) return new BaseContract(predicate, name);
 
                 if(!(predicate instanceof Function)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
-                this.predicate = predicate;
-                this.name = name;
+                Object.defineProperties(this, {
+                        "predicate": {
+                                get: function () { return predicate; } },
+                        "name": {
+                                get: function () { return name; } }
+                });
+
                 this.toString = function() { return "[" + ((name!=undefined) ? name : predicate.toString()) + "]"; };
         }
         BaseContract.prototype = new Contract();
+
+        // ___               _ _              ___         _               _   
+        /// __| __ _ _ _  __| | |__  _____ __/ __|___ _ _| |_ _ _ __ _ __| |_ 
+        //\__ \/ _` | ' \/ _` | '_ \/ _ \ \ / (__/ _ \ ' \  _| '_/ _` / _|  _|
+        //|___/\__,_|_||_\__,_|_.__/\___/_\_\\___\___/_||_\__|_| \__,_\__|\__|
 
         function SandboxContract(predicate, global, name) {
                 if(!(this instanceof SandboxContract)) return new SandboxContract(predicate, global, name);
@@ -44,44 +59,111 @@
                 if(!(predicate instanceof Function)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
                 if(!(global instanceof Object)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
 
-                this.predicate = predicate;
-                this.global = global;
-                this.name = name;
+                Object.defineProperties(this, {
+                        "predicate": {
+                                get: function () { return predicate; } },
+                        "global": {
+                                get: function () { return global; } },
+                        "name": {
+                                get: function () { return name; } }
+                });
+
                 this.toString = function() { return "[" + ((name!=undefined) ? name : predicate.toString()) + "]"; };
         }
         SandboxContract.prototype = new Contract();
 
-        function FunctionContract(domain, range) {
-                if(!(this instanceof FunctionContract)) return new FunctionContract(domain, range);
+        // ___          _   _   _          ___         _               _   
+        //| __|  _ _ _ | |_| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
+        //| _| || | ' \| / /  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
+        //|_| \_,_|_||_|_\_\\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
-                if(!(domain instanceof Contract) && (domain instanceof Object)) return FunctionContract(ObjectContract(domain), range);
+        function FunctionContract(domain, range, strict, sign) {
+                if(!(this instanceof FunctionContract)) return new FunctionContract(domain, range, strict, sign);
 
                 if(!(domain instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
                 if(!(range instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
-                this.domain = domain;
-                this.range = range;
+                Object.defineProperties(this, {
+                        "strict": {
+                                get: function () { return ((strict) ? true : false); } },
+                        "sign": {
+                                get: function () { return ((sign) ? true : false); } },
+                        "domain": {
+                                get: function () { return domain; } },
+                        "range": {
+                                get: function () { return range; } }
+                });
+
                 this.toString = function() { return "(" + domain.toString() + "->" + range.toString() + ")"; };
         }
         FunctionContract.prototype = new Contract();
 
-        function SFunctionContract() {
-                var domain = {};
-                var range = null;
+        // __  __     _   _            _  ___         _               _   
+        //|  \/  |___| |_| |_  ___  __| |/ __|___ _ _| |_ _ _ __ _ __| |_ 
+        //| |\/| / -_)  _| ' \/ _ \/ _` | (__/ _ \ ' \  _| '_/ _` / _|  _|
+        //|_|  |_\___|\__|_||_\___/\__,_|\___\___/_||_\__|_| \__,_\__|\__|
 
-                // clones the arguments
-                var last;
-                for(var i in arguments) {
-                        last = i;
-                        domain[i] = arguments[i];
+        function MethodContract(domain, range, context, strict, sign) {
+                if(!(this instanceof FunctionContract)) return new MethodContract(domain, range, strict, sign);
+
+                if(!(domain instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+                if(!(range instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+                if(!(context instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+                Object.defineProperties(this, {
+                        "strict": {
+                                get: function () { return ((strict) ? true : false); } },
+                        "sign": {
+                                get: function () { return ((sign) ? true : false); } },
+                        "domain": {
+                                get: function () { return domain; } },
+                        "range": {
+                                get: function () { return range; } },
+                        "context": {
+                                get: function () { return context; } }
+                });
+
+                this.toString = function() { return "(" + domain.toString() + "->" + range.toString() + ")"; };
+        }
+        MethodContract.prototype = new Contract();
+
+        //  ___  _     _        _    ___         _               _   
+        // / _ \| |__ (_)___ __| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
+        //| (_) | '_ \| / -_) _|  _| (__/ _ \ ' \  _| '_/ _` / _|  _|
+        // \___/|_.__// \___\__|\__|\___\___/_||_\__|_| \__,_\__|\__|
+        //          |__/                                             
+
+        function ObjectContract(properties, strict, sign) {
+                if(!(this instanceof ObjectContract)) return new ObjectContract(properties);
+
+                if(!(properties instanceof Object)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+                for(property in properties) {
+                        if(!(properties[property] instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
                 }
 
-                // last property is the range portion
-                range = domain[last];
-                delete domain[last];
+                Object.defineProperties(this, {
+                        "strict": {
+                                get: function () { return ((strict) ? true : false); } },
+                        "sign": {
+                                get: function () { return ((sign) ? true : false); } },
+                        "properties": {
+                                get: function () { return properties; } }
+                });
 
-                return FunctionContract(domain, range);
+                this.properties = properties;
+                this.toString = function() { 
+                        var domain = "";
+                        for(name in properties) domain += " " + name + ":" + properties[name].toString();
+                        return "{" + domain + "}";
+                };
         }
+        ObjectContract.prototype = new Contract();
+
+        // ___                        _         _    ___         _               _   
+        //|   \ ___ _ __  ___ _ _  __| |___ _ _| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
+        //| |) / -_) '_ \/ -_) ' \/ _` / -_) ' \  _| (__/ _ \ ' \  _| '_/ _` / _|  _|
+        //|___/\___| .__/\___|_||_\__,_\___|_||_\__|\___\___/_||_\__|_| \__,_\__|\__|
+        //         |_|                                                               
 
         function DependentContract(constructor) {
                 if(!(this instanceof DependentContract)) return new DependentContract(constructor);
@@ -93,22 +175,10 @@
         }
         DependentContract.prototype = new Contract();
 
-        function ObjectContract(properties) {
-                if(!(this instanceof ObjectContract)) return new ObjectContract(properties);
-
-                if(!(properties instanceof Object)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-                for(property in properties) {
-                        if(!(properties[property] instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-                }
-
-                this.properties = properties;
-                this.toString = function() { 
-                        var domain = "";
-                        for(name in properties) domain += " " + name + ":" + properties[name].toString();
-                        return "{" + domain + "}";
-                };
-        }
-        ObjectContract.prototype = new Contract();
+        //   _           _  ___         _               _   
+        //  /_\  _ _  __| |/ __|___ _ _| |_ _ _ __ _ __| |_ 
+        // / _ \| ' \/ _` | (__/ _ \ ' \  _| '_/ _` / _|  _|
+        ///_/ \_\_||_\__,_|\___\___/_||_\__|_| \__,_\__|\__|
 
         function AndContract(first, second) {
                 if(!(this instanceof AndContract)) return new AndContract(first, second);
@@ -122,6 +192,11 @@
         }
         AndContract.prototype = new Contract();
 
+        //  ___       ___         _               _   
+        // / _ \ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
+        //| (_) | '_| (__/ _ \ ' \  _| '_/ _` / _|  _|
+        // \___/|_|  \___\___/_||_\__|_| \__,_\__|\__|
+
         function OrContract(first, second) { 
                 if(!(this instanceof OrContract)) return new OrContract(first, second);
 
@@ -134,6 +209,11 @@
         }
         OrContract.prototype = new Contract();
 
+        // _  _     _    ___         _               _   
+        //| \| |___| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
+        //| .` / _ \  _| (__/ _ \ ' \  _| '_/ _` / _|  _|
+        //|_|\_\___/\__|\___\___/_||_\__|_| \__,_\__|\__|
+
         function NotContract(sub) { 
                 if(!(this instanceof NotContract)) return new NotContract(sub);
 
@@ -141,10 +221,13 @@
 
                 this.sub = sub;
                 this.toString = function() { return "not(" + sub.toString() + ")"; };
-                // TEST
-                this.h = function() {return sandbox;};
         }
         NotContract.prototype = new Contract();
+
+        //__      ___ _   _    ___         _               _   
+        //\ \    / (_) |_| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
+        // \ \/\/ /| |  _| ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
+        //  \_/\_/ |_|\__|_||_\___\___/_||_\__|_| \__,_\__|\__|                                                   
 
         function WithContract(binding, contract) {
                 if(!(this instanceof WithContract)) return new WithContract(binding, contract);
@@ -367,7 +450,7 @@
                 // TODO
 
                 else if(contract instanceof Constructor) {
-                       return assertWith(arg, construct(contract), global, callback);
+                        return assertWith(arg, construct(contract), global, callback);
                 }
 
 
@@ -388,9 +471,9 @@
                         return assertWith(val, range, global, callback);
                 };
                 this.construct = function(target, args) {
-                         var obj = Object.create(target.prototype);
-                         this.apply(target, obj, args);
-                         return obj;
+                        var obj = Object.create(target.prototype);
+                        this.apply(target, obj, args);
+                        return obj;
                 };
         }
 
@@ -468,7 +551,7 @@
                 };
 
                 newglobal.FunctionContract = FunctionContract;
-                newglobal.SFunctionContract = SFunctionContract;
+                //newglobal.SFunctionContract = SFunctionContract;
                 newglobal.DependentContract = DependentContract;
                 newglobal.ObjectContract = ObjectContract;
 
@@ -501,7 +584,7 @@
         _.BaseContract = BaseContract;
 
         _.FunctionContract = FunctionContract;
-        _.SFunctionContract = SFunctionContract;
+        // _.SFunctionContract = SFunctionContract;
         _.DependentContract = DependentContract;
         _.ObjectContract = ObjectContract;
 
