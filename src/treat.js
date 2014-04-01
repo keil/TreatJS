@@ -25,7 +25,7 @@
 
         function loadSource(files, base) {
                 if(load) for(var i=0; i<files.length; i++) {
-                        if(print) print(base + files[i]);
+                        if(print) print("Load " + base + files[i]);
                         load(base + files[i]);
                 }
         }
