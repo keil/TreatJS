@@ -41,23 +41,6 @@ Array.prototype.clear = function() {
 };
 
 //////////////////////////////////////////////////
-// SYSOUT
-//////////////////////////////////////////////////
-
-/* API Standard Output
-*/
-function __sysout(value) {
-        if(typeof print != "undefined")
-                // JS Shell concole oputput
-                print(value);
-        else if(document.write != "undefined")
-                document.write(value);
-        else if(typeof alert  != "undefined")
-                // Standard alert notification
-                alert(value);
-}
-
-//////////////////////////////////////////////////
 // DUMP
 //////////////////////////////////////////////////
 
@@ -122,25 +105,4 @@ function __fail() {
 */
 function __subout(string) {
         putstr(padding_right("... " + string + " ", seperator, fstWidth));
-}
-
-
-//////////////////////////////////////////////////
-// TESTCASE
-//////////////////////////////////////////////////
-
-/* Dump Values to String Output
-*/
-function __testcase(file) {
-        __sysout("\n\n\n\n\n");
-        __sysout("##################################################");
-        __sysout("##")
-                __sysout("## " + file);
-        __sysout("##")
-                __sysout("##################################################");
-        __sysout("\n");
-
-        (function() {
-                load(file);
-        })();
 }
