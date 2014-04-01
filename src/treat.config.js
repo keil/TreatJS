@@ -26,16 +26,6 @@
         _.Config.Verbose.sandbox = true;
         _.Config.Verbose.assert = true;
 
-
-
-
-
-
-
-
-
-
-
         // ___ _ _ _ _ ___ _ _ 
         /// -_) '_| '_/ _ \ '_|
         //\___|_| |_| \___/_|  
@@ -51,11 +41,11 @@
         // contract assertion
         _.Config.assertion = true;
 
-        // pass-through of native functions
-        _.Config.nativePassThrough = true;
+        // sandbox membrane
+        _.Config.membrane = false;
 
-        // eval with sandbox membrane
-        _.Config.disableMembrane = false;
+        // decompile functions
+        _.Config.decompile = false;
 
         //               _     
         // _ __  ___  __| |___ 
@@ -64,5 +54,8 @@
 
         // use newGlobal in sandbox
         _.Config.newGlobal = false;
+
+        // pass-through of native functions
+        _.Config.nativePassThrough = true;
 
 })(_);

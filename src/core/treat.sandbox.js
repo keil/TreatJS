@@ -265,7 +265,7 @@
                 thisArg = (thisArg!=undefined) ? thisArg : globalArg;
                 argsArray = (argsArray!=undefined) ? argsArray : new Array();
 
-                if(_.Config.disableMembrane) {
+                if(!_.Config.membrane) {
                         return evalInSandbox(fun, globalArg, thisArg, argsArray);
                 } else {
                         var sandboxGlobalArg = wrap(globalArg, globalArg);
@@ -291,7 +291,7 @@
                 thisArg = (thisArg!=undefined) ? thisArg : globalArg;
                 argsArray = (argsArray!=undefined) ? argsArray : new Array();
 
-                if(_.Config.disableMembrane) {
+                if(!_.Config.membrane) {
                         return evalNewInSandbox(fun, globalArg, thisArg, argsArray);
                 } else {
                         var sandboxGlobalArg = wrap(globalArg, globalArg);
@@ -337,7 +337,7 @@
                 thisArg = (thisArg!=undefined) ? thisArg : globalArg;
                 argsArray = (argsArray!=undefined) ? argsArray : new Array();
 
-                if(_.Config.disableMembrane) {
+                if(!_.Config.membrane) {
                         return bindInSandbox(fun, globalArg, thisArg, argsArray);
                 } else {
                         var sandboxGlobalArg = wrap(globalArg, globalArg);
