@@ -42,10 +42,10 @@
         _.Config.assertion = true;
 
         // sandbox membrane
-        _.Config.membrane = false;
+        _.Config.membrane = true;
 
         // decompile functions
-        _.Config.decompile = false;
+        _.Config.decompile = true;
 
         //               _     
         // _ __  ___  __| |___ 

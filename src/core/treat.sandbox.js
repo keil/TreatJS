@@ -265,7 +265,9 @@
                 thisArg = (thisArg!=undefined) ? thisArg : globalArg;
                 argsArray = (argsArray!=undefined) ? argsArray : new Array();
 
-                if(!_.Config.membrane) {
+                if(!_.Config.decompile) {
+                        with(globalArg) { return fun.apply(thisArg, argsArray); }
+                } else if(!_.Config.membrane) {
                         return evalInSandbox(fun, globalArg, thisArg, argsArray);
                 } else {
                         var sandboxGlobalArg = wrap(globalArg, globalArg);
@@ -291,7 +293,9 @@
                 thisArg = (thisArg!=undefined) ? thisArg : globalArg;
                 argsArray = (argsArray!=undefined) ? argsArray : new Array();
 
-                if(!_.Config.membrane) {
+                if(!_.Config.decompile) {
+                        with(globalArg) { return fun.apply(thisArg, argsArray); }
+                } else if(!_.Config.membrane) {
                         return evalNewInSandbox(fun, globalArg, thisArg, argsArray);
                 } else {
                         var sandboxGlobalArg = wrap(globalArg, globalArg);
@@ -337,7 +341,9 @@
                 thisArg = (thisArg!=undefined) ? thisArg : globalArg;
                 argsArray = (argsArray!=undefined) ? argsArray : new Array();
 
-                if(!_.Config.membrane) {
+                if(!_.Config.decompile) {
+                        return fun; 
+                } else if(!_.Config.membrane) {
                         return bindInSandbox(fun, globalArg, thisArg, argsArray);
                 } else {
                         var sandboxGlobalArg = wrap(globalArg, globalArg);
