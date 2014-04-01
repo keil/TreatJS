@@ -22,22 +22,22 @@
         //|______|_|  |_|  \___/|_|   
 
         function error(msg, file, line) {
-                __sysout("Error (" + file + ":" + line + "):\n" + msg);
-                if($.Config.stack) __sysout(new Error().stack);
+                print("Error (" + file + ":" + line + "):\n" + msg);
+                if($.Config.stack) print(new Error().stack);
                 quit();
 
         }
 
         function violation(msg, file, line) {
-                __sysout("Violation: (" + file + ":" + line + "):\n" + msg);
-                if($.Config.stack) __sysout(new Error().stack);
+                print("Violation: (" + file + ":" + line + "):\n" + msg);
+                if($.Config.stack) print(new Error().stack);
                 quit();
         }
 
         function blame(contract, msg, file, line) {
-                __sysout("Violation: (" + file + ":" + line + "):\n" + msg);
-                __sysout("Violated Contract: " + contract.toString());
-                if($.Config.stack) __sysout(new Error().stack);
+                print("Violation: (" + file + ":" + line + "):\n" + msg);
+                print("Violated Contract: " + contract.toString());
+                if($.Config.stack) print(new Error().stack);
                 quit();
         }
 

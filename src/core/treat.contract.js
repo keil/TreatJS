@@ -14,6 +14,10 @@
  */
 (function(_) {
 
+        var error = _.error;
+        var violation = _.violation;
+        var blame = _.blame;
+
         //  _____            _                  _       
         // / ____|          | |                | |      
         //| |     ___  _ __ | |_ _ __ __ _  ___| |_ ___ 
