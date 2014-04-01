@@ -23,8 +23,9 @@
 
         _.Config.Verbose = new Object();
 
-        // prints sandbox states
         _.Config.Verbose.sandbox = true;
+        _.Config.Verbose.assert = true;
+
 
 
 

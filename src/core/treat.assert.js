@@ -36,6 +36,19 @@
         var OrContract = _.Or;
         var NotContract = _.Not;
 
+
+        /** log(msg)
+         * @param msg String message
+         */ 
+        function log(msg, target) {
+                if(_.Config.Verbose.assert) {
+                        __out(padding_right(msg + " ", ".", 30));
+                        __blank();
+                        __out(((target!=undefined)?" "+target:""));
+                        __blank();
+                }
+        }
+
         // ___               _ _              ___         _               _   
         /// __| __ _ _ _  __| | |__  _____ __/ __|___ _ _| |_ _ _ __ _ __| |_ 
         //\__ \/ _` | ' \/ _` | '_ \/ _ \ \ / (__/ _ \ ' \  _| '_/ _` / _|  _|
@@ -95,6 +108,7 @@
         // \__,_|___/___/\___|_|   \__|
 
         function assert(arg, contract) {
+                 log("assert", contract);
 
                 // disbale assertion
                 if(!_.Config.assertion) return arg;
@@ -110,6 +124,7 @@
         }
 
         function assertWith(arg, contract, global, callback) {
+                log("assert with", contract);
 
                 if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
@@ -120,9 +135,6 @@
 
                 if(contract instanceof FunctionContract) {
                         if(!(arg instanceof Function)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
-
-
-                        print("CALLBACKx: " + callback);
 
                         var handler = new FunctionHandler(contract, global, callback);
                         var proxy = new Proxy(arg, handler);
@@ -412,6 +424,8 @@
         // \___\___/|_| |_|___/\__|_|   \__,_|\___|\__|
 
         function construct(constructor) {
+                log("construct", constructor);
+
                 if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
 
                 var args = Array.slice(arguments);
@@ -420,6 +434,8 @@
         }
 
         function constructWith(args, constructor, global) {
+                log("construct with", constructor);
+
                 if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
 
                 var globalArg = global.dump(); 
