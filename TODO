@@ -35,6 +35,10 @@
 # Truty and Falsey
 * Evaluate Predicates to true-Values
 
+# Exceptions
+* Catch Exceptions in Predicate Evaluation
+
+
 
 ;;;;; Bugs
 
@@ -43,11 +47,10 @@
 ;;;;; Tasks
 
 
+# Object Contracts
+* Take use of a mapping for Object Contracts
 
 
-
-# Exceptions
-* Catch Exceptions in Predicate Evaluation
 
 # Cache for Predicates
 * Cache if possible
@@ -61,21 +64,14 @@
 * Different Argument Types
 * Make AB available
 
-# Object Contracts
-* Take use of a mapping for Object Contracts
 
-# Integrate System
 
-# Debugger/ Logger
+
 
 
 
 ;;;;; Minor
 
-# Sample Contracts
+# Integrate System
 
-# Header File
-* Licence
-* Documentation/API
-* GitHub (publish JSConTest2)
-
+# Debugger/ Logger
