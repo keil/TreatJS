@@ -3,6 +3,12 @@
 # Callback
 * Use getter and setter in callbacks
 
+# Sandbox Contract
+* SandboxContract should not be accessible
+
+
+
+
 
 
 

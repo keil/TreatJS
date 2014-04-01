@@ -15,97 +15,19 @@
 load("src/treat.js");
 load("test/contracts.js");
 
-var m = new Array();
 
-m["/cha*/"] =  4711;
-
-print(m.length);
-
-
-
-/*(
-
-
-m[0] = 567;
-
-*/
-
-/*
-
-print("#" + m);
-
-
-
-print(m[/cha/]);
-
-
-
-function Mapping() {
-
-        var keys = new Array();
-        var contracts = new Array();
-
-
-        this.push = function(identifier, contract) {
-
-                // TODO typeof contract
-                // typeod regex/ tring / number
-
-                var index = keys.push(identifier);
-                contracts[index] = contract;
-                return index;
-
-        }
-
-        this.foreach = function (callback) {
-        
-        
-        }
-
-        // foreach
-        // return all mathcing
-
-    
-
-}
-
-var m = new Mapping();
-m.push("a", 4711);
-m.push("aa", 4712);
-m.push("b", 4713);
-
-
-*/
-
-var re = /ab+c/;
-re.contract = "23452435";
-print(re instanceof RegExp);
-print(re.contract);
-
-try {
-//throw "asdf"; 
-var chacha = 4711;
-//throw (new Error("asdv"));
-} catch (e) {
-        var chacha = 4712;
-} finally {
-print("@" + chacha);
-}
-
-
-function Obj(chacha) {
+/**
+function O(a) {
         this.m = function() {
-                print("#1 " + chacha);
-                chacha = 4712;
-                print("#2 " + chacha);
-
+                print("#1 " + a);
+                //var a = 4712;
+                print("#2 " + a);
         }
 }
 
-
-var c = new Obj("4711");
+var c = new O("4711");
 c.m();
 c.m();
-
+*/
 
 quit();

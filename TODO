@@ -55,8 +55,7 @@
 # Cache for Predicates
 * Cache if possible
 
-# Sandbox Contract
-* SandboxContract should not be accessible
+
 
 # Convenience Contract
 * Strict vs. Weak (Function, Method, Object)
