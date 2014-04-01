@@ -14,162 +14,154 @@
  */
 (function(_) {
 
+
+
+
         // ___          _   _   _          ___         _               _   
         //| __|  _ _ _ | |_| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
         //| _| || | ' \| / /  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
         //|_| \_,_|_||_|_\_\\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
+        // TODO MERGE THIS
         function FunctionContract(domain, range, strict, sign) {
                 if(!(this instanceof FunctionContract)) return new FunctionContract(domain, range, strict, sign);
 
-// pretty syntax
-//                if(!(domain instanceof Contract) && (domain instanceof Object)) return FunctionContract(ObjectContract(domain), range);
-
-                if(!(domain instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
                 if(!(range instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
-
-                
-                Object.defineProperties(this, {
-                        "strict": {
-                                get: function () { return ((strict) ? true : false); } },
-                        "sign": {
-                                get: function () { return ((sign) ? true : false); } },
-                        "domain": {
-                                get: function () { return domain; } },
-                        "range": {
-                                get: function () { return range; } }
-                });
-                
-                this.toString = function() { return "(" + domain.toString() + "->" + range.toString() + ")"; };
-        }
-        FunctionContract.prototype = new Contract();
-
-
-
-
-
-        function SFunctionContract() {
-                var domain = {};
-                var range = null;
-
-                // clones the arguments
-                var last;
-                for(var i in arguments) {
-                        last = i;
-                        domain[i] = arguments[i];
-                }
-
-                // last property is the range portion
-                range = domain[last];
-                delete domain[last];
-
-                return FunctionContract(domain, range);
+                if(domain instanceof Contract) {
+                        return _.core.FunctionContract(domain, range, strict, sign);
+                } else if(domain instanceof Array) {
+                        return _.core.FunctionContract(_.core.ObjectContract(domain), range, strict, sign);
+                } else if(domain instanceof Object) {
+                        return _.core.FunctionContract(_.core.ObjectContract(domain), range, strict, sign);
+                } else error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
         }
 
+        function SimpleFunctionContract() {
+                if(!(this instanceof SimpleFunctionContract)) return new FunctionContract(domain, range, strict, sign);
 
 
+                print(arguments.length);
+                var sign = arguments.pop();
+                var strict = arguments.pop();
 
-        function DependentContract(constructor) {
-                if(!(this instanceof DependentContract)) return new DependentContract(constructor);
-
-                if(!(constructor instanceof Constructor)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-
-                this.constructor = constructor;
-                this.toString = function() { return "(" + constructor.toString() + "->" + "*" + ")"; };
+                var range = arguments.pop();
+                print(arguments.length);
         }
-        DependentContract.prototype = new Contract();
+        /*
+           function Weak-SimpleFunctionContract() {}
+           function Strict-SimpleFunctionContract() {}
 
-        function ObjectContract(properties) {
-                if(!(this instanceof ObjectContract)) return new ObjectContract(properties);
+           function Positive-SimpleFunctionContract() {}
+           function Negative-SimpleFunctionContract() {}
 
-                if(!(properties instanceof Object)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-                for(property in properties) {
-                        if(!(properties[property] instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-                }
+           function Positive-SimpleFunctionContract() {}
+           function Negative-SimpleFunctionContract() {}
+           */
 
-                this.properties = properties;
-                this.toString = function() { 
-                        var domain = "";
-                        for(name in properties) domain += " " + name + ":" + properties[name].toString();
-                        return "{" + domain + "}";
-                };
+        /*
+           function SFunctionContract() {
+           var domain = {};
+           var range = null;
+
+        // clones the arguments
+        var last;
+        for(var i in arguments) {
+        last = i;
+        domain[i] = arguments[i];
         }
-        ObjectContract.prototype = new Contract();
 
-        function AndContract(first, second) {
-                if(!(this instanceof AndContract)) return new AndContract(first, second);
+        // last property is the range portion
+        range = domain[last];
+        delete domain[last];
 
-                if(!(first instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-                if(!(second instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-
-                this.first = first;
-                this.second = second;
-                this.toString = function() { return "(" + first.toString() + "and" + second.toString() + ")"; };
+        return FunctionContract(domain, range);
         }
-        AndContract.prototype = new Contract();
+        */
 
-        function OrContract(first, second) { 
-                if(!(this instanceof OrContract)) return new OrContract(first, second);
 
-                if(!(first instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-                if(!(second instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+        //  ___  _     _        _    ___         _               _   
+        // / _ \| |__ (_)___ __| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
+        //| (_) | '_ \| / -_) _|  _| (__/ _ \ ' \  _| '_/ _` / _|  _|
+        // \___/|_.__// \___\__|\__|\___\___/_||_\__|_| \__,_\__|\__|
+        //          |__/                                             
 
-                this.first = first;
-                this.second = second;
-                this.toString = function() { return "(" + first.toString() + "or" + second.toString() + ")"; };
-        }
-        OrContract.prototype = new Contract();
+        /*
+           function Weak_ObjectContract(properties, strict, sign) {
+           return  _.ObjectContract(properties, strict, sign);
+           }
+           */
+        function Match(regexp, contract) {
+                if(!(this instanceof Match)) return new Match(regexp, contract);
 
-        function NotContract(sub) { 
-                if(!(this instanceof NotContract)) return new NotContract(sub);
-
-                if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-
-                this.sub = sub;
-                this.toString = function() { return "not(" + sub.toString() + ")"; };
-                // TEST
-                this.h = function() {return sandbox;};
-        }
-        NotContract.prototype = new Contract();
-
-        function WithContract(binding, contract) {
-                if(!(this instanceof WithContract)) return new WithContract(binding, contract);
-
-                if(!(binding instanceof Object)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+                if(!(regexp instanceof RegEx)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
                 if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
-                this.binding = binding;
-                this.contract = contract;
-                this.toString = function() {
-                        var domain = "";
-                        for(name in binding) domain += " " + name;
-                        return "(with {" + domain + "}" + contract.toString() + ")";
-                };
+                Object.defineProperties(this, {
+                        "regexp": {
+                                get: function () { return regexp; } },
+                        "contract": {
+                                get: function () { return contract; } }
+                });
         }
-        WithContract.prototype = new Contract();
 
-    
-   /* 
-        _.ContractPrototype = Contract;
-        _.ConstructorPrototype = Constructor;
 
-        _.Constructor = ContractConstructor;
+        // stict ?
+        function MatchingObjectContract(properties, sign) {
+                if(!(this instanceof MatchingObjectContract)) return new MatchingObjectContract(properties, sign);
 
-        _.BaseContract = BaseContract;
+                for(property in properties) {
+                        if(!(properties[property] instanceof Match)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+                }
 
-        _.FunctionContract = FunctionContract;
-        _.SFunctionContract = SFunctionContract;
-        _.DependentContract = DependentContract;
-        _.ObjectContract = ObjectContract;
+                Object.defineProperties(this, {
+                        "properties": {
+                                get: function () { return properties; } },
+                        "sign": {
+                                get: function () { return sign; } }
+                });
+        }
 
-        _.With = WithContract;
 
-        _.And = AndContract;
-        _.Or = OrContract;
-        _.Not = NotContract;
+        // ___                        _         _    ___         _               _   
+        //|   \ ___ _ __  ___ _ _  __| |___ _ _| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
+        //| |) / -_) '_ \/ -_) ' \/ _` / -_) ' \  _| (__/ _ \ ' \  _| '_/ _` / _|  _|
+        //|___/\___| .__/\___|_||_\__,_\___|_||_\__|\___\___/_||_\__|_| \__,_\__|\__|
+        //         |_|                                                               
 
-        */
+        /*        
+                  function Positive_DependentContract(constructor) {
+                  return _.DependentContract(constructor, false);
+                  }
+
+                  function Negative_DependentContract(constructor) {
+                  return _.DependentContract(constructor, true);
+                  }
+
+*/
+
+
+
+        /* 
+           _.ContractPrototype = Contract;
+           _.ConstructorPrototype = Constructor;
+
+           _.Constructor = ContractConstructor;
+
+           _.BaseContract = BaseContract;
+
+           _.FunctionContract = FunctionContract;
+           _.SFunctionContract = SFunctionContract;
+           _.DependentContract = DependentContract;
+           _.ObjectContract = ObjectContract;
+
+           _.With = WithContract;
+
+           _.And = AndContract;
+           _.Or = OrContract;
+           _.Not = NotContract;
+
+*/
 
 })(_);
 

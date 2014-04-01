@@ -126,7 +126,7 @@
         //          |__/                                             
 
         function ObjectContract(properties, strict, sign) {
-                if(!(this instanceof ObjectContract)) return new ObjectContract(properties);
+                if(!(this instanceof ObjectContract)) return new ObjectContract(properties, strict, sign);
 
                 // TODO
                 if(!(properties instanceof Object)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
@@ -158,12 +158,16 @@
         //|___/\___| .__/\___|_||_\__,_\___|_||_\__|\___\___/_||_\__|_| \__,_\__|\__|
         //         |_|                                                               
 
-        function DependentContract(constructor) {
+        function DependentContract(constructor, sign) {
                 if(!(this instanceof DependentContract)) return new DependentContract(constructor);
 
                 if(!(constructor instanceof Constructor)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
                 Object.defineProperties(this, {
+                         "strict": {
+                                get: function () { return ((strict) ? true : false); } },
+                        "sign": {
+                                get: function () { return ((sign) ? true : false); } },
                         "constructor": {
                                 get: function () { return constructor; } }
                 });
