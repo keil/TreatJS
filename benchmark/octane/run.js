@@ -25,40 +25,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-// BEGIN: JSCONTRACT EXTENSION
-
-var jscontract_dir = '../JSContract/';
-// load libraries
-load(jscontract_dir + "lib/lib_padding.js");
-// load system
-load(jscontract_dir + "system.js");
-// load JavaScript Contract 
-load(jscontract_dir + "src/JSContract/jscontract.base.js");
-load(jscontract_dir + "src/JSContract/jscontract.config.js");
-load(jscontract_dir + "src/JSContract/jscontract.violation.js");
-load(jscontract_dir + "src/JSContract/jscontract.sandbox.js");
-load(jscontract_dir + "src/JSContract/jscontract.callback.js");
-load(jscontract_dir + "src/JSContract/jscontract.contract.js");
-// some predefined contracts
-load(jscontract_dir + "test/JSContract/contracts.js");
-
-// verbose/ false
-$.Config.Verbose.sandbox = false;
-// contract assertion/ true
-$.Config.assertion = true;
-
-// pass-through of native functions/ true
-$.Config.nativePassThrough = true;
-
-// eval with sandbox membrane/ false
-$.Config.disableMembrane = false;
-
-// END: JSCONTRACT EXTENSION
-
-
-
-
-var base_dir = '';
+var base_dir = 'benchmark/octane/';
 load(base_dir + 'base.js');
 
 load(base_dir + 'richards.js');
