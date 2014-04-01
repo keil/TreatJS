@@ -24,7 +24,6 @@
         var ContractConstructor = _.Constructor;
 
         var BaseContract = _.BaseContract;
-        var SandboxContract = _.SandboxContract;
 
         var FunctionContract = _.FunctionContract;
         var MethodContract = _.MethodContract;
@@ -36,6 +35,30 @@
         var AndContract = _.And;
         var OrContract = _.Or;
         var NotContract = _.Not;
+
+        // ___               _ _              ___         _               _   
+        /// __| __ _ _ _  __| | |__  _____ __/ __|___ _ _| |_ _ _ __ _ __| |_ 
+        //\__ \/ _` | ' \/ _` | '_ \/ _ \ \ / (__/ _ \ ' \  _| '_/ _` / _|  _|
+        //|___/\__,_|_||_\__,_|_.__/\___/_\_\\___\___/_||_\__|_| \__,_\__|\__|
+
+        function SandboxContract(predicate, global, name) {
+                if(!(this instanceof SandboxContract)) return new SandboxContract(predicate, global, name);
+
+                if(!(predicate instanceof Function)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+                if(!(global instanceof Object)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
+
+                Object.defineProperties(this, {
+                        "predicate": {
+                                get: function () { return predicate; } },
+                        "global": {
+                                get: function () { return global; } },
+                        "name": {
+                                get: function () { return name; } }
+                });
+
+                this.toString = function() { return "[" + ((name!=undefined) ? name : predicate.toString()) + "]"; };
+        }
+        SandboxContract.prototype = new Contract();
 
         //  ___ _     _          _ 
         // / __| |___| |__  __ _| |
@@ -87,7 +110,7 @@
         }
 
         function assertWith(arg, contract, global, callback) {
- 
+
                 if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
                 // ___          _   _   _          ___         _               _   
@@ -128,15 +151,15 @@
                 else if (contract instanceof ObjectContract) {
                         if(!(arg instanceof Object)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
 
-// TODO, callback
+                        // TODO, callback
 
                         if(contract.strict) {
-                                   // TODO test
+                                // TODO test
                                 var callback = (contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
 
-                               contract.properties.foreach(function(identifier, contract) {
+                                contract.properties.foreach(function(identifier, contract) {
                                         arg[identifier] = assertWith(arg[identifier], contract, global, callback.subHandler);
-                               });                         
+                                });                         
                         }
 
                         var handler = new ObjectHandler(contract, global, callback);
@@ -259,7 +282,7 @@
                         var backupGlobal = clone(contract.global);
                         copy(globalArg, contract.global);
 
-                         try {
+                        try {
                                 var result = contract.predicate.apply(thisArg, argsArray);
                         } catch (e) {
                                 var result = false;
@@ -298,11 +321,11 @@
                 if(!(this instanceof FunctionHandler)) return new FunctionHandler(contract, global, callback);
 
                 this.apply = function(target, thisArg, args) {
-                      var ncallback = (!contract.sign) ?  _.AndCallback(callback) : _.AndCallback(_.NotCallback(callback).subHandler);
-                        
-                      //  TODO TEST
-                      //   var domain = _.ObjectContract(contract.domain.properties, contract.strict, true);
-                      //   var range = contract.range;
+                        var ncallback = (!contract.sign) ?  _.AndCallback(callback) : _.AndCallback(_.NotCallback(callback).subHandler);
+
+                        //  TODO TEST
+                        //   var domain = _.ObjectContract(contract.domain.properties, contract.strict, true);
+                        //   var range = contract.range;
 
                         var args = assertWith(args, contract.domain, global, ncallback.leftHandler);
                         var val = target.apply(thisArg, args);  
@@ -325,15 +348,15 @@
                         var callback1 = (!contract.sign) ? _.AndCallback(callback) : _.AndCallback(_.NotCallback(callback).subHandler);
                         var callback2 = _.AndCallback(callback1.rightHandler);      
 
-/*
-                        if(contract.sign) {
-                                var callback1 = _.AndCallback(callback);
-                                var callback2 = _.AndCallback(callback1.rightHandler());
-                        } else if(!contract.sign) {
-                                var callback1 = _.AndCallback(_.NotCallback(callback).subHandler());
-                                                  
-                        }
- */                     
+                        /*
+                           if(contract.sign) {
+                           var callback1 = _.AndCallback(callback);
+                           var callback2 = _.AndCallback(callback1.rightHandler());
+                           } else if(!contract.sign) {
+                           var callback1 = _.AndCallback(_.NotCallback(callback).subHandler());
+
+                           }
+                           */                     
                         var args = assertWith(args, contract.domain, global, callback2.leftHandler);
                         var thisArg = assertWith(thisArg, context, global, callback1.leftHandler);
                         var val = target.apply(thisArg, args);  
@@ -376,7 +399,7 @@
                         return (contract.hasOwnProperty(name)) ? assertWith(target[name], contract[name], global, ncallback.subHandler) : target[name]; 
                 };
 
-             //   this.set = function()
+                //   this.set = function()
         }
 
 

@@ -44,30 +44,6 @@
         }
         BaseContract.prototype = new Contract();
 
-        // ___               _ _              ___         _               _   
-        /// __| __ _ _ _  __| | |__  _____ __/ __|___ _ _| |_ _ _ __ _ __| |_ 
-        //\__ \/ _` | ' \/ _` | '_ \/ _ \ \ / (__/ _ \ ' \  _| '_/ _` / _|  _|
-        //|___/\__,_|_||_\__,_|_.__/\___/_\_\\___\___/_||_\__|_| \__,_\__|\__|
-
-        function SandboxContract(predicate, global, name) {
-                if(!(this instanceof SandboxContract)) return new SandboxContract(predicate, global, name);
-
-                if(!(predicate instanceof Function)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-                if(!(global instanceof Object)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
-
-                Object.defineProperties(this, {
-                        "predicate": {
-                                get: function () { return predicate; } },
-                        "global": {
-                                get: function () { return global; } },
-                        "name": {
-                                get: function () { return name; } }
-                });
-
-                this.toString = function() { return "[" + ((name!=undefined) ? name : predicate.toString()) + "]"; };
-        }
-        SandboxContract.prototype = new Contract();
-
         // ___          _   _   _          ___         _               _   
         //| __|  _ _ _ | |_| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
         //| _| || | ' \| / /  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
@@ -323,7 +299,6 @@
         _.ConstructorPrototype = Constructor;
 
         _.BaseContract = BaseContract;
-        _.SandboxContract = SandboxContract;
 
         _.FunctionContract = FunctionContract;
         _.MethodContract = MethodContract;
