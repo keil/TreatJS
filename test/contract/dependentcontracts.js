@@ -18,7 +18,7 @@
 function eqLength(preArg) {
 
         var predicate = function (postArg) {
-                return (preArg[0].length==postArg.length);
+                return (preArg.length==postArg.length);
         };
 
         return $.BaseContract(predicate);
@@ -40,7 +40,7 @@ var globalValue1 = "L";
 
 function eqGlobalValue(preArg) {
         var predicate = function (postArg) {
-                return (preArg[0]==postArg);
+                return (preArg==postArg);
         };
 
         return $.BaseContract(predicate);
@@ -67,7 +67,7 @@ var globalValue1 = {x:"L"};
 function eqGlobalValue2(preArg) {
         globalValue1;
         var predicate = function (postArg) {
-                return (preArg[0]==postArg);
+                return (preArg==postArg);
         };
 
         return $.BaseContract(predicate);

@@ -41,10 +41,10 @@ var f = function (a, b) {
 }
 
 //g = $.assert(f, $.FunctionContract({0:IsNumber, 1:IsNumber}, IsBoolean));
-g = $.assert(f, $.SFunctionContract(IsNumber, IsNumber, IsBoolean));
+//g = $.assert(f, $.SFunctionContract(IsNumber, IsNumber, IsBoolean));
 
-g(1,2);
-g(2,1);
+//g(1,2);
+//g(2,1);
 //g("a", 1);
 //g(1, "a");
 //g(1, true);

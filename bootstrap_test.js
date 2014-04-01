@@ -24,20 +24,20 @@ function run(file) {
 //  makes TreatJS available under $
 var $ = _ ;
 
-run("test/JSContract/basecontracts.js");
-run("test/JSContract/functioncontracts.js");
-run("test/JSContract/objectcontracts.js");
+run("test/contract/basecontracts.js");
+run("test/contract/functioncontracts.js");
+run("test/contract/objectcontracts.js");
 
-run("test/JSContract/andcontract.js");
-run("test/JSContract/orcontract.js");
-run("test/JSContract/notcontract.js");
+run("test/contract/andcontract.js");
+run("test/contract/orcontract.js");
+run("test/contract/notcontract.js");
 
-run("test/JSContract/withcontract.js");
-run("test/JSContract/dependentcontracts.js");
-run("test/JSContract/constructor.js");
+run("test/contract/withcontract.js");
+run("test/contract/dependentcontracts.js");
+run("test/contract/constructor.js");
 
 // sandbox tests
-run("test/JSContract/sandbox.js");
-run("test/JSContract/bind.js");
+run("test/sandbox/sandbox.js");
+run("test/sandbox/bind.js");
 
 quit();

@@ -338,7 +338,7 @@
                 };
         }
 
-        function DependentHandler(constructor, global, callback) {
+        function DependentHandler(contract, global, callback) {
                 if(!(this instanceof DependentHandler)) return new DependentHandler(contract, global, callback);
 
                 this.apply = function(target, thisArg, args) { 
@@ -346,9 +346,9 @@
                         // TODO test
                         var ncallback = (!contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
 
-                        var contract = constructWith(args, constructor, global);
+                        var range = constructWith(args, contract.constructor, global);
                         var val = target.apply(thisArg, args); 
-                        return assertWith(val, contract, global, ncallback.subHandler);
+                        return assertWith(val, range, global, ncallback.subHandler);
                 };
                 this.construct = function(target, args) {
                         var obj = Object.create(target.prototype);
