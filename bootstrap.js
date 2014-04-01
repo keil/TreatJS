@@ -77,5 +77,26 @@ m.push("b", 4713);
 
 */
 
+var re = /ab+c/;
+re.contract = "23452435";
+print(re instanceof RegExp);
+print(re.contract);
+
+
+
+function Obj(chacha) {
+        this.m = function() {
+                print("#1 " + chacha);
+                chacha = 4712;
+                print("#2 " + chacha);
+
+        }
+}
+
+
+var c = new Obj("4711");
+c.m();
+c.m();
+
 
 quit();

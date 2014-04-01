@@ -15,23 +15,29 @@
 load("src/treat.js");
 load("test/contracts.js");
 
+function run(file) {
+        print("\n\n\n##########\n# " + file + "\n");
+        load(file);
+}
+
+
 //  makes TreatJS available under $
 var $ = _ ;
 
-load("test/JSContract/basecontracts.js");
-load("test/JSContract/functioncontracts.js");
-load("test/JSContract/objectcontracts.js");
+run("test/JSContract/basecontracts.js");
+run("test/JSContract/functioncontracts.js");
+run("test/JSContract/objectcontracts.js");
 
-load("test/JSContract/andcontract.js");
-load("test/JSContract/orcontract.js");
-load("test/JSContract/notcontract.js");
+run("test/JSContract/andcontract.js");
+run("test/JSContract/orcontract.js");
+run("test/JSContract/notcontract.js");
 
-load("test/JSContract/withcontract.js");
-load("test/JSContract/dependentcontracts.js");
-load("test/JSContract/constructor.js");
+run("test/JSContract/withcontract.js");
+run("test/JSContract/dependentcontracts.js");
+run("test/JSContract/constructor.js");
 
 // sandbox tests
-load("test/JSContract/sandbox.js");
-load("test/JSContract/bind.js");
+run("test/JSContract/sandbox.js");
+run("test/JSContract/bind.js");
 
 quit();

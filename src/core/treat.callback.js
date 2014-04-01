@@ -14,6 +14,10 @@
  */
 (function(_) {
 
+        var error = _.error;
+        var violation = _.violation;
+        var blame = _.blame;
+
         //  _____      _ _ _                _        
         // / ____|    | | | |              | |       
         //| |     __ _| | | |__   __ _  ___| | _____ 
@@ -23,6 +27,7 @@
 
         function Callback(callback) {
                 if(!(this instanceof Callback)) return new Callback(callback);
+                if(!(callback instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
 
                 var sub;
                 var subMsg;
@@ -39,15 +44,18 @@
 
                 Object.defineProperties(this, {
                         "subHandler": {
-                                get: function(arg, msg) {
+                                get: function () { return function(arg, msg) {
                                         updateSub(arg, msg);
-                                        evalCallback()
-                                }}
+                                        evalCallback();
+                                }}}
                 });
+
+                this.toString = function() { return "[Callback]"; }
         }
 
         function AndCallback(callback) {
                 if(!(this instanceof AndCallback)) return new AndCallback(callback);
+                if(!(callback instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
 
                 var left;
                 var leftMsg;
@@ -73,20 +81,23 @@
 
                 Object.defineProperties(this, {
                         "leftHandler": {
-                                get: function(arg, msg) {
+                                get: function () { return function(arg, msg) {
                                         updateLeft(arg, msg);
-                                        evalCallback()
-                                }},
+                                        evalCallback();
+                                }}},
                         "rightHandler": {
-                                get: function(arg, msg) {
+                                get: function () { return function(arg, msg) {
                                         updateRight(arg, msg);
-                                        evalCallback()
-                                }},
+                                        evalCallback();
+                                }}}
                 });
+
+                this.toString = function() { return "[Callback]"; }
         }
 
         function OrCallback(callback) {
                 if(!(this instanceof OrCallback)) return new OrCallback(callback);
+                if(!(callback instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
 
                 var left;
                 var leftMsg;
@@ -112,21 +123,23 @@
 
                 Object.defineProperties(this, {
                         "leftHandler": {
-                                get: function(arg, msg) {
+                                get: function () { return function(arg, msg) {
                                         updateLeft(arg, msg);
-                                        evalCallback()
-                                }},
+                                        evalCallback();
+                                }}},
                         "rightHandler": {
-                                get: function(arg, msg) {
+                                get: function () { return function(arg, msg) {
                                         updateRight(arg, msg);
-                                        evalCallback()
-                                }},
-
+                                        evalCallback();
+                                }}}
                 });
+
+                this.toString = function() { return "[Callback]"; }
         }
 
         function NotCallback(callback) {
                 if(!(this instanceof NotCallback)) return new NotCallback(callback);
+                if(!(callback instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
 
                 var sub;
                 var subMsg;
@@ -143,11 +156,13 @@
 
                 Object.defineProperties(this, {
                         "subHandler": {
-                                get: function(arg, msg) {
+                                get: function () { return function(arg, msg) {
                                         updateSub(arg, msg);
                                         evalCallback()
-                                }}
+                                }}}
                 });
+
+                this.toString = function() { return "[Callback]"; }
         }
 
         _.Callback = Callback;
