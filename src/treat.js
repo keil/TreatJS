@@ -14,6 +14,20 @@
  */
 (function(load, print) {
 
+        if(print) {
+                print("");
+                print(" * TreatJS: Higher-Order Contracts for JavaScript");
+                print(" * http://proglang.informatik.uni-freiburg.de/treatjs/");
+                print("");
+                print(" * Copyright (c) 2014, Proglang, University of Freiburg.");
+                print(" * http://proglang.informatik.uni-freiburg.de/");
+                print(" * All rights reserved.");
+                print("");
+                print(" * Author Matthias Keil");
+                print(" * http://www.informatik.uni-freiburg.de/~keilr/");
+                print("");
+        }
+
         // libraries
         var lib = ['lib_padding.js'];
         // base source files
@@ -25,7 +39,7 @@
 
         function loadSource(files, base) {
                 if(load) for(var i=0; i<files.length; i++) {
-                        if(print) print("Load " + base + files[i]);
+                        if(print) print(" * load " + base + files[i]);
                         load(base + files[i]);
                 }
         }
