@@ -32,6 +32,8 @@
 * Callbacks
 * New Constructores
 
+# Truty and Falsey
+* Evaluate Predicates to true-Values
 
 
 ;;;;; Bugs
@@ -42,8 +44,7 @@
 
 
 
-# Truty and Falsey
-* Evaluate Predicates to true-Values
+
 
 # Exceptions
 * Catch Exceptions in Predicate Evaluation

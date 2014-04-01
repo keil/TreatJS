@@ -82,6 +82,15 @@ re.contract = "23452435";
 print(re instanceof RegExp);
 print(re.contract);
 
+try {
+//throw "asdf"; 
+var chacha = 4711;
+//throw (new Error("asdv"));
+} catch (e) {
+        var chacha = 4712;
+} finally {
+print("@" + chacha);
+}
 
 
 function Obj(chacha) {

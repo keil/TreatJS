@@ -212,14 +212,18 @@
 
                         argsArray.push(arg);
 
-                        print("@@@@@@@" + contract);
-
-                        if(!(_.eval(contract.predicate, globalArg, thisArg, argsArray))) {
-                                callback(false, contract.toString());
-                        } else {
-                                callback(true, contract.toString());
+                        try {
+                                var result = _.eval(contract.predicate, globalArg, thisArg, argsArray);
+                        } catch (e) {
+                                var result = false;
+                        } finally {
+                                if(!result) {
+                                        callback(false, contract.toString());
+                                } else {
+                                        callback(true, contract.toString());
+                                }
+                                return arg;
                         }
-                        return arg;
                 }
 
                 // ___               _ _              ___         _               _   
@@ -255,16 +259,20 @@
                         var backupGlobal = clone(contract.global);
                         copy(globalArg, contract.global);
 
-                        if(!(contract.predicate.apply(thisArg, argsArray))) {
-                                callback(false, contract.toString());
-                        } else {
-                                callback(true, contract.toString());
+                         try {
+                                var result = contract.predicate.apply(thisArg, argsArray);
+                        } catch (e) {
+                                var result = false;
+                        } finally {
+                                if(!result) {
+                                        callback(false, contract.toString());
+                                } else {
+                                        callback(true, contract.toString());
+                                }
+                                clear(contract.global);
+                                copy(backupGlobal, contract.global);
+                                return arg;
                         }
-
-                        clear(contract.global);
-                        copy(backupGlobal, contract.global);
-
-                        return arg;
                 }
 
                 //  ___             _               _           
