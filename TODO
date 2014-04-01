@@ -56,6 +56,9 @@
 * Cache if possible
 
 
+* deactivate eval
+* include benchmakrs
+
 
 # Convenience Contract
 * Strict vs. Weak (Function, Method, Object)

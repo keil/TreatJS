@@ -12,7 +12,7 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-(function(load, logger) {
+(function(load, print) {
 
         // libraries
         var lib = ['lib_padding.js'];
@@ -25,7 +25,7 @@
 
         function loadSource(files, base) {
                 if(load) for(var i=0; i<files.length; i++) {
-                        logger("@LOAD " + base + files[i]);
+                        if(print) print(base + files[i]);
                         load(base + files[i]);
                 }
         }
