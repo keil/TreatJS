@@ -71,8 +71,6 @@ var IsArray = _.With({Array:Array}, _.BaseContract(function(arg) {
 
 
 
-// TODO
-
 var ContainsToString = _.BaseContract(function(obj) {
         return (obj.hasOwnProperty("toString")) ? true : false;
 },"ContainsToString");
@@ -86,8 +84,6 @@ var GreaterThanZero = _.BaseContract(function(arg) {
 var AbsLowerThan100 = _.BaseContract(function (val) {
         return (Math.abs(val) < 100)
 },"AbsLowerThan100");
-
-
 
 
 
