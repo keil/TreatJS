@@ -25,7 +25,9 @@
         //| |___| (_) | | | | |_| | | (_| | (__| |_\__ \
         // \_____\___/|_| |_|\__|_|  \__,_|\___|\__|___/
 
-        function Contract() {};
+        function Contract() {
+                if(!(this instanceof Contract)) return new Contract();
+        };
 
         // ___                ___         _               _   
         //| _ ) __ _ ___ ___ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -110,6 +112,9 @@
 
                 // TODO
 //                if(!(properties instanceof Object)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+                
+
+                
                 if(!(map instanceof Map)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber); 
 
                 //map.foreach(function(key, value) {
@@ -344,10 +349,41 @@
                 }
         }
 
+        
+        function StringMap(elements) {
+                if(!(this instanceof StringMap)) return new StringMap(elements);
+                else Map.call(this);
+
+                var set = this.set;
+                this.set = function(key, value) {
+                        if(!(typeof key === "string")) error("Wrong Type. String required, "+(typeof key)+" found.", (new Error()).fileName, (new Error()).lineNumber);
+                        else set(key, value);
+                }
+
+                if(elements instanceof Array) {
+                        var base = this; 
+                        elements.foreach(function(key, value) {
+                                base.set(key.toString(), value);
+                        });
+                } else if(elements instanceof Object) {
+                        for(var key in elements) {
+                                this.set(key, elements[key]);
+                        }
+                } else {}
+        }
+        StringMap.prototype = new Map();
 
 
 
+      //  _.core = {}
 
+
+        // TODO, amke this as getter
+
+        _.Contract = Contract;
+
+
+        // deprecated
         _.ContractPrototype = Contract;
         _.ConstructorPrototype = Constructor;
 
@@ -369,6 +405,7 @@
         _.Global = Global;
 
         _.Map = Map;
+        _.StringMap = StringMap;
 
 
 })(_);

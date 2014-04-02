@@ -62,10 +62,6 @@ return regexp;
 }
 */
 
-function error(msg) {
-        print("!" + msg);
-}
-
 // argumnents
 // ? array, object
 

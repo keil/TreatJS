@@ -14,40 +14,99 @@
  */
 (function(_) {
 
+        var error = _.error;
+        var violation = _.violation;
+        var blame = _.blame;
 
+        var Contract = _.ContractPrototype;
+        var Constructor = _.ConstructorPrototype;
 
+        var ContractConstructor = _.Constructor;
+
+        var BaseContract = _.BaseContract;
+
+        var FunctionContract = _.FunctionContract;
+        var MethodContract = _.MethodContract;
+        var DependentContract = _.DependentContract;
+        var ObjectContract = _.ObjectContract;
+
+        var WithContract = _.With;
+
+        var AndContract = _.And;
+        var OrContract = _.Or;
+        var NotContract = _.Not;
+
+        var Map = _.Map;
+        var StringMap = _.StringMap;
+
+        var Test = new BaseContract(function(){return true;}, "Test");
+        
+        var Blank = new BaseContract(function(){return true;}, "-");
+
+// TODO. tewt
+// 
+/*
+        var f = new XFunctionContract(Test, Test);
+        print("##### " + (f instanceof  Contract));
+        print("##### " + (f instanceof  FunctionContract));
+        print("##### " + (f instanceof  XFunctionContract));
+
+        print(f.range);
+*/
+
+        // ___                ___         _               _   
+        //| _ ) __ _ ___ ___ / __|___ _ _| |_ _ _ __ _ __| |_ 
+        //| _ \/ _` (_-</ -_) (__/ _ \ ' \  _| '_/ _` / _|  _|
+        //|___/\__,_/__/\___|\___\___/_||_\__|_| \__,_\__|\__|
+
+//        function BaseContract(predicate, name) {
+//               return _.core.BaseContract(predicate, name);
+//        }
+    //    BaseContract.prototype = new _.core.BaseContract();
+
+    //    new BaseContract();
 
         // ___          _   _   _          ___         _               _   
         //| __|  _ _ _ | |_| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
         //| _| || | ' \| / /  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
         //|_| \_,_|_||_|_\_\\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
-        // TODO MERGE THIS
-        function FunctionContract(domain, range, strict, sign) {
-                if(!(this instanceof FunctionContract)) return new FunctionContract(domain, range, strict, sign);
+        function XFunctionContract(domain, range, strict, sign) {
+                if(!(this instanceof XFunctionContract)) return new XFunctionContract(domain, range, sign);
 
-                if(!(range instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-
+                if(!(range instanceof  Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
                 if(domain instanceof Contract) {
-                        return _.core.FunctionContract(domain, range, strict, sign);
+                        FunctionContract.call(this, domain, range, strict, sign);
                 } else if(domain instanceof Array) {
-                        return _.core.FunctionContract(_.core.ObjectContract(domain), range, strict, sign);
+                        FunctionContract.call(XObjectContract(domain), range, strict, sign);
                 } else if(domain instanceof Object) {
-                        return _.core.FunctionContract(_.core.ObjectContract(domain), range, strict, sign);
+                        FunctionContract.call(XObjectContract(domain), range, strict, sign);
                 } else error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
         }
+        XFunctionContract.prototype = new FunctionContract(Blank, Blank);
 
         function SimpleFunctionContract() {
-                if(!(this instanceof SimpleFunctionContract)) return new FunctionContract(domain, range, strict, sign);
+                if(!(this instanceof SimpleFunctionContract)) return SimpleFunctionContract.apply(Object.create(SimpleFunctionContract.prototype), arguments);
+                if(arguments.length < 2) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+                var domain = [];
+                for(var i=0; i<arguments.length;i++) domain[i]=arguments[i];
+
+                var sign = domain.pop();
+                var strict = domain.pop();
+                var range = domain.pop();
+
+                print(XObjectContract(domain) instanceof Contract);
 
 
-                print(arguments.length);
-                var sign = arguments.pop();
-                var strict = arguments.pop();
-
-                var range = arguments.pop();
-                print(arguments.length);
+                FunctionContract.call(this, XObjectContract(domain), range, strict, sign);
         }
+        SimpleFunctionContract.prototype = new FunctionContract(Blank, Blank);
+
+
+        var s = new SimpleFunctionContract(Test, Test, true, true);
+
+
         /*
            function Weak-SimpleFunctionContract() {}
            function Strict-SimpleFunctionContract() {}
@@ -86,64 +145,31 @@
         // \___/|_.__// \___\__|\__|\___\___/_||_\__|_| \__,_\__|\__|
         //          |__/                                             
 
-        /*
-           function Weak_ObjectContract(properties, strict, sign) {
-           return  _.ObjectContract(properties, strict, sign);
-           }
-           */
-        function Match(regexp, contract) {
-                if(!(this instanceof Match)) return new Match(regexp, contract);
 
-                if(!(regexp instanceof RegExp)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-                if(!(contract instanceof _.ContractPrototype)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+        function RegExpMap() {
+                if(!(this instanceof RegExpMap)) return new RegExpMap();
+                else Map.call(this);
 
-                Object.defineProperties(this, {
-                        "regexp": {
-                                get: function () { return regexp; } },
-                        "contract": {
-                                get: function () { return contract; } }
-                });
-        }
-
-        function RegList() {
-                var keys = [];
-                var contracts = [];
-
-                this.foreach = function(callback) {
-                        keys.foreach(function (i, regexp) {
-                           callback(regexp, contracts[i]);     
-                        });
-                }
-
-                this.push = function(regexp, contract) {
-                        if(!(regexp instanceof RegExp)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-                        if(!(contract instanceof _.ContractPrototype)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-
-
-
-                        keys.push(regexp);
-                        contracts.push(contract);
-                        return keys.length;
+                var set = this.set;
+                this.set = function(key, value) {
+                        if(!(key instanceof RegExp)) error("Wrong Type. RegExp required, "+(typeof key)+" found.", (new Error()).fileName, (new Error()).lineNumber);
+                        else set(key, value);
                 }
         }
+        RegExpMap.prototype = new Map();
 
+        function XObjectContract(map, strict, sign) {
+                if(!(this instanceof XObjectContract)) return new XObjectContract(map, strict, sign);
 
-        // stict ?
-        function MatchingObjectContract(properties, sign) {
-                if(!(this instanceof MatchingObjectContract)) return new MatchingObjectContract(properties, sign);
-
-                for(property in properties) {
-                        if(!(properties[property] instanceof Match)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+                if(map instanceof StringMap) {
+                         ObjectContract.call(this, map, strict, sign); 
+                } else if(map instanceof RegExpMap) {
+                        ObjectContract.call(this, map, false, sign); 
+                } else if(map instanceof Object) {
+                        ObjectContract.call(this, StringMap(map), strict, sign); 
                 }
-
-                Object.defineProperties(this, {
-                        "properties": {
-                                get: function () { return properties; } },
-                        "sign": {
-                                get: function () { return sign; } }
-                });
         }
-        MatchingObjectContract.prototype = new _.ContractPrototype();
+        XObjectContract.prototype = new ObjectContract(new Map());
 
 
 
