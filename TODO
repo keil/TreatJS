@@ -39,6 +39,7 @@
 * Catch Exceptions in Predicate Evaluation
 
 # decompile flag
+# Flag Without Eval
 
 ;;;;; Bugs
 
@@ -48,7 +49,7 @@
 ;;;;; Tasks
 
 
-# Flag Without Eval
+
 
 # Object Contracts
 * Take use of a mapping for Object Contracts
@@ -57,10 +58,6 @@
 
 # Cache for Predicates
 * Cache if possible
-
-
-* deactivate eval
-* include benchmakrs
 
 
 # Convenience Contract

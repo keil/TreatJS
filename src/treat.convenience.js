@@ -94,8 +94,8 @@
         function Match(regexp, contract) {
                 if(!(this instanceof Match)) return new Match(regexp, contract);
 
-                if(!(regexp instanceof RegEx)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-                if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+                if(!(regexp instanceof RegExp)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+                if(!(contract instanceof _.ContractPrototype)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
                 Object.defineProperties(this, {
                         "regexp": {
@@ -103,6 +103,28 @@
                         "contract": {
                                 get: function () { return contract; } }
                 });
+        }
+
+        function RegList() {
+                var keys = [];
+                var contracts = [];
+
+                this.foreach = function(callback) {
+                        keys.foreach(function (i, regexp) {
+                           callback(regexp, contracts[i]);     
+                        });
+                }
+
+                this.push = function(regexp, contract) {
+                        if(!(regexp instanceof RegExp)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+                        if(!(contract instanceof _.ContractPrototype)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+
+
+                        keys.push(regexp);
+                        contracts.push(contract);
+                        return keys.length;
+                }
         }
 
 
@@ -121,6 +143,10 @@
                                 get: function () { return sign; } }
                 });
         }
+        MatchingObjectContract.prototype = new _.ContractPrototype();
+
+
+
 
 
         // ___                        _         _    ___         _               _   

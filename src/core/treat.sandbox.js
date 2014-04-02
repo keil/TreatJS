@@ -49,13 +49,13 @@
                 if (target !== Object(target)) {
                         return target;
                 }
-               
+
                 if(cache.contains(target)) {
                         return cache.get(target);
                 } else { 
                         var membraneHandler = new Membrabe(global);
                         var proxy = new Proxy(target, membraneHandler);
-                        
+
                         cache.put(target, proxy);
 
                         return proxy;
@@ -170,7 +170,7 @@
                         return evalNew(target, global, this, argsArray);
                 };
         };
-      
+
         //  ___         _        
         // / __|__ _ __| |_  ___ 
         //| (__/ _` / _| ' \/ -_)

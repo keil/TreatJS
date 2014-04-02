@@ -109,7 +109,7 @@
                 if(!(this instanceof ObjectContract)) return new ObjectContract(properties, strict, sign);
 
                 // TODO
-                if(!(properties instanceof Object)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+                if(!(properties instanceof Object)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber); 
                 for(property in properties) {
                         if(!(properties[property] instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
                 }
