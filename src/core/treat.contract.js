@@ -105,28 +105,36 @@
         // \___/|_.__// \___\__|\__|\___\___/_||_\__|_| \__,_\__|\__|
         //          |__/                                             
 
-        function ObjectContract(properties, strict, sign) {
-                if(!(this instanceof ObjectContract)) return new ObjectContract(properties, strict, sign);
+        function ObjectContract(map, strict, sign) {
+                if(!(this instanceof ObjectContract)) return new ObjectContract(map, strict, sign);
 
                 // TODO
-                if(!(properties instanceof Object)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber); 
-                for(property in properties) {
-                        if(!(properties[property] instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-                }
+//                if(!(properties instanceof Object)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+                if(!(map instanceof Map)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber); 
+
+                //map.foreach(function(key, value) {
+                //        if(!(value instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+                //});
+
+                //for(property in properties) {
+                //        if(!(properties[property] instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+               // }
 
                 Object.defineProperties(this, {
                         "strict": {
                                 get: function () { return ((strict) ? true : false); } },
                         "sign": {
                                 get: function () { return ((sign) ? true : false); } },
-                        "properties": {
-                                get: function () { return properties; } }
+                        "map": {
+                                get: function () { return map; } }
                 });
 
-                this.properties = properties;
                 this.toString = function() { 
                         var domain = "";
-                        for(name in properties) domain += " " + name + ":" + properties[name].toString();
+                        
+                        map.foreach(function(key, contract) {
+                                domain += " " + key + ":" + contract;
+                        });
                         return "{" + domain + "}";
                 };
         }
@@ -299,6 +307,47 @@
                 }
         }
 
+        // __  __           
+        //|  \/  |__ _ _ __ 
+        //| |\/| / _` | '_ \
+        //|_|  |_\__,_| .__/
+        //            |_|   
+
+        function Map() {
+                if(!(this instanceof Map)) return new Map(elements);
+
+                var keys = [];
+                var values = [];
+
+                this.foreach = function(callback) {
+                        keys.foreach(function (index, key) {
+                                callback(key, values[index]);     
+                        });
+                }
+
+                this.set = function(key, value) {
+                        if(!(value instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+                        if(keys.indexOf(key)==-1) keys.push(key);
+                        var index = keys.indexOf(key);
+                        values[index] = value;
+
+                        return keys.length;
+                }
+
+                this.get = function(key) {
+                        return values[keys.indexOf(key)];
+                }
+
+                this.has = function(key) {
+                        return (keys.indexOf(key)==-1) ? false : true;
+                }
+        }
+
+
+
+
+
         _.ContractPrototype = Contract;
         _.ConstructorPrototype = Constructor;
 
@@ -318,5 +367,8 @@
         _.Constructor = ContractConstructor;
 
         _.Global = Global;
+
+        _.Map = Map;
+
 
 })(_);

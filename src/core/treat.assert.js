@@ -166,12 +166,13 @@
                         // TODO, callback
 
                         if(contract.strict) {
-                                // TODO test
-                                var callback = (contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
-
-                                contract.properties.foreach(function(identifier, contract) {
-                                        arg[identifier] = assertWith(arg[identifier], contract, global, callback.subHandler);
-                                });                         
+                                contract.map.foreach(function(key, contract) {
+                                        if(!(typeof key === "string")) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
+                                        
+                                        // TODO test
+                                        var callback = (contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
+                                        arg[key] = assertWith(arg[key], contract, global, callback.subHandler);
+                                });
                         }
 
                         var handler = new ObjectHandler(contract, global, callback);
@@ -408,7 +409,7 @@
                         // TODO test
                         var ncallback = (!contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
 
-                        return (contract.hasOwnProperty(name)) ? assertWith(target[name], contract[name], global, ncallback.subHandler) : target[name]; 
+                        return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, ncallback.subHandler) : target[name]; 
                 };
 
                 //   this.set = function()

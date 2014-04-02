@@ -17,12 +17,12 @@ load("test/contracts.js");
 
 
 /**
-function O(a) {
-        this.m = function() {
-                print("#1 " + a);
-                //var a = 4712;
-                print("#2 " + a);
-        }
+  function O(a) {
+  this.m = function() {
+  print("#1 " + a);
+//var a = 4712;
+print("#2 " + a);
+}
 }
 
 var c = new O("4711");
@@ -31,34 +31,34 @@ c.m();
 */
 
 /*
-var o = {x:45, y:65};
-o[/a/g] = 654;
-o[new RegExp("^ab$")]  = 76543;
+   var o = {x:45, y:65};
+   o[/a/g] = 654;
+   o[new RegExp("^ab$")]  = 76543;
 
 
 //o.foreach(function() {});
 
 for(var i in o) {
-        print("@@@ " + i);
+print("@@@ " + i);
 }
 
 function stringToRegExp(string) {
-        var parts = string.split('/');
-        return eval(string);
+var parts = string.split('/');
+return eval(string);
 
 
-    //    return /+'parts[1]'+/;
+//    return /+'parts[1]'+/;
 
-      //  return parts.join('/');
+//  return parts.join('/');
 
-        var regexp= '';
-        parts.foreach(function(i,v) {
-                regexp += (v + '/');
-        });
-        
-        return regexp;
-        
-        //return ()
+var regexp= '';
+parts.foreach(function(i,v) {
+regexp += (v + '/');
+});
+
+return regexp;
+
+//return ()
 }
 */
 
@@ -69,75 +69,10 @@ function error(msg) {
 // argumnents
 // ? array, object
 
-function Map() {
-        if(!(this instanceof Map)) return new Map(elements);
-
-        var keys = [];
-        var values = [];
-
-        this.foreach = function(callback) {
-                keys.foreach(function (index, key) {
-                        callback(key, values[index]);     
-                });
-        }
-
-        this.set = function(key, value) {
-                if(keys.indexOf(key)==-1) keys.push(key);
-
-                var index = keys.indexOf(key);
-                values[index] = value;
-
-                return keys.length;
-        }
-
-        this.get = function(key) {
-                return values[keys.indexOf(key)];
-        }
-
-        this.has = function(key) {
-                return (keys.indexOf(key)==-1) ? false : true;
-        }
-}
 
 
 
-function StringMap(elements) {
-        if(!(this instanceof StringMap)) return new StringMap(elements);
-        else Map.call(this);
- 
-        var set = this.set;
-        this.set = function(key, value) {
-               if(!(typeof key === "string")) error("Wrong Type. String required, "+(typeof key)+" found.", (new Error()).fileName, (new Error()).lineNumber);
-               else set(key, value);
-        }
-
-        if(elements instanceof Array) {
-                var base = this; 
-                elements.foreach(function(key, value) {
-                        base.set(key.toString(), value);
-                });
-        } else if(elements instanceof Object) {
-                for(var key in elements) {
-                        this.set(key, elements[key]);
-                }
-        } else {}
-}
-StringMap.prototype = new Map();
-
-
-function RegExpMap() {
-        if(!(this instanceof RegExpMap)) return new RegExpMap();
-        else Map.call(this);
- 
-        var set = this.set;
-        this.set = function(key, value) {
-               if(!(key instanceof RegExp)) error("Wrong Type. RegExp required, "+(typeof key)+" found.", (new Error()).fileName, (new Error()).lineNumber);
-               else set(key, value);
-        }
-}
-RegExpMap.prototype = new Map();
-
-
+/**
 
 
 
@@ -194,43 +129,43 @@ rm1.foreach(function (key, value) {
         print("RM1: " + key + " >> " + value);
 });
 
-
+**/
 
 
 /*
 
-var sm = new StringMap({aa:44,bb:22});
-sm.set("a", 1);
-sm.set("b", 2);
+   var sm = new StringMap({aa:44,bb:22});
+   sm.set("a", 1);
+   sm.set("b", 2);
 
-var sm2 = new StringMap([4711,4712]);
-sm2.set("x", 1);
-sm2.set("y", 2);
+   var sm2 = new StringMap([4711,4712]);
+   sm2.set("x", 1);
+   sm2.set("y", 2);
 
-print(sm.get("a"));
+   print(sm.get("a"));
 
-print(sm instanceof Map);
-print(sm instanceof StringMap);
-print(sm instanceof RegExpMap);
-sm.foreach(function(i,v) {
-        print("* " + i + " : " + v);
-});
+   print(sm instanceof Map);
+   print(sm instanceof StringMap);
+   print(sm instanceof RegExpMap);
+   sm.foreach(function(i,v) {
+   print("* " + i + " : " + v);
+   });
 
-sm2.foreach(function(i,v) {
-        print("$ " + i + " : " + v);
-});
+   sm2.foreach(function(i,v) {
+   print("$ " + i + " : " + v);
+   });
 
-var rm = new RegExpMap([/a/,/s/,/chacha/,/L/]);
-rm.set(/test/, 76);
+   var rm = new RegExpMap([/a/,/s/,/chacha/,/L/]);
+   rm.set(/test/, 76);
 
 
-print(rm instanceof Map);
-print(rm instanceof StringMap);
-print(rm instanceof RegExpMap);
+   print(rm instanceof Map);
+   print(rm instanceof StringMap);
+   print(rm instanceof RegExpMap);
 
-rm.foreach(function(i,v) {
-        print("$ " + i + " : " + v);
-});
+   rm.foreach(function(i,v) {
+   print("$ " + i + " : " + v);
+   });
 
 
 // TODO, check Types
@@ -251,37 +186,37 @@ wm2.set(r,654);
 //wm1.foreach(function(i,v) {print("%%%%% " + v)});
 
 for(var v in (wm2.entries())) {
-        print("&&&&& " + v);
+print("&&&&& " + v);
 }
 */
 
 
 /*
-print(wm2.size);/*.foreach(function(i,v) {
-        print("&&&&& " + v);
-});*/
+   print(wm2.size);/*.foreach(function(i,v) {
+   print("&&&&& " + v);
+   });*/
 /*
-print(wm2.entries().next()); //.foreach(function(i,v) { print("&&&&& " + v);});
+   print(wm2.entries().next()); //.foreach(function(i,v) { print("&&&&& " + v);});
 
-for(var v in wm2) {
-        print("&&&&& " + v);
-}
+   for(var v in wm2) {
+   print("&&&&& " + v);
+   }
 
 
-print(wm2.get(r));
-*/
+   print(wm2.get(r));
+   */
 
 /*
 
 
-print("/abs/a".split('/').length);
-print("/abs/a".split('/'));
+   print("/abs/a".split('/').length);
+   print("/abs/a".split('/'));
 
-print(stringToRegExp("/a/"));
-print(stringToRegExp("/a/") instanceof RegExp);
+   print(stringToRegExp("/a/"));
+   print(stringToRegExp("/a/") instanceof RegExp);
 
-print(stringToRegExp("a"));
-print(stringToRegExp("a") instanceof RegExp);
+   print(stringToRegExp("a"));
+   print(stringToRegExp("a") instanceof RegExp);
 
 */
 
