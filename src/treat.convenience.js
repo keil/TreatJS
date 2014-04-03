@@ -104,7 +104,8 @@
         SimpleFunctionContract.prototype = new FunctionContract(Blank, Blank);
 
 
-        var s = new SimpleFunctionContract(Test, Test, true, true);
+        //var s = new SimpleFunctionContract(Test, Test, true, true);
+
 
 
         /*
@@ -161,17 +162,35 @@
         function XObjectContract(map, strict, sign) {
                 if(!(this instanceof XObjectContract)) return new XObjectContract(map, strict, sign);
 
-                if(map instanceof StringMap) {
+                if(map instanceof Map) {
+                        print("CI");
                          ObjectContract.call(this, map, strict, sign); 
-                } else if(map instanceof RegExpMap) {
-                        ObjectContract.call(this, map, false, sign); 
+                } else if(map instanceof Array) {
+                          print("CIII");
+                        ObjectContract.call(this, StringMap(map), strict, sign); 
                 } else if(map instanceof Object) {
+                          print("CIII");
                         ObjectContract.call(this, StringMap(map), strict, sign); 
                 }
         }
         XObjectContract.prototype = new ObjectContract(new Map());
 
 
+
+        var o = XObjectContract(new Map());
+        var o = XObjectContract(new StringMap([Test,Test]));
+        var o = XObjectContract(new StringMap({xx:Test,yy:Test}));
+
+        var o = XObjectContract({xx:Test,yy:Test});
+        var o = XObjectContract([Test,Test]);
+
+        print(o instanceof Contract);
+        print(o instanceof ObjectContract);
+        print(o instanceof XObjectContract)
+
+        o.map.foreach(function(key, contract) {
+                print(key+":"+contract);
+        })
 
 
 
