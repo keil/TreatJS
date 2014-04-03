@@ -110,20 +110,11 @@
         function ObjectContract(map, strict, sign) {
                 if(!(this instanceof ObjectContract)) return new ObjectContract(map, strict, sign);
 
-                // TODO
-//                if(!(properties instanceof Object)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-                
-                
+                // TODO, 
+                // only sting maps can be strict
+                // todo, remove strict flag, und use only in advanced constructopr
                 if(!(map instanceof Map)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber); 
-
-                //map.foreach(function(key, value) {
-                //        if(!(value instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-                //});
-
-                //for(property in properties) {
-                //        if(!(properties[property] instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-               // }
-
+ 
                 Object.defineProperties(this, {
                         "strict": {
                                 get: function () { return ((strict) ? true : false); } },
@@ -151,7 +142,7 @@
                 if(!(constructor instanceof Constructor)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
                 Object.defineProperties(this, {
-                         "strict": {
+                        "strict": {
                                 get: function () { return ((strict) ? true : false); } },
                         "sign": {
                                 get: function () { return ((sign) ? true : false); } },
@@ -342,7 +333,7 @@
                         return (keys.indexOf(key)==-1) ? false : true;
                 }
 
-                 this.toString = function() { 
+                this.toString = function() { 
                         var mappings = "";
                         this.foreach(function(key, contract) {
                                 mappings += " " + key + ":" + contract;
@@ -351,7 +342,7 @@
                 };
         }
 
-        
+
         function StringMap(elements) {
                 if(!(this instanceof StringMap)) return new StringMap(elements);
                 else Map.call(this);
@@ -377,7 +368,7 @@
 
 
 
-      //  _.core = {}
+        //  _.core = {}
 
 
         // TODO, amke this as getter

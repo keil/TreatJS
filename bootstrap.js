@@ -16,9 +16,9 @@ load("src/treat.js");
 load("test/contracts.js");
 
 
-
+print(" * TreatJS Properties")
 for(var p in _) {
-        print("@ " + p);
+        print(" ** " + p);
 }
 
 /**
