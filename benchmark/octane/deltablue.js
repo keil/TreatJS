@@ -106,7 +106,7 @@ function Strength(strengthValue, name) {
   this.name = name;
 }
 
-/* CONTRACT */ Strength = $.assert(Strength, $.FunctionContract({0:IsNumber,1:IsString}, Any));
+/* CONTRACT */ Strength = $.assert(Strength, $.AdvancedFunctionContract({0:IsNumber,1:IsString}, Any));
 
 
 Strength.stronger = function (s1, s2) {

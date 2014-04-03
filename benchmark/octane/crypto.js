@@ -63,12 +63,12 @@ function BigInteger(a,b,c) {
     else this.fromString(a,b);
 }
 
-/* CONTRACT */ BigInteger = $.assert(BigInteger, $.FunctionContract({0:Any,1:Any,2:Any}, True));
+/* CONTRACT */ BigInteger = $.assert(BigInteger, $.AdvancedFunctionContract({0:Any,1:Any,2:Any}, Any));
 
 // return new, unset BigInteger
 function nbi() { return new BigInteger(null); }
 
-/* CONTRACT */ nbi = $.assert(nbi, $.FunctionContract(True, $.With({target:BigInteger}, InstanceOfTarget)));
+/* CONTRACT */ nbi = $.assert(nbi, $.FunctionContract(Any, $.With({target:BigInteger}, InstanceOfTarget)));
 
 
 // am: Compute w_j += (x*this_i), propagate carries,

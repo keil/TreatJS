@@ -56,7 +56,7 @@ function runTypescript() {
 /* CONTRACT */ _.assert(createCompiler, InstanceOfFunction);
   var compiler = createCompiler();
 /* CONTRACT */ _.assert(compiler, _.With({target:TypeScript.TypeScriptCompiler}, InstanceOfTarget));
-/* CONTRACT */ compiler = _.assert(compiler, _.ObjectContract({reTypeCheck:InstanceOfFunction}));
+/* CONTRACT */ compiler = _.assert(compiler, _.AdvancedObjectContract({reTypeCheck:InstanceOfFunction}));
 
   compiler.addUnit(compiler_input, "compiler_input.ts");
   parseErrors = [];

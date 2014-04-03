@@ -53,7 +53,7 @@ function RegExpSetup() {
 
 
 function RegExpRun() {
-        /* CONTRACT */ regExpBenchmark = $.assert(regExpBenchmark, $.ObjectContract({run:InstanceOfFunction}));
+        /* CONTRACT */ regExpBenchmark = $.assert(regExpBenchmark, $.AdvancedObjectContract({run:InstanceOfFunction}));
   regExpBenchmark.run();
 }
 

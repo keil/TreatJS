@@ -38,7 +38,7 @@ var Class = {
   }
 };
 /* CONTRACT */ $.assert(Class.create, InstanceOfFunction);
-/* CONTRACT */ Class.create = Object.extend = $.assert(Class.create, $.FunctionContract({0:Any}, InstanceOfFunction));
+/* CONTRACT */ Class.create = Object.extend = $.assert(Class.create, $.AdvancedFunctionContract({0:Any}, InstanceOfFunction));
 
 Object.extend = function(destination, source) {
   for (var property in source) {
@@ -47,7 +47,7 @@ Object.extend = function(destination, source) {
   return destination;
 };
 
-/* CONTRACT */ Object.extend = $.assert(Object.extend, $.FunctionContract({0:InstanceOfObject}, InstanceOfObject));
+/* CONTRACT */ Object.extend = $.assert(Object.extend, $.AdvancedFunctionContract({0:InstanceOfObject}, InstanceOfObject));
 
 
 // ------------------------------------------------------------------------

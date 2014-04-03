@@ -552,7 +552,7 @@ function runBox2D() {
   var world = MakeNewWorld();
 
 /* CONTRACT */ $.assert(world, $.With({target:Box2D.Dynamics.b2World}, InstanceOfTarget));
-/* CONTRACT */ world = $.assert(world, $.ObjectContract({Step:InstanceOfFunction}));
+/* CONTRACT */ world = $.assert(world, $.AdvancedObjectContract({Step:InstanceOfFunction}));
 
   for (var i = 0; i < 20; i++) {
     world.Step(1 / 60, 10, 3);

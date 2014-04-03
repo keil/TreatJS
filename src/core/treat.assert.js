@@ -98,6 +98,14 @@
                         for(key in binding) newglobal[key] = binding[key];
                         return new Global(newglobal);
                 }
+
+                this.toString = function() {
+                        var string = "";
+                        for(p in global) {
+                                string += " " + p + ":" + global[p];
+                        }
+                        return "{" + string + "}";
+                }
         }
 
         //                         _   
@@ -164,7 +172,7 @@
                         if(!(arg instanceof Object)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
 
                         // TODO, callback
-
+/*
                         if(contract.strict) {
                                 contract.map.foreach(function(key, contract) {
                                         if(!(typeof key === "string")) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
@@ -174,7 +182,7 @@
                                         arg[key] = assertWith(arg[key], contract, global, callback.subHandler);
                                 });
                         }
-
+*/
                         var handler = new ObjectHandler(contract, global, callback);
                         var proxy = new Proxy(arg, handler);
                         return proxy;
@@ -251,6 +259,8 @@
                         try {
                                 var result = _.eval(contract.predicate, globalArg, thisArg, argsArray);
                         } catch (e) {
+                                // TODO
+                                print("############################ " + e);
                                 var result = false;
                         } finally {
                                 if(!result) {
@@ -340,9 +350,10 @@
                         //   var domain = _.ObjectContract(contract.domain.properties, contract.strict, true);
                         //   var range = contract.range;
 
-                        var args = assertWith(args, contract.domain, global, ncallback.leftHandler);
+                        // TODO xxx
+                        var args = assertWith(args, contract.domain, global, /*ncallback.leftHandler*/callback);
                         var val = target.apply(thisArg, args);  
-                        return assertWith(val, contract.range, global, ncallback.rightHandler);
+                        return assertWith(val, contract.range, global, callback/*ncallback.rightHandler*/);
                 };
                 this.construct = function(target, args) {
                         var obj = Object.create(target.prototype);

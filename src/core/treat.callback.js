@@ -65,9 +65,9 @@
 
                 function evalCallback() {
                         if((left==false) || (right==false)) {
-                                callback(false, leftMsg+" [[AND]] "+rightMsg);
+                                callback(false, leftMsg+" *AND* "+rightMsg);
                         } else if((left==true) && (right==true)) {
-                                callback(true, leftMsg+" [[AND]] "+rightMsg);
+                                callback(true, leftMsg+" *AND* "+rightMsg);
                         }
                 }
                 function updateLeft(arg, msg) {
@@ -107,9 +107,9 @@
 
                 function evalCallback() {
                         if((left==false) && (right==false)) {
-                                callback(false, leftMsg+" [[OR]] "+rightMsg);
+                                callback(false, leftMsg+" *OR* "+rightMsg);
                         } else if((left==true) || (right==true)) {
-                                callback(true, leftMsg+" [[OR]] "+rightMsg);
+                                callback(true, leftMsg+" *OR* "+rightMsg);
                         }
                 }
                 function updateLeft(arg, msg) {
@@ -146,7 +146,7 @@
 
                 function evalCallback() {
                         if((sub==true) || (sub==false)) {
-                                callback(!sub, "[[NOT]] "+subMsg);
+                                callback(!sub, "*NOT* "+subMsg);
                         }
                 }
                 function updateSub(arg, msg) {

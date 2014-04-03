@@ -34,7 +34,7 @@ new BenchmarkSuite('zlib', [152815148], [
 // Generate 100kB pseudo-random bytes (compressed 25906 bytes) and
 // compress/decompress them 60 times.
 var zlibEval = eval;
-/* CONTRACT */ zlibEval = $.assert(zlibEval, $.FunctionContract({0:IsString}, Any));
+/* CONTRACT */ zlibEval = $.assert(zlibEval, $.AdvancedFunctionContract({0:IsString}, Any));
 
 function runZlib() {
   if (typeof Ya != "function") {

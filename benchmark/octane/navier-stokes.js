@@ -72,7 +72,7 @@ function setupNavierStokes()
     solver.setUICallback(prepareFrame);
     solver.reset();
 
-    /* CONTRACT */ solver = $.assert(solver, $.ObjectContract({update:InstanceOfFunction}));
+    /* CONTRACT */ solver = $.assert(solver, $.AdvancedObjectContract({update:InstanceOfFunction}));
 }
 
 function tearDownNavierStokes()

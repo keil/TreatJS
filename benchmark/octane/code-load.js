@@ -92,7 +92,7 @@ var indirectEval;
 function setupCodeLoad() {
   salt = 0;
   indirectEval = eval;
-  /* CONTRACT */ indirectEval = $.assert(indirectEval, $.FunctionContract({0:IsString}, Any));
+  /* CONTRACT */ indirectEval = $.assert(indirectEval, $.AdvancedFunctionContract({0:IsString}, Any));
 }
 
 function tearDownCodeLoad() {

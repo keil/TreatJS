@@ -31,7 +31,7 @@ var PdfJS = new BenchmarkSuite("PdfJS", [10124921], [
     runPdfJS, setupPdfJS, tearDownPdfJS, null, 4)
 ]);
 
-/* CONTRACT */ PdfJS = $.assert(PdfJS, $.ObjectContract({getDocument:InstanceOfFunction}));
+/* CONTRACT */ PdfJS = $.assert(PdfJS, $.AdvancedObjectContract({getDocument:InstanceOfFunction}));
 
 
 function setupPdfJS() {

@@ -99,13 +99,10 @@
                 if(!(this instanceof AdvancedObjectContract)) return new AdvancedObjectContract(map, strict, sign);
 
                 if(map instanceof Map) {
-                        print("CI");
                          ObjectContract.call(this, map, strict, sign); 
                 } else if(map instanceof Array) {
-                          print("CIII");
                         ObjectContract.call(this, StringMap(map), strict, sign); 
                 } else if(map instanceof Object) {
-                          print("CIII");
                         ObjectContract.call(this, StringMap(map), strict, sign); 
                 }
         }
@@ -132,15 +129,15 @@
         //|_| \_,_|_||_|_\_\\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
         function AdvancedFunctionContract(domain, range, strict, sign) {
-                if(!(this instanceof AdvancedFunctionContract)) return new AdvancedFunctionContract(domain, range, sign);
+                if(!(this instanceof AdvancedFunctionContract)) return new AdvancedFunctionContract(domain, range, strict, sign);
 
-                if(!(range instanceof  Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+                if(!(range instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
                 if(domain instanceof Contract) {
                         FunctionContract.call(this, domain, range, strict, sign);
                 } else if(domain instanceof Array) {
-                        FunctionContract.call(AdvancedObjectContract(domain), range, strict, sign);
+                        FunctionContract.call(this, AdvancedObjectContract(domain), range, strict, sign);
                 } else if(domain instanceof Object) {
-                        FunctionContract.call(AdvancedObjectContract(domain), range, strict, sign);
+                        FunctionContract.call(this, AdvancedObjectContract(domain), range, strict, sign);
                 } else error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
         }
         AdvancedFunctionContract.prototype = new FunctionContract(Blank, Blank);
@@ -162,10 +159,6 @@
                 FunctionContract.call(this, AdvancedObjectContract(domain), range, strict, sign);
         }
         SimpleFunctionContract.prototype = new FunctionContract(Blank, Blank);
-
-        var s = SimpleFunctionContract(Test, Test, true, true);
-
-        print(s);
 
         // TODO, brinf derivates
 
@@ -255,7 +248,7 @@
        // var self = {}
         _.AdvancedFunctionContract = AdvancedFunctionContract;
         _.SimpleFunctionContract = SimpleFunctionContract;
-        _.AdvancedObjectContract = AdvancedFunctionContract;
+        _.AdvancedObjectContract = AdvancedObjectContract;
 
         // TODO, name
         //_.advanced = self;

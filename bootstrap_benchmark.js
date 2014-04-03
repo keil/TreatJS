@@ -24,7 +24,7 @@ $.Config.Verbose.assert = false;
 
 $.Config.assertion = true;
 $.Config.membrane = true;
-$.Config.decompile = false;
+$.Config.decompile = true;
 
 load("benchmark/octane/run.js")
 

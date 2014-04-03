@@ -41,7 +41,7 @@ function setupGameboy() {
 
 function runGameboy() {
 
-/* CONTRACT */ start = $.assert(start, $.FunctionContract({0:$.With({target:GameBoyCanvas}, InstanceOfTarget),1:Any}, True));
+/* CONTRACT */ start = $.assert(start, $.AdvancedFunctionContract({0:$.With({target:GameBoyCanvas}, InstanceOfTarget),1:Any}, Any));
   start(new GameBoyCanvas(), decoded_gameboy_rom);
 
   gameboy.instructions = 0;
@@ -163,7 +163,7 @@ function checkFinalState() {
     }
     return result;
   }
-  /* CONTRACT */ sum = $.assert(sum, $.FunctionContract({0:IsArray}, IsNumber));
+  /* CONTRACT */ sum = $.assert(sum, $.AdvancedFunctionContract({0:IsArray}, IsNumber));
   var state = {
     registerA: gameboy.registerA,
     registerB: gameboy.registerB,
