@@ -16,6 +16,11 @@ load("src/treat.js");
 load("test/contracts.js");
 
 
+
+for(var p in _) {
+        print("@ " + p);
+}
+
 /**
   function O(a) {
   this.m = function() {

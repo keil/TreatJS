@@ -46,98 +46,13 @@
 // TODO. tewt
 // 
 /*
-        var f = new XFunctionContract(Test, Test);
+        var f = new AdvancedFunctionContract(Test, Test);
         print("##### " + (f instanceof  Contract));
         print("##### " + (f instanceof  FunctionContract));
-        print("##### " + (f instanceof  XFunctionContract));
+        print("##### " + (f instanceof  AdvancedFunctionContract));
 
         print(f.range);
 */
-
-        // ___                ___         _               _   
-        //| _ ) __ _ ___ ___ / __|___ _ _| |_ _ _ __ _ __| |_ 
-        //| _ \/ _` (_-</ -_) (__/ _ \ ' \  _| '_/ _` / _|  _|
-        //|___/\__,_/__/\___|\___\___/_||_\__|_| \__,_\__|\__|
-
-//        function BaseContract(predicate, name) {
-//               return _.core.BaseContract(predicate, name);
-//        }
-    //    BaseContract.prototype = new _.core.BaseContract();
-
-    //    new BaseContract();
-
-        // ___          _   _   _          ___         _               _   
-        //| __|  _ _ _ | |_| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
-        //| _| || | ' \| / /  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
-        //|_| \_,_|_||_|_\_\\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
-
-        function XFunctionContract(domain, range, strict, sign) {
-                if(!(this instanceof XFunctionContract)) return new XFunctionContract(domain, range, sign);
-
-                if(!(range instanceof  Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-                if(domain instanceof Contract) {
-                        FunctionContract.call(this, domain, range, strict, sign);
-                } else if(domain instanceof Array) {
-                        FunctionContract.call(XObjectContract(domain), range, strict, sign);
-                } else if(domain instanceof Object) {
-                        FunctionContract.call(XObjectContract(domain), range, strict, sign);
-                } else error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-        }
-        XFunctionContract.prototype = new FunctionContract(Blank, Blank);
-
-        function SimpleFunctionContract() {
-                if(!(this instanceof SimpleFunctionContract)) return SimpleFunctionContract.apply(Object.create(SimpleFunctionContract.prototype), arguments);
-                if(arguments.length < 2) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-
-                var domain = [];
-                for(var i=0; i<arguments.length;i++) domain[i]=arguments[i];
-
-                var sign = domain.pop();
-                var strict = domain.pop();
-                var range = domain.pop();
-
-                print(XObjectContract(domain) instanceof Contract);
-
-
-                FunctionContract.call(this, XObjectContract(domain), range, strict, sign);
-        }
-        SimpleFunctionContract.prototype = new FunctionContract(Blank, Blank);
-
-
-        //var s = new SimpleFunctionContract(Test, Test, true, true);
-
-
-
-        /*
-           function Weak-SimpleFunctionContract() {}
-           function Strict-SimpleFunctionContract() {}
-
-           function Positive-SimpleFunctionContract() {}
-           function Negative-SimpleFunctionContract() {}
-
-           function Positive-SimpleFunctionContract() {}
-           function Negative-SimpleFunctionContract() {}
-           */
-
-        /*
-           function SFunctionContract() {
-           var domain = {};
-           var range = null;
-
-        // clones the arguments
-        var last;
-        for(var i in arguments) {
-        last = i;
-        domain[i] = arguments[i];
-        }
-
-        // last property is the range portion
-        range = domain[last];
-        delete domain[last];
-
-        return FunctionContract(domain, range);
-        }
-        */
 
 
         //  ___  _     _        _    ___         _               _   
@@ -145,7 +60,6 @@
         //| (_) | '_ \| / -_) _|  _| (__/ _ \ ' \  _| '_/ _` / _|  _|
         // \___/|_.__// \___\__|\__|\___\___/_||_\__|_| \__,_\__|\__|
         //          |__/                                             
-
 
         function Mapping(regexp, contract) {
                 if(!(this instanceof Mapping)) return new Mapping(regexp, contract);
@@ -181,8 +95,8 @@
         }
         RegExpMap.prototype = new Map();
 
-        function XObjectContract(map, strict, sign) {
-                if(!(this instanceof XObjectContract)) return new XObjectContract(map, strict, sign);
+        function AdvancedObjectContract(map, strict, sign) {
+                if(!(this instanceof AdvancedObjectContract)) return new AdvancedObjectContract(map, strict, sign);
 
                 if(map instanceof Map) {
                         print("CI");
@@ -195,34 +109,131 @@
                         ObjectContract.call(this, StringMap(map), strict, sign); 
                 }
         }
-        XObjectContract.prototype = new ObjectContract(new Map());
+        AdvancedObjectContract.prototype = new ObjectContract(new Map());
 
 
 
-        var o = XObjectContract(new Map());
-        var o = XObjectContract(new StringMap([Test,Test]));
-        var o = XObjectContract(new StringMap({xx:Test,yy:Test}));
 
-        var o = XObjectContract({xx:Test,yy:Test});
-        var o = XObjectContract([Test,Test]);
+        // ___                ___         _               _   
+        //| _ ) __ _ ___ ___ / __|___ _ _| |_ _ _ __ _ __| |_ 
+        //| _ \/ _` (_-</ -_) (__/ _ \ ' \  _| '_/ _` / _|  _|
+        //|___/\__,_/__/\___|\___\___/_||_\__|_| \__,_\__|\__|
+
+//        function BaseContract(predicate, name) {
+//               return _.core.BaseContract(predicate, name);
+//        }
+    //    BaseContract.prototype = new _.core.BaseContract();
+
+    //    new BaseContract();
+
+        // ___          _   _   _          ___         _               _   
+        //| __|  _ _ _ | |_| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
+        //| _| || | ' \| / /  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
+        //|_| \_,_|_||_|_\_\\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
+
+        function AdvancedFunctionContract(domain, range, strict, sign) {
+                if(!(this instanceof AdvancedFunctionContract)) return new AdvancedFunctionContract(domain, range, sign);
+
+                if(!(range instanceof  Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+                if(domain instanceof Contract) {
+                        FunctionContract.call(this, domain, range, strict, sign);
+                } else if(domain instanceof Array) {
+                        FunctionContract.call(AdvancedObjectContract(domain), range, strict, sign);
+                } else if(domain instanceof Object) {
+                        FunctionContract.call(AdvancedObjectContract(domain), range, strict, sign);
+                } else error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+        }
+        AdvancedFunctionContract.prototype = new FunctionContract(Blank, Blank);
+
+        function SimpleFunctionContract() {
+                if(!(this instanceof SimpleFunctionContract)) {
+                        var base = Object.create(SimpleFunctionContract.prototype);
+                        SimpleFunctionContract.apply(base, arguments);
+                        return base;
+                }
+                if(arguments.length < 2) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+                var domain = [];
+                for(var i=0; i<arguments.length;i++) domain[i]=arguments[i];
+
+                var sign = domain.pop();
+                var strict = domain.pop();
+                var range = domain.pop();
+                FunctionContract.call(this, AdvancedObjectContract(domain), range, strict, sign);
+        }
+        SimpleFunctionContract.prototype = new FunctionContract(Blank, Blank);
+
+        var s = SimpleFunctionContract(Test, Test, true, true);
+
+        print(s);
+
+        // TODO, brinf derivates
+
+
+
+        /*
+           function Weak-SimpleFunctionContract() {}
+           function Strict-SimpleFunctionContract() {}
+
+           function Positive-SimpleFunctionContract() {}
+           function Negative-SimpleFunctionContract() {}
+
+           function Positive-SimpleFunctionContract() {}
+           function Negative-SimpleFunctionContract() {}
+           */
+
+        /*
+           function SFunctionContract() {
+           var domain = {};
+           var range = null;
+
+        // clones the arguments
+        var last;
+        for(var i in arguments) {
+        last = i;
+        domain[i] = arguments[i];
+        }
+
+        // last property is the range portion
+        range = domain[last];
+        delete domain[last];
+
+        return FunctionContract(domain, range);
+        }
+        */
+
+
+       
+/**
+ *
+ * TODO TESTCASES
+ 
+        var o = AdvancedObjectContract(new Map());
+        var o = AdvancedObjectContract(new StringMap([Test,Test]));
+        var o = AdvancedObjectContract(new StringMap({xx:Test,yy:Test}));
+
+        var o = AdvancedObjectContract({xx:Test,yy:Test});
+        var o = AdvancedObjectContract([Test,Test]);
 
 
         var m = new RegExpMap();
         m.set(/test/, Test);
         m.set(/test2/, Test);
-        var o = XObjectContract(m);
+        var o = AdvancedObjectContract(m);
 
-        var o = XObjectContract(RegExpMap([Mapping(/testXXX/, Test), Mapping(/testYYY/, Test)]));
+        var o = AdvancedObjectContract(RegExpMap([Mapping(/testXXX/, Test), Mapping(/testYYY/, Test)]));
+
+         var o = AdvancedObjectContract([Test]);
 
         print(o instanceof Contract);
         print(o instanceof ObjectContract);
-        print(o instanceof XObjectContract)
+        print(o instanceof AdvancedObjectContract)
 
         o.map.foreach(function(key, contract) {
                 print(key+":"+contract);
         })
 
-
+**/
 
         // ___                        _         _    ___         _               _   
         //|   \ ___ _ __  ___ _ _  __| |___ _ _| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -240,6 +251,18 @@
                   }
 
 */
+
+       // var self = {}
+        _.AdvancedFunctionContract = AdvancedFunctionContract;
+        _.SimpleFunctionContract = SimpleFunctionContract;
+        _.AdvancedObjectContract = AdvancedFunctionContract;
+
+        // TODO, name
+        //_.advanced = self;
+
+        _.RegExpMap = RegExpMap;
+        _.Mapping = Mapping;
+
 
 
 

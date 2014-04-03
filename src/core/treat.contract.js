@@ -113,7 +113,6 @@
                 // TODO
 //                if(!(properties instanceof Object)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
                 
-
                 
                 if(!(map instanceof Map)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber); 
 
@@ -135,12 +134,7 @@
                 });
 
                 this.toString = function() { 
-                        var domain = "";
-                        
-                        map.foreach(function(key, contract) {
-                                domain += " " + key + ":" + contract;
-                        });
-                        return "{" + domain + "}";
+                        return "{" + map.toString() + "}";
                 };
         }
         ObjectContract.prototype = new Contract();
@@ -347,6 +341,14 @@
                 this.has = function(key) {
                         return (keys.indexOf(key)==-1) ? false : true;
                 }
+
+                 this.toString = function() { 
+                        var mappings = "";
+                        this.foreach(function(key, contract) {
+                                mappings += " " + key + ":" + contract;
+                        });
+                        return "[" + mappings + "]";
+                };
         }
 
         
