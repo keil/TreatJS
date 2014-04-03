@@ -108,7 +108,7 @@
         //          |__/                                             
 
         function ObjectContract(map, sign) {
-                if(!(this instanceof ObjectContract)) return new ObjectContract(map, strict, sign);
+                if(!(this instanceof ObjectContract)) return new ObjectContract(map, sign);
 
                 // TODO, 
                 // only sting maps can be strict
@@ -116,8 +116,8 @@
                 if(!(map instanceof Map)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber); 
  
                 Object.defineProperties(this, {
-//                        "strict": {
-//                                get: function () { return ((strict) ? true : false); } },
+                        "strict": {
+                                get: function () { return false; } },
                         "sign": {
                                 get: function () { return ((sign) ? true : false); } },
                         "map": {
