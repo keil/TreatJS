@@ -18,7 +18,7 @@ var func3       = function(x, y) { return (x+y);}
 
 var test = $.assert(
                 func,
-                $.FunctionContract($.ObjectContract({0:IsNumber}), IsNumber)
+                $.FunctionContract($.ObjectContract($.StringMap({0:IsNumber})), IsNumber)
                 );
 
 var test2 = $.assert(
@@ -28,7 +28,7 @@ var test2 = $.assert(
 
 var test3 = $.assert(
                 func3,
-                $.FunctionContract($.ObjectContract({0:IsNumber, 1:IsNumber}), IsNumber)
+                $.FunctionContract($.ObjectContract($.StringMap({0:IsNumber, 1:IsNumber})), IsNumber)
                 );
 
 test(4711);

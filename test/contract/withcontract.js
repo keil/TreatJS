@@ -37,7 +37,7 @@ var func3       = function(x, y) { return (x+y);}
 
 var test = $.assert(
                 func,
-                $.FunctionContract($.ObjectContract({0:IsNumber}), $.With({obj:obj}, Predicate))
+                $.FunctionContract($.ObjectContract($.StringMap({0:IsNumber})), $.With({obj:obj}, Predicate))
                 );
 
 var test2 = $.assert(
@@ -47,7 +47,7 @@ var test2 = $.assert(
 
 var test3 = $.assert(
                 func3,
-                $.FunctionContract($.ObjectContract({0:$.With({obj:obj}, Predicate), 1:Any}), Any)
+                $.FunctionContract($.ObjectContract($.StringMap({0:$.With({obj:obj}, Predicate), 1:Any})), Any)
                 );
 
 test(4711);
@@ -66,11 +66,11 @@ var obj = {
 // Test 3.1
 // ObjectContract with nested base-level With
 
-var contract = $.ObjectContract({
+var contract = $.ObjectContract($.StringMap({
         x:$.With({obj:obj},Predicate),
-    y:$.FunctionContract($.ObjectContract({0:GreaterThanZero}), $.With({obj:obj},Predicate)),
+    y:$.FunctionContract($.ObjectContract($.StringMap({0:GreaterThanZero})), $.With({obj:obj},Predicate)),
     z:Any
-});
+}));
 
 var test = $.assert(obj, contract);
 
@@ -85,11 +85,11 @@ var g = test["y"];
 // Test 3.2
 // ObjectContract with top-level With
 
-var contract = $.With({obj:obj}, $.ObjectContract({
+var contract = $.With({obj:obj}, $.ObjectContract($.StringMap({
         x:Predicate,
-    y:$.FunctionContract($.ObjectContract({0:Predicate}), Predicate),
+    y:$.FunctionContract($.ObjectContract($.StringMap({0:Predicate})), Predicate),
     z:Any
-}));
+})));
 
 var test2 = $.assert(obj, contract);
 
@@ -104,11 +104,11 @@ var g = test2["y"];
 // Test 3.3
 // ObjectContract with nested With
 
-var contract = $.ObjectContract({
+var contract = $.ObjectContract($.StringMap({
         x:IsNumber,
-    y:$.With({obj:obj}, $.FunctionContract($.ObjectContract({0:Predicate}), Any)),
+    y:$.With({obj:obj}, $.FunctionContract($.ObjectContract($.StringMap({0:Predicate})), Any)),
     z:Any
-});
+}));
 
 var test3 = $.assert(obj, contract);
 

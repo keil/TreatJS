@@ -19,11 +19,11 @@ var obj = {
         z:"chacha"
 };
 
-var contract = new $.ObjectContract({
+var contract = new $.ObjectContract($.StringMap({
         x:IsNumber,
-    y:new $.FunctionContract($.ObjectContract({0:GreaterThanZero}), IsNumber),
+    y:new $.FunctionContract($.ObjectContract($.StringMap({0:GreaterThanZero})), IsNumber),
     z:Any
-});
+}));
 
 var test = $.assert(obj, contract);
 

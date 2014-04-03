@@ -19,7 +19,7 @@ var func        = function(x) {return "4711";}
 
 var test = $.assert(
                 func,
-                $.Not($.FunctionContract($.ObjectContract({0:IsNumber}), IsNumber)
+                $.Not($.FunctionContract($.ObjectContract($.StringMap({0:IsNumber})), IsNumber)
                      ));
 test("4711");
 
@@ -28,11 +28,11 @@ test("4711");
 // ObjectContract with nested base-level With
 
 var contract = $.Not(
-                $.ObjectContract({
+                $.ObjectContract($.StringMap({
                         x:IsNumber,
-                        y:$.FunctionContract($.ObjectContract({0:GreaterThanZero}), IsNumber),
+                        y:$.FunctionContract($.ObjectContract($.StringMap({0:GreaterThanZero})), IsNumber),
                         z:Any
-                }));
+                })));
 
 var obj = {
         x:"4711",
