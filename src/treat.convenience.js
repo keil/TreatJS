@@ -147,14 +147,36 @@
         //          |__/                                             
 
 
-        function RegExpMap() {
-                if(!(this instanceof RegExpMap)) return new RegExpMap();
+        function Mapping(regexp, contract) {
+                if(!(this instanceof Mapping)) return new Mapping(regexp, contract);
+
+                if(!(regexp instanceof RegExp)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+                if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+                
+                 Object.defineProperties(this, {
+                        "regexp": {
+                                get: function () { return regexp; } },
+                        "contract": {
+                                get: function () { return contract; } }
+                });        
+        }
+
+        function RegExpMap(elements) {
+                if(!(this instanceof RegExpMap)) return new RegExpMap(elements);
                 else Map.call(this);
 
                 var set = this.set;
                 this.set = function(key, value) {
                         if(!(key instanceof RegExp)) error("Wrong Type. RegExp required, "+(typeof key)+" found.", (new Error()).fileName, (new Error()).lineNumber);
                         else set(key, value);
+                }
+
+                if(elements instanceof Array) {
+                        var base = this; 
+                        elements.foreach(function(key, mapping) {
+                                if(!(mapping instanceof Mapping)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+                                base.set(mapping.regexp, mapping.contract);
+                        });
                 }
         }
         RegExpMap.prototype = new Map();
@@ -183,6 +205,14 @@
 
         var o = XObjectContract({xx:Test,yy:Test});
         var o = XObjectContract([Test,Test]);
+
+
+        var m = new RegExpMap();
+        m.set(/test/, Test);
+        m.set(/test2/, Test);
+        var o = XObjectContract(m);
+
+        var o = XObjectContract(RegExpMap([Mapping(/testXXX/, Test), Mapping(/testYYY/, Test)]));
 
         print(o instanceof Contract);
         print(o instanceof ObjectContract);
