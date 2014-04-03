@@ -79,8 +79,8 @@
         //| |\/| / -_)  _| ' \/ _ \/ _` | (__/ _ \ ' \  _| '_/ _` / _|  _|
         //|_|  |_\___|\__|_||_\___/\__,_|\___\___/_||_\__|_| \__,_\__|\__|
 
-        function MethodContract(domain, range, context, strict, sign) {
-                if(!(this instanceof FunctionContract)) return new MethodContract(domain, range, strict, sign);
+        function MethodContract(domain, range, context, sign) {
+                if(!(this instanceof FunctionContract)) return new MethodContract(domain, range, sign);
 
                 if(!(domain instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
                 if(!(range instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
@@ -107,7 +107,7 @@
         // \___/|_.__// \___\__|\__|\___\___/_||_\__|_| \__,_\__|\__|
         //          |__/                                             
 
-        function ObjectContract(map, strict, sign) {
+        function ObjectContract(map, sign) {
                 if(!(this instanceof ObjectContract)) return new ObjectContract(map, strict, sign);
 
                 // TODO, 
@@ -116,8 +116,8 @@
                 if(!(map instanceof Map)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber); 
  
                 Object.defineProperties(this, {
-                        "strict": {
-                                get: function () { return ((strict) ? true : false); } },
+//                        "strict": {
+//                                get: function () { return ((strict) ? true : false); } },
                         "sign": {
                                 get: function () { return ((sign) ? true : false); } },
                         "map": {
