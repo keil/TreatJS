@@ -27,8 +27,8 @@ var test = _.assert(
 test.a;
 test.b;
 test.c;
-test.0;
-test.1;
+test[0];
+//test[1];
 
 var test = _.assert(
                 obj,
@@ -36,16 +36,16 @@ var test = _.assert(
 
 test.a;
 test.b;
-test.c;
-test.0;
-test.1;
+//test.c;
+test[0];
+test[1];
 
 var test = _.assert(
                 obj,
-                _.AdvancedObjectContract(_.RegExpMap([_.Mappring(/a+b+c/, IsNumber), _.Mappring(/0+1/, IsNumber]))));
+                _.AdvancedObjectContract(_.RegExpMap([_.Mapping(/a+b+c/, IsNumber), _.Mapping(/0+1/, IsNumber)])));
 
 test.a;
 test.b;
 test.c;
-test.0;
-test.1;
+test[0];
+test[1];
