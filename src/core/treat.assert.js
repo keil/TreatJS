@@ -36,6 +36,8 @@
         var OrContract = _.Or;
         var NotContract = _.Not;
 
+        var Map = _.Map;
+        var StringMap = _.StringMap;
 
         /** log(msg)
          * @param msg String message
@@ -416,11 +418,33 @@
                 if(!(this instanceof ObjectHandler)) return new ObjectHandler(contract, global, callback);
 
                 this.get = function(target, name, receiver) {
-print("GET---" + name);
                         // TODO test
                         var ncallback = (!contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
 
-                        return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, ncallback.subHandler) : target[name]; 
+
+                        if(contract.map instanceof StringMap) {
+                                return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, ncallback.subHandler) : target[name];
+                        } else {
+                                var target = target[name];
+                                print("X" + (contract.map instanceof Map));
+                                print("X" + (contract.map instanceof StringMap));
+                                print("X" + contract.map);
+                                print("XX" + contract.has);
+                                print("XX" + contract.slice);
+                                print("XX" + contract.slice(name));
+                                print("XX" + contract.slice(name).foreach);
+
+
+
+                                
+
+                                
+                                contract.map.slice(name).foreach(function(i, contract) {
+                                        // TODO callback
+                                         target = assertWith(target, contract, global, ncallback.subHandler);
+                                });
+                                return target;
+                        } 
                 };
 
                 //   this.set = function()

@@ -114,7 +114,7 @@
                 // only sting maps can be strict
                 // todo, remove strict flag, und use only in advanced constructopr
                 if(!(map instanceof Map)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber); 
- 
+
                 Object.defineProperties(this, {
                         "strict": {
                                 get: function () { return false; } },
@@ -333,6 +333,10 @@
                         return (keys.indexOf(key)==-1) ? false : true;
                 }
 
+                this.slice = function(key) {
+                        return values[keys.indexOf(key)];                
+                }
+
                 this.toString = function() { 
                         var mappings = "";
                         this.foreach(function(key, contract) {
@@ -352,6 +356,8 @@
                         if(!(typeof key === "string")) error("Wrong Type. String required, "+(typeof key)+" found.", (new Error()).fileName, (new Error()).lineNumber);
                         else set(key, value);
                 }
+
+                this.toString = function() { return "[[StringMap]]"; }
 
                 if(elements instanceof Array) {
                         var base = this; 
