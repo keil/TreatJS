@@ -426,21 +426,14 @@
                                 return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, ncallback.subHandler) : target[name];
                         } else {
                                 var target = target[name];
-                                print("X" + (contract.map instanceof Map));
-                                print("X" + (contract.map instanceof StringMap));
-                                print("X" + contract.map);
-                                print("XX" + contract.has);
-                                print("XX" + contract.slice);
-                                print("XX" + contract.slice(name));
-                                print("XX" + contract.slice(name).foreach);
 
+                                print("@" + name)
+                                print("@" + contract.map.slice(name));
 
-
-                                
-
-                                
                                 contract.map.slice(name).foreach(function(i, contract) {
                                         // TODO callback
+                                        //
+                                        print("##### " + contract);
                                          target = assertWith(target, contract, global, ncallback.subHandler);
                                 });
                                 return target;

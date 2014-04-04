@@ -96,12 +96,15 @@
                 this.slice = function(key) {
                         var contracts = [];
                         this.foreach(function(index, contract) {
+                                print("TEST " + index + " : " + key + " == " + (index.test(key)) );
                                 if(index.test(key)) contracts.push(contract);
                         });
                         return contracts;
                 }
 
                 this.toString = function() { return "[[RexExpMap]]"; }
+
+                this.xx = 765;
 
                 if(elements instanceof Array) {
                         var base = this; 

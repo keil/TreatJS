@@ -22,9 +22,9 @@ for(var p in _) {
 }
 
 run("test/convenience/functioncontracts.js");
-//run("test/convenience/objectcontracts.js");
-//run("test/convenience/methodcontracts.js");
-//run("test/convenience/dependentcontracts.js");
+run("test/convenience/objectcontracts.js");
+run("test/convenience/methodcontracts.js");
+run("test/convenience/dependentcontracts.js");
 
 
 /**
