@@ -61,11 +61,11 @@ test("",4,true);
 
 var test = _.assert(
                 func,
-                _.AdvancedFunctionContract({0:IsNumber, 2:IsNumber}, IsBoolean));
+                _.AdvancedFunctionContract({0:IsNumber, 3:IsString}, IsBoolean));
 //test(3,4,5);
 //test(3,4,true);
 test(3,"",true);
-test("",4,true);
+//test("",4,true);
 
 var test = _.assert(
                 func,

@@ -264,9 +264,9 @@
                                 var result = false;
                         } finally {
                                 if(!result) {
-                                        callback(false, contract.toString());
+                                        callback(false, "@"+contract.toString());
                                 } else {
-                                        callback(true, contract.toString());
+                                        callback(true, "@"+contract.toString());
                                 }
                                 return arg;
                         }
@@ -311,9 +311,9 @@
                                 var result = false;
                         } finally {
                                 if(!result) {
-                                        callback(false, contract.toString());
+                                        callback(false, "@"+contract.toString());
                                 } else {
-                                        callback(true, contract.toString());
+                                        callback(true, "@"+contract.toString());
                                 }
                                 clear(contract.global);
                                 copy(backupGlobal, contract.global);
@@ -416,7 +416,7 @@
                 if(!(this instanceof ObjectHandler)) return new ObjectHandler(contract, global, callback);
 
                 this.get = function(target, name, receiver) {
-
+print("GET---" + name);
                         // TODO test
                         var ncallback = (!contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
 
