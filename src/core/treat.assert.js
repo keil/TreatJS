@@ -418,29 +418,18 @@
                 if(!(this instanceof ObjectHandler)) return new ObjectHandler(contract, global, callback);
 
                 this.get = function(target, name, receiver) {
-                        // TODO test
                         var ncallback = (!contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
-
-
+                        
                         if(contract.map instanceof StringMap) {
                                 return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, ncallback.subHandler) : target[name];
                         } else {
                                 var target = target[name];
-
-                                print("@" + name)
-                                print("@" + contract.map.slice(name));
-
                                 contract.map.slice(name).foreach(function(i, contract) {
-                                        // TODO callback
-                                        //
-                                        print("##### " + contract);
                                          target = assertWith(target, contract, global, ncallback.subHandler);
                                 });
                                 return target;
                         } 
                 };
-
-                //   this.set = function()
         }
 
 

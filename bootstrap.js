@@ -26,6 +26,14 @@ run("test/convenience/objectcontracts.js");
 run("test/convenience/methodcontracts.js");
 run("test/convenience/dependentcontracts.js");
 
+run("test/behavior/weak.js");
+run("test/behavior/strict.js");
+run("test/behavior/positive.js");
+run("test/behavior/negative.js");
+
+
+
+
 
 /**
   function O(a) {
