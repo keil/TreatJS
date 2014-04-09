@@ -173,18 +173,19 @@
                 else if (contract instanceof ObjectContract) {
                         if(!(arg instanceof Object)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
 
-                        // TODO, callback
-                        /*
-                           if(contract.strict) {
-                           contract.map.foreach(function(key, contract) {
-                           if(!(typeof key === "string")) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
+                        if(contract.strict && (contract.map instanceof StringMap)) {
+                                print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+                                contract.map.foreach(function(key, contract) {
+                                        //if(!(typeof key === "string")) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
 
-                        // TODO test
-                        var callback = (contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
-                        arg[key] = assertWith(arg[key], contract, global, callback.subHandler);
-                        });
+                                        // TODO test
+                                        var ncallback = (contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
+                                        arg[key] = assertWith(arg[key], contract, global, ncallback.subHandler);
+                                });
                         }
-                        */
+                        
+
+
                         var handler = new ObjectHandler(contract, global, callback);
                         var proxy = new Proxy(arg, handler);
                         return proxy;

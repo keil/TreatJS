@@ -116,8 +116,8 @@
                 if(!(map instanceof Map)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber); 
 
                 Object.defineProperties(this, {
-                        "strict": {
-                                get: function () { return false; } },
+//                        "strict": {
+//                                get: function () { return false; } },
                         "sign": {
                                 get: function () { return ((sign) ? true : false); } },
                         "map": {

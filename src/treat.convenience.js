@@ -117,12 +117,17 @@
                 if(map instanceof Map) {
                         ObjectContract.call(this, map, strict, sign); 
                 } else if(map instanceof Array) {
-                        ObjectContract.call(this, StringMap(map), strict, sign); 
+                        ObjectContract.call(this, StringMap(map), sign); 
                 } else if(map instanceof Object) {
-                        ObjectContract.call(this, StringMap(map), strict, sign); 
+                        ObjectContract.call(this, StringMap(map), sign); 
                 } else {
-                        ObjectContract.call(this, StringMap(), strict, sign);
+                        ObjectContract.call(this, StringMap(), sign);
                 }
+
+                Object.defineProperties(this, {
+                        "strict": {
+                                get: function () { return strict; } }
+                });
         }
         AdvancedObjectContract.prototype = new ObjectContract(new Map());
 
