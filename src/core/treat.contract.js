@@ -357,8 +357,6 @@
                         else set(key, value);
                 }
 
-                this.toString = function() { return "[[StringMap]]"; }
-
                 if(elements instanceof Array) {
                         var base = this; 
                         elements.foreach(function(key, value) {

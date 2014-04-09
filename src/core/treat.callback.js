@@ -38,14 +38,14 @@
                         }
                 }
                 function updateSub(arg, msg) {
-                        sub = (sub!=false) ? arg : sub;
-                        subMsg = (sub!=false) ? msg : subMsg;
+                        sub = arg;
+                        subMsg = msg;
                 }
 
                 Object.defineProperties(this, {
                         "subHandler": {
                                 get: function () { return function(arg, msg) {
-                                        updateSub(arg, msg);
+                                        if(sub!=false) updateSub(arg, msg);
                                         evalCallback();
                                 }}}
                 });
@@ -71,23 +71,23 @@
                         }
                 }
                 function updateLeft(arg, msg) {
-                        left = (left!=false) ? arg : left;
-                        leftMsg = (left!=false) ? msg : leftMsg;
+                        left = arg;
+                        leftMsg = msg;
                 }
                 function updateRight(arg, msg) {
-                        right = (right!=false) ? arg : right;
-                        rightMsg = (right!=false) ? msg : rightMsg;
+                        right = arg;
+                        rightMsg = msg;
                 }
 
                 Object.defineProperties(this, {
                         "leftHandler": {
                                 get: function () { return function(arg, msg) {
-                                        updateLeft(arg, msg);
+                                        if(left!=false) updateLeft(arg, msg);
                                         evalCallback();
                                 }}},
                         "rightHandler": {
                                 get: function () { return function(arg, msg) {
-                                        updateRight(arg, msg);
+                                        if(right!=false) updateRight(arg, msg);
                                         evalCallback();
                                 }}}
                 });
@@ -113,8 +113,8 @@
                         }
                 }
                 function updateLeft(arg, msg) {
-                        left = (left!=false) ? arg : left;
-                        leftMsg = (left!=false) ? msg : leftMsg;
+                        left = arg;
+                        leftMsg = msg;
                 }
                 function updateRight(arg, msg) {
                         right = (right!=false) ? arg : right;
@@ -124,12 +124,12 @@
                 Object.defineProperties(this, {
                         "leftHandler": {
                                 get: function () { return function(arg, msg) {
-                                        updateLeft(arg, msg);
+                                        if(left!=false) updateLeft(arg, msg);
                                         evalCallback();
                                 }}},
                         "rightHandler": {
                                 get: function () { return function(arg, msg) {
-                                        updateRight(arg, msg);
+                                        if(right!=false) updateRight(arg, msg);
                                         evalCallback();
                                 }}}
                 });
@@ -150,14 +150,14 @@
                         }
                 }
                 function updateSub(arg, msg) {
-                        sub = (sub!=false) ? arg : sub;
-                        subMsg = (sub!=false) ? msg : subMsg;
+                        sub = arg;
+                        subMsg = msg;
                 }
 
                 Object.defineProperties(this, {
                         "subHandler": {
                                 get: function () { return function(arg, msg) {
-                                        updateSub(arg, msg);
+                                        if(sub!=false) updateSub(arg, msg);
                                         evalCallback()
                                 }}}
                 });

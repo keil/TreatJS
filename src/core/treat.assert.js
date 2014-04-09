@@ -118,7 +118,7 @@
         // \__,_|___/___/\___|_|   \__|
 
         function assert(arg, contract) {
-                 log("assert", contract);
+                log("assert", contract);
 
                 // disbale assertion
                 if(!_.Config.assertion) return arg;
@@ -174,17 +174,17 @@
                         if(!(arg instanceof Object)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
 
                         // TODO, callback
-/*
-                        if(contract.strict) {
-                                contract.map.foreach(function(key, contract) {
-                                        if(!(typeof key === "string")) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
-                                        
-                                        // TODO test
-                                        var callback = (contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
-                                        arg[key] = assertWith(arg[key], contract, global, callback.subHandler);
-                                });
+                        /*
+                           if(contract.strict) {
+                           contract.map.foreach(function(key, contract) {
+                           if(!(typeof key === "string")) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
+
+                        // TODO test
+                        var callback = (contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
+                        arg[key] = assertWith(arg[key], contract, global, callback.subHandler);
+                        });
                         }
-*/
+                        */
                         var handler = new ObjectHandler(contract, global, callback);
                         var proxy = new Proxy(arg, handler);
                         return proxy;
@@ -261,8 +261,6 @@
                         try {
                                 var result = _.eval(contract.predicate, globalArg, thisArg, argsArray);
                         } catch (e) {
-                                // TODO
-                                print("############################ " + e);
                                 var result = false;
                         } finally {
                                 if(!result) {
@@ -353,9 +351,9 @@
                         //   var range = contract.range;
 
                         // TODO xxx
-                        var args = assertWith(args, contract.domain, global, /*ncallback.leftHandler*/callback);
+                        var args = assertWith(args, contract.domain, global, ncallback.leftHandler);
                         var val = target.apply(thisArg, args);  
-                        return assertWith(val, contract.range, global, callback/*ncallback.rightHandler*/);
+                        return assertWith(val, contract.range, global, ncallback.rightHandler);
                 };
                 this.construct = function(target, args) {
                         var obj = Object.create(target.prototype);
@@ -368,8 +366,6 @@
                 if(!(this instanceof MethodHandler)) return new MethodHandler(contract, global, callback);
 
                 this.apply = function(target, thisArg, args) {
-                        // TODO test
-
                         // TODO test
                         var callback1 = (!contract.sign) ? _.AndCallback(callback) : _.AndCallback(_.NotCallback(callback).subHandler);
                         var callback2 = _.AndCallback(callback1.rightHandler);      
@@ -399,8 +395,6 @@
                 if(!(this instanceof DependentHandler)) return new DependentHandler(contract, global, callback);
 
                 this.apply = function(target, thisArg, args) { 
-
-                        // TODO test
                         var ncallback = (!contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
 
                         var range = constructWith(args, contract.constructor, global);
@@ -419,13 +413,13 @@
 
                 this.get = function(target, name, receiver) {
                         var ncallback = (!contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
-                        
+
                         if(contract.map instanceof StringMap) {
                                 return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, ncallback.subHandler) : target[name];
                         } else {
                                 var target = target[name];
                                 contract.map.slice(name).foreach(function(i, contract) {
-                                         target = assertWith(target, contract, global, ncallback.subHandler);
+                                        target = assertWith(target, contract, global, ncallback.subHandler);
                                 });
                                 return target;
                         } 

@@ -101,8 +101,6 @@
                         return contracts;
                 }
 
-                this.toString = function() { return "[[RexExpMap]]"; }
-
                 if(elements instanceof Array) {
                         var base = this; 
                         elements.foreach(function(key, mapping) {

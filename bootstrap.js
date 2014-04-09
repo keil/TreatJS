@@ -21,15 +21,17 @@ for(var p in _) {
 //        print(" ** " + p);
 }
 
-run("test/convenience/functioncontracts.js");
-run("test/convenience/objectcontracts.js");
-run("test/convenience/methodcontracts.js");
-run("test/convenience/dependentcontracts.js");
+//run("test/convenience/functioncontracts.js");
+//run("test/convenience/objectcontracts.js");
+//run("test/convenience/methodcontracts.js");
+//run("test/convenience/dependentcontracts.js");
 
-run("test/behavior/weak.js");
-run("test/behavior/strict.js");
-run("test/behavior/positive.js");
-run("test/behavior/negative.js");
+run("test/behavior/delayed.js");
+
+//run("test/behavior/weak.js");
+//run("test/behavior/strict.js");
+//run("test/behavior/positive.js");
+//run("test/behavior/negative.js");
 
 
 
