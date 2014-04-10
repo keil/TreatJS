@@ -173,18 +173,14 @@
                 else if (contract instanceof ObjectContract) {
                         if(!(arg instanceof Object)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
 
-                        if(contract.strict && (contract.map instanceof StringMap)) {
-                                print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+                        /* STRICT MODE */
+                        if((contract.map instanceof _.StrictMap) && contract.strict) {
                                 contract.map.foreach(function(key, contract) {
-                                        //if(!(typeof key === "string")) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
-
-                                        // TODO test
-                                        var ncallback = (contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
+                                        // TODO: TEST
+                                        var ncallback = (!contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
                                         arg[key] = assertWith(arg[key], contract, global, ncallback.subHandler);
                                 });
                         }
-                        
-
 
                         var handler = new ObjectHandler(contract, global, callback);
                         var proxy = new Proxy(arg, handler);
@@ -411,7 +407,7 @@
 
         function ObjectHandler(contract, global, callback) {
                 if(!(this instanceof ObjectHandler)) return new ObjectHandler(contract, global, callback);
-
+ 
                 this.get = function(target, name, receiver) {
                         var ncallback = (!contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
 
@@ -425,6 +421,20 @@
                                 return target;
                         } 
                 };
+
+                this.set = function(target, name, value, reveiver) {
+                        var result = target[name]=value;
+                        
+                        /* STRICT MODE */
+                        if((contract.map instanceof _.StrictMap) && contract.strict) {
+                                contract.map.foreach(function(key, contract) {
+                                        // TODO: TEST
+                                        var ncallback = (!contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
+                                        target[key] = assertWith(target[key], contract, global, ncallback.subHandler);
+                                });
+                        }
+                        return result;
+                }
         }
 
 

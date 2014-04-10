@@ -116,8 +116,8 @@
                 if(!(map instanceof Map)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber); 
 
                 Object.defineProperties(this, {
-//                        "strict": {
-//                                get: function () { return false; } },
+                        "strict": {
+                                get: function () { return map.strict; } },
                         "sign": {
                                 get: function () { return ((sign) ? true : false); } },
                         "map": {
@@ -304,7 +304,7 @@
         //            |_|   
 
         function Map() {
-                if(!(this instanceof Map)) return new Map(elements);
+                if(!(this instanceof Map)) return new Map();
 
                 var keys = [];
                 var values = [];
@@ -347,9 +347,31 @@
         }
 
 
-        function StringMap(elements) {
-                if(!(this instanceof StringMap)) return new StringMap(elements);
+        function StrictMap(strict) {
+                if(!(this instanceof StrictMap)) return new StrictMap();
                 else Map.call(this);
+
+                Object.defineProperties(this, {
+                        "strict": {
+                                get: function () { return (strict) ? true : false; }}
+                });
+        }
+        StrictMap.prototype = new Map();
+
+        function WeakMap() {
+                if(!(this instanceof WeakMap)) return new WeakMap();
+                else Map.call(this);
+                Object.defineProperties(this, {
+                        "strict": {
+                                get: function () { return false; }}
+                });
+        }
+        WeakMap.prototype = new Map();
+
+        function StringMap(elements, strict) { 
+                if(!(this instanceof StringMap)) return new StringMap(elements, strict);
+                else if(strict) StrictMap.call(this, true);
+                else WeakMap.call(this);
 
                 var set = this.set;
                 this.set = function(key, value) {
@@ -368,7 +390,7 @@
                         }
                 } else {}
         }
-        StringMap.prototype = new Map();
+        StringMap.prototype = new StrictMap();
 
 
 
@@ -402,6 +424,9 @@
         _.Global = Global;
 
         _.Map = Map;
+        _.WeakMap = WeakMap;
+        _.StrictMap = StrictMap;
+
         _.StringMap = StringMap;
 
 

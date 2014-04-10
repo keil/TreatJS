@@ -1,4 +1,4 @@
-/*
+
 var obj = {a:4711, b:"4712", c:"true"}
 
 var test = _.assert(
@@ -10,24 +10,31 @@ test.b;
 //test.c;
 
 
-*/
-var obj = {a:4711, b:"4712", c:"true"}
+
+var p = {a:4711, b:"4712", c:"true"}
+
+function f() {
+}
+f.prototype = p;
+
+var obj = new f();
 
 var test = _.assert(
                 obj,
-                _.AdvancedObjectContract({a:IsNumber, b:IsString, c:IsBoolean}, true));
+                _.AdvancedObjectContract({a:IsNumber, b:IsString, c:IsBoolean}, false, false));
 
 test.a;
 test.b;
 //test.c;
-//
-//
-//
-//
 
-var c = _.AdvancedObjectContract({a:IsNumber, b:IsString, c:IsBoolean}, true, true);
+test.c = "4711";
 
-print(c.strict);
-print(c.sign);
-print(c.map);
+p.a = "543";
+//test.a;
+
+
+
+
+
+
 

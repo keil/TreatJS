@@ -1,3 +1,6 @@
+strict mode alsp adresses the protoitype
+
+
 ;;;;; remarks Feb. 26. 2014
 
 * pre and post state comparing works only if return the value in a function.

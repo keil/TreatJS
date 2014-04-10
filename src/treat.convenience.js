@@ -77,7 +77,7 @@
 
         function RegExpMap(elements) {
                 if(!(this instanceof RegExpMap)) return new RegExpMap(elements);
-                else Map.call(this);
+                else _.WeakMap.call(this);
 
                 var set = this.set;
                 this.set = function(key, value) {
@@ -109,25 +109,21 @@
                         });
                 }
         }
-        RegExpMap.prototype = new Map();
+        RegExpMap.prototype = new _.WeakMap();
 
         function AdvancedObjectContract(map, strict, sign) {
                 if(!(this instanceof AdvancedObjectContract)) return new AdvancedObjectContract(map, strict, sign);
 
                 if(map instanceof Map) {
-                        ObjectContract.call(this, map, strict, sign); 
+                        ObjectContract.call(this, map, sign); 
                 } else if(map instanceof Array) {
-                        ObjectContract.call(this, StringMap(map), sign); 
+                        ObjectContract.call(this, StringMap(map, strict), sign); 
                 } else if(map instanceof Object) {
-                        ObjectContract.call(this, StringMap(map), sign); 
+                        ObjectContract.call(this, StringMap(map, strict), sign); 
                 } else {
-                        ObjectContract.call(this, StringMap(), sign);
+                        ObjectContract.call(this, StringMap({}, strict), sign);
                 }
 
-                Object.defineProperties(this, {
-                        "strict": {
-                                get: function () { return strict; } }
-                });
         }
         AdvancedObjectContract.prototype = new ObjectContract(new Map());
 
