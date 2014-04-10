@@ -29,8 +29,8 @@ test.b;
 
 //test.c = "4711";
 
-p.a = "543";
-print(test.a);
+//p.a = "543";
+test.a;
 
 
 

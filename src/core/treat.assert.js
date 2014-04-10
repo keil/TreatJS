@@ -176,9 +176,11 @@
                         /* STRICT MODE */
                         if((contract.map instanceof _.StrictMap) && contract.strict) {
                                 contract.map.foreach(function(key, contract) {
+                                        if(arg.hasOwnProperty(key)) {
                                         // TODO: TEST
                                         var ncallback = (!contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
                                         arg[key] = assertWith(arg[key], contract, global, ncallback.subHandler);
+                                        }
                                 });
                         }
 
@@ -428,9 +430,11 @@
                         /* STRICT MODE */
                         if((contract.map instanceof _.StrictMap) && contract.strict) {
                                 contract.map.foreach(function(key, contract) {
+                                        if(target.hasOwnProperty(key)) {
                                         // TODO: TEST
                                         var ncallback = (!contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
                                         target[key] = assertWith(target[key], contract, global, ncallback.subHandler);
+                                        }
                                 });
                         }
                         return result;
