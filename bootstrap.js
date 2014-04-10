@@ -29,12 +29,22 @@ for(var p in _) {
 //run("test/behavior/delayed.js");
 
 run("test/behavior/weak.js");
-//run("test/behavior/strict.js");
-//run("test/behavior/positive.js");
-//run("test/behavior/negative.js");
+run("test/behavior/strict.js");
+run("test/behavior/positive.js");
+run("test/behavior/negative.js");
 
 
+var p = {x:4711, y:4712};
 
+function f() {
+}
+f.prototype = p;
+
+function g() {
+        print("@ " + Object.getPrototypeOf(this).x);
+}
+
+g.call(new f());
 
 
 /**

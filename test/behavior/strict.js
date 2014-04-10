@@ -33,22 +33,9 @@ test.b;
 test.a;
 
 /* #3 */
-/*
+
 var func = function(x,y) {
-        return true;
-};
-
-var test = _.assert(
-                func,
-                _.SimpleFunctionContract(IsNumber, IsNumber, IsBoolean, true));
-
-//test(2,2);
-//test("2",2);
-//test(2,"2");
-
-/* #4 */
-/*
-var func = function(x,y) {
+        y;
         return true;
 };
 
@@ -56,13 +43,6 @@ var test = _.assert(
                 func,
                 _.SimpleFunctionContract(IsNumber, IsNumber, IsBoolean, true, false));
 
+//test(2);
 test(2,2);
-//test("2",2);
 //test(2,"2");
-*/
-
-
-
-
-
-

@@ -1,5 +1,5 @@
 /* #1 */
-/*
+
 var obj = {a:4711, b:"4712", c:"true"}
 
 var test = _.assert(
@@ -9,9 +9,9 @@ var test = _.assert(
 test.a;
 test.b;
 //test.c;
-*/
+
 /* #2 */
-/*
+
 var p = {a:4711, b:"4712", c:"true"}
 
 function f() {
@@ -32,7 +32,7 @@ test.c = "4711";
 
 p.a = "543";
 //test.a;
-*/
+
 /* #3 */
 
 var funcX = function(x,y,z) {
@@ -43,8 +43,6 @@ var test = _.assert(
                 funcX,
                 _.SimpleFunctionContract(IsNumber, IsNumber, IsBoolean, false, false));
 
-test(2,2,5,4);
-//test("2",2);
+test(2);
+test(2,2);
 //test(2,"2");
-
-
