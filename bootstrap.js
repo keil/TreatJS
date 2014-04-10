@@ -28,23 +28,68 @@ for(var p in _) {
 
 //run("test/behavior/delayed.js");
 
-run("test/behavior/weak.js");
-run("test/behavior/strict.js");
-run("test/behavior/positive.js");
-run("test/behavior/negative.js");
+//run("test/behavior/weak.js");
+//run("test/behavior/strict.js");
+//run("test/behavior/positive.js");
+//run("test/behavior/negative.js");
 
 
-var p = {x:4711, y:4712};
+
+/*
+  var newObj = Object.create(secureFun.prototype);
+  var val = secureFun.apply(newObj, argsArray);
+ */
+
+function s() {
+        this.x=4711;
+        this.y=4712;
+}
+
+var p = new s();
 
 function f() {
+        this.z = 4713;
 }
 f.prototype = p;
 
-function g() {
-        print("@ " + Object.getPrototypeOf(this).x);
-}
+var i = new f();
 
-g.call(new f());
+
+
+
+var newObj = Object.create(Object.getPrototypeOf(i));
+
+     for (var attr in i) {
+         if (i.hasOwnProperty(attr)){
+         //    if (obj[attr] instanceof Object){
+          //       copy[attr] = cloneObject(obj[attr]);
+          //   } else {
+                 newObj[attr] = i[attr];
+           //  }
+         }
+     }
+   //  return copy;
+
+//var val = Object.getPrototypeOf(i).apply(newObj, argsArray);
+
+var j = newObj;
+
+
+
+print(i instanceof s);
+print(i instanceof f);
+print(i.x);
+print(i.y);
+print(i.z);
+
+
+print(j instanceof s);
+print(j instanceof f);
+print(j.x);
+print(j.y);
+print(j.z);
+
+
 
 
 /**
