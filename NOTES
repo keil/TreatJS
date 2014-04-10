@@ -1,4 +1,11 @@
-strict mode alsp adresses the protoitype
+* Strict Mode and Prototype Propertyies
+** Prototype Properties are not allowed to be overwritten
+
+** #1: o must contain the properties.
+** #2: encapsulate the prototype?
+
+
+
 
 
 ;;;;; remarks Feb. 26. 2014

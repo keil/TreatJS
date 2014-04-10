@@ -175,14 +175,17 @@
 
                         /* STRICT MODE */
                         if((contract.map instanceof _.StrictMap) && contract.strict) {
+                                print("AAAAAAAAAAAAAA");
                                 contract.map.foreach(function(key, contract) {
                                         if(arg.hasOwnProperty(key)) {
-                                        // TODO: TEST
-                                        var ncallback = (!contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
-                                        arg[key] = assertWith(arg[key], contract, global, ncallback.subHandler);
+                                                // TODO: TEST
+                                                var ncallback = (!contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
+                                                arg[key] = assertWith(arg[key], contract, global, ncallback.subHandler);
                                         }
                                 });
                         }
+                        print("BBBBBBBB");
+
 
                         var handler = new ObjectHandler(contract, global, callback);
                         var proxy = new Proxy(arg, handler);
@@ -349,6 +352,7 @@
                         //   var domain = _.ObjectContract(contract.domain.properties, contract.strict, true);
                         //   var range = contract.range;
 
+                       
                         // TODO xxx
                         var args = assertWith(args, contract.domain, global, ncallback.leftHandler);
                         var val = target.apply(thisArg, args);  
@@ -409,9 +413,26 @@
 
         function ObjectHandler(contract, global, callback) {
                 if(!(this instanceof ObjectHandler)) return new ObjectHandler(contract, global, callback);
- 
-                this.get = function(target, name, receiver) {
+
+
+               this.get = function(target, name, receiver) {
+                         print("@@@ " + contract.strict);
+                         print("@@@ " + contract.map);
+                         print("@@@ " + target);
+                         print("@@@! " + name);
+
+                        return 4;
+               }
+    /*            this.get = function(target, name, receiver) {
                         var ncallback = (!contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
+
+                         print("@@@ " + contract.strict);
+                         print("@@@ " + contract.map);
+                         print("@@@ " + target);
+                         print("@@@! " + name);
+
+
+
 
                         if(contract.map instanceof StringMap) {
                                 return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, ncallback.subHandler) : target[name];
@@ -423,11 +444,11 @@
                                 return target;
                         } 
                 };
-
+*/
+                /*
                 this.set = function(target, name, value, reveiver) {
                         var result = target[name]=value;
                         
-                        /* STRICT MODE */
                         if((contract.map instanceof _.StrictMap) && contract.strict) {
                                 contract.map.foreach(function(key, contract) {
                                         if(target.hasOwnProperty(key)) {
@@ -438,7 +459,8 @@
                                 });
                         }
                         return result;
-                }
+                        
+                }*/
         }
 
 

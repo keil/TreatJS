@@ -154,9 +154,9 @@
                 if(domain instanceof Contract) {
                         FunctionContract.call(this, domain, range, strict, sign);
                 } else if(domain instanceof Array) {
-                        FunctionContract.call(this, AdvancedObjectContract(domain), range, strict, sign);
+                        FunctionContract.call(this, AdvancedObjectContract(domain, strict), range, sign);
                 } else if(domain instanceof Object) {
-                        FunctionContract.call(this, AdvancedObjectContract(domain), range, strict, sign);
+                        FunctionContract.call(this, AdvancedObjectContract(domain, strict), range, sign);
                 } else error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
         }
         AdvancedFunctionContract.prototype = new FunctionContract(Blank, Blank);
@@ -175,7 +175,8 @@
                 var sign = domain.pop();
                 var strict = domain.pop();
                 var range = domain.pop();
-                FunctionContract.call(this, AdvancedObjectContract(domain), range, strict, sign);
+ 
+                FunctionContract.call(this, AdvancedObjectContract(domain, strict), range, sign);
         }
         SimpleFunctionContract.prototype = new FunctionContract(Blank, Blank);
 
