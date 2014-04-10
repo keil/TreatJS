@@ -173,21 +173,16 @@
                 else if (contract instanceof ObjectContract) {
                         if(!(arg instanceof Object)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
 
+                        var sign = contract.sign;
+
                         /* STRICT MODE */
                         if((contract.map instanceof _.StrictMap) && contract.strict) {
-                                print("AAAAAAAAAAAAAA");
                                 contract.map.foreach(function(key, contract) {
-                                        print(key + " ----------# " + contract);
-                                        //if(arg.hasOwnProperty(key)) {
-                                                print(key + " ----------# " + contract);
                                                 // TODO: TEST
-                                                var ncallback = (!contract.sign) ? _.Callback(callback) : _.NotCallback(callback);
+                                                var ncallback = (!sign) ? _.Callback(callback) : _.NotCallback(callback);
                                                 arg[key] = assertWith(arg[key], contract, global, ncallback.subHandler);
-                                        //}
                                 });
                         }
-                        print("BBBBBBBB");
-
 
                         var handler = new ObjectHandler(contract, global, callback);
                         var proxy = new Proxy(arg, handler);

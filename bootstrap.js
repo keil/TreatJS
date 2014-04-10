@@ -30,7 +30,7 @@ for(var p in _) {
 
 //run("test/behavior/weak.js");
 //run("test/behavior/strict.js");
-//run("test/behavior/positive.js");
+run("test/behavior/positive.js");
 //run("test/behavior/negative.js");
 
 
