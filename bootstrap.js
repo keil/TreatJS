@@ -20,9 +20,9 @@ for(var p in _) {
         print(" ** " + p);
 }
 
-run("test/convenience/functioncontracts.js");
+//run("test/convenience/functioncontracts.js");
 
-//run("test/convenience/objectcontracts.js");
+run("test/convenience/objectcontracts.js");
 
 /*
 run("test/convenience/methodcontracts.js");

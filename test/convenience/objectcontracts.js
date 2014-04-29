@@ -22,13 +22,14 @@ var obj = {a:4711, b:4712, 0:4713}
 
 var test = _.assert(
                 obj,
-                _.AdvancedObjectContract(_.StringMap([IsNumber, IsNumber])));
+                _.AdvancedObjectContract(_.StringMap([IsNumber, IsBoolean])));
 
 test.a;
 test.b;
 test.c;
 test[0];
 //test[1];
+
 
 var test = _.assert(
                 obj,

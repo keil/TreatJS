@@ -372,7 +372,7 @@
 
         function StringMap(elements, strict) { 
                 if(!(this instanceof StringMap)) return new StringMap(elements, strict);
-                else StrictMap.call(this, true);
+                else StrictMap.call(this, strict);
                 
                 //else if(strict) StrictMap.call(this, true);
                 //else WeakMap.call(this);
