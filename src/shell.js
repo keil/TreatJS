@@ -56,9 +56,9 @@
 
         // set configuration
         _.configure({
-                assertion:false,
-                membrabe:false,
-                decompile:false,
+                assertion:true,
+                membrabe:true,
+                decompile:true,
 
         });
 

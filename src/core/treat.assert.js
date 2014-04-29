@@ -349,7 +349,7 @@
                         //   var domain = _.ObjectContract(contract.domain.properties, contract.strict, true);
                         //   var range = contract.range;
 
-
+                        print("@@@@@@@" + contract.sign);
 
 
                        

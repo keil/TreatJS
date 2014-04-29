@@ -348,7 +348,7 @@
 
 
         function StrictMap(strict) {
-                if(!(this instanceof StrictMap)) return new StrictMap();
+                if(!(this instanceof StrictMap)) return new StrictMap(strict);
                 else Map.call(this);
 
                 Object.defineProperties(this, {
@@ -358,6 +358,8 @@
         }
         StrictMap.prototype = new Map();
 
+
+        // TODO rework this
         function WeakMap() {
                 if(!(this instanceof WeakMap)) return new WeakMap();
                 else Map.call(this);
@@ -370,14 +372,25 @@
 
         function StringMap(elements, strict) { 
                 if(!(this instanceof StringMap)) return new StringMap(elements, strict);
-                else if(strict) StrictMap.call(this, true);
-                else WeakMap.call(this);
+                else StrictMap.call(this, true);
+                
+                //else if(strict) StrictMap.call(this, true);
+                //else WeakMap.call(this);
+
+//Object.defineProperties(this, {
+  //                      "strict": {
+    //                            get: function () { return (strict) ? true : false; }}
+      //          });
+
 
                 var set = this.set;
                 this.set = function(key, value) {
                         if(!(typeof key === "string")) error("Wrong Type. String required, "+(typeof key)+" found.", (new Error()).fileName, (new Error()).lineNumber);
                         else set(key, value);
                 }
+
+
+                print("%%%%%%%%%%%%" +  elements[1]);
 
                 if(elements instanceof Array) {
                         var base = this; 
