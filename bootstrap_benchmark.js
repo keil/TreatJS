@@ -12,7 +12,7 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-load("src/treat.js");
+load("src/shell.js");
 load("test/contracts.js");
 
 //  makes TreatJS available under $

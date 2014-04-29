@@ -12,22 +12,7 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-var _ = (function() {
-        // _____             _      _ ___ 
-        //|_   _| _ ___ __ _| |_ _ | / __|
-        //  | || '_/ -_) _` |  _| || \__ \
-        //  |_||_| \___\__,_|\__|\__/|___/
-        //                                
-        //  ___ _     _          _    ___  _     _        _   
-        // / __| |___| |__  __ _| |  / _ \| |__ (_)___ __| |_ 
-        //| (_ | / _ \ '_ \/ _` | | | (_) | '_ \| / -_) _|  _|
-        // \___|_\___/_.__/\__,_|_|  \___/|_.__// \___\__|\__|
-        //                                    |__/            
-        var _ = new Object();
-        _.toString = (function() { return '[[TreatJS]]'; });
-
-        /* Backup Function.prototype.toString;
-        */
+(function(_) {
 
         // new Base object
         _.Base = new Object();
@@ -35,4 +20,4 @@ var _ = (function() {
         _.Base.toString = Function.prototype.toString;
 
         return _ ;
-})();
+})(_);

@@ -12,13 +12,12 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-load("src/treat.js");
+load("src/shell.js");
 load("test/contracts.js");
 
-
-print(" * TreatJS Properties")
+print("\n * TreatJS Properties\n")
 for(var p in _) {
-//        print(" ** " + p);
+        print(" ** " + p);
 }
 
 //run("test/convenience/functioncontracts.js");
@@ -30,7 +29,7 @@ for(var p in _) {
 
 //run("test/behavior/weak.js");
 //run("test/behavior/strict.js");
-run("test/behavior/positive.js");
+////run("test/behavior/positive.js");
 //run("test/behavior/negative.js");
 
 
