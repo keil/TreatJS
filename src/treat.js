@@ -24,26 +24,29 @@
 // \___|_\___/_.__/\__,_|_|  \___/|_.__// \___\__|\__|
 //                                    |__/            
 function TreatJS(configuration) {
-        if(!(this instanceof TreatJS)) return new TreatJS(configuration);
+  if(!(this instanceof TreatJS)) return new TreatJS(configuration);
 
-        /**
-         *  to string
-         */
-        this.toString = (function() { return '[[TreatJS]]'; });
+  this.toString = (function() { return '[[TreatJS]]'; });
 
-        /**
-         *  configure
-         *  overrides default configuration
-         */
-        this.configure = function(configuration) {
-                for(setting in configuration) {
-                        /* TODO */ print(setting + ":" + configuration[setting]);
-                        this.Config[setting] = configuration[setting];
-                } 
-        }
+  this.configure = function(configuration) {
+    for(setting in configuration) {
+      this.Config[setting] = configuration[setting];
+    } 
+  };
+
+  this.verbose = function(configuration) {
+    for(setting in configuration) {
+      this.Config.Verbose[setting] = configuration[setting];
+    } 
+
+  }
+
+  this.out = function(arg) {
+  }
+
+  this.debug = function(arg) {
+  }
 }
 
 // TreatJS
 var _ = new TreatJS();
-
-

@@ -14,10 +14,10 @@
  */
 (function(_) {
 
-        // new Base object
-        _.Base = new Object();
-        // references Function.prototype.toString
-        _.Base.toString = Function.prototype.toString;
+  // new Base object
+  _.Base = new Object();
+  // references Function.prototype.toString
+  _.Base.toString = Function.prototype.toString;
 
-        return _ ;
+  return _ ;
 })(_);

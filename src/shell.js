@@ -14,126 +14,73 @@
  */
 (function(load, print) {
 
-        if(print) {
-                print("  _____             _      _ ___ ");
-                print(" |_   _| _ ___ __ _| |_ _ | / __|");
-                print("   | || '_/ -_) _` |  _| || \\__ \\");
-                print("   |_||_| \\___\\__,_|\\__|\\__/|___/");
-                print("                                 ");
+  if(print) {
+    print("  _____             _      _ ___ ");
+    print(" |_   _| _ ___ __ _| |_ _ | / __|");
+    print("   | || '_/ -_) _` |  _| || \\__ \\");
+    print("   |_||_| \\___\\__,_|\\__|\\__/|___/");
+    print("                                 ");
 
-                print(" * TreatJS: Higher-Order Contracts for JavaScript");
-                print(" * http://proglang.informatik.uni-freiburg.de/treatjs/");
-                print("");
-                print(" * Copyright (c) 2014, Proglang, University of Freiburg.");
-                print(" * http://proglang.informatik.uni-freiburg.de/");
-                print(" * All rights reserved.");
-                print("");
-                print(" * Author Matthias Keil");
-                print(" * http://www.informatik.uni-freiburg.de/~keilr/");
-                print("");
-        }
+    print(" * TreatJS: Higher-Order Contracts for JavaScript");
+    print(" * http://proglang.informatik.uni-freiburg.de/treatjs/");
+    print("");
+    print(" * Copyright (c) 2014, Proglang, University of Freiburg.");
+    print(" * http://proglang.informatik.uni-freiburg.de/");
+    print(" * All rights reserved.");
+    print("");
+    print(" * Author Matthias Keil");
+    print(" * http://www.informatik.uni-freiburg.de/~keilr/");
+    print("");
+  }
 
-        // libraries
-        var lib = ['lib_padding.js'];
-        // base source files
-        var base = ['treat.js','treat.system.js','treat.base.js','treat.config.js'];
-        // core api
-        var core = ['core/treat.violation.js','core/treat.sandbox.js','core/treat.callback.js','core/treat.contract.js','treat.convenience.js','core/treat.assert.js'];
-        // convenience api
-        var convenience = ['treat.convenience.js'];
+  // ___ ___ _  _ _ _ __ ___ 
+  //(_-</ _ \ || | '_/ _/ -_)
+  ///__/\___/\_,_|_| \__\___|
 
-        function loadSource(files, base) {
-                if(load) for(var i=0; i<files.length; i++) {
-                        if(print) print(" * load " + base + files[i]);
-                        load(base + files[i]);
-                }
-        }
+  // libraries
+  var lib = ['lib_padding.js'];
+  // base source files
+  var base = ['out.js','debugger.js','treat.js','treat.system.js','treat.base.js','treat.config.js'];
+  // core api
+  var core = ['core/treat.violation.js','core/treat.sandbox.js','core/treat.callback.js','core/treat.contract.js','treat.convenience.js','core/treat.assert.js'];
+  // convenience api
+  var convenience = ['treat.convenience.js'];
 
-        loadSource(lib, 'lib/');
-        loadSource(base, 'src/');
-        loadSource(core, 'src/');
-        //loadSource(convenience, 'src/');
+  function loadSource(files, base) {
+    if(load) for(var i=0; i<files.length; i++) {
+      if(print) print(" * load: " + base + files[i]);
+      load(base + files[i]);
+    }
+  }
 
-        // set configuration
-        _.configure({
-                assertion:true,
-                membrabe:true,
-                decompile:true
-        });
+  loadSource(lib, 'lib/');
+  loadSource(base, 'src/');
+  loadSource(core, 'src/');
+  //loadSource(convenience, 'src/');
 
-        _.verbose({
-                assert:true,
-                sandbox:true
-        });
+  //              __ _                    _   _          
+  // __ ___ _ _  / _(_)__ _ _  _ _ _ __ _| |_(_)___ _ _  
+  /// _/ _ \ ' \|  _| / _` | || | '_/ _` |  _| / _ \ ' \ 
+  //\__\___/_||_|_| |_\__, |\_,_|_| \__,_|\__|_\___/_||_|
+  //                  |___/                              
 
-        _.debug(undefined);
+  // set configuration
+  _.configure({
+    assertion:true,
+    membrabe:true,
+    decompile:true
+  });
+
+  // set verbose
+  _.verbose({
+    assert:true,
+    sandbox:true
+  });
+
+  var out = new TreatJSShellOut(print);
+  _.out(undefined);
+
+  var unit = new TreatJSDebuggerUnit();
+  _.debug(undefined);
 
 })(load, print);
-
-
-
-
-function TreatJSDebugger() {
-        if(!(this instanceof TreatJSDebugger)) return new TreatJSDebugger();
-
-        var stack = new Array();
-
-        this.catch = function(result) {
-                stack.push(result);
-        }
-
-        this.assertTrue = function() {
-                var result = stack.pop();
-
-                if(result!==undefined && result!==true) {
-                        print(new Error().stack);
-                        quit();
-                }
-
-                this.clear();
-        }
-
-        this.asserFalse = function() {
-                var result = stack.pop();
-
-                if(result!==false) {
-                        print(new Error().stack);
-                        quit();
-                }
-
-                this.clear();
-        }
-
-        this.clear = function() {
-                while(stack.length > 0) {
-                        stack.pop();
-                }
-        }
-}
-
-
-function TreatJSLogger(sysout) {
-        if(!(this instanceof TreatJSLogger)) return new TreatJSLogger(sysout);
-
-        /** log(msg)
-         * @param msg String message
-         */ 
-        this.logAssert = function(msg, target) {
-                if(_.Config.Verbose.assert) {
-                        __out(padding_right(msg + " ", ".", 30));
-                        __blank();
-                        __out(((target!=undefined)?" "+target:""));
-                        __blank();
-                }
-        }
-
-        /** log(msg)
-         * @param msg String message
-         */ 
-        this.logSandbox = function(msg, target) {
-                if(_.Config.Verbose.sandbox) {
-                        __out(padding_right(msg + " ", ".", 30) + ((target!=undefined)?" "+target:""));
-                        __blank();
-                }
-        }
-}

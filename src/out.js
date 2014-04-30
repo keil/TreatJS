@@ -14,45 +14,45 @@
  */
 
 function TreatJSOut() {
-        if(!(this instanceof TreatJSOut)) return new TreatJSOut();
+  if(!(this instanceof TreatJSOut)) return new TreatJSOut();
 
-        /** log(msg)
-         * @param msg String message
-         */ 
-        this.logAssert = function(msg, target) {
-        }
+  /** log(msg)
+   * @param msg String message
+   */ 
+  this.logAssert = function(msg, target) {
+  }
 
-        /** log(msg)
-         * @param msg String message
-         */ 
-        this.logSandbox = function(msg, target) {
-        }
+  /** log(msg)
+   * @param msg String message
+   */ 
+  this.logSandbox = function(msg, target) {
+  }
 }
 
 
-function TreatJSShellLogger(sysout) {
-        if(!(this instanceof TreatJSLogger)) return new TreatJSLogger(sysout);
+function TreatJSShellOut(sysout) {
+  if(!(this instanceof TreatJSShellOut)) return new TreatJSShellOut(sysout);
 
-        /** log(msg)
-         * @param msg String message
-         */ 
-        this.logAssert = function(msg, target) {
-                if(_.Config.Verbose.assert) {
-                        __out(padding_right(msg + " ", ".", 30));
-                        __blank();
-                        __out(((target!=undefined)?" "+target:""));
-                        __blank();
-                }
-        }
+  /** log(msg)
+   * @param msg String message
+   */ 
+  this.assert = function(msg, target) {
+    if(_.Config.Verbose.assert) {
+      __out(padding_right(msg + " ", ".", 30));
+      __blank();
+      __out(((target!=undefined)?" "+target:""));
+      __blank();
+    }
+  }
 
-        /** log(msg)
-         * @param msg String message
-         */ 
-        this.logSandbox = function(msg, target) {
-                if(_.Config.Verbose.sandbox) {
-                        __out(padding_right(msg + " ", ".", 30) + ((target!=undefined)?" "+target:""));
-                        __blank();
-                }
-        }
+  /** log(msg)
+   * @param msg String message
+   */ 
+  this.sandbox = function(msg, target) {
+    if(_.Config.Verbose.sandbox) {
+      __out(padding_right(msg + " ", ".", 30) + ((target!=undefined)?" "+target:""));
+      __blank();
+    }
+  }
 }
-TreatJSShellLogger.prototype = new TreatJSOut()
+TreatJSShellOut.prototype = new TreatJSOut()

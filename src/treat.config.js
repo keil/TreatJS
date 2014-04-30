@@ -14,120 +14,122 @@
  */
 (function(_) {
 
-        var Config = new Object();
-        Object.defineProperties(_, {
-                "Config": {
-                        get: function () {
-                                return Config;
-                        }
-                }});
+  var Config = new Object();
+  Object.defineProperties(_, {
+    "Config": {
+      get: function () {
+        return Config;
+      }
+    }});
 
-        var Verbose = new Object();
-        Object.defineProperties(Config, {
-                "Verbose": {
-                        get: function () {
-                                return Verbose;
-                        }
-                }});
+  var Verbose = new Object();
+  Object.defineProperties(Config, {
+    "Verbose": {
+      get: function () {
+        return Verbose;
+      }
+    }});
 
-        //             _                 
-        //__ _____ _ _| |__  ___ ___ ___ 
-        //\ V / -_) '_| '_ \/ _ (_-</ -_)
-        // \_/\___|_| |_.__/\___/__/\___|
+  //             _                 
+  //__ _____ _ _| |__  ___ ___ ___ 
+  //\ V / -_) '_| '_ \/ _ (_-</ -_)
+  // \_/\___|_| |_.__/\___/__/\___|
 
-        var VerboseSandbox = true;
-        var VerboseAssert = true;
+  var sandbox = undefined;
+  var assert = undefined;
 
-        Object.defineProperties(Verbose, {
-                "sandbox": {
-                        get: function () {
-                                return VerboseSandbox;
-                        }
-                },
-                "assert": {
-                        get: function () {
-                                return VerboseAssert;
-                        }
-                },
-        });
+  Object.defineProperties(Verbose, {
+    "sandbox": {
+      get: function () {
+        return (sandbox===undefined) ? true : sandbox;
+      },
+    set: function (arg) {
+      sandbox = (sandbox===undefined) ? arg : sandbox;
+      return arg;
+    }
+    },
+    "assert": {
+      get: function () {
+        return (assert===undefined) ? true : assert;
+      },
+    set: function (arg) {
+      assert = (assert===undefined) ? arg : assert;
+      return arg;
+    }
+    },
+  });
 
-        // ___ _ _ _ _ ___ _ _ 
-        /// -_) '_| '_/ _ \ '_|
-        //\___|_| |_| \___/_|  
+  //               _    _     
+  // ___ _ _  __ _| |__| |___ 
+  /// -_) ' \/ _` | '_ \ / -_)
+  //\___|_||_\__,_|_.__/_\___|
 
-        // print stack trace on error
-        var Stack = true;
+  // contract assertion
+  var assertion = undefined;
+  //  sandbox membrane
+  var membrabne = undefined;
+  // decompile functions
+  var decompile = undefined;
 
-        Object.defineProperties(Config, {
-                "stack": {
-                        get: function () {
-                                return Stack;
-                        }
-                }});
+  Object.defineProperties(Config, {
+    "assertion": {
+      get: function () {
+        return (assertion===undefined) ? true : assertion;
+      },
+    set: function (arg) {
+      assertion = (assertion===undefined) ? arg : assertion;
+      return arg;
+    }                        
+    },
+    "membrabne": {
+      get: function () {
+        return (membrabne===undefined) ? true : membrabne;
+      },
+    set: function (arg) {
+      membrabne = (membrabne===undefined) ? arg : membrabne;
+      return arg;
+    }                        
+    },
+    "decompile": {
+      get: function () {
+        return (decompile===undefined) ? true : decompile;
+      },
+      set: function (arg) {
+        decompile = (decompile===undefined) ? arg : decompile;
+        return arg;
+      }                        
+    }});
 
-        //               _    _     
-        // ___ _ _  __ _| |__| |___ 
-        /// -_) ' \/ _` | '_ \ / -_)
-        //\___|_||_\__,_|_.__/_\___|
+  //               _     
+  // _ __  ___  __| |___ 
+  //| '  \/ _ \/ _` / -_)
+  //|_|_|_\___/\__,_\___|
 
-        // contract assertion
-        var assertion = undefined;
-        //  sandbox membrane
-        var membrabne = undefined;
-        // decompile functions
-        var decompile = undefined;
+  // use newGlobal in sandbox
+  var newGlobal = false;
 
-        Object.defineProperties(Config, {
-                "assertion": {
-                        get: function () {
-                                return (assertion===undefined) ? true : assertion;
-                        },
-                set: function (arg) {
-                        assertion = (assertion===undefined) ? arg : assertion;
-                        return arg;
-                }                        
-                },
-                "membrabne": {
-                        get: function () {
-                                return (membrabne===undefined) ? true : membrabne;
-                        },
-                set: function (arg) {
-                        membrabne = (membrabne===undefined) ? arg : membrabne;
-                        return arg;
-                }                        
-                },
-                "decompile": {
-                        get: function () {
-                                return (decompile===undefined) ? true : decompile;
-                        },
-                        set: function (arg) {
-                                decompile = (decompile===undefined) ? arg : decompile;
-                                return arg;
-                        }                        
-                }});
+  // pass-through of native functions
+  var nativePassThrough = true;
 
-        //               _     
-        // _ __  ___  __| |___ 
-        //| '  \/ _ \/ _` / -_)
-        //|_|_|_\___/\__,_\___|
+  // print stack trace on error
+  var stackTrace = true;
 
-        // use newGlobal in sandbox
-        var newGlobal = false;
-
-        // pass-through of native functions
-        var nativePassThrough = true;
-
-        Object.defineProperties(Config, {
-                "sandbox": {
-                        get: function () {
-                                return newGlobal;
-                        }
-                },
-                "assert": {
-                        get: function () {
-                                return nativePassThrough;
-                        }
-                },
-        });
+  Object.defineProperties(Config, {
+    "newGlobal": {
+      get: function () {
+        return newGlobal;
+      }
+    },
+    "nativePassThrough": {
+      get: function () {
+        return nativePassThrough;
+      }
+    },
+    "stackTrace": {
+      get: function () {
+        return stackTrace;
+      }
+    }
+  });
 
 })(_);

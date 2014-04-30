@@ -15,14 +15,16 @@
 load("src/shell.js");
 load("test/contracts.js");
 
+/*
 print("\n * TreatJS Properties\n")
 for(var p in _) {
         print(" ** " + p);
 }
+*/
 
 //run("test/convenience/functioncontracts.js");
 
-run("test/convenience/objectcontracts.js");
+// run("test/convenience/objectcontracts.js");
 
 /*
 run("test/convenience/methodcontracts.js");
