@@ -58,8 +58,82 @@
         _.configure({
                 assertion:true,
                 membrabe:true,
-                decompile:true,
-
+                decompile:true
         });
 
+        _.verbose({
+                assert:true,
+                sandbox:true
+        });
+
+        _.debug(undefined);
+
 })(load, print);
+
+
+
+
+function TreatJSDebugger() {
+        if(!(this instanceof TreatJSDebugger)) return new TreatJSDebugger();
+
+        var stack = new Array();
+
+        this.catch = function(result) {
+                stack.push(result);
+        }
+
+        this.assertTrue = function() {
+                var result = stack.pop();
+
+                if(result!==undefined && result!==true) {
+                        print(new Error().stack);
+                        quit();
+                }
+
+                this.clear();
+        }
+
+        this.asserFalse = function() {
+                var result = stack.pop();
+
+                if(result!==false) {
+                        print(new Error().stack);
+                        quit();
+                }
+
+                this.clear();
+        }
+
+        this.clear = function() {
+                while(stack.length > 0) {
+                        stack.pop();
+                }
+        }
+}
+
+
+function TreatJSLogger(sysout) {
+        if(!(this instanceof TreatJSLogger)) return new TreatJSLogger(sysout);
+
+        /** log(msg)
+         * @param msg String message
+         */ 
+        this.logAssert = function(msg, target) {
+                if(_.Config.Verbose.assert) {
+                        __out(padding_right(msg + " ", ".", 30));
+                        __blank();
+                        __out(((target!=undefined)?" "+target:""));
+                        __blank();
+                }
+        }
+
+        /** log(msg)
+         * @param msg String message
+         */ 
+        this.logSandbox = function(msg, target) {
+                if(_.Config.Verbose.sandbox) {
+                        __out(padding_right(msg + " ", ".", 30) + ((target!=undefined)?" "+target:""));
+                        __blank();
+                }
+        }
+}
