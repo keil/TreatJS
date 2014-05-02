@@ -18,26 +18,26 @@
 //////////////////////////////////////////////////
 
 Array.prototype.foreach = function( callback ) {
-        for( var k=0; k<this .length; k++ ) {
-                callback( k, this[ k ] );
-        }
+  for( var k=0; k<this .length; k++ ) {
+    callback( k, this[ k ] );
+  }
 }
 
 // Array Remove - By John Resig (MIT Licensed)
 Array.prototype.remove = function(from, to) {
-        var rest = this.slice((to || from) + 1 || this.length);
-        this.length = from < 0 ? this.length + from : from;
-        return this.push.apply(this, rest);
+  var rest = this.slice((to || from) + 1 || this.length);
+  this.length = from < 0 ? this.length + from : from;
+  return this.push.apply(this, rest);
 };
 
 Array.prototype.clone = function() {
-        return this.slice(0);
+  return this.slice(0);
 };
 
 Array.prototype.clear = function() {
-        while (this.length > 0) {
-                this.pop();
-        }
+  while (this.length > 0) {
+    this.pop();
+  }
 };
 
 //////////////////////////////////////////////////
@@ -47,9 +47,9 @@ Array.prototype.clear = function() {
 /* Dump Values to String Output
 */
 function __dump(value) {
-        if (value === Object(value)) return "[" + typeof value + "]";
-        if (typeof value == "string") return "\"" + value + "\"";
-        return "" + value;
+  if (value === Object(value)) return "[" + typeof value + "]";
+  if (typeof value == "string") return "\"" + value + "\"";
+  return "" + value;
 }
 
 //////////////////////////////////////////////////
@@ -63,46 +63,46 @@ var seperator = ".";
 /** Standard Output
 */
 function __out(string) {
-        putstr(padding_right(string + " ", seperator, fstWidth));
+  putstr(padding_right(string + " ", seperator, fstWidth));
 }
 
 /** Notice Output
 */
 function __notice(string) {
-        putstr(padding_right("... " + string + " ", seperator, fstWidth+sndWidth));
-        putstr("\n");
+  putstr(padding_right("... " + string + " ", seperator, fstWidth+sndWidth));
+  putstr("\n");
 }
 
 /** OK Output
 */
 function __ok() {
-        putstr(padding_left(" OK", seperator, sndWidth));
-        putstr("\n");
+  putstr(padding_left(" OK", seperator, sndWidth));
+  putstr("\n");
 }
 
 /** DONE Output
 */
 function __done() {
-        putstr(padding_left(" DONE", seperator, sndWidth));
-        putstr("\n");
+  putstr(padding_left(" DONE", seperator, sndWidth));
+  putstr("\n");
 }
 
 /** BLANK Output
 */
 function __blank() {
-        putstr(padding_left(seperator, seperator, sndWidth));
-        putstr("\n");
+  putstr(padding_left(seperator, seperator, sndWidth));
+  putstr("\n");
 }
 
 /** FAILED Output
 */
 function __fail() {
-        putstr(padding_left(" FAILED", seperator, sndWidth));
-        putstr("\n");
+  putstr(padding_left(" FAILED", seperator, sndWidth));
+  putstr("\n");
 }
 
 /** Sub-Standard Output
 */
 function __subout(string) {
-        putstr(padding_right("... " + string + " ", seperator, fstWidth));
+  putstr(padding_right("... " + string + " ", seperator, fstWidth));
 }

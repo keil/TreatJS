@@ -22,6 +22,10 @@ for(var p in _) {
 }
 */
 
+//print("a");
+//throw new Error("Whoops!");
+//print("b");
+
 //run("test/convenience/functioncontracts.js");
 
 // run("test/convenience/objectcontracts.js");
