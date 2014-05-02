@@ -40,4 +40,6 @@ run("test/contract/constructor.js");
 run("test/sandbox/sandbox.js");
 run("test/sandbox/bind.js");
 
+run("test/miscellaneous/logic.js");
+
 quit();
