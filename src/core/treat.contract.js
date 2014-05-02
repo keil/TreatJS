@@ -259,6 +259,8 @@
   }
   ContractConstructor.prototype = new Constructor();
 
+  /*
+   * TODO
   //  ___ _     _          _ 
   // / __| |___| |__  __ _| |
   //| (_ | / _ \ '_ \/ _` | |
@@ -285,6 +287,7 @@
       return new Global(newglobal);
     }
   }
+  */
 
   // __  __           
   //|  \/  |__ _ _ __ 
@@ -393,7 +396,8 @@
   __define("Contract", Contract, _.Core);
   __define("Constructor", Constructor, _.Core);
 
-  __define("Global", Global, _.Core);
+  // TODO
+  //__define("Global", Global, _.Core);
 
   /**
    * Core Contracts
