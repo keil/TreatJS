@@ -15,6 +15,11 @@
 load("src/shell.js");
 load("test/contracts.js");
 
+
+var $ = _ ;
+run("test/contract/basecontracts.js");
+//run("test/contract/functioncontracts.js");
+
 /*
 print("\n * TreatJS Properties\n")
 for(var p in _) {

@@ -14,160 +14,160 @@
  */
 (function(_) {
 
-        var error = _.error;
-        var violation = _.violation;
-        var blame = _.blame;
+  var error = _.error;
+  var violation = _.violation;
+  var blame = _.blame;
 
-        //  _____      _ _ _                _        
-        // / ____|    | | | |              | |       
-        //| |     __ _| | | |__   __ _  ___| | _____ 
-        //| |    / _` | | | '_ \ / _` |/ __| |/ / __|
-        //| |___| (_| | | | |_) | (_| | (__|   <\__ \
-        // \_____\__,_|_|_|_.__/ \__,_|\___|_|\_\___/
+  var And = _.Logic.And;
+  var Or = _.Logic.Or;
+  var Not = _.Logic.Not;
+  var Merge = _.Logic.Merge;
 
-        function Callback(callback) {
-                if(!(this instanceof Callback)) return new Callback(callback);
-                if(!(callback instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
+  var Unknown = _.Logic.Unknown;
+  var False = _.Logic.False;
+  var True = _.Logic.True;
+  var COnflict = _.Logic.Conflict;
 
-                var sub;
-                var subMsg;
+  //  _____      _ _ _                _        
+  // / ____|    | | | |              | |       
+  //| |     __ _| | | |__   __ _  ___| | _____ 
+  //| |    / _` | | | '_ \ / _` |/ __| |/ / __|
+  //| |___| (_| | | | |_) | (_| | (__|   <\__ \
+  // \_____\__,_|_|_|_.__/ \__,_|\___|_|\_\___/
 
-                function evalCallback() {
-                        if((sub==true) || (sub==false)) {
-                                callback(sub, subMsg);
-                        }
-                }
-                function updateSub(arg, msg) {
-                        sub = arg;
-                        subMsg = msg;
-                }
+  function Callback(callback) {
+    if(!(this instanceof Callback)) return new Callback(callback);
+    if(!(callback instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
 
-                Object.defineProperties(this, {
-                        "subHandler": {
-                                get: function () { return function(arg, msg) {
-                                        if(sub!=false) updateSub(arg, msg);
-                                        evalCallback();
-                                }}}
-                });
+    var sub = Unknown;
+    var subMsg = "";
 
-                this.toString = function() { return "[Callback]"; }
-        }
+    function evalCallback() {
+      callback(sub, "("+subMsg+")");
+    }
+    function updateSub(arg, msg) {
+      sub = Merge(sub, arg);
+      subMsg = msg;
+    }
 
-        function AndCallback(callback) {
-                if(!(this instanceof AndCallback)) return new AndCallback(callback);
-                if(!(callback instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
+    Object.defineProperties(this, {
+      "subHandler": {
+        get: function () { return function(arg, msg) {
+          updateSub(arg, msg);
+          evalCallback();
+        }}}
+    });
 
-                var left;
-                var leftMsg;
+    this.toString = function() { return "[Callback]"; }
+  }
 
-                var right;
-                var rightMsg;
+  function AndCallback(callback) {
+    if(!(this instanceof AndCallback)) return new AndCallback(callback);
+    if(!(callback instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
 
-                function evalCallback() {
-                        if((left==false) || (right==false)) {
-                                callback(false, leftMsg+" *AND* "+rightMsg);
-                        } else if((left==true) && (right==true)) {
-                                callback(true, leftMsg+" *AND* "+rightMsg);
-                        }
-                }
-                function updateLeft(arg, msg) {
-                        left = arg;
-                        leftMsg = msg;
-                }
-                function updateRight(arg, msg) {
-                        right = arg;
-                        rightMsg = msg;
-                }
+    var left = Unknown;
+    var leftMsg = "";
 
-                Object.defineProperties(this, {
-                        "leftHandler": {
-                                get: function () { return function(arg, msg) {
-                                        if(left!=false) updateLeft(arg, msg);
-                                        evalCallback();
-                                }}},
-                        "rightHandler": {
-                                get: function () { return function(arg, msg) {
-                                        if(right!=false) updateRight(arg, msg);
-                                        evalCallback();
-                                }}}
-                });
+    var right = Unknown;
+    var rightMsg = "";
 
-                this.toString = function() { return "[Callback]"; }
-        }
+    function evalCallback() {
+      callback(And(left, right), "("+leftMsg+" *AND* "+rightMsg+")");
+    }
+    function updateLeft(arg, msg) {
+      left = Merge(left, arg);
+      leftMsg = msg;
+    }
+    function updateRight(arg, msg) {
+      right = Merge(right, arg);
+      rightMsg = msg;
+    }
 
-        function OrCallback(callback) {
-                if(!(this instanceof OrCallback)) return new OrCallback(callback);
-                if(!(callback instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
+    Object.defineProperties(this, {
+      "leftHandler": {
+        get: function () {
+          return function(arg, msg) {
+            updateLeft(arg, msg);
+            evalCallback();
+          }}},
+      "rightHandler": {
+        get: function () { return function(arg, msg) {
+          updateRight(arg, msg);
+          evalCallback();
+        }}}
+    });
 
-                var left;
-                var leftMsg;
+    this.toString = function() { return "[Callback]"; }
+  }
 
-                var right;
-                var rightMsg;
+  function OrCallback(callback) {
+    if(!(this instanceof OrCallback)) return new OrCallback(callback);
+    if(!(callback instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
 
-                function evalCallback() {
-                        if((left==false) && (right==false)) {
-                                callback(false, leftMsg+" *OR* "+rightMsg);
-                        } else if((left==true) || (right==true)) {
-                                callback(true, leftMsg+" *OR* "+rightMsg);
-                        }
-                }
-                function updateLeft(arg, msg) {
-                        left = arg;
-                        leftMsg = msg;
-                }
-                function updateRight(arg, msg) {
-                        right = (right!=false) ? arg : right;
-                        rightMsg = (right!=false) ? msg : rightMsg;
-                }
+    var left = Unknown;
+    var leftMsg = "";
 
-                Object.defineProperties(this, {
-                        "leftHandler": {
-                                get: function () { return function(arg, msg) {
-                                        if(left!=false) updateLeft(arg, msg);
-                                        evalCallback();
-                                }}},
-                        "rightHandler": {
-                                get: function () { return function(arg, msg) {
-                                        if(right!=false) updateRight(arg, msg);
-                                        evalCallback();
-                                }}}
-                });
+    var right = Unknown;
+    var rightMsg = "";
 
-                this.toString = function() { return "[Callback]"; }
-        }
+    function evalCallback() {
+      callback(Or(left, right), "("+leftMsg+" *OR* "+rightMsg+")");
+    }
+    function updateLeft(arg, msg) {
+      left = Merge(left, arg);
+      leftMsg = msg;
+    }
+    function updateRight(arg, msg) {
+      right = Merge(right, arg);
+      rightMsg = msg;
+    }
 
-        function NotCallback(callback) {
-                if(!(this instanceof NotCallback)) return new NotCallback(callback);
-                if(!(callback instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
+    Object.defineProperties(this, {
+      "leftHandler": {
+        get: function () { return function(arg, msg) {
+          updateLeft(arg, msg);
+          evalCallback();
+        }}},
+      "rightHandler": {
+        get: function () { return function(arg, msg) {
+          updateRight(arg, msg);
+          evalCallback();
+        }}}
+    });
 
-                var sub;
-                var subMsg;
+    this.toString = function() { return "[Callback]"; }
+  }
 
-                function evalCallback() {
-                        if((sub==true) || (sub==false)) {
-                                callback(!sub, "*NOT* "+subMsg);
-                        }
-                }
-                function updateSub(arg, msg) {
-                        sub = arg;
-                        subMsg = msg;
-                }
+  function NotCallback(callback) {
+    if(!(this instanceof NotCallback)) return new NotCallback(callback);
+    if(!(callback instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
 
-                Object.defineProperties(this, {
-                        "subHandler": {
-                                get: function () { return function(arg, msg) {
-                                        if(sub!=false) updateSub(arg, msg);
-                                        evalCallback()
-                                }}}
-                });
+    var sub = Unknown;
+    var subMsg = "";
 
-                this.toString = function() { return "[Callback]"; }
-        }
+    function evalCallback() {
+      callback(Not(sub), "(*NOT* "+subMsg+")");
+    }
+    function updateSub(arg, msg) {
+      sub = Merge(sub, arg);
+      subMsg = msg;
+    }
 
-        _.Callback = Callback;
-        _.AndCallback = AndCallback;
-        _.OrCallback = OrCallback;
-        _.NotCallback = NotCallback;
+    Object.defineProperties(this, {
+      "subHandler": {
+        get: function () { return function(arg, msg) {
+          updateSub(arg, msg);
+          evalCallback()
+        }}}
+    });
 
+    this.toString = function() { return "[Callback]"; }
+  }
+
+  /*
+     _.Callback = Callback;
+     _.AndCallback = AndCallback;
+     _.OrCallback = OrCallback;
+     _.NotCallback = NotCallback;
+     */
 })(_);

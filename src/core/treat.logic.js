@@ -30,6 +30,14 @@
     this.toString = function() {
       return toString(this);
     }
+
+    this.isFalse = function() {
+      return isFalse(this);
+    }
+
+    this.isTrue = function() {
+      return isTrue(this);
+    }
   }
 
   var cache = [];
@@ -63,6 +71,14 @@
     }
   }
 
+  function isFalse(v) {
+    return (v.y===1);
+  }
+
+  function isTrue(v) {
+    return (v.x===1);
+  }
+
   function not(v) {
     return make(v.y,v.x);
   }
@@ -75,10 +91,20 @@
     return make((v.x|vp.x), (v.y&vp.y));
   }
 
+  function merge(v, vp) {
+    return make((v.x|vp.x), (v.y|vp.y));
+  }
+
+  function translate(b) {
+    return b ? make(0,1) : make(0,1)
+  }
+
   _.Logic={};
   _.Logic.And=and;
   _.Logic.Or=or;
   _.Logic.Not=not;
+  _.Logic.Merge=merge;
+  _.Logic.Translate=translate;
 
   Object.defineProperties(_.Logic, {
     "Unknown": {
