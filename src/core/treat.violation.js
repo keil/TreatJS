@@ -23,20 +23,20 @@
 
   function error(msg, file, line) {
     print("Error (" + file + ":" + line + "):\n" + msg);
-    if(_.Config.stack) print(new Error().stack);
+    if(_.Config.stackTrace) print(new Error().stack);
     quit();
   }
 
   function violation(msg, file, line) {
     print("Violation: (" + file + ":" + line + "):\n" + msg);
-    if(_.Config.stack) print(new Error().stack);
+    if(_.Config.stackTrace) print(new Error().stack);
     quit();
   }
 
   function blame(contract, msg, file, line) {
     print("Violation: (" + file + ":" + line + "):\n" + msg);
     print("Violated Contract: " + contract.toString());
-    if(_.Config.stack) print(new Error().stack);
+    if(_.Config.stackTrace) print(new Error().stack);
     quit();
   }
 

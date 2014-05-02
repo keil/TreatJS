@@ -96,15 +96,15 @@
   }
 
   function translate(b) {
-    return b ? make(0,1) : make(0,1)
+    return b ? make(1,0) : make(0,1)
   }
 
   _.Logic={};
-  _.Logic.And=and;
-  _.Logic.Or=or;
-  _.Logic.Not=not;
-  _.Logic.Merge=merge;
-  _.Logic.Translate=translate;
+  _.Logic.and=and;
+  _.Logic.or=or;
+  _.Logic.not=not;
+  _.Logic.merge=merge;
+  _.Logic.translate=translate;
 
   Object.defineProperties(_.Logic, {
     "Unknown": {

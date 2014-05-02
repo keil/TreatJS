@@ -18,10 +18,10 @@
   var violation = _.violation;
   var blame = _.blame;
 
-  var And = _.Logic.And;
-  var Or = _.Logic.Or;
-  var Not = _.Logic.Not;
-  var Merge = _.Logic.Merge;
+  var and = _.Logic.and;
+  var or = _.Logic.or;
+  var not = _.Logic.not;
+  var merge = _.Logic.merge;
 
   var Unknown = _.Logic.Unknown;
   var False = _.Logic.False;
@@ -46,7 +46,7 @@
       callback(sub, "("+subMsg+")");
     }
     function updateSub(arg, msg) {
-      sub = Merge(sub, arg);
+      sub = merge(sub, arg);
       subMsg = msg;
     }
 
@@ -72,14 +72,14 @@
     var rightMsg = "";
 
     function evalCallback() {
-      callback(And(left, right), "("+leftMsg+" *AND* "+rightMsg+")");
+      callback(and(left, right), "("+leftMsg+" *AND* "+rightMsg+")");
     }
     function updateLeft(arg, msg) {
-      left = Merge(left, arg);
+      left = merge(left, arg);
       leftMsg = msg;
     }
     function updateRight(arg, msg) {
-      right = Merge(right, arg);
+      right = merge(right, arg);
       rightMsg = msg;
     }
 
@@ -111,14 +111,14 @@
     var rightMsg = "";
 
     function evalCallback() {
-      callback(Or(left, right), "("+leftMsg+" *OR* "+rightMsg+")");
+      callback(or(left, right), "("+leftMsg+" *OR* "+rightMsg+")");
     }
     function updateLeft(arg, msg) {
-      left = Merge(left, arg);
+      left = merge(left, arg);
       leftMsg = msg;
     }
     function updateRight(arg, msg) {
-      right = Merge(right, arg);
+      right = merge(right, arg);
       rightMsg = msg;
     }
 
@@ -146,10 +146,10 @@
     var subMsg = "";
 
     function evalCallback() {
-      callback(Not(sub), "(*NOT* "+subMsg+")");
+      callback(not(sub), "(*NOT* "+subMsg+")");
     }
     function updateSub(arg, msg) {
-      sub = Merge(sub, arg);
+      sub = merge(sub, arg);
       subMsg = msg;
     }
 

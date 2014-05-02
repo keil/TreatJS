@@ -263,10 +263,8 @@
         var result = false;
       } finally {
         if(!result) {
-          // TODO translate 
           callback(_.Logic.translate(false), "@"+contract.toString());
         } else {
-          // TODO translate
           callback(_.Logic.translate(true), "@"+contract.toString());
         }
         return arg;
@@ -312,9 +310,9 @@
         var result = false;
       } finally {
         if(!result) {
-          callback(false, "@"+contract.toString());
+          callback(_.Logic.translate(false), "@"+contract.toString());
         } else {
-          callback(true, "@"+contract.toString());
+          callback(_.Logic.translate(true), "@"+contract.toString());
         }
         clear(contract.global);
         copy(backupGlobal, contract.global);
