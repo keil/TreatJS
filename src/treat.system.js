@@ -52,6 +52,13 @@ function __dump(value) {
   return "" + value;
 }
 
+
+function __define(name, property, target) {
+  Object.defineProperty(target, name, {
+        get: function () { return property; }
+      });
+}
+
 //////////////////////////////////////////////////
 // OUTPUT
 //////////////////////////////////////////////////

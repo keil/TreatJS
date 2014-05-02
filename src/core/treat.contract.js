@@ -55,15 +55,13 @@
   //| _| || | ' \| / /  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
   //|_| \_,_|_||_|_\_\\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
-  function FunctionContract(domain, range, sign) {
-    if(!(this instanceof FunctionContract)) return new FunctionContract(domain, range, sign);
+  function FunctionContract(domain, range) {
+    if(!(this instanceof FunctionContract)) return new FunctionContract(domain, range);
 
     if(!(domain instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
     if(!(range instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
     Object.defineProperties(this, {
-      "sign": {
-        get: function () { return ((sign) ? true : false); } },
       "domain": {
         get: function () { return domain; } },
       "range": {
@@ -79,16 +77,14 @@
   //| |\/| / -_)  _| ' \/ _ \/ _` | (__/ _ \ ' \  _| '_/ _` / _|  _|
   //|_|  |_\___|\__|_||_\___/\__,_|\___\___/_||_\__|_| \__,_\__|\__|
 
-  function MethodContract(domain, range, context, sign) {
-    if(!(this instanceof FunctionContract)) return new MethodContract(domain, range, sign);
+  function MethodContract(domain, range, context) {
+    if(!(this instanceof FunctionContract)) return new MethodContract(domain, range);
 
     if(!(domain instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
     if(!(range instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
     if(!(context instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
     Object.defineProperties(this, {
-      "sign": {
-        get: function () { return ((sign) ? true : false); } },
       "domain": {
         get: function () { return domain; } },
       "range": {
@@ -107,25 +103,22 @@
   // \___/|_.__// \___\__|\__|\___\___/_||_\__|_| \__,_\__|\__|
   //          |__/                                             
 
-  function ObjectContract(map, sign) {
-    if(!(this instanceof ObjectContract)) return new ObjectContract(map, sign);
+  function ObjectContract(map) {
+    if(!(this instanceof ObjectContract)) return new ObjectContract(map);
 
-    // TODO, 
-    // only sting maps can be strict
-    // todo, remove strict flag, und use only in advanced constructopr
     if(!(map instanceof Map)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber); 
 
     Object.defineProperties(this, {
       "strict": {
         get: function () { return map.strict; } },
-      "sign": {
-        get: function () { return ((sign) ? true : false); } },
       "map": {
         get: function () { return map; } }
     });
 
-    this.toString = function() { 
-      return "{" + map.toString() + "}";
+    this.toString = function() {
+      var lbr = (map.strict) ? "{" : "|";
+      var rbr = (map.strict) ? "}" : "|";
+      return lbr + map.toString() + rbr;
     };
   }
   ObjectContract.prototype = new Contract();
@@ -136,16 +129,12 @@
   //|___/\___| .__/\___|_||_\__,_\___|_||_\__|\___\___/_||_\__|_| \__,_\__|\__|
   //         |_|                                                               
 
-  function DependentContract(constructor, sign) {
+  function DependentContract(constructor) {
     if(!(this instanceof DependentContract)) return new DependentContract(constructor);
 
     if(!(constructor instanceof Constructor)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
     Object.defineProperties(this, {
-      "strict": {
-        get: function () { return ((strict) ? true : false); } },
-      "sign": {
-        get: function () { return ((sign) ? true : false); } },
       "constructor": {
         get: function () { return constructor; } }
     });
@@ -303,7 +292,7 @@
   //|_|  |_\__,_| .__/
   //            |_|   
 
-  function Map() {
+  function Map(strict) {
     if(!(this instanceof Map)) return new Map();
 
     var keys = [];
@@ -324,6 +313,10 @@
 
       return keys.length;
     }
+
+    this.strict = function() {
+      return strict;
+    } 
 
     this.get = function(key) {
       return values[keys.indexOf(key)];
@@ -346,15 +339,11 @@
     };
   }
 
-
+/*
   function StrictMap(strict) {
     if(!(this instanceof StrictMap)) return new StrictMap(strict);
     else Map.call(this);
 
-    Object.defineProperties(this, {
-      "strict": {
-        get: function () { return (strict) ? true : false; }}
-    });
   }
   StrictMap.prototype = new Map();
 
@@ -369,28 +358,18 @@
     });
   }
   WeakMap.prototype = new Map();
+*/
+
 
   function StringMap(elements, strict) { 
     if(!(this instanceof StringMap)) return new StringMap(elements, strict);
-    else StrictMap.call(this, strict);
-
-    //else if(strict) StrictMap.call(this, true);
-    //else WeakMap.call(this);
-
-    //Object.defineProperties(this, {
-    //                      "strict": {
-    //                            get: function () { return (strict) ? true : false; }}
-    //          });
-
+    else Map.call(this, strict);
 
     var set = this.set;
     this.set = function(key, value) {
       if(!(typeof key === "string")) error("Wrong Type. String required, "+(typeof key)+" found.", (new Error()).fileName, (new Error()).lineNumber);
       else set(key, value);
     }
-
-
-    print("%%%%%%%%%%%%" +  elements[1]);
 
     if(elements instanceof Array) {
       var base = this; 
@@ -403,21 +382,62 @@
       }
     } else {}
   }
-  StringMap.prototype = new StrictMap();
+  StringMap.prototype = new Map();
+
+  /**
+   * Core Components
+   */
+
+  __define("Core", {}, _);
+
+  __define("Contract", Contract, _.Core);
+  __define("Constructor", Constructor, _.Core);
+
+  __define("Global", Global, _.Core);
+
+  /**
+   * Core Contracts
+   */
+
+  __define("Contract", Contract, _);
+
+  __define("BaseContract", BaseContract, _);
+
+  __define("FunctionContract", FunctionContract, _);
+  __define("MethodContract", MethodContract, _);
+  __define("DependentContract", DependentContract, _);
+  __define("ObjectContract", ObjectContract, _);
+
+  __define("With", WithContract, _);
+
+  __define("And", AndContract, _);
+  __define("Or", OrContract, _);
+  __define("Not", NotContract, _);
+
+  __define("Constructor", ContractConstructor, _);
+
+  /**
+   * Map
+   */
+
+  __define("Map", {}, _);
+
+  __define("Map", Map, _.Map);
+  __define("StringMap", StringMap, _.Map);
 
 
 
-  //  _.core = {}
 
+  // TODO deprecated
+//   _.ContractPrototype = Contract;
+//   _.ConstructorPrototype = Constructor;
 
   // TODO, amke this as getter
 
-  _.Contract = Contract;
 
-
-  // deprecated
-  _.ContractPrototype = Contract;
-  _.ConstructorPrototype = Constructor;
+  
+/*
+//  _.Contract = Contract;
 
   _.BaseContract = BaseContract;
 
@@ -434,13 +454,14 @@
 
   _.Constructor = ContractConstructor;
 
-  _.Global = Global;
+*/
 
-  _.Map = Map;
-  _.WeakMap = WeakMap;
-  _.StrictMap = StrictMap;
 
-  _.StringMap = StringMap;
+//  _.Map = Map;
+//  _.WeakMap = WeakMap;
+//  _.StrictMap = StrictMap;
+
+//  _.StringMap = StringMap;
 
 
 })(_);
