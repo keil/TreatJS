@@ -21,7 +21,6 @@
   var Map = _.Map.Map;
   var StringMap = _.Map.StringMap;
 
-
   var Contract = _.Core.Contract;
   var Constructor = _.Core.Constructor;
 

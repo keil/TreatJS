@@ -164,10 +164,15 @@
     this.toString = function() { return "[Callback]"; }
   }
 
-  /*
-     _.Callback = Callback;
-     _.AndCallback = AndCallback;
-     _.OrCallback = OrCallback;
-     _.NotCallback = NotCallback;
-     */
+   /**
+   * Callback
+   */
+
+  __define("Callback", {}, _);
+
+  __define("Callback", Callback, _.Callback);
+  __define("AndCallback", AndCallback, _.Callback);
+  __define("OrCallback", OrCallback, _.Callback);
+  __define("NotCallback", NotCallback, _.Callback);
+
 })(_);

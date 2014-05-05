@@ -39,6 +39,13 @@
   var Map = _.Map;
   var StringMap = _.Map.StringMap;
 
+  var Callback = _.Callback.Callback;
+  var AndCallback = _.Callback.AndCallback;
+  var OrCallback = _.Callback.OrCallback;
+  var NotCallback = _.Callback.NotCallback;
+
+  var translate = _.Logic.translate;
+
   /** log(msg)
    * @param msg String message
    */ 
@@ -215,7 +222,7 @@
     ///_/ \_\_||_\__,_|\___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof AndContract) {
-      var callback = _.AndCallback(callback);
+      var callback = AndCallback(callback);
       var tmp = assertWith(arg, contract.first, global, callback.leftHandler);
       return assertWith(tmp, contract.second, global,  callback.rightHandler); 
     }
@@ -226,7 +233,7 @@
     // \___/|_|  \___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof OrContract) {
-      var callback = _.OrCallback(callback);
+      var callback = OrCallback(callback);
       var tmp = assertWith(arg, contract.first, global, callback.leftHandler);
       return assertWith(tmp, contract.second, global,  callback.rightHandler); 
     }
@@ -237,7 +244,7 @@
     //|_|\_\___/\__|\___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof NotContract) {
-      var callback = _.NotCallback(callback);
+      var callback = NotCallback(callback);
       return assertWith(arg, contract.sub, global, callback.subHandler);
     }
 
@@ -258,9 +265,9 @@
         var result = false;
       } finally {
         if(!result) {
-          callback(_.Logic.translate(false), "@"+contract.toString());
+          callback(translate(false), "@"+contract.toString());
         } else {
-          callback(_.Logic.translate(true), "@"+contract.toString());
+          callback(translate(true), "@"+contract.toString());
         }
         return arg;
       }
@@ -305,9 +312,9 @@
         var result = false;
       } finally {
         if(!result) {
-          callback(_.Logic.translate(false), "@"+contract.toString());
+          callback(translate(false), "@"+contract.toString());
         } else {
-          callback(_.Logic.translate(true), "@"+contract.toString());
+          callback(translate(true), "@"+contract.toString());
         }
         clear(contract.global);
         copy(backupGlobal, contract.global);

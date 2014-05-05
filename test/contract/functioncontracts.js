@@ -12,6 +12,11 @@
  * _Rev: 23677 _
  */
 
+
+
+
+
+
 var func        = function(x) {return 4711;}
 var func2       = function(x) {return "chacha";}
 var func3       = function(x, y) { return (x+y);}
@@ -48,4 +53,26 @@ var f = function (a, b) {
 //g("a", 1);
 //g(1, "a");
 //g(1, true);
+
+
+function f() {}
+
+
+(function() {
+ var f = function(a) {return 7};
+ var c = _.FunctionContract(_.ObjectContract(_.Map.StringMap({0:IsNumber})), IsNumber);
+ var g = _.assert(f, c);
+
+ g(7);
+ //g(true);
+ 
+ var d = _.Not(_.FunctionContract(_.ObjectContract(_.Map.StringMap({0:IsNumber})), IsNumber));
+ var h = _.assert(f, d);
+
+// h(7);
+h(true);
+
+
+})();
+
 
