@@ -48,9 +48,10 @@
       return keys.length;
     }
 
-    this.strict = function() {
-      return strict;
-    } 
+    Object.defineProperties(this, {
+      "strict": {
+        get: function () { return (strict===undefined) ? false : strict; }
+      }});
 
     this.get = function(key) {
       return values[keys.indexOf(key)];

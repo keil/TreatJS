@@ -37,7 +37,7 @@
   var NotContract = _.Not;
 
   var Map = _.Map;
-  var StringMap = _.StringMap;
+  var StringMap = _.Map.StringMap;
 
   /** log(msg)
    * @param msg String message
@@ -176,7 +176,7 @@
       /* STRICT MODE */
       if(contract.strict) {
         contract.map.foreach(function(key, contract) {
-          arg[key] = assertWith(arg[key], contract, global, callback.subHandler);
+          arg[key] = assertWith(arg[key], contract, global, callback);
         });
       }
 
@@ -250,7 +250,6 @@
       var globalArg = global.dump(); 
       var thisArg = undefined;
       var argsArray = new Array();
-
       argsArray.push(arg);
 
       try {
@@ -337,7 +336,6 @@
 
   function FunctionHandler(contract, global, callback) {
     if(!(this instanceof FunctionHandler)) return new FunctionHandler(contract, global, callback);
-
     this.apply = function(target, thisArg, args) {
       var args = assertWith(args, contract.domain, global, callback);
       var val = target.apply(thisArg, args);  
