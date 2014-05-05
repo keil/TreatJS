@@ -21,6 +21,10 @@
   var Map = _.Map.Map;
   var StringMap = _.Map.StringMap;
 
+
+  var Contract = _.Core.Contract;
+  var Constructor = _.Core.Constructor;
+
   //  _____            _                  _       
   // / ____|          | |                | |      
   //| |     ___  _ __ | |_ _ __ __ _  ___| |_ ___ 
@@ -28,9 +32,9 @@
   //| |___| (_) | | | | |_| | | (_| | (__| |_\__ \
   // \_____\___/|_| |_|\__|_|  \__,_|\___|\__|___/
 
-  function Contract() {
-    if(!(this instanceof Contract)) return new Contract();
-  };
+  //  function Contract() {
+  //    if(!(this instanceof Contract)) return new Contract();
+  //  };
 
   // ___                ___         _               _   
   //| _ ) __ _ ___ ___ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -243,8 +247,8 @@
   //| |___| (_) | | | \__ \ |_| |  | |_| | (__| || (_) | |   
   // \_____\___/|_| |_|___/\__|_|   \__,_|\___|\__\___/|_|   
 
-  function Constructor() {}
-  Constructor.prototype = new Contract();
+  //  function Constructor() {}
+  //  Constructor.prototype = new Contract();
 
   function ContractConstructor(constructor, name) {
     if(!(this instanceof ContractConstructor)) return new ContractConstructor(constructor, name);
@@ -396,10 +400,10 @@
    * Core Components
    */
 
-  __define("Core", {}, _);
+  //  __define("Core", {}, _);
 
-  __define("Contract", Contract, _.Core);
-  __define("Constructor", Constructor, _.Core);
+  //  __define("Contract", Contract, _.Core);
+  //  __define("Constructor", Constructor, _.Core);
 
   // TODO
   //__define("Global", Global, _.Core);

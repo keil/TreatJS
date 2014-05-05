@@ -18,6 +18,8 @@
   var violation = _.violation;
   var blame = _.blame;
 
+  var Contract = _.Core.Contract;
+
   // __  __           
   //|  \/  |__ _ _ __ 
   //| |\/| / _` | '_ \

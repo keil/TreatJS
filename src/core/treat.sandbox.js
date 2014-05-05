@@ -129,7 +129,7 @@
       if(!(name in target)) violation("Unauthorized Access " + name, (new Error()).fileName, (new Error()).lineNumber);
 
       // pass-through of Contract System
-      if(name=="$") return target[name];
+      if(name=="_") return target[name];
 
       if( _.Config.nativePassThrough) {
         // pass-through of native functions
