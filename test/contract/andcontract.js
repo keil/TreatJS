@@ -16,7 +16,7 @@
 var obj = {x:true};
 var obj2 = {x:false};
 
-Predicate = $.BaseContract(function(arg) {
+Predicate = _.BaseContract(function(arg) {
         //print("@@@@@@@@@@@"+arg);
         //print("@@@@@@@@@@@"+obj.x);
         return obj.x;
@@ -24,25 +24,25 @@ Predicate = $.BaseContract(function(arg) {
 
 // Base Contracts
 
-//var x = $.assert(-4711, $.And(IsNumber, GreaterThanZero));
-var x = $.assert(4711, $.And(IsNumber, GreaterThanZero));
+//var x = _.assert(-4711, _.And(IsNumber, GreaterThanZero));
+var x = _.assert(4711, _.And(IsNumber, GreaterThanZero));
 
 // Function Contracts
 
 var func        = function(x) {return 4711;}
 var func2       = function(x) {return "chacha";}
 
-var test = $.assert(
+var test = _.assert(
                 func,
-                $.FunctionContract($.ObjectContract($.StringMap({0:$.And(IsNumber, GreaterThanZero)})), $.And(IsNumber, GreaterThanZero))
+                _.FunctionContract(_.ObjectContract(_.StringMap({0:_.And(IsNumber, GreaterThanZero)})), _.And(IsNumber, GreaterThanZero))
                 );
 
 // NOTE, only function contracts on functions ?
-var test2 = $.assert(
+var test2 = _.assert(
                 func2,
-                $.And(
-                        $.FunctionContract($.ObjectContract($.StringMap({0:IsNumber})), IsNumber),
-                        $.FunctionContract($.ObjectContract($.StringMap({0:GreaterThanZero})), GreaterThanZero)
+                _.And(
+                        _.FunctionContract(_.ObjectContract(_.StringMap({0:IsNumber})), IsNumber),
+                        _.FunctionContract(_.ObjectContract(_.StringMap({0:GreaterThanZero})), GreaterThanZero)
                      )
                 );
 
@@ -65,17 +65,17 @@ var obj = {
 // Test 3.1
 // ObjectContract with nested base-level With
 
-var contract = $.And(
-                $.ObjectContract($.StringMap({
-                        y:$.FunctionContract($.ObjectContract($.StringMap({0:GreaterThanZero})), $.With({obj:obj},Predicate))
+var contract = _.And(
+                _.ObjectContract(_.StringMap({
+                        y:_.FunctionContract(_.ObjectContract(_.StringMap({0:GreaterThanZero})), _.With({obj:obj},Predicate))
                 })),
-                $.ObjectContract($.StringMap({
-                        x:$.With({obj:obj},Predicate)
+                _.ObjectContract(_.StringMap({
+                        x:_.With({obj:obj},Predicate)
                 }))
                 );
 
 
-var test = $.assert(obj, contract);
+var test = _.assert(obj, contract);
 
 test["x"];
 
@@ -88,13 +88,13 @@ var g = test["y"];
 // Test 3.2
 // ObjectContract with top-level With
 
-var contract = $.With({obj:obj}, $.ObjectContract($.StringMap({
-        x:$.And(Predicate, IsNumber),
-    y:$.And($.FunctionContract($.ObjectContract($.StringMap({0:IsNumber})), IsNumber), $.FunctionContract($.ObjectContract($.StringMap({0:Predicate})), Predicate)),
+var contract = _.With({obj:obj}, _.ObjectContract(_.StringMap({
+        x:_.And(Predicate, IsNumber),
+    y:_.And(_.FunctionContract(_.ObjectContract(_.StringMap({0:IsNumber})), IsNumber), _.FunctionContract(_.ObjectContract(_.StringMap({0:Predicate})), Predicate)),
     z:Any
 })));
 
-var test2 = $.assert(obj, contract);
+var test2 = _.assert(obj, contract);
 
 test2["x"];
 
@@ -107,15 +107,15 @@ var g = test2["y"];
 // Test 3.3
 // ObjectContract with nested With
 
-var contract = $.ObjectContract($.StringMap({
+var contract = _.ObjectContract(_.StringMap({
         x:IsNumber,
-    y:$.With({obj:obj}, $.And($.ObjectContract($.StringMap({})), $.FunctionContract($.ObjectContract($.StringMap({0:Predicate})), Any))),
+    y:_.With({obj:obj}, _.And(_.ObjectContract(_.StringMap({})), _.FunctionContract(_.ObjectContract(_.StringMap({0:Predicate})), Any))),
     z:Any
 }));
 
-// new $.ObjectContract({})
+// new _.ObjectContract({})
 
-var test3 = $.assert(obj, contract);
+var test3 = _.assert(obj, contract);
 
 test3["x"];
 

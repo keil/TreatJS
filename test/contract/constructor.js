@@ -26,15 +26,15 @@
                 var post = function (postArg) {
                         return (length==postArg.length);
                 };
-                return $.FunctionContract($.BaseContract(pre), $.BaseContract(post));
+                return _.FunctionContract(_.BaseContract(pre), _.BaseContract(post));
         } 
-        var constructor = $.Constructor(eqLength);
-        var contract = $.construct(constructor);
+        var constructor = _.Constructor(eqLength);
+        var contract = _.construct(constructor);
 
         var f = function(list) {
                 return Array(7);
         }
-        var ff = $.assert(f, contract);
+        var ff = _.assert(f, contract);
         ff(Array(7));
 })();
 
@@ -46,15 +46,15 @@
                 var post = function (postArg) {
                         return (length==postArg.length);
                 };
-                return $.FunctionContract($.BaseContract(pre), $.BaseContract(post));
+                return _.FunctionContract(_.BaseContract(pre), _.BaseContract(post));
         } 
-        var constructor = $.Constructor(eqLength);
-        var contract = $.construct(constructor, 7);
+        var constructor = _.Constructor(eqLength);
+        var contract = _.construct(constructor, 7);
 
         var f = function(list) {
                 return Array(7);
         }
-        var ff = $.assert(f, contract);
+        var ff = _.assert(f, contract);
         ff(Array(7));
 })();
 
@@ -74,11 +74,11 @@
                 var post = function (postArg) {
                         return (value==postArg);
                 };
-                return $.FunctionContract($.BaseContract(pre), $.BaseContract(post));
+                return _.FunctionContract(_.BaseContract(pre), _.BaseContract(post));
         } 
 
-        var constructor = $.Constructor(eqGlobalValue);
-        var contract = $.construct(constructor, print);
+        var constructor = _.Constructor(eqGlobalValue);
+        var contract = _.construct(constructor, print);
 
         var g = function() {
                 globalValue1 = true ? globalValue1 : "X";
@@ -89,7 +89,7 @@
                 return globalValue1;
         }
 
-        var ggg = $.assert(gg, contract);
+        var ggg = _.assert(gg, contract);
         ggg(globalValue1);
 })();
 
@@ -108,11 +108,11 @@
                 var post = function (postArg) {
                         return (value==postArg);
                 };
-                return $.FunctionContract($.BaseContract(pre), $.BaseContract(post));
+                return _.FunctionContract(_.BaseContract(pre), _.BaseContract(post));
         } 
 
-        var constructor = $.Constructor(eqGlobalValue);
-        var contract = $.construct(constructor, print);
+        var constructor = _.Constructor(eqGlobalValue);
+        var contract = _.construct(constructor, print);
 
         var g = function() {
                 globalValue1 = true ? globalValue1 : {x:"X"};;
@@ -123,7 +123,7 @@
                 return globalValue1;
         }
 
-        var ggg = $.assert(gg, contract);
+        var ggg = _.assert(gg, contract);
         ggg(globalValue1);
 })();
 
@@ -136,19 +136,19 @@
                 var predicate = function (postArg) {
                         return true; (preValue==postValue);
                 };
-                return $.BaseContract(predicate); 
+                return _.BaseContract(predicate); 
         }
 
 
 
-        var constructor = $.Constructor(eqGlobalValue);
-        var contract = $.construct(constructor, globalValue1);
+        var constructor = _.Constructor(eqGlobalValue);
+        var contract = _.construct(constructor, globalValue1);
 
         var g = function() {
                 globalValue1 = false ? globalValue1 : {x:"X"};;
         }
 
-        var gg = $.assert(g, $.FunctionContract(Any, $.With({postValue:globalValue1}, contract)));
+        var gg = _.assert(g, _.FunctionContract(Any, _.With({postValue:globalValue1}, contract)));
         gg();
 });
 (function() {
@@ -158,28 +158,28 @@
                 var predicate = function (postArg) {
                         return true; (preValue==postValue);
                 };
-                return $.BaseContract(predicate); 
+                return _.BaseContract(predicate); 
         }
 
-        var constructor1 = $.Constructor(preCons);
+        var constructor1 = _.Constructor(preCons);
 
         function postCons(postValue) {
-                return $.construct(constructor, globalValue1);
+                return _.construct(constructor, globalValue1);
         }
 
-        var constructor2 = $.Constructor(postCons);
+        var constructor2 = _.Constructor(postCons);
 
 
 
 
-        var constructor = $.Constructor(eqGlobalValue);
-        var contract = $.construct(constructor, globalValue1);
+        var constructor = _.Constructor(eqGlobalValue);
+        var contract = _.construct(constructor, globalValue1);
 
         var g = function() {
                 globalValue1 = false ? globalValue1 : {x:"X"};;
         }
 
-        var gg = $.assert(g, $.FunctionContract(Any, $.With({postValue:globalValue1}, contract)));
+        var gg = _.assert(g, _.FunctionContract(Any, _.With({postValue:globalValue1}, contract)));
         gg();
 });
 
@@ -204,16 +204,16 @@
                         return true;
                 }
 
-                return $.FunctionContract($.BaseContract(predicate), $.BaseContract(Any));
+                return _.FunctionContract(_.BaseContract(predicate), _.BaseContract(Any));
         } 
 
-        var constructor = $.Constructor(callOnce);
-        var contract = $.construct(constructor);
+        var constructor = _.Constructor(callOnce);
+        var contract = _.construct(constructor);
 
         function h() {
         }
 
-        var hh = $.assert(h, contract);
+        var hh = _.assert(h, contract);
         hh();
         //hh();
 })();
@@ -236,16 +236,16 @@
                         return true;
                 }
 
-                return $.FunctionContract($.Not($.BaseContract(predicate)), $.BaseContract(Any));
+                return _.FunctionContract(_.Not(_.BaseContract(predicate)), _.BaseContract(Any));
         } 
 
-        var constructor = $.Constructor(callOnce);
-        var contract = $.construct(constructor);
+        var constructor = _.Constructor(callOnce);
+        var contract = _.construct(constructor);
 
         function h() {
         }
 
-        var hh = $.assert(h, contract);
+        var hh = _.assert(h, contract);
         hh();
         // hh();
 })();
@@ -258,11 +258,11 @@
                         Array;
                         return true;
                 }
-                return $.BaseContract(predicate);
+                return _.BaseContract(predicate);
         } 
-        var constructor = $.Constructor(ContractConstructor);
-        var contract = $.construct(constructor, undefined);
+        var constructor = _.Constructor(ContractConstructor);
+        var contract = _.construct(constructor, undefined);
 
-        $.assert(4711, $.With({Array:Array}, contract));
-        //$.assert(4711, contract);
+        _.assert(4711, _.With({Array:Array}, contract));
+        //_.assert(4711, contract);
 })();

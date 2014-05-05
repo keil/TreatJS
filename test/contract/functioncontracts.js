@@ -8,27 +8,27 @@
  * Author Matthias Keil
  *  http://www.informatik.uni-freiburg.de/~keilr/
  *
- * $Date: 2014-01-08 15:56:23 +0100 (Wed, 08 Jan 2014) $
- * $Rev: 23677 $
+ * _Date: 2014-01-08 15:56:23 +0100 (Wed, 08 Jan 2014) _
+ * _Rev: 23677 _
  */
 
 var func        = function(x) {return 4711;}
 var func2       = function(x) {return "chacha";}
 var func3       = function(x, y) { return (x+y);}
 
-var test = $.assert(
+var test = _.assert(
                 func,
-                $.FunctionContract($.ObjectContract($.StringMap({0:IsNumber})), IsNumber)
+                _.FunctionContract(_.ObjectContract(_.Map.StringMap({0:IsNumber})), IsNumber)
                 );
 
-var test2 = $.assert(
+var test2 = _.assert(
                 func2,
-                $.FunctionContract(Any, IsString)
+                _.FunctionContract(Any, IsString)
                 );
 
-var test3 = $.assert(
+var test3 = _.assert(
                 func3,
-                $.FunctionContract($.ObjectContract($.StringMap({0:IsNumber, 1:IsNumber})), IsNumber)
+                _.FunctionContract(_.ObjectContract(_.Map.StringMap({0:IsNumber, 1:IsNumber})), IsNumber)
                 );
 
 test(4711);
@@ -40,8 +40,8 @@ var f = function (a, b) {
         return (a>b);
 }
 
-//g = $.assert(f, $.FunctionContract({0:IsNumber, 1:IsNumber}, IsBoolean));
-//g = $.assert(f, $.SFunctionContract(IsNumber, IsNumber, IsBoolean));
+//g = _.assert(f, _.FunctionContract({0:IsNumber, 1:IsNumber}, IsBoolean));
+//g = _.assert(f, _.SFunctionContract(IsNumber, IsNumber, IsBoolean));
 
 //g(1,2);
 //g(2,1);

@@ -13,13 +13,13 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-var test = $.assert("4711", $.Not(IsNumber));
+var test = _.assert("4711", _.Not(IsNumber));
 
 var func        = function(x) {return "4711";}
 
-var test = $.assert(
+var test = _.assert(
                 func,
-                $.Not($.FunctionContract($.ObjectContract($.StringMap({0:IsNumber})), IsNumber)
+                _.Not(_.FunctionContract(_.ObjectContract(_.StringMap({0:IsNumber})), IsNumber)
                      ));
 test("4711");
 
@@ -27,10 +27,10 @@ test("4711");
 // Test 3.1
 // ObjectContract with nested base-level With
 
-var contract = $.Not(
-                $.ObjectContract($.StringMap({
+var contract = _.Not(
+                _.ObjectContract(_.StringMap({
                         x:IsNumber,
-                        y:$.FunctionContract($.ObjectContract($.StringMap({0:GreaterThanZero})), IsNumber),
+                        y:_.FunctionContract(_.ObjectContract(_.StringMap({0:GreaterThanZero})), IsNumber),
                         z:Any
                 })));
 
@@ -40,12 +40,12 @@ var obj = {
         z:"chacha"
 };
 
-var test = $.assert(obj, contract);
+var test = _.assert(obj, contract);
 
 test.x;
 test.y("adf");
 //test.z;
 
-var test = $.assert(-4711, $.Not($.And(IsNumber, GreaterThanZero)));
-var test = $.assert("4711", $.Not($.Or(IsNumber, False)));
-var test = $.assert(4711, $.Not($.Not(IsNumber)));
+var test = _.assert(-4711, _.Not(_.And(IsNumber, GreaterThanZero)));
+var test = _.assert("4711", _.Not(_.Or(IsNumber, False)));
+var test = _.assert(4711, _.Not(_.Not(IsNumber)));

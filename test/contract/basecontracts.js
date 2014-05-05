@@ -13,10 +13,10 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-var x = $.assert(4711, IsNumber);
-var x = $.assert("4711", IsString);
-var x = $.assert(4711, GreaterThanZero);
-var x = $.assert(true, Any);
+var x = _.assert(4711, IsNumber);
+var x = _.assert("4711", IsString);
+var x = _.assert(4711, GreaterThanZero);
+var x = _.assert(true, Any);
 
 var obj = {x:4711};
 
@@ -24,4 +24,4 @@ function predicate(arg) {
         return true;
 }
 
-var sec = $.assert(obj, $.BaseContract(predicate));
+var sec = _.assert(obj, _.BaseContract(predicate));

@@ -21,8 +21,9 @@ function run(file) {
 }
 
 
-//run("test/contract/basecontracts.js");
-//run("test/contract/functioncontracts.js");
+run("test/contract/basecontracts.js");
+run("test/contract/functioncontracts.js");
+
 //run("test/contract/objectcontracts.js");
 
 //run("test/contract/andcontract.js");
