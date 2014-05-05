@@ -18,8 +18,8 @@
   var violation = _.violation;
   var blame = _.blame;
 
-  var Contract = _.ContractPrototype;
-  var Constructor = _.ConstructorPrototype;
+  var Contract = _.Core.Contract;
+  var Constructor = _.Core.Constructor;
 
   var ContractConstructor = _.Constructor;
 
@@ -36,11 +36,12 @@
   var OrContract = _.Or;
   var NotContract = _.Not;
 
-  var Map = _.Map;
-  var StringMap = _.StringMap;
+  var Map = _.Map.Map;
+  var StringMap = _.Map.StringMap;
+  var Mapping = _.Map.Mapping;
+  var RegExpMap = _.Map.RegExpMap;
 
-  var Test = new BaseContract(function(){return true;}, "Test");
-
+//  var Test = new BaseContract(function(){return true;}, "Test");
   var Blank = new BaseContract(function(){return true;}, "-");
 
   // TODO. tewt
@@ -61,67 +62,21 @@
   // \___/|_.__// \___\__|\__|\___\___/_||_\__|_| \__,_\__|\__|
   //          |__/                                             
 
-  function Mapping(regexp, contract) {
-    if(!(this instanceof Mapping)) return new Mapping(regexp, contract);
 
-    if(!(regexp instanceof RegExp)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-    if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
-    Object.defineProperties(this, {
-      "regexp": {
-        get: function () { return regexp; } },
-      "contract": {
-        get: function () { return contract; } }
-    });        
-  }
-
-  function RegExpMap(elements) {
-    if(!(this instanceof RegExpMap)) return new RegExpMap(elements);
-    else _.WeakMap.call(this);
-
-    var set = this.set;
-    this.set = function(key, value) {
-      if(!(key instanceof RegExp)) error("Wrong Type. RegExp required, "+(typeof key)+" found.", (new Error()).fileName, (new Error()).lineNumber);
-      else set(key, value);
-    }
-
-    this.has = function(key) {
-      var has = false;
-      this.foreach(function(index, contract) {
-        has = (index.test(key)) ? true : key;
-      });
-      return has;
-    }
-
-    this.slice = function(key) {
-      var contracts = [];
-      this.foreach(function(index, contract) {
-        if(index.test(key)) contracts.push(contract);
-      });
-      return contracts;
-    }
-
-    if(elements instanceof Array) {
-      var base = this; 
-      elements.foreach(function(key, mapping) {
-        if(!(mapping instanceof Mapping)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-        base.set(mapping.regexp, mapping.contract);
-      });
-    }
-  }
-  RegExpMap.prototype = new _.WeakMap();
-
-  function AdvancedObjectContract(map, strict, sign) {
+  function AdvancedObjectContract(map, strict) {
     if(!(this instanceof AdvancedObjectContract)) return new AdvancedObjectContract(map, strict, sign);
 
-    if(map instanceof Map) {
-      ObjectContract.call(this, map, sign); 
-    } else if(map instanceof Array) {
-      ObjectContract.call(this, StringMap(map, strict), sign); 
+/*    if(map instanceof Map) {
+      ObjectContract.call(this, map); 
+    } else
+*/    
+    if(map instanceof Array) {
+      ObjectContract.call(this, StringMap(map, strict)); 
     } else if(map instanceof Object) {
-      ObjectContract.call(this, StringMap(map, strict), sign); 
+      ObjectContract.call(this, StringMap(map, strict)); 
     } else {
-      ObjectContract.call(this, StringMap({}, strict), sign);
+      ObjectContract.call(this, StringMap({}, strict));
     }
 
   }
@@ -147,19 +102,27 @@
   //| _| || | ' \| / /  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
   //|_| \_,_|_||_|_\_\\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
-  function AdvancedFunctionContract(domain, range, strict, sign) {
-    if(!(this instanceof AdvancedFunctionContract)) return new AdvancedFunctionContract(domain, range, strict, sign);
+
+  // TODO, gibt es unstrict dunction contracts ?
+  
+  function AdvancedFunctionContract(domain, range, strict) {
+    if(!(this instanceof AdvancedFunctionContract)) return new AdvancedFunctionContract(domain, range, strict);
 
     if(!(range instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-    if(domain instanceof Contract) {
-      FunctionContract.call(this, domain, range, strict, sign);
-    } else if(domain instanceof Array) {
-      FunctionContract.call(this, AdvancedObjectContract(domain, strict), range, sign);
+
+/*    if(domain instanceof Contract) {
+      FunctionContract.call(this, domain, range, strict);
+    } else
+*/    
+    if(domain instanceof Array) {
+      FunctionContract.call(this, AdvancedObjectContract(domain, strict), range);
     } else if(domain instanceof Object) {
-      FunctionContract.call(this, AdvancedObjectContract(domain, strict), range, sign);
+      FunctionContract.call(this, AdvancedObjectContract(domain, strict), range);
     } else error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
   }
   AdvancedFunctionContract.prototype = new FunctionContract(Blank, Blank);
+
+
 
   function SimpleFunctionContract() {
     if(!(this instanceof SimpleFunctionContract)) {
@@ -172,11 +135,15 @@
     var domain = [];
     for(var i=0; i<arguments.length;i++) domain[i]=arguments[i];
 
-    var sign = domain.pop();
-    var strict = domain.pop();
+// TODO normal function contract is not strict
+// make a seperate Strict simple function conract
+//
+
+//    var sign = domain.pop();
+//    var strict = domain.pop();is not really intended 
     var range = domain.pop();
 
-    FunctionContract.call(this, AdvancedObjectContract(domain, strict), range, sign);
+    FunctionContract.call(this, AdvancedObjectContract(domain, strict), range);
   }
   SimpleFunctionContract.prototype = new FunctionContract(Blank, Blank);
 
@@ -265,16 +232,32 @@
 
 */
 
+  /** TODO:
+   * Add more predefined contracts
+   * 
+   * SimpleStrictFunctionContract ?
+   * SimpleObjectContract ?
+   * ...
+   */ 
+
+  /**
+   * Convenience Contracts
+   */
+
+  __define("AdvancedFunctionContract", AdvancedFunctionContract, _);
+  __define("SimpleFunctionContract", SimpleFunctionContract, _);
+  __define("AdvancedObjectContract", AdvancedObjectContract, _);
+
   // var self = {}
-  _.AdvancedFunctionContract = AdvancedFunctionContract;
-  _.SimpleFunctionContract = SimpleFunctionContract;
-  _.AdvancedObjectContract = AdvancedObjectContract;
+//  _.AdvancedFunctionContract = AdvancedFunctionContract;
+//  _.SimpleFunctionContract = SimpleFunctionContract;
+//  _.AdvancedObjectContract = AdvancedObjectContract;
 
   // TODO, name
   //_.advanced = self;
 
-  _.RegExpMap = RegExpMap;
-  _.Mapping = Mapping;
+//  _.RegExpMap = RegExpMap;
+//  _.Mapping = Mapping;
 
 
 

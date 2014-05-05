@@ -18,6 +18,9 @@
   var violation = _.violation;
   var blame = _.blame;
 
+  var Map = _.Map.Map;
+  var StringMap = _.Map.StringMap;
+
   //  _____            _                  _       
   // / ____|          | |                | |      
   //| |     ___  _ __ | |_ _ __ __ _  ___| |_ ___ 
@@ -294,7 +297,7 @@
   //| |\/| / _` | '_ \
   //|_|  |_\__,_| .__/
   //            |_|   
-
+/*
   function Map(strict) {
     if(!(this instanceof Map)) return new Map();
 
@@ -341,7 +344,7 @@
       return "[" + mappings + "]";
     };
   }
-
+*/
 /*
   function StrictMap(strict) {
     if(!(this instanceof StrictMap)) return new StrictMap(strict);
@@ -363,7 +366,7 @@
   WeakMap.prototype = new Map();
 */
 
-
+/*
   function StringMap(elements, strict) { 
     if(!(this instanceof StringMap)) return new StringMap(elements, strict);
     else Map.call(this, strict);
@@ -386,6 +389,8 @@
     } else {}
   }
   StringMap.prototype = new Map();
+*/
+
 
   /**
    * Core Components
@@ -424,10 +429,10 @@
    * Map
    */
 
-  __define("Map", {}, _);
+//  __define("Map", {}, _);
 
-  __define("Map", Map, _.Map);
-  __define("StringMap", StringMap, _.Map);
+//  __define("Map", Map, _.Map);
+//  __define("StringMap", StringMap, _.Map);
 
 
 
