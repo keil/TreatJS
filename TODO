@@ -1,3 +1,5 @@
+*  Run Octain again
+
 ;;;;; Feb. 26. 2014
 
 * Blame Messages
@@ -72,17 +74,17 @@
 
 
 # Convenience Contract
-* Strict vs. Weak (Function, Method, Object)
+  * Strict vs. Weak (Function, Method, Object)
 * Negative vs. Positive (Function, Method, Dependent, Obejct)
-* Different Argument Types
-* Make AB available
+  * Different Argument Types
+  * Make AB available
 
 
 # Make Contracts in SandBox
-* assign the _ Object
-* replace BaseContract
+  * assign the _ Object
+  * replace BaseContract
 
 
 
 
-;;;;; Minor
+  ;;;;; Minor

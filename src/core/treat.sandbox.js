@@ -354,9 +354,13 @@
     }
   }
 
-  _.eval = evalFunction;
-  _.bind = bindFunction;
-  _.wrap = wrap;
+  /**
+   * Core Functions
+   */
+
+  __define("eval", evalFunction, _);
+  __define("bind", bindFunction, _);
+  __define("wrap", wrap, _);
 
   // _    _  _      _   _         ___             _   _          
   //(_)__| \| |__ _| |_(_)_ _____| __|  _ _ _  __| |_(_)___ _ _  
@@ -391,6 +395,6 @@
     }
   }
 
-  _.isNativeFunction = isNativeFunction;
+  __define("isNativeFunction", isNativeFunction, _);
 
 })(_);

@@ -15,17 +15,70 @@
 load("src/shell.js");
 load("test/contracts.js");
 
+function run(file) {
+  print("\n\n\n##########\n# " + file + "\n");
+  load(file);
+}
 
-var $ = _ ;
-run("test/contract/basecontracts.js");
+//run("test/contract/basecontracts.js");
 //run("test/contract/functioncontracts.js");
+//run("test/contract/objectcontracts.js");
+
+//run("test/contract/andcontract.js");
+//run("test/contract/orcontract.js");
+//run("test/contract/notcontract.js");
+
+//run("test/contract/withcontract.js");
+//run("test/contract/dependentcontracts.js");
+//run("test/contract/constructor.js");
+
+
+
+// sandbox tests
+ run("test/sandbox/sandbox.js"); // ok
+// run("test/sandbox/bind.js"); // ok
+
+// run("test/miscellaneous/logic.js"); // ok
+
+quit();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/** TODO OLD **/
+
+
+//var $ = _ ;
+run("test/contract/basecontracts.js");
+run("test/contract/functioncontracts.js");
 
 /*
-print("\n * TreatJS Properties\n")
-for(var p in _) {
-        print(" ** " + p);
-}
-*/
+   print("\n * TreatJS Properties\n")
+   for(var p in _) {
+   print(" ** " + p);
+   }
+   */
 
 //print("a");
 //throw new Error("Whoops!");
@@ -36,55 +89,55 @@ for(var p in _) {
 // run("test/convenience/objectcontracts.js");
 
 /*
-run("test/convenience/methodcontracts.js");
-run("test/convenience/dependentcontracts.js");
+   run("test/convenience/methodcontracts.js");
+   run("test/convenience/dependentcontracts.js");
 
-run("test/behavior/delayed.js");
+   run("test/behavior/delayed.js");
 
-run("test/behavior/weak.js");
-run("test/behavior/strict.js");
+   run("test/behavior/weak.js");
+   run("test/behavior/strict.js");
 
-run("test/behavior/positive.js");
-run("test/behavior/negative.js");
-*/
+   run("test/behavior/positive.js");
+   run("test/behavior/negative.js");
+   */
 
 
 /*
-  var newObj = Object.create(secureFun.prototype);
-  var val = secureFun.apply(newObj, argsArray);
- */
+   var newObj = Object.create(secureFun.prototype);
+   var val = secureFun.apply(newObj, argsArray);
+   */
 
 /*
 
-function s() {
-        this.x=4711;
-        this.y=4712;
+   function s() {
+   this.x=4711;
+   this.y=4712;
+   }
+
+   var p = new s();
+
+   function f() {
+   this.z = 4713;
+   }
+   f.prototype = p;
+
+   var i = new f();
+
+
+
+
+   var newObj = Object.create(Object.getPrototypeOf(i));
+
+   for (var attr in i) {
+   if (i.hasOwnProperty(attr)){
+//    if (obj[attr] instanceof Object){
+//       copy[attr] = cloneObject(obj[attr]);
+//   } else {
+newObj[attr] = i[attr];
+//  }
 }
-
-var p = new s();
-
-function f() {
-        this.z = 4713;
 }
-f.prototype = p;
-
-var i = new f();
-
-
-
-
-var newObj = Object.create(Object.getPrototypeOf(i));
-
-     for (var attr in i) {
-         if (i.hasOwnProperty(attr)){
-         //    if (obj[attr] instanceof Object){
-          //       copy[attr] = cloneObject(obj[attr]);
-          //   } else {
-                 newObj[attr] = i[attr];
-           //  }
-         }
-     }
-   //  return copy;
+//  return copy;
 
 //var val = Object.getPrototypeOf(i).apply(newObj, argsArray);
 
@@ -164,36 +217,36 @@ return regexp;
 
 
 
-var m1 = new Map([",_", /cha/]);
-m1.set(/cha/, true);
-m1.set("L", "3")
+  var m1 = new Map([",_", /cha/]);
+  m1.set(/cha/, true);
+  m1.set("L", "3")
 
-print(m1 instanceof Map);
+  print(m1 instanceof Map);
 
-m1.foreach(function (key, value) {
-        print("M1: " + key + " >> " + value);
-});
+  m1.foreach(function (key, value) {
+  print("M1: " + key + " >> " + value);
+  });
 
-var m2 = new Map({xx:",_", yy:/chacha/});
-m2.set(/chacha/, true);
-m2.set("LL", "3")
+  var m2 = new Map({xx:",_", yy:/chacha/});
+  m2.set(/chacha/, true);
+  m2.set("LL", "3")
 
-print(m2 instanceof Map);
+  print(m2 instanceof Map);
 
-m2.foreach(function (key, value) {
-        print("M2: " + key + " >> " + value);
-});
+  m2.foreach(function (key, value) {
+  print("M2: " + key + " >> " + value);
+  });
 
 
 
-var sm1 = new StringMap([",_", /cha/]);
+  var sm1 = new StringMap([",_", /cha/]);
 //sm1.set(/cha/, true);
 sm1.set("L", "3")
 
 print(sm1 instanceof Map);
 
 sm1.foreach(function (key, value) {
-        print("SM1: " + key + " >> " + value);
+print("SM1: " + key + " >> " + value);
 });
 
 var sm2 = new StringMap({xx:",_", yy:/chacha/});
@@ -203,7 +256,7 @@ sm2.set("L", "3")
 print(sm2 instanceof Map);
 
 sm2.foreach(function (key, value) {
-        print("SM1: " + key + " >> " + value);
+print("SM1: " + key + " >> " + value);
 });
 
 
@@ -214,10 +267,10 @@ rm1.set(/cha/, true);
 print(rm1 instanceof Map);
 
 rm1.foreach(function (key, value) {
-        print("RM1: " + key + " >> " + value);
+print("RM1: " + key + " >> " + value);
 });
 
-**/
+ **/
 
 
 /*

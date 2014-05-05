@@ -22,125 +22,125 @@ var b = 2;
 var c = 3;
 
 var o = {
-        p:4711,
-        q:function() {
-                // this.p=4712; violation
-                return this.p;
-        }
+  p:4711,
+  q:function() {
+    // this.p=4712; violation
+    return this.p;
+  }
 };
 
 function n() {
-        this.p = 4711;
-        //this.p = breakout; // violation
-        this.q = function() {
-                // breakout(); // violation
-                this.p=4712; // ok 
-                return this.p;
-        }
+  this.p = 4711;
+  //this.p = breakout; // violation
+  this.q = function() {
+    // breakout(); // violation
+    this.p=4712; // ok 
+    return this.p;
+  }
 }
 
 
 function breakout() {
-        // print("@@@@@@@@@@@@@@@@@@@@" + this.x);
+  // print("@@@@@@@@@@@@@@@@@@@@" + this.x);
 } 
 
 
 function f() {
 
-        // this.x; // violation
-        //  this.y=2; // violation
+  // this.x; // violation
+  //  this.y=2; // violation
 
-        //  a; // violation
-        //  print("@@@" + b);
+  //  a; // violation
+  //  print("@@@" + b);
 
-        //b=2; // violation
+  //b=2; // violation
 
-        var u=1; // ok
-        u; // ok
+  var u=1; // ok
+  u; // ok
 
-        z; // ok
-        this.z; // ok
+  z; // ok
+  this.z; // ok
 
-        c; // ok
-        this.c; // ok
+  c; // ok
+  this.c; // ok
 
-        // Math.abs(4711); // violation
+  // Math.abs(4711); // violation
 
-        // print("@" + (c===this.c));
+  // print("@" + (c===this.c));
 
-        // print("@" + z);
-        // print("@" + this.z);
+  // print("@" + z);
+  // print("@" + this.z);
 
-        // print("@" + c);
-        // print("@" + this.c);
+  // print("@" + c);
+  // print("@" + this.c);
 
-        o;
-        o.p;
-        o.q();
+  o;
+  o.p;
+  o.q();
 
-        var nprime = new n(); // violation
-        nprime.p;
-        nprime.q();
-        nprime.p=4712;
+  var nprime = new n(); // violation
+  nprime.p;
+  nprime.q();
+  nprime.p=4712;
 
-        return g();
+  return g();
 }
 
 function g(flag) {
-        //  this.x; // violation
-        //  this.y=2; // violation
+  //  this.x; // violation
+  //  this.y=2; // violation
 
-        // a; // violation
-        // b=2; // violation
+  // a; // violation
+  // b=2; // violation
 
-        // var u=1; // ok
-        // u; // ok
+  // var u=1; // ok
+  // u; // ok
 
-        z; // ok
-        this.z; // ok
+  z; // ok
+  this.z; // ok
 
-        c; // ok
-        this.c; // ok
+  c; // ok
+  this.c; // ok
 
-        //  Math.abs(4711); // violation
+  //  Math.abs(4711); // violation
 
-        // f(); // violation
+  // f(); // violation
 
-        if(flag!=true) g(true);
+  if(flag!=true) g(true);
 
-        return h();
+  return h();
 }
 
 function h() {
 
-        //  this.x; // violation
-        // this.y=2; // violation
+  //  this.x; // violation
+  // this.y=2; // violation
 
-        //   a; // violation
-        //  b=2; // violation
+  //   a; // violation
+  //  b=2; // violation
 
-        var u=1; // ok
-        u; // ok
+  var u=1; // ok
+  u; // ok
 
-        z; // ok
-        this.z; // ok
+  z; // ok
+  this.z; // ok
 
-        c; // ok
-        this.c; // ok
+  c; // ok
+  this.c; // ok
 
-        var result = true;
-        function hprime() {
-                //print("#######################################");
-                return result;
-        }
-        return hprime();
+  var result = true;
+  function hprime() {
+    //print("#######################################");
+    return result;
+  }
+  return hprime();
 }
 
 
 
 
-var _ = {z:z, c:c, g:g, h:h, o:o, n:n, print:print}; // allowed values
-var result = $.eval(f, _);
+var x = {z:z, c:c, g:g, h:h, o:o, n:n, print:print}; // allowed values
+var result = _.eval(f, x);
 //print(result);
 
 //print(f());

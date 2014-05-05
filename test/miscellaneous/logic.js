@@ -1,26 +1,17 @@
 /*
-   print("@@@@@@@@@@@@@@@" + ((typeof true)==="boolean"));
-
-   print((0*2)+(0));
-   print((0*2)+(1));
-   print((1*2)+(0));
-   print((1*2)+(1));
-
-   print(0&0);
-   print(0&1);
-   print(1&0);
-   print(1&1);
-
-   print(0|0);
-   print(0|1);
-   print(1|0);
-   print(1|1);
-
-   print(1^0);
-   print(1^1);
-   print(1^0);
-   print(1^1);
-   */
+ * TreatJS: Higher-Order Contracts for JavaScript 
+ * http://proglang.informatik.uni-freiburg.de/treatjs/
+ *
+ * Copyright (c) 2014, Proglang, University of Freiburg.
+ * http://proglang.informatik.uni-freiburg.de/treatjs/
+ * All rights reserved.
+ *
+ * Released under the MIT license
+ * http://proglang.informatik.uni-freiburg.de/treatjs/license
+ *
+ * Author Matthias Keil
+ * http://www.informatik.uni-freiburg.de/~keilr/
+ */
 
 var u = _.Logic.Unknown;
 var f = _.Logic.False;
@@ -30,13 +21,13 @@ var x = _.Logic.Conflict;
 function test(v,vp,op,r) {
   switch(op) {
     case 'and':
-      out2(v,vp,op,r,(_.Logic.And(v,vp)===r));
+      out2(v,vp,op,r,(_.Logic.and(v,vp)===r));
       break;
     case 'or':
-      out2(v,vp,op,r,(_.Logic.Or(v,vp)===r));
+      out2(v,vp,op,r,(_.Logic.or(v,vp)===r));
       break;
     case 'not':
-      out1(v,vp,op,r,(_.Logic.Not(v)===r));
+      out1(v,vp,op,r,(_.Logic.not(v)===r));
       break;
   }
 

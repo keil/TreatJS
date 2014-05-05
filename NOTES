@@ -35,17 +35,17 @@
 * not contract is interested for sanitizer 
 
 * erase functions (independent from sandbox)
-** required for with, dependent contract
+  ** required for with, dependent contract
 
 
 
 
-;;;;; remarks Feb. 5. 2014
+  ;;;;; remarks Feb. 5. 2014
 
-* Function.prototype can be overwritten
-** so, current isNativeFunction is not safe.
+  * Function.prototype can be overwritten
+  ** so, current isNativeFunction is not safe.
 
-* Problem: is nativePassThrough is disabled
-** only simple contracts can be used, because construct and apply are native funcios
+  * Problem: is nativePassThrough is disabled
+  ** only simple contracts can be used, because construct and apply are native funcios
 
-* Function, number of arguments can be checked with contract 
+  * Function, number of arguments can be checked with contract 

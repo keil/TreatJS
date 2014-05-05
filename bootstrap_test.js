@@ -16,13 +16,13 @@ load("src/shell.js");
 load("test/contracts.js");
 
 function run(file) {
-        print("\n\n\n##########\n# " + file + "\n");
-        load(file);
+  print("\n\n\n##########\n# " + file + "\n");
+  load(file);
 }
 
 
 //  makes TreatJS available under $
-var $ = _ ;
+//var $ = _ ;
 
 run("test/contract/basecontracts.js");
 run("test/contract/functioncontracts.js");

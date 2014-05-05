@@ -55,8 +55,8 @@ function __dump(value) {
 
 function __define(name, property, target) {
   Object.defineProperty(target, name, {
-        get: function () { return property; }
-      });
+    get: function () { return property; }
+  });
 }
 
 //////////////////////////////////////////////////

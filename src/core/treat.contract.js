@@ -270,25 +270,25 @@
   // \___|_\___/_.__/\__,_|_|
 
   function Global(global) {
-    if(!(this instanceof Global)) return new Global(global);
+  if(!(this instanceof Global)) return new Global(global);
 
-    global = (global==undefined) ? {} : global;
+  global = (global==undefined) ? {} : global;
 
-    this.dump = function() {
-      return global; 
-    }
+  this.dump = function() {
+  return global; 
+  }
 
-    this.clone = function() {
-      var newglobal = {};
-      for(key in global) newglobal[key] = global[key];
-      return new Global(newglobal);
-    }
+  this.clone = function() {
+  var newglobal = {};
+  for(key in global) newglobal[key] = global[key];
+  return new Global(newglobal);
+  }
 
-    this.merge = function(binding) {
-      var newglobal = this.clone().dump();
-      for(key in binding) newglobal[key] = binding[key];
-      return new Global(newglobal);
-    }
+  this.merge = function(binding) {
+  var newglobal = this.clone().dump();
+  for(key in binding) newglobal[key] = binding[key];
+  return new Global(newglobal);
+  }
   }
   */
 
@@ -297,99 +297,99 @@
   //| |\/| / _` | '_ \
   //|_|  |_\__,_| .__/
   //            |_|   
-/*
-  function Map(strict) {
-    if(!(this instanceof Map)) return new Map();
+  /*
+     function Map(strict) {
+     if(!(this instanceof Map)) return new Map();
 
-    var keys = [];
-    var values = [];
+     var keys = [];
+     var values = [];
 
-    this.foreach = function(callback) {
-      keys.foreach(function (index, key) {
-        callback(key, values[index]);     
-      });
-    }
+     this.foreach = function(callback) {
+     keys.foreach(function (index, key) {
+     callback(key, values[index]);     
+     });
+     }
 
-    this.set = function(key, value) {
-      if(!(value instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+     this.set = function(key, value) {
+     if(!(value instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
-      if(keys.indexOf(key)==-1) keys.push(key);
-      var index = keys.indexOf(key);
-      values[index] = value;
+     if(keys.indexOf(key)==-1) keys.push(key);
+     var index = keys.indexOf(key);
+     values[index] = value;
 
-      return keys.length;
-    }
+     return keys.length;
+     }
 
-    this.strict = function() {
-      return strict;
-    } 
+     this.strict = function() {
+     return strict;
+     } 
 
-    this.get = function(key) {
-      return values[keys.indexOf(key)];
-    }
+     this.get = function(key) {
+     return values[keys.indexOf(key)];
+     }
 
-    this.has = function(key) {
-      return (keys.indexOf(key)==-1) ? false : true;
-    }
+     this.has = function(key) {
+     return (keys.indexOf(key)==-1) ? false : true;
+     }
 
-    this.slice = function(key) {
-      return values[keys.indexOf(key)];                
-    }
+     this.slice = function(key) {
+     return values[keys.indexOf(key)];                
+     }
 
-    this.toString = function() { 
-      var mappings = "";
-      this.foreach(function(key, contract) {
-        mappings += " " + key + ":" + contract;
-      });
-      return "[" + mappings + "]";
-    };
-  }
-*/
-/*
-  function StrictMap(strict) {
-    if(!(this instanceof StrictMap)) return new StrictMap(strict);
-    else Map.call(this);
+     this.toString = function() { 
+     var mappings = "";
+     this.foreach(function(key, contract) {
+     mappings += " " + key + ":" + contract;
+     });
+     return "[" + mappings + "]";
+     };
+     }
+     */
+  /*
+     function StrictMap(strict) {
+     if(!(this instanceof StrictMap)) return new StrictMap(strict);
+     else Map.call(this);
 
-  }
-  StrictMap.prototype = new Map();
+     }
+     StrictMap.prototype = new Map();
 
 
   // TODO rework this
   function WeakMap() {
-    if(!(this instanceof WeakMap)) return new WeakMap();
-    else Map.call(this);
-    Object.defineProperties(this, {
-      "strict": {
-        get: function () { return false; }}
-    });
+  if(!(this instanceof WeakMap)) return new WeakMap();
+  else Map.call(this);
+  Object.defineProperties(this, {
+  "strict": {
+  get: function () { return false; }}
+  });
   }
   WeakMap.prototype = new Map();
-*/
+  */
 
-/*
-  function StringMap(elements, strict) { 
-    if(!(this instanceof StringMap)) return new StringMap(elements, strict);
-    else Map.call(this, strict);
+  /*
+     function StringMap(elements, strict) { 
+     if(!(this instanceof StringMap)) return new StringMap(elements, strict);
+     else Map.call(this, strict);
 
-    var set = this.set;
-    this.set = function(key, value) {
-      if(!(typeof key === "string")) error("Wrong Type. String required, "+(typeof key)+" found.", (new Error()).fileName, (new Error()).lineNumber);
-      else set(key, value);
-    }
+     var set = this.set;
+     this.set = function(key, value) {
+     if(!(typeof key === "string")) error("Wrong Type. String required, "+(typeof key)+" found.", (new Error()).fileName, (new Error()).lineNumber);
+     else set(key, value);
+     }
 
-    if(elements instanceof Array) {
-      var base = this; 
-      elements.foreach(function(key, value) {
-        base.set(key.toString(), value);
-      });
-    } else if(elements instanceof Object) {
-      for(var key in elements) {
-        this.set(key, elements[key]);
-      }
-    } else {}
-  }
-  StringMap.prototype = new Map();
-*/
+     if(elements instanceof Array) {
+     var base = this; 
+     elements.foreach(function(key, value) {
+     base.set(key.toString(), value);
+     });
+     } else if(elements instanceof Object) {
+     for(var key in elements) {
+     this.set(key, elements[key]);
+     }
+     } else {}
+     }
+     StringMap.prototype = new Map();
+     */
 
 
   /**
@@ -429,24 +429,24 @@
    * Map
    */
 
-//  __define("Map", {}, _);
+  //  __define("Map", {}, _);
 
-//  __define("Map", Map, _.Map);
-//  __define("StringMap", StringMap, _.Map);
+  //  __define("Map", Map, _.Map);
+  //  __define("StringMap", StringMap, _.Map);
 
 
 
 
   // TODO deprecated
-//   _.ContractPrototype = Contract;
-//   _.ConstructorPrototype = Constructor;
+  //   _.ContractPrototype = Contract;
+  //   _.ConstructorPrototype = Constructor;
 
   // TODO, amke this as getter
 
 
-  
-/*
-//  _.Contract = Contract;
+
+  /*
+  //  _.Contract = Contract;
 
   _.BaseContract = BaseContract;
 
@@ -466,11 +466,11 @@
 */
 
 
-//  _.Map = Map;
-//  _.WeakMap = WeakMap;
-//  _.StrictMap = StrictMap;
+  //  _.Map = Map;
+  //  _.WeakMap = WeakMap;
+  //  _.StrictMap = StrictMap;
 
-//  _.StringMap = StringMap;
+  //  _.StringMap = StringMap;
 
 
 })(_);

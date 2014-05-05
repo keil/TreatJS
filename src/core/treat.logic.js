@@ -99,12 +99,16 @@
     return b ? make(1,0) : make(0,1)
   }
 
-  _.Logic={};
-  _.Logic.and=and;
-  _.Logic.or=or;
-  _.Logic.not=not;
-  _.Logic.merge=merge;
-  _.Logic.translate=translate;
+  /**
+   * Map
+   */
+
+  __define("Logic", {}, _);
+  __define("and", and, _.Logic);
+  __define("or", or, _.Logic);
+  __define("not", not, _.Logic);
+  __define("merge", merge, _.Logic);
+  __define("translate", translate, _.Logic);
 
   Object.defineProperties(_.Logic, {
     "Unknown": {

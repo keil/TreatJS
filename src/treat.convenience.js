@@ -41,7 +41,7 @@
   var Mapping = _.Map.Mapping;
   var RegExpMap = _.Map.RegExpMap;
 
-//  var Test = new BaseContract(function(){return true;}, "Test");
+  //  var Test = new BaseContract(function(){return true;}, "Test");
   var Blank = new BaseContract(function(){return true;}, "-");
 
   // TODO. tewt
@@ -67,10 +67,10 @@
   function AdvancedObjectContract(map, strict) {
     if(!(this instanceof AdvancedObjectContract)) return new AdvancedObjectContract(map, strict, sign);
 
-/*    if(map instanceof Map) {
-      ObjectContract.call(this, map); 
-    } else
-*/    
+    /*    if(map instanceof Map) {
+          ObjectContract.call(this, map); 
+          } else
+          */    
     if(map instanceof Array) {
       ObjectContract.call(this, StringMap(map, strict)); 
     } else if(map instanceof Object) {
@@ -104,16 +104,16 @@
 
 
   // TODO, gibt es unstrict dunction contracts ?
-  
+
   function AdvancedFunctionContract(domain, range, strict) {
     if(!(this instanceof AdvancedFunctionContract)) return new AdvancedFunctionContract(domain, range, strict);
 
     if(!(range instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
-/*    if(domain instanceof Contract) {
-      FunctionContract.call(this, domain, range, strict);
-    } else
-*/    
+    /*    if(domain instanceof Contract) {
+          FunctionContract.call(this, domain, range, strict);
+          } else
+          */    
     if(domain instanceof Array) {
       FunctionContract.call(this, AdvancedObjectContract(domain, strict), range);
     } else if(domain instanceof Object) {
@@ -135,12 +135,12 @@
     var domain = [];
     for(var i=0; i<arguments.length;i++) domain[i]=arguments[i];
 
-// TODO normal function contract is not strict
-// make a seperate Strict simple function conract
-//
+    // TODO normal function contract is not strict
+    // make a seperate Strict simple function conract
+    //
 
-//    var sign = domain.pop();
-//    var strict = domain.pop();is not really intended 
+    //    var sign = domain.pop();
+    //    var strict = domain.pop();is not really intended 
     var range = domain.pop();
 
     FunctionContract.call(this, AdvancedObjectContract(domain, strict), range);
@@ -249,15 +249,15 @@
   __define("AdvancedObjectContract", AdvancedObjectContract, _);
 
   // var self = {}
-//  _.AdvancedFunctionContract = AdvancedFunctionContract;
-//  _.SimpleFunctionContract = SimpleFunctionContract;
-//  _.AdvancedObjectContract = AdvancedObjectContract;
+  //  _.AdvancedFunctionContract = AdvancedFunctionContract;
+  //  _.SimpleFunctionContract = SimpleFunctionContract;
+  //  _.AdvancedObjectContract = AdvancedObjectContract;
 
   // TODO, name
   //_.advanced = self;
 
-//  _.RegExpMap = RegExpMap;
-//  _.Mapping = Mapping;
+  //  _.RegExpMap = RegExpMap;
+  //  _.Mapping = Mapping;
 
 
 

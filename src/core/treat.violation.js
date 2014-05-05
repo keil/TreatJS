@@ -40,8 +40,12 @@
     quit();
   }
 
-  _.error = error;
-  _.violation = violation;
-  _.blame = blame;
+  /**
+   * Core Functions
+   */
+
+  __define("error", error, _);
+  __define("violation", violation, _);
+  __define("blame", blame, _);
 
 })(_);

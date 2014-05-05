@@ -18,8 +18,8 @@
   var violation = _.violation;
   var blame = _.blame;
 
-  var Contract = _.ContractPrototype;
-  var Constructor = _.ConstructorPrototype;
+  var Contract = _.Core.Contract;
+  var Constructor = _.Core.Constructor;
 
   var ContractConstructor = _.Constructor;
 
@@ -437,19 +437,19 @@
       if(proeprty==="BaseContract") __defined(property, newBaseContract, treatjs);
       else __defined(property, _[property], treatjs);
     }
-    
-    
-    
-   
-    
+
+
+
+
+
     /** TODO
      * Bind the _ (TreatJS) Object
      *
      * Replace the BaseContract by a SandboxContrct
      * Use a fore each loop
      */
-/*
-    newglobal.FunctionContract = FunctionContract;
+    /*
+       newglobal.FunctionContract = FunctionContract;
     //newglobal.SFunctionContract = SFunctionContract;
     newglobal.DependentContract = DependentContract;
     newglobal.ObjectContract = ObjectContract;
@@ -464,7 +464,7 @@
 
     newglobal.assert = assert;
     newglobal.construct = construct;
-*/
+    */
 
     globalArg["_"] = treatjs;
 

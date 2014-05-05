@@ -17,7 +17,7 @@
   var error = _.error;
   var violation = _.violation;
   var blame = _.blame;
- 
+
   // __  __           
   //|  \/  |__ _ _ __ 
   //| |\/| / _` | '_ \
@@ -71,26 +71,26 @@
     };
   }
 
-/*
-  function StrictMap(strict) {
-    if(!(this instanceof StrictMap)) return new StrictMap(strict);
-    else Map.call(this);
+  /*
+     function StrictMap(strict) {
+     if(!(this instanceof StrictMap)) return new StrictMap(strict);
+     else Map.call(this);
 
-  }
-  StrictMap.prototype = new Map();
+     }
+     StrictMap.prototype = new Map();
 
 
   // TODO rework this
   function WeakMap() {
-    if(!(this instanceof WeakMap)) return new WeakMap();
-    else Map.call(this);
-    Object.defineProperties(this, {
-      "strict": {
-        get: function () { return false; }}
-    });
+  if(!(this instanceof WeakMap)) return new WeakMap();
+  else Map.call(this);
+  Object.defineProperties(this, {
+  "strict": {
+  get: function () { return false; }}
+  });
   }
   WeakMap.prototype = new Map();
-*/
+  */
 
 
   function StringMap(elements, strict) { 
@@ -117,7 +117,7 @@
   StringMap.prototype = new Map();
 
 
-    function Mapping(regexp, contract) {
+  function Mapping(regexp, contract) {
     if(!(this instanceof Mapping)) return new Mapping(regexp, contract);
 
     if(!(regexp instanceof RegExp)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
