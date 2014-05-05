@@ -77,10 +77,20 @@
     sandbox:true
   });
 
-  var out = new TreatJSShellOut(print);
-  _.out(undefined);
+  // TODO
+  // var out = new TreatJSShellOut(print);
+  // _.out(undefined);
 
   var unit = new TreatJSDebuggerUnit();
-  _.debug(undefined);
+ // _.debug(unit);
+//
+this.assertError = unit.assertError;
+this.assertNoError = unit.assertNoError;
+
+this.assertViolation = unit.assertViolation;
+this.assertNoViolation = unit.assertNoViolation;
+
+this.assertBlame = unit.assertBlame;
+this.assertNoBlame = unit.assertNoBlame;
 
 })(load, print);

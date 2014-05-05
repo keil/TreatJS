@@ -16,45 +16,87 @@
 function TreatJSDebugger() {
   if(!(this instanceof TreatJSDebugger)) return new TreatJSDebugger();
 
+  // TODO
   this.catch = function(result) {
   }
+
+  this.error = function(msg, file, line) {}
+  this.violation = function(msg, file, line) {}
+  this.blame = function(contract, msg, file, line) {}
 }
 
 function TreatJSDebuggerUnit() {
   if(!(this instanceof TreatJSDebugger)) return new TreatJSDebugger();
+  else TreatJSDebugger.call(this);
 
-  var stack = new Array();
+  var errorStack = new Array();
+  var violationStack = new Array();
+  var blameStack = new Array();
 
-  this.catch = function(result) {
-    stack.push(result);
+  this.error = function(msg, file, line) {
+    errorStack.push("Error (" + file + ":" + line + "):\n" + msg);
+  }
+  this.violation = function(msg, file, line) {
+    violationStack.push("Error (" + file + ":" + line + "):\n" + msg);
   }
 
-  this.assertTrue = function() {
+  this.blame = function(contract, msg, file, line) {
+    blameStack.push(
+        ("Violation: (" + file + ":" + line + "):\n" + msg) + "\n" +
+        ("Violated Contract: " + contract.toString())
+        );
+  }
+
+  function assertTrue(stack) {
     var result = stack.pop();
 
-    if(result!==undefined && result!==true) {
+    if(!result) {
       print(new Error().stack);
       quit();
     }
-
-    this.clear();
+    clear(stack);
   }
 
-  this.asserFalse = function() {
+  function assertFalse(stack) {
     var result = stack.pop();
 
-    if(result!==false) {
+print("RESULT " + result);
+
+    if(!result) {
       print(new Error().stack);
       quit();
+    } else {
+      print("" + result);
     }
-
-    this.clear();
+    clear(stack);
   }
 
-  this.clear = function() {
+  function clear(stack) {
     while(stack.length > 0) {
       stack.pop();
     }
   }
+
+  this.assertNoError = function() {
+    assertTrue(errorStack);
+  }
+  this.assertError = function() {
+    assertFalse(errorStack);
+  }
+
+  this.assertNoViolation = function() {
+    assertTrue(violationStack);
+  }
+  this.assertViolation = function() {
+    assertFalse(violationStack);
+  }
+
+  this.assertNoBlame = function() {
+    assertTrue(blameStack);
+  }
+  this.assertBlame = function() {
+    assertFalse(blameStack);
+  }
+
 }
 TreatJSDebuggerUnit.prototype = new TreatJSDebugger();

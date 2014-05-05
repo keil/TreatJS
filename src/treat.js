@@ -41,10 +41,13 @@ function TreatJS(configuration) {
 
   }
 
-  this.out = function(arg) {
-  }
+  // Note: Method for output function!
+  // Not implemented right now.
+  // this.out = function(arg) {
+  // }
 
   this.debug = function(arg) {
+    __define("Debugger", arg, this);
   }
 }
 

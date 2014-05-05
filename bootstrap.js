@@ -20,6 +20,7 @@ function run(file) {
   load(file);
 }
 
+
 //run("test/contract/basecontracts.js");
 //run("test/contract/functioncontracts.js");
 //run("test/contract/objectcontracts.js");
@@ -35,7 +36,8 @@ function run(file) {
 
 
 // sandbox tests
- run("test/sandbox/sandbox.js"); // ok
+// TODO: rework, required to use debugger
+// run("test/sandbox/sandbox.js"); // ok
 // run("test/sandbox/bind.js"); // ok
 
 // run("test/miscellaneous/logic.js"); // ok

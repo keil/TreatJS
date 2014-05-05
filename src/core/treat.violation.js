@@ -22,22 +22,36 @@
   //|______|_|  |_|  \___/|_|   
 
   function error(msg, file, line) {
-    print("Error (" + file + ":" + line + "):\n" + msg);
-    if(_.Config.stackTrace) print(new Error().stack);
-    quit();
+    if(_.Debugger && _.Debugger instanceof TreatJSDebugger) {
+      _.Debugger.error(msg, file, line);
+    } else {
+      print("Error (" + file + ":" + line + "):\n" + msg);
+      if(_.Config.stackTrace) print(new Error().stack);
+      quit();
+    }
   }
 
   function violation(msg, file, line) {
-    print("Violation: (" + file + ":" + line + "):\n" + msg);
-    if(_.Config.stackTrace) print(new Error().stack);
-    quit();
+    if(_.Debugger instanceof TreatJSDebugger) {
+      _.Debugger.violation(msg, file, line);
+    } else {
+
+      print("Violation: (" + file + ":" + line + "):\n" + msg);
+      if(_.Config.stackTrace) print(new Error().stack);
+      quit();
+    }
   }
 
   function blame(contract, msg, file, line) {
-    print("Violation: (" + file + ":" + line + "):\n" + msg);
-    print("Violated Contract: " + contract.toString());
-    if(_.Config.stackTrace) print(new Error().stack);
-    quit();
+    if(_.Debugger instanceof TreatJSDebugger) {
+      _.Debugger.blame(contract, msg, file, line);
+    } else {
+
+      print("Violation: (" + file + ":" + line + "):\n" + msg);
+      print("Violated Contract: " + contract.toString());
+      if(_.Config.stackTrace) print(new Error().stack);
+      quit();
+    }
   }
 
   /**

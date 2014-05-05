@@ -81,7 +81,7 @@
       return arg;
     }                        
     },
-    "membrabne": {
+    "membrane": {
       get: function () {
         return (membrabne===undefined) ? true : membrabne;
       },
