@@ -180,6 +180,8 @@
     else if (contract instanceof ObjectContract) {
       if(!(arg instanceof Object)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
 
+      // TODO, callback ?
+
       /* STRICT MODE */
       if(contract.strict) {
         contract.map.foreach(function(key, contract) {
@@ -222,9 +224,9 @@
     ///_/ \_\_||_\__,_|\___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof AndContract) {
-      var callback = AndCallback(callback);
-      var tmp = assertWith(arg, contract.first, global, callback.leftHandler);
-      return assertWith(tmp, contract.second, global,  callback.rightHandler); 
+      var newCallback = AndCallback(callback);
+      var tmp = assertWith(arg, contract.first, global, newCallback.leftHandler);
+      return assertWith(tmp, contract.second, global,  newCallback.rightHandler); 
     }
 
     //  ___       ___         _               _   
@@ -233,9 +235,9 @@
     // \___/|_|  \___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof OrContract) {
-      var callback = OrCallback(callback);
-      var tmp = assertWith(arg, contract.first, global, callback.leftHandler);
-      return assertWith(tmp, contract.second, global,  callback.rightHandler); 
+      var newCallback = OrCallback(callback);
+      var tmp = assertWith(arg, contract.first, global, newCallback.leftHandler);
+      return assertWith(tmp, contract.second, global,  newCallback.rightHandler); 
     }
 
     // _  _     _    ___         _               _   
@@ -244,8 +246,8 @@
     //|_|\_\___/\__|\___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof NotContract) {
-      var callback = NotCallback(callback);
-      return assertWith(arg, contract.sub, global, callback.subHandler);
+      var newCallback = NotCallback(callback);
+      return assertWith(arg, contract.sub, global, newCallback.subHandler);
     }
 
     // ___                ___         _               _   
@@ -344,9 +346,10 @@
   function FunctionHandler(contract, global, callback) {
     if(!(this instanceof FunctionHandler)) return new FunctionHandler(contract, global, callback);
     this.apply = function(target, thisArg, args) {
-      var args = assertWith(args, contract.domain, global, callback);
+      var newCallback = AndCallback(callback);
+      var args = assertWith(args, contract.domain, global, newCallback.leftHandler);
       var val = target.apply(thisArg, args);  
-      return assertWith(val, contract.range, global, callback);
+      return assertWith(val, contract.range, global, newCallback.rightHandler);
     };
     this.construct = function(target, args) {
       var obj = Object.create(target.prototype);
@@ -359,10 +362,13 @@
     if(!(this instanceof MethodHandler)) return new MethodHandler(contract, global, callback);
 
     this.apply = function(target, thisArg, args) {
-      var thisArg = assertWith(thisArg, context, global, callback);
-      var args = assertWith(args, contract.domain, global, callback);
+      var newCallback = AndCallback(callback);
+      var newCallbackDomain = AndCallback(newCallback.leftHandler);
+   
+      var thisArg = assertWith(thisArg, context, global, newCllbackDomain.leftHandler);
+      var args = assertWith(args, contract.domain, global, newCallbackDomain.rightHandler);
       var val = target.apply(thisArg, args);  
-      return assertWith(val, range, global, callback);
+      return assertWith(val, range, global, newCallback.rightHandler);
     };
     this.construct = function(target, args) {
       var obj = Object.create(target.prototype);
@@ -374,7 +380,10 @@
   function DependentHandler(contract, global, callback) {
     if(!(this instanceof DependentHandler)) return new DependentHandler(contract, global, callback);
 
-    this.apply = function(target, thisArg, args) { 
+    this.apply = function(target, thisArg, args) {
+
+      // TODO: callback ?
+
       var range = constructWith(args, contract.constructor, global);
       var val = target.apply(thisArg, args); 
       return assertWith(val, range, global, callback);
@@ -390,6 +399,9 @@
     if(!(this instanceof ObjectHandler)) return new ObjectHandler(contract, global, callback);
 
     this.get = function(target, name, receiver) {
+
+       // TODO: callback ?
+
       if(contract.map instanceof StringMap) {
         return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, callback) : target[name];
       } else {
@@ -402,6 +414,10 @@
     };
 
     this.set = function(target, name, value, reveiver) {
+
+       // TODO: callback ?
+       // also in assert if strict mode
+
       var value = (contract.map.has(name)) ? assertWith(value, contract.map.get(name), global, callback) : value;
       return target[name] = value;
     }
