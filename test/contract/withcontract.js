@@ -37,7 +37,7 @@ var func3       = function(x, y) { return (x+y);}
 
 var test = _.assert(
                 func,
-                _.FunctionContract(_.ObjectContract(_.StringMap({0:IsNumber})), _.With({obj:obj}, Predicate))
+                _.FunctionContract(_.ObjectContract(_.Map.StringMap({0:IsNumber})), _.With({obj:obj}, Predicate))
                 );
 
 var test2 = _.assert(
@@ -47,7 +47,7 @@ var test2 = _.assert(
 
 var test3 = _.assert(
                 func3,
-                _.FunctionContract(_.ObjectContract(_.StringMap({0:_.With({obj:obj}, Predicate), 1:Any})), Any)
+                _.FunctionContract(_.ObjectContract(_.Map.StringMap({0:_.With({obj:obj}, Predicate), 1:Any})), Any)
                 );
 
 test(4711);
@@ -66,9 +66,9 @@ var obj = {
 // Test 3.1
 // ObjectContract with nested base-level With
 
-var contract = _.ObjectContract(_.StringMap({
+var contract = _.ObjectContract(_.Map.StringMap({
         x:_.With({obj:obj},Predicate),
-    y:_.FunctionContract(_.ObjectContract(_.StringMap({0:GreaterThanZero})), _.With({obj:obj},Predicate)),
+    y:_.FunctionContract(_.ObjectContract(_.Map.StringMap({0:GreaterThanZero})), _.With({obj:obj},Predicate)),
     z:Any
 }));
 
@@ -85,9 +85,9 @@ var g = test["y"];
 // Test 3.2
 // ObjectContract with top-level With
 
-var contract = _.With({obj:obj}, _.ObjectContract(_.StringMap({
+var contract = _.With({obj:obj}, _.ObjectContract(_.Map.StringMap({
         x:Predicate,
-    y:_.FunctionContract(_.ObjectContract(_.StringMap({0:Predicate})), Predicate),
+    y:_.FunctionContract(_.ObjectContract(_.Map.StringMap({0:Predicate})), Predicate),
     z:Any
 })));
 
@@ -104,9 +104,9 @@ var g = test2["y"];
 // Test 3.3
 // ObjectContract with nested With
 
-var contract = _.ObjectContract(_.StringMap({
+var contract = _.ObjectContract(_.Map.StringMap({
         x:IsNumber,
-    y:_.With({obj:obj}, _.FunctionContract(_.ObjectContract(_.StringMap({0:Predicate})), Any)),
+    y:_.With({obj:obj}, _.FunctionContract(_.ObjectContract(_.Map.StringMap({0:Predicate})), Any)),
     z:Any
 }));
 

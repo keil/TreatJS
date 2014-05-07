@@ -418,7 +418,7 @@
        // TODO: callback ?
        // also in assert if strict mode
 
-      var value = (contract.map.has(name)) ? assertWith(value, contract.map.get(name), global, callback) : value;
+      var value = (contract.strict && contract.map.has(name)) ? assertWith(value, contract.map.get(name), global, callback) : value;
       return target[name] = value;
     }
   }
@@ -455,13 +455,11 @@
     };
 
     for(property in _) {
-      if(proeprty==="BaseContract") __defined(property, newBaseContract, treatjs);
-      else __defined(property, _[property], treatjs);
+      if(property==="BaseContract") {
+        __define(property, newBaseContract, treatjs);
+      }
+      else __define(property, _[property], treatjs);
     }
-
-
-
-
 
     /** TODO
      * Bind the _ (TreatJS) Object

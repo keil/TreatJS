@@ -73,8 +73,8 @@
 
   // set verbose
   _.verbose({
-    assert:true,
-    sandbox:true
+    assert:false,
+    sandbox:false
   });
 
   // TODO

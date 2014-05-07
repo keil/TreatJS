@@ -19,9 +19,9 @@ var obj = {
         z:"chacha"
 };
 
-var contract = new _.ObjectContract(_.StringMap({
+var contract = new _.ObjectContract(_.Map.StringMap({
         x:IsNumber,
-    y:new _.FunctionContract(_.ObjectContract(_.StringMap({0:GreaterThanZero})), IsNumber),
+    y:new _.FunctionContract(_.ObjectContract(_.Map.StringMap({0:GreaterThanZero})), IsNumber),
     z:Any
 }));
 

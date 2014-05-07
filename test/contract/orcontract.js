@@ -34,15 +34,15 @@ var func2       = function(x) {return "chacha";}
 
 var test = _.assert(
                 func,
-                _.FunctionContract(_.ObjectContract(_.StringMap({0:_.Or(IsNumber, GreaterThanZero)})), _.Or(IsNumber, GreaterThanZero))
+                _.FunctionContract(_.ObjectContract(_.Map.StringMap({0:_.Or(IsNumber, GreaterThanZero)})), _.Or(IsNumber, GreaterThanZero))
                 );
 
 // NOTE, only function contracts on functions ?
 var test2 = _.assert(
                 func2,
                 _.Or(
-                        _.FunctionContract(_.ObjectContract(_.StringMap({0:IsNumber})), IsNumber),
-                        _.FunctionContract(_.ObjectContract(_.StringMap({0:GreaterThanZero})), GreaterThanZero)
+                        _.FunctionContract(_.ObjectContract(_.Map.StringMap({0:IsNumber})), IsNumber),
+                        _.FunctionContract(_.ObjectContract(_.Map.StringMap({0:GreaterThanZero})), GreaterThanZero)
                     )
                 );
 
@@ -66,10 +66,10 @@ var obj = {
 // ObjectContract with nested base-level With
 
 var contract = _.Or(
-                _.ObjectContract(_.StringMap({
-                        y:_.FunctionContract(_.ObjectContract(_.StringMap({0:GreaterThanZero})), _.With({obj:obj},Predicate))
+                _.ObjectContract(_.Map.StringMap({
+                        y:_.FunctionContract(_.ObjectContract(_.Map.StringMap({0:GreaterThanZero})), _.With({obj:obj},Predicate))
                 })),
-                _.ObjectContract(_.StringMap({
+                _.ObjectContract(_.Map.StringMap({
                         x:_.With({obj:obj},Predicate)
                 }))
                 );
@@ -88,9 +88,9 @@ var g = test["y"];
 // Test 3.2
 // ObjectContract with top-level With
 
-var contract = _.With({obj:obj}, _.ObjectContract(_.StringMap({
+var contract = _.With({obj:obj}, _.ObjectContract(_.Map.StringMap({
         x:_.Or(Predicate, IsNumber),
-    y:_.Or(_.FunctionContract(_.ObjectContract(_.StringMap({0:IsNumber})), IsNumber), _.FunctionContract(_.ObjectContract(_.StringMap({0:Predicate})), Predicate)),
+    y:_.Or(_.FunctionContract(_.ObjectContract(_.Map.StringMap({0:IsNumber})), IsNumber), _.FunctionContract(_.ObjectContract(_.Map.StringMap({0:Predicate})), Predicate)),
     z:Any
 })));
 
@@ -107,9 +107,9 @@ var g = test2["y"];
 // Test 3.3
 // ObjectContract with nested With
 
-var contract = _.ObjectContract(_.StringMap({
+var contract = _.ObjectContract(_.Map.StringMap({
         x:IsNumber,
-    y:_.With({obj:obj}, _.Or(_.ObjectContract(_.StringMap({})), _.FunctionContract(_.ObjectContract(_.StringMap({0:Predicate})), Any))),
+    y:_.With({obj:obj}, _.Or(_.ObjectContract(_.Map.StringMap({})), _.FunctionContract(_.ObjectContract(_.Map.StringMap({0:Predicate})), Any))),
     z:Any
 }));
 

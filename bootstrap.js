@@ -20,19 +20,23 @@ function run(file) {
   load(file);
 }
 
-
+/*
 run("test/contract/basecontracts.js");
 run("test/contract/functioncontracts.js");
+/*
+run("test/contract/objectcontracts.js");
 
-//run("test/contract/objectcontracts.js");
+run("test/contract/andcontract.js");
+run("test/contract/orcontract.js");
+run("test/contract/notcontract.js");
+*/
 
-//run("test/contract/andcontract.js");
-//run("test/contract/orcontract.js");
-//run("test/contract/notcontract.js");
+run("test/contract/withcontract.js");
+run("test/contract/dependentcontracts.js");
 
-//run("test/contract/withcontract.js");
-//run("test/contract/dependentcontracts.js");
-//run("test/contract/constructor.js");
+run("test/contract/constructor.js");
+
+
 
 
 
@@ -42,6 +46,72 @@ run("test/contract/functioncontracts.js");
 // run("test/sandbox/bind.js"); // ok
 
 // run("test/miscellaneous/logic.js"); // ok
+
+
+
+
+
+
+
+
+
+function predicate(arg) {
+        return arg;
+}
+var b = _.BaseContract(predicate);
+var or = _.Or(b, _.Not(b));
+
+
+//_.assert(false, or);
+
+
+function f(arg) {
+  return arg;
+}
+
+var fc = _.FunctionContract(True, or);
+var g = _.assert(f, fc);
+
+g(false);
+g(true);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 quit();
 
