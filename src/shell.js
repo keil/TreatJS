@@ -42,7 +42,7 @@
   // base source files
   var base = ['out.js','debugger.js','treat.js','treat.system.js','treat.base.js','treat.config.js'];
   // core api
-  var core = ['core/treat.violation.js','core/treat.sandbox.js','core/treat.logic.js','core/treat.callback.js','core/treat.map.js','core/treat.contract.js','treat.convenience.js','core/treat.assert.js'];
+  var core = ['core/treat.violation.js','core/treat.sandbox.js','core/treat.logic.js','core/treat.callback.js','core/treat.map.js','core/treat.contract.js','core/treat.assert.js'];
   // convenience api
   var convenience = ['treat.convenience.js'];
 
@@ -56,7 +56,7 @@
   loadSource(lib, 'lib/');
   loadSource(base, 'src/');
   loadSource(core, 'src/');
-  //loadSource(convenience, 'src/');
+  loadSource(convenience, 'src/');
 
   //              __ _                    _   _          
   // __ ___ _ _  / _(_)__ _ _  _ _ _ __ _| |_(_)___ _ _  
