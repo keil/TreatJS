@@ -37,7 +37,7 @@ run("test/contract/dependentcontracts.js");
 run("test/contract/constructor.js");
 
 
-
+/*
 
 function id(x)  {return x;}
 
@@ -45,7 +45,7 @@ g = _.assert(f, _.Or(_.SimpleFunctionContract(IsNumber, IsBoolean), _.SimpleFunc
 //g(7);
 //g("s");
 g(true);
-
+*/
 
 // sandbox tests
 // TODO: rework, required to use debugger
@@ -60,7 +60,7 @@ g(true);
 
 
 
-
+/*
 
 function predicate(arg) {
         return arg;
@@ -85,7 +85,7 @@ g(true);
 
 
 
-
+*/
 
 
 
