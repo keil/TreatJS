@@ -39,6 +39,13 @@ run("test/contract/constructor.js");
 
 
 
+function id(x)  {return x;}
+
+g = _.assert(f, _.Or(_.SimpleFunctionContract(IsNumber, IsBoolean), _.SimpleFunctionContract(IsString, IsBoolean)));
+//g(7);
+//g("s");
+g(true);
+
 
 // sandbox tests
 // TODO: rework, required to use debugger

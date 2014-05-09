@@ -65,7 +65,7 @@
 
 
   function AdvancedObjectContract(map, strict) {
-    if(!(this instanceof AdvancedObjectContract)) return new AdvancedObjectContract(map, strict, sign);
+    if(!(this instanceof AdvancedObjectContract)) return new AdvancedObjectContract(map, strict);
 
     /*    if(map instanceof Map) {
           ObjectContract.call(this, map); 
@@ -143,7 +143,7 @@
     //    var strict = domain.pop();is not really intended 
     var range = domain.pop();
 
-    FunctionContract.call(this, AdvancedObjectContract(domain, strict), range);
+    FunctionContract.call(this, AdvancedObjectContract(domain, false), range);
   }
   SimpleFunctionContract.prototype = new FunctionContract(Blank, Blank);
 
