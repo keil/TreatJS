@@ -91,6 +91,10 @@
       });
     } else if(elements instanceof Object) {
       for(var key in elements) {
+        
+        // TODO:
+        // fix this, foreach is no contract
+        
         this.set(key, elements[key]);
       }
     } else {}

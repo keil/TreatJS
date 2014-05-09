@@ -14,39 +14,48 @@
 
 var obj = {a:4711, b:4712, 0:4713}
 
+// TODO
+// * BUG: the array element foreach is used as contract!
+
 // array
 // object
 // regmap
 // stringmap
 //
 
-var test = _.assert(
-                obj,
-                _.AdvancedObjectContract(_.StringMap([IsNumber, IsBoolean])));
+/*
+ * BUG: the array element foreach is used as contract!
+ var test = _.assert(
+ obj,
+ _.AdvancedObjectContract(_.Map.StringMap([IsNumber, IsBoolean])));
 
-test.a;
-test.b;
-test.c;
-test[0];
+ test.a;
+ test.b;
+ test.c;
+ test[0];
 //test[1];
+*/
 
+/*
+   var test = _.assert(
+   obj,
+   _.AdvancedObjectContract(_.Map.StringMap({a:IsNumber, c:IsNumber})));
 
-var test = _.assert(
-                obj,
-                _.AdvancedObjectContract(_.StringMap({a:IsNumber, c:IsNumber})));
-
-test.a;
-test.b;
+   test.a;
+   test.b;
 //test.c;
 test[0];
 test[1];
+*/
 
-var test = _.assert(
-                obj,
-                _.AdvancedObjectContract(_.RegExpMap([_.Mapping(/a|b|c/, IsNumber), _.Mapping(/0|1/, IsNumber)])));
+/*
+   var test = _.assert(
+   obj,
+   _.AdvancedObjectContract(_.Map.RegExpMap([_.Map.Mapping(/a|b|c/, IsNumber), _.Map.Mapping(/0|1/, IsNumber)])));
 
-test.a;
-test.b;
+   test.a;
+   test.b;
 //test.c;
 test[0];
 //test[1];
+*/

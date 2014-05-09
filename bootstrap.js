@@ -49,7 +49,7 @@ run("test/behavior/weak.js");
 
 // convinience contarcts
 run("test/convenience/functioncontracts.js");
-//run("test/convenience/objectcontracts.js.js");
+run("test/convenience/objectcontracts.js");
 //run("test/convenience/dependentcontracts.js.js"); // not implemented
 //run("test/convenience/methodcontracts.js.js"); // not implemented
 
