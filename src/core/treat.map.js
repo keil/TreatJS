@@ -74,28 +74,6 @@
     };
   }
 
-  /*
-     function StrictMap(strict) {
-     if(!(this instanceof StrictMap)) return new StrictMap(strict);
-     else Map.call(this);
-
-     }
-     StrictMap.prototype = new Map();
-
-
-  // TODO rework this
-  function WeakMap() {
-  if(!(this instanceof WeakMap)) return new WeakMap();
-  else Map.call(this);
-  Object.defineProperties(this, {
-  "strict": {
-  get: function () { return false; }}
-  });
-  }
-  WeakMap.prototype = new Map();
-  */
-
-
   function StringMap(elements, strict) { 
     if(!(this instanceof StringMap)) return new StringMap(elements, strict);
     else Map.call(this, strict);
@@ -118,7 +96,6 @@
     } else {}
   }
   StringMap.prototype = new Map();
-
 
   function Mapping(regexp, contract) {
     if(!(this instanceof Mapping)) return new Mapping(regexp, contract);

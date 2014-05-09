@@ -13,6 +13,8 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+// Note -- still testing code
+
 function TreatJSDebugger() {
   if(!(this instanceof TreatJSDebugger)) return new TreatJSDebugger();
 
@@ -60,7 +62,7 @@ function TreatJSDebuggerUnit() {
   function assertFalse(stack) {
     var result = stack.pop();
 
-print("RESULT " + result);
+    print("RESULT " + result);
 
     if(!result) {
       print(new Error().stack);

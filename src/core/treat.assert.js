@@ -180,7 +180,8 @@
     else if (contract instanceof ObjectContract) {
       if(!(arg instanceof Object)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
 
-      // TODO, callback ?
+      // TODO:
+      // * test strict mode
 
       /* STRICT MODE */
       if(contract.strict) {
@@ -364,7 +365,7 @@
     this.apply = function(target, thisArg, args) {
       var newCallback = AndCallback(callback);
       var newCallbackDomain = AndCallback(newCallback.leftHandler);
-   
+
       var thisArg = assertWith(thisArg, context, global, newCllbackDomain.leftHandler);
       var args = assertWith(args, contract.domain, global, newCallbackDomain.rightHandler);
       var val = target.apply(thisArg, args);  
@@ -382,7 +383,8 @@
 
     this.apply = function(target, thisArg, args) {
 
-      // TODO: callback ?
+      // TODO:
+      // * test callback
 
       var range = constructWith(args, contract.constructor, global);
       var val = target.apply(thisArg, args); 
@@ -400,7 +402,8 @@
 
     this.get = function(target, name, receiver) {
 
-       // TODO: callback ?
+      // TODO:
+      // * test callback
 
       if(contract.map instanceof StringMap) {
         return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, callback) : target[name];
@@ -415,8 +418,9 @@
 
     this.set = function(target, name, value, reveiver) {
 
-       // TODO: callback ?
-       // also in assert if strict mode
+      // TODO:
+      // * test callback
+      // * test strict mode
 
       var value = (contract.strict && contract.map.has(name)) ? assertWith(value, contract.map.get(name), global, callback) : value;
       return target[name] = value;
@@ -461,30 +465,6 @@
       else __define(property, _[property], treatjs);
     }
 
-    /** TODO
-     * Bind the _ (TreatJS) Object
-     *
-     * Replace the BaseContract by a SandboxContrct
-     * Use a fore each loop
-     */
-    /*
-       newglobal.FunctionContract = FunctionContract;
-    //newglobal.SFunctionContract = SFunctionContract;
-    newglobal.DependentContract = DependentContract;
-    newglobal.ObjectContract = ObjectContract;
-
-    newglobal.With = WithContract;
-
-    newglobal.And = AndContract;
-    newglobal.Or = OrContract;
-    newglobal.Not = NotContract;
-
-    newglobal.Constructor = ContractConstructor;
-
-    newglobal.assert = assert;
-    newglobal.construct = construct;
-    */
-
     globalArg["_"] = treatjs;
 
     var contract = (_.eval(constructor.constructor, globalArg, thisArg, argsArray));
@@ -501,4 +481,3 @@
   __define("assert", assert, _);
 
 })(_);
-

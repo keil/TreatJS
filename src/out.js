@@ -13,6 +13,8 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+// Note -- still testing code
+
 function TreatJSOut() {
   if(!(this instanceof TreatJSOut)) return new TreatJSOut();
 
@@ -28,7 +30,6 @@ function TreatJSOut() {
   this.logSandbox = function(msg, target) {
   }
 }
-
 
 function TreatJSShellOut(sysout) {
   if(!(this instanceof TreatJSShellOut)) return new TreatJSShellOut(sysout);

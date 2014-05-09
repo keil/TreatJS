@@ -16,15 +16,19 @@ load("src/shell.js");
 load("test/contracts.js");
 
 //  makes TreatJS available under $
+//  Note: required to run the testcases
 var $ = _ ;
 
 // verbose/ false
-$.Config.Verbose.sandbox = false;
-$.Config.Verbose.assert = false;
+// Note: deprecated - configuration has to be done using _.configure
+// see also: src/shell.js
 
-$.Config.assertion = true;
-$.Config.membrane = true;
-$.Config.decompile = true;
+//$.Config.Verbose.sandbox = false;
+//$.Config.Verbose.assert = false;
+
+//$.Config.assertion = true;
+//$.Config.membrane = true;
+//$.Config.decompile = true;
 
 load("benchmark/octane/run.js")
 

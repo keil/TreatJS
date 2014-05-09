@@ -15,14 +15,11 @@
 load("src/shell.js");
 load("test/contracts.js");
 
+// runs a testcase
 function run(file) {
   print("\n\n\n##########\n# " + file + "\n");
   load(file);
 }
-
-
-//  makes TreatJS available under $
-//var $ = _ ;
 
 run("test/contract/basecontracts.js");
 run("test/contract/functioncontracts.js");
@@ -40,6 +37,7 @@ run("test/contract/constructor.js");
 run("test/sandbox/sandbox.js");
 run("test/sandbox/bind.js");
 
+// callback tests
 run("test/miscellaneous/logic.js");
 
 quit();

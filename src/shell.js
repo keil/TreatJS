@@ -77,20 +77,20 @@
     sandbox:false
   });
 
-  // TODO
+  // TODO -- testing code
   // var out = new TreatJSShellOut(print);
   // _.out(undefined);
 
-  var unit = new TreatJSDebuggerUnit();
- // _.debug(unit);
-//
-this.assertError = unit.assertError;
-this.assertNoError = unit.assertNoError;
+  // var unit = new TreatJSDebuggerUnit();
+  // _.debug(unit);
+  //
+  // this.assertError = unit.assertError;
+  // this.assertNoError = unit.assertNoError;
 
-this.assertViolation = unit.assertViolation;
-this.assertNoViolation = unit.assertNoViolation;
+  // this.assertViolation = unit.assertViolation;
+  // this.assertNoViolation = unit.assertNoViolation;
 
-this.assertBlame = unit.assertBlame;
-this.assertNoBlame = unit.assertNoBlame;
+  // this.assertBlame = unit.assertBlame;
+  // this.assertNoBlame = unit.assertNoBlame;
 
 })(load, print);

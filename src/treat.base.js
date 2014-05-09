@@ -14,17 +14,22 @@
  */
 (function(_) {
 
+  //  _____            _                  _       
+  // / ____|          | |                | |      
+  //| |     ___  _ __ | |_ _ __ __ _  ___| |_ ___ 
+  //| |    / _ \| '_ \| __| '__/ _` |/ __| __/ __|
+  //| |___| (_) | | | | |_| | | (_| | (__| |_\__ \
+  // \_____\___/|_| |_|\__|_|  \__,_|\___|\__|___/
+
   function Contract() {
     if(!(this instanceof Contract)) return new Contract();
   };
 
   function Constructor() {
-     if(!(this instanceof Constructor)) return new Constructor();
+    if(!(this instanceof Constructor)) return new Constructor();
   }
   Constructor.prototype = new Contract();
 
-
-  
   /**
    * Core Components
    */
@@ -34,24 +39,13 @@
   __define("Contract", Contract, _.Core);
   __define("Constructor", Constructor, _.Core);
 
-
-
-
-  
   /**
    * Evaluation Base
    */
 
   __define("Base", {}, _);
-   // references Function.prototype.toString
-  __define("toString", Function.prototype.toString, _.Base);
-
-
-
-  // new Base object
-//  _.Base = new Object();
   // references Function.prototype.toString
-//  _.Base.toString = Function.prototype.toString;
+  __define("toString", Function.prototype.toString, _.Base);
 
   return _ ;
 })(_);
