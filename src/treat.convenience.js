@@ -151,16 +151,6 @@
   }
   SimpleMethodContract.prototype = new MethodContract(Blank, Blank, Blank);
 
-
-
-
-
-
-  // TODO:
-  // * bring derivates
-  // * Simple Dependen Contract
-  // * Simple/ Advanced Method Contract
-
   // ___                        _         _    ___         _               _   
   //|   \ ___ _ __  ___ _ _  __| |___ _ _| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
   //| |) / -_) '_ \/ -_) ' \/ _` / -_) ' \  _| (__/ _ \ ' \  _| '_/ _` / _|  _|
