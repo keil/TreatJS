@@ -21,6 +21,9 @@ function run(file) {
   load(file);
 }
 
+
+run("test/contract/methodcontracts.js");
+
 /*
 // contracts
 run("test/contract/basecontracts.js");

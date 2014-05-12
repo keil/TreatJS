@@ -366,10 +366,10 @@
       var newCallback = AndCallback(callback);
       var newCallbackDomain = AndCallback(newCallback.leftHandler);
 
-      var thisArg = assertWith(thisArg, context, global, newCllbackDomain.leftHandler);
+      var thisArg = assertWith(thisArg, contract.context, global, newCallbackDomain.leftHandler);
       var args = assertWith(args, contract.domain, global, newCallbackDomain.rightHandler);
       var val = target.apply(thisArg, args);  
-      return assertWith(val, range, global, newCallback.rightHandler);
+      return assertWith(val, contract.range, global, newCallback.rightHandler);
     };
     this.construct = function(target, args) {
       var obj = Object.create(target.prototype);

@@ -80,7 +80,7 @@
   //|_|  |_\___|\__|_||_\___/\__,_|\___\___/_||_\__|_| \__,_\__|\__|
 
   function MethodContract(domain, range, context) {
-    if(!(this instanceof MethodContract)) return new MethodContract(domain, range);
+    if(!(this instanceof MethodContract)) return new MethodContract(domain, range, context);
 
     if(!(domain instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
     if(!(range instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
