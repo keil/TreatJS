@@ -240,7 +240,8 @@
         } 
 
         var constructor = _.Constructor(callOnce);
-        var contract = _.construct(constructor);
+        var contract = constructor.build();
+//        var contract = _.construct(constructor);
 
         function h() {
         }

@@ -21,6 +21,7 @@ function run(file) {
   load(file);
 }
 
+// contracts
 run("test/contract/basecontracts.js");
 run("test/contract/functioncontracts.js");
 run("test/contract/objectcontracts.js");
@@ -39,5 +40,17 @@ run("test/sandbox/bind.js");
 
 // callback tests
 run("test/miscellaneous/logic.js");
+
+// behavior
+run("test/behavior/negative.js");
+run("test/behavior/positive.js");
+run("test/behavior/strict.js");
+run("test/behavior/weak.js");
+
+// convinience contarcts
+run("test/convenience/functioncontracts.js");
+run("test/convenience/objectcontracts.js");
+//run("test/convenience/dependentcontracts.js.js"); // not implemented
+//run("test/convenience/methodcontracts.js.js"); // not implemented
 
 quit();

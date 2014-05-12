@@ -242,9 +242,6 @@
   //| |___| (_) | | | \__ \ |_| |  | |_| | (__| || (_) | |   
   // \_____\___/|_| |_|___/\__|_|   \__,_|\___|\__\___/|_|   
 
-  //  function Constructor() {}
-  //  Constructor.prototype = new Contract();
-
   function ContractConstructor(constructor, name) {
     if(!(this instanceof ContractConstructor)) return new ContractConstructor(constructor, name);
 
@@ -254,7 +251,11 @@
       "constructor": {
         get: function () { return constructor; } },
       "name": {
-        get: function () { return name; } }
+        get: function () { return name; } },
+      "build": {
+        get: function () { return function() {
+          return _.construct(this);
+        } } },
     });
 
     this.toString = function() { return "[*" + ((name!=undefined) ? name : constructor.toString()) + "*]"; };

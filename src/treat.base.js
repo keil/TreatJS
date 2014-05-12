@@ -27,6 +27,9 @@
 
   function Constructor() {
     if(!(this instanceof Constructor)) return new Constructor();
+
+    // empty constructor call
+    this.build = function () {};
   }
   Constructor.prototype = new Contract();
 
