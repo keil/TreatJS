@@ -41,7 +41,7 @@
   Object.defineProperties(Verbose, {
     "sandbox": {
       get: function () {
-        return (sandbox===undefined) ? true : sandbox;
+        return (sandbox===undefined) ? false : sandbox;
       },
     set: function (arg) {
       sandbox = (sandbox===undefined) ? arg : sandbox;
@@ -50,7 +50,7 @@
     },
     "assert": {
       get: function () {
-        return (assert===undefined) ? true : assert;
+        return (assert===undefined) ? false : assert;
       },
     set: function (arg) {
       assert = (assert===undefined) ? arg : assert;
@@ -111,6 +111,9 @@
   // pass-through of native functions
   var nativePassThrough = true;
 
+  // pass-through of contracts
+  var contractPassThrough = true;
+
   // print stack trace on error
   var stackTrace = true;
 
@@ -123,6 +126,11 @@
     "nativePassThrough": {
       get: function () {
         return nativePassThrough;
+      }
+    },
+    "contractPassThrough": {
+      get: function () {
+        return contractPassThrough;
       }
     },
     "stackTrace": {

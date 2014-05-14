@@ -131,8 +131,15 @@
       // pass-through of Contract System
       if(name=="_") return target[name];
 
+      // pass-through of Contracts   
+      if( _.Config.contractPassThrough) {
+        if(target[name] instanceof _.Core.Contract) {
+          return target[name];
+        }
+      }
+
+      // pass-through of native functions
       if( _.Config.nativePassThrough) {
-        // pass-through of native functions
         if(isNativeFunction(target[name])) {
           return target[name];
         }

@@ -180,9 +180,6 @@
     else if (contract instanceof ObjectContract) {
       if(!(arg instanceof Object)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
 
-      // TODO:
-      // * test strict mode
-
       /* STRICT MODE */
       if(contract.strict) {
         contract.map.foreach(function(key, contract) {
@@ -383,9 +380,6 @@
 
     this.apply = function(target, thisArg, args) {
 
-      // TODO:
-      // * test callback
-
       var range = constructWith(args, contract.constructor, global);
       var val = target.apply(thisArg, args); 
       return assertWith(val, range, global, callback);
@@ -402,9 +396,6 @@
 
     this.get = function(target, name, receiver) {
 
-      // TODO:
-      // * test callback
-
       if(contract.map instanceof StringMap) {
         return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, callback) : target[name];
       } else {
@@ -417,11 +408,6 @@
     };
 
     this.set = function(target, name, value, reveiver) {
-
-      // TODO:
-      // * test callback
-      // * test strict mode
-
       var value = (contract.strict && contract.map.has(name)) ? assertWith(value, contract.map.get(name), global, callback) : value;
       return target[name] = value;
     }
@@ -449,7 +435,8 @@
 
     if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
 
-    var globalArg = global.dump(); 
+    var newglobal = (constructor.binding!==undefined) ? global.merge(constructor.binding) : global;   
+    var globalArg = newglobal.dump(); 
     var thisArg = undefined;
     var argsArray = args;
 

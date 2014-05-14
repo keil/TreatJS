@@ -21,6 +21,19 @@ function run(file) {
   load(file);
 }
 
+// set configuration
+_.configure({
+  assertion:true,
+  membrabe:true,
+  decompile:true
+});
+
+// set verbose
+_.verbose({
+  assert:false,
+  sandbox:false
+});
+
 // contracts
 run("test/contract/basecontracts.js");
 run("test/contract/functioncontracts.js");
@@ -46,11 +59,12 @@ run("test/behavior/negative.js");
 run("test/behavior/positive.js");
 run("test/behavior/strict.js");
 run("test/behavior/weak.js");
+run("test/behavior/nesting.js");
 
 // convinience contarcts
 run("test/convenience/functioncontracts.js");
 run("test/convenience/objectcontracts.js");
-//run("test/convenience/dependentcontracts.js.js"); // not implemented
-//run("test/convenience/methodcontracts.js.js"); // not implemented
+run("test/convenience/dependentcontracts.js");
+run("test/convenience/methodcontracts.js"); 
 
 quit();

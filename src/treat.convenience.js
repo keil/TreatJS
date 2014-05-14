@@ -44,9 +44,6 @@
   var Blank = new BaseContract(function(){return true;}, "-");
   var BlankC = new ContractConstructor(function(){return Blank;});
 
-  // TODO:
-  // * complete testcases
-
   //  ___  _     _        _    ___         _               _   
   // / _ \| |__ (_)___ __| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
   //| (_) | '_ \| / -_) _|  _| (__/ _ \ ' \  _| '_/ _` / _|  _|
@@ -55,7 +52,7 @@
 
   function AdvancedObjectContract(mapping, strict) {
     if(!(this instanceof AdvancedObjectContract)) return new AdvancedObjectContract(mapping, strict);
-  
+
     if(mapping instanceof Array) {
       ObjectContract.call(this, StringMap(mapping, strict)); 
     } else if(mapping instanceof Object) {
@@ -76,7 +73,7 @@
     if(!(this instanceof AdvancedFunctionContract)) return new AdvancedFunctionContract(domain, range, strict);
 
     if(!(range instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-  
+
     if(domain instanceof Array) {
       FunctionContract.call(this, AdvancedObjectContract(domain, strict), range);
     } else if(domain instanceof Object) {
@@ -118,7 +115,7 @@
 
     if(!(range instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
     if(!(context instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-  
+
     if(domain instanceof Array) {
       MethodContract.call(this, AdvancedObjectContract(domain, strict), range, context);
     } else if(domain instanceof Object) {
@@ -143,11 +140,11 @@
     // make a seperate *strict* simple function conract
     // var sign = domain.pop();
     // var strict = domain.pop();is not really intended 
-    
+
     var context = domain.pop();
     var range = domain.pop();
 
-    MethodContract.call(this, AdvancedObjectContract(domain, false), range);
+    MethodContract.call(this, AdvancedObjectContract(domain, false), range, context);
   }
   SimpleMethodContract.prototype = new MethodContract(Blank, Blank, Blank);
 
@@ -157,15 +154,18 @@
   //|___/\___| .__/\___|_||_\__,_\___|_||_\__|\___\___/_||_\__|_| \__,_\__|\__|
   //         |_|                                                               
 
-    function SimpleDependentContract(name, contract) {
-      if(!(this instanceof SimpleDependentContract)) return new SimpleDependentContract(name, contract);
+  function SimpleDependentContract(name, contract) {
+    if(!(this instanceof SimpleDependentContract)) return new SimpleDependentContract(name, contract);
 
-      function domain(domainArgs) {
-        var binding = {};
-        binding[name]=domainArgs;
-        return _.With(binding, contract);
-      } 
-      DependentContract.call(this, _.Constructor(domain));
+    // constructor function
+    function ctor() {
+      var binding = {};
+      binding[name]=arguments;
+      //return _.With(binding, new _.BaseContract(contract.predicate, contract.name));
+      return _.With(binding, contract);
+    }
+
+    DependentContract.call(this, ContractConstructor(ctor, {name:name, contract:contract}));
   }
   SimpleDependentContract.prototype = new DependentContract(BlankC);
 

@@ -41,14 +41,16 @@ function TreatJS(configuration) {
 
   }
 
-  // Note: Method for output function!
+  // Note: Method for print output!
   // Not implemented right now.
   // this.out = function(arg) {
   // }
 
-  this.debug = function(arg) {
-    __define("Debugger", arg, this);
-  }
+  // Note: Method for test cases debugging.
+  // Not implemented right now.
+  //this.debug = function(arg) {
+  //  __define("Debugger", arg, this);
+  //}
 }
 
 // TreatJS

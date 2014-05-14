@@ -19,16 +19,18 @@ load("test/contracts.js");
 //  Note: required to run the testcases
 var $ = _ ;
 
-// verbose/ false
-// Note: deprecated - configuration has to be done using _.configure
-// see also: src/shell.js
+// set configuration
+_.configure({
+  assertion:true,
+  membrabe:true,
+  decompile:true
+});
 
-//$.Config.Verbose.sandbox = false;
-//$.Config.Verbose.assert = false;
-
-//$.Config.assertion = true;
-//$.Config.membrane = true;
-//$.Config.decompile = true;
+// set verbose
+_.verbose({
+  assert:false,
+  sandbox:false
+});
 
 load("benchmark/octane/run.js")
 

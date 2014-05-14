@@ -65,19 +65,23 @@
   //                  |___/                              
 
   // set configuration
-  _.configure({
-    assertion:true,
-    membrabe:true,
-    decompile:true
-  });
+  /*
+     _.configure({
+     assertion:true,
+     membrabe:true,
+     decompile:true
+     });
+     */
 
   // set verbose
-  _.verbose({
-    assert:false,
-    sandbox:false
-  });
+  /*
+     _.verbose({
+     assert:false,
+     sandbox:false
+     });
+     */
 
-  // TODO -- testing code
+  // Note: Testing Code
   // var out = new TreatJSShellOut(print);
   // _.out(undefined);
 

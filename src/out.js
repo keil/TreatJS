@@ -13,7 +13,7 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-// Note -- still testing code
+// Note: Still Testing Code
 
 function TreatJSOut() {
   if(!(this instanceof TreatJSOut)) return new TreatJSOut();

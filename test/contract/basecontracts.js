@@ -21,7 +21,7 @@ var x = _.assert(true, Any);
 var obj = {x:4711};
 
 function predicate(arg) {
-        return true;
+  return true;
 }
 
 var sec = _.assert(obj, _.BaseContract(predicate));

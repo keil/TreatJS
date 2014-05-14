@@ -21,78 +21,78 @@ var func = function(x,y,z) {return z;};
 
 (function() {
 
-        var test = _.assert(
-                func,
-                _.SimpleFunctionContract(IsString, IsNumber, IsNumber));
-        test("3",4,5);
-        //test("3",4,true);
+  var test = _.assert(
+    func,
+    _.SimpleFunctionContract(IsString, IsNumber, IsNumber));
+  test("3",4,5);
+  //test("3",4,true);
 
 })();
 (function() {
 
-        var test = _.assert(
-                func,
-                _.SimpleFunctionContract(IsNumber, IsBoolean));
-        //test(3,4,5);
-        test(3,4,true);
-        test(3,"",true);
-        //test("",4,true);
+  var test = _.assert(
+    func,
+    _.SimpleFunctionContract(IsNumber, IsBoolean));
+  //test(3,4,5);
+  test(3,4,true);
+  test(3,"",true);
+  //test("",4,true);
 
 })();
 (function() {
 
-        var test = _.assert(
-                func,
-                _.SimpleFunctionContract(IsNumber, IsNumber, IsBoolean));
-        //test(3,4,5);
-        //test("3","4",true);
-        test(3,7,true);
-        //test("",4,true);
+  var test = _.assert(
+    func,
+    _.SimpleFunctionContract(IsNumber, IsNumber, IsBoolean));
+  //test(3,4,5);
+  //test("3","4",true);
+  test(3,7,true);
+  //test("",4,true);
 
 })();
 (function() {
 
-        var test = _.assert(
-                func,
-                _.SimpleFunctionContract(IsNumber, IsNumber, IsBoolean));
-        //test(3,4,5);
-        test(3,4,true);
-        //test(3,"",true);
-        //test("",4,true);
+  var test = _.assert(
+    func,
+    _.SimpleFunctionContract(IsNumber, IsNumber, IsBoolean));
+  //test(3,4,5);
+  test(3,4,true);
+  //test(3,"",true);
+  //test("",4,true);
 
 })();
 
 (function() {
 
-        var test = _.assert(
-                func,
-                _.AdvancedFunctionContract({}, IsBoolean));
-        //test(3,4,5);
-        test(3,4,true);
-        test(3,"",true);
-        test("",4,true);
+  var test = _.assert(
+    func,
+    _.AdvancedFunctionContract({}, IsBoolean));
+  //test(3,4,5);
+  test(3,4,true);
+  test(3,"",true);
+  test("",4,true);
 
 })(); 
 
 (function() {
 
-        var test = _.assert(
-                func,
-                _.AdvancedFunctionContract({0:IsNumber, 3:IsString}, IsBoolean));
-        //test(3,4,5);
-        //test(3,4,true);
-        test(3,"",true);
-        //test("",4,true);
+  var test = _.assert(
+    func,
+    _.AdvancedFunctionContract({0:IsNumber, 3:IsString}, IsBoolean));
+  //test(3,4,5);
+  //test(3,4,true);
+  test(3,"",true);
+  //test("",4,true);
 
 })();
 (function() {
 
-        var test = _.assert(
-                func,
-                _.AdvancedFunctionContract([IsNumber, IsNumber], IsBoolean));
-        //test(3,4,5);
-        test(3,4,true);
-        //test(3,"",true);
-        //test("",4,true);
+  var test = _.assert(
+    func,
+    _.AdvancedFunctionContract([IsNumber, IsNumber], IsBoolean));
+  //test(3,4,5);
+  test(3,4,true);
+  //test(3,"",true);
+  //test("",4,true);
 
 })();

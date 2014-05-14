@@ -15,8 +15,8 @@
 var func = function(x,y,z) {return z;};
 var obj = {p : "#"};
 
-var context = new BaseContract(function(thisArg) {
-  return (thisArg.p === obj.p);
+var context = new _.BaseContract(function(thisArg) {
+  return (thisArg.p === "#");
 }, "pIs#");
 
 //var test = _.assert(
@@ -26,78 +26,78 @@ var context = new BaseContract(function(thisArg) {
 
 (function() {
 
-        var test = _.assert(
-                func,
-                _.SimpleMethodContract(IsString, IsNumber, IsNumber, context));
-        test("3",4,5);
-        //test("3",4,true);
+  obj.test = _.assert(
+    func,
+    _.SimpleMethodContract(IsString, IsNumber, IsNumber, context));
+  obj.test("3",4,5);
+  //obj.test("3",4,true);
 
 })();
 (function() {
 
-        var test = _.assert(
-                func,
-                _.SimpleMethodContract(IsNumber, IsBoolean, context));
-        //test(3,4,5);
-        test(3,4,true);
-        test(3,"",true);
-        //test("",4,true);
+  obj.test = _.assert(
+    func,
+    _.SimpleMethodContract(IsNumber, IsBoolean, context));
+  //obj.test(3,4,5);
+  obj.test(3,4,true);
+  obj.test(3,"",true);
+  //obj.test("",4,true);
 
 })();
 (function() {
 
-        var test = _.assert(
-                func,
-                _.SimpleMethodContract(IsNumber, IsNumber, IsBoolean, context));
-        //test(3,4,5);
-        //test("3","4",true);
-        test(3,7,true);
-        //test("",4,true);
+  obj.test = _.assert(
+    func,
+    _.SimpleMethodContract(IsNumber, IsNumber, IsBoolean, context));
+  //obj.test(3,4,5);
+  //obj.test("3","4",true);
+  obj.test(3,7,true);
+  //obj.test("",4,true);
 
 })();
 (function() {
 
-        var test = _.assert(
-                func,
-                _.SimpleMethodContract(IsNumber, IsNumber, IsBoolean, context));
-        //test(3,4,5);
-        test(3,4,true);
-        //test(3,"",true);
-        //test("",4,true);
+  obj.test = _.assert(
+    func,
+    _.SimpleMethodContract(IsNumber, IsNumber, IsBoolean, context));
+  //obj.test(3,4,5);
+  obj.test(3,4,true);
+  //obj.test(3,"",true);
+  //obj.test("",4,true);
 
 })();
 
 (function() {
 
-        var test = _.assert(
-                func,
-                _.AdvancedMethodContract({}, IsBoolean, context));
-        //test(3,4,5);
-        test(3,4,true);
-        test(3,"",true);
-        test("",4,true);
+  obj.test = _.assert(
+    func,
+    _.AdvancedMethodContract({}, IsBoolean, context));
+  //obj.test(3,4,5);
+  obj.test(3,4,true);
+  obj.test(3,"",true);
+  obj.test("",4,true);
 
 })(); 
 
 (function() {
 
-        var test = _.assert(
-                func,
-                _.AdvancedMethodContract({0:IsNumber, 3:IsString}, IsBoolean, context));
-        //test(3,4,5);
-        //test(3,4,true);
-        test(3,"",true);
-        //test("",4,true);
+  obj.test = _.assert(
+    func,
+    _.AdvancedMethodContract({0:IsNumber, 3:IsString}, IsBoolean, context));
+  //obj.test(3,4,5);
+  //obj.test(3,4,true);
+  obj.test(3,"",true);
+  //obj.test("",4,true);
 
 })();
 (function() {
 
-        var test = _.assert(
-                func,
-                _.AdvancedMethodContract([IsNumber, IsNumber], IsBoolean, context));
-        //test(3,4,5);
-        test(3,4,true);
-        //test(3,"",true);
-        //test("",4,true);
+  obj.test = _.assert(
+    func,
+    _.AdvancedMethodContract([IsNumber, IsNumber], IsBoolean, context));
+  //obj.test(3,4,5);
+  obj.test(3,4,true);
+  //obj.test(3,"",true);
+  //obj.test("",4,true);
 
 })();

@@ -14,62 +14,62 @@
  */
 
 GreaterThanZero = _.BaseContract(function(arg) {
-        return (arg>0);
+  return (arg>0);
 },"GreaterThanZero");
 
 
 IsNumber = _.BaseContract(function(arg) {
-        return ((typeof arg) === "number");
+  return ((typeof arg) === "number");
 },"IsNumber");
 
 IsString = _.BaseContract(function(arg) {
-        return ((typeof arg) === "string");
+  return ((typeof arg) === "string");
 },"IsString");
 
 IsBoolean = _.BaseContract(function(arg) {
-        return ((typeof arg) === "boolean");
+  return ((typeof arg) === "boolean");
 },"IsBoolean");
 
 
 Any = _.BaseContract(function(arg) {
-        return true; 
+  return true; 
 },"Any");
 
 
 ContainsToString = _.BaseContract(function(obj) {
-        return (obj.hasOwnProperty("toString")) ? true : false;
+  return (obj.hasOwnProperty("toString")) ? true : false;
 },"ContainsToString");
 
 
 AbsLowerThan100 = _.BaseContract(function (val) {
-        return (Math.abs(val) < 100)
+  return (Math.abs(val) < 100)
 },"AbsLowerThan100");
 
 
 True = _.BaseContract(function(arg) {
-        return true; 
+  return true; 
 },"True");
 
 False = _.BaseContract(function(arg) {
-        return false; 
+  return false; 
 },"False");
 
 
 
 InstanceOfTarget =  _.BaseContract(function(arg) {
-        return (arg instanceof target); 
+  return (arg instanceof target); 
 },"InstanceOfTarget");
 
 
 InstanceOfObject =  _.With({Object:Object}, _.BaseContract(function(arg) {
-        return (arg instanceof Object); 
+  return (arg instanceof Object); 
 },"InstanceOfObject"));
 
 InstanceOfFunction =  _.With({Function:Function}, _.BaseContract(function(arg) {
-        return (arg instanceof Function); 
+  return (arg instanceof Function); 
 },"InstanceOfFunction"));
 
 
 IsArray = _.With({Array:Array}, _.BaseContract(function(arg) {
-        return (arg instanceof Array);
+  return (arg instanceof Array);
 },"IsArray"));

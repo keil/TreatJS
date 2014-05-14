@@ -47,7 +47,6 @@
       "name": {
         get: function () { return name; } }
     });
-
     this.toString = function() { return "[" + ((name!=undefined) ? name : predicate.toString()) + "]"; };
   }
   BaseContract.prototype = new Contract();
@@ -242,8 +241,8 @@
   //| |___| (_) | | | \__ \ |_| |  | |_| | (__| || (_) | |   
   // \_____\___/|_| |_|___/\__|_|   \__,_|\___|\__\___/|_|   
 
-  function ContractConstructor(constructor, name) {
-    if(!(this instanceof ContractConstructor)) return new ContractConstructor(constructor, name);
+  function ContractConstructor(constructor, binding, name) {
+    if(!(this instanceof ContractConstructor)) return new ContractConstructor(constructor, binding, name);
 
     if(!(constructor instanceof Function)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
@@ -252,6 +251,8 @@
         get: function () { return constructor; } },
       "name": {
         get: function () { return name; } },
+      "binding": {
+        get: function () { return binding; } },
       "build": {
         get: function () { return function() {
           return _.construct(this);

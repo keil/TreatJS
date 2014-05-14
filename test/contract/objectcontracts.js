@@ -14,13 +14,13 @@
  */
 
 var obj = {
-        x:4711,
-        y:function(x) {return (x+1);},
-        z:"chacha"
+  x:4711,
+  y:function(x) {return (x+1);},
+  z:"chacha"
 };
 
 var contract = new _.ObjectContract(_.Map.StringMap({
-        x:IsNumber,
+  x:IsNumber,
     y:new _.FunctionContract(_.ObjectContract(_.Map.StringMap({0:GreaterThanZero})), IsNumber),
     z:Any
 }));
