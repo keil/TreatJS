@@ -93,12 +93,6 @@
     var domain = [];
     for(var i=0; i<arguments.length;i++) domain[i]=arguments[i];
 
-    // TODO:
-    // a normal function contract is not strict
-    // make a seperate *strict* simple function conract
-    // var sign = domain.pop();
-    // var strict = domain.pop();is not really intended 
-
     var range = domain.pop();
 
     FunctionContract.call(this, AdvancedObjectContract(domain, false), range);
@@ -135,12 +129,6 @@
     var domain = [];
     for(var i=0; i<arguments.length;i++) domain[i]=arguments[i];
 
-    // TODO:
-    // a normal function contract is not strict
-    // make a seperate *strict* simple function conract
-    // var sign = domain.pop();
-    // var strict = domain.pop();is not really intended 
-
     var context = domain.pop();
     var range = domain.pop();
 
@@ -161,10 +149,8 @@
     function ctor() {
       var binding = {};
       binding[name]=arguments;
-      //return _.With(binding, new _.BaseContract(contract.predicate, contract.name));
       return _.With(binding, contract);
     }
-
     DependentContract.call(this, ContractConstructor(ctor, {name:name, contract:contract}));
   }
   SimpleDependentContract.prototype = new DependentContract(BlankC);
