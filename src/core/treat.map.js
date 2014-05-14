@@ -27,7 +27,7 @@
   //            |_|   
 
   function Map(strict) {
-    if(!(this instanceof Map)) return new Map();
+    if(!(this instanceof Map)) return new Map(strict);
 
     var keys = [];
     var values = [];
@@ -91,10 +91,6 @@
       });
     } else if(elements instanceof Object) {
       for(var key in elements) {
-        
-        // TODO:
-        // fix this, foreach is no contract
-        
         this.set(key, elements[key]);
       }
     } else {}
