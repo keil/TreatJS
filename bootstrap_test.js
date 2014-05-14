@@ -35,16 +35,16 @@ _.verbose({
 });
 
 // contracts
-run("test/contract/basecontracts.js");
-run("test/contract/functioncontracts.js");
-run("test/contract/objectcontracts.js");
+run("test/contract/basecontract.js");
+run("test/contract/functioncontract.js");
+run("test/contract/objectcontract.js");
 
 run("test/contract/andcontract.js");
 run("test/contract/orcontract.js");
 run("test/contract/notcontract.js");
 
 run("test/contract/withcontract.js");
-run("test/contract/dependentcontracts.js");
+run("test/contract/dependentcontract.js");
 run("test/contract/constructor.js");
 
 // sandbox tests
@@ -62,9 +62,9 @@ run("test/behavior/weak.js");
 run("test/behavior/nesting.js");
 
 // convinience contarcts
-run("test/convenience/functioncontracts.js");
-run("test/convenience/objectcontracts.js");
-run("test/convenience/dependentcontracts.js");
-run("test/convenience/methodcontracts.js"); 
+run("test/convenience/functioncontract.js");
+run("test/convenience/objectcontract.js");
+run("test/convenience/dependentcontract.js");
+run("test/convenience/methodcontract.js"); 
 
 quit();
