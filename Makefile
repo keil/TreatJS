@@ -14,7 +14,7 @@ inference:
 	./js -f bootstrap_typedoctane.js -f benchmark/typedoctane/inference.js
 
 inferencef:
-	rm benchmark/typedoctane/TYPES.js
+	rm -f benchmark/typedoctane/TYPES.js
 	./js -f bootstrap_typedoctane.js -f benchmark/typedoctane/inference.js >> benchmark/typedoctane/TYPES.js
 
 typed:

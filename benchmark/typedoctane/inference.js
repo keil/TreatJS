@@ -41,7 +41,6 @@ function _TypeHandler_(fid) {
     //if(_types_[fid]!==undefined) {
     //  return target.apply(thisValue, args);
     //}
-    if(args.length===0) quit();
     for(i in args) {
       _update_(fid, i, args[i]);
     }
