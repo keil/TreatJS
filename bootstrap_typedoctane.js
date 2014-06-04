@@ -96,7 +96,7 @@ function _freshID_() {
 //function _wrap_ (f) { return f; }
 
 function _wrap_ (f) {
-  var fid = _file_=_freshID_();
+  var fid = _file_+_freshID_();
   print(fid);
   return f;
   
