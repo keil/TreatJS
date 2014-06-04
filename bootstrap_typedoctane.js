@@ -33,6 +33,20 @@ _.verbose({
 });
 
 
+var _file_ = undefined;
+function _load_ (path, file) {
+  print("load " + file);
+  _file_ = file;
+  load(path + file);
+}
+
+
+
+
+
+
+
+
 var _types_ = [];
 
 // 0--(lenhth-1) arguments
@@ -57,10 +71,10 @@ function _typeof_ (v) {
 
 
 function _TypeHandler_(fid) {
-  this.Xapply = function(target, thisValue, args) {
-
+  this.apply = function(target, thisValue, args) {
+    //return target.apply(thisValue, args);
     // TODO test
-    if(_types_[fid][i]!==undefined) {
+    if(_types_[fid]!==undefined) {
       return target.apply(thisValue, args);
     }
 
@@ -76,13 +90,18 @@ function _TypeHandler_(fid) {
 var _counter_ = 0;
 function _freshID_() {
   _counter_ = (_counter_+1);
-  return ("@"+_counter_);
+  return ("#"+_counter_);
 }
 
 //function _wrap_ (f) { return f; }
 
 function _wrap_ (f) {
-  var fid = _freshID_();
+  var fid = _file_=_freshID_();
+  print(fid);
+  return f;
+  
+  // TODO
+  
   _types_[fid] = [];
   return new Proxy(f, new _TypeHandler_(fid));
 }
