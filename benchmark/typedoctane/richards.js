@@ -47,9 +47,6 @@ var Richards = new BenchmarkSuite('Richards', [35302], [
 function runRichards() {
   var scheduler = new Scheduler();
 
-  /* CONTRACT */
-  $.assert(scheduler, $.With({Object:Object}, InstanceOfObject));
-
   scheduler.addIdleTask(ID_IDLE, 0, null, COUNT);
 
   var queue = new Packet(null, ID_WORKER, KIND_WORK);
