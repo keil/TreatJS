@@ -52,11 +52,11 @@ function _TypeHandler_(fid) {
 }
 
 // TODO
-function _wrap2_ (f) {
+function _wrap_ (f) {
   return f;
 }
 
-function _wrap_ (f) {
+function _wrap2_ (f) {
   var fid = _file_+_freshID_();
   _types_[fid] = [];
   return new Proxy(f, new _TypeHandler_(fid));
@@ -65,20 +65,21 @@ function _wrap_ (f) {
 
 load("benchmark/typedoctane/run.js");
 
-print("-- BEGIN: TYPES --");
+_print_("//-- BEGIN: TYPES --");
 
-print("");
-print("_TYPES_=[];");
-print("");
+_print_("");
+_print_("_TYPES_=[];");
+_print_("");
 
 for(var fid in _types_) {
+  _print_("_TYPES_['"+fid+"']=[];");
   for(var i in _types_[fid]) {
-    print("_TYPES_["+fid+"]["+i+"]="+_types_[fid][i]+";");
+    _print_("_TYPES_['"+fid+"']["+i+"]='"+_types_[fid][i]+"';");
   }
-  print(_makeContract_(fid));
-  print("");
+//  print(_makeContract_(fid));
+//  print("");
 }
 
-print("-- END: TYPES --");
+_print_("//-- END: TYPES --");
 
 quit();

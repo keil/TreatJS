@@ -13,5 +13,9 @@ octane:
 inference:
 	./js -f bootstrap_typedoctane.js -f benchmark/typedoctane/inference.js
 
+inferencef:
+	rm benchmark/typedoctane/TYPES.js
+	./js -f bootstrap_typedoctane.js -f benchmark/typedoctane/inference.js >> benchmark/typedoctane/TYPES.js
+
 typed:
 	./js -f bootstrap_typedoctane.js -f benchmark/typedoctane/typed.js

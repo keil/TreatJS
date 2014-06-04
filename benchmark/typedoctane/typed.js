@@ -14,61 +14,42 @@
  */
 
 // load type information
-load("benchmark/typedoctane/TYPES.js)
+load("benchmark/typedoctane/TYPES.js");
+
+// TODO
+function _wrap2_ (f) {
+//  _print_("wrap2");
+  return _wrap_(f);
+}
 
 function _wrap_ (f) {
+//  _print_("wrap");
   var fid = _file_+_freshID_();
-  var contarct = _makeContract_(fid);
-  // TODO
-  print("assert " = contract);
-  return f;
-  // TODO
-  //return _.assert(f, contract);
+  print(fid);
+  
+  if(_TYPES_[fid]!==undefined) {
+    var contract = _makeContract_(fid);
+    // TODO
+    print("assert " + contract);
+    return f;
+    // TODO
+    //return _.assert(f, contract);
+  } else {
+    return f;
+  }
 }
 
 load("benchmark/typedoctane/run.js");
 
-var IsNumber = _.BaseContract(function(arg) {
-  return ((typeof arg) === "number");
-},"IsNumber");
-
-var IsString = _.BaseContract(function(arg) {
-  return ((typeof arg) === "string");
-},"IsString");
-
-var IsBoolean = _.BaseContract(function(arg) {
-  return ((typeof arg) === "boolean");
-},"IsBoolean");
-
-var IsUndef = _.BaseContract(function(arg) {
-  return (arg === undefined);
-},"IsUndef");
-
-var Any = _.BaseContract(function(arg) {
-  return true; 
-},"Any");
-
-var IsObject =  _.With({Object:Object}, _.BaseContract(function(arg) {
-  return (arg instanceof Object); 
-},"InstanceOfObject"));
-
-var IsFunction =  _.With({Function:Function}, _.BaseContract(function(arg) {
-  return (arg instanceof Function); 
-},"InstanceOfFunction"));
-
-var IsArray = _.With({Array:Array}, _.BaseContract(function(arg) {
-  return (arg instanceof Array);
-},"IsArray"));
-
 function _makeTypeContract_ (t) {
-  if(t == "number") return IsNumber;
-  else if(t == "string") return IsString;
-  else if(t == "boolean") return IsBoolean;
-  else if(t == "undefined") return IsUndef;
-  else if(t == "object") return IsObject;
-  else if(t == "function") return IsFunction;
-  else if(t == "array") return IsArray;
-  else return Any;
+  if(t == "number") return (_IsNumber_);
+  else if(t == "string") return (_IsString_);
+  else if(t == "boolean") return (_IsBoolean_);
+  else if(t == "undefined") return (_IsUndef_);
+  else if(t == "object") return (_IsObject_);
+  else if(t == "function") return (_IsFunction_);
+  else if(t == "array") return (_IsArray_);
+  else return (_Any_);
 }
 
 function _makeContract_(fid) {
@@ -77,7 +58,9 @@ function _makeContract_(fid) {
   var args = [];
   for(var i in types) {
     if(i!=-1) {
+      print("###" + _TYPES_[fid][i]);
       args[i] = _makeTypeContract_(_TYPES_[fid][i]);
+       print("==>" + args[i]);
     }
   }
 

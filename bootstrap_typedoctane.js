@@ -12,6 +12,11 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
+
+// repalce print
+//var _print_ = print;
+//print = function() {}
+
 load("src/shell.js");
 load("test/contracts.js");
 
@@ -44,5 +49,37 @@ function _freshID_() {
   _counter_ = (_counter_+1);
   return ("#"+_counter_);
 }
+
+var _IsNumber_ = _.BaseContract(function(arg) {
+  return ((typeof arg) === "number");
+},"IsNumber");
+
+var _IsString_ = _.BaseContract(function(arg) {
+  return ((typeof arg) === "string");
+},"IsString");
+
+var _IsBoolean_ = _.BaseContract(function(arg) {
+  return ((typeof arg) === "boolean");
+},"IsBoolean");
+
+var _IsUndef_ = _.BaseContract(function(arg) {
+  return (arg === undefined);
+},"IsUndef");
+
+var _Any_ = _.BaseContract(function(arg) {
+  return true; 
+},"Any");
+
+var _IsObject_ = _.With({Object:Object}, _.BaseContract(function(arg) {
+  return (arg instanceof Object); 
+},"InstanceOfObject"));
+
+var _IsFunction_ = _.With({Function:Function}, _.BaseContract(function(arg) {
+  return (arg instanceof Function); 
+},"InstanceOfFunction"));
+
+var _IsArray_ = _.With({Array:Array}, _.BaseContract(function(arg) {
+  return (arg instanceof Array);
+},"IsArray"));
 
 quit();

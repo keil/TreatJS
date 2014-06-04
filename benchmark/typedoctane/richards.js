@@ -123,7 +123,7 @@ var KIND_WORK     = 1;
  * @param {Packet} queue the queue of work to be processed by the task
  * @param {int} count the number of times to schedule the task
  */
-Scheduler.prototype.addIdleTask = _wrap_ (function (id, priority, queue, count) {
+Scheduler.prototype.addIdleTask = _wrap2_ (function (id, priority, queue, count) {
   this.addRunningTask(id, priority, queue, new IdleTask(this, 1, count));
 });
 
@@ -133,7 +133,7 @@ Scheduler.prototype.addIdleTask = _wrap_ (function (id, priority, queue, count) 
  * @param {int} priority the task's priority
  * @param {Packet} queue the queue of work to be processed by the task
  */
-Scheduler.prototype.addWorkerTask = _wrap_ (function (id, priority, queue) {
+Scheduler.prototype.addWorkerTask = _wrap2_ (function (id, priority, queue) {
   this.addTask(id, priority, queue, new WorkerTask(this, ID_HANDLER_A, 0));
 });
 
@@ -143,7 +143,7 @@ Scheduler.prototype.addWorkerTask = _wrap_ (function (id, priority, queue) {
  * @param {int} priority the task's priority
  * @param {Packet} queue the queue of work to be processed by the task
  */
-Scheduler.prototype.addHandlerTask = _wrap_ (function (id, priority, queue) {
+Scheduler.prototype.addHandlerTask = _wrap2_ (function (id, priority, queue) {
   this.addTask(id, priority, queue, new HandlerTask(this));
 });
 
