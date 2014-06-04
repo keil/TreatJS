@@ -13,27 +13,23 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+// backup print
+var print = _print_;
+
 // load type information
 load("benchmark/typedoctane/TYPES.js");
 
 // TODO
 function _wrap2_ (f) {
-//  _print_("wrap2");
   return _wrap_(f);
 }
 
 function _wrap_ (f) {
-//  _print_("wrap");
   var fid = _file_+_freshID_();
-  print(fid);
-  
   if(_TYPES_[fid]!==undefined) {
     var contract = _makeContract_(fid);
-    // TODO
-    print("assert " + contract);
-    return f;
-    // TODO
-    //return _.assert(f, contract);
+    //print("assert " + contract);
+    return _.assert(f, contract);
   } else {
     return f;
   }
@@ -58,9 +54,7 @@ function _makeContract_(fid) {
   var args = [];
   for(var i in types) {
     if(i!=-1) {
-      print("###" + _TYPES_[fid][i]);
       args[i] = _makeTypeContract_(_TYPES_[fid][i]);
-       print("==>" + args[i]);
     }
   }
 

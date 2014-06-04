@@ -14,8 +14,8 @@
  */
 
 // repalce print
-//var _print_ = print;
-//print = function() {}
+var _print_ = print;
+print = function() {}
 
 load("src/shell.js");
 load("test/contracts.js");
@@ -63,7 +63,7 @@ var _IsBoolean_ = _.BaseContract(function(arg) {
 },"IsBoolean");
 
 var _IsUndef_ = _.BaseContract(function(arg) {
-  return (arg === undefined);
+  return ((arg+"") == "undefined");
 },"IsUndef");
 
 var _Any_ = _.BaseContract(function(arg) {
@@ -71,7 +71,7 @@ var _Any_ = _.BaseContract(function(arg) {
 },"Any");
 
 var _IsObject_ = _.With({Object:Object}, _.BaseContract(function(arg) {
-  return (arg instanceof Object); 
+  return ((typeof arg) === "object");
 },"InstanceOfObject"));
 
 var _IsFunction_ = _.With({Function:Function}, _.BaseContract(function(arg) {

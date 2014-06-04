@@ -41,12 +41,12 @@ function _TypeHandler_(fid) {
     //if(_types_[fid]!==undefined) {
     //  return target.apply(thisValue, args);
     //}
-
+    if(args.length===0) quit();
     for(i in args) {
       _update_(fid, i, args[i]);
     }
     var r = target.apply(thisValue, args);
-    _update_ (fid, -1, args[i]);
+    _update_ (fid, -1, r);
     return r;
   }
 }
@@ -62,7 +62,6 @@ function _wrap2_ (f) {
   return new Proxy(f, new _TypeHandler_(fid));
 }
 
-
 load("benchmark/typedoctane/run.js");
 
 _print_("//-- BEGIN: TYPES --");
@@ -76,8 +75,8 @@ for(var fid in _types_) {
   for(var i in _types_[fid]) {
     _print_("_TYPES_['"+fid+"']["+i+"]='"+_types_[fid][i]+"';");
   }
-//  print(_makeContract_(fid));
-//  print("");
+  //  print(_makeContract_(fid));
+  //  print("");
 }
 
 _print_("//-- END: TYPES --");
