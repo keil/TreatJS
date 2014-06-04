@@ -57,7 +57,7 @@ function _typeof_ (v) {
 
 
 function _TypeHandler_(fid) {
-  this.apply = function(target, thisValue, args) {
+  this.Xapply = function(target, thisValue, args) {
 
     // TODO test
     if(_types_[fid][i]!==undefined) {
