@@ -25,11 +25,11 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-var base_dir = 'benchmark/octane/';
+var base_dir = 'benchmark/typedoctane/';
 load(base_dir + 'base.js');
 
 load(base_dir + 'richards.js');
-load(base_dir + 'deltablue.js');
+/*load(base_dir + 'deltablue.js');
 load(base_dir + 'crypto.js');
 load(base_dir + 'raytrace.js');
 load(base_dir + 'earley-boyer.js');
@@ -46,7 +46,7 @@ load(base_dir + 'zlib.js');
 load(base_dir + 'zlib-data.js');
 load(base_dir + 'typescript.js');
 load(base_dir + 'typescript-input.js');
-load(base_dir + 'typescript-compiler.js');
+load(base_dir + 'typescript-compiler.js');*/
 
 
 var success = true;

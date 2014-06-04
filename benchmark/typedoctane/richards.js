@@ -36,8 +36,8 @@
 
 
 var Richards = new BenchmarkSuite('Richards', [35302], [
-  new Benchmark("Richards", true, false, 8200, runRichards)
-]);
+    new Benchmark("Richards", true, false, 8200, runRichards)
+    ]);
 
 
 /**
@@ -74,15 +74,14 @@ function runRichards() {
 
   if (scheduler.queueCount != EXPECTED_QUEUE_COUNT ||
       scheduler.holdCount != EXPECTED_HOLD_COUNT) {
-    var msg =
-        "Error during execution: queueCount = " + scheduler.queueCount +
-        ", holdCount = " + scheduler.holdCount + ".";
-    throw new Error(msg);
-  }
+        var msg =
+          "Error during execution: queueCount = " + scheduler.queueCount +
+          ", holdCount = " + scheduler.holdCount + ".";
+        throw new Error(msg);
+      }
 }
 
 var COUNT = 1000;
-/* CONTRACT */ $.assert(COUNT, IsNumber); 
 
 /**
  * These two constants specify how many times a packet is queued and
@@ -93,9 +92,6 @@ var COUNT = 1000;
  **/
 var EXPECTED_QUEUE_COUNT = 2322;
 var EXPECTED_HOLD_COUNT = 928;
-
-/* CONTRACT */ $.assert(EXPECTED_QUEUE_COUNT, IsNumber); 
-/* CONTRACT */ $.assert(EXPECTED_HOLD_COUNT, IsNumber); 
 
 /**
  * A scheduler can be used to schedule a set of tasks based on their relative
@@ -130,9 +126,9 @@ var KIND_WORK     = 1;
  * @param {Packet} queue the queue of work to be processed by the task
  * @param {int} count the number of times to schedule the task
  */
-Scheduler.prototype.addIdleTask = function (id, priority, queue, count) {
+Scheduler.prototype.addIdleTask = _wrap_ (function (id, priority, queue, count) {
   this.addRunningTask(id, priority, queue, new IdleTask(this, 1, count));
-};
+});
 
 /**
  * Add a work task to this scheduler.
@@ -140,9 +136,9 @@ Scheduler.prototype.addIdleTask = function (id, priority, queue, count) {
  * @param {int} priority the task's priority
  * @param {Packet} queue the queue of work to be processed by the task
  */
-Scheduler.prototype.addWorkerTask = function (id, priority, queue) {
+Scheduler.prototype.addWorkerTask = _wrap_ (function (id, priority, queue) {
   this.addTask(id, priority, queue, new WorkerTask(this, ID_HANDLER_A, 0));
-};
+});
 
 /**
  * Add a handler task to this scheduler.
@@ -150,9 +146,9 @@ Scheduler.prototype.addWorkerTask = function (id, priority, queue) {
  * @param {int} priority the task's priority
  * @param {Packet} queue the queue of work to be processed by the task
  */
-Scheduler.prototype.addHandlerTask = function (id, priority, queue) {
+Scheduler.prototype.addHandlerTask = _wrap_ (function (id, priority, queue) {
   this.addTask(id, priority, queue, new HandlerTask(this));
-};
+});
 
 /**
  * Add a handler task to this scheduler.
@@ -160,9 +156,9 @@ Scheduler.prototype.addHandlerTask = function (id, priority, queue) {
  * @param {int} priority the task's priority
  * @param {Packet} queue the queue of work to be processed by the task
  */
-Scheduler.prototype.addDeviceTask = function (id, priority, queue) {
+Scheduler.prototype.addDeviceTask = _wrap_ (function (id, priority, queue) {
   this.addTask(id, priority, queue, new DeviceTask(this))
-};
+});
 
 /**
  * Add the specified task and mark it as running.
@@ -171,10 +167,10 @@ Scheduler.prototype.addDeviceTask = function (id, priority, queue) {
  * @param {Packet} queue the queue of work to be processed by the task
  * @param {Task} task the task to add
  */
-Scheduler.prototype.addRunningTask = function (id, priority, queue, task) {
+Scheduler.prototype.addRunningTask = _wrap_ (function (id, priority, queue, task) {
   this.addTask(id, priority, queue, task);
   this.currentTcb.setRunning();
-};
+});
 
 /**
  * Add the specified task to this scheduler.
@@ -183,16 +179,16 @@ Scheduler.prototype.addRunningTask = function (id, priority, queue, task) {
  * @param {Packet} queue the queue of work to be processed by the task
  * @param {Task} task the task to add
  */
-Scheduler.prototype.addTask = function (id, priority, queue, task) {
+Scheduler.prototype.addTask = _wrap_ (function (id, priority, queue, task) {
   this.currentTcb = new TaskControlBlock(this.list, id, priority, queue, task);
   this.list = this.currentTcb;
   this.blocks[id] = this.currentTcb;
-};
+});
 
 /**
  * Execute the tasks managed by this scheduler.
  */
-Scheduler.prototype.schedule = function () {
+Scheduler.prototype.schedule = _wrap_ (function () {
   this.currentTcb = this.list;
   while (this.currentTcb != null) {
     if (this.currentTcb.isHeldOrSuspended()) {
@@ -202,13 +198,13 @@ Scheduler.prototype.schedule = function () {
       this.currentTcb = this.currentTcb.run();
     }
   }
-};
+});
 
 /**
  * Release a task that is currently blocked and return the next block to run.
  * @param {int} id the id of the task to suspend
  */
-Scheduler.prototype.release = function (id) {
+Scheduler.prototype.release = _wrap_ (function (id) {
   var tcb = this.blocks[id];
   if (tcb == null) return tcb;
   tcb.markAsNotHeld();
@@ -217,27 +213,27 @@ Scheduler.prototype.release = function (id) {
   } else {
     return this.currentTcb;
   }
-};
+});
 
 /**
  * Block the currently executing task and return the next task control block
  * to run.  The blocked task will not be made runnable until it is explicitly
  * released, even if new work is added to it.
  */
-Scheduler.prototype.holdCurrent = function () {
+Scheduler.prototype.holdCurrent = _wrap_ (function () {
   this.holdCount++;
   this.currentTcb.markAsHeld();
   return this.currentTcb.link;
-};
+});
 
 /**
  * Suspend the currently executing task and return the next task control block
  * to run.  If new work is added to the suspended task it will be made runnable.
  */
-Scheduler.prototype.suspendCurrent = function () {
+Scheduler.prototype.suspendCurrent = _wrap_ (function () {
   this.currentTcb.markAsSuspended();
   return this.currentTcb;
-};
+});
 
 /**
  * Add the specified packet to the end of the worklist used by the task
@@ -245,14 +241,14 @@ Scheduler.prototype.suspendCurrent = function () {
  * suspended.
  * @param {Packet} packet the packet to add
  */
-Scheduler.prototype.queue = function (packet) {
+Scheduler.prototype.queue = _wrap_ (function (packet) {
   var t = this.blocks[packet.id];
   if (t == null) return t;
   this.queueCount++;
   packet.link = null;
   packet.id = this.currentId;
   return t.checkPriorityAdd(this.currentTcb, packet);
-};
+});
 
 /**
  * A task control block manages a task and the queue of work packages associated
@@ -289,7 +285,7 @@ var STATE_RUNNABLE = 1;
 
 /**
  * The task is not currently running.  The task is not blocked as such and may
-* be started by the scheduler.
+ * be started by the scheduler.
  */
 var STATE_SUSPENDED = 2;
 
@@ -301,34 +297,34 @@ var STATE_HELD = 4;
 var STATE_SUSPENDED_RUNNABLE = STATE_SUSPENDED | STATE_RUNNABLE;
 var STATE_NOT_HELD = ~STATE_HELD;
 
-TaskControlBlock.prototype.setRunning = function () {
+TaskControlBlock.prototype.setRunning = _wrap_ (function () {
   this.state = STATE_RUNNING;
-};
+});
 
-TaskControlBlock.prototype.markAsNotHeld = function () {
+TaskControlBlock.prototype.markAsNotHeld = _wrap_ (function () {
   this.state = this.state & STATE_NOT_HELD;
-};
+});
 
-TaskControlBlock.prototype.markAsHeld = function () {
+TaskControlBlock.prototype.markAsHeld = _wrap_ (function () {
   this.state = this.state | STATE_HELD;
-};
+});
 
-TaskControlBlock.prototype.isHeldOrSuspended = function () {
+TaskControlBlock.prototype.isHeldOrSuspended = _wrap_ (function () {
   return (this.state & STATE_HELD) != 0 || (this.state == STATE_SUSPENDED);
-};
+});
 
-TaskControlBlock.prototype.markAsSuspended = function () {
+TaskControlBlock.prototype.markAsSuspended = _wrap_ (function () {
   this.state = this.state | STATE_SUSPENDED;
-};
+});
 
-TaskControlBlock.prototype.markAsRunnable = function () {
+TaskControlBlock.prototype.markAsRunnable = _wrap_ (function () {
   this.state = this.state | STATE_RUNNABLE;
-};
+});
 
 /**
  * Runs this task, if it is ready to be run, and returns the next task to run.
  */
-TaskControlBlock.prototype.run = function () {
+TaskControlBlock.prototype.run = _wrap_ (function () {
   var packet;
   if (this.state == STATE_SUSPENDED_RUNNABLE) {
     packet = this.queue;
@@ -342,14 +338,14 @@ TaskControlBlock.prototype.run = function () {
     packet = null;
   }
   return this.task.run(packet);
-};
+});
 
 /**
  * Adds a packet to the worklist of this block's task, marks this as runnable if
  * necessary, and returns the next runnable object to run (the one
  * with the highest priority).
  */
-TaskControlBlock.prototype.checkPriorityAdd = function (task, packet) {
+TaskControlBlock.prototype.checkPriorityAdd = _wrap_ (function (task, packet) {
   if (this.queue == null) {
     this.queue = packet;
     this.markAsRunnable();
@@ -358,11 +354,11 @@ TaskControlBlock.prototype.checkPriorityAdd = function (task, packet) {
     this.queue = packet.addTo(this.queue);
   }
   return task;
-};
+});
 
-TaskControlBlock.prototype.toString = function () {
+TaskControlBlock.prototype.toString = _wrap_ (function () {
   return "tcb { " + this.task + "@" + this.state + " }";
-};
+});
 
 /**
  * An idle task doesn't do any work itself but cycles control between the two
@@ -378,7 +374,7 @@ function IdleTask(scheduler, v1, count) {
   this.count = count;
 }
 
-IdleTask.prototype.run = function (packet) {
+IdleTask.prototype.run = _wrap_ (function (packet) {
   this.count--;
   if (this.count == 0) return this.scheduler.holdCurrent();
   if ((this.v1 & 1) == 0) {
@@ -388,11 +384,11 @@ IdleTask.prototype.run = function (packet) {
     this.v1 = (this.v1 >> 1) ^ 0xD008;
     return this.scheduler.release(ID_DEVICE_B);
   }
-};
+});
 
-IdleTask.prototype.toString = function () {
+IdleTask.prototype.toString = _wrap_ (function () {
   return "IdleTask"
-};
+});
 
 /**
  * A task that suspends itself after each time it has been run to simulate
@@ -405,7 +401,7 @@ function DeviceTask(scheduler) {
   this.v1 = null;
 }
 
-DeviceTask.prototype.run = function (packet) {
+DeviceTask.prototype.run = _wrap_ (function (packet) {
   if (packet == null) {
     if (this.v1 == null) return this.scheduler.suspendCurrent();
     var v = this.v1;
@@ -415,11 +411,11 @@ DeviceTask.prototype.run = function (packet) {
     this.v1 = packet;
     return this.scheduler.holdCurrent();
   }
-};
+});
 
-DeviceTask.prototype.toString = function () {
+DeviceTask.prototype.toString = _wrap_ (function () {
   return "DeviceTask";
-};
+});
 
 /**
  * A task that manipulates work packets.
@@ -434,7 +430,7 @@ function WorkerTask(scheduler, v1, v2) {
   this.v2 = v2;
 }
 
-WorkerTask.prototype.run = function (packet) {
+WorkerTask.prototype.run = _wrap_ (function (packet) {
   if (packet == null) {
     return this.scheduler.suspendCurrent();
   } else {
@@ -452,11 +448,11 @@ WorkerTask.prototype.run = function (packet) {
     }
     return this.scheduler.queue(packet);
   }
-};
+});
 
-WorkerTask.prototype.toString = function () {
+WorkerTask.prototype.toString = _wrap_ (function () {
   return "WorkerTask";
-};
+});
 
 /**
  * A task that manipulates work packets and then suspends itself.
@@ -469,7 +465,7 @@ function HandlerTask(scheduler) {
   this.v2 = null;
 }
 
-HandlerTask.prototype.run = function (packet) {
+HandlerTask.prototype.run = _wrap_ (function (packet) {
   if (packet != null) {
     if (packet.kind == KIND_WORK) {
       this.v1 = packet.addTo(this.v1);
@@ -495,11 +491,11 @@ HandlerTask.prototype.run = function (packet) {
     }
   }
   return this.scheduler.suspendCurrent();
-};
+});
 
-HandlerTask.prototype.toString = function () {
+HandlerTask.prototype.toString = _wrap_ (function () {
   return "HandlerTask";
-};
+});
 
 /* --- *
  * P a c k e t
@@ -531,16 +527,16 @@ function Packet(link, id, kind) {
  * Add this packet to the end of a worklist, and return the worklist.
  * @param {Packet} queue the worklist to add this packet to
  */
-Packet.prototype.addTo = function (queue) {
+Packet.prototype.addTo = _wrap_ (function (queue) {
   this.link = null;
   if (queue == null) return this;
   var peek, next = queue;
   while ((peek = next.link) != null)
-    next = peek;
-  next.link = this;
-  return queue;
-};
+  next = peek;
+next.link = this;
+return queue;
+});
 
-Packet.prototype.toString = function () {
+Packet.prototype.toString = _wrap_ (function () {
   return "Packet";
-};
+});
