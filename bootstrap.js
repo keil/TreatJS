@@ -30,8 +30,8 @@ _.configure({
 
 // set verbose
 _.verbose({
-  assert:false,
-  sandbox:false
+  assert:true,
+  sandbox:true
 });
 
 // ==================================================

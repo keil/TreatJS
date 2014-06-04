@@ -74,12 +74,12 @@
      */
 
   // set verbose
-  /*
+  
      _.verbose({
      assert:false,
-     sandbox:false
+     sandbox:true
      });
-     */
+     
 
   // Note: Testing Code
   // var out = new TreatJSShellOut(print);
