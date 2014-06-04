@@ -58,15 +58,17 @@ function _typeof_ (v) {
 
 function _TypeHandler_(fid) {
   this.apply = function(target, thisValue, args) {
+
+    // TODO test
+    if(_types_[fid][i]!==undefined) {
+      return target.apply(thisValue, args);
+    }
+
     for(i in args) {
       _update_ (fid, i, args[i]);
     }
-//    for(i in args) {
-//      print("argument#" + i + "/" + fid + " typeof " + (typeof args[i]));
-//    }
     var r = target.apply(thisValue, args);
     _update_ (fid, -1, args[i]);
-//    print("return" + " typeof " + (typeof r));
     return r;
   }
 }
@@ -77,9 +79,9 @@ function _freshID_() {
   return ("@"+_counter_);
 }
 
-function _wrap_ (f) { return f; }
+//function _wrap_ (f) { return f; }
 
-function _wrap_X (f) {
+function _wrap_ (f) {
   var fid = _freshID_();
   _types_[fid] = [];
   return new Proxy(f, new _TypeHandler_(fid));
@@ -153,8 +155,8 @@ function _makeContract_(fid) {
 }
 
 print("--");
-for(fid in _types_) {
-  for(i in _types_[fid]) {
+for(var fid in _types_) {
+  for(var i in _types_[fid]) {
     print("_TYPES_["+fid+"]["+i+"]="+_types_[fid][i]+";");
   }
   print(_makeContract_(fid));
