@@ -28,7 +28,7 @@ function _wrap_ (f) {
   var fid = _file_+_freshID_();
   if(_TYPES_[fid]!==undefined) {
     var contract = _makeContract_(fid);
-    //print("assert " + contract);
+    print("assert " + contract);
     return _.assert(f, contract);
   } else {
     return f;

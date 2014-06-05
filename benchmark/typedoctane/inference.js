@@ -51,11 +51,11 @@ function _TypeHandler_(fid) {
 }
 
 // TODO
-function _wrap2_ (f) {
+function _wrap_ (f) {
   return f;
 }
 
-function _wrap_ (f) {
+function _wrap2_ (f) {
   var fid = _file_+_freshID_();
   _types_[fid] = [];
   return new Proxy(f, new _TypeHandler_(fid));

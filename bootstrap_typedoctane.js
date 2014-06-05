@@ -15,7 +15,7 @@
 
 // repalce print
 var _print_ = print;
-print = function() {}
+//print = function() {}
 
 load("src/shell.js");
 load("test/contracts.js");
