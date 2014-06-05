@@ -38,16 +38,16 @@ _load_(wrapped_dir,'regexp.js');
 _load_(wrapped_dir,'splay.js'); 
 _load_(wrapped_dir,'navier-stokes.js');
 _load_(wrapped_dir,'pdfjs.js');
-//_load_(wrapped_dir,'mandreel.js');
+_load_(wrapped_dir,'mandreel.js');
 _load_(wrapped_dir,'gbemu-part1.js');
 _load_(wrapped_dir,'gbemu-part2.js');
 _load_(wrapped_dir,'code-load.js');
 _load_(wrapped_dir,'box2d.js');
 _load_(wrapped_dir,'zlib.js');
 _load_(wrapped_dir,'zlib-data.js');
-//_load_(wrapped_dir,'typescript.js');
-//_load_(wrapped_dir,'typescript-input.js');
-//_load_(wrapped_dir,'typescript-compiler.js');
+_load_(wrapped_dir,'typescript.js');
+_load_(wrapped_dir,'typescript-input.js');
+_load_(wrapped_dir,'typescript-compiler.js');
 
 
 var success = true;
