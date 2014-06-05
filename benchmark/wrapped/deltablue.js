@@ -1,16 +1,16 @@
 var DeltaBlue = new BenchmarkSuite('DeltaBlue', [66118], [new Benchmark('DeltaBlue', true, false, 4400, deltaBlue)]);
 Object.defineProperty(Object.prototype, 'inheritsFrom', {
     value: _wrap_(function (shuper) {
-        var Inheriter = _wrap_(function () {
-            });
+        function Inheriter() {
+        }
         Inheriter.prototype = shuper.prototype;
         this.prototype = new Inheriter();
         this.superConstructor = shuper;
     })
 });
-var OrderedCollection = _wrap_(function () {
-        this.elms = new Array();
-    });
+function OrderedCollection() {
+    this.elms = new Array();
+}
 OrderedCollection.prototype.add = _wrap_(function (elm) {
     this.elms.push(elm);
 });
@@ -37,10 +37,10 @@ OrderedCollection.prototype.remove = _wrap_(function (elm) {
     for (var i = 0; i < skipped; i++)
         this.elms.pop();
 });
-var Strength = _wrap_(function (strengthValue, name) {
-        this.strengthValue = strengthValue;
-        this.name = name;
-    });
+function Strength(strengthValue, name) {
+    this.strengthValue = strengthValue;
+    this.name = name;
+}
 Strength.stronger = _wrap_(function (s1, s2) {
     return s1.strengthValue < s2.strengthValue;
 });
@@ -76,9 +76,9 @@ Strength.STRONG_DEFAULT = new Strength(3, 'strongDefault');
 Strength.NORMAL = new Strength(4, 'normal');
 Strength.WEAK_DEFAULT = new Strength(5, 'weakDefault');
 Strength.WEAKEST = new Strength(6, 'weakest');
-var Constraint = _wrap_(function (strength) {
-        this.strength = strength;
-    });
+function Constraint(strength) {
+    this.strength = strength;
+}
 Constraint.prototype.addConstraint = _wrap_(function () {
     this.addToGraph();
     planner.incrementalAdd(this);
@@ -110,12 +110,12 @@ Constraint.prototype.destroyConstraint = _wrap_(function () {
 Constraint.prototype.isInput = _wrap_(function () {
     return false;
 });
-var UnaryConstraint = _wrap_(function (v, strength) {
-        UnaryConstraint.superConstructor.call(this, strength);
-        this.myOutput = v;
-        this.satisfied = false;
-        this.addConstraint();
-    });
+function UnaryConstraint(v, strength) {
+    UnaryConstraint.superConstructor.call(this, strength);
+    this.myOutput = v;
+    this.satisfied = false;
+    this.addConstraint();
+}
 UnaryConstraint.inheritsFrom(Constraint);
 UnaryConstraint.prototype.addToGraph = _wrap_(function () {
     this.myOutput.addConstraint(this);
@@ -149,15 +149,15 @@ UnaryConstraint.prototype.removeFromGraph = _wrap_(function () {
         this.myOutput.removeConstraint(this);
     this.satisfied = false;
 });
-var StayConstraint = _wrap_(function (v, str) {
-        StayConstraint.superConstructor.call(this, v, str);
-    });
+function StayConstraint(v, str) {
+    StayConstraint.superConstructor.call(this, v, str);
+}
 StayConstraint.inheritsFrom(UnaryConstraint);
 StayConstraint.prototype.execute = _wrap_(function () {
 });
-var EditConstraint = _wrap_(function (v, str) {
-        EditConstraint.superConstructor.call(this, v, str);
-    });
+function EditConstraint(v, str) {
+    EditConstraint.superConstructor.call(this, v, str);
+}
 EditConstraint.inheritsFrom(UnaryConstraint);
 EditConstraint.prototype.isInput = _wrap_(function () {
     return true;
@@ -168,13 +168,13 @@ var Direction = new Object();
 Direction.NONE = 0;
 Direction.FORWARD = 1;
 Direction.BACKWARD = -1;
-var BinaryConstraint = _wrap_(function (var1, var2, strength) {
-        BinaryConstraint.superConstructor.call(this, strength);
-        this.v1 = var1;
-        this.v2 = var2;
-        this.direction = Direction.NONE;
-        this.addConstraint();
-    });
+function BinaryConstraint(var1, var2, strength) {
+    BinaryConstraint.superConstructor.call(this, strength);
+    this.v1 = var1;
+    this.v2 = var2;
+    this.direction = Direction.NONE;
+    this.addConstraint();
+}
 BinaryConstraint.inheritsFrom(Constraint);
 BinaryConstraint.prototype.chooseMethod = _wrap_(function (mark) {
     if (this.v1.mark == mark) {
@@ -227,12 +227,12 @@ BinaryConstraint.prototype.removeFromGraph = _wrap_(function () {
         this.v2.removeConstraint(this);
     this.direction = Direction.NONE;
 });
-var ScaleConstraint = _wrap_(function (src, scale, offset, dest, strength) {
-        this.direction = Direction.NONE;
-        this.scale = scale;
-        this.offset = offset;
-        ScaleConstraint.superConstructor.call(this, src, dest, strength);
-    });
+function ScaleConstraint(src, scale, offset, dest, strength) {
+    this.direction = Direction.NONE;
+    this.scale = scale;
+    this.offset = offset;
+    ScaleConstraint.superConstructor.call(this, src, dest, strength);
+}
 ScaleConstraint.inheritsFrom(BinaryConstraint);
 ScaleConstraint.prototype.addToGraph = _wrap_(function () {
     ScaleConstraint.superConstructor.prototype.addToGraph.call(this);
@@ -264,22 +264,22 @@ ScaleConstraint.prototype.recalculate = _wrap_(function () {
     if (out.stay)
         this.execute();
 });
-var EqualityConstraint = _wrap_(function (var1, var2, strength) {
-        EqualityConstraint.superConstructor.call(this, var1, var2, strength);
-    });
+function EqualityConstraint(var1, var2, strength) {
+    EqualityConstraint.superConstructor.call(this, var1, var2, strength);
+}
 EqualityConstraint.inheritsFrom(BinaryConstraint);
 EqualityConstraint.prototype.execute = _wrap_(function () {
     this.output().value = this.input().value;
 });
-var Variable = _wrap_(function (name, initialValue) {
-        this.value = initialValue || 0;
-        this.constraints = new OrderedCollection();
-        this.determinedBy = null;
-        this.mark = 0;
-        this.walkStrength = Strength.WEAKEST;
-        this.stay = true;
-        this.name = name;
-    });
+function Variable(name, initialValue) {
+    this.value = initialValue || 0;
+    this.constraints = new OrderedCollection();
+    this.determinedBy = null;
+    this.mark = 0;
+    this.walkStrength = Strength.WEAKEST;
+    this.stay = true;
+    this.name = name;
+}
 Variable.prototype.addConstraint = _wrap_(function (c) {
     this.constraints.add(c);
 });
@@ -288,9 +288,9 @@ Variable.prototype.removeConstraint = _wrap_(function (c) {
     if (this.determinedBy == c)
         this.determinedBy = null;
 });
-var Planner = _wrap_(function () {
-        this.currentMark = 0;
-    });
+function Planner() {
+    this.currentMark = 0;
+}
 Planner.prototype.incrementalAdd = _wrap_(function (c) {
     var mark = this.newMark();
     var overridden = c.satisfy(mark);
@@ -386,9 +386,9 @@ Planner.prototype.addConstraintsConsumingTo = _wrap_(function (v, coll) {
             coll.add(c);
     }
 });
-var Plan = _wrap_(function () {
-        this.v = new OrderedCollection();
-    });
+function Plan() {
+    this.v = new OrderedCollection();
+}
 Plan.prototype.addConstraint = _wrap_(function (c) {
     this.v.add(c);
 });
@@ -404,75 +404,75 @@ Plan.prototype.execute = _wrap_(function () {
         c.execute();
     }
 });
-var chainTest = _wrap_(function (n) {
-        planner = new Planner();
-        var prev = null, first = null, last = null;
-        for (var i = 0; i <= n; i++) {
-            var name = 'v' + i;
-            var v = new Variable(name);
-            if (prev != null)
-                new EqualityConstraint(prev, v, Strength.REQUIRED);
-            if (i == 0)
-                first = v;
-            if (i == n)
-                last = v;
-            prev = v;
-        }
-        new StayConstraint(last, Strength.STRONG_DEFAULT);
-        var edit = new EditConstraint(first, Strength.PREFERRED);
-        var edits = new OrderedCollection();
-        edits.add(edit);
-        var plan = planner.extractPlanFromConstraints(edits);
-        for (var i = 0; i < 100; i++) {
-            first.value = i;
-            plan.execute();
-            if (last.value != i)
-                alert('Chain test failed.');
-        }
-    });
-var projectionTest = _wrap_(function (n) {
-        planner = new Planner();
-        var scale = new Variable('scale', 10);
-        var offset = new Variable('offset', 1000);
-        var src = null, dst = null;
-        var dests = new OrderedCollection();
-        for (var i = 0; i < n; i++) {
-            src = new Variable('src' + i, i);
-            dst = new Variable('dst' + i, i);
-            dests.add(dst);
-            new StayConstraint(src, Strength.NORMAL);
-            new ScaleConstraint(src, scale, offset, dst, Strength.REQUIRED);
-        }
-        change(src, 17);
-        if (dst.value != 1170)
-            alert('Projection 1 failed');
-        change(dst, 1050);
-        if (src.value != 5)
-            alert('Projection 2 failed');
-        change(scale, 5);
-        for (var i = 0; i < n - 1; i++) {
-            if (dests.at(i).value != i * 5 + 1000)
-                alert('Projection 3 failed');
-        }
-        change(offset, 2000);
-        for (var i = 0; i < n - 1; i++) {
-            if (dests.at(i).value != i * 5 + 2000)
-                alert('Projection 4 failed');
-        }
-    });
-var change = _wrap_(function (v, newValue) {
-        var edit = new EditConstraint(v, Strength.PREFERRED);
-        var edits = new OrderedCollection();
-        edits.add(edit);
-        var plan = planner.extractPlanFromConstraints(edits);
-        for (var i = 0; i < 10; i++) {
-            v.value = newValue;
-            plan.execute();
-        }
-        edit.destroyConstraint();
-    });
+function chainTest(n) {
+    planner = new Planner();
+    var prev = null, first = null, last = null;
+    for (var i = 0; i <= n; i++) {
+        var name = 'v' + i;
+        var v = new Variable(name);
+        if (prev != null)
+            new EqualityConstraint(prev, v, Strength.REQUIRED);
+        if (i == 0)
+            first = v;
+        if (i == n)
+            last = v;
+        prev = v;
+    }
+    new StayConstraint(last, Strength.STRONG_DEFAULT);
+    var edit = new EditConstraint(first, Strength.PREFERRED);
+    var edits = new OrderedCollection();
+    edits.add(edit);
+    var plan = planner.extractPlanFromConstraints(edits);
+    for (var i = 0; i < 100; i++) {
+        first.value = i;
+        plan.execute();
+        if (last.value != i)
+            alert('Chain test failed.');
+    }
+}
+function projectionTest(n) {
+    planner = new Planner();
+    var scale = new Variable('scale', 10);
+    var offset = new Variable('offset', 1000);
+    var src = null, dst = null;
+    var dests = new OrderedCollection();
+    for (var i = 0; i < n; i++) {
+        src = new Variable('src' + i, i);
+        dst = new Variable('dst' + i, i);
+        dests.add(dst);
+        new StayConstraint(src, Strength.NORMAL);
+        new ScaleConstraint(src, scale, offset, dst, Strength.REQUIRED);
+    }
+    change(src, 17);
+    if (dst.value != 1170)
+        alert('Projection 1 failed');
+    change(dst, 1050);
+    if (src.value != 5)
+        alert('Projection 2 failed');
+    change(scale, 5);
+    for (var i = 0; i < n - 1; i++) {
+        if (dests.at(i).value != i * 5 + 1000)
+            alert('Projection 3 failed');
+    }
+    change(offset, 2000);
+    for (var i = 0; i < n - 1; i++) {
+        if (dests.at(i).value != i * 5 + 2000)
+            alert('Projection 4 failed');
+    }
+}
+function change(v, newValue) {
+    var edit = new EditConstraint(v, Strength.PREFERRED);
+    var edits = new OrderedCollection();
+    edits.add(edit);
+    var plan = planner.extractPlanFromConstraints(edits);
+    for (var i = 0; i < 10; i++) {
+        v.value = newValue;
+        plan.execute();
+    }
+    edit.destroyConstraint();
+}
 var planner = null;
-var deltaBlue = _wrap_(function () {
-        chainTest(100);
-        projectionTest(100);
-    });
+function deltaBlue() {
+    chainTest(100);
+    projectionTest(100);
+}

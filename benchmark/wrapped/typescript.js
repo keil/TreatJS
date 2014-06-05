@@ -1,34 +1,34 @@
 var typescript = new BenchmarkSuite('Typescript', [255011322], [new Benchmark('Typescript', false, true, 5, runTypescript, setupTypescript, tearDownTypescript, null, 1)]);
-var setupTypescript = _wrap_(function () {
-    });
-var tearDownTypescript = _wrap_(function () {
-        compiler_input = null;
-    });
+function setupTypescript() {
+}
+function tearDownTypescript() {
+    compiler_input = null;
+}
 var parseErrors = [];
-var runTypescript = _wrap_(function () {
-        var compiler = createCompiler();
-        compiler.addUnit(compiler_input, 'compiler_input.ts');
-        parseErrors = [];
-        compiler.reTypeCheck();
-        compiler.emit({
-            createFile: _wrap_(function (fileName) {
-                return outfile;
-            }),
-            fileExists: _wrap_(function (path) {
-                return false;
-            }),
-            directoryExists: _wrap_(function (path) {
-                return false;
-            }),
-            resolvePath: _wrap_(function (path) {
-                return path;
-            })
-        });
-        if (parseErrors.length != 192 && parseErrors.length != 193) {
-            throw new Error('Parse errors.');
-        }
-        compiler = null;
+function runTypescript() {
+    var compiler = createCompiler();
+    compiler.addUnit(compiler_input, 'compiler_input.ts');
+    parseErrors = [];
+    compiler.reTypeCheck();
+    compiler.emit({
+        createFile: _wrap_(function (fileName) {
+            return outfile;
+        }),
+        fileExists: _wrap_(function (path) {
+            return false;
+        }),
+        directoryExists: _wrap_(function (path) {
+            return false;
+        }),
+        resolvePath: _wrap_(function (path) {
+            return path;
+        })
     });
+    if (parseErrors.length != 192 && parseErrors.length != 193) {
+        throw new Error('Parse errors.');
+    }
+    compiler = null;
+}
 var outfile = {
         checksum: -412589664,
         cumulative_checksum: 0,
@@ -73,18 +73,18 @@ var outerr = {
             }
         })
     };
-var createCompiler = _wrap_(function () {
-        var settings = new TypeScript.CompilationSettings();
-        settings.codeGenTarget = TypeScript.CodeGenTarget.ES5;
-        var compiler = new TypeScript.TypeScriptCompiler(outerr, new TypeScript.NullLogger(), settings);
-        compiler.setErrorCallback(_wrap_(function (start, len, message) {
-            parseErrors.push({
-                start: start,
-                len: len,
-                message: message
-            });
-        }));
-        compiler.parser.errorRecovery = true;
-        compiler.typeCheck();
-        return compiler;
-    });
+function createCompiler() {
+    var settings = new TypeScript.CompilationSettings();
+    settings.codeGenTarget = TypeScript.CodeGenTarget.ES5;
+    var compiler = new TypeScript.TypeScriptCompiler(outerr, new TypeScript.NullLogger(), settings);
+    compiler.setErrorCallback(_wrap_(function (start, len, message) {
+        parseErrors.push({
+            start: start,
+            len: len,
+            message: message
+        });
+    }));
+    compiler.parser.errorRecovery = true;
+    compiler.typeCheck();
+    return compiler;
+}

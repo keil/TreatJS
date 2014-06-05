@@ -7,94 +7,94 @@ var kSplayTreeModifications = 80;
 var kSplayTreePayloadDepth = 5;
 var splayTree = null;
 var splaySampleTimeStart = 0;
-var GeneratePayloadTree = _wrap_(function (depth, tag) {
-        if (depth == 0) {
-            return {
-                array: [
-                    0,
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9
-                ],
-                string: 'String for key ' + tag + ' in leaf node'
-            };
-        } else {
-            return {
-                left: GeneratePayloadTree(depth - 1, tag),
-                right: GeneratePayloadTree(depth - 1, tag)
-            };
-        }
-    });
-var GenerateKey = _wrap_(function () {
-        return Math.random();
-    });
+function GeneratePayloadTree(depth, tag) {
+    if (depth == 0) {
+        return {
+            array: [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            string: 'String for key ' + tag + ' in leaf node'
+        };
+    } else {
+        return {
+            left: GeneratePayloadTree(depth - 1, tag),
+            right: GeneratePayloadTree(depth - 1, tag)
+        };
+    }
+}
+function GenerateKey() {
+    return Math.random();
+}
 var splaySamples = 0;
 var splaySumOfSquaredPauses = 0;
-var SplayRMS = _wrap_(function () {
-        return Math.round(Math.sqrt(splaySumOfSquaredPauses / splaySamples) * 10000);
-    });
-var SplayUpdateStats = _wrap_(function (time) {
-        var pause = time - splaySampleTimeStart;
-        splaySampleTimeStart = time;
-        splaySamples++;
-        splaySumOfSquaredPauses += pause * pause;
-    });
-var InsertNewNode = _wrap_(function () {
-        var key;
-        do {
-            key = GenerateKey();
-        } while (splayTree.find(key) != null);
-        var payload = GeneratePayloadTree(kSplayTreePayloadDepth, String(key));
-        splayTree.insert(key, payload);
-        return key;
-    });
-var SplaySetup = _wrap_(function () {
-        if (!performance.now) {
-            throw 'PerformanceNowUnsupported';
+function SplayRMS() {
+    return Math.round(Math.sqrt(splaySumOfSquaredPauses / splaySamples) * 10000);
+}
+function SplayUpdateStats(time) {
+    var pause = time - splaySampleTimeStart;
+    splaySampleTimeStart = time;
+    splaySamples++;
+    splaySumOfSquaredPauses += pause * pause;
+}
+function InsertNewNode() {
+    var key;
+    do {
+        key = GenerateKey();
+    } while (splayTree.find(key) != null);
+    var payload = GeneratePayloadTree(kSplayTreePayloadDepth, String(key));
+    splayTree.insert(key, payload);
+    return key;
+}
+function SplaySetup() {
+    if (!performance.now) {
+        throw 'PerformanceNowUnsupported';
+    }
+    splayTree = new SplayTree();
+    splaySampleTimeStart = performance.now();
+    for (var i = 0; i < kSplayTreeSize; i++) {
+        InsertNewNode();
+        if ((i + 1) % 20 == 19) {
+            SplayUpdateStats(performance.now());
         }
-        splayTree = new SplayTree();
-        splaySampleTimeStart = performance.now();
-        for (var i = 0; i < kSplayTreeSize; i++) {
-            InsertNewNode();
-            if ((i + 1) % 20 == 19) {
-                SplayUpdateStats(performance.now());
-            }
+    }
+}
+function SplayTearDown() {
+    var keys = splayTree.exportKeys();
+    splayTree = null;
+    splaySamples = 0;
+    splaySumOfSquaredPauses = 0;
+    var length = keys.length;
+    if (length != kSplayTreeSize) {
+        throw new Error('Splay tree has wrong size');
+    }
+    for (var i = 0; i < length - 1; i++) {
+        if (keys[i] >= keys[i + 1]) {
+            throw new Error('Splay tree not sorted');
         }
-    });
-var SplayTearDown = _wrap_(function () {
-        var keys = splayTree.exportKeys();
-        splayTree = null;
-        splaySamples = 0;
-        splaySumOfSquaredPauses = 0;
-        var length = keys.length;
-        if (length != kSplayTreeSize) {
-            throw new Error('Splay tree has wrong size');
-        }
-        for (var i = 0; i < length - 1; i++) {
-            if (keys[i] >= keys[i + 1]) {
-                throw new Error('Splay tree not sorted');
-            }
-        }
-    });
-var SplayRun = _wrap_(function () {
-        for (var i = 0; i < kSplayTreeModifications; i++) {
-            var key = InsertNewNode();
-            var greatest = splayTree.findGreatestLessThan(key);
-            if (greatest == null)
-                splayTree.remove(key);
-            else
-                splayTree.remove(greatest.key);
-        }
-        SplayUpdateStats(performance.now());
-    });
-var SplayTree = _wrap_(function () {
-    });
+    }
+}
+function SplayRun() {
+    for (var i = 0; i < kSplayTreeModifications; i++) {
+        var key = InsertNewNode();
+        var greatest = splayTree.findGreatestLessThan(key);
+        if (greatest == null)
+            splayTree.remove(key);
+        else
+            splayTree.remove(greatest.key);
+    }
+    SplayUpdateStats(performance.now());
+}
+function SplayTree() {
+}
 ;
 SplayTree.prototype.root_ = null;
 SplayTree.prototype.isEmpty = _wrap_(function () {

@@ -1,60 +1,60 @@
 var GameboyBenchmark = new BenchmarkSuite('Gameboy', [26288412], [new Benchmark('Gameboy', false, false, 20, runGameboy, setupGameboy, tearDownGameboy, null, 4)]);
 var decoded_gameboy_rom = null;
-var setupGameboy = _wrap_(function () {
-        if (!(typeof Uint8Array != 'undefined' && typeof Int8Array != 'undefined' && typeof Float32Array != 'undefined' && typeof Int32Array != 'undefined')) {
-            throw 'TypedArrayUnsupported';
-        }
-        decoded_gameboy_rom = base64_decode(gameboy_rom);
-        rom = null;
-    });
-var runGameboy = _wrap_(function () {
-        start(new GameBoyCanvas(), decoded_gameboy_rom);
-        gameboy.instructions = 0;
-        gameboy.totalInstructions = 250000;
-        while (gameboy.instructions <= gameboy.totalInstructions) {
-            gameboy.run();
-            GameBoyAudioNode.run();
-        }
-        resetGlobalVariables();
-    });
-var tearDownGameboy = _wrap_(function () {
-        decoded_gameboy_rom = null;
-        expectedGameboyStateStr = null;
-    });
+function setupGameboy() {
+    if (!(typeof Uint8Array != 'undefined' && typeof Int8Array != 'undefined' && typeof Float32Array != 'undefined' && typeof Int32Array != 'undefined')) {
+        throw 'TypedArrayUnsupported';
+    }
+    decoded_gameboy_rom = base64_decode(gameboy_rom);
+    rom = null;
+}
+function runGameboy() {
+    start(new GameBoyCanvas(), decoded_gameboy_rom);
+    gameboy.instructions = 0;
+    gameboy.totalInstructions = 250000;
+    while (gameboy.instructions <= gameboy.totalInstructions) {
+        gameboy.run();
+        GameBoyAudioNode.run();
+    }
+    resetGlobalVariables();
+}
+function tearDownGameboy() {
+    decoded_gameboy_rom = null;
+    expectedGameboyStateStr = null;
+}
 var expectedGameboyStateStr = '{"registerA":160,"registerB":255,"registerC":255,"registerE":11,' + '"registersHL":51600,"programCounter":24309,"stackPointer":49706,' + '"sumROM":10171578,"sumMemory":3435856,"sumMBCRam":234598,"sumVRam":0}';
 var GameBoyWindow = {};
-var GameBoyContext = _wrap_(function () {
-        this.createBuffer = _wrap_(function () {
-            return new Buffer();
-        });
-        this.createImageData = _wrap_(function (w, h) {
-            var result = {};
-            result.data = new Uint8Array(w * h * 4);
-            return result;
-        });
-        this.putImageData = _wrap_(function (buffer, x, y) {
-            var sum = 0;
-            for (var i = 0; i < buffer.data.length; i++) {
-                sum += i * buffer.data[i];
-                sum = sum % 1000;
-            }
-        });
-        this.drawImage = _wrap_(function () {
-        });
+function GameBoyContext() {
+    this.createBuffer = _wrap_(function () {
+        return new Buffer();
     });
+    this.createImageData = _wrap_(function (w, h) {
+        var result = {};
+        result.data = new Uint8Array(w * h * 4);
+        return result;
+    });
+    this.putImageData = _wrap_(function (buffer, x, y) {
+        var sum = 0;
+        for (var i = 0; i < buffer.data.length; i++) {
+            sum += i * buffer.data[i];
+            sum = sum % 1000;
+        }
+    });
+    this.drawImage = _wrap_(function () {
+    });
+}
 ;
-var GameBoyCanvas = _wrap_(function () {
-        this.getContext = _wrap_(function () {
-            return new GameBoyContext();
-        });
-        this.width = 160;
-        this.height = 144;
-        this.style = { visibility: 'visibile' };
+function GameBoyCanvas() {
+    this.getContext = _wrap_(function () {
+        return new GameBoyContext();
     });
-var cout = _wrap_(function (message, colorIndex) {
-    });
-var clear_terminal = _wrap_(function () {
-    });
+    this.width = 160;
+    this.height = 144;
+    this.style = { visibility: 'visibile' };
+}
+function cout(message, colorIndex) {
+}
+function clear_terminal() {
+}
 var GameBoyAudioNode = {
         bufferSize: 0,
         onaudioprocess: null,
@@ -65,101 +65,101 @@ var GameBoyAudioNode = {
             this.onaudioprocess(event);
         })
     };
-var GameBoyAudioContext = _wrap_(function () {
-        this.createBufferSource = _wrap_(function () {
-            return {
-                noteOn: _wrap_(function () {
-                }),
-                connect: _wrap_(function () {
-                })
-            };
-        });
-        this.sampleRate = 48000;
-        this.destination = {};
-        this.createBuffer = _wrap_(function (channels, len, sampleRate) {
-            return {
-                gain: 1,
-                numberOfChannels: 1,
-                length: 1,
-                duration: 0.000020833333110203966,
-                sampleRate: 48000
-            };
-        });
-        this.createJavaScriptNode = _wrap_(function (bufferSize, inputChannels, outputChannels) {
-            GameBoyAudioNode.bufferSize = bufferSize;
-            GameBoyAudioNode.outputBuffer = {
-                getChannelData: _wrap_(function (i) {
-                    return this.channelData[i];
-                }),
-                channelData: []
-            };
-            for (var i = 0; i < outputChannels; i++) {
-                GameBoyAudioNode.outputBuffer.channelData[i] = new Float32Array(bufferSize);
-            }
-            return GameBoyAudioNode;
-        });
-    });
-var mock_date_time_counter = 0;
-var new_Date = _wrap_(function () {
+function GameBoyAudioContext() {
+    this.createBufferSource = _wrap_(function () {
         return {
-            getTime: _wrap_(function () {
-                mock_date_time_counter += 16;
-                return mock_date_time_counter;
+            noteOn: _wrap_(function () {
+            }),
+            connect: _wrap_(function () {
             })
         };
     });
-var checkFinalState = _wrap_(function () {
-        var sum = _wrap_(function (a) {
-                var result = 0;
-                for (var i = 0; i < a.length; i++) {
-                    result += a[i];
-                }
-                return result;
-            });
-        var state = {
-                registerA: gameboy.registerA,
-                registerB: gameboy.registerB,
-                registerC: gameboy.registerC,
-                registerE: gameboy.registerE,
-                registerF: gameboy.registerF,
-                registersHL: gameboy.registersHL,
-                programCounter: gameboy.programCounter,
-                stackPointer: gameboy.stackPointer,
-                sumROM: sum(gameboy.fromTypedArray(gameboy.ROM)),
-                sumMemory: sum(gameboy.fromTypedArray(gameboy.memory)),
-                sumMBCRam: sum(gameboy.fromTypedArray(gameboy.MBCRam)),
-                sumVRam: sum(gameboy.fromTypedArray(gameboy.VRam))
-            };
-        var stateStr = JSON.stringify(state);
-        if (typeof expectedGameboyStateStr != 'undefined') {
-            if (stateStr != expectedGameboyStateStr) {
-                alert('Incorrect final state of processor:\n' + ' actual   ' + stateStr + '\n' + ' expected ' + expectedGameboyStateStr);
-            }
-        } else {
-            alert(stateStr);
+    this.sampleRate = 48000;
+    this.destination = {};
+    this.createBuffer = _wrap_(function (channels, len, sampleRate) {
+        return {
+            gain: 1,
+            numberOfChannels: 1,
+            length: 1,
+            duration: 0.000020833333110203966,
+            sampleRate: 48000
+        };
+    });
+    this.createJavaScriptNode = _wrap_(function (bufferSize, inputChannels, outputChannels) {
+        GameBoyAudioNode.bufferSize = bufferSize;
+        GameBoyAudioNode.outputBuffer = {
+            getChannelData: _wrap_(function (i) {
+                return this.channelData[i];
+            }),
+            channelData: []
+        };
+        for (var i = 0; i < outputChannels; i++) {
+            GameBoyAudioNode.outputBuffer.channelData[i] = new Float32Array(bufferSize);
         }
+        return GameBoyAudioNode;
     });
-var resetGlobalVariables = _wrap_(function () {
-        audioContextHandle = null;
-        audioNode = null;
-        audioSource = null;
-        launchedContext = false;
-        audioContextSampleBuffer = [];
-        resampled = [];
-        webAudioMinBufferSize = 15000;
-        webAudioMaxBufferSize = 25000;
-        webAudioActualSampleRate = 44100;
-        XAudioJSSampleRate = 0;
-        webAudioMono = false;
-        XAudioJSVolume = 1;
-        resampleControl = null;
-        audioBufferSize = 0;
-        resampleBufferStart = 0;
-        resampleBufferEnd = 0;
-        resampleBufferSize = 2;
-        gameboy = null;
-        gbRunInterval = null;
-    });
+}
+var mock_date_time_counter = 0;
+function new_Date() {
+    return {
+        getTime: _wrap_(function () {
+            mock_date_time_counter += 16;
+            return mock_date_time_counter;
+        })
+    };
+}
+function checkFinalState() {
+    function sum(a) {
+        var result = 0;
+        for (var i = 0; i < a.length; i++) {
+            result += a[i];
+        }
+        return result;
+    }
+    var state = {
+            registerA: gameboy.registerA,
+            registerB: gameboy.registerB,
+            registerC: gameboy.registerC,
+            registerE: gameboy.registerE,
+            registerF: gameboy.registerF,
+            registersHL: gameboy.registersHL,
+            programCounter: gameboy.programCounter,
+            stackPointer: gameboy.stackPointer,
+            sumROM: sum(gameboy.fromTypedArray(gameboy.ROM)),
+            sumMemory: sum(gameboy.fromTypedArray(gameboy.memory)),
+            sumMBCRam: sum(gameboy.fromTypedArray(gameboy.MBCRam)),
+            sumVRam: sum(gameboy.fromTypedArray(gameboy.VRam))
+        };
+    var stateStr = JSON.stringify(state);
+    if (typeof expectedGameboyStateStr != 'undefined') {
+        if (stateStr != expectedGameboyStateStr) {
+            alert('Incorrect final state of processor:\n' + ' actual   ' + stateStr + '\n' + ' expected ' + expectedGameboyStateStr);
+        }
+    } else {
+        alert(stateStr);
+    }
+}
+function resetGlobalVariables() {
+    audioContextHandle = null;
+    audioNode = null;
+    audioSource = null;
+    launchedContext = false;
+    audioContextSampleBuffer = [];
+    resampled = [];
+    webAudioMinBufferSize = 15000;
+    webAudioMaxBufferSize = 25000;
+    webAudioActualSampleRate = 44100;
+    XAudioJSSampleRate = 0;
+    webAudioMono = false;
+    XAudioJSVolume = 1;
+    resampleControl = null;
+    audioBufferSize = 0;
+    resampleBufferStart = 0;
+    resampleBufferEnd = 0;
+    resampleBufferSize = 2;
+    gameboy = null;
+    gbRunInterval = null;
+}
 var toBase64 = [
         'A',
         'B',
@@ -228,113 +228,113 @@ var toBase64 = [
         '='
     ];
 var fromBase64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-var base64 = _wrap_(function (data) {
-        try {
-            var base64 = GameBoyWindow.btoa(data);
-        } catch (error) {
-            var base64 = '';
-            var dataLength = data.length;
-            if (dataLength > 0) {
-                var bytes = [
-                        0,
-                        0,
-                        0
-                    ];
-                var index = 0;
-                var remainder = dataLength % 3;
-                while (data.length % 3 > 0) {
-                    data[data.length] = ' ';
-                }
-                while (index < dataLength) {
-                    bytes = [
-                        data.charCodeAt(index++) & 255,
-                        data.charCodeAt(index++) & 255,
-                        data.charCodeAt(index++) & 255
-                    ];
-                    base64 += toBase64[bytes[0] >> 2] + toBase64[(bytes[0] & 3) << 4 | bytes[1] >> 4] + toBase64[(bytes[1] & 15) << 2 | bytes[2] >> 6] + toBase64[bytes[2] & 63];
-                }
-                if (remainder > 0) {
-                    base64[base64.length - 1] = '=';
-                    if (remainder == 2) {
-                        base64[base64.length - 2] = '=';
-                        base64[base64.length - 3] = toBase64[(bytes[0] & 3) << 4];
-                    } else {
-                        base64[base64.length - 2] = toBase64[(bytes[1] & 15) << 2];
-                    }
+function base64(data) {
+    try {
+        var base64 = GameBoyWindow.btoa(data);
+    } catch (error) {
+        var base64 = '';
+        var dataLength = data.length;
+        if (dataLength > 0) {
+            var bytes = [
+                    0,
+                    0,
+                    0
+                ];
+            var index = 0;
+            var remainder = dataLength % 3;
+            while (data.length % 3 > 0) {
+                data[data.length] = ' ';
+            }
+            while (index < dataLength) {
+                bytes = [
+                    data.charCodeAt(index++) & 255,
+                    data.charCodeAt(index++) & 255,
+                    data.charCodeAt(index++) & 255
+                ];
+                base64 += toBase64[bytes[0] >> 2] + toBase64[(bytes[0] & 3) << 4 | bytes[1] >> 4] + toBase64[(bytes[1] & 15) << 2 | bytes[2] >> 6] + toBase64[bytes[2] & 63];
+            }
+            if (remainder > 0) {
+                base64[base64.length - 1] = '=';
+                if (remainder == 2) {
+                    base64[base64.length - 2] = '=';
+                    base64[base64.length - 3] = toBase64[(bytes[0] & 3) << 4];
+                } else {
+                    base64[base64.length - 2] = toBase64[(bytes[1] & 15) << 2];
                 }
             }
         }
-        return base64;
-    });
-var base64_decode = _wrap_(function (data) {
-        try {
-            var decode64 = GameBoyWindow.atob(data);
-        } catch (error) {
-            var decode64 = '';
-            var dataLength = data.length;
-            if (dataLength > 3 && dataLength % 4 == 0) {
-                var sixbits = [
-                        0,
-                        0,
-                        0,
-                        0
-                    ];
-                var index = 0;
-                while (index < dataLength) {
-                    sixbits = [
-                        fromBase64.indexOf(data.charAt(index++)),
-                        fromBase64.indexOf(data.charAt(index++)),
-                        fromBase64.indexOf(data.charAt(index++)),
-                        fromBase64.indexOf(data.charAt(index++))
-                    ];
-                    decode64 += String.fromCharCode(sixbits[0] << 2 | sixbits[1] >> 4) + String.fromCharCode((sixbits[1] & 15) << 4 | sixbits[2] >> 2) + String.fromCharCode((sixbits[2] & 3) << 6 | sixbits[3]);
-                }
-                if (sixbits[3] >= 64) {
+    }
+    return base64;
+}
+function base64_decode(data) {
+    try {
+        var decode64 = GameBoyWindow.atob(data);
+    } catch (error) {
+        var decode64 = '';
+        var dataLength = data.length;
+        if (dataLength > 3 && dataLength % 4 == 0) {
+            var sixbits = [
+                    0,
+                    0,
+                    0,
+                    0
+                ];
+            var index = 0;
+            while (index < dataLength) {
+                sixbits = [
+                    fromBase64.indexOf(data.charAt(index++)),
+                    fromBase64.indexOf(data.charAt(index++)),
+                    fromBase64.indexOf(data.charAt(index++)),
+                    fromBase64.indexOf(data.charAt(index++))
+                ];
+                decode64 += String.fromCharCode(sixbits[0] << 2 | sixbits[1] >> 4) + String.fromCharCode((sixbits[1] & 15) << 4 | sixbits[2] >> 2) + String.fromCharCode((sixbits[2] & 3) << 6 | sixbits[3]);
+            }
+            if (sixbits[3] >= 64) {
+                decode64.length -= 1;
+                if (sixbits[2] >= 64) {
                     decode64.length -= 1;
-                    if (sixbits[2] >= 64) {
-                        decode64.length -= 1;
-                    }
                 }
             }
         }
-        return decode64;
-    });
-var to_little_endian_dword = _wrap_(function (str) {
-        return to_little_endian_word(str) + String.fromCharCode(str >> 16 & 255, str >> 24 & 255);
-    });
-var to_little_endian_word = _wrap_(function (str) {
-        return to_byte(str) + String.fromCharCode(str >> 8 & 255);
-    });
-var to_byte = _wrap_(function (str) {
-        return String.fromCharCode(str & 255);
-    });
-var arrayToBase64 = _wrap_(function (arrayIn) {
-        var binString = '';
-        var length = arrayIn.length;
-        for (var index = 0; index < length; ++index) {
-            if (typeof arrayIn[index] == 'number') {
-                binString += String.fromCharCode(arrayIn[index]);
-            }
+    }
+    return decode64;
+}
+function to_little_endian_dword(str) {
+    return to_little_endian_word(str) + String.fromCharCode(str >> 16 & 255, str >> 24 & 255);
+}
+function to_little_endian_word(str) {
+    return to_byte(str) + String.fromCharCode(str >> 8 & 255);
+}
+function to_byte(str) {
+    return String.fromCharCode(str & 255);
+}
+function arrayToBase64(arrayIn) {
+    var binString = '';
+    var length = arrayIn.length;
+    for (var index = 0; index < length; ++index) {
+        if (typeof arrayIn[index] == 'number') {
+            binString += String.fromCharCode(arrayIn[index]);
         }
-        return base64(binString);
-    });
-var base64ToArray = _wrap_(function (b64String) {
-        var binString = base64_decode(b64String);
-        var outArray = [];
-        var length = binString.length;
-        for (var index = 0; index < length;) {
-            outArray.push(binString.charCodeAt(index++) & 255);
-        }
-        return outArray;
-    });
-var Resampler = _wrap_(function (fromSampleRate, toSampleRate, channels, outputBufferSize, noReturn) {
-        this.fromSampleRate = fromSampleRate;
-        this.toSampleRate = toSampleRate;
-        this.channels = channels | 0;
-        this.outputBufferSize = outputBufferSize;
-        this.noReturn = !!noReturn;
-        this.initialize();
-    });
+    }
+    return base64(binString);
+}
+function base64ToArray(b64String) {
+    var binString = base64_decode(b64String);
+    var outArray = [];
+    var length = binString.length;
+    for (var index = 0; index < length;) {
+        outArray.push(binString.charCodeAt(index++) & 255);
+    }
+    return outArray;
+}
+function Resampler(fromSampleRate, toSampleRate, channels, outputBufferSize, noReturn) {
+    this.fromSampleRate = fromSampleRate;
+    this.toSampleRate = toSampleRate;
+    this.channels = channels | 0;
+    this.outputBufferSize = outputBufferSize;
+    this.noReturn = !!noReturn;
+    this.initialize();
+}
 Resampler.prototype.initialize = _wrap_(function () {
     if (this.fromSampleRate > 0 && this.toSampleRate > 0 && this.channels > 0) {
         if (this.fromSampleRate == this.toSampleRate) {
@@ -417,23 +417,23 @@ Resampler.prototype.initializeBuffers = _wrap_(function () {
         this.lastOutput = [];
     }
 });
-var XAudioServer = _wrap_(function (channels, sampleRate, minBufferSize, maxBufferSize, underRunCallback, volume) {
-        this.audioChannels = channels == 2 ? 2 : 1;
-        webAudioMono = this.audioChannels == 1;
-        XAudioJSSampleRate = sampleRate > 0 && sampleRate <= 16777215 ? sampleRate : 44100;
-        webAudioMinBufferSize = minBufferSize >= samplesPerCallback << 1 && minBufferSize < maxBufferSize ? minBufferSize & (webAudioMono ? 4294967295 : 4294967294) : samplesPerCallback << 1;
-        webAudioMaxBufferSize = Math.floor(maxBufferSize) > webAudioMinBufferSize + this.audioChannels ? maxBufferSize & (webAudioMono ? 4294967295 : 4294967294) : minBufferSize << 1;
-        this.underRunCallback = typeof underRunCallback == 'function' ? underRunCallback : _wrap_(function () {
-        });
-        XAudioJSVolume = volume >= 0 && volume <= 1 ? volume : 1;
-        this.audioType = -1;
-        this.mozAudioTail = [];
-        this.audioHandleMoz = null;
-        this.audioHandleFlash = null;
-        this.flashInitialized = false;
-        this.mozAudioFound = false;
-        this.initializeAudio();
+function XAudioServer(channels, sampleRate, minBufferSize, maxBufferSize, underRunCallback, volume) {
+    this.audioChannels = channels == 2 ? 2 : 1;
+    webAudioMono = this.audioChannels == 1;
+    XAudioJSSampleRate = sampleRate > 0 && sampleRate <= 16777215 ? sampleRate : 44100;
+    webAudioMinBufferSize = minBufferSize >= samplesPerCallback << 1 && minBufferSize < maxBufferSize ? minBufferSize & (webAudioMono ? 4294967295 : 4294967294) : samplesPerCallback << 1;
+    webAudioMaxBufferSize = Math.floor(maxBufferSize) > webAudioMinBufferSize + this.audioChannels ? maxBufferSize & (webAudioMono ? 4294967295 : 4294967294) : minBufferSize << 1;
+    this.underRunCallback = typeof underRunCallback == 'function' ? underRunCallback : _wrap_(function () {
     });
+    XAudioJSVolume = volume >= 0 && volume <= 1 ? volume : 1;
+    this.audioType = -1;
+    this.mozAudioTail = [];
+    this.audioHandleMoz = null;
+    this.audioHandleFlash = null;
+    this.flashInitialized = false;
+    this.mozAudioFound = false;
+    this.initializeAudio();
+}
 XAudioServer.prototype.MOZWriteAudio = _wrap_(function (buffer) {
     this.MOZWriteAudioNoCallback(buffer);
     this.MOZExecuteCallback();
@@ -626,53 +626,53 @@ XAudioServer.prototype.checkFlashInit = _wrap_(function () {
     }
     return this.flashInitialized;
 });
-var getFloat32 = _wrap_(function (size) {
-        try {
-            return new Float32Array(size);
-        } catch (error) {
-            return new Array(size);
-        }
-    });
-var getFloat32Flat = _wrap_(function (size) {
-        try {
-            var newBuffer = new Float32Array(size);
-        } catch (error) {
-            var newBuffer = new Array(size);
-            var audioSampleIndice = 0;
-            do {
-                newBuffer[audioSampleIndice] = 0;
-            } while (++audioSampleIndice < size);
-        }
-        return newBuffer;
-    });
+function getFloat32(size) {
+    try {
+        return new Float32Array(size);
+    } catch (error) {
+        return new Array(size);
+    }
+}
+function getFloat32Flat(size) {
+    try {
+        var newBuffer = new Float32Array(size);
+    } catch (error) {
+        var newBuffer = new Array(size);
+        var audioSampleIndice = 0;
+        do {
+            newBuffer[audioSampleIndice] = 0;
+        } while (++audioSampleIndice < size);
+    }
+    return newBuffer;
+}
 var samplesPerCallback = 2048;
 var outputConvert = null;
-var audioOutputFlashEvent = _wrap_(function () {
-        resampleRefill();
-        return outputConvert();
-    });
-var generateFlashStereoString = _wrap_(function () {
-        var copyBinaryStringLeft = '';
-        var copyBinaryStringRight = '';
-        for (var index = 0; index < samplesPerCallback && resampleBufferStart != resampleBufferEnd; ++index) {
-            copyBinaryStringLeft += String.fromCharCode((Math.min(Math.max(resampled[resampleBufferStart++] + 1, 0), 2) * 16383 | 0) + 12288);
-            copyBinaryStringRight += String.fromCharCode((Math.min(Math.max(resampled[resampleBufferStart++] + 1, 0), 2) * 16383 | 0) + 12288);
-            if (resampleBufferStart == resampleBufferSize) {
-                resampleBufferStart = 0;
-            }
+function audioOutputFlashEvent() {
+    resampleRefill();
+    return outputConvert();
+}
+function generateFlashStereoString() {
+    var copyBinaryStringLeft = '';
+    var copyBinaryStringRight = '';
+    for (var index = 0; index < samplesPerCallback && resampleBufferStart != resampleBufferEnd; ++index) {
+        copyBinaryStringLeft += String.fromCharCode((Math.min(Math.max(resampled[resampleBufferStart++] + 1, 0), 2) * 16383 | 0) + 12288);
+        copyBinaryStringRight += String.fromCharCode((Math.min(Math.max(resampled[resampleBufferStart++] + 1, 0), 2) * 16383 | 0) + 12288);
+        if (resampleBufferStart == resampleBufferSize) {
+            resampleBufferStart = 0;
         }
-        return copyBinaryStringLeft + copyBinaryStringRight;
-    });
-var generateFlashMonoString = _wrap_(function () {
-        var copyBinaryString = '';
-        for (var index = 0; index < samplesPerCallback && resampleBufferStart != resampleBufferEnd; ++index) {
-            copyBinaryString += String.fromCharCode((Math.min(Math.max(resampled[resampleBufferStart++] + 1, 0), 2) * 16383 | 0) + 12288);
-            if (resampleBufferStart == resampleBufferSize) {
-                resampleBufferStart = 0;
-            }
+    }
+    return copyBinaryStringLeft + copyBinaryStringRight;
+}
+function generateFlashMonoString() {
+    var copyBinaryString = '';
+    for (var index = 0; index < samplesPerCallback && resampleBufferStart != resampleBufferEnd; ++index) {
+        copyBinaryString += String.fromCharCode((Math.min(Math.max(resampled[resampleBufferStart++] + 1, 0), 2) * 16383 | 0) + 12288);
+        if (resampleBufferStart == resampleBufferSize) {
+            resampleBufferStart = 0;
         }
-        return copyBinaryString;
-    });
+    }
+    return copyBinaryString;
+}
 var audioContextHandle = null;
 var audioNode = null;
 var audioSource = null;
@@ -690,84 +690,84 @@ var audioBufferSize = 0;
 var resampleBufferStart = 0;
 var resampleBufferEnd = 0;
 var resampleBufferSize = 2;
-var audioOutputEvent = _wrap_(function (event) {
-        var index = 0;
-        var buffer1 = event.outputBuffer.getChannelData(0);
-        var buffer2 = event.outputBuffer.getChannelData(1);
-        resampleRefill();
-        if (!webAudioMono) {
-            while (index < samplesPerCallback && resampleBufferStart != resampleBufferEnd) {
-                buffer1[index] = resampled[resampleBufferStart++] * XAudioJSVolume;
-                buffer2[index++] = resampled[resampleBufferStart++] * XAudioJSVolume;
-                if (resampleBufferStart == resampleBufferSize) {
-                    resampleBufferStart = 0;
-                }
-            }
-        } else {
-            while (index < samplesPerCallback && resampleBufferStart != resampleBufferEnd) {
-                buffer2[index] = buffer1[index] = resampled[resampleBufferStart++] * XAudioJSVolume;
-                ++index;
-                if (resampleBufferStart == resampleBufferSize) {
-                    resampleBufferStart = 0;
-                }
+function audioOutputEvent(event) {
+    var index = 0;
+    var buffer1 = event.outputBuffer.getChannelData(0);
+    var buffer2 = event.outputBuffer.getChannelData(1);
+    resampleRefill();
+    if (!webAudioMono) {
+        while (index < samplesPerCallback && resampleBufferStart != resampleBufferEnd) {
+            buffer1[index] = resampled[resampleBufferStart++] * XAudioJSVolume;
+            buffer2[index++] = resampled[resampleBufferStart++] * XAudioJSVolume;
+            if (resampleBufferStart == resampleBufferSize) {
+                resampleBufferStart = 0;
             }
         }
-        while (index < samplesPerCallback) {
-            buffer2[index] = buffer1[index] = 0;
+    } else {
+        while (index < samplesPerCallback && resampleBufferStart != resampleBufferEnd) {
+            buffer2[index] = buffer1[index] = resampled[resampleBufferStart++] * XAudioJSVolume;
             ++index;
+            if (resampleBufferStart == resampleBufferSize) {
+                resampleBufferStart = 0;
+            }
         }
-    });
-var resampleRefill = _wrap_(function () {
-        if (audioBufferSize > 0) {
-            var resampleLength = resampleControl.resampler(getBufferSamples());
-            var resampledResult = resampleControl.outputBuffer;
-            for (var index2 = 0; index2 < resampleLength; ++index2) {
-                resampled[resampleBufferEnd++] = resampledResult[index2];
-                if (resampleBufferEnd == resampleBufferSize) {
-                    resampleBufferEnd = 0;
-                }
-                if (resampleBufferStart == resampleBufferEnd) {
-                    ++resampleBufferStart;
-                    if (resampleBufferStart == resampleBufferSize) {
-                        resampleBufferStart = 0;
-                    }
+    }
+    while (index < samplesPerCallback) {
+        buffer2[index] = buffer1[index] = 0;
+        ++index;
+    }
+}
+function resampleRefill() {
+    if (audioBufferSize > 0) {
+        var resampleLength = resampleControl.resampler(getBufferSamples());
+        var resampledResult = resampleControl.outputBuffer;
+        for (var index2 = 0; index2 < resampleLength; ++index2) {
+            resampled[resampleBufferEnd++] = resampledResult[index2];
+            if (resampleBufferEnd == resampleBufferSize) {
+                resampleBufferEnd = 0;
+            }
+            if (resampleBufferStart == resampleBufferEnd) {
+                ++resampleBufferStart;
+                if (resampleBufferStart == resampleBufferSize) {
+                    resampleBufferStart = 0;
                 }
             }
-            audioBufferSize = 0;
         }
-    });
-var resampledSamplesLeft = _wrap_(function () {
-        return (resampleBufferStart <= resampleBufferEnd ? 0 : resampleBufferSize) + resampleBufferEnd - resampleBufferStart;
-    });
-var getBufferSamples = _wrap_(function () {
+        audioBufferSize = 0;
+    }
+}
+function resampledSamplesLeft() {
+    return (resampleBufferStart <= resampleBufferEnd ? 0 : resampleBufferSize) + resampleBufferEnd - resampleBufferStart;
+}
+function getBufferSamples() {
+    try {
+        return audioContextSampleBuffer.subarray(0, audioBufferSize);
+    } catch (error) {
         try {
-            return audioContextSampleBuffer.subarray(0, audioBufferSize);
+            audioContextSampleBuffer.length = audioBufferSize;
+            return audioContextSampleBuffer;
         } catch (error) {
-            try {
-                audioContextSampleBuffer.length = audioBufferSize;
-                return audioContextSampleBuffer;
-            } catch (error) {
-                return audioContextSampleBuffer.slice(0, audioBufferSize);
-            }
+            return audioContextSampleBuffer.slice(0, audioBufferSize);
         }
-    });
-var resetCallbackAPIAudioBuffer = _wrap_(function (APISampleRate, bufferAlloc) {
-        audioContextSampleBuffer = getFloat32(webAudioMaxBufferSize);
-        audioBufferSize = webAudioMaxBufferSize;
-        resampleBufferStart = 0;
-        resampleBufferEnd = 0;
-        resampleBufferSize = Math.max(webAudioMaxBufferSize * Math.ceil(XAudioJSSampleRate / APISampleRate), samplesPerCallback) << 1;
-        if (webAudioMono) {
-            resampled = getFloat32Flat(resampleBufferSize);
-            resampleControl = new Resampler(XAudioJSSampleRate, APISampleRate, 1, resampleBufferSize, true);
-            outputConvert = generateFlashMonoString;
-        } else {
-            resampleBufferSize <<= 1;
-            resampled = getFloat32Flat(resampleBufferSize);
-            resampleControl = new Resampler(XAudioJSSampleRate, APISampleRate, 2, resampleBufferSize, true);
-            outputConvert = generateFlashStereoString;
-        }
-    });
+    }
+}
+function resetCallbackAPIAudioBuffer(APISampleRate, bufferAlloc) {
+    audioContextSampleBuffer = getFloat32(webAudioMaxBufferSize);
+    audioBufferSize = webAudioMaxBufferSize;
+    resampleBufferStart = 0;
+    resampleBufferEnd = 0;
+    resampleBufferSize = Math.max(webAudioMaxBufferSize * Math.ceil(XAudioJSSampleRate / APISampleRate), samplesPerCallback) << 1;
+    if (webAudioMono) {
+        resampled = getFloat32Flat(resampleBufferSize);
+        resampleControl = new Resampler(XAudioJSSampleRate, APISampleRate, 1, resampleBufferSize, true);
+        outputConvert = generateFlashMonoString;
+    } else {
+        resampleBufferSize <<= 1;
+        resampled = getFloat32Flat(resampleBufferSize);
+        resampleControl = new Resampler(XAudioJSSampleRate, APISampleRate, 2, resampleBufferSize, true);
+        outputConvert = generateFlashStereoString;
+    }
+}
 _wrap_(function () {
     if (!launchedContext) {
         try {
@@ -795,20 +795,20 @@ _wrap_(function () {
         launchedContext = true;
     }
 })();
-var Resize = _wrap_(function (widthOriginal, heightOriginal, targetWidth, targetHeight, blendAlpha, interpolationPass) {
-        this.widthOriginal = Math.abs(parseInt(widthOriginal) || 0);
-        this.heightOriginal = Math.abs(parseInt(heightOriginal) || 0);
-        this.targetWidth = Math.abs(parseInt(targetWidth) || 0);
-        this.targetHeight = Math.abs(parseInt(targetHeight) || 0);
-        this.colorChannels = !!blendAlpha ? 4 : 3;
-        this.interpolationPass = !!interpolationPass;
-        this.targetWidthMultipliedByChannels = this.targetWidth * this.colorChannels;
-        this.originalWidthMultipliedByChannels = this.widthOriginal * this.colorChannels;
-        this.originalHeightMultipliedByChannels = this.heightOriginal * this.colorChannels;
-        this.widthPassResultSize = this.targetWidthMultipliedByChannels * this.heightOriginal;
-        this.finalResultSize = this.targetWidthMultipliedByChannels * this.targetHeight;
-        this.initialize();
-    });
+function Resize(widthOriginal, heightOriginal, targetWidth, targetHeight, blendAlpha, interpolationPass) {
+    this.widthOriginal = Math.abs(parseInt(widthOriginal) || 0);
+    this.heightOriginal = Math.abs(parseInt(heightOriginal) || 0);
+    this.targetWidth = Math.abs(parseInt(targetWidth) || 0);
+    this.targetHeight = Math.abs(parseInt(targetHeight) || 0);
+    this.colorChannels = !!blendAlpha ? 4 : 3;
+    this.interpolationPass = !!interpolationPass;
+    this.targetWidthMultipliedByChannels = this.targetWidth * this.colorChannels;
+    this.originalWidthMultipliedByChannels = this.widthOriginal * this.colorChannels;
+    this.originalHeightMultipliedByChannels = this.heightOriginal * this.colorChannels;
+    this.widthPassResultSize = this.targetWidthMultipliedByChannels * this.heightOriginal;
+    this.finalResultSize = this.targetWidthMultipliedByChannels * this.targetHeight;
+    this.initialize();
+}
 Resize.prototype.initialize = _wrap_(function () {
     if (this.widthOriginal > 0 && this.heightOriginal > 0 && this.targetWidth > 0 && this.targetHeight > 0) {
         if (this.widthOriginal == this.targetWidth) {

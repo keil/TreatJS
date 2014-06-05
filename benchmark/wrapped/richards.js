@@ -1,40 +1,36 @@
 var Richards = new BenchmarkSuite('Richards', [35302], [new Benchmark('Richards', true, false, 8200, runRichards)]);
 function runRichards() {
-    return _wrap_(function () {
-        var scheduler = new Scheduler();
-        scheduler.addIdleTask(ID_IDLE, 0, null, COUNT);
-        var queue = new Packet(null, ID_WORKER, KIND_WORK);
-        queue = new Packet(queue, ID_WORKER, KIND_WORK);
-        scheduler.addWorkerTask(ID_WORKER, 1000, queue);
-        queue = new Packet(null, ID_DEVICE_A, KIND_DEVICE);
-        queue = new Packet(queue, ID_DEVICE_A, KIND_DEVICE);
-        queue = new Packet(queue, ID_DEVICE_A, KIND_DEVICE);
-        scheduler.addHandlerTask(ID_HANDLER_A, 2000, queue);
-        queue = new Packet(null, ID_DEVICE_B, KIND_DEVICE);
-        queue = new Packet(queue, ID_DEVICE_B, KIND_DEVICE);
-        queue = new Packet(queue, ID_DEVICE_B, KIND_DEVICE);
-        scheduler.addHandlerTask(ID_HANDLER_B, 3000, queue);
-        scheduler.addDeviceTask(ID_DEVICE_A, 4000, null);
-        scheduler.addDeviceTask(ID_DEVICE_B, 5000, null);
-        scheduler.schedule();
-        if (scheduler.queueCount != EXPECTED_QUEUE_COUNT || scheduler.holdCount != EXPECTED_HOLD_COUNT) {
-            var msg = 'Error during execution: queueCount = ' + scheduler.queueCount + ', holdCount = ' + scheduler.holdCount + '.';
-            throw new Error(msg);
-        }
-    }).bind(this)();
+    var scheduler = new Scheduler();
+    scheduler.addIdleTask(ID_IDLE, 0, null, COUNT);
+    var queue = new Packet(null, ID_WORKER, KIND_WORK);
+    queue = new Packet(queue, ID_WORKER, KIND_WORK);
+    scheduler.addWorkerTask(ID_WORKER, 1000, queue);
+    queue = new Packet(null, ID_DEVICE_A, KIND_DEVICE);
+    queue = new Packet(queue, ID_DEVICE_A, KIND_DEVICE);
+    queue = new Packet(queue, ID_DEVICE_A, KIND_DEVICE);
+    scheduler.addHandlerTask(ID_HANDLER_A, 2000, queue);
+    queue = new Packet(null, ID_DEVICE_B, KIND_DEVICE);
+    queue = new Packet(queue, ID_DEVICE_B, KIND_DEVICE);
+    queue = new Packet(queue, ID_DEVICE_B, KIND_DEVICE);
+    scheduler.addHandlerTask(ID_HANDLER_B, 3000, queue);
+    scheduler.addDeviceTask(ID_DEVICE_A, 4000, null);
+    scheduler.addDeviceTask(ID_DEVICE_B, 5000, null);
+    scheduler.schedule();
+    if (scheduler.queueCount != EXPECTED_QUEUE_COUNT || scheduler.holdCount != EXPECTED_HOLD_COUNT) {
+        var msg = 'Error during execution: queueCount = ' + scheduler.queueCount + ', holdCount = ' + scheduler.holdCount + '.';
+        throw new Error(msg);
+    }
 }
 var COUNT = 1000;
 var EXPECTED_QUEUE_COUNT = 2322;
 var EXPECTED_HOLD_COUNT = 928;
 function Scheduler() {
-    return _wrap_(function () {
-        this.queueCount = 0;
-        this.holdCount = 0;
-        this.blocks = new Array(NUMBER_OF_IDS);
-        this.list = null;
-        this.currentTcb = null;
-        this.currentId = null;
-    }).bind(this)();
+    this.queueCount = 0;
+    this.holdCount = 0;
+    this.blocks = new Array(NUMBER_OF_IDS);
+    this.list = null;
+    this.currentTcb = null;
+    this.currentId = null;
 }
 var ID_IDLE = 0;
 var ID_WORKER = 1;
@@ -107,18 +103,16 @@ Scheduler.prototype.queue = _wrap_(function (packet) {
     return t.checkPriorityAdd(this.currentTcb, packet);
 });
 function TaskControlBlock(link, id, priority, queue, task) {
-    return _wrap_(function (link, id, priority, queue, task) {
-        this.link = link;
-        this.id = id;
-        this.priority = priority;
-        this.queue = queue;
-        this.task = task;
-        if (queue == null) {
-            this.state = STATE_SUSPENDED;
-        } else {
-            this.state = STATE_SUSPENDED_RUNNABLE;
-        }
-    }).bind(this)(link, id, priority, queue, task);
+    this.link = link;
+    this.id = id;
+    this.priority = priority;
+    this.queue = queue;
+    this.task = task;
+    if (queue == null) {
+        this.state = STATE_SUSPENDED;
+    } else {
+        this.state = STATE_SUSPENDED_RUNNABLE;
+    }
 }
 var STATE_RUNNING = 0;
 var STATE_RUNNABLE = 1;
@@ -174,11 +168,9 @@ TaskControlBlock.prototype.toString = _wrap_(function () {
     return 'tcb { ' + this.task + '@' + this.state + ' }';
 });
 function IdleTask(scheduler, v1, count) {
-    return _wrap_(function (scheduler, v1, count) {
-        this.scheduler = scheduler;
-        this.v1 = v1;
-        this.count = count;
-    }).bind(this)(scheduler, v1, count);
+    this.scheduler = scheduler;
+    this.v1 = v1;
+    this.count = count;
 }
 IdleTask.prototype.run = _wrap_(function (packet) {
     this.count--;
@@ -196,10 +188,8 @@ IdleTask.prototype.toString = _wrap_(function () {
     return 'IdleTask';
 });
 function DeviceTask(scheduler) {
-    return _wrap_(function (scheduler) {
-        this.scheduler = scheduler;
-        this.v1 = null;
-    }).bind(this)(scheduler);
+    this.scheduler = scheduler;
+    this.v1 = null;
 }
 DeviceTask.prototype.run = _wrap_(function (packet) {
     if (packet == null) {
@@ -217,11 +207,9 @@ DeviceTask.prototype.toString = _wrap_(function () {
     return 'DeviceTask';
 });
 function WorkerTask(scheduler, v1, v2) {
-    return _wrap_(function (scheduler, v1, v2) {
-        this.scheduler = scheduler;
-        this.v1 = v1;
-        this.v2 = v2;
-    }).bind(this)(scheduler, v1, v2);
+    this.scheduler = scheduler;
+    this.v1 = v1;
+    this.v2 = v2;
 }
 WorkerTask.prototype.run = _wrap_(function (packet) {
     if (packet == null) {
@@ -247,11 +235,9 @@ WorkerTask.prototype.toString = _wrap_(function () {
     return 'WorkerTask';
 });
 function HandlerTask(scheduler) {
-    return _wrap_(function (scheduler) {
-        this.scheduler = scheduler;
-        this.v1 = null;
-        this.v2 = null;
-    }).bind(this)(scheduler);
+    this.scheduler = scheduler;
+    this.v1 = null;
+    this.v2 = null;
 }
 HandlerTask.prototype.run = _wrap_(function (packet) {
     if (packet != null) {
@@ -285,13 +271,11 @@ HandlerTask.prototype.toString = _wrap_(function () {
 });
 var DATA_SIZE = 4;
 function Packet(link, id, kind) {
-    return _wrap_(function (link, id, kind) {
-        this.link = link;
-        this.id = id;
-        this.kind = kind;
-        this.a1 = 0;
-        this.a2 = new Array(DATA_SIZE);
-    }).bind(this)(link, id, kind);
+    this.link = link;
+    this.id = id;
+    this.kind = kind;
+    this.a1 = 0;
+    this.a2 = new Array(DATA_SIZE);
 }
 Packet.prototype.addTo = _wrap_(function (queue) {
     this.link = null;

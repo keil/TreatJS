@@ -1,7 +1,7 @@
 var Box2D = {};
 _wrap_(function (F, G) {
-    var K = _wrap_(function () {
-        });
+    function K() {
+    }
     if (!(Object.defineProperty instanceof Function) && Object.prototype.__defineGetter__ instanceof Function && Object.prototype.__defineSetter__ instanceof Function)
         Object.defineProperty = _wrap_(function (y, w, A) {
             A.get instanceof Function && y.__defineGetter__(w, A.get);
@@ -57,365 +57,365 @@ if (typeof Box2D.Dynamics.Controllers === 'undefined')
 if (typeof Box2D.Dynamics.Joints === 'undefined')
     Box2D.Dynamics.Joints = {};
 _wrap_(function () {
-    var F = _wrap_(function () {
-            F.b2AABB.apply(this, arguments);
-        });
-    var G = _wrap_(function () {
-            G.b2Bound.apply(this, arguments);
-        });
-    var K = _wrap_(function () {
-            K.b2BoundValues.apply(this, arguments);
-            this.constructor === K && this.b2BoundValues.apply(this, arguments);
-        });
-    var y = _wrap_(function () {
-            y.b2Collision.apply(this, arguments);
-        });
-    var w = _wrap_(function () {
-            w.b2ContactID.apply(this, arguments);
-            this.constructor === w && this.b2ContactID.apply(this, arguments);
-        });
-    var A = _wrap_(function () {
-            A.b2ContactPoint.apply(this, arguments);
-        });
-    var U = _wrap_(function () {
-            U.b2Distance.apply(this, arguments);
-        });
-    var p = _wrap_(function () {
-            p.b2DistanceInput.apply(this, arguments);
-        });
-    var B = _wrap_(function () {
-            B.b2DistanceOutput.apply(this, arguments);
-        });
-    var Q = _wrap_(function () {
-            Q.b2DistanceProxy.apply(this, arguments);
-        });
-    var V = _wrap_(function () {
-            V.b2DynamicTree.apply(this, arguments);
-            this.constructor === V && this.b2DynamicTree.apply(this, arguments);
-        });
-    var M = _wrap_(function () {
-            M.b2DynamicTreeBroadPhase.apply(this, arguments);
-        });
-    var L = _wrap_(function () {
-            L.b2DynamicTreeNode.apply(this, arguments);
-        });
-    var I = _wrap_(function () {
-            I.b2DynamicTreePair.apply(this, arguments);
-        });
-    var W = _wrap_(function () {
-            W.b2Manifold.apply(this, arguments);
-            this.constructor === W && this.b2Manifold.apply(this, arguments);
-        });
-    var Y = _wrap_(function () {
-            Y.b2ManifoldPoint.apply(this, arguments);
-            this.constructor === Y && this.b2ManifoldPoint.apply(this, arguments);
-        });
-    var k = _wrap_(function () {
-            k.b2Point.apply(this, arguments);
-        });
-    var z = _wrap_(function () {
-            z.b2RayCastInput.apply(this, arguments);
-            this.constructor === z && this.b2RayCastInput.apply(this, arguments);
-        });
-    var u = _wrap_(function () {
-            u.b2RayCastOutput.apply(this, arguments);
-        });
-    var D = _wrap_(function () {
-            D.b2Segment.apply(this, arguments);
-        });
-    var H = _wrap_(function () {
-            H.b2SeparationFunction.apply(this, arguments);
-        });
-    var O = _wrap_(function () {
-            O.b2Simplex.apply(this, arguments);
-            this.constructor === O && this.b2Simplex.apply(this, arguments);
-        });
-    var E = _wrap_(function () {
-            E.b2SimplexCache.apply(this, arguments);
-        });
-    var R = _wrap_(function () {
-            R.b2SimplexVertex.apply(this, arguments);
-        });
-    var N = _wrap_(function () {
-            N.b2TimeOfImpact.apply(this, arguments);
-        });
-    var S = _wrap_(function () {
-            S.b2TOIInput.apply(this, arguments);
-        });
-    var aa = _wrap_(function () {
-            aa.b2WorldManifold.apply(this, arguments);
-            this.constructor === aa && this.b2WorldManifold.apply(this, arguments);
-        });
-    var Z = _wrap_(function () {
-            Z.ClipVertex.apply(this, arguments);
-        });
-    var d = _wrap_(function () {
-            d.Features.apply(this, arguments);
-        });
-    var h = _wrap_(function () {
-            h.b2CircleShape.apply(this, arguments);
-            this.constructor === h && this.b2CircleShape.apply(this, arguments);
-        });
-    var l = _wrap_(function () {
-            l.b2EdgeChainDef.apply(this, arguments);
-            this.constructor === l && this.b2EdgeChainDef.apply(this, arguments);
-        });
-    var j = _wrap_(function () {
-            j.b2EdgeShape.apply(this, arguments);
-            this.constructor === j && this.b2EdgeShape.apply(this, arguments);
-        });
-    var o = _wrap_(function () {
-            o.b2MassData.apply(this, arguments);
-        });
-    var q = _wrap_(function () {
-            q.b2PolygonShape.apply(this, arguments);
-            this.constructor === q && this.b2PolygonShape.apply(this, arguments);
-        });
-    var n = _wrap_(function () {
-            n.b2Shape.apply(this, arguments);
-            this.constructor === n && this.b2Shape.apply(this, arguments);
-        });
-    var a = _wrap_(function () {
-            a.b2Color.apply(this, arguments);
-            this.constructor === a && this.b2Color.apply(this, arguments);
-        });
-    var c = _wrap_(function () {
-            c.b2Settings.apply(this, arguments);
-        });
-    var g = _wrap_(function () {
-            g.b2Mat22.apply(this, arguments);
-            this.constructor === g && this.b2Mat22.apply(this, arguments);
-        });
-    var b = _wrap_(function () {
-            b.b2Mat33.apply(this, arguments);
-            this.constructor === b && this.b2Mat33.apply(this, arguments);
-        });
-    var e = _wrap_(function () {
-            e.b2Math.apply(this, arguments);
-        });
-    var f = _wrap_(function () {
-            f.b2Sweep.apply(this, arguments);
-        });
-    var m = _wrap_(function () {
-            m.b2Transform.apply(this, arguments);
-            this.constructor === m && this.b2Transform.apply(this, arguments);
-        });
-    var r = _wrap_(function () {
-            r.b2Vec2.apply(this, arguments);
-            this.constructor === r && this.b2Vec2.apply(this, arguments);
-        });
-    var s = _wrap_(function () {
-            s.b2Vec3.apply(this, arguments);
-            this.constructor === s && this.b2Vec3.apply(this, arguments);
-        });
-    var v = _wrap_(function () {
-            v.b2Body.apply(this, arguments);
-            this.constructor === v && this.b2Body.apply(this, arguments);
-        });
-    var t = _wrap_(function () {
-            t.b2BodyDef.apply(this, arguments);
-            this.constructor === t && this.b2BodyDef.apply(this, arguments);
-        });
-    var x = _wrap_(function () {
-            x.b2ContactFilter.apply(this, arguments);
-        });
-    var C = _wrap_(function () {
-            C.b2ContactImpulse.apply(this, arguments);
-        });
-    var J = _wrap_(function () {
-            J.b2ContactListener.apply(this, arguments);
-        });
-    var T = _wrap_(function () {
-            T.b2ContactManager.apply(this, arguments);
-            this.constructor === T && this.b2ContactManager.apply(this, arguments);
-        });
-    var P = _wrap_(function () {
-            P.b2DebugDraw.apply(this, arguments);
-            this.constructor === P && this.b2DebugDraw.apply(this, arguments);
-        });
-    var X = _wrap_(function () {
-            X.b2DestructionListener.apply(this, arguments);
-        });
-    var $ = _wrap_(function () {
-            $.b2FilterData.apply(this, arguments);
-        });
-    var ba = _wrap_(function () {
-            ba.b2Fixture.apply(this, arguments);
-            this.constructor === ba && this.b2Fixture.apply(this, arguments);
-        });
-    var ca = _wrap_(function () {
-            ca.b2FixtureDef.apply(this, arguments);
-            this.constructor === ca && this.b2FixtureDef.apply(this, arguments);
-        });
-    var da = _wrap_(function () {
-            da.b2Island.apply(this, arguments);
-            this.constructor === da && this.b2Island.apply(this, arguments);
-        });
-    var Fa = _wrap_(function () {
-            Fa.b2TimeStep.apply(this, arguments);
-        });
-    var ea = _wrap_(function () {
-            ea.b2World.apply(this, arguments);
-            this.constructor === ea && this.b2World.apply(this, arguments);
-        });
-    var Ga = _wrap_(function () {
-            Ga.b2CircleContact.apply(this, arguments);
-        });
-    var fa = _wrap_(function () {
-            fa.b2Contact.apply(this, arguments);
-            this.constructor === fa && this.b2Contact.apply(this, arguments);
-        });
-    var ga = _wrap_(function () {
-            ga.b2ContactConstraint.apply(this, arguments);
-            this.constructor === ga && this.b2ContactConstraint.apply(this, arguments);
-        });
-    var Ha = _wrap_(function () {
-            Ha.b2ContactConstraintPoint.apply(this, arguments);
-        });
-    var Ia = _wrap_(function () {
-            Ia.b2ContactEdge.apply(this, arguments);
-        });
-    var ha = _wrap_(function () {
-            ha.b2ContactFactory.apply(this, arguments);
-            this.constructor === ha && this.b2ContactFactory.apply(this, arguments);
-        });
-    var Ja = _wrap_(function () {
-            Ja.b2ContactRegister.apply(this, arguments);
-        });
-    var Ka = _wrap_(function () {
-            Ka.b2ContactResult.apply(this, arguments);
-        });
-    var ia = _wrap_(function () {
-            ia.b2ContactSolver.apply(this, arguments);
-            this.constructor === ia && this.b2ContactSolver.apply(this, arguments);
-        });
-    var La = _wrap_(function () {
-            La.b2EdgeAndCircleContact.apply(this, arguments);
-        });
-    var ja = _wrap_(function () {
-            ja.b2NullContact.apply(this, arguments);
-            this.constructor === ja && this.b2NullContact.apply(this, arguments);
-        });
-    var Ma = _wrap_(function () {
-            Ma.b2PolyAndCircleContact.apply(this, arguments);
-        });
-    var Na = _wrap_(function () {
-            Na.b2PolyAndEdgeContact.apply(this, arguments);
-        });
-    var Oa = _wrap_(function () {
-            Oa.b2PolygonContact.apply(this, arguments);
-        });
-    var ka = _wrap_(function () {
-            ka.b2PositionSolverManifold.apply(this, arguments);
-            this.constructor === ka && this.b2PositionSolverManifold.apply(this, arguments);
-        });
-    var Pa = _wrap_(function () {
-            Pa.b2BuoyancyController.apply(this, arguments);
-        });
-    var Qa = _wrap_(function () {
-            Qa.b2ConstantAccelController.apply(this, arguments);
-        });
-    var Ra = _wrap_(function () {
-            Ra.b2ConstantForceController.apply(this, arguments);
-        });
-    var Sa = _wrap_(function () {
-            Sa.b2Controller.apply(this, arguments);
-        });
-    var Ta = _wrap_(function () {
-            Ta.b2ControllerEdge.apply(this, arguments);
-        });
-    var Ua = _wrap_(function () {
-            Ua.b2GravityController.apply(this, arguments);
-        });
-    var Va = _wrap_(function () {
-            Va.b2TensorDampingController.apply(this, arguments);
-        });
-    var la = _wrap_(function () {
-            la.b2DistanceJoint.apply(this, arguments);
-            this.constructor === la && this.b2DistanceJoint.apply(this, arguments);
-        });
-    var ma = _wrap_(function () {
-            ma.b2DistanceJointDef.apply(this, arguments);
-            this.constructor === ma && this.b2DistanceJointDef.apply(this, arguments);
-        });
-    var na = _wrap_(function () {
-            na.b2FrictionJoint.apply(this, arguments);
-            this.constructor === na && this.b2FrictionJoint.apply(this, arguments);
-        });
-    var oa = _wrap_(function () {
-            oa.b2FrictionJointDef.apply(this, arguments);
-            this.constructor === oa && this.b2FrictionJointDef.apply(this, arguments);
-        });
-    var pa = _wrap_(function () {
-            pa.b2GearJoint.apply(this, arguments);
-            this.constructor === pa && this.b2GearJoint.apply(this, arguments);
-        });
-    var qa = _wrap_(function () {
-            qa.b2GearJointDef.apply(this, arguments);
-            this.constructor === qa && this.b2GearJointDef.apply(this, arguments);
-        });
-    var Wa = _wrap_(function () {
-            Wa.b2Jacobian.apply(this, arguments);
-        });
-    var ra = _wrap_(function () {
-            ra.b2Joint.apply(this, arguments);
-            this.constructor === ra && this.b2Joint.apply(this, arguments);
-        });
-    var sa = _wrap_(function () {
-            sa.b2JointDef.apply(this, arguments);
-            this.constructor === sa && this.b2JointDef.apply(this, arguments);
-        });
-    var Xa = _wrap_(function () {
-            Xa.b2JointEdge.apply(this, arguments);
-        });
-    var ta = _wrap_(function () {
-            ta.b2LineJoint.apply(this, arguments);
-            this.constructor === ta && this.b2LineJoint.apply(this, arguments);
-        });
-    var ua = _wrap_(function () {
-            ua.b2LineJointDef.apply(this, arguments);
-            this.constructor === ua && this.b2LineJointDef.apply(this, arguments);
-        });
-    var va = _wrap_(function () {
-            va.b2MouseJoint.apply(this, arguments);
-            this.constructor === va && this.b2MouseJoint.apply(this, arguments);
-        });
-    var wa = _wrap_(function () {
-            wa.b2MouseJointDef.apply(this, arguments);
-            this.constructor === wa && this.b2MouseJointDef.apply(this, arguments);
-        });
-    var xa = _wrap_(function () {
-            xa.b2PrismaticJoint.apply(this, arguments);
-            this.constructor === xa && this.b2PrismaticJoint.apply(this, arguments);
-        });
-    var ya = _wrap_(function () {
-            ya.b2PrismaticJointDef.apply(this, arguments);
-            this.constructor === ya && this.b2PrismaticJointDef.apply(this, arguments);
-        });
-    var za = _wrap_(function () {
-            za.b2PulleyJoint.apply(this, arguments);
-            this.constructor === za && this.b2PulleyJoint.apply(this, arguments);
-        });
-    var Aa = _wrap_(function () {
-            Aa.b2PulleyJointDef.apply(this, arguments);
-            this.constructor === Aa && this.b2PulleyJointDef.apply(this, arguments);
-        });
-    var Ba = _wrap_(function () {
-            Ba.b2RevoluteJoint.apply(this, arguments);
-            this.constructor === Ba && this.b2RevoluteJoint.apply(this, arguments);
-        });
-    var Ca = _wrap_(function () {
-            Ca.b2RevoluteJointDef.apply(this, arguments);
-            this.constructor === Ca && this.b2RevoluteJointDef.apply(this, arguments);
-        });
-    var Da = _wrap_(function () {
-            Da.b2WeldJoint.apply(this, arguments);
-            this.constructor === Da && this.b2WeldJoint.apply(this, arguments);
-        });
-    var Ea = _wrap_(function () {
-            Ea.b2WeldJointDef.apply(this, arguments);
-            this.constructor === Ea && this.b2WeldJointDef.apply(this, arguments);
-        });
+    function F() {
+        F.b2AABB.apply(this, arguments);
+    }
+    function G() {
+        G.b2Bound.apply(this, arguments);
+    }
+    function K() {
+        K.b2BoundValues.apply(this, arguments);
+        this.constructor === K && this.b2BoundValues.apply(this, arguments);
+    }
+    function y() {
+        y.b2Collision.apply(this, arguments);
+    }
+    function w() {
+        w.b2ContactID.apply(this, arguments);
+        this.constructor === w && this.b2ContactID.apply(this, arguments);
+    }
+    function A() {
+        A.b2ContactPoint.apply(this, arguments);
+    }
+    function U() {
+        U.b2Distance.apply(this, arguments);
+    }
+    function p() {
+        p.b2DistanceInput.apply(this, arguments);
+    }
+    function B() {
+        B.b2DistanceOutput.apply(this, arguments);
+    }
+    function Q() {
+        Q.b2DistanceProxy.apply(this, arguments);
+    }
+    function V() {
+        V.b2DynamicTree.apply(this, arguments);
+        this.constructor === V && this.b2DynamicTree.apply(this, arguments);
+    }
+    function M() {
+        M.b2DynamicTreeBroadPhase.apply(this, arguments);
+    }
+    function L() {
+        L.b2DynamicTreeNode.apply(this, arguments);
+    }
+    function I() {
+        I.b2DynamicTreePair.apply(this, arguments);
+    }
+    function W() {
+        W.b2Manifold.apply(this, arguments);
+        this.constructor === W && this.b2Manifold.apply(this, arguments);
+    }
+    function Y() {
+        Y.b2ManifoldPoint.apply(this, arguments);
+        this.constructor === Y && this.b2ManifoldPoint.apply(this, arguments);
+    }
+    function k() {
+        k.b2Point.apply(this, arguments);
+    }
+    function z() {
+        z.b2RayCastInput.apply(this, arguments);
+        this.constructor === z && this.b2RayCastInput.apply(this, arguments);
+    }
+    function u() {
+        u.b2RayCastOutput.apply(this, arguments);
+    }
+    function D() {
+        D.b2Segment.apply(this, arguments);
+    }
+    function H() {
+        H.b2SeparationFunction.apply(this, arguments);
+    }
+    function O() {
+        O.b2Simplex.apply(this, arguments);
+        this.constructor === O && this.b2Simplex.apply(this, arguments);
+    }
+    function E() {
+        E.b2SimplexCache.apply(this, arguments);
+    }
+    function R() {
+        R.b2SimplexVertex.apply(this, arguments);
+    }
+    function N() {
+        N.b2TimeOfImpact.apply(this, arguments);
+    }
+    function S() {
+        S.b2TOIInput.apply(this, arguments);
+    }
+    function aa() {
+        aa.b2WorldManifold.apply(this, arguments);
+        this.constructor === aa && this.b2WorldManifold.apply(this, arguments);
+    }
+    function Z() {
+        Z.ClipVertex.apply(this, arguments);
+    }
+    function d() {
+        d.Features.apply(this, arguments);
+    }
+    function h() {
+        h.b2CircleShape.apply(this, arguments);
+        this.constructor === h && this.b2CircleShape.apply(this, arguments);
+    }
+    function l() {
+        l.b2EdgeChainDef.apply(this, arguments);
+        this.constructor === l && this.b2EdgeChainDef.apply(this, arguments);
+    }
+    function j() {
+        j.b2EdgeShape.apply(this, arguments);
+        this.constructor === j && this.b2EdgeShape.apply(this, arguments);
+    }
+    function o() {
+        o.b2MassData.apply(this, arguments);
+    }
+    function q() {
+        q.b2PolygonShape.apply(this, arguments);
+        this.constructor === q && this.b2PolygonShape.apply(this, arguments);
+    }
+    function n() {
+        n.b2Shape.apply(this, arguments);
+        this.constructor === n && this.b2Shape.apply(this, arguments);
+    }
+    function a() {
+        a.b2Color.apply(this, arguments);
+        this.constructor === a && this.b2Color.apply(this, arguments);
+    }
+    function c() {
+        c.b2Settings.apply(this, arguments);
+    }
+    function g() {
+        g.b2Mat22.apply(this, arguments);
+        this.constructor === g && this.b2Mat22.apply(this, arguments);
+    }
+    function b() {
+        b.b2Mat33.apply(this, arguments);
+        this.constructor === b && this.b2Mat33.apply(this, arguments);
+    }
+    function e() {
+        e.b2Math.apply(this, arguments);
+    }
+    function f() {
+        f.b2Sweep.apply(this, arguments);
+    }
+    function m() {
+        m.b2Transform.apply(this, arguments);
+        this.constructor === m && this.b2Transform.apply(this, arguments);
+    }
+    function r() {
+        r.b2Vec2.apply(this, arguments);
+        this.constructor === r && this.b2Vec2.apply(this, arguments);
+    }
+    function s() {
+        s.b2Vec3.apply(this, arguments);
+        this.constructor === s && this.b2Vec3.apply(this, arguments);
+    }
+    function v() {
+        v.b2Body.apply(this, arguments);
+        this.constructor === v && this.b2Body.apply(this, arguments);
+    }
+    function t() {
+        t.b2BodyDef.apply(this, arguments);
+        this.constructor === t && this.b2BodyDef.apply(this, arguments);
+    }
+    function x() {
+        x.b2ContactFilter.apply(this, arguments);
+    }
+    function C() {
+        C.b2ContactImpulse.apply(this, arguments);
+    }
+    function J() {
+        J.b2ContactListener.apply(this, arguments);
+    }
+    function T() {
+        T.b2ContactManager.apply(this, arguments);
+        this.constructor === T && this.b2ContactManager.apply(this, arguments);
+    }
+    function P() {
+        P.b2DebugDraw.apply(this, arguments);
+        this.constructor === P && this.b2DebugDraw.apply(this, arguments);
+    }
+    function X() {
+        X.b2DestructionListener.apply(this, arguments);
+    }
+    function $() {
+        $.b2FilterData.apply(this, arguments);
+    }
+    function ba() {
+        ba.b2Fixture.apply(this, arguments);
+        this.constructor === ba && this.b2Fixture.apply(this, arguments);
+    }
+    function ca() {
+        ca.b2FixtureDef.apply(this, arguments);
+        this.constructor === ca && this.b2FixtureDef.apply(this, arguments);
+    }
+    function da() {
+        da.b2Island.apply(this, arguments);
+        this.constructor === da && this.b2Island.apply(this, arguments);
+    }
+    function Fa() {
+        Fa.b2TimeStep.apply(this, arguments);
+    }
+    function ea() {
+        ea.b2World.apply(this, arguments);
+        this.constructor === ea && this.b2World.apply(this, arguments);
+    }
+    function Ga() {
+        Ga.b2CircleContact.apply(this, arguments);
+    }
+    function fa() {
+        fa.b2Contact.apply(this, arguments);
+        this.constructor === fa && this.b2Contact.apply(this, arguments);
+    }
+    function ga() {
+        ga.b2ContactConstraint.apply(this, arguments);
+        this.constructor === ga && this.b2ContactConstraint.apply(this, arguments);
+    }
+    function Ha() {
+        Ha.b2ContactConstraintPoint.apply(this, arguments);
+    }
+    function Ia() {
+        Ia.b2ContactEdge.apply(this, arguments);
+    }
+    function ha() {
+        ha.b2ContactFactory.apply(this, arguments);
+        this.constructor === ha && this.b2ContactFactory.apply(this, arguments);
+    }
+    function Ja() {
+        Ja.b2ContactRegister.apply(this, arguments);
+    }
+    function Ka() {
+        Ka.b2ContactResult.apply(this, arguments);
+    }
+    function ia() {
+        ia.b2ContactSolver.apply(this, arguments);
+        this.constructor === ia && this.b2ContactSolver.apply(this, arguments);
+    }
+    function La() {
+        La.b2EdgeAndCircleContact.apply(this, arguments);
+    }
+    function ja() {
+        ja.b2NullContact.apply(this, arguments);
+        this.constructor === ja && this.b2NullContact.apply(this, arguments);
+    }
+    function Ma() {
+        Ma.b2PolyAndCircleContact.apply(this, arguments);
+    }
+    function Na() {
+        Na.b2PolyAndEdgeContact.apply(this, arguments);
+    }
+    function Oa() {
+        Oa.b2PolygonContact.apply(this, arguments);
+    }
+    function ka() {
+        ka.b2PositionSolverManifold.apply(this, arguments);
+        this.constructor === ka && this.b2PositionSolverManifold.apply(this, arguments);
+    }
+    function Pa() {
+        Pa.b2BuoyancyController.apply(this, arguments);
+    }
+    function Qa() {
+        Qa.b2ConstantAccelController.apply(this, arguments);
+    }
+    function Ra() {
+        Ra.b2ConstantForceController.apply(this, arguments);
+    }
+    function Sa() {
+        Sa.b2Controller.apply(this, arguments);
+    }
+    function Ta() {
+        Ta.b2ControllerEdge.apply(this, arguments);
+    }
+    function Ua() {
+        Ua.b2GravityController.apply(this, arguments);
+    }
+    function Va() {
+        Va.b2TensorDampingController.apply(this, arguments);
+    }
+    function la() {
+        la.b2DistanceJoint.apply(this, arguments);
+        this.constructor === la && this.b2DistanceJoint.apply(this, arguments);
+    }
+    function ma() {
+        ma.b2DistanceJointDef.apply(this, arguments);
+        this.constructor === ma && this.b2DistanceJointDef.apply(this, arguments);
+    }
+    function na() {
+        na.b2FrictionJoint.apply(this, arguments);
+        this.constructor === na && this.b2FrictionJoint.apply(this, arguments);
+    }
+    function oa() {
+        oa.b2FrictionJointDef.apply(this, arguments);
+        this.constructor === oa && this.b2FrictionJointDef.apply(this, arguments);
+    }
+    function pa() {
+        pa.b2GearJoint.apply(this, arguments);
+        this.constructor === pa && this.b2GearJoint.apply(this, arguments);
+    }
+    function qa() {
+        qa.b2GearJointDef.apply(this, arguments);
+        this.constructor === qa && this.b2GearJointDef.apply(this, arguments);
+    }
+    function Wa() {
+        Wa.b2Jacobian.apply(this, arguments);
+    }
+    function ra() {
+        ra.b2Joint.apply(this, arguments);
+        this.constructor === ra && this.b2Joint.apply(this, arguments);
+    }
+    function sa() {
+        sa.b2JointDef.apply(this, arguments);
+        this.constructor === sa && this.b2JointDef.apply(this, arguments);
+    }
+    function Xa() {
+        Xa.b2JointEdge.apply(this, arguments);
+    }
+    function ta() {
+        ta.b2LineJoint.apply(this, arguments);
+        this.constructor === ta && this.b2LineJoint.apply(this, arguments);
+    }
+    function ua() {
+        ua.b2LineJointDef.apply(this, arguments);
+        this.constructor === ua && this.b2LineJointDef.apply(this, arguments);
+    }
+    function va() {
+        va.b2MouseJoint.apply(this, arguments);
+        this.constructor === va && this.b2MouseJoint.apply(this, arguments);
+    }
+    function wa() {
+        wa.b2MouseJointDef.apply(this, arguments);
+        this.constructor === wa && this.b2MouseJointDef.apply(this, arguments);
+    }
+    function xa() {
+        xa.b2PrismaticJoint.apply(this, arguments);
+        this.constructor === xa && this.b2PrismaticJoint.apply(this, arguments);
+    }
+    function ya() {
+        ya.b2PrismaticJointDef.apply(this, arguments);
+        this.constructor === ya && this.b2PrismaticJointDef.apply(this, arguments);
+    }
+    function za() {
+        za.b2PulleyJoint.apply(this, arguments);
+        this.constructor === za && this.b2PulleyJoint.apply(this, arguments);
+    }
+    function Aa() {
+        Aa.b2PulleyJointDef.apply(this, arguments);
+        this.constructor === Aa && this.b2PulleyJointDef.apply(this, arguments);
+    }
+    function Ba() {
+        Ba.b2RevoluteJoint.apply(this, arguments);
+        this.constructor === Ba && this.b2RevoluteJoint.apply(this, arguments);
+    }
+    function Ca() {
+        Ca.b2RevoluteJointDef.apply(this, arguments);
+        this.constructor === Ca && this.b2RevoluteJointDef.apply(this, arguments);
+    }
+    function Da() {
+        Da.b2WeldJoint.apply(this, arguments);
+        this.constructor === Da && this.b2WeldJoint.apply(this, arguments);
+    }
+    function Ea() {
+        Ea.b2WeldJointDef.apply(this, arguments);
+        this.constructor === Ea && this.b2WeldJointDef.apply(this, arguments);
+    }
     Box2D.Collision.IBroadPhase = 'Box2D.Collision.IBroadPhase';
     Box2D.Collision.b2AABB = F;
     Box2D.Collision.b2Bound = G;
@@ -8932,53 +8932,53 @@ var i;
 for (i = 0; i < Box2D.postDefs.length; ++i)
     Box2D.postDefs[i]();
 delete Box2D.postDefs;
-var MakeNewWorld = _wrap_(function () {
-        var Vec2 = Box2D.Common.Math.b2Vec2, BodyDef = Box2D.Dynamics.b2BodyDef, Body = Box2D.Dynamics.b2Body, FixtureDef = Box2D.Dynamics.b2FixtureDef, Fixture = Box2D.Dynamics.b2Fixture, World = Box2D.Dynamics.b2World, MassData = Box2D.Collision.Shapes.b2MassData, PolygonShape = Box2D.Collision.Shapes.b2PolygonShape, CircleShape = Box2D.Collision.Shapes.b2CircleShape;
-        var gravity = new Vec2(0, -10);
-        var world = new World(gravity, true);
-        var shape = new PolygonShape();
-        shape.SetAsEdge(new Vec2(-40, 0), new Vec2(40, 0));
-        var fd = new FixtureDef();
-        fd.density = 0;
-        fd.shape = shape;
-        var bd = new BodyDef();
-        var ground = world.CreateBody(bd);
-        ground.CreateFixture(fd);
-        var a = 0.5;
-        var shape = new PolygonShape();
-        shape.SetAsBox(a, a);
-        var x = new Vec2(-7, 0.75);
-        var y = new Vec2();
-        var deltaX = new Vec2(0.5625, 1);
-        var deltaY = new Vec2(1.125, 0);
-        for (var i = 0; i < 10; ++i) {
-            y.Set(x.x, x.y);
-            for (var j = 0; j < 5; ++j) {
-                var fd = new FixtureDef();
-                fd.density = 5;
-                fd.shape = shape;
-                var bd = new BodyDef();
-                bd.type = Body.b2_dynamicBody;
-                bd.position.Set(y.x, y.y);
-                var body = world.CreateBody(bd);
-                body.CreateFixture(fd);
-                y.Add(deltaY);
-            }
-            x.Add(deltaX);
+function MakeNewWorld() {
+    var Vec2 = Box2D.Common.Math.b2Vec2, BodyDef = Box2D.Dynamics.b2BodyDef, Body = Box2D.Dynamics.b2Body, FixtureDef = Box2D.Dynamics.b2FixtureDef, Fixture = Box2D.Dynamics.b2Fixture, World = Box2D.Dynamics.b2World, MassData = Box2D.Collision.Shapes.b2MassData, PolygonShape = Box2D.Collision.Shapes.b2PolygonShape, CircleShape = Box2D.Collision.Shapes.b2CircleShape;
+    var gravity = new Vec2(0, -10);
+    var world = new World(gravity, true);
+    var shape = new PolygonShape();
+    shape.SetAsEdge(new Vec2(-40, 0), new Vec2(40, 0));
+    var fd = new FixtureDef();
+    fd.density = 0;
+    fd.shape = shape;
+    var bd = new BodyDef();
+    var ground = world.CreateBody(bd);
+    ground.CreateFixture(fd);
+    var a = 0.5;
+    var shape = new PolygonShape();
+    shape.SetAsBox(a, a);
+    var x = new Vec2(-7, 0.75);
+    var y = new Vec2();
+    var deltaX = new Vec2(0.5625, 1);
+    var deltaY = new Vec2(1.125, 0);
+    for (var i = 0; i < 10; ++i) {
+        y.Set(x.x, x.y);
+        for (var j = 0; j < 5; ++j) {
+            var fd = new FixtureDef();
+            fd.density = 5;
+            fd.shape = shape;
+            var bd = new BodyDef();
+            bd.type = Body.b2_dynamicBody;
+            bd.position.Set(y.x, y.y);
+            var body = world.CreateBody(bd);
+            body.CreateFixture(fd);
+            y.Add(deltaY);
         }
-        return world;
-    });
+        x.Add(deltaX);
+    }
+    return world;
+}
 var world = null;
 var Box2DBenchmark = new BenchmarkSuite('Box2D', [5432788], [new Benchmark('Box2D', false, false, 60, runBox2D, setupBox2D, tearDownBox2D, null, 8)]);
-var runBox2D = _wrap_(function () {
-        var world = MakeNewWorld();
-        for (var i = 0; i < 20; i++) {
-            world.Step(1 / 60, 10, 3);
-        }
-    });
-var setupBox2D = _wrap_(function () {
-    });
-var tearDownBox2D = _wrap_(function () {
-        world = null;
-        Box2D = null;
-    });
+function runBox2D() {
+    var world = MakeNewWorld();
+    for (var i = 0; i < 20; i++) {
+        world.Step(1 / 60, 10, 3);
+    }
+}
+function setupBox2D() {
+}
+function tearDownBox2D() {
+    world = null;
+    Box2D = null;
+}
