@@ -87,3 +87,53 @@ _TYPES_['richards.js#29'][0]='object';
 _TYPES_['richards.js#29'][-1]='object';
 _TYPES_['richards.js#30']=[];
 //-- END: TYPES --
+  _____             _      _ ___ 
+ |_   _| _ ___ __ _| |_ _ | / __|
+   | || '_/ -_) _` |  _| || \__ \
+   |_||_| \___\__,_|\__|\__/|___/
+                                 
+ * TreatJS: Higher-Order Contracts for JavaScript
+ * http://proglang.informatik.uni-freiburg.de/treatjs/
+
+ * Copyright (c) 2014, Proglang, University of Freiburg.
+ * http://proglang.informatik.uni-freiburg.de/
+ * All rights reserved.
+
+ * Author Matthias Keil
+ * http://www.informatik.uni-freiburg.de/~keilr/
+
+ * load: lib/lib_padding.js
+ * load: src/out.js
+ * load: src/debugger.js
+ * load: src/treat.js
+ * load: src/treat.system.js
+ * load: src/treat.base.js
+ * load: src/treat.config.js
+ * load: src/core/treat.violation.js
+ * load: src/core/treat.sandbox.js
+ * load: src/core/treat.logic.js
+ * load: src/core/treat.callback.js
+ * load: src/core/treat.map.js
+ * load: src/core/treat.contract.js
+ * load: src/core/treat.assert.js
+ * load: src/treat.convenience.js
+[[--end-of-text--]]
+
+Process 50830 terminated (error 003).
+Task completed after 1 sec.
+Charging 0.030s processor usage (0.00 Euro).
+
+Resource usage:
+Average processor load: 2.613%
+
+Processor idle time: 6.858 sec
+Total execution time: 1.148 sec
+Total processing time: 0.030 sec
+Kernel mode time: 0.010 sec
+User mode time: 0.020 sec
+
+Virtual memory size: 65 MByte
+Resident set size: 5 MByte
+Text/Data segment size: 60 MByte
+Shared memory segment: 3 MByte
+
