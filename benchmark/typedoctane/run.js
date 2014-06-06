@@ -31,7 +31,7 @@ load(base_dir + 'base.js');
 
 _load_(wrapped_dir,'richards.js');
 _load_(wrapped_dir,'deltablue.js');
-_load_(wrapped_dir,'crypto.js');
+_load_(wrapped_dir,'crypto.js');*/
 _load_(wrapped_dir,'raytrace.js');
 _load_(wrapped_dir,'earley-boyer.js');
 _load_(wrapped_dir,'regexp.js');
