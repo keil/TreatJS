@@ -35,8 +35,73 @@ _.verbose({
 });
 
 // ==================================================
+function __make(name, getter, target) {
+  Object.defineProperty(target, name, {
+    get: getter,
+  enumerable: true,
+    configurable: true
+  });
+}
 
-print(typeof null);
+function __define(name, property, target) {
+  Object.defineProperty(target, name, {
+    get: function () { return property; },
+  enumerable: true
+  });
+}
+
+function __getter(name, getter, target) {
+  Object.defineProperty(target, name, {
+    get: getter,
+  enumerable: true
+  });
+}
+
+
+__make("b", function() {
+  __make("b", function() {return 4712;}, this);
+  return 4711;
+}, this);
+
+var a = 4711;
+//var b = a;
+
+
+/*if(a===b) {
+  print("1 - a) " + a);
+  print("1 - b) " + b);
+}/*
+
+
+/*
+var i = 0;
+
+var a = {};
+__define("valueOf", function() {
+  i=i+1;
+return "[a]"+i;
+}, a);
+var b = a;
+*/
+
+var args = {};
+__getter("0", function() {return a}, args);
+__getter("1", function() {return b}, args);
+
+(function(a, b) {
+
+  if(a===b) {
+    print("2 - a) " + a);
+    print("2 - b) " + b);
+  }
+
+}).apply(this, args);
+
+print(args[0]);
+
+
+
+
 
 // ==================================================
 
