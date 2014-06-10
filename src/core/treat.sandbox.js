@@ -227,7 +227,7 @@
    * @return a secure function
    */
   function decompile(fun, globalArg) {
-    print("decompile function"); // TODO
+    //print("decompile function"); // TODO
     var string = "(" + fun.toString() + ")"; 
     var sandbox = globalArg;
     var secureFun = eval("(function() { with(sandbox) { return " + string + " }})();");
