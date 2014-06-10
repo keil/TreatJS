@@ -59,7 +59,7 @@ function _wrap2_ (f) {
 
 function _wrap_ (f) {
   var fid = _file_+_freshID_();
-  _types_[fid] = [];
+  _types_[fid] = new Array();
   return new Proxy(f, new _TypeHandler_(fid));
 }
 
@@ -73,7 +73,8 @@ _print_("");
 
 for(var fid in _types_) {
   _print_("_TYPES_['"+fid+"']=[];");
-  for(var i in _types_[fid]) {
+//  for(var i in _types_[fid]) {
+  for(var i = 0; i < _types_[fid].length; i++) {
     _print_("_TYPES_['"+fid+"']["+i+"]='"+_types_[fid][i]+"';");
   }
   //  print(_makeContract_(fid));

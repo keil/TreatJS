@@ -17,18 +17,28 @@
 var print = _print_;
 
 // load type information
-load("benchmark/typedoctane/TYPES.js");
+load("benchmark/typedoctane/TYPES_m.js");
 
 // TODO
-function _wrap2_ (f) {
-  return _wrap_(f);
+function _wrapX_ (f) {
+  var fid = _file_+_freshID_();
+  if(_TYPES_[fid]!==undefined) {
+    var contract = _makeContract_(fid);
+    print("assert " + contract);
+    return (new Proxy(f, {}));
+    //return _.assert(f, contract);
+  } else {
+    return f;
+  }
+
+//  return _wrap_(f);
 }
 
 function _wrap_ (f) {
   var fid = _file_+_freshID_();
   if(_TYPES_[fid]!==undefined) {
     var contract = _makeContract_(fid);
-    print("assert " + contract);
+//    print("assert " + contract);
     return _.assert(f, contract);
   } else {
     return f;
