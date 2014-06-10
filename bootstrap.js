@@ -35,6 +35,28 @@ _.verbose({
 });
 
 // ==================================================
+
+
+function f(x) {
+ return true;
+}
+
+var g = _.assert(f, _.SimpleFunctionContract(IsNumber, IsBoolean));
+
+
+for(var i=0; i<5; i++) {
+  g(i);
+}
+
+
+
+
+
+
+
+/*
+
+
 function __make(name, getter, target) {
   Object.defineProperty(target, name, {
     get: getter,
@@ -83,7 +105,7 @@ return "[a]"+i;
 }, a);
 var b = a;
 */
-
+/*
 var args = {};
 __getter("0", function() {return a}, args);
 __getter("1", function() {return b}, args);
@@ -98,7 +120,7 @@ __getter("1", function() {return b}, args);
 }).apply(this, args);
 
 print(args[0]);
-
+*/
 
 
 

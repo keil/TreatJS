@@ -260,15 +260,11 @@
       argsArray.push(arg);
 
       try {
-        var result = _.eval(contract.predicate, globalArg, thisArg, argsArray);
+        var result = translate(_.eval(contract.predicate, globalArg, thisArg, argsArray));
       } catch (e) {
-        var result = false;
+        var result = _.Logic.make(1,1);
       } finally {
-        if(!result) {
-          callback(translate(false), "@"+contract.toString());
-        } else {
-          callback(translate(true), "@"+contract.toString());
-        }
+        callback(result, "@"+contract.toString());
         return arg;
       }
     }
@@ -307,15 +303,11 @@
       copy(globalArg, contract.global);
 
       try {
-        var result = contract.predicate.apply(thisArg, argsArray);
+        var result = translate(contract.predicate.apply(thisArg, argsArray));
       } catch (e) {
-        var result = false;
+        var result = _.Logic.make(1,1);
       } finally {
-        if(!result) {
-          callback(translate(false), "@"+contract.toString());
-        } else {
-          callback(translate(true), "@"+contract.toString());
-        }
+        callback(result, "@"+contract.toString());
         clear(contract.global);
         copy(backupGlobal, contract.global);
         return arg;

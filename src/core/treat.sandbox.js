@@ -214,6 +214,57 @@
   //\__ \/ _` | ' \/ _` | '_ \/ _ \ \ /
   //|___/\__,_|_||_\__,_|_.__/\___/_\_\
 
+
+  // global -> ( function -> function' )
+  var _dcache = new WeakMap();
+
+  /** decompile (fun, globalArg)
+   *
+   * Decompiles a function 
+   *
+   * @param fun The function object.
+   * @param globalArg The secure global object.
+   * @return a secure function
+   */
+  function decompile(fun, globalArg) {
+    print("decompile function"); // TODO
+    var string = "(" + fun.toString() + ")"; 
+    var sandbox = globalArg;
+    var secureFun = eval("(function() { with(sandbox) { return " + string + " }})();");
+    return secureFun;
+  }
+
+  /** pre decompile (fun, globalArg)
+   *
+   * Gets the predicate from teh cache or decompiles it 
+   *
+   * @param fun The function object.
+   * @param globalArg The secure global object.
+   * @return a secure function
+   */
+  function preDecompile(fun, globalArg) { 
+    if(_dcache.has(globalArg)) {
+      //print("_dcache hit"); // TODO
+      var _fcache = _dcache.get(globalArg);
+      if(_fcache.has(fun)) {
+        //print("_fcache hit"); // TODO
+        return _fcache.get(fun);
+      } else {
+        //print("_fcache miss"); // TODO
+        var secureFun = decompile(fun, globalArg);
+        _fcache.set(fun, secureFun);
+        return secureFun;
+      }
+    } else {
+      //print("_dcache miss"); // TODO
+      var _fcache = new WeakMap();
+      var secureFun = decompile(fun, globalArg);
+      _fcache.set(fun, secureFun);
+      _dcache.set(globalArg, _fcache);
+      return secureFun;
+    }
+  }
+
   /** evalInSandbox(fun[, globalArg, thisArg, argsArray])
    *
    * Evaluates the given function in a sandbox. 
@@ -227,10 +278,7 @@
   function evalInSandbox(fun, globalArg, thisArg, argsArray) {
     if(!(fun instanceof Function)) error("No Function Object", (new Error()).fileName, (new Error()).lineNumber);
 
-    var string = "(" + fun.toString() + ")"; 
-    var sandbox = globalArg;
-    var secureFun = eval("(function() { with(sandbox) { return " + string + " }})();");
-
+    var secureFun = preDecompile(fun, globalArg);
     return secureFun.apply(thisArg, argsArray);
   }
 
@@ -244,13 +292,11 @@
    * @param argArray The function arguments
    * @return The result of fun.apply(thisArg, argsArray);
    */
+  // TODO, recompile cahe
   function evalNewInSandbox(fun, globalArg, thisArg, argsArray) {
     if(!(fun instanceof Function)) error("No Function Object", (new Error()).fileName, (new Error()).lineNumber);
 
-    var string = "(" + fun.toString() + ")"; 
-    var sandbox = wrap(globalArg, globalArg);
-    var secureFun = eval("(function() { with(sandbox) { return " + string + " }})();");
-
+    var secureFun = preDecompile(fun, globalArg);
     var newObj = Object.create(secureFun.prototype);
     var val = secureFun.apply(newObj, argsArray);
 

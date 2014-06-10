@@ -108,6 +108,7 @@
   __define("or", or, _.Logic);
   __define("not", not, _.Logic);
   __define("merge", merge, _.Logic);
+  __define("make", make, _.Logic);
   __define("translate", translate, _.Logic);
 
   Object.defineProperties(_.Logic, {
