@@ -254,7 +254,7 @@
     //|___/\__,_/__/\___|\___\___/_||_\__|_| \__,_\__|\__|
 
     else if(contract instanceof BaseContract) {
-      var globalArg = global.dump(); 
+      var globalArg = global.dump();
       var thisArg = undefined;
       var argsArray = new Array();
       argsArray.push(arg);
