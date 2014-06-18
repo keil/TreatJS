@@ -51,6 +51,8 @@
 
   // TODO
 
+  var Handle =  _.XCallback.Handle;
+
   var RootCallback = _.XCallback.RootCallback;
   var BaseCallback = _.XCallback.BaseCallback;
   var FunctionCallback = _.XCallback.FunctionCallback;
@@ -323,7 +325,7 @@
         // TODO
         // callback(result, "@"+contract.toString());
         var handle = Handle(_.Logic.True, result, result);
-        callback(result);
+        callback(handle);
         return arg;
       }
     }
@@ -434,7 +436,7 @@
     };
   }
 
-  function DependentHandler(contract, global, callback) {
+  function DependentHandler(contract, global, handle) {
     if(!(this instanceof DependentHandler)) return new DependentHandler(contract, global, callback);
 
     this.apply = function(target, thisArg, args) {
@@ -456,7 +458,7 @@
     this.get = function(target, name, receiver) {
 
       // TODO
-      var callabck = ObjectCallback(handler);
+      var callback = ObjectCallback(handler);
 
       if(contract.map instanceof StringMap) {
         //TODO

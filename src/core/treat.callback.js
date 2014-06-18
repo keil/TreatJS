@@ -169,6 +169,8 @@
   }
 
   function update (m , n) {
+    print(m);
+    print(n)
     return new Handle(
         merge(m.caller, n.caller),
         merge(m.callee, n.callee),
@@ -188,12 +190,17 @@
       if(!(this instanceof Handle)) return new Handle(caller, callee, contract);
 
       if(!(caller instanceof TruthValue)) error("Wrong TruthValue", (new Error()).fileName, (new Error()).lineNumber);
-      if(!(caller instanceof TruthValue)) error("Wrong TruthValue", (new Error()).fileName, (new Error()).lineNumber);
+      if(!(callee instanceof TruthValue)) error("Wrong TruthValue", (new Error()).fileName, (new Error()).lineNumber);
       if(!(contract instanceof TruthValue)) error("Wrong TruthValue", (new Error()).fileName, (new Error()).lineNumber);
 
-      __define("caller", callee, this);
-      __define("callee", caller, this);
+      __define("caller", caller, this);
+      __define("callee", callee, this);
       __define("contract", contract, this);
+
+      __define("toString", function() {
+        return ("Caller"+caller+", Callee"+callee+", Contract"+contract);
+      }, this);
+
     }
 
     function init() {
@@ -286,7 +293,9 @@
 
     function FunctionCallback(handler) {
     if(!(this instanceof FunctionCallback)) return new FunctionCallback(handler);
-    if(!(handler instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
+
+    // TODO, has to be of type Handler
+    //if(!(handler instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
 
     var domain = new Handle(Unknown, Unknown, Unknown);
     var range = new Handle(Unknown, Unknown, Unknown);
@@ -369,7 +378,7 @@ __define("BaseCallback", BaseCallback, _.XCallback);
 __define("FunctionCallback", FunctionCallback, _.XCallback);
 __define("ObjectCallback", ObjectCallback, _.XCallback);
 
-
+__define("Handle", Handle, _.XCallback);
 
 
 
