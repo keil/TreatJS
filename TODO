@@ -7,3 +7,11 @@
 ** user defined out
 
 * a name for each contract
+
+* implement bootstrap in the same  way as for sbx
+
+remove old interpretaion of or and and
+discuss thye difference of use cases
+we have stdt. boolean combinators, 
+or convinience boolean combinators
+

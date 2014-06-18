@@ -36,6 +36,10 @@
   var OrContract = _.Or;
   var NotContract = _.Not;
 
+  // TODO
+  var UnionContract = _.Union;
+  var IntersectionContract = _.Intersection;
+
   var Map = _.Map;
   var StringMap = _.Map.StringMap;
 
@@ -247,6 +251,39 @@
       var newCallback = NotCallback(callback);
       return assertWith(arg, contract.sub, global, newCallback.subHandler);
     }
+
+    // TODO
+
+
+    else if (contract instanceof UnionContract) {
+      // TODO
+      var newCallback = AndCallback(callback);
+      var tmp = assertWith(arg, contract.first, global, newCallback.leftHandler);
+      return assertWith(tmp, contract.second, global,  newCallback.rightHandler); 
+    }
+
+    else if (contract instanceof IntersectionContract) {
+      // TODO
+      var newCallback = OrCallback(callback);
+      var tmp = assertWith(arg, contract.first, global, newCallback.leftHandler);
+      return assertWith(tmp, contract.second, global,  newCallback.rightHandler); 
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // TODO
+
+
 
     // ___                ___         _               _   
     //| _ ) __ _ ___ ___ / __|___ _ _| |_ _ _ __ _ __| |_ 

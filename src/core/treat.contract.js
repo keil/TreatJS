@@ -263,6 +263,51 @@
   }
   ContractConstructor.prototype = new Constructor();
 
+  // TODO new 
+  
+
+  function UnionContract(first, second) {
+    if(!(this instanceof UnionContract)) return new UnionContract(first, second);
+
+    if(!(first instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+    if(!(second instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+    Object.defineProperties(this, {
+      "first": {
+        get: function () { return first; } },
+      "second": {
+        get: function () { return second; } }
+    });
+
+    this.toString = function() { return "(" + first.toString() + "*and*" + second.toString() + ")"; };
+  }
+  UnionContract.prototype = new Contract();
+
+  function IntersectionContract(first, second) { 
+    if(!(this instanceof IntersectionContract)) return new IntersectionContract(first, second);
+
+    if(!(first instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+    if(!(second instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+    Object.defineProperties(this, {
+      "first": {
+        get: function () { return first; } },
+      "second": {
+        get: function () { return second; } }
+    });
+
+    // TODO, test the output
+    this.toString = function() { return "(" + first.toString() + "*or*" + second.toString() + ")"; };
+  }
+  IntersectionContract.prototype = new Contract();
+
+  
+
+
+
+
+
+
   /**
    * Core Contracts
    */
@@ -283,5 +328,9 @@
   __define("Not", NotContract, _);
 
   __define("Constructor", ContractConstructor, _);
+
+
+  __define("Union", UnionContract, _);
+  __define("Intersection", IntersectionContract, _);
 
 })(_);

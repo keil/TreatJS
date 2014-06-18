@@ -36,6 +36,72 @@ _.verbose({
 
 // ==================================================
 
+function addUnchecked(a, b) {
+  return (a+b);
+}
+var addChecked1 = _.assert(addUnchecked, _.Or(
+    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
+    _.AdvancedFunctionContract([IsString, IsString], IsString)));
+
+addChecked1("1","1");
+
+// -
+
+var addChecked2 = _.assert(addUnchecked, _.Or(
+    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
+    _.AdvancedFunctionContract([IsNumber, IsNumber], IsString)));
+
+addChecked2(1,1);
+
+
+
+var intersection1 = _.Intersection(
+    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
+    _.AdvancedFunctionContract([IsString, IsString], IsString));
+
+print (intersection1);
+
+
+var intersection2 = _.Intersection(
+    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
+    _.AdvancedFunctionContract([IsNumber, IsNumber], IsString));
+
+print (intersection2);
+
+var addChecked3 = _.assert(addUnchecked, intersection1);
+var addChecked4 = _.assert(addUnchecked, intersection2);
+
+addChecked3("1","1");
+addChecked4(1,1);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ==================================================
+
+quit();
+
+
+
+
+
+
+
 var map = new WeakMap();
 print(map.keys);
 quit();
