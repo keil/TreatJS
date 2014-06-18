@@ -26,6 +26,9 @@ function test(v,vp,op,r) {
     case 'or':
       out2(v,vp,op,r,(_.Logic.or(v,vp)===r));
       break;
+    case 'implies':
+      out2(v,vp,op,r,(_.Logic.implies(v,vp)===r));
+      break;
     case 'not':
       out1(v,vp,op,r,(_.Logic.not(v)===r));
       break;
@@ -73,7 +76,7 @@ test(x,f,'and',f);
 test(x,t,'and',x);
 test(x,x,'and',x);
 
-// and
+// or
 print("\n\n** OR **\n");
 
 test(u,u,'or',u);
@@ -95,3 +98,26 @@ test(x,u,'or',t);
 test(x,f,'or',x);
 test(x,t,'or',t);
 test(x,x,'or',x);
+
+// implies
+print("\n\n** IMPLIES **\n");
+
+test(u,u,'implies',u);
+test(u,f,'implies',u);
+test(u,t,'implies',t);
+test(u,x,'implies',t);
+
+test(f,u,'implies',t);
+test(f,f,'implies',t);
+test(f,t,'implies',t);
+test(f,x,'implies',t);
+
+test(t,u,'implies',u);
+test(t,f,'implies',f);
+test(t,t,'implies',t);
+test(t,x,'implies',x);
+
+test(x,u,'implies',t);
+test(x,f,'implies',x);
+test(x,t,'implies',t);
+test(x,x,'implies',x);

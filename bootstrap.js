@@ -39,6 +39,14 @@ _.verbose({
 function addUnchecked(a, b) {
   return (a+b);
 }
+var addChecked = _.assert(addUnchecked, 
+    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber));
+
+addChecked(3,3);
+
+
+/**
+
 var addChecked1 = _.assert(addUnchecked, _.Or(
     _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
     _.AdvancedFunctionContract([IsString, IsString], IsString)));
@@ -74,11 +82,11 @@ var addChecked4 = _.assert(addUnchecked, intersection2);
 addChecked3("1","1");
 addChecked4(1,1);
 
+//load("test/miscellaneous//logic.js");
 
 
 
-
-
+*/
 
 
 

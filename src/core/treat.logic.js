@@ -91,6 +91,10 @@
     return make((v.x|vp.x), (v.y&vp.y));
   }
 
+  function implies(v, vp) {
+    return make((v.y|vp.x), (v.x&vp.y));
+  }
+
   function merge(v, vp) {
     return make((v.x|vp.x), (v.y|vp.y));
   }
@@ -104,8 +108,13 @@
    */
 
   __define("Logic", {}, _);
+
+  __define("TruthValue", Value, _.Logic);
+
+
   __define("and", and, _.Logic);
   __define("or", or, _.Logic);
+  __define("implies", implies, _.Logic);
   __define("not", not, _.Logic);
   __define("merge", merge, _.Logic);
   __define("make", make, _.Logic);

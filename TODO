@@ -15,3 +15,4 @@ discuss thye difference of use cases
 we have stdt. boolean combinators, 
 or convinience boolean combinators
 
+- print recursiv stack trace of fauled contracts
