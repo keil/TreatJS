@@ -36,21 +36,42 @@ _.verbose({
 
 // ==================================================
 
+var map = new WeakMap();
+print(map.keys);
+quit();
+
+/*
 
 function f(x) {
  return true;
 }
 
 var g = _.assert(f, _.SimpleFunctionContract(IsNumber, IsBoolean));
+*/
 
+try {
+  var start = 0;
+  var end = 0;
 
-for(var i=0; i<5; i++) {
-  g(i);
+  function fgh() {}
+
+  print("#");
+  (function () {
+    timeout(1)
+    start = elapsed();
+    for(var i=0; i<10000000000; i++) {
+      fgh(i);
+    }
+  })();
+  end = elapsed();
+  print("#");
+} catch(e) {
+  print("@" + e);
 }
+print("execution time " + (end-start));
 
 
-
-
+//setInterval(function(){alert("Hello")},3000);
 
 
 

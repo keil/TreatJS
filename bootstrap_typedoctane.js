@@ -41,6 +41,7 @@ var _file_ = undefined;
 function _load_ (path, file) {
   print("load " + file);
   _file_ = file;
+  _counter_ = 0;
   load(path + file);
 }
 
@@ -70,16 +71,21 @@ var _Any_ = _.BaseContract(function(arg) {
   return true; 
 },"Any");
 
-var _IsObject_ = _.With({Object:Object}, _.BaseContract(function(arg) {
+var _IsObject_ = _.BaseContract(function(arg) {
   return ((typeof arg) === "object");
-},"InstanceOfObject"));
+},"TypeOfObject");
 
-var _IsFunction_ = _.With({Function:Function}, _.BaseContract(function(arg) {
-  return (arg instanceof Function); 
-},"InstanceOfFunction"));
+var _IsFunction_ = _.BaseContract(function(arg) {
+  return ((typeof arg) === "function");
+},"TypeOfFunction");
 
+// TODO
 var _IsArray_ = _.With({Array:Array}, _.BaseContract(function(arg) {
   return (arg instanceof Array);
 },"IsArray"));
+
+var _IsArrayT_ = _.BaseContract(function(arg) {
+  return true;
+},"IsArray");
 
 quit();
