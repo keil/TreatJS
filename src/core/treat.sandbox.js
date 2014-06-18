@@ -227,7 +227,6 @@
    * @return a secure function
    */
   function decompile(fun, globalArg) {
-    //print("decompile function"); // TODO
     var string = "(" + fun.toString() + ")"; 
     var sandbox = globalArg;
     var secureFun = eval("(function() { with(sandbox) { return " + string + " }})();");
@@ -244,19 +243,15 @@
    */
   function preDecompile(fun, globalArg) { 
     if(_dcache.has(globalArg)) {
-      //print("_dcache hit"); // TODO
       var _fcache = _dcache.get(globalArg);
       if(_fcache.has(fun)) {
-        //print("_fcache hit"); // TODO
         return _fcache.get(fun);
       } else {
-        //print("_fcache miss"); // TODO
         var secureFun = decompile(fun, globalArg);
         _fcache.set(fun, secureFun);
         return secureFun;
       }
     } else {
-      //print("_dcache miss"); // TODO
       var _fcache = new WeakMap();
       var secureFun = decompile(fun, globalArg);
       _fcache.set(fun, secureFun);
