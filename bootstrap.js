@@ -72,7 +72,7 @@ var addChecked = _.assert(addUnchecked,
 
 
 function NumToNum(x) {
-  return "7";
+  return 7;
 }
 
 function NumNumToNum(f) {
@@ -82,7 +82,7 @@ function NumNumToNum(f) {
 var NumNumToNumC = _.assert(NumNumToNum, 
     _.AdvancedFunctionContract([_.AdvancedFunctionContract([IsNumber], IsNumber)], IsNumber));
 
-NumNumToNumC(NumToNum);
+//NumNumToNumC(NumToNum);
 
 
 
@@ -92,12 +92,26 @@ function NumToNumNum(x) {
 var NumToNumNumC = _.assert(NumToNumNum, 
     _.AdvancedFunctionContract([IsNumber], _.AdvancedFunctionContract([IsNumber], IsNumber)));
 
-NumToNumNumC(7)(2);
+//NumToNumNumC(7)(2);
 
 
 
+function NumToNum1(x) {
+  return 7;
+}
 
+function NumToNum2(x) {
+  return 7;
+}
 
+function NumNumToNumNum(f) {
+  f(1);
+  return NumToNum2;
+}
+var NumNumToNumNumC = _.assert(NumNumToNumNum, 
+    _.AdvancedFunctionContract([_.AdvancedFunctionContract([IsNumber], IsNumber)], _.AdvancedFunctionContract([IsNumber], IsNumber)));
+
+//NumNumToNumNumC(NumToNum1)(1);
 
 quit();
 

@@ -383,16 +383,11 @@
     var range = Handle.new();
 
     __getter("caller", function() {
-      // TODO at this definition
       return and(domain.callee, range.caller);
     }, this);
 
     __getter("callee", function() {
-      // TODO, definition is wrong
-     // return implies(domain.callee, range.contract);
-     // return implies(domain.callee, range.callee);
-      return and(domain.caller, implies(domain.callee, range.callee));
-      //  return implies(domain.callee, range.callee);
+      return and(domain.caller, range.callee);
     }, this);
 
     __getter("contract", function() {
