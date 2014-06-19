@@ -307,6 +307,8 @@
   }
   */
 
+ // TODO, make Base callbacks tu Undefined, (true|false) .. 
+
   function ObjectCallback(handler) {
     if(!(this instanceof ObjectCallback)) return new ObjectCallback(handler);
     else Callback.apply(this, arguments);
@@ -315,15 +317,23 @@
     var get =  Handle.new();
 
     __getter("caller", function() {
-      return get.caller;
+      //return get.caller;
+      return and(get.caller, set.contract)
+
+
       //return set.callee;
       //return and(get.caller, set.callee);
     }, this);
 
     __getter("callee", function() {
-      return get.callee;
+      return or(get.callee, not(set.contract));
+//        implies(set.contract, get.callee));
+      //return get.callee;
+      //return and(get.callee, set.callee)
+
+      
       //return and(get.callee, set.caller)
-  //    return or(get.callee, implies(set.callee, get.callee));
+//      return or(get.callee, implies(set.contract, get.callee));
 //       return or(get.callee, implies(not(get.callee), not(set.callee)));
 
 //      and(get.callee, set.caller);
