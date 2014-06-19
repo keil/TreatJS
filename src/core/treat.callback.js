@@ -316,11 +316,17 @@
 
     __getter("caller", function() {
       return get.caller;
-      //return and(domain.caller, range.caller);
+      //return set.callee;
+      //return and(get.caller, set.callee);
     }, this);
 
     __getter("callee", function() {
       return get.callee;
+      //return and(get.callee, set.caller)
+  //    return or(get.callee, implies(set.callee, get.callee));
+//       return or(get.callee, implies(not(get.callee), not(set.callee)));
+
+//      and(get.callee, set.caller);
       //return and(domain.callee, range.callee);
       //return range.callee;
       // TODO, test this with an function
@@ -328,8 +334,9 @@
     }, this);
 
     __getter("contract", function() {
+      // TODO, use strict mode flag
       return get.contract;
-      //and(domain.contract, range.contract);
+//      return and(set.contract, get.contract);
     }, this);
 
     __getter("setHandler", function() {
@@ -376,13 +383,16 @@
     var range = Handle.new();
 
     __getter("caller", function() {
-      return domain.callee;
+      // TODO at this definition
+      return and(domain.callee, range.caller);
     }, this);
 
     __getter("callee", function() {
       // TODO, definition is wrong
      // return implies(domain.callee, range.contract);
-      return implies(domain.callee, range.callee);
+     // return implies(domain.callee, range.callee);
+      return and(domain.caller, implies(domain.callee, range.callee));
+      //  return implies(domain.callee, range.callee);
     }, this);
 
     __getter("contract", function() {

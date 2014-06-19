@@ -49,9 +49,16 @@ var objChecked = _.assert(objUnchecked, _.AdvancedObjectContract({
 //objChecked.x;
 //objChecked.y;
 
+//objChecked.y = 7;
+//objChecked.y = "2";
+
+//objChecked.y
+
 //objChecked[0];
 //
 //
+
+
 
 
 function addUnchecked(a, b) {
@@ -60,8 +67,34 @@ function addUnchecked(a, b) {
 var addChecked = _.assert(addUnchecked, 
     _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber));
 
-addChecked(3,3);
+//addChecked(3,3);
 //addChecked("3","3");
+
+
+function NumToNum(x) {
+  return "7";
+}
+
+function NumNumToNum(f) {
+  f(1);
+  return 7;
+}
+var NumNumToNumC = _.assert(NumNumToNum, 
+    _.AdvancedFunctionContract([_.AdvancedFunctionContract([IsNumber], IsNumber)], IsNumber));
+
+NumNumToNumC(NumToNum);
+
+
+
+function NumToNumNum(x) {
+  return NumToNum;
+}
+var NumToNumNumC = _.assert(NumToNumNum, 
+    _.AdvancedFunctionContract([IsNumber], _.AdvancedFunctionContract([IsNumber], IsNumber)));
+
+NumToNumNumC(7)(2);
+
+
 
 
 

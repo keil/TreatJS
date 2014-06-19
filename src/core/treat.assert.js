@@ -458,10 +458,13 @@
   function ObjectHandler(contract, global, handler) {
     if(!(this instanceof ObjectHandler)) return new ObjectHandler(contract, global, handler);
 
+    // Object contract braucht callback p[ro property
+    var callback = ObjectCallback(handler);
+
     this.get = function(target, name, receiver) {
 
       // TODO
-      var callback = ObjectCallback(handler);
+     // var callback = ObjectCallback(handler);
 
       if(contract.map instanceof StringMap) {
         //TODO
@@ -479,7 +482,19 @@
     };
 
     this.set = function(target, name, value, reveiver) {
-      var value = (contract.strict && contract.map.has(name)) ? assertWith(value, contract.map.get(name), global, callback) : value;
+
+     // var callback = ObjectCallback(handler);
+
+
+      // TODO
+        if(contract.map instanceof StringMap) {
+        //TODO
+        //return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, callback) : target[name];
+        value = (contract.map.has(name)) ? assertWith(value, contract.map.get(name), global, callback.setHandler) : value;
+      } 
+
+
+      //var value = (contract.strict && contract.map.has(name)) ? assertWith(value, contract.map.get(name), global, callback) : value;
       return target[name] = value;
     }
   }
