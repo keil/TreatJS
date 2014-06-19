@@ -39,6 +39,9 @@
   //| |___| (_| | | | |_) | (_| | (__|   <\__ \
   // \_____\__,_|_|_|_.__/ \__,_|\___|_|\_\___/
 
+
+  /*
+
   function Callback(callback) {
     if(!(this instanceof Callback)) return new Callback(callback);
     if(!(callback instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
@@ -168,194 +171,209 @@
     this.toString = function() { return "[Callback]"; }
   }
 
-  function update (m , n) {
+  // between
+  //
+
+  function XupdateX (m , n) {
     print(m);
     print(n)
-    return new Handle(
-        merge(m.caller, n.caller),
-        merge(m.callee, n.callee),
-        merge(m.contract, n.contract)
-        );
+      return new Handle(
+          merge(m.caller, n.caller),
+          merge(m.callee, n.callee),
+          merge(m.contract, n.contract)
+          );
   }
+
+  */
+
+
 
   // callback - logic between handler and handle
   // handler - function called to update a callback
   // handle - payload, and the callback itself
 
 
-  // TODO, new 
-  //
-  
-    function Handle(caller, callee, contract) {
-      if(!(this instanceof Handle)) return new Handle(caller, callee, contract);
-
-      if(!(caller instanceof TruthValue)) error("Wrong TruthValue", (new Error()).fileName, (new Error()).lineNumber);
-      if(!(callee instanceof TruthValue)) error("Wrong TruthValue", (new Error()).fileName, (new Error()).lineNumber);
-      if(!(contract instanceof TruthValue)) error("Wrong TruthValue", (new Error()).fileName, (new Error()).lineNumber);
-
-      __define("caller", caller, this);
-      __define("callee", callee, this);
-      __define("contract", contract, this);
-
-      __define("toString", function() {
-        return ("Caller"+caller+", Callee"+callee+", Contract"+contract);
-      }, this);
-
-    }
-
-    function init() {
-      return Handle(Unknown, Unknown, Unknown);
-
-    }
-
-    function Handler() {
-    }
-    Handler.prototype = Function.prototype;
-
-    //print(new Handler() instanceof Function);
 
 
+  // TODO
+  // New Implementation
 
-    function RootCallback(handler) {
-      if(!(this instanceof RootCallback)) return new RootCallback(handler);
-      if(!(handler instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
+  function Callback(handler) {
+    if(!(this instanceof Callback)) return new Callback(handler);
+    if(!(handler instanceof Function)) error("Wrong Callback Handler.", (new Error()).fileName, (new Error()).lineNumber);
 
-      var root = init();
-      var callback = this;
+  }
 
+  // TODO, test  This
+  Callback.prototype.toString = function() {
+    return "<Callback>";
+  }
 
-      __getter("caller", function() {
-        return root.caller;
-      }, this);
-
-      __getter("callee", function() {
-        return root.callee;
-      }, this);
-
-      __getter("contract", function() {
-        return root.contract;
-      }, this);
-
-      // TODO, make read only
-      this.rootHandler = function(handle) {
-        print("*RC: " + handle); // TODO
-        root = update(root, handle);
-        handler(callback);
-      }
-
-      // TODO, add contract and msg
-
-      this.toString = function() { return "<RootCallback>"; }
-    }
-
-    // TODO
-    // set prototype
-
-
-
-
-    function BaseCallback(handler) {
-      if(!(this instanceof BaseCallback)) return new BaseCallback(handler);
-      if(!(handler instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
-
-      var predicate = new Handle(Unknown, Unknown, Unknown);
-      var callback = this;
-
-
-      __getter("caller", function() {
-        return predicate.caller;;
-      }, this);
-
-      __getter("callee", function() {
-        return predicate.callee;
-      }, this);
-
-      __getter("contract", function() {
-        return predicate.contract;
-      }, this);
-
-      // TODO, make read only
-      this.predicateHandler = function(handle) {
-        print("*BC: " + handle); // TODO
-        predicate = update(predicate, handle);
-        handler(callback);
-      }
-
-      // TODO, add contract and msg
-
-      this.toString = function() { return "<BaseCallback>"; }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-    function FunctionCallback(handler) {
-    if(!(this instanceof FunctionCallback)) return new FunctionCallback(handler);
-
-    // TODO, has to be of type Handler
-    //if(!(handler instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
-
-    var domain = new Handle(Unknown, Unknown, Unknown);
-    var range = new Handle(Unknown, Unknown, Unknown);
-
-    var callback = this;
-
-    __getter("caller", function() {
-      return domain.callee;
-    }, this);
-
-    __getter("callee", function() {
-      // TODO, definition is wrong
-      return implies(domain.callee, range.contract);
-    }, this);
-
-     __getter("contract", function() {
-      return and(domain.contract, range.contract);
-    }, this);
-
-
-    // TODO, make read only
-    this.domainHandler = function(handle) {
-      print("*FCd: " + handle); // TODO
-
-      domain = update(domain, handle);
-
-      print( "2452345234523452345" + handler);
-
-      handler(callback);
-    }
-
-    this.rangeHandler = function(handle) {
-      print("*FCr: " + handle); // TODO
-      range = update(range, handle);
-      handler(callback);
-    }
-
-    // TODO, add contract and msg
-
-    this.toString = function() { return "<FunctionCallback>"; }
+  Callback.update = function(m, n) {
+    return Handle(
+        merge(m.caller, n.caller),
+        merge(m.callee, n.callee),
+        merge(m.contract, n.contract));
   }
 
 
+  // TODO rename
+  function Handle(caller, callee, contract) {
+    if(!(this instanceof Handle)) return new Handle(caller, callee, contract);
+
+    if(!(caller instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
+    if(!(callee instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
+    if(!(contract instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
+
+    __define("caller", caller, this);
+    __define("callee", callee, this);
+    __define("contract", contract, this);
+
+  }
+
+  Handle.prototype.toString = function() {
+    return "Caller: "+this.caller+", Callee: "+this.callee+", Contract: "+this.contract;
+  }
+
+  Handle.new = function() {
+    return Handle(Unknown, Unknown, Unknown);
+  }
+
+  // TODO
+  // add msg/contract for claming
+
+  function RootCallback(handler) {
+    if(!(this instanceof RootCallback)) return new RootCallback(handler);
+    else Callback.apply(this, arguments);
+
+    var root = Handle.new();
+
+    __getter("caller", function() {
+      return root.caller;
+    }, this);
+
+    __getter("callee", function() {
+      return root.callee;
+    }, this);
+
+    __getter("contract", function() {
+      return root.contract;
+    }, this);
+
+    __getter("rootHandler", function() {
+      return (function(handle) {
+        root = Callback.update(root, handle);
+        handler(this);    
+      }).bind(this);
+    }, this);
+  }
+  RootCallback.prototype = Callback.prototype;
+  RootCallback.prototype.toString = function() {
+    return "<RootCallback>";
+  }
 
 
-
-    function ObjectCallback(handler) {
-    if(!(this instanceof ObjectCallback)) return new ObjectCallback(handler);
+  /*
+  function BaseCallback(handler) {
+    if(!(this instanceof BaseCallback)) return new BaseCallback(handler);
     if(!(handler instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
 
-    var domain = new Handle(Unknown, Unknown, Unknown);
-    var range = new Handle(Unknown, Unknown, Unknown);
-
+    var predicate = new Handle(Unknown, Unknown, Unknown);
     var callback = this;
+
+
+    __getter("caller", function() {
+      return predicate.caller;;
+    }, this);
+
+    __getter("callee", function() {
+      return predicate.callee;
+    }, this);
+
+    __getter("contract", function() {
+      return predicate.contract;
+    }, this);
+
+    // TODO, make read only
+    this.predicateHandler = function(handle) {
+      print("*BC: " + handle); // TODO
+      predicate = Callback.update(predicate, handle);
+      handler(callback);
+    }
+
+    // TODO, add contract and msg
+
+    this.toString = function() { return "<BaseCallback>"; }
+  }
+  */
+
+  function ObjectCallback(handler) {
+    if(!(this instanceof ObjectCallback)) return new ObjectCallback(handler);
+    else Callback.apply(this, arguments);
+
+    var set =  Handle.new();
+    var get =  Handle.new();
+
+    __getter("caller", function() {
+      return get.caller;
+      //return and(domain.caller, range.caller);
+    }, this);
+
+    __getter("callee", function() {
+      return get.callee;
+      //return and(domain.callee, range.callee);
+      //return range.callee;
+      // TODO, test this with an function
+      //implies(domain.callee, range.contract);
+    }, this);
+
+    __getter("contract", function() {
+      return get.contract;
+      //and(domain.contract, range.contract);
+    }, this);
+
+    __getter("setHandler", function() {
+      return (function(handle) {
+        set = Callback.update(set, handle);
+        handler(this);    
+      }).bind(this);
+    }, this);
+
+    __getter("getHandler", function() {
+      return (function(handle) {
+        print("@@@ " + handle);
+        print("@@@ " + get);
+        get = Callback.update(get, handle);
+        print("@@@ " + get);
+
+        print("@@@ Caller: " + this.caller);
+        print("@@@ Callee: " + this.callee);
+        print("@@@ Contract: " + this.contract);
+
+
+
+
+        handler(this);    
+      }).bind(this);
+    }, this);
+  }
+  ObjectCallback.prototype = Callback.prototype;
+  ObjectCallback.prototype.toString = function() {
+    return "<ObjectCallback>";
+  }
+
+
+
+
+
+
+
+  function FunctionCallback(handler) {
+    if(!(this instanceof FunctionCallback)) return new FunctionCallback(handler);
+    else Callback.apply(this, arguments);
+
+    var domain =  Handle.new();
+    var range = Handle.new();
 
     __getter("caller", function() {
       return domain.callee;
@@ -363,51 +381,50 @@
 
     __getter("callee", function() {
       // TODO, definition is wrong
-      return implies(domain.callee, range.contract);
+     // return implies(domain.callee, range.contract);
+      return implies(domain.callee, range.callee);
     }, this);
 
-     __getter("contract", function() {
+    __getter("contract", function() {
       return and(domain.contract, range.contract);
     }, this);
 
-     // TODO
-     function makeHandle() {
-       return new Handle(this.caller, this.callee, this.contract);
-     }
+     __getter("domainHandler", function() {
+      return (function(handle) {
+        domain = Callback.update(domain, handle);
+        handler(this);    
+      }).bind(this);
+    }, this);
 
-
-
-    // TODO, make read only
-    this.domainHandler = function(handle) {
-            print("*OCd: " + handle); // TODO
-      domain = update(domain, handle);
-       handler(callback);
-//      print("@@@@@@@@@@@@@ " + makeHandle.apply(callback));
-//      handler(makeHandle.apply(callback));
-    }
-
-    this.rangeHandler = function(handle) {
-            print("*OCr: " + handle); // TODO
-      range = update(range, handle);
-       print("@@@@@@@@@@@@@ " + makeHandle.apply(callback));
-//
-      handler(callback);
-//      handler(makeHandle.apply(callback));
-    }
-
-    // TODO, add contract and msg
-
-    this.toString = function() { return "<ObjectCallback>"; }
+    __getter("rangeHandler", function() {
+      return (function(handle) {
+        range = Callback.update(range, handle);
+        handler(this);    
+      }).bind(this);
+    }, this);
+  }
+  FunctionCallback.prototype = Callback.prototype;
+  FunctionCallback.prototype.toString = function() {
+    return "<FunctionCallback>";
   }
 
-__define("XCallback", {}, _);
 
-__define("RootCallback", RootCallback, _.XCallback);
-__define("BaseCallback", BaseCallback, _.XCallback);
-__define("FunctionCallback", FunctionCallback, _.XCallback);
-__define("ObjectCallback", ObjectCallback, _.XCallback);
 
-__define("Handle", Handle, _.XCallback);
+
+
+
+
+
+
+  // TODO
+  __define("XCallback", {}, _);
+
+  __define("RootCallback", RootCallback, _.XCallback);
+//  __define("BaseCallback", BaseCallback, _.XCallback);
+  __define("FunctionCallback", FunctionCallback, _.XCallback);
+  __define("ObjectCallback", ObjectCallback, _.XCallback);
+
+  __define("Handle", Handle, _.XCallback);
 
 
 
@@ -418,9 +435,9 @@ __define("Handle", Handle, _.XCallback);
 
   __define("Callback", {}, _);
 
-  __define("Callback", Callback, _.Callback);
-  __define("AndCallback", AndCallback, _.Callback);
-  __define("OrCallback", OrCallback, _.Callback);
-  __define("NotCallback", NotCallback, _.Callback);
+  __define("Callback", {}, _.Callback);
+  __define("AndCallback", {}, _.Callback);
+  __define("OrCallback", {}, _.Callback);
+  __define("NotCallback", {}, _.Callback);
 
 })(_);

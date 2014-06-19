@@ -36,14 +36,37 @@ _.verbose({
 
 // ==================================================
 
+//_.assert(4711", IsNumber);
+
+var objUnchecked = {x:4711, y:"4711", f:function() {return 4711;}, g:function() {return "4711";} };
+var objChecked = _.assert(objUnchecked, _.AdvancedObjectContract({
+  x:IsNumber,
+    y:IsNumber,
+    f:_.AdvancedFunctionContract([IsNumber], IsNumber),
+  g:_.AdvancedFunctionContract([IsNumber], IsNumber),
+}));
+
+//objChecked.x;
+//objChecked.y;
+
+//objChecked[0];
+//
+//
+
+
 function addUnchecked(a, b) {
   return (a+b);
 }
 var addChecked = _.assert(addUnchecked, 
     _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber));
 
-print("Result:" + addChecked("3","3"));
+addChecked(3,3);
+//addChecked("3","3");
 
+
+
+
+quit();
 
 /**
 

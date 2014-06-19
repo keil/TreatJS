@@ -466,7 +466,7 @@
       if(contract.map instanceof StringMap) {
         //TODO
         //return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, callback) : target[name];
-        return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, callback.rangeHandler) : target[name];
+        return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, callback.getHandler) : target[name];
 
 
       } else {
