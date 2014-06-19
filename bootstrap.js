@@ -42,7 +42,7 @@ function addUnchecked(a, b) {
 var addChecked = _.assert(addUnchecked, 
     _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber));
 
-addChecked(3,3);
+print("Result:" + addChecked("3","3"));
 
 
 /**

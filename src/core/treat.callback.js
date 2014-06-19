@@ -221,6 +221,8 @@
       if(!(handler instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
 
       var root = init();
+      var callback = this;
+
 
       __getter("caller", function() {
         return root.caller;
@@ -235,9 +237,10 @@
       }, this);
 
       // TODO, make read only
-      this.rootandler = function(handle) {
+      this.rootHandler = function(handle) {
+        print("*RC: " + handle); // TODO
         root = update(root, handle);
-        handler(this);
+        handler(callback);
       }
 
       // TODO, add contract and msg
@@ -256,6 +259,8 @@
       if(!(handler instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
 
       var predicate = new Handle(Unknown, Unknown, Unknown);
+      var callback = this;
+
 
       __getter("caller", function() {
         return predicate.caller;;
@@ -271,8 +276,9 @@
 
       // TODO, make read only
       this.predicateHandler = function(handle) {
+        print("*BC: " + handle); // TODO
         predicate = update(predicate, handle);
-        handler(this);
+        handler(callback);
       }
 
       // TODO, add contract and msg
@@ -300,13 +306,15 @@
     var domain = new Handle(Unknown, Unknown, Unknown);
     var range = new Handle(Unknown, Unknown, Unknown);
 
+    var callback = this;
+
     __getter("caller", function() {
       return domain.callee;
     }, this);
 
     __getter("callee", function() {
       // TODO, definition is wrong
-      return implies(domain.callee, range.satisfied);
+      return implies(domain.callee, range.contract);
     }, this);
 
      __getter("contract", function() {
@@ -316,13 +324,19 @@
 
     // TODO, make read only
     this.domainHandler = function(handle) {
+      print("*FCd: " + handle); // TODO
+
       domain = update(domain, handle);
-      handler(this);
+
+      print( "2452345234523452345" + handler);
+
+      handler(callback);
     }
 
     this.rangeHandler = function(handle) {
+      print("*FCr: " + handle); // TODO
       range = update(range, handle);
-      handler(this);
+      handler(callback);
     }
 
     // TODO, add contract and msg
@@ -341,29 +355,44 @@
     var domain = new Handle(Unknown, Unknown, Unknown);
     var range = new Handle(Unknown, Unknown, Unknown);
 
+    var callback = this;
+
     __getter("caller", function() {
       return domain.callee;
     }, this);
 
     __getter("callee", function() {
       // TODO, definition is wrong
-      return implies(domain.callee, range.satisfied);
+      return implies(domain.callee, range.contract);
     }, this);
 
      __getter("contract", function() {
       return and(domain.contract, range.contract);
     }, this);
 
+     // TODO
+     function makeHandle() {
+       return new Handle(this.caller, this.callee, this.contract);
+     }
+
+
 
     // TODO, make read only
     this.domainHandler = function(handle) {
+            print("*OCd: " + handle); // TODO
       domain = update(domain, handle);
-      handler(this);
+       handler(callback);
+//      print("@@@@@@@@@@@@@ " + makeHandle.apply(callback));
+//      handler(makeHandle.apply(callback));
     }
 
     this.rangeHandler = function(handle) {
+            print("*OCr: " + handle); // TODO
       range = update(range, handle);
-      handler(this);
+       print("@@@@@@@@@@@@@ " + makeHandle.apply(callback));
+//
+      handler(callback);
+//      handler(makeHandle.apply(callback));
     }
 
     // TODO, add contract and msg

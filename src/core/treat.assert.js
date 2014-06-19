@@ -158,11 +158,12 @@
           print("Caller: " + handle.caller);
           print("Callee: " + handle.callee);
           print("Contract: " + handle.contract);
+          var msg = "XXX"; // TODO
           blame(contract, msg, (new Error()).fileName, (new Error()).lineNumber);
         }
     });
 
-    return assertWith(arg, contract, new Global(), callback);
+    return assertWith(arg, contract, new Global(), callback.rootHandler);
   }
 
   function assertWith(arg, contract, global, callback) {
@@ -317,6 +318,8 @@
       var argsArray = new Array();
       argsArray.push(arg);
 
+      print("444444444444444 " + callback);
+
       try {
         var result = translate(_.eval(contract.predicate, globalArg, thisArg, argsArray));
       } catch (e) {
@@ -325,6 +328,7 @@
         // TODO
         // callback(result, "@"+contract.toString());
         var handle = Handle(_.Logic.True, result, result);
+  print("55555555555555555 " + result);
         callback(handle);
         return arg;
       }
@@ -394,8 +398,8 @@
   //| |  | | (_| | | | | (_| | |  __/ |   
   //|_|  |_|\__,_|_| |_|\__,_|_|\___|_|   
 
-  function FunctionHandler(contract, global, callback) {
-    if(!(this instanceof FunctionHandler)) return new FunctionHandler(contract, global, callback);
+  function FunctionHandler(contract, global, handler) {
+    if(!(this instanceof FunctionHandler)) return new FunctionHandler(contract, global, handler);
     this.apply = function(target, thisArg, args) {
       // TODO
       // var newCallback = AndCallback(callback);
@@ -403,12 +407,11 @@
       // var val = target.apply(thisArg, args);  
       // return assertWith(val, contract.range, global, newCallback.rightHandler);
 
-
-      var fcallback = FunctionCallback(callback);
-
-      var args = assertWith(args, contract.domain, global, fcallback.domainHandler);
+      
+      var callback = FunctionCallback(handler);
+      var args = assertWith(args, contract.domain, global, callback.domainHandler);
       var val = target.apply(thisArg, args);  
-      return assertWith(val, contract.range, global, fcallback.rangeHandler);
+      return assertWith(val, contract.range, global, callback.rangeHandler);
     };
     this.construct = function(target, args) {
       var obj = Object.create(target.prototype);
@@ -453,7 +456,7 @@
   }
 
   function ObjectHandler(contract, global, handler) {
-    if(!(this instanceof ObjectHandler)) return new ObjectHandler(contract, global, callback);
+    if(!(this instanceof ObjectHandler)) return new ObjectHandler(contract, global, handler);
 
     this.get = function(target, name, receiver) {
 
