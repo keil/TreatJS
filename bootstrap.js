@@ -12,8 +12,70 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-load("src/shell.js");
+
+// ___ ___ _  _ _ _ __ ___ 
+//(_-</ _ \ || | '_/ _/ -_)
+///__/\___/\_,_|_| \__\___|
+
+// libraries
+load("lib/lib_padding.js");
+
+// base source files
+load("src/out.js");
+load("src/debugger.js");
+load("src/treat.js");
+load("src/treat.system.js");
+load("src/treat.base.js");
+load("src/treat.config.js");
+
+// core api
+load("src/core/treat.violation.js");
+load("src/core/treat.sandbox.js");
+load("src/core/treat.logic.js");
+load("src/core/treat.callback.js");
+load("src/core/treat.map.js");
+load("src/core/treat.contract.js");
+load("src/core/treat.assert.js");
+
+// convenience api
+load("src/treat.convenience.js");
+
+//            _               _      
+// __ ___ _ _| |_ _ _ __ _ __| |_ ___
+/// _/ _ \ ' \  _| '_/ _` / _|  _(_-<
+//\__\___/_||_\__|_| \__,_\__|\__/__/
+
 load("test/contracts.js");
+
+//              __ _                    _   _          
+// __ ___ _ _  / _(_)__ _ _  _ _ _ __ _| |_(_)___ _ _  
+/// _/ _ \ ' \|  _| / _` | || | '_/ _` |  _| / _ \ ' \ 
+//\__\___/_||_|_| |_\__, |\_,_|_| \__,_|\__|_\___/_||_|
+//                  |___/                              
+
+// set configuration
+_.configure({
+   assertion:true,
+   membrabe:true,
+   decompile:true
+   });
+
+// set verbose
+_.verbose({
+  assert:false,
+  sandbox:false
+});
+
+// ==================================================
+
+
+// ==================================================
+quit();
+
+
+
+// TODO
+
 
 // runs a testcase
 function run(file) {
@@ -43,7 +105,7 @@ var objChecked = _.assert(objUnchecked, _.AdvancedObjectContract({
   x:IsNumber,
     y:IsNumber,
     f:_.AdvancedFunctionContract([IsNumber], IsNumber),
-  g:_.AdvancedFunctionContract([IsNumber], IsNumber),
+    g:_.AdvancedFunctionContract([IsNumber], IsNumber),
 }));
 
 //objChecked.x;
@@ -131,17 +193,17 @@ var NumNumToNumNumXC = _.assert(NumNumToNumNumX,
 
 
 /*
-var addChecked1 = _.assert(addUnchecked, _.Or(
-    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
-    _.AdvancedFunctionContract([IsString, IsString], IsString)));
+   var addChecked1 = _.assert(addUnchecked, _.Or(
+   _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
+   _.AdvancedFunctionContract([IsString, IsString], IsString)));
 
 //addChecked1("1","1");
 
 // -
 
 var addChecked2 = _.assert(addUnchecked, _.Or(
-    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
-    _.AdvancedFunctionContract([IsNumber, IsNumber], IsString)));
+_.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
+_.AdvancedFunctionContract([IsNumber, IsNumber], IsString)));
 
 //addChecked2(1,1);
 */
@@ -223,12 +285,12 @@ quit();
 
 /*
 
-function f(x) {
- return true;
-}
+   function f(x) {
+   return true;
+   }
 
-var g = _.assert(f, _.SimpleFunctionContract(IsNumber, IsBoolean));
-*/
+   var g = _.assert(f, _.SimpleFunctionContract(IsNumber, IsBoolean));
+   */
 
 try {
   var start = 0;
@@ -240,9 +302,9 @@ try {
   (function () {
     timeout(1)
     start = elapsed();
-    for(var i=0; i<10000000000; i++) {
-      fgh(i);
-    }
+  for(var i=0; i<10000000000; i++) {
+    fgh(i);
+  }
   })();
   end = elapsed();
   print("#");
@@ -259,41 +321,41 @@ print("execution time " + (end-start));
 /*
 
 
-function __make(name, getter, target) {
-  Object.defineProperty(target, name, {
-    get: getter,
-  enumerable: true,
-    configurable: true
-  });
-}
+   function __make(name, getter, target) {
+   Object.defineProperty(target, name, {
+   get: getter,
+   enumerable: true,
+   configurable: true
+   });
+   }
 
-function __define(name, property, target) {
-  Object.defineProperty(target, name, {
-    get: function () { return property; },
-  enumerable: true
-  });
-}
+   function __define(name, property, target) {
+   Object.defineProperty(target, name, {
+   get: function () { return property; },
+   enumerable: true
+   });
+   }
 
-function __getter(name, getter, target) {
-  Object.defineProperty(target, name, {
-    get: getter,
-  enumerable: true
-  });
-}
+   function __getter(name, getter, target) {
+   Object.defineProperty(target, name, {
+   get: getter,
+   enumerable: true
+   });
+   }
 
 
-__make("b", function() {
-  __make("b", function() {return 4712;}, this);
-  return 4711;
-}, this);
+   __make("b", function() {
+   __make("b", function() {return 4712;}, this);
+   return 4711;
+   }, this);
 
-var a = 4711;
+   var a = 4711;
 //var b = a;
 
 
 /*if(a===b) {
-  print("1 - a) " + a);
-  print("1 - b) " + b);
+print("1 - a) " + a);
+print("1 - b) " + b);
 }/*
 
 
@@ -302,27 +364,27 @@ var i = 0;
 
 var a = {};
 __define("valueOf", function() {
-  i=i+1;
+i=i+1;
 return "[a]"+i;
 }, a);
 var b = a;
 */
 /*
-var args = {};
-__getter("0", function() {return a}, args);
-__getter("1", function() {return b}, args);
+   var args = {};
+   __getter("0", function() {return a}, args);
+   __getter("1", function() {return b}, args);
 
-(function(a, b) {
+   (function(a, b) {
 
-  if(a===b) {
-    print("2 - a) " + a);
-    print("2 - b) " + b);
-  }
+   if(a===b) {
+   print("2 - a) " + a);
+   print("2 - b) " + b);
+   }
 
-}).apply(this, args);
+   }).apply(this, args);
 
-print(args[0]);
-*/
+   print(args[0]);
+   */
 
 
 

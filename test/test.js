@@ -12,27 +12,12 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-load("src/shell.js");
-load("test/contracts.js");
 
 // runs a testcase
 function run(file) {
   print("\n\n\n##########\n# " + file + "\n");
   load(file);
 }
-
-// set configuration
-_.configure({
-  assertion:true,
-  membrabe:true,
-  decompile:true
-});
-
-// set verbose
-_.verbose({
-  assert:false,
-  sandbox:false
-});
 
 // contracts
 run("test/contract/basecontract.js");
@@ -65,6 +50,6 @@ run("test/behavior/nesting.js");
 run("test/convenience/functioncontract.js");
 run("test/convenience/objectcontract.js");
 run("test/convenience/dependentcontract.js");
-run("test/convenience/methodcontract.js"); 
+run("test/convenience/methodcontract.js");
 
 quit();
