@@ -68,6 +68,55 @@ _.verbose({
 
 // ==================================================
 
+function addUnchecked(a, b) {
+  return 1+(a+b);
+}
+
+var intersection1 = _.Intersection(
+    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
+    _.AdvancedFunctionContract([IsString, IsString], IsString));
+
+print (intersection1);
+var addChecked1 = _.assert(addUnchecked, intersection1);
+
+addChecked1("1","1");
+
+var x= 8;
+  var intersection2 = _.Or(
+      _.And(
+        _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
+        _.Not(_.AdvancedFunctionContract([IsString, IsString], _.Not(IsString)))
+        ),
+      _.And(
+        _.AdvancedFunctionContract([IsString, IsString], IsString),
+        _.Not(_.AdvancedFunctionContract([IsNumber, IsNumber], _.Not(IsNumber)))
+        )
+      );
+  print (intersection2);
+  var addChecked2 = _.assert(addUnchecked, intersection2);
+
+addChecked2("1",1);
+
+
+
+
+
+
+/**
+var intersection2 = _.Intersection(
+    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
+    _.AdvancedFunctionContract([IsNumber, IsNumber], IsString));
+
+print (intersection2);
+var addChecked4 = _.assert(addUnchecked, intersection2);
+
+//addChecked4(1,1);
+
+//load("test/miscellaneous//logic.js");
+
+*/
+
+
 
 // ==================================================
 quit();

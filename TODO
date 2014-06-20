@@ -6,9 +6,17 @@
 ** debugger
 ** user defined out
 
+
+### Version 1.2.*
+
+* Blame Messages
+  - Contract parts
+
+* Blame Function
+* Blmee Object
+
 * a name for each contract
 
-* implement bootstrap in the same  way as for sbx
 
 remove old interpretaion of or and and
 discuss thye difference of use cases

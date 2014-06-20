@@ -357,7 +357,9 @@
     }, this);
 
     __getter("callee", function() {
-      return and(left.caller, right.caller);
+      return and(implies(left.caller, left.callee), implies(right.caller, right.callee));
+      // TODO
+      //return and(left.caller, right.caller);
     }, this);
 
     __getter("contract", function() {
@@ -401,7 +403,9 @@
     }, this);
 
     __getter("callee", function() {
-      return or(left.callee, right.callee);
+      return or(implies(left.caller, left.callee), implies(right.caller, right.callee))
+      // TODO
+      //return or(left.callee, right.callee);
     }, this);
 
     __getter("contract", function() {

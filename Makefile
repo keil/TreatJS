@@ -1,19 +1,19 @@
 default:
-	./js -f bootstrap.js -f src/shell.js -i
+	./js -f src/shell.js -f bootstrap.js  -i
 
 .PHONY: test
 test:
-	./js -f bootstrap.js -f src/shell.js -f test/test.js -i
+	./js -f src/shell.js -f bootstrap.js -f test/test.js -i
 
 octane:
-	./js -f bootstrap.js -f src/shell.js -f benchmark/octane/octane.js -i
+	./js -f src/shell.js -f bootstrap.js -f benchmark/octane/octane.js -i
 
 inference:
-	./js -f bootstrap.js -f src/shell.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/inference.js
+	./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/inference.js
 
 inferencef:
 	rm -f benchmark/typedoctane/TYPES.js
-	./js -f bootstrap.js -f src/shell.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/inference.js >> benchmark/typedoctane/TYPES.js
+	./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/inference.js >> benchmark/typedoctane/TYPES.js
 
 typed:
-	./js -f bootstrap.js -f src/shell.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/typed.js
+	./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/typed.js
