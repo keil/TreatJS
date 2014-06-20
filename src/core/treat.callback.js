@@ -39,185 +39,25 @@
   //| |___| (_| | | | |_) | (_| | (__|   <\__ \
   // \_____\__,_|_|_|_.__/ \__,_|\___|_|\_\___/
 
-
-  /*
-
-  function Callback(callback) {
-    if(!(this instanceof Callback)) return new Callback(callback);
-    if(!(callback instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
-
-    var sub = Unknown;
-    var subMsg = "";
-
-    function evalCallback() {
-      callback(sub, "("+subMsg+")");
-    }
-    function updateSub(arg, msg) {
-      sub = merge(sub, arg);
-      subMsg = msg;
-    }
-
-    Object.defineProperties(this, {
-      "subHandler": {
-        get: function () { return function(arg, msg) {
-          updateSub(arg, msg);
-          evalCallback();
-        }}}
-    });
-
-    this.toString = function() { return "[Callback]"; }
-  }
-
-  function AndCallback(callback) {
-    if(!(this instanceof AndCallback)) return new AndCallback(callback);
-    if(!(callback instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
-
-    var left = Unknown;
-    var leftMsg = "";
-
-    var right = Unknown;
-    var rightMsg = "";
-
-    function evalCallback() {
-      callback(and(left, right), "("+leftMsg+" *AND* "+rightMsg+")");
-    }
-    function updateLeft(arg, msg) {
-      left = merge(left, arg);
-      leftMsg = msg;
-    }
-    function updateRight(arg, msg) {
-      right = merge(right, arg);
-      rightMsg = msg;
-    }
-
-    Object.defineProperties(this, {
-      "leftHandler": {
-        get: function () {
-          return function(arg, msg) {
-            updateLeft(arg, msg);
-            evalCallback();
-          }}},
-      "rightHandler": {
-        get: function () { return function(arg, msg) {
-          updateRight(arg, msg);
-          evalCallback();
-        }}}
-    });
-
-    this.toString = function() { return "[Callback]"; }
-  }
-
-  function OrCallback(callback) {
-    if(!(this instanceof OrCallback)) return new OrCallback(callback);
-    if(!(callback instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
-
-    var left = Unknown;
-    var leftMsg = "";
-
-    var right = Unknown;
-    var rightMsg = "";
-
-    function evalCallback() {
-      callback(or(left, right), "("+leftMsg+" *OR* "+rightMsg+")");
-    }
-    function updateLeft(arg, msg) {
-      left = merge(left, arg);
-      leftMsg = msg;
-    }
-    function updateRight(arg, msg) {
-      right = merge(right, arg);
-      rightMsg = msg;
-    }
-
-    Object.defineProperties(this, {
-      "leftHandler": {
-        get: function () { return function(arg, msg) {
-          updateLeft(arg, msg);
-          evalCallback();
-        }}},
-      "rightHandler": {
-        get: function () { return function(arg, msg) {
-          updateRight(arg, msg);
-          evalCallback();
-        }}}
-    });
-
-    this.toString = function() { return "[Callback]"; }
-  }
-
-  function NotCallback(callback) {
-    if(!(this instanceof NotCallback)) return new NotCallback(callback);
-    if(!(callback instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
-
-    var sub = Unknown;
-    var subMsg = "";
-
-    function evalCallback() {
-      callback(not(sub), "(*NOT* "+subMsg+")");
-    }
-    function updateSub(arg, msg) {
-      sub = merge(sub, arg);
-      subMsg = msg;
-    }
-
-    Object.defineProperties(this, {
-      "subHandler": {
-        get: function () { return function(arg, msg) {
-          updateSub(arg, msg);
-          evalCallback()
-        }}}
-    });
-
-    this.toString = function() { return "[Callback]"; }
-  }
-
-  // between
-  //
-
-  function XupdateX (m , n) {
-    print(m);
-    print(n)
-      return new Handle(
-          merge(m.caller, n.caller),
-          merge(m.callee, n.callee),
-          merge(m.contract, n.contract)
-          );
-  }
-
-  */
-
-
-
-  // callback - logic between handler and handle
-  // handler - function called to update a callback
-  // handle - payload, and the callback itself
-
-
-
-
-  // TODO
-  // New Implementation
+  //  ___      _ _ _             _   
+  // / __|__ _| | | |__  __ _ __| |__
+  //| (__/ _` | | | '_ \/ _` / _| / /
+  // \___\__,_|_|_|_.__/\__,_\__|_\_\
 
   function Callback(handler) {
     if(!(this instanceof Callback)) return new Callback(handler);
     if(!(handler instanceof Function)) error("Wrong Callback Handler.", (new Error()).fileName, (new Error()).lineNumber);
-
   }
 
-  // TODO, test  This
   Callback.prototype.toString = function() {
     return "<Callback>";
   }
 
-  Callback.update = function(m, n) {
-    return Handle(
-        merge(m.caller, n.caller),
-        merge(m.callee, n.callee),
-        merge(m.contract, n.contract));
-  }
+  // _  _              _ _     
+  //| || |__ _ _ _  __| | |___ 
+  //| __ / _` | ' \/ _` | / -_)
+  //|_||_\__,_|_||_\__,_|_\___|
 
-
-  // TODO rename
   function Handle(caller, callee, contract) {
     if(!(this instanceof Handle)) return new Handle(caller, callee, contract);
 
@@ -228,7 +68,6 @@
     __define("caller", caller, this);
     __define("callee", callee, this);
     __define("contract", contract, this);
-
   }
 
   Handle.prototype.toString = function() {
@@ -239,8 +78,17 @@
     return Handle(Unknown, Unknown, Unknown);
   }
 
-  // TODO
-  // add msg/contract for claming
+  Handle.update = function(m, n) {
+    return Handle(
+        merge(m.caller, n.caller),
+        merge(m.callee, n.callee),
+        merge(m.contract, n.contract));
+  }
+
+  // ___          _    ___      _ _ _             _   
+  //| _ \___  ___| |_ / __|__ _| | | |__  __ _ __| |__
+  //|   / _ \/ _ \  _| (__/ _` | | | '_ \/ _` / _| / /
+  //|_|_\___/\___/\__|\___\__,_|_|_|_.__/\__,_\__|_\_\
 
   function RootCallback(handler) {
     if(!(this instanceof RootCallback)) return new RootCallback(handler);
@@ -262,7 +110,7 @@
 
     __getter("rootHandler", function() {
       return (function(handle) {
-        root = Callback.update(root, handle);
+        root = Handle.update(root, handle);
         handler(this);    
       }).bind(this);
     }, this);
@@ -272,129 +120,10 @@
     return "<RootCallback>";
   }
 
-
-  /*
-  function BaseCallback(handler) {
-    if(!(this instanceof BaseCallback)) return new BaseCallback(handler);
-    if(!(handler instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
-
-    var predicate = new Handle(Unknown, Unknown, Unknown);
-    var callback = this;
-
-
-    __getter("caller", function() {
-      return predicate.caller;;
-    }, this);
-
-    __getter("callee", function() {
-      return predicate.callee;
-    }, this);
-
-    __getter("contract", function() {
-      return predicate.contract;
-    }, this);
-
-    // TODO, make read only
-    this.predicateHandler = function(handle) {
-      print("*BC: " + handle); // TODO
-      predicate = Callback.update(predicate, handle);
-      handler(callback);
-    }
-
-    // TODO, add contract and msg
-
-    this.toString = function() { return "<BaseCallback>"; }
-  }
-  */
-
- // TODO, make Base callbacks tu Undefined, (true|false) .. 
-
-  function ObjectCallback(handler) {
-    if(!(this instanceof ObjectCallback)) return new ObjectCallback(handler);
-    else Callback.apply(this, arguments);
-
-    //var set =  Handle.new();
-    //var set = Handle(True, True, True);
-    var set = undefined;
-    var get =  Handle.new();
-
-    __getter("caller", function() {
-      return (set) ? and(get.caller, set.contract) : get.caller;
-      
-      //return get.caller;
-      //return and(get.caller, set.contract);
-
-
-      //return set.callee;
-      //return and(get.caller, set.callee);
-    }, this);
-
-    __getter("callee", function() {
-      return (set) ? implies(set.callee, get.callee) : get.callee;
-
-//      return implies(set.contract, get.callee);
-      //return get.callee;
-      //return or(get.callee, not(set.contract));
-//        implies(set.contract, get.callee));
-      //return get.callee;
-      //return and(get.callee, set.callee)
-
-      
-      //return and(get.callee, set.caller)
-//      return or(get.callee, implies(set.contract, get.callee));
-//       return or(get.callee, implies(not(get.callee), not(set.callee)));
-
-//      and(get.callee, set.caller);
-      //return and(domain.callee, range.callee);
-      //return range.callee;
-      // TODO, test this with an function
-      //implies(domain.callee, range.contract);
-    }, this);
-
-    __getter("contract", function() {
-      //return and(set.contract, get.contract);
-      // TODO, use strict mode flag
-      // strict mode is retired 
-      return get.contract;
-//      return and(set.contract, get.contract);
-    }, this);
-
-    __getter("setHandler", function() {
-      return (function(handle) {
-        set = Callback.update(((set)? set : Handle.new()), handle);
-//        set = handle;
-        handler(this);    
-      }).bind(this);
-    }, this);
-
-    __getter("getHandler", function() {
-      return (function(handle) {
-        print("@@@ " + handle);
-        print("@@@ " + get);
-        get = Callback.update(get, handle);
-        print("@@@ " + get);
-
-        print("@@@ Caller: " + this.caller);
-        print("@@@ Callee: " + this.callee);
-        print("@@@ Contract: " + this.contract);
-
-
-
-
-        handler(this);    
-      }).bind(this);
-    }, this);
-  }
-  ObjectCallback.prototype = Callback.prototype;
-  ObjectCallback.prototype.toString = function() {
-    return "<ObjectCallback>";
-  }
-
-
-
-
-
-
+  // ___             _   _          ___      _ _ _             _   
+  //| __|  _ _ _  __| |_(_)___ _ _ / __|__ _| | | |__  __ _ __| |__
+  //| _| || | ' \/ _|  _| / _ \ ' \ (__/ _` | | | '_ \/ _` / _| / /
+  //|_| \_,_|_||_\__|\__|_\___/_||_\___\__,_|_|_|_.__/\__,_\__|_\_\
 
   function FunctionCallback(handler) {
     if(!(this instanceof FunctionCallback)) return new FunctionCallback(handler);
@@ -404,10 +133,12 @@
     var range = Handle.new();
 
     __getter("caller", function() {
+      // TODO, check definition
       return and(domain.callee, range.caller);
     }, this);
 
     __getter("callee", function() {
+      // TODO, check definition
       return and(domain.caller, range.callee);
     }, this);
 
@@ -415,16 +146,16 @@
       return and(domain.contract, range.contract);
     }, this);
 
-     __getter("domainHandler", function() {
+    __getter("domainHandler", function() {
       return (function(handle) {
-        domain = Callback.update(domain, handle);
+        domain = Handle.update(domain, handle);
         handler(this);    
       }).bind(this);
     }, this);
 
     __getter("rangeHandler", function() {
       return (function(handle) {
-        range = Callback.update(range, handle);
+        range = Handle.update(range, handle);
         handler(this);    
       }).bind(this);
     }, this);
@@ -434,15 +165,59 @@
     return "<FunctionCallback>";
   }
 
+  //  ___  _     _        _    ___      _ _ _             _   
+  // / _ \| |__ (_)___ __| |_ / __|__ _| | | |__  __ _ __| |__
+  //| (_) | '_ \| / -_) _|  _| (__/ _` | | | '_ \/ _` / _| / /
+  // \___/|_.__// \___\__|\__|\___\__,_|_|_|_.__/\__,_\__|_\_\
+  //          |__/                                            
 
+  function ObjectCallback(handler) {
+    if(!(this instanceof ObjectCallback)) return new ObjectCallback(handler);
+    else Callback.apply(this, arguments);
 
+    var set = undefined;
+    var get =  Handle.new();
 
+    __getter("caller", function() {
+      // TODO, check definition
+      return (set) ? and(get.caller, set.contract) : get.caller;
+    }, this);
 
+    __getter("callee", function() {
+      // TODO, check definition
+      return (set) ? implies(set.callee, get.callee) : get.callee;
+    }, this);
 
+    __getter("contract", function() {
+      // TODO, check definition
+      // TODO, use strict mode flag
+      return get.contract;
+    }, this);
 
+    __getter("setHandler", function() {
+      return (function(handle) {
+        // TODO
+        set = Handle.update(((set)? set : Handle.new()), handle);
+        handler(this);    
+      }).bind(this);
+    }, this);
 
+    __getter("getHandler", function() {
+      return (function(handle) {
+        get = Handle.update(get, handle);
+        handler(this);    
+      }).bind(this);
+    }, this);
+  }
+  ObjectCallback.prototype = Callback.prototype;
+  ObjectCallback.prototype.toString = function() {
+    return "<ObjectCallback>";
+  }
 
-
+  // ___     _                      _   _          ___      _ _ _             _   
+  //|_ _|_ _| |_ ___ _ _ ___ ___ __| |_(_)___ _ _ / __|__ _| | | |__  __ _ __| |__
+  // | || ' \  _/ -_) '_(_-</ -_) _|  _| / _ \ ' \ (__/ _` | | | '_ \/ _` / _| / /
+  //|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_\___\__,_|_|_|_.__/\__,_\__|_\_\
 
   function IntersectionCallback(handler) {
     if(!(this instanceof IntersectionCallback)) return new IntersectionCallback(handler);
@@ -457,27 +232,24 @@
 
     __getter("callee", function() {
       return and(implies(left.caller, left.callee), implies(right.caller, right.callee));
-      //return and(left.callee, right.callee);
     }, this);
 
     __getter("contract", function() {
       return or(
-      and(left.contract, implies(right.caller, right.callee)),
-      and(right.contract, implies(left.caller, left.callee)));
-
-//      return and(domain.contract, range.contract);
+        and(left.contract, implies(right.caller, right.callee)),
+        and(right.contract, implies(left.caller, left.callee)));
     }, this);
 
-     __getter("leftHandler", function() {
+    __getter("leftHandler", function() {
       return (function(handle) {
-        left = Callback.update(left, handle);
+        left = Handle.update(left, handle);
         handler(this);    
       }).bind(this);
     }, this);
 
     __getter("rightHandler", function() {
       return (function(handle) {
-        right = Callback.update(right, handle);
+        right = Handle.update(right, handle);
         handler(this);    
       }).bind(this);
     }, this);
@@ -487,6 +259,10 @@
     return "<IntersectionCallback>";
   }
 
+  // _   _      _          ___      _ _ _             _   
+  //| | | |_ _ (_)___ _ _ / __|__ _| | | |__  __ _ __| |__
+  //| |_| | ' \| / _ \ ' \ (__/ _` | | | '_ \/ _` / _| / /
+  // \___/|_||_|_\___/_||_\___\__,_|_|_|_.__/\__,_\__|_\_\
 
   function UnionCallback(handler) {
     if(!(this instanceof UnionCallback)) return new UnionCallback(handler);
@@ -501,26 +277,24 @@
 
     __getter("callee", function() {
       return or(implies(left.caller, left.callee), implies(right.caller, right.callee));
-      //return and(domain.caller, range.callee);
     }, this);
 
     __getter("contract", function() {
       return or(
         and(and(left.caller, right.caller), left.callee),
         and(and(left.caller, right.caller), right.callee));
-      //return and(domain.contract, range.contract);
     }, this);
 
-     __getter("leftHandler", function() {
+    __getter("leftHandler", function() {
       return (function(handle) {
-        left = Callback.update(left, handle);
+        left = Handle.update(left, handle);
         handler(this);    
       }).bind(this);
     }, this);
 
     __getter("rightHandler", function() {
       return (function(handle) {
-        right = Callback.update(right, handle);
+        right = Handle.update(right, handle);
         handler(this);    
       }).bind(this);
     }, this);
@@ -530,9 +304,12 @@
     return "<UnionCallback>";
   }
 
+  // _  _               _   _          ___      _ _ _             _   
+  //| \| |___ __ _ __ _| |_(_)___ _ _ / __|__ _| | | |__  __ _ __| |__
+  //| .` / -_) _` / _` |  _| / _ \ ' \ (__/ _` | | | '_ \/ _` / _| / /
+  //|_|\_\___\__, \__,_|\__|_\___/_||_\___\__,_|_|_|_.__/\__,_\__|_\_\
+  //         |___/                                                    
 
-
-  
   function NegationCallback(handler) {
     if(!(this instanceof NegationCallback)) return new NegationCallback(handler);
     else Callback.apply(this, arguments);
@@ -545,16 +322,15 @@
 
     __getter("callee", function() {
       return not(implies(sub.caller, sub.callee));
-//      not(sub.callee);
     }, this);
 
     __getter("contract", function() {
       return not(sub.contract);
     }, this);
 
-     __getter("subHandler", function() {
+    __getter("subHandler", function() {
       return (function(handle) {
-        sub = Callback.update(sub, handle);
+        sub = Handle.update(sub, handle);
         handler(this);    
       }).bind(this);
     }, this);
@@ -564,51 +340,151 @@
     return "<NegationCallback>";
   }
 
+  //   _           _  ___      _ _ _             _   
+  //  /_\  _ _  __| |/ __|__ _| | | |__  __ _ __| |__
+  // / _ \| ' \/ _` | (__/ _` | | | '_ \/ _` / _| / /
+  ///_/ \_\_||_\__,_|\___\__,_|_|_|_.__/\__,_\__|_\_\
+
+  function AndCallback(handler) {
+    if(!(this instanceof AndCallback)) return new AndCallback(handler);
+    else Callback.apply(this, arguments);
+
+    var left =  Handle.new();
+    var right = Handle.new();
+
+    __getter("caller", function() {
+      return and(left.caller, right.caller);
+    }, this);
+
+    __getter("callee", function() {
+      return and(left.caller, right.caller);
+    }, this);
+
+    __getter("contract", function() {
+      return and(left.contract, right.contract);
+    }, this);
+
+    __getter("leftHandler", function() {
+      return (function(handle) {
+        left = Handle.update(left, handle);
+        handler(this);    
+      }).bind(this);
+    }, this);
+
+    __getter("rightHandler", function() {
+      return (function(handle) {
+        right = Handle.update(right, handle);
+        handler(this);    
+      }).bind(this);
+    }, this);
+  }
+  AndCallback.prototype = Callback.prototype;
+  AndCallback.prototype.toString = function() {
+    return "<AndCallback>";
+  }
 
 
+  //  ___       ___      _ _ _             _   
+  // / _ \ _ _ / __|__ _| | | |__  __ _ __| |__
+  //| (_) | '_| (__/ _` | | | '_ \/ _` / _| / /
+  // \___/|_|  \___\__,_|_|_|_.__/\__,_\__|_\_\
+
+  function OrCallback(handler) {
+    if(!(this instanceof OrCallback)) return new OrCallback(handler);
+    else Callback.apply(this, arguments);
+
+    var left =  Handle.new();
+    var right = Handle.new();
+
+    __getter("caller", function() {
+      return or(left.caller, right.caller);
+    }, this);
+
+    __getter("callee", function() {
+      return or(left.callee, right.callee);
+    }, this);
+
+    __getter("contract", function() {
+      return or(left.contract, right.contract);
+    }, this);
+
+    __getter("leftHandler", function() {
+      return (function(handle) {
+        left = Handle.update(left, handle);
+        handler(this);    
+      }).bind(this);
+    }, this);
+
+    __getter("rightHandler", function() {
+      return (function(handle) {
+        right = Handle.update(right, handle);
+        handler(this);    
+      }).bind(this);
+    }, this);
+  }
+  OrCallback.prototype = Callback.prototype;
+  OrCallback.prototype.toString = function() {
+    return "<OrCallback>";
+  }
+
+  // _  _     _    ___      _ _ _             _   
+  //| \| |___| |_ / __|__ _| | | |__  __ _ __| |__
+  //| .` / _ \  _| (__/ _` | | | '_ \/ _` / _| / /
+  //|_|\_\___/\__|\___\__,_|_|_|_.__/\__,_\__|_\_\
+
+  function NotCallback(handler) {
+    if(!(this instanceof NotCallback)) return new NotCallback(handler);
+    else Callback.apply(this, arguments);
+
+    var sub =  Handle.new();
+
+    __getter("caller", function() {
+      return not(sub.caller);
+    }, this);
+
+    __getter("callee", function() {
+      return not(implies(sub.caller, sub.callee));
+    }, this);
+
+    __getter("contract", function() {
+      return not(sub.contract);
+    }, this);
+
+    __getter("subHandler", function() {
+      return (function(handle) {
+        sub = Handle.update(sub, handle);
+        handler(this);    
+      }).bind(this);
+    }, this);
+  }
+  NotCallback.prototype = Callback.prototype;
+  NotCallback.prototype.toString = function() {
+    return "<NotCallback>";
+  }
 
 
+  // TODO, required ?
+  /*
+     function BaseCallback(handler) {
+     if(!(this instanceof BaseCallback)) return new BaseCallback(handler);
+     if(!(handler instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
+
+     var predicate = new Handle(Unknown, Unknown, Unknown);
+     var callback = this;
 
 
+     __getter("caller", function() {
+     return predicate.caller;;
+     }, this);
 
+     __getter("callee", function() {
+     return predicate.callee;
+     }, this);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // TODO
-  __define("XCallback", {}, _);
-
-  __define("RootCallback", RootCallback, _.XCallback);
-//  __define("BaseCallback", BaseCallback, _.XCallback);
-  __define("FunctionCallback", FunctionCallback, _.XCallback);
-  __define("ObjectCallback", ObjectCallback, _.XCallback);
-
-
-  __define("IntersectionCallback", IntersectionCallback, _.XCallback);
-  __define("UnionCallback", UnionCallback, _.XCallback);
-  __define("NegationCallback", NegationCallback, _.XCallback);
-
-  // in terms of and or not
-
-  __define("Handle", Handle, _.XCallback);
-
-
-
+     __getter("contract", function() {
+     return predicate.contract;
+     }, this);
+     }*/
 
   /**
    * Callback
@@ -617,6 +493,16 @@
   __define("Callback", {}, _);
 
   __define("Callback", {}, _.Callback);
+  __define("Handle", Handle, _.Callback);
+
+  __define("RootCallback", RootCallback, _.Callback);
+  __define("FunctionCallback", FunctionCallback, _.Callback);
+  __define("ObjectCallback", ObjectCallback, _.Callback);
+
+  __define("IntersectionCallback", IntersectionCallback, _.Callback);
+  __define("UnionCallback", UnionCallback, _.Callback);
+  __define("NegationCallback", NegationCallback, _.Callback);
+
   __define("AndCallback", {}, _.Callback);
   __define("OrCallback", {}, _.Callback);
   __define("NotCallback", {}, _.Callback);

@@ -126,7 +126,7 @@ function NumNumToNumNumX(f) {
 var NumNumToNumNumXC = _.assert(NumNumToNumNumX, 
     _.AdvancedFunctionContract([_.AdvancedFunctionContract([IsNumber], IsNumber)], _.AdvancedFunctionContract([IsNumber], IsNumber)));
 
-NumNumToNumNumXC(NumToNum3)(1);
+//NumNumToNumNumXC(NumToNum3)(1);
 
 
 

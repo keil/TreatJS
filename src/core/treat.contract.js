@@ -234,6 +234,71 @@
   }
   WithContract.prototype = new Contract();
 
+  // ___     _                      _   _          ___         _               _   
+  //|_ _|_ _| |_ ___ _ _ ___ ___ __| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
+  // | || ' \  _/ -_) '_(_-</ -_) _|  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
+  //|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
+
+  function IntersectionContract(first, second) { 
+    if(!(this instanceof IntersectionContract)) return new IntersectionContract(first, second);
+
+    if(!(first instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+    if(!(second instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+    Object.defineProperties(this, {
+      "first": {
+        get: function () { return first; } },
+      "second": {
+        get: function () { return second; } }
+    });
+
+    this.toString = function() { return "(" + first.toString() + "cap" + second.toString() + ")"; };
+  }
+  IntersectionContract.prototype = new Contract();
+
+  // _   _      _          ___         _               _   
+  //| | | |_ _ (_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
+  //| |_| | ' \| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
+  // \___/|_||_|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
+
+  function UnionContract(first, second) {
+    if(!(this instanceof UnionContract)) return new UnionContract(first, second);
+
+    if(!(first instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+    if(!(second instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+    Object.defineProperties(this, {
+      "first": {
+        get: function () { return first; } },
+      "second": {
+        get: function () { return second; } }
+    });
+
+    this.toString = function() { return "(" + first.toString() + "cup" + second.toString() + ")"; };
+  }
+  UnionContract.prototype = new Contract();
+
+  // _  _               _   _          ___         _               _   
+  //| \| |___ __ _ __ _| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
+  //| .` / -_) _` / _` |  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
+  //|_|\_\___\__, \__,_|\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
+  //         |___/                                                     
+
+  function NegationContract(sub) { 
+    if(!(this instanceof NegationContract)) return new NegationContract(sub);
+
+    if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+    Object.defineProperties(this, {
+      "sub": {
+        get: function () { return sub; } }
+    });
+
+    this.sub = sub;
+    this.toString = function() { return "neg(" + sub.toString() + ")"; };
+  }
+  NegationContract.prototype = new Contract();
+
   //  _____                _                   _             
   // / ____|              | |                 | |            
   //| |     ___  _ __  ___| |_ _ __ _   _  ___| |_ ___  _ __ 
@@ -263,51 +328,6 @@
   }
   ContractConstructor.prototype = new Constructor();
 
-  // TODO new 
-  
-
-  function UnionContract(first, second) {
-    if(!(this instanceof UnionContract)) return new UnionContract(first, second);
-
-    if(!(first instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-    if(!(second instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-
-    Object.defineProperties(this, {
-      "first": {
-        get: function () { return first; } },
-      "second": {
-        get: function () { return second; } }
-    });
-
-    this.toString = function() { return "(" + first.toString() + "*and*" + second.toString() + ")"; };
-  }
-  UnionContract.prototype = new Contract();
-
-  function IntersectionContract(first, second) { 
-    if(!(this instanceof IntersectionContract)) return new IntersectionContract(first, second);
-
-    if(!(first instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-    if(!(second instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-
-    Object.defineProperties(this, {
-      "first": {
-        get: function () { return first; } },
-      "second": {
-        get: function () { return second; } }
-    });
-
-    // TODO, test the output
-    this.toString = function() { return "(" + first.toString() + "*or*" + second.toString() + ")"; };
-  }
-  IntersectionContract.prototype = new Contract();
-
-  
-
-
-
-
-
-
   /**
    * Core Contracts
    */
@@ -323,15 +343,14 @@
 
   __define("With", WithContract, _);
 
+  __define("Union", UnionContract, _);
+  __define("Intersection", IntersectionContract, _);
+  __define("Negation", NegationContract, _);
+
   __define("And", AndContract, _);
   __define("Or", OrContract, _);
   __define("Not", NotContract, _);
 
   __define("Constructor", ContractConstructor, _);
-
-
-  __define("Union", UnionContract, _);
-  __define("Intersection", IntersectionContract, _);
-   __define("Negation", NotContract, _);
 
 })(_);
