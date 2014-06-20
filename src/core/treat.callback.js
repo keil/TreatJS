@@ -446,7 +446,8 @@
     }, this);
 
     __getter("callee", function() {
-      return and(left.callee, right.callee);
+      return and(implies(left.caller, left.callee), implies(right.caller, right.callee));
+      //return and(left.callee, right.callee);
     }, this);
 
     __getter("contract", function() {
@@ -485,14 +486,18 @@
     var right = Handle.new();
 
     __getter("caller", function() {
-      //return and(domain.callee, range.caller);
+      return and(left.caller, right.caller);
     }, this);
 
     __getter("callee", function() {
+      return or(implies(left.caller, left.callee), implies(right.caller, right.callee));
       //return and(domain.caller, range.callee);
     }, this);
 
     __getter("contract", function() {
+      return or(
+        and(and(left.caller, right.caller), left.callee),
+        and(and(left.caller, right.caller), right.callee));
       //return and(domain.contract, range.contract);
     }, this);
 

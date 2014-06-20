@@ -61,7 +61,7 @@ var objChecked = _.assert(objUnchecked, _.AdvancedObjectContract({
 
 
 function addUnchecked(a, b) {
-  return (a+b);
+  return "1"+(a+b);
 }
 var addChecked = _.assert(addUnchecked, 
     _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber));
@@ -149,7 +149,7 @@ var intersection2 = _.Intersection(
 print (intersection2);
 var addChecked4 = _.assert(addUnchecked, intersection2);
 
-addChecked4(1,1);
+//addChecked4(1,1);
 
 //load("test/miscellaneous//logic.js");
 
@@ -158,6 +158,16 @@ addChecked4(1,1);
 
 
 
+
+
+var union1 = _.Union(
+    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
+    _.AdvancedFunctionContract([GreaterThanZero, GreaterThanZero], IsString));
+
+print (union1);
+var addChecked5 = _.assert(addUnchecked, union1);
+
+addChecked5(1);
 
 
 
