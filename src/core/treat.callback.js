@@ -317,8 +317,8 @@
     var get =  Handle.new();
 
     __getter("caller", function() {
-      //return get.caller;
-      return and(get.caller, set.contract)
+      return get.caller;
+      //return and(get.caller, set.contract)
 
 
       //return set.callee;
@@ -326,7 +326,8 @@
     }, this);
 
     __getter("callee", function() {
-      return or(get.callee, not(set.contract));
+      return get.callee;
+      //return or(get.callee, not(set.contract));
 //        implies(set.contract, get.callee));
       //return get.callee;
       //return and(get.callee, set.callee)
@@ -431,6 +432,118 @@
 
 
 
+
+
+  function IntersectionCallback(handler) {
+    if(!(this instanceof IntersectionCallback)) return new IntersectionCallback(handler);
+    else Callback.apply(this, arguments);
+
+    var left =  Handle.new();
+    var right = Handle.new();
+
+    __getter("caller", function() {
+      return or(left.caller, right.caller);
+    }, this);
+
+    __getter("callee", function() {
+      return and(left.callee, right.callee);
+    }, this);
+
+    __getter("contract", function() {
+      return or(
+      and(left.contract, implies(right.caller, right.callee)),
+      and(right.contract, implies(left.caller, left.callee)));
+
+//      return and(domain.contract, range.contract);
+    }, this);
+
+     __getter("leftHandler", function() {
+      return (function(handle) {
+        left = Callback.update(left, handle);
+        handler(this);    
+      }).bind(this);
+    }, this);
+
+    __getter("rightHandler", function() {
+      return (function(handle) {
+        right = Callback.update(right, handle);
+        handler(this);    
+      }).bind(this);
+    }, this);
+  }
+  IntersectionCallback.prototype = Callback.prototype;
+  IntersectionCallback.prototype.toString = function() {
+    return "<IntersectionCallback>";
+  }
+
+
+  function UnionCallback(handler) {
+    if(!(this instanceof UnionCallback)) return new UnionCallback(handler);
+    else Callback.apply(this, arguments);
+
+    var left =  Handle.new();
+    var right = Handle.new();
+
+    __getter("caller", function() {
+      //return and(domain.callee, range.caller);
+    }, this);
+
+    __getter("callee", function() {
+      //return and(domain.caller, range.callee);
+    }, this);
+
+    __getter("contract", function() {
+      //return and(domain.contract, range.contract);
+    }, this);
+
+     __getter("leftHandler", function() {
+      return (function(handle) {
+        left = Callback.update(left, handle);
+        handler(this);    
+      }).bind(this);
+    }, this);
+
+    __getter("rightHandler", function() {
+      return (function(handle) {
+        right = Callback.update(right, handle);
+        handler(this);    
+      }).bind(this);
+    }, this);
+  }
+  UnionCallback.prototype = Callback.prototype;
+  UnionCallback.prototype.toString = function() {
+    return "<UnionCallback>";
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   // TODO
   __define("XCallback", {}, _);
 
@@ -438,6 +551,13 @@
 //  __define("BaseCallback", BaseCallback, _.XCallback);
   __define("FunctionCallback", FunctionCallback, _.XCallback);
   __define("ObjectCallback", ObjectCallback, _.XCallback);
+
+
+  __define("IntersectionCallback", IntersectionCallback, _.XCallback);
+  __define("UnionCallback", UnionCallback, _.XCallback);
+//  __define("NegationCallback", NegationCallback, _.XCallback);
+
+  // in terms of and or not
 
   __define("Handle", Handle, _.XCallback);
 

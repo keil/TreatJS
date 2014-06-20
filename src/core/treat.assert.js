@@ -58,6 +58,10 @@
   var FunctionCallback = _.XCallback.FunctionCallback;
   var ObjectCallback = _.XCallback.ObjectCallback;
 
+  var IntersectionCallback = _.XCallback.IntersectionCallback;
+  var UnionCallback = _.XCallback.UnionCallback;
+  var NegationCallback = _.XCallback.NegationCallback;
+
 
   var translate = _.Logic.translate;
 
@@ -279,14 +283,15 @@
 
     else if (contract instanceof UnionContract) {
       // TODO
-      var newCallback = AndCallback(callback);
+      // rename callback
+      var newCallback = UnionCallback(callback);
       var tmp = assertWith(arg, contract.first, global, newCallback.leftHandler);
       return assertWith(tmp, contract.second, global,  newCallback.rightHandler); 
     }
 
     else if (contract instanceof IntersectionContract) {
       // TODO
-      var newCallback = OrCallback(callback);
+      var newCallback = IntersectionCallback(callback);
       var tmp = assertWith(arg, contract.first, global, newCallback.leftHandler);
       return assertWith(tmp, contract.second, global,  newCallback.rightHandler); 
     }

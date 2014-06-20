@@ -38,7 +38,7 @@ _.verbose({
 
 //_.assert(4711", IsNumber);
 
-var objUnchecked = {x:4711, y:"4711", f:function() {return 4711;}, g:function() {return "4711";} };
+var objUnchecked = {x:4711, y:"4711", f:function(x) {return 4711;}, g:function() {return "4711";} };
 var objChecked = _.assert(objUnchecked, _.AdvancedObjectContract({
   x:IsNumber,
     y:IsNumber,
@@ -47,7 +47,7 @@ var objChecked = _.assert(objUnchecked, _.AdvancedObjectContract({
 }));
 
 //objChecked.x;
-objChecked.y;
+//objChecked.y;
 
 //objChecked.y = 7;
 //objChecked.y = "2";
@@ -56,7 +56,7 @@ objChecked.y;
 //objChecked[0];
 //
 //
-
+//objChecked.f(2);
 
 
 
@@ -112,15 +112,15 @@ var NumNumToNumNumC = _.assert(NumNumToNumNum,
 
 //NumNumToNumNumC(NumToNum1)(1);
 
-quit();
 
-/**
 
+
+/*
 var addChecked1 = _.assert(addUnchecked, _.Or(
     _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
     _.AdvancedFunctionContract([IsString, IsString], IsString)));
 
-addChecked1("1","1");
+//addChecked1("1","1");
 
 // -
 
@@ -128,8 +128,8 @@ var addChecked2 = _.assert(addUnchecked, _.Or(
     _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
     _.AdvancedFunctionContract([IsNumber, IsNumber], IsString)));
 
-addChecked2(1,1);
-
+//addChecked2(1,1);
+*/
 
 
 var intersection1 = _.Intersection(
@@ -137,6 +137,9 @@ var intersection1 = _.Intersection(
     _.AdvancedFunctionContract([IsString, IsString], IsString));
 
 print (intersection1);
+var addChecked3 = _.assert(addUnchecked, intersection1);
+
+//addChecked3(1,1);
 
 
 var intersection2 = _.Intersection(
@@ -144,18 +147,13 @@ var intersection2 = _.Intersection(
     _.AdvancedFunctionContract([IsNumber, IsNumber], IsString));
 
 print (intersection2);
-
-var addChecked3 = _.assert(addUnchecked, intersection1);
 var addChecked4 = _.assert(addUnchecked, intersection2);
 
-addChecked3("1","1");
 addChecked4(1,1);
 
 //load("test/miscellaneous//logic.js");
 
 
-
-*/
 
 
 
