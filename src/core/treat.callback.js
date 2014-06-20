@@ -522,6 +522,37 @@
 
 
 
+  
+  function NegationCallback(handler) {
+    if(!(this instanceof NegationCallback)) return new NegationCallback(handler);
+    else Callback.apply(this, arguments);
+
+    var sub =  Handle.new();
+
+    __getter("caller", function() {
+      return not(sub.caller);
+    }, this);
+
+    __getter("callee", function() {
+      return not(implies(sub.caller, sub.callee));
+//      not(sub.callee);
+    }, this);
+
+    __getter("contract", function() {
+      return not(sub.contract);
+    }, this);
+
+     __getter("subHandler", function() {
+      return (function(handle) {
+        sub = Callback.update(sub, handle);
+        handler(this);    
+      }).bind(this);
+    }, this);
+  }
+  NegationCallback.prototype = Callback.prototype;
+  NegationCallback.prototype.toString = function() {
+    return "<NegationCallback>";
+  }
 
 
 
@@ -560,7 +591,7 @@
 
   __define("IntersectionCallback", IntersectionCallback, _.XCallback);
   __define("UnionCallback", UnionCallback, _.XCallback);
-//  __define("NegationCallback", NegationCallback, _.XCallback);
+  __define("NegationCallback", NegationCallback, _.XCallback);
 
   // in terms of and or not
 

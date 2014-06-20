@@ -274,7 +274,9 @@
     //|_|\_\___/\__|\___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof NotContract) {
-      var newCallback = NotCallback(callback);
+      // TODO
+      // var newCallback = NotCallback(callback);
+      var newCallback = NegationCallback(callback);
       return assertWith(arg, contract.sub, global, newCallback.subHandler);
     }
 

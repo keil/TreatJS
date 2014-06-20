@@ -332,5 +332,6 @@
 
   __define("Union", UnionContract, _);
   __define("Intersection", IntersectionContract, _);
+   __define("Negation", NotContract, _);
 
 })(_);

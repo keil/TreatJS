@@ -61,7 +61,7 @@ var objChecked = _.assert(objUnchecked, _.AdvancedObjectContract({
 
 
 function addUnchecked(a, b) {
-  return "1"+(a+b);
+  return 1+(a+b);
 }
 var addChecked = _.assert(addUnchecked, 
     _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber));
@@ -167,11 +167,26 @@ var union1 = _.Union(
 print (union1);
 var addChecked5 = _.assert(addUnchecked, union1);
 
-addChecked5(1);
+//addChecked5(1);
 
 
 
 
+function NotNumToNum(x) {
+  return 3;
+}
+var negation1 = _.Negation(_.AdvancedFunctionContract([IsNumber], IsNumber));
+var NotNumToNumC = _.assert(NotNumToNum, negation1);
+//NotNumToNumC(1);
+
+
+
+function NotNotNumToNum(x) {
+  return 3;
+}
+var negation2 = _.Negation(_.Negation(_.AdvancedFunctionContract([IsNumber], IsNumber)));
+var NotNotNumToNumC = _.assert(NotNotNumToNum, negation2);
+//NotNotNumToNumC("2");
 
 
 
