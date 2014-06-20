@@ -503,8 +503,8 @@
   __define("UnionCallback", UnionCallback, _.Callback);
   __define("NegationCallback", NegationCallback, _.Callback);
 
-  __define("AndCallback", {}, _.Callback);
-  __define("OrCallback", {}, _.Callback);
-  __define("NotCallback", {}, _.Callback);
+  __define("AndCallback", AndCallback, _.Callback);
+  __define("OrCallback", OrCallback, _.Callback);
+  __define("NotCallback", NotCallback, _.Callback);
 
 })(_);

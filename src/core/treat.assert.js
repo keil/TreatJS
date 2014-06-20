@@ -146,14 +146,15 @@
 
     if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
-    // callback axiom
-    // TODO
-    /*var callback = function(arg, msg) {
-      if(arg.isFalse()) 
-      blame(contract, msg, (new Error()).fileName, (new Error()).lineNumber);
-      }*/
+    // root callback
+    // TODO, blame message
+    // var callback = function(arg, msg) {
+    // if(arg.isFalse()) 
+    // blame(contract, msg, (new Error()).fileName, (new Error()).lineNumber);
+    // }
     var callback = RootCallback(function(handle) {
       if(handle.contract.isFalse()) {
+        // TODO, give blame message
         print("Caller: " + handle.caller);
         print("Callee: " + handle.callee);
         print("Contract: " + handle.contract);
@@ -161,14 +162,14 @@
         blame(contract, msg, (new Error()).fileName, (new Error()).lineNumber);
       }
     });
-
     return assertWith(arg, contract, new Global(), callback.rootHandler);
   }
 
-  function assertWith(arg, contract, global, callback) {
+  function assertWith(arg, contract, global, callbackHandler) {
     log("assert with", contract);
 
-    if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+    if(!(contract instanceof Contract)) error("Wrong Contract.", (new Error()).fileName, (new Error()).lineNumber);
+    if(!(callbackHandler instanceof Function)) error("Wrong Callback Handler.", (new Error()).fileName, (new Error()).lineNumber);
 
     // ___          _   _   _          ___         _               _   
     //| __|  _ _ _ | |_| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -178,7 +179,7 @@
     if(contract instanceof FunctionContract) {
       if(!(arg instanceof Function)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
 
-      var handler = new FunctionHandler(contract, global, callback);
+      var handler = new FunctionHandler(contract, global, callbackHandler);
       var proxy = new Proxy(arg, handler);
       return proxy;
     }
@@ -191,7 +192,7 @@
     if(contract instanceof MethodContract) {
       if(!(arg instanceof Function)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
 
-      var handler = new MethodHandler(contract, global, callback);
+      var handler = new MethodHandler(contract, global, callbackHandler);
       var proxy = new Proxy(arg, handler);
       return proxy;
     }
@@ -206,13 +207,14 @@
       if(!(arg instanceof Object)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
 
       /* STRICT MODE */
+      // TODO
       if(contract.strict) {
         contract.map.foreach(function(key, contract) {
-          arg[key] = assertWith(arg[key], contract, global, callback);
+          arg[key] = assertWith(arg[key], contract, global, callbackHandler);
         });
       }
 
-      var handler = new ObjectHandler(contract, global, callback);
+      var handler = new ObjectHandler(contract, global, callbackHandler);
       var proxy = new Proxy(arg, handler);
       return proxy;
     }
@@ -226,7 +228,7 @@
     if(contract instanceof DependentContract) {
       if(!(arg instanceof Function)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
 
-      var handler = new DependentHandler(contract, global, callback);
+      var handler = new DependentHandler(contract, global, callbackHandler);
       var proxy = new Proxy(arg, handler);
       return proxy;
     }
@@ -238,7 +240,7 @@
 
     else if (contract instanceof WithContract) {
       var newglobal = global.merge(contract.binding);
-      return assertWith(arg, contract.contract, newglobal, callback);
+      return assertWith(arg, contract.contract, newglobal, callbackHandler);
     }
 
     //   _           _  ___         _               _   
@@ -247,9 +249,9 @@
     ///_/ \_\_||_\__,_|\___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof AndContract) {
-      var newCallback = AndCallback(callback);
-      var tmp = assertWith(arg, contract.first, global, newCallback.leftHandler);
-      return assertWith(tmp, contract.second, global,  newCallback.rightHandler); 
+      var callback = AndCallback(callbackHandler);
+      var tmp = assertWith(arg, contract.first, global, callback.leftHandler);
+      return assertWith(tmp, contract.second, global,  callback.rightHandler); 
     }
 
     //  ___       ___         _               _   
@@ -258,9 +260,9 @@
     // \___/|_|  \___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof OrContract) {
-      var newCallback = OrCallback(callback);
-      var tmp = assertWith(arg, contract.first, global, newCallback.leftHandler);
-      return assertWith(tmp, contract.second, global,  newCallback.rightHandler); 
+      var callback = OrCallback(callbackHandler);
+      var tmp = assertWith(arg, contract.first, global, callback.leftHandler);
+      return assertWith(tmp, contract.second, global,  callback.rightHandler); 
     }
 
     // _  _     _    ___         _               _   
@@ -269,9 +271,8 @@
     //|_|\_\___/\__|\___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof NotContract) {
-      var newCallback = NotCallback(callback);
-      var newCallback = NegationCallback(callback);
-      return assertWith(arg, contract.sub, global, newCallback.subHandler);
+      var callback = NotCallback(callbackHandler);
+      return assertWith(arg, contract.sub, global, callback.subHandler);
     }
 
     // ___     _                      _   _          ___         _               _   
@@ -280,9 +281,9 @@
     //|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof IntersectionContract) {
-      var newCallback = IntersectionCallback(callback);
-      var tmp = assertWith(arg, contract.first, global, newCallback.leftHandler);
-      return assertWith(tmp, contract.second, global,  newCallback.rightHandler); 
+      var callback = IntersectionCallback(callbackHandler);
+      var tmp = assertWith(arg, contract.first, global, callback.leftHandler);
+      return assertWith(tmp, contract.second, global,  callback.rightHandler); 
     }
     // _   _      _          ___         _               _   
     //| | | |_ _ (_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -290,9 +291,9 @@
     // \___/|_||_|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof UnionContract) {
-      var newCallback = UnionCallback(callback);
-      var tmp = assertWith(arg, contract.first, global, newCallback.leftHandler);
-      return assertWith(tmp, contract.second, global,  newCallback.rightHandler); 
+      var callback = UnionCallback(callbackHandler);
+      var tmp = assertWith(arg, contract.first, global, callback.leftHandler);
+      return assertWith(tmp, contract.second, global,  callback.rightHandler); 
     }
 
     // _  _               _   _          ___         _               _   
@@ -302,8 +303,8 @@
     //         |___/       
 
     else if (contract instanceof NegationContract) {
-      var newCallback = NegationCallback(callback);
-      return assertWith(arg, contract.sub, global, newCallback.subHandler);
+      var callback = NegationCallback(callbackHandler);
+      return assertWith(arg, contract.sub, global, callback.subHandler);
     }
 
     // ___                ___         _               _   
@@ -323,7 +324,7 @@
         var result = _.Logic.Conflict;
       } finally {
         var handle = Handle(_.Logic.True, result, result);
-        callback(handle);
+        callbackHandler(handle);
         return arg;
       }
     }
@@ -367,7 +368,7 @@
         var result = _.Logic.make(1,1);
       } finally {
         var handle = Handle(_.Logic.True, result, result);
-        callback(handle);
+        callbackHandler(handle);
         clear(contract.global);
         copy(backupGlobal, contract.global);
         return arg;
@@ -380,7 +381,7 @@
     // \___\___/_||_/__/\__|_|  \_,_\__|\__\___/_|  
 
     else if(contract instanceof Constructor) {
-      return assertWith(arg, construct(contract), global, callback);
+      return assertWith(arg, construct(contract), global, callbackHandler);
     }
 
     else error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
@@ -409,12 +410,12 @@
   }
 
   function MethodHandler(contract, global, handler) {
-    if(!(this instanceof MethodHandler)) return new MethodHandler(contract, global, callback);
+    if(!(this instanceof MethodHandler)) return new MethodHandler(contract, global, handler);
 
     this.apply = function(target, thisArg, args) {
       // TODO
-      //var newCallback = AndCallback(callback);
-      //var newCallbackDomain = AndCallback(newCallback.leftHandler);
+      var newCallback = AndCallback(handler);
+      var newCallbackDomain = AndCallback(newCallback.leftHandler);
 
       var thisArg = assertWith(thisArg, contract.context, global, newCallbackDomain.leftHandler);
       var args = assertWith(args, contract.domain, global, newCallbackDomain.rightHandler);
@@ -428,8 +429,8 @@
     };
   }
 
-  function DependentHandler(contract, global, handle) {
-    if(!(this instanceof DependentHandler)) return new DependentHandler(contract, global, callback);
+  function DependentHandler(contract, global, handler) {
+    if(!(this instanceof DependentHandler)) return new DependentHandler(contract, global, handler);
 
     this.apply = function(target, thisArg, args) {
       var range = constructWith(args, contract.constructor, global);
