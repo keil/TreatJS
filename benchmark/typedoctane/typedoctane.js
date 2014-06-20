@@ -17,25 +17,9 @@
 var _print_ = print;
 //print = function() {}
 
-load("src/shell.js");
-load("test/contracts.js");
-
 //  makes TreatJS available under $
 //  Note: required to run the testcases
 var $ = _ ;
-
-// set configuration
-_.configure({
-  assertion:true,
-  membrabe:true,
-  decompile:true
-});
-
-// set verbose
-_.verbose({
-  assert:false,
-  sandbox:false
-});
 
 var _file_ = undefined;
 function _load_ (path, file) {
