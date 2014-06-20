@@ -313,12 +313,16 @@
     if(!(this instanceof ObjectCallback)) return new ObjectCallback(handler);
     else Callback.apply(this, arguments);
 
-    var set =  Handle.new();
+    //var set =  Handle.new();
+    //var set = Handle(True, True, True);
+    var set = undefined;
     var get =  Handle.new();
 
     __getter("caller", function() {
-      return get.caller;
-      //return and(get.caller, set.contract)
+      return (set) ? and(get.caller, set.contract) : get.caller;
+      
+      //return get.caller;
+      //return and(get.caller, set.contract);
 
 
       //return set.callee;
@@ -326,7 +330,10 @@
     }, this);
 
     __getter("callee", function() {
-      return get.callee;
+      return (set) ? implies(set.callee, get.callee) : get.callee;
+
+//      return implies(set.contract, get.callee);
+      //return get.callee;
       //return or(get.callee, not(set.contract));
 //        implies(set.contract, get.callee));
       //return get.callee;
@@ -345,14 +352,17 @@
     }, this);
 
     __getter("contract", function() {
+      //return and(set.contract, get.contract);
       // TODO, use strict mode flag
+      // strict mode is retired 
       return get.contract;
 //      return and(set.contract, get.contract);
     }, this);
 
     __getter("setHandler", function() {
       return (function(handle) {
-        set = Callback.update(set, handle);
+        set = Callback.update(((set)? set : Handle.new()), handle);
+//        set = handle;
         handler(this);    
       }).bind(this);
     }, this);
