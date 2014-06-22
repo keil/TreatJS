@@ -38,6 +38,14 @@
     this.isTrue = function() {
       return isTrue(this);
     }
+
+    this.isUnknown = function() {
+      return isUnknown(this);
+    }
+
+    this.isConfict = function() {
+      return isConflict(this);
+    }
   }
 
   var cache = [];
@@ -77,6 +85,14 @@
 
   function isTrue(v) {
     return (v.x===1);
+  }
+
+  function isUnknown(v) {
+    return (v.x===0) && (v.y===0);
+  }
+
+  function isConflict(v) {
+    return (v.x===1) && (v.y===1);
   }
 
   function not(v) {

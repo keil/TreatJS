@@ -31,6 +31,8 @@
 
   var TruthValue = _.Logic.TruthValue;
 
+  // TODO)
+  var unknown = _.BaseContract(function() { return true;}, "-"); 
 
   //  _____      _ _ _                _        
   // / ____|    | | | |              | |       
@@ -44,9 +46,10 @@
   //| (__/ _` | | | '_ \/ _` / _| / /
   // \___\__,_|_|_|_.__/\__,_\__|_\_\
 
-  function Callback(handler) {
-    if(!(this instanceof Callback)) return new Callback(handler);
+  function Callback(handler, contract) {
+    if(!(this instanceof Callback)) return new Callback(handler, contract);
     if(!(handler instanceof Function)) error("Wrong Callback Handler.", (new Error()).fileName, (new Error()).lineNumber);
+    if(!(contract instanceof _.Contract)) error("Wrong Contract.", (new Error()).fileName, (new Error()).lineNumber);
   }
 
   Callback.prototype.toString = function() {
@@ -90,8 +93,8 @@
   //|   / _ \/ _ \  _| (__/ _` | | | '_ \/ _` / _| / /
   //|_|_\___/\___/\__|\___\__,_|_|_|_.__/\__,_\__|_\_\
 
-  function RootCallback(handler) {
-    if(!(this instanceof RootCallback)) return new RootCallback(handler);
+  function RootCallback(handler, contract) {
+    if(!(this instanceof RootCallback)) return new RootCallback(handler, contract);
     else Callback.apply(this, arguments);
 
     var root = Handle.new();
@@ -106,6 +109,9 @@
 
     __getter("contract", function() {
       return root.contract;
+    }, this);
+
+    __define("blame", function() {
     }, this);
 
     __getter("rootHandler", function() {
@@ -125,8 +131,8 @@
   //| _| || | ' \/ _|  _| / _ \ ' \ (__/ _` | | | '_ \/ _` / _| / /
   //|_| \_,_|_||_\__|\__|_\___/_||_\___\__,_|_|_|_.__/\__,_\__|_\_\
 
-  function FunctionCallback(handler) {
-    if(!(this instanceof FunctionCallback)) return new FunctionCallback(handler);
+  function FunctionCallback(handler, contract) {
+    if(!(this instanceof FunctionCallback)) return new FunctionCallback(handler, contract);
     else Callback.apply(this, arguments);
 
     var domain =  Handle.new();
@@ -144,6 +150,10 @@
 
     __getter("contract", function() {
       return and(domain.contract, range.contract);
+    }, this);
+
+    __define("blame", function() {
+      return _.FunctionContract((domain.contract.isUnknown() ? unknown : contract.domain), (range.contract.isUnknown() ? unknown : contract.range));
     }, this);
 
     __getter("domainHandler", function() {
@@ -171,8 +181,8 @@
   // \___/|_.__// \___\__|\__|\___\__,_|_|_|_.__/\__,_\__|_\_\
   //          |__/                                            
 
-  function ObjectCallback(handler) {
-    if(!(this instanceof ObjectCallback)) return new ObjectCallback(handler);
+  function ObjectCallback(handler, contract) {
+    if(!(this instanceof ObjectCallback)) return new ObjectCallback(handler, contract);
     else Callback.apply(this, arguments);
 
     var set = undefined;
@@ -192,6 +202,10 @@
       // TODO, check definition
       // TODO, use strict mode flag
       return get.contract;
+    }, this);
+
+    __define("blame", function() {
+      retrun contract;
     }, this);
 
     __getter("setHandler", function() {
@@ -219,8 +233,8 @@
   // | || ' \  _/ -_) '_(_-</ -_) _|  _| / _ \ ' \ (__/ _` | | | '_ \/ _` / _| / /
   //|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_\___\__,_|_|_|_.__/\__,_\__|_\_\
 
-  function IntersectionCallback(handler) {
-    if(!(this instanceof IntersectionCallback)) return new IntersectionCallback(handler);
+  function IntersectionCallback(handler, contract) {
+    if(!(this instanceof IntersectionCallback)) return new IntersectionCallback(handler, contract);
     else Callback.apply(this, arguments);
 
     var left =  Handle.new();
@@ -238,6 +252,9 @@
       return or(
         and(left.contract, implies(right.caller, right.callee)),
         and(right.contract, implies(left.caller, left.callee)));
+    }, this);
+
+    __define("blame", function() {
     }, this);
 
     __getter("leftHandler", function() {
@@ -264,8 +281,8 @@
   //| |_| | ' \| / _ \ ' \ (__/ _` | | | '_ \/ _` / _| / /
   // \___/|_||_|_\___/_||_\___\__,_|_|_|_.__/\__,_\__|_\_\
 
-  function UnionCallback(handler) {
-    if(!(this instanceof UnionCallback)) return new UnionCallback(handler);
+  function UnionCallback(handler, contract) {
+    if(!(this instanceof UnionCallback)) return new UnionCallback(handler, contract);
     else Callback.apply(this, arguments);
 
     var left =  Handle.new();
@@ -283,6 +300,9 @@
       return or(
         and(and(left.caller, right.caller), left.callee),
         and(and(left.caller, right.caller), right.callee));
+    }, this);
+
+    __define("blame", function() {
     }, this);
 
     __getter("leftHandler", function() {
@@ -310,8 +330,8 @@
   //|_|\_\___\__, \__,_|\__|_\___/_||_\___\__,_|_|_|_.__/\__,_\__|_\_\
   //         |___/                                                    
 
-  function NegationCallback(handler) {
-    if(!(this instanceof NegationCallback)) return new NegationCallback(handler);
+  function NegationCallback(handler, contract) {
+    if(!(this instanceof NegationCallback)) return new NegationCallback(handler, contract);
     else Callback.apply(this, arguments);
 
     var sub =  Handle.new();
@@ -326,6 +346,9 @@
 
     __getter("contract", function() {
       return not(sub.contract);
+    }, this);
+
+    __define("blame", function() {
     }, this);
 
     __getter("subHandler", function() {
@@ -345,8 +368,8 @@
   // / _ \| ' \/ _` | (__/ _` | | | '_ \/ _` / _| / /
   ///_/ \_\_||_\__,_|\___\__,_|_|_|_.__/\__,_\__|_\_\
 
-  function AndCallback(handler) {
-    if(!(this instanceof AndCallback)) return new AndCallback(handler);
+  function AndCallback(handler, contract) {
+    if(!(this instanceof AndCallback)) return new AndCallback(handler, contract);
     else Callback.apply(this, arguments);
 
     var left =  Handle.new();
@@ -364,6 +387,9 @@
 
     __getter("contract", function() {
       return and(left.contract, right.contract);
+    }, this);
+
+    __define("blame", function() {
     }, this);
 
     __getter("leftHandler", function() {
@@ -391,8 +417,8 @@
   //| (_) | '_| (__/ _` | | | '_ \/ _` / _| / /
   // \___/|_|  \___\__,_|_|_|_.__/\__,_\__|_\_\
 
-  function OrCallback(handler) {
-    if(!(this instanceof OrCallback)) return new OrCallback(handler);
+  function OrCallback(handler, contract) {
+    if(!(this instanceof OrCallback)) return new OrCallback(handler, contract);
     else Callback.apply(this, arguments);
 
     var left =  Handle.new();
@@ -410,6 +436,9 @@
 
     __getter("contract", function() {
       return or(left.contract, right.contract);
+    }, this);
+
+    __define("blame", function() {
     }, this);
 
     __getter("leftHandler", function() {
@@ -436,8 +465,8 @@
   //| .` / _ \  _| (__/ _` | | | '_ \/ _` / _| / /
   //|_|\_\___/\__|\___\__,_|_|_|_.__/\__,_\__|_\_\
 
-  function NotCallback(handler) {
-    if(!(this instanceof NotCallback)) return new NotCallback(handler);
+  function NotCallback(handler, contract) {
+    if(!(this instanceof NotCallback)) return new NotCallback(handler, contract);
     else Callback.apply(this, arguments);
 
     var sub =  Handle.new();
@@ -454,6 +483,10 @@
       return not(sub.contract);
     }, this);
 
+    __define("blame", function() {
+      return _Not((sub.contract.isUnknown() ? unknown : contract);
+    }, this);
+
     __getter("subHandler", function() {
       return (function(handle) {
         sub = Handle.update(sub, handle);
@@ -466,29 +499,44 @@
     return "<NotCallback>";
   }
 
+  // TODO
+  // BASE Callback
 
-  // TODO, required ?
-  /*
-     function BaseCallback(handler) {
-     if(!(this instanceof BaseCallback)) return new BaseCallback(handler);
-     if(!(handler instanceof Function)) error("Wrong Callback", (new Error()).fileName, (new Error()).lineNumber);
+  function BaseCallback(handler, contract) {
+    if(!(this instanceof BaseCallback)) return new BaseCallback(handler, contract);
+    else Callback.apply(this, arguments);
 
-     var predicate = new Handle(Unknown, Unknown, Unknown);
-     var callback = this;
+    var predicate = new Handle(Unknown, Unknown, Unknown);
+
+    __getter("caller", function() {
+      return predicate.caller;
+    }, this);
+
+    __getter("callee", function() {
+      return predicate.callee;
+    }, this);
+
+    __getter("contract", function() {
+      return predicate.contract;
+    }, this);
+
+    __define("blame", function() { 
+      return (predicate.contract.isUnknown()) ? unknown : contract;
+    }, this);
+
+    __getter("predicateHandler", function() {
+      return (function(handle) {
+        predicate = Handle.update(predicate, handle);
+        handler(this);    
+      }).bind(this);
+    }, this);
 
 
-     __getter("caller", function() {
-     return predicate.caller;;
-     }, this);
-
-     __getter("callee", function() {
-     return predicate.callee;
-     }, this);
-
-     __getter("contract", function() {
-     return predicate.contract;
-     }, this);
-     }*/
+  }
+  BaseCallback.prototype = Callback.prototype;
+  BaseCallback.prototype.toString = function() {
+    return "<BaseCallback>";
+  }
 
   /**
    * Callback
@@ -500,6 +548,7 @@
   __define("Handle", Handle, _.Callback);
 
   __define("RootCallback", RootCallback, _.Callback);
+  __define("BaseCallback", BaseCallback, _.Callback);
   __define("FunctionCallback", FunctionCallback, _.Callback);
   __define("ObjectCallback", ObjectCallback, _.Callback);
 
