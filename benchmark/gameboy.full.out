@@ -1,0 +1,25 @@
+Gameboy: 8.59
+----
+Score (version 9): 8.59
+[[--end-of-text--]]
+
+Process 41030 terminated (ok).
+Task completed after 3 hours, 24 min, 6 sec.
+Charging 12407s processor usage (442.95 Euro).
+
+Resource usage:
+Average processor load: 101%
+
+Processor idle time: 1199964 sec
+Total execution time: 12246 sec
+Total processing time: 12407 sec
+Kernel mode time: 38 sec
+User mode time: 12369 sec
+
+Virtual memory size: 268 MByte
+Resident set size: 201 MByte
+Text/Data segment size: 251 MByte
+Shared memory segment: 5 MByte
+
+You have mail in /home/keilr/tfmail/inbox
+
