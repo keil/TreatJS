@@ -46,16 +46,15 @@ load(base_dir + 'base.js');
 ////_load_(wrapped_dir,'gbemu-part2.js');
 ////_load_(wrapped_dir,'code-load.js');
 
-//// failed
 ////_load_(wrapped_dir,'box2d.js');
 
 ////_load_(wrapped_dir,'zlib.js');
 ////_load_(wrapped_dir,'zlib-data.js');
 
 // failed
-//_load_(wrapped_dir,'typescript.js');
-//_load_(wrapped_dir,'typescript-input.js');
-//_load_(wrapped_dir,'typescript-compiler.js');
+_load_(wrapped_dir,'typescript.js');
+_load_(wrapped_dir,'typescript-input.js');
+_load_(wrapped_dir,'typescript-compiler.js');
 
 
 var success = true;

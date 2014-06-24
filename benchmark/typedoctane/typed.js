@@ -54,7 +54,7 @@ function _makeTypeContract_ (t) {
   else if(t == "undefined") return (_IsUndef_);
   else if(t == "object") return (_IsObject_);
   else if(t == "function") return (_IsFunction_);
-  else if(t == "array") return (_IsArray_);
+//  else if(t == "array") return (_IsArray_);
   else return (_Any_);
 }
 
