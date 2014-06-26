@@ -296,9 +296,24 @@
     //|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof IntersectionContract) {
-      var callback = IntersectionCallback(callbackHandler, contract);
-      var tmp = assertWith(arg, contract.first, global, callback.leftHandler);
-      return assertWith(tmp, contract.second, global,  callback.rightHandler); 
+
+      var handler = {
+        apply: function(target, thisArg, args) {
+          print("scha la la la la");
+          var callback = IntersectionCallback(callbackHandler, contract);
+          var tmp = assertWith(target, contract.first, global, callback.leftHandler);
+          var fun = assertWith(tmp, contract.second, global,  callback.rightHandler);
+          fun.apply(thisArg, args);
+        }
+      };
+
+      var p = new Proxy(arg, handler);
+      return p;
+
+
+      //var callback = IntersectionCallback(callbackHandler, contract);
+      //var tmp = assertWith(arg, contract.first, global, callback.leftHandler);
+      //return assertWith(tmp, contract.second, global,  callback.rightHandler); 
     }
     // _   _      _          ___         _               _   
     //| | | |_ _ (_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -412,6 +427,16 @@
   //|  __  |/ _` | '_ \ / _` | |/ _ \ '__|
   //| |  | | (_| | | | | (_| | |  __/ |   
   //|_|  |_|\__,_|_| |_|\__,_|_|\___|_|   
+
+  function DelayedHandler(contract, global, handler) {
+    if(!(this instanceof DelayedHandler)) return new FunctionHandler(contract, global, handler);
+    this.apply = function(target, thisArg, args) {
+      var callback = IntersectionCallback(callbackHandler, contract);
+      var first = assertWith(target, contract.first, global, callback.leftHandler);
+      var second = assertWith(tmp, contract.second, global,  callback.rightHandler);
+      return second.apply(thisArg, args);
+    };
+  }
 
   function FunctionHandler(contract, global, handler) {
     if(!(this instanceof FunctionHandler)) return new FunctionHandler(contract, global, handler);
