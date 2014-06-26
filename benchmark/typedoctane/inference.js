@@ -72,6 +72,7 @@ _print_("_TYPES_=[];");
 _print_("");
 
 for(var fid in _types_) {
+  // TODO, function return is not checked because of -1
   _print_("_TYPES_['"+fid+"']=[];");
 //  for(var i in _types_[fid]) {
   for(var i = 0; i < _types_[fid].length; i++) {
