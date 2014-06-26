@@ -51,6 +51,7 @@
   var NotCallback = _.Callback.NotCallback;
 
   var RootCallback = _.Callback.RootCallback;
+  var BaseCallback = _.Callback.BaseCallback;
   var FunctionCallback = _.Callback.FunctionCallback;
   var ObjectCallback = _.Callback.ObjectCallback;
 
@@ -161,7 +162,7 @@
         var msg = "XXX"; // TODO
         blame(contract, msg, (new Error()).fileName, (new Error()).lineNumber);
       }
-    });
+    }, contract);
     return assertWith(arg, contract, new Global(), callback.rootHandler);
   }
 
@@ -249,7 +250,7 @@
     ///_/ \_\_||_\__,_|\___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof AndContract) {
-      var callback = AndCallback(callbackHandler);
+      var callback = AndCallback(callbackHandler, contract);
       var tmp = assertWith(arg, contract.first, global, callback.leftHandler);
       return assertWith(tmp, contract.second, global,  callback.rightHandler); 
     }
@@ -260,7 +261,7 @@
     // \___/|_|  \___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof OrContract) {
-      var callback = OrCallback(callbackHandler);
+      var callback = OrCallback(callbackHandler, contract);
       var tmp = assertWith(arg, contract.first, global, callback.leftHandler);
       return assertWith(tmp, contract.second, global,  callback.rightHandler); 
     }
@@ -271,7 +272,7 @@
     //|_|\_\___/\__|\___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof NotContract) {
-      var callback = NotCallback(callbackHandler);
+      var callback = NotCallback(callbackHandler, contract);
       return assertWith(arg, contract.sub, global, callback.subHandler);
     }
 
@@ -281,7 +282,7 @@
     //|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof IntersectionContract) {
-      var callback = IntersectionCallback(callbackHandler);
+      var callback = IntersectionCallback(callbackHandler, contract);
       var tmp = assertWith(arg, contract.first, global, callback.leftHandler);
       return assertWith(tmp, contract.second, global,  callback.rightHandler); 
     }
@@ -291,7 +292,7 @@
     // \___/|_||_|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof UnionContract) {
-      var callback = UnionCallback(callbackHandler);
+      var callback = UnionCallback(callbackHandler, contract);
       var tmp = assertWith(arg, contract.first, global, callback.leftHandler);
       return assertWith(tmp, contract.second, global,  callback.rightHandler); 
     }
@@ -303,7 +304,7 @@
     //         |___/       
 
     else if (contract instanceof NegationContract) {
-      var callback = NegationCallback(callbackHandler);
+      var callback = NegationCallback(callbackHandler, contract);
       return assertWith(arg, contract.sub, global, callback.subHandler);
     }
 
@@ -318,13 +319,15 @@
       var argsArray = new Array();
       argsArray.push(arg);
 
+      var callback = BaseCallback(callbackHandler, contract);
+
       try {
         var result = translate(_.eval(contract.predicate, globalArg, thisArg, argsArray));
       } catch (e) {
         var result = _.Logic.Conflict;
       } finally {
         var handle = Handle(_.Logic.True, result, result);
-        callbackHandler(handle);
+        callback.predicateHandler(handle);
         return arg;
       }
     }
@@ -343,6 +346,8 @@
 
       /* Merge global objects
       */ 
+
+      var callback = BaseCallback(callbackHandler, contract);
 
       // clone object
       function clone(obj) {
@@ -368,7 +373,7 @@
         var result = _.Logic.make(1,1);
       } finally {
         var handle = Handle(_.Logic.True, result, result);
-        callbackHandler(handle);
+        callback.predicateHandler(handle);
         clear(contract.global);
         copy(backupGlobal, contract.global);
         return arg;
@@ -397,7 +402,7 @@
   function FunctionHandler(contract, global, handler) {
     if(!(this instanceof FunctionHandler)) return new FunctionHandler(contract, global, handler);
     this.apply = function(target, thisArg, args) {
-      var callback = FunctionCallback(handler);
+      var callback = FunctionCallback(handler, contract);
       var args = assertWith(args, contract.domain, global, callback.domainHandler);
       var val = target.apply(thisArg, args);  
       return assertWith(val, contract.range, global, callback.rangeHandler);
@@ -414,8 +419,8 @@
 
     this.apply = function(target, thisArg, args) {
       // TODO
-      var newCallback = AndCallback(handler);
-      var newCallbackDomain = AndCallback(newCallback.leftHandler);
+      var newCallback = AndCallback(handler, contract);
+      var newCallbackDomain = AndCallback(newCallback.leftHandler,contract);
 
       var thisArg = assertWith(thisArg, contract.context, global, newCallbackDomain.leftHandler);
       var args = assertWith(args, contract.domain, global, newCallbackDomain.rightHandler);
@@ -448,7 +453,7 @@
     if(!(this instanceof ObjectHandler)) return new ObjectHandler(contract, global, handler);
 
     // TODO, callback pro property
-    var callback = ObjectCallback(handler);
+    var callback = ObjectCallback(handler, contract);
 
     this.get = function(target, name, receiver) {
       if(contract.map instanceof StringMap) {

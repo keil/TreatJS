@@ -69,7 +69,7 @@ _.verbose({
 // ==================================================
 
 function addUnchecked(a, b) {
-  return 1+(a+b);
+  return "1"+(a+b);
 }
 
 var intersection1 = _.Intersection(
@@ -79,9 +79,8 @@ var intersection1 = _.Intersection(
 print (intersection1);
 var addChecked1 = _.assert(addUnchecked, intersection1);
 
-addChecked1("1","1");
+addChecked1("1",1);
 
-var x= 8;
   var intersection2 = _.Or(
       _.And(
         _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
@@ -95,7 +94,7 @@ var x= 8;
   print (intersection2);
   var addChecked2 = _.assert(addUnchecked, intersection2);
 
-addChecked2("1",1);
+//addChecked2(1,1);
 
 
 

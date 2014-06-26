@@ -204,7 +204,7 @@
     });
 
     this.sub = sub;
-    this.toString = function() { return "not(" + sub.toString() + ")"; };
+    this.toString = function() { return "(not(" + sub.toString() + "))"; };
   }
   NotContract.prototype = new Contract();
 
@@ -295,7 +295,7 @@
     });
 
     this.sub = sub;
-    this.toString = function() { return "neg(" + sub.toString() + ")"; };
+    this.toString = function() { return "(neg(" + sub.toString() + "))"; };
   }
   NegationContract.prototype = new Contract();
 

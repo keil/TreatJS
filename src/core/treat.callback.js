@@ -31,8 +31,11 @@
 
   var TruthValue = _.Logic.TruthValue;
 
+
+
+
   // TODO)
-  var unknown = _.BaseContract(function() { return true;}, "-"); 
+  //var unknown = _.BaseContract(function() { return true;}, "-"); 
 
   //  _____      _ _ _                _        
   // / ____|    | | | |              | |       
@@ -205,7 +208,8 @@
     }, this);
 
     __define("blame", function() {
-      retrun contract;
+      // TODO
+      return contract;
     }, this);
 
     __getter("setHandler", function() {
@@ -255,6 +259,8 @@
     }, this);
 
     __define("blame", function() {
+      // TODO
+      return contract;
     }, this);
 
     __getter("leftHandler", function() {
@@ -303,6 +309,8 @@
     }, this);
 
     __define("blame", function() {
+      // TODO
+      return contract;
     }, this);
 
     __getter("leftHandler", function() {
@@ -349,6 +357,8 @@
     }, this);
 
     __define("blame", function() {
+      // TODO
+      return contract;
     }, this);
 
     __getter("subHandler", function() {
@@ -390,6 +400,8 @@
     }, this);
 
     __define("blame", function() {
+      // TODO
+      return contract;
     }, this);
 
     __getter("leftHandler", function() {
@@ -484,7 +496,9 @@
     }, this);
 
     __define("blame", function() {
-      return _Not((sub.contract.isUnknown() ? unknown : contract);
+      // TODO
+      return contract;
+      //return _Not((sub.contract.isUnknown() ? unknown : contract);
     }, this);
 
     __getter("subHandler", function() {
@@ -520,8 +534,9 @@
       return predicate.contract;
     }, this);
 
-    __define("blame", function() { 
-      return (predicate.contract.isUnknown()) ? unknown : contract;
+    __define("blame", function() {
+      return contract;
+      //return (predicate.contract.isUnknown()) ? unknown : contract;
     }, this);
 
     __getter("predicateHandler", function() {
