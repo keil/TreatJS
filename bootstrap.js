@@ -68,19 +68,31 @@ _.verbose({
 
 // ==================================================
 
+
+//load("test/blame/obejct.js");
+load("test/blame/function.js");
+//load("test/blame/obejct.js");
+//load("test/blame/method.js");
+//load("test/blame/dependent.js");
+load("test/blame/intersection.js");
+quit();
+
+
 function addUnchecked(a, b) {
-  return "1"+(a+b);
+  return "1";//+(a+b);
 }
 
 var intersection1 = _.Intersection(
     _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
-    _.AdvancedFunctionContract([IsString, IsString], IsString));
+    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber));
+//    _.AdvancedFunctionContract([IsString, IsString], IsString));
 
 print (intersection1);
 var addChecked1 = _.assert(addUnchecked, intersection1);
 
-addChecked1("1",1);
+addChecked1(1,1);
 
+/*
   var intersection2 = _.Or(
       _.And(
         _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
@@ -97,7 +109,7 @@ addChecked1("1",1);
 //addChecked2(1,1);
 
 
-
+*/
 
 
 

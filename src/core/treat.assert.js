@@ -155,11 +155,25 @@
     // }
     var callback = RootCallback(function(handle) {
       if(handle.contract.isFalse()) {
+
+        var msg = "Contract Violation: " + handle.blame();
+        msg+="\n";
+        msg+="Blame is on: ";
+        if(handle.caller.isFalse() && !handle.callee.isFalse()) {
+           msg+="Caller";
+        } else if(!handle.caller.isFalse() && handle.callee.isFalse()) {
+          msg+="Callee";
+        } else if(handle.caller.isFalse() && handle.callee.isFalse()) {
+          msg+="Caller, Caller";
+        } else {
+          msg+="-";
+        }
+
         // TODO, give blame message
         print("Caller: " + handle.caller);
         print("Callee: " + handle.callee);
         print("Contract: " + handle.contract);
-        var msg = "XXX"; // TODO
+
         blame(contract, msg, (new Error()).fileName, (new Error()).lineNumber);
       }
     }, contract);

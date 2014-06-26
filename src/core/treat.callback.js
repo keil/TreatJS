@@ -91,6 +91,7 @@
         merge(m.contract, n.contract));
   }
 
+
   // ___          _    ___      _ _ _             _   
   //| _ \___  ___| |_ / __|__ _| | | |__  __ _ __| |__
   //|   / _ \/ _ \  _| (__/ _` | | | '_ \/ _` / _| / /
@@ -115,6 +116,8 @@
     }, this);
 
     __define("blame", function() {
+      // TODO
+      return contract;
     }, this);
 
     __getter("rootHandler", function() {
@@ -142,13 +145,11 @@
     var range = Handle.new();
 
     __getter("caller", function() {
-      // TODO, check definition
       return and(domain.callee, range.caller);
     }, this);
 
     __getter("callee", function() {
-      // TODO, check definition
-      return and(domain.caller, range.callee);
+      return and(domain.caller, implies(domain.callee, range.callee));
     }, this);
 
     __getter("contract", function() {
@@ -156,7 +157,9 @@
     }, this);
 
     __define("blame", function() {
-      return _.FunctionContract((domain.contract.isUnknown() ? unknown : contract.domain), (range.contract.isUnknown() ? unknown : contract.range));
+      // TODO
+      return contract;
+      //return _.FunctionContract((domain.contract.isUnknown() ? unknown : contract.domain), (range.contract.isUnknown() ? unknown : contract.range));
     }, this);
 
     __getter("domainHandler", function() {
@@ -193,12 +196,15 @@
 
     __getter("caller", function() {
       // TODO, check definition
-      return (set) ? and(get.caller, set.contract) : get.caller;
+    return get.caller;
+      //return (set) ? and(get.caller, set.contract) : get.caller;
     }, this);
 
     __getter("callee", function() {
+      return get.callee;
+      //return (set) ?
       // TODO, check definition
-      return (set) ? implies(set.callee, get.callee) : get.callee;
+     // return (set) ? implies(set.callee, get.callee) : get.callee;
     }, this);
 
     __getter("contract", function() {
@@ -245,6 +251,7 @@
     var right = Handle.new();
 
     __getter("caller", function() {
+      print(or(left.caller, right.caller));
       return or(left.caller, right.caller);
     }, this);
 
