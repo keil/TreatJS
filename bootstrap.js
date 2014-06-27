@@ -74,7 +74,10 @@ load("test/blame/function.js");
 //load("test/blame/obejct.js");
 //load("test/blame/method.js");
 //load("test/blame/dependent.js");
-load("test/blame/intersection.js");
+//
+load("test/blame/or.js");
+
+//load("test/blame/intersection.js");
 quit();
 
 

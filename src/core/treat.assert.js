@@ -421,6 +421,32 @@
     else error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
   }
 
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   // _    _                 _ _           
   //| |  | |               | | |          
   //| |__| | __ _ _ __   __| | | ___ _ __ 
