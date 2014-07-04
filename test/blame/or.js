@@ -29,7 +29,7 @@
     _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
     _.AdvancedFunctionContract([IsString, IsString], IsString));
 
- var addChecked = _.assert(addUnchecked, ot);
+ var addChecked = _.assert(addUnchecked, or);
 
 addChecked("a","b");
 addChecked(1,1);

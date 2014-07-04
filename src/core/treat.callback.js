@@ -192,15 +192,22 @@
     else Callback.apply(this, arguments);
 
     var set = undefined;
-    var get =  Handle.new();
+    var get = Handle.new();
 
     __getter("caller", function() {
+          return (set) ?  merge(get.caller, set.callee) : get.caller;
+
+
       // TODO, check definition
     return get.caller;
       //return (set) ? and(get.caller, set.contract) : get.caller;
     }, this);
 
     __getter("callee", function() {
+        return (set) ? implies(set.callee, get.callee) : get.callee;
+
+
+
       return get.callee;
       //return (set) ?
       // TODO, check definition
@@ -221,7 +228,9 @@
     __getter("setHandler", function() {
       return (function(handle) {
         // TODO
-        set = Handle.update(((set)? set : Handle.new()), handle);
+        //set = Handle.update(((set)? set : Handle.new()), handle);
+        // Note: Only the last write opertion  
+        set = handle;
         handler(this);    
       }).bind(this);
     }, this);
@@ -251,11 +260,12 @@
     var right = Handle.new();
 
     __getter("caller", function() {
-      print(or(left.caller, right.caller));
+      print("@Caller: " + or(left.caller, right.caller));
       return or(left.caller, right.caller);
     }, this);
 
     __getter("callee", function() {
+            print("@Callee: " + and(implies(left.caller, left.callee), implies(right.caller, right.callee)));
       return and(implies(left.caller, left.callee), implies(right.caller, right.callee));
     }, this);
 

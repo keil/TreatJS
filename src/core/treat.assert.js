@@ -21,6 +21,10 @@
   var Contract = _.Core.Contract;
   var Constructor = _.Core.Constructor;
 
+  var DelayedContract = _.Delayed;
+  var ImmediateContract = _.Immediate;
+  var CombinatorContract = _.Combinator;
+
   var ContractConstructor = _.Constructor;
 
   var BaseContract = _.BaseContract;
@@ -275,9 +279,14 @@
     // \___/|_|  \___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof OrContract) {
-      var callback = OrCallback(callbackHandler, contract);
-      var tmp = assertWith(arg, contract.first, global, callback.leftHandler);
-      return assertWith(tmp, contract.second, global,  callback.rightHandler); 
+
+      var handler = new DelayedHandler(contract, global, callbackHandler, OrCallback);
+      var proxy = new Proxy(arg, handler);
+      return proxy;
+
+      //var callback = OrCallback(callbackHandler, contract);
+      //var tmp = assertWith(arg, contract.first, global, callback.leftHandler);
+      //return assertWith(tmp, contract.second, global,  callback.rightHandler); 
     }
 
     // _  _     _    ___         _               _   
@@ -297,9 +306,8 @@
 
     else if (contract instanceof IntersectionContract) {
 
-      var handler = {
+      /*var handler = {
         apply: function(target, thisArg, args) {
-          print("scha la la la la");
           var callback = IntersectionCallback(callbackHandler, contract);
           var tmp = assertWith(target, contract.first, global, callback.leftHandler);
           var fun = assertWith(tmp, contract.second, global,  callback.rightHandler);
@@ -308,8 +316,11 @@
       };
 
       var p = new Proxy(arg, handler);
-      return p;
+      return p;*/
 
+      var handler = new DelayedHandler(contract, global, callbackHandler, IntersectionCallback);
+      var proxy = new Proxy(arg, handler);
+      return proxy;
 
       //var callback = IntersectionCallback(callbackHandler, contract);
       //var tmp = assertWith(arg, contract.first, global, callback.leftHandler);
@@ -431,6 +442,25 @@
 
 
 
+  // TODO
+  function delayed(contract) {
+          if(contract instanceof DelayedContract) {
+                  return true;
+          } else if(contract instanceof ImmediateContract) {
+                  return false;
+          } else if(contract instanceof CombinatorContract) {
+                  if((contract instanceof AndContarct) || (contract instanceof OrContract) || (contract instanceof IntersectionContract) || (contract instanceof UnionContract)) {
+                          return (delayed(contarct.left) && delayed(contarct.right))
+                  } else if((contract instanceof NotContract) || (contract instanceof NegContract)) {
+                          return delayed(contract.sub);
+                  } else {
+                          return false
+                  }
+          } else {
+                  return false;
+          }
+  }
+
 
 
 
@@ -454,12 +484,19 @@
   //| |  | | (_| | | | | (_| | |  __/ |   
   //|_|  |_|\__,_|_| |_|\__,_|_|\___|_|   
 
-  function DelayedHandler(contract, global, handler) {
+  // TODO,
+  // or union intersection of object contract
+  // delatyed ...
+
+  // TODO
+  function DelayedHandler(contract, global, handler, ctor) {
     if(!(this instanceof DelayedHandler)) return new FunctionHandler(contract, global, handler);
     this.apply = function(target, thisArg, args) {
-      var callback = IntersectionCallback(callbackHandler, contract);
+      
+      //var callback = ctor(handler, contract);
+      var callback = IntersectionCallback(handler, contract);
       var first = assertWith(target, contract.first, global, callback.leftHandler);
-      var second = assertWith(tmp, contract.second, global,  callback.rightHandler);
+      var second = assertWith(first, contract.second, global,  callback.rightHandler);
       return second.apply(thisArg, args);
     };
   }

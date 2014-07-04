@@ -31,6 +31,21 @@
   //| |___| (_) | | | | |_| | | (_| | (__| |_\__ \
   // \_____\___/|_| |_|\__|_|  \__,_|\___|\__|___/
 
+  function DelayedContract() {
+          if(!(this instanceof DelayedContract)) return new DelayedContract();
+  }
+  DelayedContract.prototype = new Contract();
+
+  function ImmediateContract() {
+          if(!(this instanceof ImmediateContract)) return new ImmediateContract();
+  }
+  ImmediateContract.prototype = new Contract();
+
+  function CombinatorContract() {
+          if(!(this instanceof CombinatorContract)) return new CombinatorContract();
+  }
+  CombinatorContract.prototype = new Contract();
+
   // ___                ___         _               _   
   //| _ ) __ _ ___ ___ / __|___ _ _| |_ _ _ __ _ __| |_ 
   //| _ \/ _` (_-</ -_) (__/ _ \ ' \  _| '_/ _` / _|  _|
@@ -49,7 +64,7 @@
     });
     this.toString = function() { return "[" + ((name!=undefined) ? name : predicate.toString()) + "]"; };
   }
-  BaseContract.prototype = new Contract();
+  BaseContract.prototype = new ImmediateContract();
 
   // ___          _   _   _          ___         _               _   
   //| __|  _ _ _ | |_| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -71,7 +86,7 @@
 
     this.toString = function() { return "(" + domain.toString() + "->" + range.toString() + ")"; };
   }
-  FunctionContract.prototype = new Contract();
+  FunctionContract.prototype = new DelayedContract();
 
   // __  __     _   _            _  ___         _               _   
   //|  \/  |___| |_| |_  ___  __| |/ __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -96,7 +111,7 @@
 
     this.toString = function() { return "(" + domain.toString() + "->" + range.toString() + "|" + context.toString() + ")"; };
   }
-  MethodContract.prototype = new Contract();
+  MethodContract.prototype = new DelayedContract();
 
   //  ___  _     _        _    ___         _               _   
   // / _ \| |__ (_)___ __| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -122,7 +137,8 @@
       return lbr + map.toString() + rbr;
     };
   }
-  ObjectContract.prototype = new Contract();
+  ObjectContract.prototype = new ImmediateContract();
+  // TODO is a contract object immediate 
 
   // ___                        _         _    ___         _               _   
   //|   \ ___ _ __  ___ _ _  __| |___ _ _| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -142,7 +158,7 @@
 
     this.toString = function() { return "(" + constructor.toString() + "->" + "*" + ")"; };
   }
-  DependentContract.prototype = new Contract();
+  DependentContract.prototype = new DelayedContract();
 
   //   _           _  ___         _               _   
   //  /_\  _ _  __| |/ __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -164,7 +180,7 @@
 
     this.toString = function() { return "(" + first.toString() + "and" + second.toString() + ")"; };
   }
-  AndContract.prototype = new Contract();
+  AndContract.prototype = new CombinatorContract();
 
   //  ___       ___         _               _   
   // / _ \ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -186,7 +202,7 @@
 
     this.toString = function() { return "(" + first.toString() + "or" + second.toString() + ")"; };
   }
-  OrContract.prototype = new Contract();
+  OrContract.prototype = new CombinatorContract();
 
   // _  _     _    ___         _               _   
   //| \| |___| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -206,7 +222,7 @@
     this.sub = sub;
     this.toString = function() { return "(not(" + sub.toString() + "))"; };
   }
-  NotContract.prototype = new Contract();
+  NotContract.prototype = new CombinatorContract();
 
   //__      ___ _   _    ___         _               _   
   //\ \    / (_) |_| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -232,7 +248,7 @@
       return "(with {" + domain + "}" + contract.toString() + ")";
     };
   }
-  WithContract.prototype = new Contract();
+  WithContract.prototype = new CombinatorContract();
 
   // ___     _                      _   _          ___         _               _   
   //|_ _|_ _| |_ ___ _ _ ___ ___ __| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -254,7 +270,7 @@
 
     this.toString = function() { return "(" + first.toString() + "cap" + second.toString() + ")"; };
   }
-  IntersectionContract.prototype = new Contract();
+  IntersectionContract.prototype = new CombinatorContract();
 
   // _   _      _          ___         _               _   
   //| | | |_ _ (_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -276,7 +292,7 @@
 
     this.toString = function() { return "(" + first.toString() + "cup" + second.toString() + ")"; };
   }
-  UnionContract.prototype = new Contract();
+  UnionContract.prototype = new CombinatorContract();
 
   // _  _               _   _          ___         _               _   
   //| \| |___ __ _ __ _| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -297,7 +313,7 @@
     this.sub = sub;
     this.toString = function() { return "(neg(" + sub.toString() + "))"; };
   }
-  NegationContract.prototype = new Contract();
+  NegationContract.prototype = new CombinatorContract();
 
   //  _____                _                   _             
   // / ____|              | |                 | |            
@@ -352,5 +368,9 @@
   __define("Not", NotContract, _);
 
   __define("Constructor", ContractConstructor, _);
+
+  __define("Delayed", DelayedContract, _);
+  __define("Immediate", ImmediateContract, _);
+  __define("Combinator", CombinatorContract, _);
 
 })(_);
