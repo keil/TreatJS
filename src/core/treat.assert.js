@@ -376,11 +376,17 @@
 
       var callback = BaseCallback(callbackHandler, contract);
 
+
+
       try {
         var result = translate(_.eval(contract.predicate, globalArg, thisArg, argsArray));
       } catch (e) {
         var result = _.Logic.Conflict;
       } finally {
+//        print("Contarct: " + contarct);
+//        print("Result: " + result);
+
+
         var handle = Handle(_.Logic.True, result, result);
         callback.predicateHandler(handle);
         return arg;
@@ -526,7 +532,7 @@
     if(!(this instanceof DelayedHandler)) return new DelayedHandler(assert);
 
     this.apply = function(target, thisArg, args) {
-      return assert();
+      return assert().apply(thisArg, args);
     };
   }
 
