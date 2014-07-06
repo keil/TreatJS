@@ -266,6 +266,8 @@
 
     __getter("callee", function() {
             print("@Callee: " + and(implies(left.caller, left.callee), implies(right.caller, right.callee)));
+            print("left: "+implies(left.caller, left.callee));
+            print("right: "+implies(right.caller, right.callee));
       return and(implies(left.caller, left.callee), implies(right.caller, right.callee));
     }, this);
 

@@ -90,10 +90,20 @@ _.verbose({
 //
 // replace base contracts with its immediate result when delayed
 
-
 //var value = _.assert(4, _.Intersection(IsNumber, IsNumber));
 
-//quit();
+function f (a) { return /*''+*/a+1; }
+
+// retrun false
+//var value = _.assert(4, _.Intersection(IsNumber, _.AdvancedFunctionContract([IsNumber], IsNumber)));
+
+//var g = _.assert(f, _.Intersection(IsNumber, _.AdvancedFunctionContract([IsNumber], IsNumber)));
+var g = _.assert(f, _.Intersection(IsFunction, _.AdvancedFunctionContract([IsNumber], IsNumber)));
+print(isProxy(g));
+g(1);
+
+
+quit();
 
 
 function addUncheckedX(a, b) {

@@ -306,8 +306,8 @@
 
     else if (contract instanceof IntersectionContract) {
 
-      print(immediateContract(contract));
-      print(delayedContarct(contract));
+      print("§immediate "+immediateContract(contract));
+      print("§delayed "+delayedContarct(contract));
 
       if(immediateContract(contract)) {
         var callback = IntersectionCallback(callbackHandler, contract);
@@ -329,9 +329,10 @@
 
         var handler = new DelayedHandler(assert);
         var proxy = new Proxy(arg, handler);
+        print("Martha");
         return proxy;
       }
-
+print("L");
       return arg;
 
 
@@ -507,12 +508,17 @@
                 return (delayedContarct(contract.first) || delayedContarct(contract.second))
                 break;
               case contract instanceof NotContract:
-              case contract instanceof NegContract:
+              case contract instanceof NegationContract:
                 return delayedContarct(contract.sub);
+                break;
+              case contract instanceof WithContract:
+                return delayedContarct(contract.contract);
                 break;
             }
             break;
           default:
+            // TODO
+        print("ERROR !!!");
             return false;
         }
   }
@@ -538,12 +544,17 @@
             return (immediateContract(contract.first) || immediateContract(contract.second))
               break;
           case contract instanceof NotContract:
-          case contract instanceof NegContract:
+          case contract instanceof NegationContract:
             return immediateContract(contract.sub);
             break;
+          case contract instanceof WithContract:
+                return immediateContract(contract.contract);
+                break;
         }
         break;
         default:
+        // TODO
+        print("ERROR !!!");
             return false;
     }
   }
