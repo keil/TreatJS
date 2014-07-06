@@ -62,8 +62,8 @@ _.configure({
 
 // set verbose
 _.verbose({
-  assert:false,
-  sandbox:false
+  assert:true,
+  sandbox:true
 });
 
 // ==================================================
@@ -82,6 +82,11 @@ _.verbose({
 //load("test/blame/intersection.js");
 //quit();
 
+// TODO
+// priority test
+// bug in der intersection
+// delayed immediate
+
 
 function addUncheckedX(a, b) {
   return (a+b);
@@ -89,20 +94,22 @@ function addUncheckedX(a, b) {
 
 var intersection1 = _.Intersection(
     _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
-//    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber));
-    _.AdvancedFunctionContract([IsString, IsString], IsString));
+    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber));
+//    _.AdvancedFunctionContract([IsString, IsString], IsString));
 
 print (intersection1);
 var addChecked1 = _.assert(addUncheckedX, intersection1);
 
 //addChecked1(1,1);
-//addChecked1("1","1");
+addChecked1("1","1");
 
 //print(IsNumber.predicate("1"));
 
-//addChecked1(1,"1");
-//addChecked1("1",1);
+addChecked1(1,"1");
+addChecked1("1",1);
 //
+
+quit();
 
 /*
  * length:Numer \cap length:String

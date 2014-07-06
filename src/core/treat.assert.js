@@ -306,6 +306,21 @@
 
     else if (contract instanceof IntersectionContract) {
 
+
+      // TODO, test if delyed
+
+      function assert() {
+        var callback = IntersectionCallback(callbackHandler, contract);
+      
+        var first = assertWith(arg, contract.first, global, callback.leftHandler);
+        var second = assertWith(first, contract.second, global,  callback.rightHandler);
+      
+        return second;
+      }
+
+
+      // TODO
+
       /*var handler = {
         apply: function(target, thisArg, args) {
           var callback = IntersectionCallback(callbackHandler, contract);
@@ -318,7 +333,7 @@
       var p = new Proxy(arg, handler);
       return p;*/
 
-      var handler = new DelayedHandler(contract, global, callbackHandler, IntersectionCallback);
+      var handler = new DelayedHandler(assert);
       var proxy = new Proxy(arg, handler);
       return proxy;
 
@@ -432,50 +447,68 @@
     else error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
   }
 
-  
+  // _ __ _ _ ___ __| (_)__ __ _| |_ ___ ___
+  //| '_ \ '_/ -_) _` | / _/ _` |  _/ -_|_-<
+  //| .__/_| \___\__,_|_\__\__,_|\__\___/__/
+  //|_|                                     
 
-
-
-
-
-
-
-
-
-  // TODO
-  function delayed(contract) {
-          if(contract instanceof DelayedContract) {
-                  return true;
-          } else if(contract instanceof ImmediateContract) {
-                  return false;
-          } else if(contract instanceof CombinatorContract) {
-                  if((contract instanceof AndContarct) || (contract instanceof OrContract) || (contract instanceof IntersectionContract) || (contract instanceof UnionContract)) {
-                          return (delayed(contarct.left) && delayed(contarct.right))
-                  } else if((contract instanceof NotContract) || (contract instanceof NegContract)) {
-                          return delayed(contract.sub);
-                  } else {
-                          return false
-                  }
-          } else {
-                  return false;
-          }
+  /** Delayed Contarct
+   * @param contarct Contarct
+   * @return true if contarct contains delayed contract
+   */
+  function delayedContarct(contract) {
+        switch(true) {
+          case contract instanceof DelayedContract:
+            return true;
+            break;
+          case contract instanceof ImmediateContract:
+            return false;
+            break;
+          case contract instanceof CombinatorContract:
+            switch(true) {
+              case contract instanceof AndContarct:
+              case contract instanceof OrContract:
+              case contract instanceof IntersectionContract:
+              case contract instanceof UnionContract:
+                return (delayedContarct(contarct.left) || delayedContarct(contarct.right))
+                break;
+              case contract instanceof NotContract:
+              case contract instanceof NegContract:
+                return delayedContarct(contract.sub);
+                break;
+            }
+            break;
+        }
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  /** Immediate Contarct
+   * @param contarct Contarct
+   * @return true if contarcts contains immediate contract on its top-level
+   */
+  function immediateContract(contract) {
+    switch(true) {
+      case contract instanceof DelayedContract:
+        return false;
+        break;
+      case contract instanceof ImmediateContract:
+        return true;
+        break;
+      case contract instanceof CombinatorContract:
+        switch(true) {
+          case contract instanceof AndContarct:
+          case contract instanceof OrContract:
+          case contract instanceof IntersectionContract:
+          case contract instanceof UnionContract:
+            return (immediateContract(contarct.left) || immediateContract(contarct.right))
+              break;
+          case contract instanceof NotContract:
+          case contract instanceof NegContract:
+            return immediateContract(contract.sub);
+            break;
+        }
+        break;
+    }
+  }
 
   // _    _                 _ _           
   //| |  | |               | | |          
@@ -489,17 +522,34 @@
   // delatyed ...
 
   // TODO
-  function DelayedHandler(contract, global, handler, ctor) {
-    if(!(this instanceof DelayedHandler)) return new FunctionHandler(contract, global, handler);
+  function DelayedHandler(assert) {
+    if(!(this instanceof DelayedHandler)) return new DelayedHandler(assert);
+
     this.apply = function(target, thisArg, args) {
+      return assert();
+    };
+  }
+
+  /*
+   *
+     function DelayedHandler(contract, global, handler, ctor) {
+    if(!(this instanceof DelayedHandler)) return new DelayedHandler(contract, global, handler);
+
+    assert(target, contarct, global)
+
+
+    this.apply = function(target, thisArg, args) {
+
+      var callback = ctor(handler, contract);
       
-      //var callback = ctor(handler, contract);
-      var callback = IntersectionCallback(handler, contract);
       var first = assertWith(target, contract.first, global, callback.leftHandler);
       var second = assertWith(first, contract.second, global,  callback.rightHandler);
+      
       return second.apply(thisArg, args);
     };
   }
+   *
+   */
 
   function FunctionHandler(contract, global, handler) {
     if(!(this instanceof FunctionHandler)) return new FunctionHandler(contract, global, handler);
