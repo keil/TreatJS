@@ -62,7 +62,7 @@ _.configure({
 
 // set verbose
 _.verbose({
-  assert:false,
+  assert:true,
   sandbox:false
 });
 
@@ -87,6 +87,13 @@ _.verbose({
 // bug in der intersection
 // delayed immediate
 // code cleanup
+//
+// replace base contracts with its immediate result when delayed
+
+
+//var value = _.assert(4, _.Intersection(IsNumber, IsNumber));
+
+//quit();
 
 
 function addUncheckedX(a, b) {

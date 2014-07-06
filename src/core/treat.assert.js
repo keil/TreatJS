@@ -306,9 +306,37 @@
 
     else if (contract instanceof IntersectionContract) {
 
+      print(immediateContract(contract));
+      print(delayedContarct(contract));
+
+      if(immediateContract(contract)) {
+        var callback = IntersectionCallback(callbackHandler, contract);
+
+        var first = assertWith(arg, contract.first, global, callback.leftHandler);
+        var second = assertWith(first, contract.second, global,  callback.rightHandler);
+      }
+
+      if(delayedContarct(contract)) {
+
+        function assert() {
+          var callback = IntersectionCallback(callbackHandler, contract);
+
+          var first = assertWith(arg, contract.first, global, callback.leftHandler);
+          var second = assertWith(first, contract.second, global,  callback.rightHandler);
+
+          return second;
+        }
+
+        var handler = new DelayedHandler(assert);
+        var proxy = new Proxy(arg, handler);
+        return proxy;
+      }
+
+      return arg;
+
 
       // TODO, test if delyed
-
+/*
       function assert() {
         var callback = IntersectionCallback(callbackHandler, contract);
       
@@ -317,7 +345,7 @@
       
         return second;
       }
-
+*/
 
       // TODO
 
@@ -332,11 +360,11 @@
 
       var p = new Proxy(arg, handler);
       return p;*/
-
+/*
       var handler = new DelayedHandler(assert);
       var proxy = new Proxy(arg, handler);
       return proxy;
-
+*/
       //var callback = IntersectionCallback(callbackHandler, contract);
       //var tmp = assertWith(arg, contract.first, global, callback.leftHandler);
       //return assertWith(tmp, contract.second, global,  callback.rightHandler); 
@@ -470,13 +498,13 @@
           case contract instanceof ImmediateContract:
             return false;
             break;
-          case contract instanceof CombinatorContract:
+          case contract instanceof CombinatorContract: 
             switch(true) {
-              case contract instanceof AndContarct:
+              case contract instanceof AndContract:
               case contract instanceof OrContract:
               case contract instanceof IntersectionContract:
               case contract instanceof UnionContract:
-                return (delayedContarct(contarct.left) || delayedContarct(contarct.right))
+                return (delayedContarct(contract.first) || delayedContarct(contract.second))
                 break;
               case contract instanceof NotContract:
               case contract instanceof NegContract:
@@ -484,6 +512,8 @@
                 break;
             }
             break;
+          default:
+            return false;
         }
   }
 
@@ -501,11 +531,11 @@
         break;
       case contract instanceof CombinatorContract:
         switch(true) {
-          case contract instanceof AndContarct:
+          case contract instanceof AndContract:
           case contract instanceof OrContract:
           case contract instanceof IntersectionContract:
           case contract instanceof UnionContract:
-            return (immediateContract(contarct.left) || immediateContract(contarct.right))
+            return (immediateContract(contract.first) || immediateContract(contract.second))
               break;
           case contract instanceof NotContract:
           case contract instanceof NegContract:
@@ -513,6 +543,8 @@
             break;
         }
         break;
+        default:
+            return false;
     }
   }
 
