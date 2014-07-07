@@ -12,3 +12,25 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
+
+(function() {
+
+  var obj = {p:"#"};
+
+  function addUnchecked(a, b) {
+    //return "1";
+    return (a+b);
+  }
+
+  var context = _.BaseContract(function(thisArg) {
+    return (thisArg.p === "#");
+  }, "#");
+
+  obj.addChecked = _.assert(addUnchecked,
+    _.AdvancedMethodContract([IsNumber, IsNumber], IsNumber, context)
+    );
+
+  obj.addChecked(1, 2);
+  //obj.addChecked("1", 2);
+
+})();

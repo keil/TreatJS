@@ -74,9 +74,9 @@ load("test/blame/delayed.js");
 
 
 load("test/blame/function.js");
-//load("test/blame/dependent.js");
+load("test/blame/dependent.js");
 //load("test/blame/object.js");
-//load("test/blame/method.js");
+load("test/blame/method.js");
 
 load("test/blame/intersection.js");
 load("test/blame/union.js");
@@ -90,9 +90,6 @@ load("test/blame/not.js");
 quit();
 
 // TODO
-// priority test
-// bug in der intersection
-// delayed immediate
 // code cleanup
 //
 // replace base contracts with its immediate result when delayed

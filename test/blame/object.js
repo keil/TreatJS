@@ -24,7 +24,7 @@ var objChecked = _.assert(objUnchecked, _.AdvancedObjectContract({
 }));
 
 /*
-objChecked.x;
+   objChecked.x;
 //objChecked.y;
 
 objChecked.y = 7;

@@ -56,25 +56,26 @@
 
 (function() {
 
-   function addUncheckedX(a, b) {
-    return "x"+(a+b);
+  function addUnchecked(a, b) {
+    return /*"1"+*/(a+b);
   }
 
-  var intersection2 = _.Or(
-      _.And(
-        _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
-        _.Not(_.AdvancedFunctionContract([IsString, IsString], _.Not(IsString)))
-        ),
-      _.And(
-        _.AdvancedFunctionContract([IsString, IsString], IsString),
-        _.Not(_.AdvancedFunctionContract([IsNumber, IsNumber], _.Not(IsNumber)))
-        )
-      );
-  var addChecked2 = _.assert(addUncheckedX, intersection2);
+  var intersection = _.Or(
+    _.And(
+      _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
+      _.Not(_.AdvancedFunctionContract([IsString, IsString], _.Not(IsString)))
+      ),
+    _.And(
+      _.AdvancedFunctionContract([IsString, IsString], IsString),
+      _.Not(_.AdvancedFunctionContract([IsNumber, IsNumber], _.Not(IsNumber)))
+      )
+    );
+  var addChecked = _.assert(addUnchecked, intersection);
 
-//addChecked2(1,"1");
-//addChecked2("1",1);
-//addChecked2("1","1");
-addChecked2(1,1);
+  //addChecked(1,"1");
+  //addChecked("1",1);
+
+  addChecked("1","1");
+  addChecked(1,1);
 
 })();

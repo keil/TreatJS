@@ -195,23 +195,23 @@
     var get = Handle.new();
 
     __getter("caller", function() {
-          return (set) ?  merge(get.caller, set.callee) : get.caller;
+      return (set) ?  merge(get.caller, set.callee) : get.caller;
 
 
       // TODO, check definition
-    return get.caller;
+      return get.caller;
       //return (set) ? and(get.caller, set.contract) : get.caller;
     }, this);
 
     __getter("callee", function() {
-        return (set) ? implies(set.callee, get.callee) : get.callee;
+      return (set) ? implies(set.callee, get.callee) : get.callee;
 
 
 
       return get.callee;
       //return (set) ?
       // TODO, check definition
-     // return (set) ? implies(set.callee, get.callee) : get.callee;
+      // return (set) ? implies(set.callee, get.callee) : get.callee;
     }, this);
 
     __getter("contract", function() {
@@ -265,9 +265,9 @@
     }, this);
 
     __getter("callee", function() {
-            print("@Callee: " + and(implies(left.caller, left.callee), implies(right.caller, right.callee)));
-            print("left: "+implies(left.caller, left.callee));
-            print("right: "+implies(right.caller, right.callee));
+      print("@Callee: " + and(implies(left.caller, left.callee), implies(right.caller, right.callee)));
+      print("left: "+implies(left.caller, left.callee));
+      print("right: "+implies(right.caller, right.callee));
       return and(implies(left.caller, left.callee), implies(right.caller, right.callee));
     }, this);
 
@@ -459,7 +459,7 @@
     }, this);
 
     __getter("callee", function() {
-      return or(implies(left.caller, left.callee), implies(right.caller, right.callee))
+      return and(implies(left.caller, left.callee), implies(right.caller, right.callee));
     }, this);
 
     __getter("contract", function() {
@@ -467,6 +467,8 @@
     }, this);
 
     __define("blame", function() {
+      // TODO
+      return contract;
     }, this);
 
     __getter("leftHandler", function() {
@@ -517,78 +519,78 @@
       //return _Not((sub.contract.isUnknown() ? unknown : contract);
     }, this);
 
-    __getter("subHandler", function() {
-      return (function(handle) {
-        sub = Handle.update(sub, handle);
-        handler(this);    
-      }).bind(this);
-    }, this);
-  }
-  NotCallback.prototype = Callback.prototype;
-  NotCallback.prototype.toString = function() {
-    return "<NotCallback>";
-  }
+      __getter("subHandler", function() {
+        return (function(handle) {
+          sub = Handle.update(sub, handle);
+          handler(this);    
+        }).bind(this);
+      }, this);
+      }
+      NotCallback.prototype = Callback.prototype;
+      NotCallback.prototype.toString = function() {
+        return "<NotCallback>";
+      }
 
-  // TODO
-  // BASE Callback
+      // TODO
+      // BASE Callback
 
-  function BaseCallback(handler, contract) {
-    if(!(this instanceof BaseCallback)) return new BaseCallback(handler, contract);
-    else Callback.apply(this, arguments);
+      function BaseCallback(handler, contract) {
+        if(!(this instanceof BaseCallback)) return new BaseCallback(handler, contract);
+        else Callback.apply(this, arguments);
 
-    var predicate = new Handle(Unknown, Unknown, Unknown);
+        var predicate = new Handle(Unknown, Unknown, Unknown);
 
-    __getter("caller", function() {
-      return predicate.caller;
-    }, this);
+        __getter("caller", function() {
+          return predicate.caller;
+        }, this);
 
-    __getter("callee", function() {
-      return predicate.callee;
-    }, this);
+        __getter("callee", function() {
+          return predicate.callee;
+        }, this);
 
-    __getter("contract", function() {
-      return predicate.contract;
-    }, this);
+        __getter("contract", function() {
+          return predicate.contract;
+        }, this);
 
-    __define("blame", function() {
-      return contract;
-      //return (predicate.contract.isUnknown()) ? unknown : contract;
-    }, this);
+        __define("blame", function() {
+          return contract;
+          //return (predicate.contract.isUnknown()) ? unknown : contract;
+        }, this);
 
-    __getter("predicateHandler", function() {
-      return (function(handle) {
-        predicate = Handle.update(predicate, handle);
-        handler(this);    
-      }).bind(this);
-    }, this);
+        __getter("predicateHandler", function() {
+          return (function(handle) {
+            predicate = Handle.update(predicate, handle);
+            handler(this);    
+          }).bind(this);
+        }, this);
 
 
-  }
-  BaseCallback.prototype = Callback.prototype;
-  BaseCallback.prototype.toString = function() {
-    return "<BaseCallback>";
-  }
+      }
+      BaseCallback.prototype = Callback.prototype;
+      BaseCallback.prototype.toString = function() {
+        return "<BaseCallback>";
+      }
 
-  /**
-   * Callback
-   */
+      /**
+       * Callback
+       */
 
-  __define("Callback", {}, _);
+      __define("Callback", {}, _);
 
-  __define("Callback", {}, _.Callback);
-  __define("Handle", Handle, _.Callback);
+      __define("Callback", {}, _.Callback);
+      __define("Handle", Handle, _.Callback);
 
-  __define("RootCallback", RootCallback, _.Callback);
-  __define("BaseCallback", BaseCallback, _.Callback);
-  __define("FunctionCallback", FunctionCallback, _.Callback);
-  __define("ObjectCallback", ObjectCallback, _.Callback);
+      __define("RootCallback", RootCallback, _.Callback);
+      __define("BaseCallback", BaseCallback, _.Callback);
+      __define("FunctionCallback", FunctionCallback, _.Callback);
+      __define("ObjectCallback", ObjectCallback, _.Callback);
 
-  __define("IntersectionCallback", IntersectionCallback, _.Callback);
-  __define("UnionCallback", UnionCallback, _.Callback);
-  __define("NegationCallback", NegationCallback, _.Callback);
+      __define("IntersectionCallback", IntersectionCallback, _.Callback);
+      __define("UnionCallback", UnionCallback, _.Callback);
+      __define("NegationCallback", NegationCallback, _.Callback);
 
-  __define("AndCallback", AndCallback, _.Callback);
-  __define("OrCallback", OrCallback, _.Callback);
-  __define("NotCallback", NotCallback, _.Callback);
+      __define("AndCallback", AndCallback, _.Callback);
+      __define("OrCallback", OrCallback, _.Callback);
+      __define("NotCallback", NotCallback, _.Callback);
 
 })(_);
