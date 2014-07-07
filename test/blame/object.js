@@ -13,7 +13,7 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-var objUnchecked = {x:4711, y:"4711", a:{x:4711, y:"4711"}, f:function(x) {return 4711;}, g:function() {return "4711";} };
+var objUnchecked = {x:4711, y:"4711", a:{x:4711, y:"4711"}, f:function(x) {return 4711;}, g:function(z) {return "4711";} };
 
 var objChecked = _.assert(objUnchecked, _.AdvancedObjectContract({
   x:IsNumber,
@@ -23,23 +23,37 @@ var objChecked = _.assert(objUnchecked, _.AdvancedObjectContract({
     g:_.AdvancedFunctionContract([IsNumber], IsNumber),
 }));
 
-/*
-   objChecked.x;
+
+objChecked.x;
 //objChecked.y;
 
-objChecked.y = 7;
+//objChecked.y = 7;
+//objChecked.y;
+
 //objChecked.y = "2";
-objChecked.y;
-*/
+//objChecked.y;
 
-a = objChecked.a;
-a.y;
+objChecked.f(1);
+//objChecked.f("a");
+//objChecked.g(1);
+//objChecked.g("1");
+
+var p = objChecked.a;
+//p.y="3";
+//p.y;
 
 
+objChecked.a.x;
+//objChecked.a.y;
+//objChecked.a.y = "2";
+//objChecked.a.y;
 
 
-//objChecked[0];
-//
-//
-//objChecked.g = function(x) {return "4711";};
-//objChecked.g(2);
+objChecked.a = {x:4711, y:"4711"};
+objChecked.a.x;
+//objChecked.a.y;
+//objChecked.a.y = "2";
+//objChecked.a.y;
+
+objChecked.g = function(z) {return "4711";}
+//objChecked.g(1);

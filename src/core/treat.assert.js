@@ -780,6 +780,7 @@
     if(!(this instanceof ObjectHandler)) return new ObjectHandler(contract, global, handler);
 
     var callbacks = {};
+    var cache = new WeakMap();
 
     function getCallback(name) {
       callbacks[name] = callbacks[name] || ObjectCallback(handler, contract);
@@ -787,20 +788,35 @@
     }
 
     this.get = function(target, name, receiver) {
+
+      function assert(target, name, global, callback) {
+        if(contract.map instanceof StringMap) {
+          return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, callback.getHandler) : target[name];
+        } else {
+          /* TODO
+           * test this
+           */
+          var target = target[name];
+          contract.map.slice(name).foreach(function(i, contract) {
+            target = assertWith(target, contract, global, callback.getHandler);
+          });
+          return target;
+        } 
+      }
+
       var callback = getCallback(name);
 
-      if(contract.map instanceof StringMap) {
-        return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, callback.getHandler) : target[name];
+      if(target[name] instanceof Object) {
+        if(cache.has(target[name])) {
+          return cache.get(target[name]);
+        } else {
+          var contracted = assert(target, name, global, callback);
+          cache.set(target[name], contracted);
+          return contracted;
+        }
       } else {
-        /* TODO
-         * test this
-         */
-        var target = target[name];
-        contract.map.slice(name).foreach(function(i, contract) {
-          target = assertWith(target, contract, global, callback.getHandler);
-        });
-        return target;
-      } 
+        return assert(target, name, global, callback);
+      }
     };
 
     this.set = function(target, name, value, reveiver) {

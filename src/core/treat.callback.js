@@ -194,28 +194,15 @@
     var get = Handle.new();
 
     __getter("caller", function() {
-      return (set) ?  merge(get.caller, set.callee) : get.caller;
-
-
-      // TODO, check definition
-      return get.caller;
-      //return (set) ? and(get.caller, set.contract) : get.caller;
+      return (set) ? merge(get.caller, set.callee) : get.caller;
     }, this);
 
     __getter("callee", function() {
       return (set) ? implies(set.callee, get.callee) : get.callee;
-
-
-
-      return get.callee;
-      //return (set) ?
-      // TODO, check definition
-      // return (set) ? implies(set.callee, get.callee) : get.callee;
     }, this);
 
     __getter("contract", function() {
-      // TODO, check definition
-      // TODO, use strict mode flag
+      // TODO strict mode
       return get.contract;
     }, this);
 
