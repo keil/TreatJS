@@ -783,7 +783,7 @@
   function ObjectHandler(contract, global, handler) {
     if(!(this instanceof ObjectHandler)) return new ObjectHandler(contract, global, handler);
 
-    var callbacks = [];
+    var callbacks = {};
 
     function getCallback(name) {
       callbacks[name] = callbacks[name] || ObjectCallback(handler, contract);
