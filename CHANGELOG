@@ -1,8 +1,1 @@
-* Version 1.1.x
 
-  - NEW convenience contracts
-  - CHANGE callback logic 
-
-  - NEW decompile cache
-
-  - Exceptions will throw True/False
