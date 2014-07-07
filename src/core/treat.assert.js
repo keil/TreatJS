@@ -567,10 +567,6 @@
       } catch (e) {
         var result = _.Logic.Conflict;
       } finally {
-        //        print("Contarct: " + contarct);
-        //        print("Result: " + result);
-
-
         var handle = Handle(_.Logic.True, result, result);
         callback.predicateHandler(handle);
         return arg;

@@ -31,11 +31,10 @@
 
   var TruthValue = _.Logic.TruthValue;
 
-
-
-
-  // TODO)
-  //var unknown = _.BaseContract(function() { return true;}, "-"); 
+  /* TODO
+   * required for print output
+   * var unknown = _.BaseContract(function() { return true;}, "-"); 
+   */
 
   //  _____      _ _ _                _        
   // / ____|    | | | |              | |       
@@ -260,14 +259,10 @@
     var right = Handle.new();
 
     __getter("caller", function() {
-      print("@Caller: " + or(left.caller, right.caller));
       return or(left.caller, right.caller);
     }, this);
 
     __getter("callee", function() {
-      print("@Callee: " + and(implies(left.caller, left.callee), implies(right.caller, right.callee)));
-      print("left: "+implies(left.caller, left.callee));
-      print("right: "+implies(right.caller, right.callee));
       return and(implies(left.caller, left.callee), implies(right.caller, right.callee));
     }, this);
 

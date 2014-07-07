@@ -32,17 +32,17 @@
   // \_____\___/|_| |_|\__|_|  \__,_|\___|\__|___/
 
   function DelayedContract() {
-          if(!(this instanceof DelayedContract)) return new DelayedContract();
+    if(!(this instanceof DelayedContract)) return new DelayedContract();
   }
   DelayedContract.prototype = new Contract();
 
   function ImmediateContract() {
-          if(!(this instanceof ImmediateContract)) return new ImmediateContract();
+    if(!(this instanceof ImmediateContract)) return new ImmediateContract();
   }
   ImmediateContract.prototype = new Contract();
 
   function CombinatorContract() {
-          if(!(this instanceof CombinatorContract)) return new CombinatorContract();
+    if(!(this instanceof CombinatorContract)) return new CombinatorContract();
   }
   CombinatorContract.prototype = new Contract();
 
