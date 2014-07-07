@@ -62,25 +62,32 @@ _.configure({
 
 // set verbose
 _.verbose({
-  assert:true,
+  assert:false,
   sandbox:false
 });
 
 // ==================================================
 
-//load("test/blame/base.js");
-//load("test/blame/object.js");
+load("test/blame/base.js");
+load("test/blame/immediate.js");
+load("test/blame/delayed.js");
 
-//quit();
-//load("test/blame/function.js");
-//load("test/blame/obejct.js");
-//load("test/blame/method.js");
+
+load("test/blame/function.js");
 //load("test/blame/dependent.js");
-//
-//load("test/blame/or.js");
+//load("test/blame/object.js");
+//load("test/blame/method.js");
 
-//load("test/blame/intersection.js");
-//quit();
+load("test/blame/intersection.js");
+load("test/blame/union.js");
+load("test/blame/negation.js");
+
+load("test/blame/or.js");
+load("test/blame/and.js");
+load("test/blame/not.js");
+
+
+quit();
 
 // TODO
 // priority test
@@ -90,102 +97,7 @@ _.verbose({
 //
 // replace base contracts with its immediate result when delayed
 
-//var value = _.assert(4, _.Intersection(IsNumber, IsNumber));
 
-
-quit();
-
-function f (a) { return /*''+*/a+1; }
-
-// retrun false
-//var value = _.assert(4, _.Intersection(IsNumber, _.AdvancedFunctionContract([IsNumber], IsNumber)));
-
-//var g = _.assert(f, _.Intersection(IsNumber, _.AdvancedFunctionContract([IsNumber], IsNumber)));
-var g = _.assert(f, _.Intersection(IsFunction, _.AdvancedFunctionContract([IsNumber], IsNumber)));
-print(isProxy(g));
-g(1);
-
-
-quit();
-
-
-function addUncheckedX(a, b) {
-  return (a+b);
-}
-
-var intersection1 = _.Intersection(
-    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
-//    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber));
-    _.AdvancedFunctionContract([IsString, IsString], IsString));
-
-//print (intersection1);
-var addChecked1 = _.assert(addUncheckedX, intersection1);
-
-addChecked1(1,1);
-addChecked1("1","1");
-
-//print(IsNumber.predicate("1"));
-
-//addChecked1(1,"1");
-//addChecked1("1",1);
-//
-
-quit();
-
-/*
- * length:Numer \cap length:String
- * 
- * length:Number \cap Any->Number
- *
- * length:Numer \vee length:String
- * 
- * length:Number \vee Any->Number
- *
- */
-
-// Obejct Contract
-// length:Number \equiv Any->Number or Number->Any
-//
-
-// false .. 
-// Intersection (Number, Any->Number)
-// Intersection (Number, Intersection(String, Number));
-//
-
-
-  var intersection2 = _.Or(
-      _.And(
-        _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
-        _.Not(_.AdvancedFunctionContract([IsString, IsString], _.Not(IsString)))
-        ),
-      _.And(
-        _.AdvancedFunctionContract([IsString, IsString], IsString),
-        _.Not(_.AdvancedFunctionContract([IsNumber, IsNumber], _.Not(IsNumber)))
-        )
-      );
-  print (intersection2);
-  var addChecked2 = _.assert(addUncheckedX, intersection2);
-
-addChecked2(1,"1");
-
-
-
-
-
-
-/**
-var intersection2 = _.Intersection(
-    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
-    _.AdvancedFunctionContract([IsNumber, IsNumber], IsString));
-
-print (intersection2);
-var addChecked4 = _.assert(addUnchecked, intersection2);
-
-//addChecked4(1,1);
-
-//load("test/miscellaneous//logic.js");
-
-*/
 
 
 
@@ -196,25 +108,6 @@ quit();
 
 // TODO
 
-
-// runs a testcase
-function run(file) {
-  print("\n\n\n##########\n# " + file + "\n");
-  load(file);
-}
-
-// set configuration
-_.configure({
-  assertion:true,
-  membrabe:true,
-  decompile:true
-});
-
-// set verbose
-_.verbose({
-  assert:true,
-  sandbox:true
-});
 
 // ==================================================
 
@@ -245,266 +138,12 @@ var objChecked = _.assert(objUnchecked, _.AdvancedObjectContract({
 
 
 
-function addUnchecked(a, b) {
-  return 1+(a+b);
-}
-var addChecked = _.assert(addUnchecked, 
-    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber));
-
-//addChecked(3,3);
-//addChecked("3","3");
-
-
-function NumToNum(x) {
-  return 7;
-}
-
-function NumNumToNum(f) {
-  f(1);
-  return 7;
-}
-var NumNumToNumC = _.assert(NumNumToNum, 
-    _.AdvancedFunctionContract([_.AdvancedFunctionContract([IsNumber], IsNumber)], IsNumber));
-
-//NumNumToNumC(NumToNum);
-
-
-
-function NumToNumNum(x) {
-  return NumToNum;
-}
-var NumToNumNumC = _.assert(NumToNumNum, 
-    _.AdvancedFunctionContract([IsNumber], _.AdvancedFunctionContract([IsNumber], IsNumber)));
-
-//NumToNumNumC(7)(2);
-
-
-
-function NumToNum1(x) {
-  return 7;
-}
-
-function NumToNum2(x) {
-  return 7;
-}
-
-function NumNumToNumNum(f) {
-  f(1);
-  return NumToNum2;
-}
-var NumNumToNumNumC = _.assert(NumNumToNumNum, 
-    _.AdvancedFunctionContract([_.AdvancedFunctionContract([IsNumber], IsNumber)], _.AdvancedFunctionContract([IsNumber], IsNumber)));
-
-//NumNumToNumNumC(NumToNum1)(1);
-
-
-function NumToNum3(x) {
-  return "7";
-}
-
-function NumNumToNumNumX(f) {
-  return NumToNum3;
-}
-var NumNumToNumNumXC = _.assert(NumNumToNumNumX, 
-    _.AdvancedFunctionContract([_.AdvancedFunctionContract([IsNumber], IsNumber)], _.AdvancedFunctionContract([IsNumber], IsNumber)));
-
-//NumNumToNumNumXC(NumToNum3)(1);
-
-
-
-/*
-   var addChecked1 = _.assert(addUnchecked, _.Or(
-   _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
-   _.AdvancedFunctionContract([IsString, IsString], IsString)));
-
-//addChecked1("1","1");
-
-// -
-
-var addChecked2 = _.assert(addUnchecked, _.Or(
-_.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
-_.AdvancedFunctionContract([IsNumber, IsNumber], IsString)));
-
-//addChecked2(1,1);
-*/
-
-
-var intersection1 = _.Intersection(
-    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
-    _.AdvancedFunctionContract([IsString, IsString], IsString));
-
-print (intersection1);
-var addChecked3 = _.assert(addUnchecked, intersection1);
-
-//addChecked3(1,1);
-
-
-var intersection2 = _.Intersection(
-    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
-    _.AdvancedFunctionContract([IsNumber, IsNumber], IsString));
-
-print (intersection2);
-var addChecked4 = _.assert(addUnchecked, intersection2);
-
-//addChecked4(1,1);
 
 //load("test/miscellaneous//logic.js");
 
 
 
 
-
-
-
-
-var union1 = _.Union(
-    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
-    _.AdvancedFunctionContract([GreaterThanZero, GreaterThanZero], IsString));
-
-print (union1);
-var addChecked5 = _.assert(addUnchecked, union1);
-
-//addChecked5(1);
-
-
-
-
-function NotNumToNum(x) {
-  return 3;
-}
-var negation1 = _.Negation(_.AdvancedFunctionContract([IsNumber], IsNumber));
-var NotNumToNumC = _.assert(NotNumToNum, negation1);
-//NotNumToNumC(1);
-
-
-
-function NotNotNumToNum(x) {
-  return 3;
-}
-var negation2 = _.Negation(_.Negation(_.AdvancedFunctionContract([IsNumber], IsNumber)));
-var NotNotNumToNumC = _.assert(NotNotNumToNum, negation2);
-//NotNotNumToNumC("2");
-
-
-
-
-
-// ==================================================
-
-quit();
-
-
-
-
-
-
-
-var map = new WeakMap();
-print(map.keys);
-quit();
-
-/*
-
-   function f(x) {
-   return true;
-   }
-
-   var g = _.assert(f, _.SimpleFunctionContract(IsNumber, IsBoolean));
-   */
-
-try {
-  var start = 0;
-  var end = 0;
-
-  function fgh() {}
-
-  print("#");
-  (function () {
-    timeout(1)
-    start = elapsed();
-  for(var i=0; i<10000000000; i++) {
-    fgh(i);
-  }
-  })();
-  end = elapsed();
-  print("#");
-} catch(e) {
-  print("@" + e);
-}
-print("execution time " + (end-start));
-
-
-//setInterval(function(){alert("Hello")},3000);
-
-
-
-/*
-
-
-   function __make(name, getter, target) {
-   Object.defineProperty(target, name, {
-   get: getter,
-   enumerable: true,
-   configurable: true
-   });
-   }
-
-   function __define(name, property, target) {
-   Object.defineProperty(target, name, {
-   get: function () { return property; },
-   enumerable: true
-   });
-   }
-
-   function __getter(name, getter, target) {
-   Object.defineProperty(target, name, {
-   get: getter,
-   enumerable: true
-   });
-   }
-
-
-   __make("b", function() {
-   __make("b", function() {return 4712;}, this);
-   return 4711;
-   }, this);
-
-   var a = 4711;
-//var b = a;
-
-
-/*if(a===b) {
-print("1 - a) " + a);
-print("1 - b) " + b);
-}/*
-
-
-/*
-var i = 0;
-
-var a = {};
-__define("valueOf", function() {
-i=i+1;
-return "[a]"+i;
-}, a);
-var b = a;
-*/
-/*
-   var args = {};
-   __getter("0", function() {return a}, args);
-   __getter("1", function() {return b}, args);
-
-   (function(a, b) {
-
-   if(a===b) {
-   print("2 - a) " + a);
-   print("2 - b) " + b);
-   }
-
-   }).apply(this, args);
-
-   print(args[0]);
-   */
 
 
 

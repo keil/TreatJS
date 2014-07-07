@@ -368,6 +368,7 @@
     }, this);
 
     __getter("callee", function() {
+      return not(sub.callee);
       return not(implies(sub.caller, sub.callee));
     }, this);
 
@@ -410,8 +411,6 @@
 
     __getter("callee", function() {
       return and(implies(left.caller, left.callee), implies(right.caller, right.callee));
-      // TODO
-      //return and(left.caller, right.caller);
     }, this);
 
     __getter("contract", function() {
@@ -461,8 +460,6 @@
 
     __getter("callee", function() {
       return or(implies(left.caller, left.callee), implies(right.caller, right.callee))
-      // TODO
-      //return or(left.callee, right.callee);
     }, this);
 
     __getter("contract", function() {
@@ -507,7 +504,7 @@
     }, this);
 
     __getter("callee", function() {
-      return not(implies(sub.caller, sub.callee));
+      return not(sub.callee);
     }, this);
 
     __getter("contract", function() {

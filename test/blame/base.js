@@ -14,5 +14,4 @@
  */
 
 _.assert(4711, IsNumber);
-
 //_.assert("4711", IsNumber);

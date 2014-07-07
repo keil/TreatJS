@@ -168,7 +168,7 @@
         } else if(!handle.caller.isFalse() && handle.callee.isFalse()) {
           msg+="Callee";
         } else if(handle.caller.isFalse() && handle.callee.isFalse()) {
-          msg+="Caller, Caller";
+          msg+="Caller, Callee";
         } else {
           msg+="-";
         }
@@ -198,7 +198,7 @@
     //|_| \_,_|_||_|_\_\\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
     if(contract instanceof FunctionContract) {
-      if(!(arg instanceof Function)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
+      if(!(arg instanceof Function)) callbackHandler(Handle(_.Logic.True, _.Logic.False, _.Logic.False));
 
       var handler = new FunctionHandler(contract, global, callbackHandler);
       var proxy = new Proxy(arg, handler);
@@ -211,7 +211,7 @@
     //|_|  |_\___|\__|_||_\___/\__,_|\___\___/_||_\__|_| \__,_\__|\__|
 
     if(contract instanceof MethodContract) {
-      if(!(arg instanceof Function)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
+      if(!(arg instanceof Function)) callbackHandler(Handle(_.Logic.True, _.Logic.False, _.Logic.False));
 
       var handler = new MethodHandler(contract, global, callbackHandler);
       var proxy = new Proxy(arg, handler);
@@ -225,7 +225,7 @@
     //          |__/                                             
 
     else if (contract instanceof ObjectContract) {
-      if(!(arg instanceof Object)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
+      if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, _.Logic.False, _.Logic.False));
 
       /* STRICT MODE */
       /* TODO
@@ -247,7 +247,7 @@
     //         |_|                                                               
 
     if(contract instanceof DependentContract) {
-      if(!(arg instanceof Function)) error("Wrong Argument", (new Error()).fileName, (new Error()).lineNumber);
+      if(!(arg instanceof Function)) callbackHandler(Handle(_.Logic.True, _.Logic.False, _.Logic.False));
 
       var handler = new DependentHandler(contract, global, callbackHandler);
       var proxy = new Proxy(arg, handler);

@@ -15,14 +15,7 @@
 (function() {
 
   function addUnchecked(a, b) {
-    print("call");
-    //return "1";
-    //return 1;
-    if(a==1) arguments.callee("a", "a");
-
-//    if(a==1) addChecked(2, 2);
-//    if(a==1) addChecked("2", "2");
-    return (a+b);
+    return /*"1"+*/(a+b);
   }
 
  var or = _.Or(
@@ -32,6 +25,23 @@
  var addChecked = _.assert(addUnchecked, or);
 
 addChecked("a","b");
+addChecked(1,1);
+ 
+})();
+
+(function() {
+
+  function addUnchecked(a, b) {
+    return (a+b);
+  }
+
+ var or = _.Or(
+    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
+    _.AdvancedFunctionContract([GreaterThanZero, GreaterThanZero], GreaterThanZero));
+
+ var addChecked = _.assert(addUnchecked, or);
+
+//addChecked("a","b");
 addChecked(1,1);
  
 })();
