@@ -52,4 +52,23 @@ run("test/convenience/objectcontract.js");
 run("test/convenience/dependentcontract.js");
 run("test/convenience/methodcontract.js");
 
+// blame
+load("test/blame/base.js");
+load("test/blame/immediate.js");
+load("test/blame/delayed.js");
+
+
+load("test/blame/function.js");
+load("test/blame/dependent.js");
+load("test/blame/object.js");
+load("test/blame/method.js");
+
+load("test/blame/intersection.js");
+load("test/blame/union.js");
+load("test/blame/negation.js");
+
+load("test/blame/or.js");
+load("test/blame/and.js");
+load("test/blame/not.js");
+
 quit();
