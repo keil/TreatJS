@@ -164,7 +164,7 @@
         msg+="\n";
         msg+="Blame is on: ";
         if(handle.caller.isFalse() && !handle.callee.isFalse()) {
-           msg+="Caller";
+          msg+="Caller";
         } else if(!handle.caller.isFalse() && handle.callee.isFalse()) {
           msg+="Callee";
         } else if(handle.caller.isFalse() && handle.callee.isFalse()) {
@@ -306,18 +306,31 @@
 
     else if (contract instanceof IntersectionContract) {
 
-      print("§immediate "+immediateContract(contract));
-      print("§delayed "+delayedContarct(contract));
+      var contracted = undefined;
+
+      // _                    _ _      _       
+      //(_)_ __  _ __  ___ __| (_)__ _| |_ ___ 
+      //| | '  \| '  \/ -_) _` | / _` |  _/ -_)
+      //|_|_|_|_|_|_|_\___\__,_|_\__,_|\__\___|
 
       if(immediateContract(contract)) {
         var callback = IntersectionCallback(callbackHandler, contract);
 
         var first = assertWith(arg, contract.first, global, callback.leftHandler);
         var second = assertWith(first, contract.second, global,  callback.rightHandler);
+
+        contracted = arg;
       }
+
+      //    _     _                  _ 
+      // __| |___| |__ _ _  _ ___ __| |
+      /// _` / -_) / _` | || / -_) _` |
+      //\__,_\___|_\__,_|\_, \___\__,_|
+      //                 |__/          
 
       if(delayedContarct(contract)) {
 
+        //delayed contract assertion
         function assert() {
           var callback = IntersectionCallback(callbackHandler, contract);
 
@@ -329,47 +342,14 @@
 
         var handler = new DelayedHandler(assert);
         var proxy = new Proxy(arg, handler);
-        print("Martha");
-        return proxy;
+
+        contracted = proxy;
       }
-print("L");
-      return arg;
 
+      return contracted;
 
-      // TODO, test if delyed
-/*
-      function assert() {
-        var callback = IntersectionCallback(callbackHandler, contract);
-      
-        var first = assertWith(arg, contract.first, global, callback.leftHandler);
-        var second = assertWith(first, contract.second, global,  callback.rightHandler);
-      
-        return second;
-      }
-*/
-
-      // TODO
-
-      /*var handler = {
-        apply: function(target, thisArg, args) {
-          var callback = IntersectionCallback(callbackHandler, contract);
-          var tmp = assertWith(target, contract.first, global, callback.leftHandler);
-          var fun = assertWith(tmp, contract.second, global,  callback.rightHandler);
-          fun.apply(thisArg, args);
-        }
-      };
-
-      var p = new Proxy(arg, handler);
-      return p;*/
-/*
-      var handler = new DelayedHandler(assert);
-      var proxy = new Proxy(arg, handler);
-      return proxy;
-*/
-      //var callback = IntersectionCallback(callbackHandler, contract);
-      //var tmp = assertWith(arg, contract.first, global, callback.leftHandler);
-      //return assertWith(tmp, contract.second, global,  callback.rightHandler); 
     }
+
     // _   _      _          ___         _               _   
     //| | | |_ _ (_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
     //| |_| | ' \| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
@@ -412,8 +392,8 @@ print("L");
       } catch (e) {
         var result = _.Logic.Conflict;
       } finally {
-//        print("Contarct: " + contarct);
-//        print("Result: " + result);
+        //        print("Contarct: " + contarct);
+        //        print("Result: " + result);
 
 
         var handle = Handle(_.Logic.True, result, result);
@@ -492,35 +472,34 @@ print("L");
    * @return true if contarct contains delayed contract
    */
   function delayedContarct(contract) {
+    switch(true) {
+      case contract instanceof DelayedContract:
+        return true;
+        break;
+      case contract instanceof ImmediateContract:
+        return false;
+        break;
+      case contract instanceof CombinatorContract: 
         switch(true) {
-          case contract instanceof DelayedContract:
-            return true;
+          case contract instanceof AndContract:
+          case contract instanceof OrContract:
+          case contract instanceof IntersectionContract:
+          case contract instanceof UnionContract:
+            return (delayedContarct(contract.first) || delayedContarct(contract.second))
+              break;
+          case contract instanceof NotContract:
+          case contract instanceof NegationContract:
+            return delayedContarct(contract.sub);
             break;
-          case contract instanceof ImmediateContract:
-            return false;
+          case contract instanceof WithContract:
+            return delayedContarct(contract.contract);
             break;
-          case contract instanceof CombinatorContract: 
-            switch(true) {
-              case contract instanceof AndContract:
-              case contract instanceof OrContract:
-              case contract instanceof IntersectionContract:
-              case contract instanceof UnionContract:
-                return (delayedContarct(contract.first) || delayedContarct(contract.second))
-                break;
-              case contract instanceof NotContract:
-              case contract instanceof NegationContract:
-                return delayedContarct(contract.sub);
-                break;
-              case contract instanceof WithContract:
-                return delayedContarct(contract.contract);
-                break;
-            }
-            break;
-          default:
-            // TODO
-        print("ERROR !!!");
-            return false;
         }
+        break;
+      default:
+        // default value
+        return true;
+    }
   }
 
   /** Immediate Contarct
@@ -548,14 +527,13 @@ print("L");
             return immediateContract(contract.sub);
             break;
           case contract instanceof WithContract:
-                return immediateContract(contract.contract);
-                break;
+            return immediateContract(contract.contract);
+            break;
         }
         break;
-        default:
-        // TODO
-        print("ERROR !!!");
-            return false;
+      default:
+        // default value
+        return true;
     }
   }
 
@@ -581,22 +559,22 @@ print("L");
 
   /*
    *
-     function DelayedHandler(contract, global, handler, ctor) {
-    if(!(this instanceof DelayedHandler)) return new DelayedHandler(contract, global, handler);
+   function DelayedHandler(contract, global, handler, ctor) {
+   if(!(this instanceof DelayedHandler)) return new DelayedHandler(contract, global, handler);
 
-    assert(target, contarct, global)
+   assert(target, contarct, global)
 
 
-    this.apply = function(target, thisArg, args) {
+   this.apply = function(target, thisArg, args) {
 
-      var callback = ctor(handler, contract);
-      
-      var first = assertWith(target, contract.first, global, callback.leftHandler);
-      var second = assertWith(first, contract.second, global,  callback.rightHandler);
-      
-      return second.apply(thisArg, args);
-    };
-  }
+   var callback = ctor(handler, contract);
+
+   var first = assertWith(target, contract.first, global, callback.leftHandler);
+   var second = assertWith(first, contract.second, global,  callback.rightHandler);
+
+   return second.apply(thisArg, args);
+   };
+   }
    *
    */
 
