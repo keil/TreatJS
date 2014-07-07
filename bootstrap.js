@@ -92,6 +92,9 @@ _.verbose({
 
 //var value = _.assert(4, _.Intersection(IsNumber, IsNumber));
 
+
+quit();
+
 function f (a) { return /*''+*/a+1; }
 
 // retrun false

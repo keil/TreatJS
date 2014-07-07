@@ -1,3 +1,23 @@
+* Obejct Strict Mode
+** Disabled ...
+
+* Partial Contract output when blaming
+
+
+--
+
+
+* Open Test
+
+** Object Strict Mode
+
+** Method Contract
+
+** Object Property Callback/ Set
+
+
+
+
 * Open Features
 ** Out
 ** Debugger
