@@ -28,7 +28,7 @@ var contract = new _.ObjectContract(_.Map.StringMap({
 var test = _.assert(obj, contract);
 
 test["x"];
-test["x"] = "4712";
+//test["x"] = "4712";
 //test["x"];
 
 var f = test["y"];

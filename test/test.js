@@ -61,6 +61,7 @@ load("test/blame/delayed.js");
 load("test/blame/function.js");
 load("test/blame/dependent.js");
 load("test/blame/object.js");
+load("test/blame/object2.js");
 load("test/blame/method.js");
 
 load("test/blame/intersection.js");

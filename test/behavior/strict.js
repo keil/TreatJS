@@ -44,7 +44,7 @@ test.c;
   var objP = _.assert(obj, objC);
 
   objP.a;
-  objP.a = true;
+  //objP.a = true;
   //objP.a;
 })();
 

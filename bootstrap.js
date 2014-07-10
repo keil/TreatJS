@@ -68,23 +68,8 @@ _.verbose({
 
 // ==================================================
 
-load("test/blame/object2.js");
-//load("test/blame/object.js");
-
-
-//quit();
-
-// TODO
-// code cleanup
-//
 // replace base contracts with its immediate result when delayed
 
-
-
-
-
-
-// TODO eq qith primitive values
 
 // ==================================================
 

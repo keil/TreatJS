@@ -31,11 +31,6 @@
 
   var TruthValue = _.Logic.TruthValue;
 
-  /* TODO
-   * required for print output
-   * var unknown = _.BaseContract(function() { return true;}, "-"); 
-   */
-
   //  _____      _ _ _                _        
   // / ____|    | | | |              | |       
   //| |     __ _| | | |__   __ _  ___| | _____ 
@@ -115,7 +110,6 @@
     }, this);
 
     __define("blame", function() {
-      // TODO
       return contract;
     }, this);
 
@@ -156,9 +150,7 @@
     }, this);
 
     __define("blame", function() {
-      // TODO
       return contract;
-      //return _.FunctionContract((domain.contract.isUnknown() ? unknown : contract.domain), (range.contract.isUnknown() ? unknown : contract.range));
     }, this);
 
     __getter("domainHandler", function() {
@@ -206,7 +198,6 @@
     }, this);
 
     __define("blame", function() {
-      // TODO
       return contract;
     }, this);
 
@@ -256,7 +247,6 @@
     }, this);
 
     __define("blame", function() {
-      // TODO
       return contract;
     }, this);
 
@@ -306,7 +296,6 @@
     }, this);
 
     __define("blame", function() {
-      // TODO
       return contract;
     }, this);
 
@@ -355,7 +344,6 @@
     }, this);
 
     __define("blame", function() {
-      // TODO
       return contract;
     }, this);
 
@@ -396,7 +384,6 @@
     }, this);
 
     __define("blame", function() {
-      // TODO
       return contract;
     }, this);
 
@@ -445,7 +432,6 @@
     }, this);
 
     __define("blame", function() {
-      // TODO
       return contract;
     }, this);
 
@@ -492,83 +478,78 @@
     }, this);
 
     __define("blame", function() {
-      // TODO
       return contract;
-      //return _Not((sub.contract.isUnknown() ? unknown : contract);
     }, this);
 
-      __getter("subHandler", function() {
-        return (function(handle) {
-          sub = Handle.update(sub, handle);
-          handler(this);    
-        }).bind(this);
-      }, this);
-      }
-      NotCallback.prototype = Callback.prototype;
-      NotCallback.prototype.toString = function() {
-        return "<NotCallback>";
-      }
+    __getter("subHandler", function() {
+      return (function(handle) {
+        sub = Handle.update(sub, handle);
+        handler(this);    
+      }).bind(this);
+    }, this);
+  }
+  NotCallback.prototype = Callback.prototype;
+  NotCallback.prototype.toString = function() {
+    return "<NotCallback>";
+  }
 
-      // TODO
-      // BASE Callback
+  // TODO
+  // BASE Callback
 
-      function BaseCallback(handler, contract) {
-        if(!(this instanceof BaseCallback)) return new BaseCallback(handler, contract);
-        else Callback.apply(this, arguments);
+  function BaseCallback(handler, contract) {
+    if(!(this instanceof BaseCallback)) return new BaseCallback(handler, contract);
+    else Callback.apply(this, arguments);
 
-        var predicate = new Handle(Unknown, Unknown, Unknown);
+    var predicate = new Handle(Unknown, Unknown, Unknown);
 
-        __getter("caller", function() {
-          return predicate.caller;
-        }, this);
+    __getter("caller", function() {
+      return predicate.caller;
+    }, this);
 
-        __getter("callee", function() {
-          return predicate.callee;
-        }, this);
+    __getter("callee", function() {
+      return predicate.callee;
+    }, this);
 
-        __getter("contract", function() {
-          return predicate.contract;
-        }, this);
+    __getter("contract", function() {
+      return predicate.contract;
+    }, this);
 
-        __define("blame", function() {
-          return contract;
-          //return (predicate.contract.isUnknown()) ? unknown : contract;
-        }, this);
+    __define("blame", function() {
+      return contract;
+    }, this);
 
-        __getter("predicateHandler", function() {
-          return (function(handle) {
-            predicate = Handle.update(predicate, handle);
-            handler(this);    
-          }).bind(this);
-        }, this);
+    __getter("predicateHandler", function() {
+      return (function(handle) {
+        predicate = Handle.update(predicate, handle);
+        handler(this);    
+      }).bind(this);
+    }, this);
+  }
+  BaseCallback.prototype = Callback.prototype;
+  BaseCallback.prototype.toString = function() {
+    return "<BaseCallback>";
+  }
 
+  /**
+   * Callback
+   */
 
-      }
-      BaseCallback.prototype = Callback.prototype;
-      BaseCallback.prototype.toString = function() {
-        return "<BaseCallback>";
-      }
+  __define("Callback", {}, _);
 
-      /**
-       * Callback
-       */
+  __define("Callback", {}, _.Callback);
+  __define("Handle", Handle, _.Callback);
 
-      __define("Callback", {}, _);
+  __define("RootCallback", RootCallback, _.Callback);
+  __define("BaseCallback", BaseCallback, _.Callback);
+  __define("FunctionCallback", FunctionCallback, _.Callback);
+  __define("ObjectCallback", ObjectCallback, _.Callback);
 
-      __define("Callback", {}, _.Callback);
-      __define("Handle", Handle, _.Callback);
+  __define("IntersectionCallback", IntersectionCallback, _.Callback);
+  __define("UnionCallback", UnionCallback, _.Callback);
+  __define("NegationCallback", NegationCallback, _.Callback);
 
-      __define("RootCallback", RootCallback, _.Callback);
-      __define("BaseCallback", BaseCallback, _.Callback);
-      __define("FunctionCallback", FunctionCallback, _.Callback);
-      __define("ObjectCallback", ObjectCallback, _.Callback);
-
-      __define("IntersectionCallback", IntersectionCallback, _.Callback);
-      __define("UnionCallback", UnionCallback, _.Callback);
-      __define("NegationCallback", NegationCallback, _.Callback);
-
-      __define("AndCallback", AndCallback, _.Callback);
-      __define("OrCallback", OrCallback, _.Callback);
-      __define("NotCallback", NotCallback, _.Callback);
+  __define("AndCallback", AndCallback, _.Callback);
+  __define("OrCallback", OrCallback, _.Callback);
+  __define("NotCallback", NotCallback, _.Callback);
 
 })(_);

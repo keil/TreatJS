@@ -120,7 +120,7 @@ var test3 = _.assert(obj, contract);
 test3["x"];
 
 var f = test3["y"];
-var v = f(4711);
+//var v = f(4711);
 
 test["y"] = function(x) {return "chacha";};
 var g = test3["y"];
