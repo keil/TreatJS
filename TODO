@@ -11,3 +11,9 @@
 - .. of violated contract
 
 #5 Union Contract
+
+
+-- TEST
+strict mode 
+regex map
+

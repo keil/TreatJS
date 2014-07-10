@@ -68,9 +68,8 @@ _.verbose({
 
 // ==================================================
 
-//load("test/blame/object2.js");
-
-load("test/blame/object.js");
+load("test/blame/object2.js");
+//load("test/blame/object.js");
 
 
 //quit();

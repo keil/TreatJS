@@ -228,12 +228,11 @@
       if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, _.Logic.False, _.Logic.False));
 
       /* STRICT MODE */
-      /* TODO
-         if(contract.strict) {
-         contract.map.foreach(function(key, contract) {
-         arg[key] = assertWith(arg[key], contract, global, callbackHandler);
-         });
-         }*/
+      if(contract.strict) {
+        contract.map.foreach(function(key, contract) {
+          arg[key] = assertWith(arg[key], contract, global, callbackHandler);
+        });
+      }
 
       var handler = new ObjectHandler(contract, global, callbackHandler);
       var proxy = new Proxy(arg, handler);
@@ -793,9 +792,6 @@
         if(contract.map instanceof StringMap) {
           return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, callback.getHandler) : target[name];
         } else {
-          /* TODO
-           * test this
-           */
           var target = target[name];
           contract.map.slice(name).foreach(function(i, contract) {
             target = assertWith(target, contract, global, callback.getHandler);
@@ -824,11 +820,12 @@
 
       if(contract.map instanceof StringMap) {
         value = (contract.map.has(name)) ? assertWith(value, contract.map.get(name), global, callback.setHandler) : value;
-      }
-      /* TODO
-       * check regex map
-       * strict mode only in ObjectCallback
-       */
+      } else {
+        contract.map.slice(name).foreach(function(i, contract) {
+          value = assertWith(value, contract, global, callback.setHandler);
+        });
+      } 
+
       return target[name] = value;
     }
   }
