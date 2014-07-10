@@ -1,19 +1,9 @@
-#1 Debugger
-
-#2 Delayed and Immediate Contracts
-
-- replace top-level base contracts with its result when evaluated in a delayed contract
-- discuss the use-case
-
-#3 Object Strict Mode
-
-#4 Partial Contract Output
-- .. of violated contract
+## Major Tasks ##
 
 #5 Union Contract
 
 
--- TEST
-strict mode 
-regex map
 
+## Minor Tasks ##
+
+#1 Debugger
