@@ -1,13 +1,13 @@
-* Debugger
+#1 Debugger
 
---
+#2 Delayed and Immediate Contracts
 
-* Obejct Strict Mode
-** Disabled ...
+- replace top-level base contracts with its result when evaluated in a delayed contract
+- discuss the use-case
 
-* Partial Contract output when blaming
+#3 Object Strict Mode
 
---
+#4 Partial Contract Output
+- .. of violated contract
 
-** Object Strict Mode
-
+#5 Union Contract

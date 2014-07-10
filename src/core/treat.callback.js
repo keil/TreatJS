@@ -202,8 +202,7 @@
     }, this);
 
     __getter("contract", function() {
-      // TODO strict mode
-      return get.contract;
+      return (set) ? and(get.contract, set.contract) : get.contract;
     }, this);
 
     __define("blame", function() {
@@ -213,10 +212,7 @@
 
     __getter("setHandler", function() {
       return (function(handle) {
-        // TODO
-        //set = Handle.update(((set)? set : Handle.new()), handle);
-        // Note: Only the last write opertion  
-        set = handle;
+        set = (set) ? Handle.update(set, handle) : handle;
         handler(this);    
       }).bind(this);
     }, this);

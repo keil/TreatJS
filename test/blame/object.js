@@ -52,7 +52,7 @@ objChecked.a.x;
 objChecked.a = {x:4711, y:"4711"};
 objChecked.a.x;
 //objChecked.a.y;
-//objChecked.a.y = "2";
+//bjChecked.a.y = "2";
 //objChecked.a.y;
 
 objChecked.g = function(z) {return "4711";}

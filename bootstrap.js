@@ -68,9 +68,12 @@ _.verbose({
 
 // ==================================================
 
+//load("test/blame/object2.js");
+
 load("test/blame/object.js");
 
-quit();
+
+//quit();
 
 // TODO
 // code cleanup
@@ -81,50 +84,10 @@ quit();
 
 
 
-// ==================================================
-quit();
 
-
-
-// TODO
-
+// TODO eq qith primitive values
 
 // ==================================================
-
-//_.assert(4711", IsNumber);
-
-var objUnchecked = {x:4711, y:"4711", f:function(x) {return 4711;}, g:function() {return "4711";} };
-var objChecked = _.assert(objUnchecked, _.AdvancedObjectContract({
-  x:IsNumber,
-    y:IsNumber,
-    f:_.AdvancedFunctionContract([IsNumber], IsNumber),
-    g:_.AdvancedFunctionContract([IsNumber], IsNumber),
-}));
-
-//objChecked.x;
-//objChecked.y;
-
-//objChecked.y = 7;
-//objChecked.y = "2";
-//objChecked.y;
-
-
-
-//objChecked[0];
-//
-//
-//objChecked.g = function(x) {return "4711";};
-//objChecked.g(2);
-
-
-
-
-//load("test/miscellaneous//logic.js");
-
-
-
-
-
 
 
 
