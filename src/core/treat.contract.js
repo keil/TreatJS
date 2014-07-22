@@ -291,7 +291,10 @@
 
     this.toString = function() { return "(" + first.toString() + "cup" + second.toString() + ")"; };
   }
-  UnionContract.prototype = new CombinatorContract();
+//  UnionContract.prototype = new CombinatorContract();
+   UnionContract.prototype = new ImmediateContract();
+   // TODO
+
 
   // _  _               _   _          ___         _               _   
   //| \| |___ __ _ __ _| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 

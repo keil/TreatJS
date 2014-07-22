@@ -404,12 +404,47 @@
       return contracted;
     }
 
+    // TODO CONSTRUCTION
+
+
     // ___     _                      _   _          ___         _               _   
     //|_ _|_ _| |_ ___ _ _ ___ ___ __| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
     // | || ' \  _/ -_) '_(_-</ -_) _|  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
     //|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof IntersectionContract) {
+      
+      
+      
+      if(immediateContract(contract)) {
+
+        var first = contract.first;
+        var second = contract.second;
+
+        if(immediateContract(first)) {
+        }
+
+        if(immediateContract(second)) {
+        }
+      
+        return IntersectionContract(first, second);
+
+      }
+ 
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       var contracted = undefined;
 
       // _                    _ _      _       
@@ -459,6 +494,17 @@
     // \___/|_||_|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof UnionContract) {
+      var callback = UnionCallback(callbackHandler, contract);
+
+      var first = assertWith(arg, contract.first, global, callback.leftHandler);
+      var second = assertWith(first, contract.second, global,  callback.rightHandler);
+
+      return second;
+      //contracted = arg;
+
+
+
+      /**
       var contracted = undefined;
 
       // _                    _ _      _       
@@ -500,6 +546,7 @@
       }
 
       return contracted;
+      */
     }
 
     // _  _               _   _          ___         _               _   
