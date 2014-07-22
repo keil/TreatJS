@@ -38,7 +38,53 @@ function TreatJS(configuration) {
     for(setting in configuration) {
       this.Config.Verbose[setting] = configuration[setting];
     } 
+  }
 
+  this.build = function() {
+    var _ = {};
+
+    // assert
+    __define("construct", this.construct, _);
+    __define("assert", this.assert, _);
+
+    // contract
+    __define("Base", this.BaseContract, _);
+
+    __define("Function", this.FunctionContract, _);
+    __define("Method", this.MethodContract, _);
+    __define("Dependent", this.DependentContract, _);
+
+    __define("Object", this.ObjectContract, _);
+
+    __define("With", this.WithContract, _);
+
+    __define("Union", this.UnionContract, _);
+    __define("Intersection", this.IntersectionContract, _);
+    __define("Negation", this.NegationContract, _);
+
+    __define("And", this.AndContract, _);
+    __define("Or", this.OrContract, _);
+    __define("Not", this.NotContract, _);
+
+    __define("Constructor", this.ContractConstructor, _);
+
+    // convinience
+    __define("AObject", this.AdvancedObjectContract, _);
+
+    __define("AFunction", this.AdvancedFunctionContract, _);
+    __define("SFunction", this.SimpleFunctionContract, _);
+
+    __define("AMethod", this.AdvancedMethodContract, _);
+    __define("SMethod", this.SimpleMethodContract, _);
+
+    __define("SDependent", this.SimpleDependentContract, _);
+
+    // util
+    __define("StringMap", this.Map.StringMap, _);
+    __define("Mapping", this.MapMapping, _);
+    __define("RegExpMap", this.MapRegExpMap, _);
+
+    return _;
   }
 
   // Note: Method for print output!

@@ -53,15 +53,18 @@ load("test/contracts.js");
 //\__\___/_||_|_| |_\__, |\_,_|_| \__,_|\__|_\___/_||_|
 //                  |___/                              
 
+// set Contract
+var Contract = TreatJS.build();
+
 // set configuration
-_.configure({
+TreatJS.configure({
    assertion:true,
    membrabe:true,
    decompile:true
    });
 
 // set verbose
-_.verbose({
+TreatJS.verbose({
   assert:false,
   sandbox:false
 });
@@ -69,7 +72,6 @@ _.verbose({
 // ==================================================
 
 // replace base contracts with its immediate result when delayed
-
 
 // ==================================================
 
