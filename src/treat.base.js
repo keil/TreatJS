@@ -51,4 +51,4 @@
   __define("toString", Function.prototype.toString, _.Base);
 
   return _ ;
-})(_);
+})(TreatJS);

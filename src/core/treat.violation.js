@@ -62,4 +62,4 @@
   __define("violation", violation, _);
   __define("blame", blame, _);
 
-})(_);
+})(TreatJS);

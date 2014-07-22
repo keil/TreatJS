@@ -169,4 +169,4 @@
 
   __define("SimpleDependentContract", SimpleDependentContract, _);
 
-})(_);
+})(TreatJS);

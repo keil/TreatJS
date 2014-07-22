@@ -445,4 +445,4 @@
 
   __define("isNativeFunction", isNativeFunction, _);
 
-})(_);
+})(TreatJS);

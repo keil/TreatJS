@@ -372,4 +372,4 @@
   __define("Immediate", ImmediateContract, _);
   __define("Combinator", CombinatorContract, _);
 
-})(_);
+})(TreatJS);

@@ -884,4 +884,4 @@
   __define("construct", construct, _);
   __define("assert", assert, _);
 
-})(_);
+})(TreatJS);

@@ -552,4 +552,4 @@
   __define("OrCallback", OrCallback, _.Callback);
   __define("NotCallback", NotCallback, _.Callback);
 
-})(_);
+})(TreatJS);

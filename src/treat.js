@@ -54,4 +54,4 @@ function TreatJS(configuration) {
 }
 
 // TreatJS
-var _ = new TreatJS();
+var TreatJS = new TreatJS();

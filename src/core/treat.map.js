@@ -158,4 +158,4 @@
   __define("Mapping", Mapping, _.Map);
   __define("RegExpMap", RegExpMap, _.Map);
 
-})(_);
+})(TreatJS);

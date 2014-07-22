@@ -13,6 +13,8 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+var _ = TreatJS;
+
 var IsNumber = _.BaseContract(function(arg) {
   return ((typeof arg) === "number");
 },"IsNumber");
