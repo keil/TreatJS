@@ -31,6 +31,23 @@
   //| |___| (_) | | | | |_| | | (_| | (__| |_\__ \
   // \_____\___/|_| |_|\__|_|  \__,_|\___|\__|___/
 
+  /*
+  function UnaryContract() {
+    if(!(this instanceof DelayedContract)) return new DelayedContract();
+  }
+  DelayedContract.prototype = new Contract();
+ 
+  function DelayedContract() {
+    if(!(this instanceof DelayedContract)) return new DelayedContract();
+  }
+  DelayedContract.prototype = new Contract();
+*/
+
+  // TODO
+  // make UniaryImmediate
+  // .. 
+
+
   function DelayedContract() {
     if(!(this instanceof DelayedContract)) return new DelayedContract();
   }
@@ -45,6 +62,14 @@
     if(!(this instanceof CombinatorContract)) return new CombinatorContract();
   }
   CombinatorContract.prototype = new Contract();
+
+  // TODO
+  function WrapperContract() {
+    if(!(this instanceof WrapperContract)) return new WrapperContract();
+  }
+  WrapperContract.prototype = new Contract();
+
+
 
   // ___                ___         _               _   
   //| _ ) __ _ ___ ___ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -179,6 +204,8 @@
 
     this.toString = function() { return "(" + first.toString() + "and" + second.toString() + ")"; };
   }
+  //AndContract.prototype = new CombinatorContract();
+  // TODO
   AndContract.prototype = new CombinatorContract();
 
   //  ___       ___         _               _   
@@ -201,6 +228,7 @@
 
     this.toString = function() { return "(" + first.toString() + "or" + second.toString() + ")"; };
   }
+  // TODO
   OrContract.prototype = new CombinatorContract();
 
   // _  _     _    ___         _               _   
@@ -221,7 +249,9 @@
     this.sub = sub;
     this.toString = function() { return "(not(" + sub.toString() + "))"; };
   }
-  NotContract.prototype = new CombinatorContract();
+ //NotContract.prototype = new CombinatorContract();
+  // TODO
+  NotContract.prototype = new WrapperContract();
 
   //__      ___ _   _    ___         _               _   
   //\ \    / (_) |_| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -247,7 +277,10 @@
       return "(with {" + domain + "}" + contract.toString() + ")";
     };
   }
-  WithContract.prototype = new CombinatorContract();
+ // WithContract.prototype = new CombinatorContract();
+   // TODO
+  WithContract.prototype = new WrapperContract();
+
 
   // ___     _                      _   _          ___         _               _   
   //|_ _|_ _| |_ ___ _ _ ___ ___ __| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -292,7 +325,7 @@
     this.toString = function() { return "(" + first.toString() + "cup" + second.toString() + ")"; };
   }
 //  UnionContract.prototype = new CombinatorContract();
-   UnionContract.prototype = new ImmediateContract();
+   UnionContract.prototype = new CombinatorContract();
    // TODO
 
 
@@ -315,7 +348,10 @@
     this.sub = sub;
     this.toString = function() { return "(neg(" + sub.toString() + "))"; };
   }
-  NegationContract.prototype = new CombinatorContract();
+ // NegationContract.prototype = new CombinatorContract();
+  // TODO
+  NegationContract.prototype = new WrapperContract();
+
 
   //  _____                _                   _             
   // / ____|              | |                 | |            
@@ -374,5 +410,6 @@
   __define("Delayed", DelayedContract, _);
   __define("Immediate", ImmediateContract, _);
   __define("Combinator", CombinatorContract, _);
+  __define("Wrapper", WrapperContract, _);
 
 })(TreatJS);

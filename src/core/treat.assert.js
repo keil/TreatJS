@@ -27,6 +27,7 @@
   var DelayedContract = _.Delayed;
   var ImmediateContract = _.Immediate;
   var CombinatorContract = _.Combinator;
+  var WrapperContract = _.Wrapper;
 
   var ContractConstructor = _.Constructor;
 
@@ -269,7 +270,7 @@
     ///_/ \_\_||_\__,_|\___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof AndContract) {
-      var contracted = undefined;
+      /*      var contracted = undefined;
 
       // _                    _ _      _       
       //(_)_ __  _ __  ___ __| (_)__ _| |_ ___ 
@@ -277,13 +278,17 @@
       //|_|_|_|_|_|_|_\___\__,_|_\__,_|\__\___|
 
       if(immediateContract(contract)) {
-        var callback = AndCallback(callbackHandler, contract);
+      */
+      var callback = AndCallback(callbackHandler, contract);
 
-        var first = assertWith(arg, contract.first, global, callback.leftHandler);
-        var second = assertWith(first, contract.second, global,  callback.rightHandler);
+      var first = assertWith(arg, contract.first, global, callback.leftHandler);
+      var second = assertWith(first, contract.second, global,  callback.rightHandler);
 
-        contracted = arg;
-      }
+      return second;
+
+      /*
+         contracted = arg;
+         }
 
       //    _     _                  _ 
       // __| |___| |__ _ _  _ ___ __| |
@@ -293,23 +298,24 @@
 
       if(delayedContarct(contract)) {
 
-        //delayed contract assertion
-        function assert() {
-          var callback = AndCallback(callbackHandler, contract);
+      //delayed contract assertion
+      function assert() {
+      var callback = AndCallback(callbackHandler, contract);
 
-          var first = assertWith(arg, contract.first, global, callback.leftHandler);
-          var second = assertWith(first, contract.second, global,  callback.rightHandler);
+      var first = assertWith(arg, contract.first, global, callback.leftHandler);
+      var second = assertWith(first, contract.second, global,  callback.rightHandler);
 
-          return second;
-        }
+      return second;
+      }
 
-        var handler = new DelayedHandler(assert);
-        var proxy = new Proxy(arg, handler);
+      var handler = new DelayedHandler(assert);
+      var proxy = new Proxy(arg, handler);
 
-        contracted = proxy;
+      contracted = proxy;
       }
 
       return contracted;
+      */
     }
 
     //  ___       ___         _               _   
@@ -318,21 +324,9 @@
     // \___/|_|  \___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof OrContract) {
-      var contracted = undefined;
 
-      // _                    _ _      _       
-      //(_)_ __  _ __  ___ __| (_)__ _| |_ ___ 
-      //| | '  \| '  \/ -_) _` | / _` |  _/ -_)
-      //|_|_|_|_|_|_|_\___\__,_|_\__,_|\__\___|
+      if(!canonical(contract)) error("Non-canonical contract", (new Error()).fileName, (new Error()).lineNumber);
 
-      if(immediateContract(contract)) {
-        var callback = OrCallback(callbackHandler, contract);
-
-        var first = assertWith(arg, contract.first, global, callback.leftHandler);
-        var second = assertWith(first, contract.second, global,  callback.rightHandler);
-
-        contracted = arg;
-      }
 
       //    _     _                  _ 
       // __| |___| |__ _ _  _ ___ __| |
@@ -340,8 +334,7 @@
       //\__,_\___|_\__,_|\_, \___\__,_|
       //                 |__/          
 
-      if(delayedContarct(contract)) {
-
+      if(delayed(contract)) {
         //delayed contract assertion
         function assert() {
           var callback = OrCallback(callbackHandler, contract);
@@ -355,10 +348,25 @@
         var handler = new DelayedHandler(assert);
         var proxy = new Proxy(arg, handler);
 
-        contracted = proxy;
-      }
+        return proxy;
 
-      return contracted;
+
+      } 
+
+      // _                    _ _      _       
+      //(_)_ __  _ __  ___ __| (_)__ _| |_ ___ 
+      //| | '  \| '  \/ -_) _` | / _` |  _/ -_)
+      //|_|_|_|_|_|_|_\___\__,_|_\__,_|\__\___|
+
+
+      else {
+        var callback = OrCallback(callbackHandler, contract);
+
+        var first = assertWith(arg, contract.first, global, callback.leftHandler);
+        var second = assertWith(first, contract.second, global,  callback.rightHandler);
+
+        return second;
+      }    
     }
 
     // _  _     _    ___         _               _   
@@ -367,7 +375,9 @@
     //|_|\_\___/\__|\___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof NotContract) {
-      var contracted = undefined;
+      // TODO
+      error("Not yet implemented.");
+      /*      var contracted = undefined;
 
       // _                    _ _      _       
       //(_)_ __  _ __  ___ __| (_)__ _| |_ ___ 
@@ -375,9 +385,9 @@
       //|_|_|_|_|_|_|_\___\__,_|_\__,_|\__\___|
 
       if(immediateContract(contract)) {
-        var callback = NotCallback(callbackHandler, contract);
-        var sub = assertWith(arg, contract.sub, global, callback.subHandler);
-        contracted = sub;
+      var callback = NotCallback(callbackHandler, contract);
+      var sub = assertWith(arg, contract.sub, global, callback.subHandler);
+      contracted = sub;
       }
 
       //    _     _                  _ 
@@ -388,20 +398,21 @@
 
       if(delayedContarct(contract)) {
 
-        //delayed contract assertion
-        function assert() {
-          var callback = NotCallback(callbackHandler, contract);
-          var sub = assertWith(arg, contract.sub, global, callback.subHandler);
-          return sub;
-        }
+      //delayed contract assertion
+      function assert() {
+      var callback = NotCallback(callbackHandler, contract);
+      var sub = assertWith(arg, contract.sub, global, callback.subHandler);
+      return sub;
+      }
 
-        var handler = new DelayedHandler(assert);
-        var proxy = new Proxy(arg, handler);
+      var handler = new DelayedHandler(assert);
+      var proxy = new Proxy(arg, handler);
 
-        contracted = proxy;
+      contracted = proxy;
       }
 
       return contracted;
+      */
     }
 
     // TODO CONSTRUCTION
@@ -413,53 +424,8 @@
     //|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof IntersectionContract) {
-      
-      
-      
-      if(immediateContract(contract)) {
 
-        var first = contract.first;
-        var second = contract.second;
-
-        if(immediateContract(first)) {
-        }
-
-        if(immediateContract(second)) {
-        }
-      
-        return IntersectionContract(first, second);
-
-      }
- 
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      var contracted = undefined;
-
-      // _                    _ _      _       
-      //(_)_ __  _ __  ___ __| (_)__ _| |_ ___ 
-      //| | '  \| '  \/ -_) _` | / _` |  _/ -_)
-      //|_|_|_|_|_|_|_\___\__,_|_\__,_|\__\___|
-
-      if(immediateContract(contract)) {
-        var callback = IntersectionCallback(callbackHandler, contract);
-
-        var first = assertWith(arg, contract.first, global, callback.leftHandler);
-        var second = assertWith(first, contract.second, global,  callback.rightHandler);
-
-        contracted = arg;
-      }
+      if(!canonical(contract)) error("Non-canonical contract", (new Error()).fileName, (new Error()).lineNumber);
 
       //    _     _                  _ 
       // __| |___| |__ _ _  _ ___ __| |
@@ -467,8 +433,7 @@
       //\__,_\___|_\__,_|\_, \___\__,_|
       //                 |__/          
 
-      if(delayedContarct(contract)) {
-
+      if(delayed(contract)) {
         //delayed contract assertion
         function assert() {
           var callback = IntersectionCallback(callbackHandler, contract);
@@ -482,10 +447,21 @@
         var handler = new DelayedHandler(assert);
         var proxy = new Proxy(arg, handler);
 
-        contracted = proxy;
-      }
+        return proxy;
+      } 
+      // _                    _ _      _       
+      //(_)_ __  _ __  ___ __| (_)__ _| |_ ___ 
+      //| | '  \| '  \/ -_) _` | / _` |  _/ -_)
+      //|_|_|_|_|_|_|_\___\__,_|_\__,_|\__\___|
 
-      return contracted;
+      else {
+        var callback = IntersectionCallback(callbackHandler, contract);
+
+        var first = assertWith(arg, contract.first, global, callback.leftHandler);
+        var second = assertWith(first, contract.second, global,  callback.rightHandler);
+
+        return second;
+      }    
     }
 
     // _   _      _          ___         _               _   
@@ -505,7 +481,7 @@
 
 
       /**
-      var contracted = undefined;
+        var contracted = undefined;
 
       // _                    _ _      _       
       //(_)_ __  _ __  ___ __| (_)__ _| |_ ___ 
@@ -513,12 +489,12 @@
       //|_|_|_|_|_|_|_\___\__,_|_\__,_|\__\___|
 
       if(immediateContract(contract)) {
-        var callback = UnionCallback(callbackHandler, contract);
+      var callback = UnionCallback(callbackHandler, contract);
 
-        var first = assertWith(arg, contract.first, global, callback.leftHandler);
-        var second = assertWith(first, contract.second, global,  callback.rightHandler);
+      var first = assertWith(arg, contract.first, global, callback.leftHandler);
+      var second = assertWith(first, contract.second, global,  callback.rightHandler);
 
-        contracted = arg;
+      contracted = arg;
       }
 
       //    _     _                  _ 
@@ -529,20 +505,20 @@
 
       if(delayedContarct(contract)) {
 
-        //delayed contract assertion
-        function assert() {
-          var callback = UnionCallback(callbackHandler, contract);
+      //delayed contract assertion
+      function assert() {
+      var callback = UnionCallback(callbackHandler, contract);
 
-          var first = assertWith(arg, contract.first, global, callback.leftHandler);
-          var second = assertWith(first, contract.second, global,  callback.rightHandler);
+      var first = assertWith(arg, contract.first, global, callback.leftHandler);
+      var second = assertWith(first, contract.second, global,  callback.rightHandler);
 
-          return second;
-        }
+      return second;
+      }
 
-        var handler = new DelayedHandler(assert);
-        var proxy = new Proxy(arg, handler);
+      var handler = new DelayedHandler(assert);
+      var proxy = new Proxy(arg, handler);
 
-        contracted = proxy;
+      contracted = proxy;
       }
 
       return contracted;
@@ -556,7 +532,10 @@
     //         |___/       
 
     else if (contract instanceof NegationContract) {
-      var contracted = undefined;
+      // TODO
+      error("Not yet implemented.");
+      /*
+         var contracted = undefined;
 
       // _                    _ _      _       
       //(_)_ __  _ __  ___ __| (_)__ _| |_ ___ 
@@ -564,9 +543,9 @@
       //|_|_|_|_|_|_|_\___\__,_|_\__,_|\__\___|
 
       if(immediateContract(contract)) {
-        var callback = NegationCallback(callbackHandler, contract);
-        var sub = assertWith(arg, contract.sub, global, callback.subHandler);
-        contracted = sub;
+      var callback = NegationCallback(callbackHandler, contract);
+      var sub = assertWith(arg, contract.sub, global, callback.subHandler);
+      contracted = sub;
       }
 
       //    _     _                  _ 
@@ -577,20 +556,21 @@
 
       if(delayedContarct(contract)) {
 
-        //delayed contract assertion
-        function assert() {
-          var callback = NegationCallback(callbackHandler, contract);
-          var sub = assertWith(arg, contract.sub, global, callback.subHandler);
-          return sub;
-        }
+      //delayed contract assertion
+      function assert() {
+      var callback = NegationCallback(callbackHandler, contract);
+      var sub = assertWith(arg, contract.sub, global, callback.subHandler);
+      return sub;
+      }
 
-        var handler = new DelayedHandler(assert);
-        var proxy = new Proxy(arg, handler);
+      var handler = new DelayedHandler(assert);
+      var proxy = new Proxy(arg, handler);
 
-        contracted = proxy;
+      contracted = proxy;
       }
 
       return contracted;
+      */
     }
 
     // ___                ___         _               _   
@@ -684,11 +664,14 @@
   //| .__/_| \___\__,_|_\__\__,_|\__\___/__/
   //|_|                                     
 
+  // TODO
+
+
   /** Delayed Contarct
    * @param contarct Contarct
    * @return true if contarct contains delayed contract
    */
-  function delayedContarct(contract) {
+  function delayed(contract) {
     switch(true) {
       case contract instanceof DelayedContract:
         return true;
@@ -697,25 +680,13 @@
         return false;
         break;
       case contract instanceof CombinatorContract: 
-        switch(true) {
-          case contract instanceof AndContract:
-          case contract instanceof OrContract:
-          case contract instanceof IntersectionContract:
-          case contract instanceof UnionContract:
-            return (delayedContarct(contract.first) || delayedContarct(contract.second))
-              break;
-          case contract instanceof NotContract:
-          case contract instanceof NegationContract:
-            return delayedContarct(contract.sub);
-            break;
-          case contract instanceof WithContract:
-            return delayedContarct(contract.contract);
-            break;
-        }
+        return (delayed(contract.first) && delayed(contract.second))
+          break;
+      case contract instanceof WrapperContract:
+        return delayed(contract.sub);
         break;
       default:
-        // default value
-        return true;
+        error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
     }
   }
 
@@ -723,7 +694,7 @@
    * @param contarct Contarct
    * @return true if contarcts contains immediate contract on its top-level
    */
-  function immediateContract(contract) {
+  function immediate(contract) {
     switch(true) {
       case contract instanceof DelayedContract:
         return false;
@@ -732,203 +703,400 @@
         return true;
         break;
       case contract instanceof CombinatorContract:
-        switch(true) {
-          case contract instanceof AndContract:
-          case contract instanceof OrContract:
-          case contract instanceof IntersectionContract:
-          case contract instanceof UnionContract:
-            return (immediateContract(contract.first) || immediateContract(contract.second))
-              break;
-          case contract instanceof NotContract:
-          case contract instanceof NegationContract:
-            return immediateContract(contract.sub);
-            break;
-          case contract instanceof WithContract:
-            return immediateContract(contract.contract);
-            break;
-        }
+        return (immediate(contract.first) && immediate(contract.second));
+        break;
+      case contract instanceof WrapperContract:
+        return immediate(contract.sub);
         break;
       default:
-        // default value
-        return true;
+        error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
     }
   }
 
-  // _    _                 _ _           
-  //| |  | |               | | |          
-  //| |__| | __ _ _ __   __| | | ___ _ __ 
-  //|  __  |/ _` | '_ \ / _` | |/ _ \ '__|
-  //| |  | | (_| | | | | (_| | |  __/ |   
-  //|_|  |_|\__,_|_| |_|\__,_|_|\___|_|   
-
-  function DelayedHandler(assert) {
-    if(!(this instanceof DelayedHandler)) return new DelayedHandler(assert);
-
-    this.apply = function(target, thisArg, args) {
-      return assert().apply(thisArg, args);
-    };
-  }
-
-  function FunctionHandler(contract, global, handler) {
-    if(!(this instanceof FunctionHandler)) return new FunctionHandler(contract, global, handler);
-    this.apply = function(target, thisArg, args) {
-      var callback = FunctionCallback(handler, contract);
-      var args = assertWith(args, contract.domain, global, callback.domainHandler);
-      var val = target.apply(thisArg, args);  
-      return assertWith(val, contract.range, global, callback.rangeHandler);
-    };
-    this.construct = function(target, args) {
-      var obj = Object.create(target.prototype);
-      this.apply(target, obj, args);
-      return obj;
-    };
-  }
-
-  function MethodHandler(contract, global, handler) {
-    if(!(this instanceof MethodHandler)) return new MethodHandler(contract, global, handler);
-
-    this.apply = function(target, thisArg, args) {
-
-      // domain := arguments + this
-      // range  := return
-
-      var callback = FunctionCallback(handler, contract);
-      var domainCallback = AndCallback(callback.domainHandler, contract);
-
-      var thisArg = assertWith(thisArg, contract.context, global, domainCallback.leftHandler);
-      var args = assertWith(args, contract.domain, global, domainCallback.rightHandler);
-      var val = target.apply(thisArg, args);  
-      return assertWith(val, contract.range, global, callback.rangeHandler);
-    };
-    this.construct = function(target, args) {
-      var obj = Object.create(target.prototype);
-      this.apply(target, obj, args);
-      return obj;
-    };
-  }
-
-  function DependentHandler(contract, global, handler) {
-    if(!(this instanceof DependentHandler)) return new DependentHandler(contract, global, handler);
-
-    this.apply = function(target, thisArg, args) {
-      var range = constructWith(args, contract.constructor, global);
-      var val = target.apply(thisArg, args); 
-      return assertWith(val, range, global, handler);
-    };
-    this.construct = function(target, args) {
-      var obj = Object.create(target.prototype);
-      this.apply(target, this, args);
-      return obj;
-    };
-  }
-
-  function ObjectHandler(contract, global, handler) {
-    if(!(this instanceof ObjectHandler)) return new ObjectHandler(contract, global, handler);
-
-    var callbacks = {};
-    var cache = new WeakMap();
-
-    function getCallback(name) {
-      callbacks[name] = callbacks[name] || ObjectCallback(handler, contract);
-      return callbacks[name];
-    }
-
-    this.get = function(target, name, receiver) {
-
-      function assert(target, name, global, callback) {
-        if(contract.map instanceof StringMap) {
-          return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, callback.getHandler) : target[name];
-        } else {
-          var target = target[name];
-          contract.map.slice(name).foreach(function(i, contract) {
-            target = assertWith(target, contract, global, callback.getHandler);
-          });
-          return target;
-        } 
-      }
-
-      var callback = getCallback(name);
-
-      if(target[name] instanceof Object) {
-        if(cache.has(target[name])) {
-          return cache.get(target[name]);
-        } else {
-          var contracted = assert(target, name, global, callback);
-          cache.set(target[name], contracted);
-          return contracted;
-        }
-      } else {
-        return assert(target, name, global, callback);
-      }
-    };
-
-    this.set = function(target, name, value, reveiver) {
-      var callback = getCallback(name);
-
-      if(contract.map instanceof StringMap) {
-        value = (contract.map.has(name)) ? assertWith(value, contract.map.get(name), global, callback.setHandler) : value;
-      } else {
-        contract.map.slice(name).foreach(function(i, contract) {
-          value = assertWith(value, contract, global, callback.setHandler);
-        });
-      } 
-
-      return target[name] = value;
-    }
-  }
-
-  //                     _                   _   
-  //                    | |                 | |  
-  //  ___ ___  _ __  ___| |_ _ __ _   _  ___| |_ 
-  // / __/ _ \| '_ \/ __| __| '__| | | |/ __| __|
-  //| (_| (_) | | | \__ \ |_| |  | |_| | (__| |_ 
-  // \___\___/|_| |_|___/\__|_|   \__,_|\___|\__|
-
-  function construct(constructor) {
-    log("construct", constructor);
-
-    if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
-
-    var args = Array.slice(arguments);
-    args.shift();
-    return constructWith(args, constructor, new Global());
-  }
-
-  function constructWith(args, constructor, global) {
-    log("construct with", constructor);
-
-    if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
-
-    var newglobal = (constructor.binding!==undefined) ? global.merge(constructor.binding) : global;   
-    var globalArg = newglobal.dump(); 
-    var thisArg = undefined;
-    var argsArray = args;
-
-    var treatjs = {};
-    var newBaseContract = function (predicate, name) {
-      return SandboxContract(predicate, globalArg, name);
-    };
-
-    for(property in _) {
-      if(property==="BaseContract") {
-        __define(property, newBaseContract, treatjs);
-      }
-      else __define(property, _[property], treatjs);
-    }
-
-    globalArg["_"] = treatjs;
-
-    var contract = (_.eval(constructor.constructor, globalArg, thisArg, argsArray));
-
-    if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-    return contract;
-  }
-
-  /**
-   * Core Functions
+  /** Normal Form Contarct
+   * @param contarct Contarct
+   * @return true if contarct is in normal form, false otherwise
    */
+  function canonical(contract) {
+    switch(true) {
+      case contract instanceof DelayedContract:
+        return true;
+        break;
+      case contract instanceof ImmediateContract:
+        return true;
+        break;
+      case contract instanceof CombinatorContract:
+        if(contract instanceof AndContract) return true;
+        else if(contract instanceof UnionContract) return true;
+        else return
+          (delayed(contract.first) && delayed(contract.second)) 
+            || (immediate(contract.first) || immediate(contract.second));        
+        break;
+      case contract instanceof WrapperContract:
+        // TODO
+        //return normalFormContract(contract.sub);
+        error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
+        break;
+      default:
+        error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
+    }
+  }
 
-  __define("construct", construct, _);
-  __define("assert", assert, _);
+
+
+
+
+  // TODO, bad name
+  // ground form
+  //canonical
+
+  /*
+     function normalFormContract(contract) {
+     switch(true) {
+     case contract instanceof DelayedContract:
+     return true;
+     break;
+     case contract instanceof ImmediateContract:
+     return true;
+     break;
+     case contract instanceof CombinatorContract:
+     return (delayed(contract.first) || delayed(contract.second));
+     break;
+  // TODO, Neg(C) in normal form
+  case contract instanceof WrapperContract:
+  return normalFormContract(contract.sub);
+  break;
+  default:
+  return false; // default: false
+  }
+  }
+
+*/
+
+  function unary(contract) {
+    switch(true) {
+      case contract instanceof BaseContract:
+      case contract instanceof FunctionContract:
+      case contract instanceof MethodContract:
+      case contract instanceof DependentContract:
+      case contract instanceof ObjectContract:
+      case contract instanceof NotContract:
+      case contract instanceof NegationContract:
+      case contract instanceof WithContract:
+        return true;
+        break;
+      case contract instanceof AndContract:
+      case contract instanceof OrContract:
+      case contract instanceof IntersectionContract:
+      case contract instanceof UnionContract:
+        return false;
+        break;
+      default:
+        error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
+    }
+  }
+
+  function binary() {
+    switch(true) {
+      case contract instanceof BaseContract:
+      case contract instanceof FunctionContract:
+      case contract instanceof MethodContract:
+      case contract instanceof DependentContract:
+      case contract instanceof ObjectContract:
+      case contract instanceof NotContract:
+      case contract instanceof NegationContract:
+      case contract instanceof WithContract:
+        return false;
+        break;
+      case contract instanceof AndContract:
+      case contract instanceof OrContract:
+      case contract instanceof IntersectionContract:
+      case contract instanceof UnionContract:
+        return true;
+        break;
+      default:
+        error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
+    }
+  }
+
+
+
+  /*
+     var BaseContract = _.BaseContract;
+
+     var FunctionContract = _.FunctionContract;
+     var MethodContract = _.MethodContract;
+     var DependentContract = _.DependentContract;
+     var ObjectContract = _.ObjectContract;
+
+     var WithContract = _.With;
+
+     var AndContract = _.And;
+     var OrContract = _.Or;
+     var NotContract = _.Not;
+
+     var UnionContract = _.Union;
+     var IntersectionContract = _.Intersection;
+     var NegationContract = _.Negation;
+
+*/
+
+  /*
+     function canonicalize(contract) {
+     if(canonical(contract)) return contract;
+
+
+     if(contract instanceof NegationContract)
+
+
+  // intrsection
+  // or
+  //
+
+  var first = canonicalize(contract.first);
+  var second = canonicalize(contract.second);
+
+
+  if ()
+
+
+
+
+
+  switch(true) {
+  case first instanceof BaseContract:
+  case fist instanceof FunctionContract:
+  case first instanceof MethodContract:
+  case first instanceof DependentContract:
+  case fisrt instanceof ObjectContract:
+
+
+  //
+  case contract instanceof AndContract:
+  case contract instanceof UnionContract:
+  return contract;
+  break;
+
+  // TODO, immediate, delayed sind immer true
+
+
+
+
+  // beide delayed ist cannocal
+  // ansonsten rest rechte dann liknke seite
+  case contract instanceof IntersectionContract:
+  if(!delayed(contract.first)) {
+  var first = canonicalize(contract.first);
+
+
+  } else if(!delayed(contract.second)) {
+
+  } 
+
+
+
+  var first = canonicalize(contract.first);
+  var second = canonicalize(contract.second);
+
+
+
+
+  return true;
+  break;
+  case contract instanceof ImmediateContract:
+  return true;
+  break;
+  case contract instanceof CombinatorContract:
+  return (delayedContarct(contract.first) || delayedContarct(contract.second));
+  break;
+  // TODO, Neg(C) in normal form
+  case contract instanceof WrapperContract:
+  return normalFormContract(contract.sub);
+  break;
+  default:
+  return false; // default: false
+}
+
+
+
+}
+*/
+
+// _    _                 _ _           
+//| |  | |               | | |          
+//| |__| | __ _ _ __   __| | | ___ _ __ 
+//|  __  |/ _` | '_ \ / _` | |/ _ \ '__|
+//| |  | | (_| | | | | (_| | |  __/ |   
+//|_|  |_|\__,_|_| |_|\__,_|_|\___|_|   
+
+function DelayedHandler(assert) {
+  if(!(this instanceof DelayedHandler)) return new DelayedHandler(assert);
+
+  this.apply = function(target, thisArg, args) {
+    return assert().apply(thisArg, args);
+  };
+}
+
+function FunctionHandler(contract, global, handler) {
+  if(!(this instanceof FunctionHandler)) return new FunctionHandler(contract, global, handler);
+  this.apply = function(target, thisArg, args) {
+    var callback = FunctionCallback(handler, contract);
+    var args = assertWith(args, contract.domain, global, callback.domainHandler);
+    var val = target.apply(thisArg, args);  
+    return assertWith(val, contract.range, global, callback.rangeHandler);
+  };
+  this.construct = function(target, args) {
+    var obj = Object.create(target.prototype);
+    this.apply(target, obj, args);
+    return obj;
+  };
+}
+
+function MethodHandler(contract, global, handler) {
+  if(!(this instanceof MethodHandler)) return new MethodHandler(contract, global, handler);
+
+  this.apply = function(target, thisArg, args) {
+
+    // domain := arguments + this
+    // range  := return
+
+    var callback = FunctionCallback(handler, contract);
+    var domainCallback = AndCallback(callback.domainHandler, contract);
+
+    var thisArg = assertWith(thisArg, contract.context, global, domainCallback.leftHandler);
+    var args = assertWith(args, contract.domain, global, domainCallback.rightHandler);
+    var val = target.apply(thisArg, args);  
+    return assertWith(val, contract.range, global, callback.rangeHandler);
+  };
+  this.construct = function(target, args) {
+    var obj = Object.create(target.prototype);
+    this.apply(target, obj, args);
+    return obj;
+  };
+}
+
+function DependentHandler(contract, global, handler) {
+  if(!(this instanceof DependentHandler)) return new DependentHandler(contract, global, handler);
+
+  this.apply = function(target, thisArg, args) {
+    var range = constructWith(args, contract.constructor, global);
+    var val = target.apply(thisArg, args); 
+    return assertWith(val, range, global, handler);
+  };
+  this.construct = function(target, args) {
+    var obj = Object.create(target.prototype);
+    this.apply(target, this, args);
+    return obj;
+  };
+}
+
+function ObjectHandler(contract, global, handler) {
+  if(!(this instanceof ObjectHandler)) return new ObjectHandler(contract, global, handler);
+
+  var callbacks = {};
+  var cache = new WeakMap();
+
+  function getCallback(name) {
+    callbacks[name] = callbacks[name] || ObjectCallback(handler, contract);
+    return callbacks[name];
+  }
+
+  this.get = function(target, name, receiver) {
+
+    function assert(target, name, global, callback) {
+      if(contract.map instanceof StringMap) {
+        return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, callback.getHandler) : target[name];
+      } else {
+        var target = target[name];
+        contract.map.slice(name).foreach(function(i, contract) {
+          target = assertWith(target, contract, global, callback.getHandler);
+        });
+        return target;
+      } 
+    }
+
+    var callback = getCallback(name);
+
+    if(target[name] instanceof Object) {
+      if(cache.has(target[name])) {
+        return cache.get(target[name]);
+      } else {
+        var contracted = assert(target, name, global, callback);
+        cache.set(target[name], contracted);
+        return contracted;
+      }
+    } else {
+      return assert(target, name, global, callback);
+    }
+  };
+
+  this.set = function(target, name, value, reveiver) {
+    var callback = getCallback(name);
+
+    if(contract.map instanceof StringMap) {
+      value = (contract.map.has(name)) ? assertWith(value, contract.map.get(name), global, callback.setHandler) : value;
+    } else {
+      contract.map.slice(name).foreach(function(i, contract) {
+        value = assertWith(value, contract, global, callback.setHandler);
+      });
+    } 
+
+    return target[name] = value;
+  }
+}
+
+//                     _                   _   
+//                    | |                 | |  
+//  ___ ___  _ __  ___| |_ _ __ _   _  ___| |_ 
+// / __/ _ \| '_ \/ __| __| '__| | | |/ __| __|
+//| (_| (_) | | | \__ \ |_| |  | |_| | (__| |_ 
+// \___\___/|_| |_|___/\__|_|   \__,_|\___|\__|
+
+function construct(constructor) {
+  log("construct", constructor);
+
+  if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
+
+  var args = Array.slice(arguments);
+  args.shift();
+  return constructWith(args, constructor, new Global());
+}
+
+function constructWith(args, constructor, global) {
+  log("construct with", constructor);
+
+  if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
+
+  var newglobal = (constructor.binding!==undefined) ? global.merge(constructor.binding) : global;   
+  var globalArg = newglobal.dump(); 
+  var thisArg = undefined;
+  var argsArray = args;
+
+  var treatjs = {};
+  var newBaseContract = function (predicate, name) {
+    return SandboxContract(predicate, globalArg, name);
+  };
+
+  for(property in _) {
+    if(property==="BaseContract") {
+      __define(property, newBaseContract, treatjs);
+    }
+    else __define(property, _[property], treatjs);
+  }
+
+  globalArg["_"] = treatjs;
+
+  var contract = (_.eval(constructor.constructor, globalArg, thisArg, argsArray));
+
+  if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+  return contract;
+}
+
+/**
+ * Core Functions
+ */
+
+__define("construct", construct, _);
+__define("assert", assert, _);
 
 })(TreatJS);

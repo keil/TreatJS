@@ -88,14 +88,16 @@ TreatJS.verbose({
     _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
     _.AdvancedFunctionContract([IsNumber, IsNumber], IsString));
 
-  var addChecked5 = _.assert(addUnchecked, union1);
-//  addChecked5(1, 1);
+  var addChecked = _.assert(addUnchecked, union1);
+//  addChecked(1, 1);
   //addChecked5(2, 1);
   //addChecked5(1, "a");
-  addChecked5(3, 1);
+  addChecked(3, 1);
 
 })(); 
 
+
+/*
 
 (function() {
 
@@ -125,7 +127,7 @@ TreatJS.verbose({
 //  addChecked5(3, 1);
 
 })();
-
+*/
 
 // ==================================================
 
