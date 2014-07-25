@@ -71,6 +71,8 @@ TreatJS.verbose({
 
 // ==================================================
 
+
+
 // TODO, teste mix forms
 // also with base contarcts/ flat contracts
 
@@ -94,8 +96,15 @@ TreatJS.verbose({
   //addChecked5(1, "a");
   addChecked(3, 1);
 
+  print("ss");
+  print(union1.constructor);
+
+
 })(); 
 
+
+
+//load('test/test.js');
 
 /*
 

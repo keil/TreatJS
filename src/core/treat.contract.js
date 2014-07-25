@@ -258,23 +258,23 @@
   // \ \/\/ /| |  _| ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
   //  \_/\_/ |_|\__|_||_\___\___/_||_\__|_| \__,_\__|\__|                                                   
 
-  function WithContract(binding, contract) {
-    if(!(this instanceof WithContract)) return new WithContract(binding, contract);
+  function WithContract(binding, sub) {
+    if(!(this instanceof WithContract)) return new WithContract(binding, sub);
 
     if(!(binding instanceof Object)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-    if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+    if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
     Object.defineProperties(this, {
       "binding": {
         get: function () { return binding; } },
-      "contract": {
-        get: function () { return contract; } }
+      "sub": {
+        get: function () { return sub; } }
     });
 
     this.toString = function() {
       var domain = "";
       for(name in binding) domain += " " + name;
-      return "(with {" + domain + "}" + contract.toString() + ")";
+      return "(with {" + domain + "}" + sub.toString() + ")";
     };
   }
  // WithContract.prototype = new CombinatorContract();

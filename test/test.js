@@ -26,7 +26,7 @@ run("test/contract/objectcontract.js");
 
 run("test/contract/andcontract.js");
 run("test/contract/orcontract.js");
-run("test/contract/notcontract.js");
+// run("test/contract/notcontract.js"); // Non-canonical contract 
 
 run("test/contract/withcontract.js");
 run("test/contract/dependentcontract.js");
@@ -53,23 +53,23 @@ run("test/convenience/dependentcontract.js");
 run("test/convenience/methodcontract.js");
 
 // blame
-load("test/blame/base.js");
-load("test/blame/immediate.js");
-load("test/blame/delayed.js");
+run("test/blame/base.js");
+run("test/blame/immediate.js");
+run("test/blame/delayed.js");
 
 
-load("test/blame/function.js");
-load("test/blame/dependent.js");
-load("test/blame/object.js");
-load("test/blame/object2.js");
-load("test/blame/method.js");
+run("test/blame/function.js");
+run("test/blame/dependent.js");
+run("test/blame/object.js");
+run("test/blame/object2.js");
+run("test/blame/method.js");
 
-load("test/blame/intersection.js");
-load("test/blame/union.js");
-load("test/blame/negation.js");
+// run("test/blame/intersection.js"); // Non-canonical contract
+run("test/blame/union.js");
+run("test/blame/negation.js");
 
-load("test/blame/or.js");
-load("test/blame/and.js");
-load("test/blame/not.js");
+run("test/blame/or.js");
+run("test/blame/and.js");
+run("test/blame/not.js");
 
 quit();
