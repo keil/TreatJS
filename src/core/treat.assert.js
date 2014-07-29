@@ -683,13 +683,84 @@
     }
   }
 
+  // >TODO, with and negation over not
+  // with kann auch geflattet werden
+  // und neg in not heißt erst neg flatten dann not düber
+
+
+  function flat(contract) {
+    if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+    if(contract instanceof NegContract) {
+      var sub = contract.sub;
+      switch(true) {
+        case contract.sub instanceof AndContract:
+          return OrContract(NegContract(sub.first), NegContract(sub.second));
+          break;
+        case sub instanceof OrContract:
+          return AndContract(NegContract(sub.first), NegContract(sub.second));
+          break;
+        case sub instanceof UnionContract:
+          return IntersectionContract(NegContract(sub.first), NegContract(sub.second));
+          break;
+        case sub instanceof IntersectionContract:
+          return UnionContract(NegContract(sub.first), NegContract(sub.second));
+          break;
+        case sub instanceof NegContract:
+          return sub.sub;
+          break;
+        default:
+          return contract;
+          break;
+      }    
+    } else if(contract instanceof NotContract) {
+      var sub = contract.sub;
+      switch(true) {
+        case contract.sub instanceof AndContract:
+          return OrContract(NotContract(sub.first), NotContract(sub.second));
+          break;
+        case sub instanceof OrContract:
+          return AndContract(NotContract(sub.first), NotContract(sub.second));
+          break;
+        case sub instanceof UnionContract:
+          return IntersectionContract(NotContract(sub.first), NotContract(sub.second));
+          break;
+        case sub instanceof IntersectionContract:
+          return UnionContract(NotContract(sub.first), NotContract(sub.second));
+          break;
+        case sub instanceof NotContract:
+          return sub.sub;
+          break;
+        default:
+          return contract;
+          break;
+      }
+    } else {
+      error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
+    }
+  }
 
   function canonicalize(contract) {
      if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
      if(canonical(contract)) return contract;
 
+     if(contarct instanceof NegationContract) {
+        return canonicalize(flat(contarct));
+     }
+
+     if(contarct instanceof NegationContract) {
+      return canonicalize(flat(contarct));
+     }
+
+     if(contarct instanceof NegationContract) {
+     return canonicalize(flat(contarct));
+     }
+
      if(contract instanceof IntersectionContract) {
+       var first = canonicalize(contract.first);
+       var second = canonicalize(contract.second);
+
        if(delayed(contract.first) && immediate(contract.second))
          return IntersectionContract(contract.second, contract.first);
 
@@ -698,7 +769,7 @@
 
        if((contract.first instanceof Intersection))
 
-
+      // you knwo it .. also build it
 
 
      }
