@@ -840,4 +840,8 @@
   __define("construct", construct, _);
   __define("assert", assert, _);
 
+  __define("canonical", canonical, _);
+  __define("delayed", delayed, _);
+  __define("immediate", immediate, _);
+
 })(TreatJS);
