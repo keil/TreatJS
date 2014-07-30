@@ -551,8 +551,6 @@
   //| .__/_| \___\__,_|_\__\__,_|\__\___/__/
   //|_|                                     
 
-  // TODO
-
   /**
    * Canonical Contracts:
    *
@@ -560,34 +558,19 @@
    *  B | (I cap J)
    *  [| (I or J)]
    *  [| (not I)]
+   *  [| with x=e I]
    *
    * Delayed Contracts Q,R ::=
    *  C->D | x->C | (Q cap R)
    *  [| (Q or R)]
    *  [| (not Q)]
+   *  [| with x=e Q]
    *
    * Contracts C,D ::=
    *  I | Q | (C cup D) | (I cap C)
    *  [| (C and D) | (I or C)]
-
-
-
-   *  [| (not (C cap D))]
-   *  [| (not (C or D))]
-   *
-   *
-   * (Canonical? C) if C =
-   * I | Q | (C cup D) | (I cap D)
-   *
-   *   *  [| (C cap I) ] | (C or I) 
-
-   *
    *
    */
-
-  // TODO with contract
-  // contructor
-
 
   /** Canonical Contract
    * @param contract Contract
@@ -611,29 +594,26 @@
             break;
           case contract instanceof IntersectionContract:
           case contract instanceof OrContract:
-            return (immediate(contract.first) && delayed(contract.second));
+            return (immediate(contract.first) && canonical(contract.second));
+            // TODO
+            // && delayed(contract.second));
         }
         break;
       case contract instanceof WrapperContract:
         return false;
-        // TODO
-        //return normalFormContract(contract.sub);
-        error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
         break;
       default:
         error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
     }
   }
 
-
-
   /** Delayed Contract
    * @param contract Contract
-   * @return true if contract is element of Delayed Contract
+   * @return true if contract is element of Delayed Contract, false otherwise
    */
   function delayed(contract) {
     if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-    
+
     switch(true) {
       case contract instanceof ImmediateContract:
         return false;
@@ -657,7 +637,7 @@
 
   /** Immediate Contract
    * @param contract Contract
-   * @return true if contract is element of Immediate Contract
+   * @return true if contract is element of Immediate Contract, false otherwise
    */
   function immediate(contract) {
     if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
@@ -683,745 +663,181 @@
     }
   }
 
-  // >TODO, with and negation over not
-  // with kann auch geflattet werden
-  // und neg in not heißt erst neg flatten dann not düber
+  // _    _                 _ _           
+  //| |  | |               | | |          
+  //| |__| | __ _ _ __   __| | | ___ _ __ 
+  //|  __  |/ _` | '_ \ / _` | |/ _ \ '__|
+  //| |  | | (_| | | | | (_| | |  __/ |   
+  //|_|  |_|\__,_|_| |_|\__,_|_|\___|_|   
 
+  function DelayedHandler(assert) {
+    if(!(this instanceof DelayedHandler)) return new DelayedHandler(assert);
 
-  function flat(contract) {
-    if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-
-    if(contract instanceof NegContract) {
-      var sub = contract.sub;
-      switch(true) {
-        case contract.sub instanceof AndContract:
-          return OrContract(NegContract(sub.first), NegContract(sub.second));
-          break;
-        case sub instanceof OrContract:
-          return AndContract(NegContract(sub.first), NegContract(sub.second));
-          break;
-        case sub instanceof UnionContract:
-          return IntersectionContract(NegContract(sub.first), NegContract(sub.second));
-          break;
-        case sub instanceof IntersectionContract:
-          return UnionContract(NegContract(sub.first), NegContract(sub.second));
-          break;
-        case sub instanceof NegContract:
-          return sub.sub;
-          break;
-        default:
-          return contract;
-          break;
-      }    
-    } else if(contract instanceof NotContract) {
-      var sub = contract.sub;
-      switch(true) {
-        case contract.sub instanceof AndContract:
-          return OrContract(NotContract(sub.first), NotContract(sub.second));
-          break;
-        case sub instanceof OrContract:
-          return AndContract(NotContract(sub.first), NotContract(sub.second));
-          break;
-        case sub instanceof UnionContract:
-          return IntersectionContract(NotContract(sub.first), NotContract(sub.second));
-          break;
-        case sub instanceof IntersectionContract:
-          return UnionContract(NotContract(sub.first), NotContract(sub.second));
-          break;
-        case sub instanceof NotContract:
-          return sub.sub;
-          break;
-        default:
-          return contract;
-          break;
-      }
-    } else {
-      error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
-    }
+    this.apply = function(target, thisArg, args) {
+      return assert().apply(thisArg, args);
+    };
   }
 
-
-  // TODO add cannocallize at thye end of expand
-
-  function expandWith(contract) {
-    if(!(contract instanceof WithContract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-
-    var sub = contract.sub;
-    var binding = contract.binding;
-
-    // canonical contracts
-    if(cannonical(sub)) return contract;
-    else {
-       switch(true) {
-        case sub instanceof OrContract:
-          return OrContract(WithContract(binding, sub.first), WithContract(binding, sub.second));
-          break;
-        case sub instanceof IntersectionContract:
-          return IntersectionContract(WithContract(binding, sub.first), WithContract(binding, sub.second));
-          break;
-        case sub instanceof NotContract:
-          // TODO
-          break;
-        case sub instanceof NegationContract:
-          // TODO
-          break;
-        case sub instanceof WithContract:
-          return expandWith(WithContract(binding, canonicalize(sub)));
-          break;
-        default:
-          error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
-          break;
-      }
-    }
+  function FunctionHandler(contract, global, handler) {
+    if(!(this instanceof FunctionHandler)) return new FunctionHandler(contract, global, handler);
+    this.apply = function(target, thisArg, args) {
+      var callback = FunctionCallback(handler, contract);
+      var args = assertWith(args, contract.domain, global, callback.domainHandler);
+      var val = target.apply(thisArg, args);  
+      return assertWith(val, contract.range, global, callback.rangeHandler);
+    };
+    this.construct = function(target, args) {
+      var obj = Object.create(target.prototype);
+      this.apply(target, obj, args);
+      return obj;
+    };
   }
 
-  function expandNegation(contract) {
-    if(!(contract instanceof NegationContract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+  function MethodHandler(contract, global, handler) {
+    if(!(this instanceof MethodHandler)) return new MethodHandler(contract, global, handler);
 
-    var sub = contract.sub;
+    this.apply = function(target, thisArg, args) {
 
-    // canonical contracts
-    if(cannonical(sub)) return contract;
-    else {
-       switch(true) {
-        case sub instanceof OrContract:
-          return AndContract(NegationContract(sub.first), NegationContract(sub.second));
-          break;
-        case sub instanceof AndContract:
-          return OrContract(NegationContract(sub.first), NegationContract(sub.second));
-          break;
-        case sub instanceof IntersectionContract:
-          return UnionContract(NegationContract(sub.first), NegationContract(sub.second));
-          break;
-        case sub instanceof UnionContract:
-          return IntersectionContract(NegationContract(sub.first), NegationContract(sub.second));
-          break;
-        case sub instanceof NotContract:
-          return sub.sub;
-          break;
-        case sub instanceof NegationContract:
-          return sub.sub;
-          break;
-        case sub instanceof WithContract:
-          return WithContract(sub.binding, NegationContract(sub.contract));
-          break;
-        default:
-          error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
-          break;
-      }
-    }
+      // domain := arguments + this
+      // range  := return
+
+      var callback = FunctionCallback(handler, contract);
+      var domainCallback = AndCallback(callback.domainHandler, contract);
+
+      var thisArg = assertWith(thisArg, contract.context, global, domainCallback.leftHandler);
+      var args = assertWith(args, contract.domain, global, domainCallback.rightHandler);
+      var val = target.apply(thisArg, args);  
+      return assertWith(val, contract.range, global, callback.rangeHandler);
+    };
+    this.construct = function(target, args) {
+      var obj = Object.create(target.prototype);
+      this.apply(target, obj, args);
+      return obj;
+    };
   }
 
-  function expandNot(contract) {
-    if(!(contract instanceof NotContract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-    
-    var sub = contract.sub;
+  function DependentHandler(contract, global, handler) {
+    if(!(this instanceof DependentHandler)) return new DependentHandler(contract, global, handler);
 
-    // canonical contracts
-    if(cannonical(sub)) return contract;
-    else {
-       switch(true) {
-        case sub instanceof OrContract:
-          return AndContract(NotContract(sub.first), NotContract(sub.second));
-          break;
-        case sub instanceof AndContract:
-          return OrContract(NotContract(sub.first), NotContract(sub.second));
-          break;
-        case sub instanceof IntersectionContract:
-          return UnionContract(NotContract(sub.first), NotContract(sub.second));
-          break;
-        case sub instanceof UnionContract:
-          return IntersectionContract(NotContract(sub.first), NotContract(sub.second));
-          break;
-        case sub instanceof NotContract:
-          return sub.sub;
-          break;
-        case sub instanceof NegationContract:
-          return sub.sub;
-          break;
-        case sub instanceof WithContract:
-          return WithContract(sub.binding, NotContract(sub.contract));
-          break;
-        default:
-          error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
-          break;
-      }
-    }  
+    this.apply = function(target, thisArg, args) {
+      var range = constructWith(args, contract.constructor, global);
+      var val = target.apply(thisArg, args); 
+      return assertWith(val, range, global, handler);
+    };
+    this.construct = function(target, args) {
+      var obj = Object.create(target.prototype);
+      this.apply(target, this, args);
+      return obj;
+    };
   }
 
-  function expandIntersection(contract) {
-    if(!(contract instanceof IntersectionContract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+  function ObjectHandler(contract, global, handler) {
+    if(!(this instanceof ObjectHandler)) return new ObjectHandler(contract, global, handler);
 
-    var first = canonicalize(contract.first);
-    var second = canonicalize(contract.second);
+    var callbacks = {};
+    var cache = new WeakMap();
 
-    switch(true) {
-
-      case immediate(first):
-      case delayed(first):
-        if(immediate(second)) return IntersectionContract(second, first);
-        else return expandIntersectionOn(first, second);
-        break;
-
-      case immediate(second):
-      case delayed(second):
-        return expandIntersectionOn(first, second);
-        break;
-
-      case first instanceof UnionContract:
-        return UnionContract(canonicalize(expandIntersectionOn(first.first, second)), canonicalize(expandIntersectionOn(first.second, second)));
-        break;
-
-      case first instanceof AndContract:
-        return AndContract(canonicalize(expandIntersectionOn(first.first, second)), canonicalize(expandIntersectionOn(first.second, second)));
-        break;
-
-      case first instanceof OrContract:
-        return OrContract(first.first, canonicalize(OrContract(first.second, second)));
-        break;
-
-      case first instanceof IntersectionContract:
-        return IntersectionContract(first.first, canonicalize(IntersectionContract(first.second, second)));
-        break;
-
-      default:
-        error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
-        break;
-    } 
-  }
-
-  function expandOr(contract) {
-    if(!(contract instanceof OrContract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-
-    var first = canonicalize(contract.first);
-    var second = canonicalize(contract.second);
-
-    switch(true) {
-
-      case immediate(first):
-      case delayed(first):
-        if(immediate(second)) return OrContract(second, first);
-        else return expandOrOn(first, second);
-        break;
-
-      case immediate(second):
-      case delayed(second):
-        return expandOrOn(first, second);
-        break;
-
-      case first instanceof UnionContract:
-        return UnionContract(canonicalize(expandOrOn(first.first, second)), canonicalize(expandOrOn(first.second, second)));
-        break;
-
-      case first instanceof AndContract:
-        return AndContract(canonicalize(expandOrOn(first.first, second)), canonicalize(expandOrOn(first.second, second)));
-        break;
-
-      case first instanceof OrContract:
-        return OrContract(first.first, canonicalize(OrContract(first.second, second)));
-        break;
-
-      case first instanceof IntersectionContract:
-        return IntersectionContract(first.first, canonicalize(IntersectionContract(first.second, second)));
-        break;
-
-      default:
-        error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
-        break;
-    }
-  }
-
-
-    function expandIntersectionOn(contract, contrctP)  {
-      switch(true) {
-        case contrctP instanceof OrContract:
-          return OrContract(IntersectionContract(contract, contrctP.first), IntersectionContract(contract, contractP.second));
-          break;
-        case contrctP instanceof AndContract:
-          return AndContract(IntersectionContract(contract, contrctP.first), IntersectionContract(contract, contractP.second));
-          break;
-        case contrctP instanceof IntersectionContract:
-          return IntersectionContract(contrctP.first, IntersectionContract(contract, contractP.second));
-          break;
-        case contrctP instanceof UnionContract:
-          return UnionContract(IntersectionContract(contract, contrctP.first), IntersectionContract(contract, contractP.second));
-          break;
-        default:
-          error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
-          break;
-      }
+    function getCallback(name) {
+      callbacks[name] = callbacks[name] || ObjectCallback(handler, contract);
+      return callbacks[name];
     }
 
-    function expandOrOn(contract, contrctP)  {
-      switch(true) {
-        case contrctP instanceof OrContract:
-          return OrContract(contrctP.first, OrContract(contract, contractP.second));
-          break;
-        case contrctP instanceof AndContract:
-          return AndContract(OrContract(contract, contrctP.first), OrContract(contract, contractP.second));
-          break;
-        case contrctP instanceof IntersectionContract:
-          return IntersectionContract(OrContract(contract, contrctP.first), OrContract(contract, contractP.second));
-          break;
-        case contrctP instanceof UnionContract:
-          return UnionContract(OrContract(contract, contrctP.first), OrContract(contract, contractP.second));
-          break;
-        default:
-          error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
-          break;
+    this.get = function(target, name, receiver) {
+
+      function assert(target, name, global, callback) {
+        if(contract.map instanceof StringMap) {
+          return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, callback.getHandler) : target[name];
+        } else {
+          var target = target[name];
+          contract.map.slice(name).foreach(function(i, contract) {
+            target = assertWith(target, contract, global, callback.getHandler);
+          });
+          return target;
+        } 
       }
-    }
 
+      var callback = getCallback(name);
 
-
-  function canonicalize(contract) {
-     if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-
-     if(canonical(contract)) return contract;
-     else {
-     switch(true) {
-        case contract instanceof OrContract:
-          // TODO
-          break;
-        case contract instanceof IntersectionContract:
-          // TODO
-          break;
-        case contract instanceof NotContract:
-          return canonicalize(expandNot(contract));
-          break;
-        case contract instanceof NegationContract:
-          return canonicalize(expandNegation(contract));
-          break;
-        case contract instanceof WithContract:
-          return canonicalize(expandWith(contract));
-          break;
-        default:
-          error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
-          break;
-      }
-    }  
-
-
-
-     if(contract instanceof IntersectionContract) {
-
-       if(delayed(contract.first) && immediate(contract.second))
-         return IntersectionContract(contract.second, contract.first);
-
-       if(delayed(contract.first) && ) {}
-
-
-       if((contract.first instanceof Intersection))
-
-      // you knwo it .. also build it
-
-
-     }
-
-
-
-
-      if((contract instanceof IntersectionContract) || (contract instanceof OrContract)) {
-
-        if(relayed) ;
-
-      
+      if(target[name] instanceof Object) {
+        if(cache.has(target[name])) {
+          return cache.get(target[name]);
+        } else {
+          var contracted = assert(target, name, global, callback);
+          cache.set(target[name], contracted);
+          return contracted;
+        }
       } else {
-        error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
+        return assert(target, name, global, callback);
       }
+    };
 
+    this.set = function(target, name, value, reveiver) {
+      var callback = getCallback(name);
 
-  
+      if(contract.map instanceof StringMap) {
+        value = (contract.map.has(name)) ? assertWith(value, contract.map.get(name), global, callback.setHandler) : value;
+      } else {
+        contract.map.slice(name).foreach(function(i, contract) {
+          value = assertWith(value, contract, global, callback.setHandler);
+        });
+      } 
+
+      return target[name] = value;
+    }
   }
 
+  //                     _                   _   
+  //                    | |                 | |  
+  //  ___ ___  _ __  ___| |_ _ __ _   _  ___| |_ 
+  // / __/ _ \| '_ \/ __| __| '__| | | |/ __| __|
+  //| (_| (_) | | | \__ \ |_| |  | |_| | (__| |_ 
+  // \___\___/|_| |_|___/\__|_|   \__,_|\___|\__|
 
-  // todo
-  // canonicolaze
+  function construct(constructor) {
+    log("construct", constructor);
 
+    if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
 
-   function expandIntersectionToUnion(contract, union) {
-    if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber); 
-    if(!(union instanceof UnionContract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);  
+    var args = Array.slice(arguments);
+    args.shift();
+    return constructWith(args, constructor, new Global());
+  }
 
-    return Union(
-          IntersectionContract(contract, union.first),
-          IntersectionContract(contract, union.second)
-        )
-   }
+  function constructWith(args, constructor, global) {
+    log("construct with", constructor);
 
-   function expandIntersectionToAnd(contract, union) {
-    if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber); 
-    if(!(union instanceof AndContract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);  
+    if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
 
-    return And(
-          IntersectionContract(contract, union.first),
-          IntersectionContract(contract, union.second)
-        )
-   }
+    var newglobal = (constructor.binding!==undefined) ? global.merge(constructor.binding) : global;   
+    var globalArg = newglobal.dump(); 
+    var thisArg = undefined;
+    var argsArray = args;
 
+    var treatjs = {};
+    var newBaseContract = function (predicate, name) {
+      return SandboxContract(predicate, globalArg, name);
+    };
 
+    for(property in _) {
+      if(property==="BaseContract") {
+        __define(property, newBaseContract, treatjs);
+      }
+      else __define(property, _[property], treatjs);
+    }
 
+    globalArg["_"] = treatjs;
 
+    var contract = (_.eval(constructor.constructor, globalArg, thisArg, argsArray));
 
-  // TODO, all cases required ?
+    if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+    return contract;
+  }
 
   /**
-   * C \cap (C' \cup C'') --> (C \cap C') \cup (C \cap C'')
+   * Core Functions
    */
-  
 
-
-  function expand(contract) {
-    if(!(contract instanceof UnionContract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber); 
-
-    switch(true) {
-      case contract instanceof IntersectionContract:
-        break;
-      case contract instanceof OrContract:
-        break;
-      case contract instanceof UnionContract:
-        break;
-      case contract instanceof AndContract:
-        break;
-      default:
-        error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
-        break;   
-    } 
-  }
-
- 
-
-
-
-
-  /*
-
-
-     function unary(contract) {
-     switch(true) {
-     case contract instanceof BaseContract:
-     case contract instanceof FunctionContract:
-     case contract instanceof MethodContract:
-     case contract instanceof DependentContract:
-     case contract instanceof ObjectContract:
-     case contract instanceof NotContract:
-     case contract instanceof NegationContract:
-     case contract instanceof WithContract:
-     return true;
-     break;
-     case contract instanceof AndContract:
-     case contract instanceof OrContract:
-     case contract instanceof IntersectionContract:
-     case contract instanceof UnionContract:
-     return false;
-     break;
-     default:
-     error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
-     }
-     }
-
-     function binary() {
-     switch(true) {
-     case contract instanceof BaseContract:
-     case contract instanceof FunctionContract:
-     case contract instanceof MethodContract:
-     case contract instanceof DependentContract:
-     case contract instanceof ObjectContract:
-     case contract instanceof NotContract:
-     case contract instanceof NegationContract:
-     case contract instanceof WithContract:
-     return false;
-     break;
-     case contract instanceof AndContract:
-     case contract instanceof OrContract:
-     case contract instanceof IntersectionContract:
-     case contract instanceof UnionContract:
-     return true;
-     break;
-     default:
-     error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
-     }
-     }
-
-*/
-
-
-  /*
-     var BaseContract = _.BaseContract;
-
-     var FunctionContract = _.FunctionContract;
-     var MethodContract = _.MethodContract;
-     var DependentContract = _.DependentContract;
-     var ObjectContract = _.ObjectContract;
-
-     var WithContract = _.With;
-
-     var AndContract = _.And;
-     var OrContract = _.Or;
-     var NotContract = _.Not;
-
-     var UnionContract = _.Union;
-     var IntersectionContract = _.Intersection;
-     var NegationContract = _.Negation;
-
-*/
-
-  /*
-     function canonicalize(contract) {
-     if(canonical(contract)) return contract;
-
-
-     if(contract instanceof NegationContract)
-
-
-  // intrsection
-  // or
-  //
-
-  var first = canonicalize(contract.first);
-  var second = canonicalize(contract.second);
-
-
-  if ()
-
-
-
-
-
-  switch(true) {
-  case first instanceof BaseContract:
-  case fist instanceof FunctionContract:
-  case first instanceof MethodContract:
-  case first instanceof DependentContract:
-  case fisrt instanceof ObjectContract:
-
-
-  //
-  case contract instanceof AndContract:
-  case contract instanceof UnionContract:
-  return contract;
-  break;
-
-  // TODO, immediate, delayed sind immer true
-
-
-
-
-  // beide delayed ist cannocal
-  // ansonsten rest rechte dann liknke seite
-  case contract instanceof IntersectionContract:
-  if(!delayed(contract.first)) {
-  var first = canonicalize(contract.first);
-
-
-  } else if(!delayed(contract.second)) {
-
-  } 
-
-
-
-  var first = canonicalize(contract.first);
-  var second = canonicalize(contract.second);
-
-
-
-
-  return true;
-  break;
-  case contract instanceof ImmediateContract:
-  return true;
-  break;
-  case contract instanceof CombinatorContract:
-  return (delayedContarct(contract.first) || delayedContarct(contract.second));
-  break;
-  // TODO, Neg(C) in normal form
-  case contract instanceof WrapperContract:
-  return normalFormContract(contract.sub);
-  break;
-  default:
-  return false; // default: false
-}
-
-
-
-}
-*/
-
-// _    _                 _ _           
-//| |  | |               | | |          
-//| |__| | __ _ _ __   __| | | ___ _ __ 
-//|  __  |/ _` | '_ \ / _` | |/ _ \ '__|
-//| |  | | (_| | | | | (_| | |  __/ |   
-//|_|  |_|\__,_|_| |_|\__,_|_|\___|_|   
-
-function DelayedHandler(assert) {
-  if(!(this instanceof DelayedHandler)) return new DelayedHandler(assert);
-
-  this.apply = function(target, thisArg, args) {
-    return assert().apply(thisArg, args);
-  };
-}
-
-function FunctionHandler(contract, global, handler) {
-  if(!(this instanceof FunctionHandler)) return new FunctionHandler(contract, global, handler);
-  this.apply = function(target, thisArg, args) {
-    var callback = FunctionCallback(handler, contract);
-    var args = assertWith(args, contract.domain, global, callback.domainHandler);
-    var val = target.apply(thisArg, args);  
-    return assertWith(val, contract.range, global, callback.rangeHandler);
-  };
-  this.construct = function(target, args) {
-    var obj = Object.create(target.prototype);
-    this.apply(target, obj, args);
-    return obj;
-  };
-}
-
-function MethodHandler(contract, global, handler) {
-  if(!(this instanceof MethodHandler)) return new MethodHandler(contract, global, handler);
-
-  this.apply = function(target, thisArg, args) {
-
-    // domain := arguments + this
-    // range  := return
-
-    var callback = FunctionCallback(handler, contract);
-    var domainCallback = AndCallback(callback.domainHandler, contract);
-
-    var thisArg = assertWith(thisArg, contract.context, global, domainCallback.leftHandler);
-    var args = assertWith(args, contract.domain, global, domainCallback.rightHandler);
-    var val = target.apply(thisArg, args);  
-    return assertWith(val, contract.range, global, callback.rangeHandler);
-  };
-  this.construct = function(target, args) {
-    var obj = Object.create(target.prototype);
-    this.apply(target, obj, args);
-    return obj;
-  };
-}
-
-function DependentHandler(contract, global, handler) {
-  if(!(this instanceof DependentHandler)) return new DependentHandler(contract, global, handler);
-
-  this.apply = function(target, thisArg, args) {
-    var range = constructWith(args, contract.constructor, global);
-    var val = target.apply(thisArg, args); 
-    return assertWith(val, range, global, handler);
-  };
-  this.construct = function(target, args) {
-    var obj = Object.create(target.prototype);
-    this.apply(target, this, args);
-    return obj;
-  };
-}
-
-function ObjectHandler(contract, global, handler) {
-  if(!(this instanceof ObjectHandler)) return new ObjectHandler(contract, global, handler);
-
-  var callbacks = {};
-  var cache = new WeakMap();
-
-  function getCallback(name) {
-    callbacks[name] = callbacks[name] || ObjectCallback(handler, contract);
-    return callbacks[name];
-  }
-
-  this.get = function(target, name, receiver) {
-
-    function assert(target, name, global, callback) {
-      if(contract.map instanceof StringMap) {
-        return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, callback.getHandler) : target[name];
-      } else {
-        var target = target[name];
-        contract.map.slice(name).foreach(function(i, contract) {
-          target = assertWith(target, contract, global, callback.getHandler);
-        });
-        return target;
-      } 
-    }
-
-    var callback = getCallback(name);
-
-    if(target[name] instanceof Object) {
-      if(cache.has(target[name])) {
-        return cache.get(target[name]);
-      } else {
-        var contracted = assert(target, name, global, callback);
-        cache.set(target[name], contracted);
-        return contracted;
-      }
-    } else {
-      return assert(target, name, global, callback);
-    }
-  };
-
-  this.set = function(target, name, value, reveiver) {
-    var callback = getCallback(name);
-
-    if(contract.map instanceof StringMap) {
-      value = (contract.map.has(name)) ? assertWith(value, contract.map.get(name), global, callback.setHandler) : value;
-    } else {
-      contract.map.slice(name).foreach(function(i, contract) {
-        value = assertWith(value, contract, global, callback.setHandler);
-      });
-    } 
-
-    return target[name] = value;
-  }
-}
-
-//                     _                   _   
-//                    | |                 | |  
-//  ___ ___  _ __  ___| |_ _ __ _   _  ___| |_ 
-// / __/ _ \| '_ \/ __| __| '__| | | |/ __| __|
-//| (_| (_) | | | \__ \ |_| |  | |_| | (__| |_ 
-// \___\___/|_| |_|___/\__|_|   \__,_|\___|\__|
-
-function construct(constructor) {
-  log("construct", constructor);
-
-  if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
-
-  var args = Array.slice(arguments);
-  args.shift();
-  return constructWith(args, constructor, new Global());
-}
-
-function constructWith(args, constructor, global) {
-  log("construct with", constructor);
-
-  if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
-
-  var newglobal = (constructor.binding!==undefined) ? global.merge(constructor.binding) : global;   
-  var globalArg = newglobal.dump(); 
-  var thisArg = undefined;
-  var argsArray = args;
-
-  var treatjs = {};
-  var newBaseContract = function (predicate, name) {
-    return SandboxContract(predicate, globalArg, name);
-  };
-
-  for(property in _) {
-    if(property==="BaseContract") {
-      __define(property, newBaseContract, treatjs);
-    }
-    else __define(property, _[property], treatjs);
-  }
-
-  globalArg["_"] = treatjs;
-
-  var contract = (_.eval(constructor.constructor, globalArg, thisArg, argsArray));
-
-  if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-  return contract;
-}
-
-/**
- * Core Functions
- */
-
-__define("construct", construct, _);
-__define("assert", assert, _);
+  __define("construct", construct, _);
+  __define("assert", assert, _);
 
 })(TreatJS);
