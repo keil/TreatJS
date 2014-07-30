@@ -158,7 +158,9 @@
 
     if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
-    if(!canonical(contract)) error("Non-canonical contract", (new Error()).fileName, (new Error()).lineNumber);
+    // TODO
+    //if(!canonical(contract)) error("Non-canonical contract", (new Error()).fileName, (new Error()).lineNumber);
+    if(!canonical(contract)) return assert(arg, _.canonicalize(contract));
 
     var callback = RootCallback(function(handle) {
       if(handle.contract.isFalse()) {

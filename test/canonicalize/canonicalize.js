@@ -114,10 +114,6 @@ testNCC ( _.Intersection ( _.Union(fc, bc), _.Union(fc, bc) ));
 testCC ( _.Union ( _.Negation(_.Intersection(fc, bc)), _.Intersection(fc, bc) ));
 testNCC ( _.Intersection ( _.Negation(_.Union(fc, bc)), _.Union(fc, bc) ));
 
-
-
-
-
 (function() {
 
   var contract = _.Or(
@@ -134,3 +130,7 @@ testNCC ( _.Intersection ( _.Negation(_.Union(fc, bc)), _.Union(fc, bc) ));
   testNCC(contract);
 
 })();
+
+testNCC ( _.Not(_.And(IsNumber, GreaterThanZero)));
+testCC ( _.Not(_.Or(IsNumber, False)));
+testCC ( _.Not(_.Not(IsNumber)));

@@ -26,7 +26,7 @@ run("test/contract/objectcontract.js");
 
 run("test/contract/andcontract.js");
 run("test/contract/orcontract.js");
-// run("test/contract/notcontract.js"); // Non-canonical contract 
+run("test/contract/notcontract.js");
 
 run("test/contract/withcontract.js");
 run("test/contract/dependentcontract.js");
@@ -64,12 +64,15 @@ run("test/blame/object.js");
 run("test/blame/object2.js");
 run("test/blame/method.js");
 
-// run("test/blame/intersection.js"); // Non-canonical contract
+run("test/blame/intersection.js");
 run("test/blame/union.js");
 run("test/blame/negation.js");
 
 run("test/blame/or.js");
 run("test/blame/and.js");
 run("test/blame/not.js");
+
+// canonicalize
+load("test/canonicalize/canonicalize.js");
 
 quit();
