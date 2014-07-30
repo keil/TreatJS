@@ -345,7 +345,7 @@
         get: function () { return sub; } }
     });
 
-    this.sub = sub;
+//    this.sub = sub;
     this.toString = function() { return "(neg(" + sub.toString() + "))"; };
   }
  // NegationContract.prototype = new CombinatorContract();

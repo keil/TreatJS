@@ -555,7 +555,7 @@
    * Canonical Contracts:
    *
    * Immediate Contracts I,J ::=
-   *  B | (I cap J)
+   *  B | O | (I cap J)
    *  [| (I or J)]
    *  [| (not I)]
    *  [| with x=e I]

@@ -72,6 +72,9 @@ TreatJS.verbose({
 
 // ==================================================
 
+load("test/canonicalize/canonicalize.js");
+
+quit();
 
 
 // TODO, teste mix forms
