@@ -158,9 +158,11 @@
 
     if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
-    // TODO
-    //if(!canonical(contract)) error("Non-canonical contract", (new Error()).fileName, (new Error()).lineNumber);
-    if(!canonical(contract)) return assert(arg, _.canonicalize(contract));
+    if(_.Config.canonicalize) {
+      if(!canonical(contract)) return assert(arg, _.canonicalize(contract));
+    } else {
+      if(!canonical(contract)) error("Non-canonical contract", (new Error()).fileName, (new Error()).lineNumber);
+    }
 
     var callback = RootCallback(function(handle) {
       if(handle.contract.isFalse()) {
@@ -597,8 +599,6 @@
           case contract instanceof IntersectionContract:
           case contract instanceof OrContract:
             return (immediate(contract.first) && canonical(contract.second));
-            // TODO
-            // && delayed(contract.second));
         }
         break;
       case contract instanceof WrapperContract:

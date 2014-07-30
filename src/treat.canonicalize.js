@@ -51,7 +51,6 @@
   var IntersectionContract = _.Intersection;
   var NegationContract = _.Negation;
 
-
   function canonicalize(contract) {
     if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
@@ -210,28 +209,28 @@
 
     // canonical contracts
     /*if(canonical(sub)) return contract;
-    else*/ {
-      switch(true) {
-        case sub instanceof OrContract:
-          return OrContract(WithContract(binding, sub.first), WithContract(binding, sub.second));
-          break;
-        case sub instanceof IntersectionContract:
-          return IntersectionContract(WithContract(binding, sub.first), WithContract(binding, sub.second));
-          break;
-        case sub instanceof NotContract:
-          return expandWith(WithContract(binding, canonicalize(sub)));
-          break;
-        case sub instanceof NegationContract:
-          return expandWith(WithContract(binding, canonicalize(sub)));
-          break;
-        case sub instanceof WithContract:
-          return expandWith(WithContract(binding, canonicalize(sub)));
-          break;
-        default:
-          error("Contract not implemented: " + contract.toString(), (new Error()).fileName, (new Error()).lineNumber);
-          break;
+      else*/ {
+        switch(true) {
+          case sub instanceof OrContract:
+            return OrContract(WithContract(binding, sub.first), WithContract(binding, sub.second));
+            break;
+          case sub instanceof IntersectionContract:
+            return IntersectionContract(WithContract(binding, sub.first), WithContract(binding, sub.second));
+            break;
+          case sub instanceof NotContract:
+            return expandWith(WithContract(binding, canonicalize(sub)));
+            break;
+          case sub instanceof NegationContract:
+            return expandWith(WithContract(binding, canonicalize(sub)));
+            break;
+          case sub instanceof WithContract:
+            return expandWith(WithContract(binding, canonicalize(sub)));
+            break;
+          default:
+            error("Contract not implemented: " + contract.toString(), (new Error()).fileName, (new Error()).lineNumber);
+            break;
+        }
       }
-    }
   }
 
   function expandNegation(contract) {
@@ -241,34 +240,34 @@
 
     // canonical contracts
     /*if(canonical(sub)) return contract;
-    else*/ {
-      switch(true) {
-        case sub instanceof OrContract:
-          return AndContract(NegationContract(sub.first), NegationContract(sub.second));
-          break;
-        case sub instanceof AndContract:
-          return OrContract(NegationContract(sub.first), NegationContract(sub.second));
-          break;
-        case sub instanceof IntersectionContract:
-          return UnionContract(NegationContract(sub.first), NegationContract(sub.second));
-          break;
-        case sub instanceof UnionContract:
-          return IntersectionContract(NegationContract(sub.first), NegationContract(sub.second));
-          break;
-        case sub instanceof NotContract:
-          return sub.sub;
-          break;
-        case sub instanceof NegationContract:
-          return sub.sub;
-          break;
-        case sub instanceof WithContract:
-          return WithContract(sub.binding, NegationContract(sub.sub));
-          break;
-        default:
-          error("Contract not implemented: " + contract.toString(), (new Error()).fileName, (new Error()).lineNumber);
-          break;
+      else*/ {
+        switch(true) {
+          case sub instanceof OrContract:
+            return AndContract(NegationContract(sub.first), NegationContract(sub.second));
+            break;
+          case sub instanceof AndContract:
+            return OrContract(NegationContract(sub.first), NegationContract(sub.second));
+            break;
+          case sub instanceof IntersectionContract:
+            return UnionContract(NegationContract(sub.first), NegationContract(sub.second));
+            break;
+          case sub instanceof UnionContract:
+            return IntersectionContract(NegationContract(sub.first), NegationContract(sub.second));
+            break;
+          case sub instanceof NotContract:
+            return sub.sub;
+            break;
+          case sub instanceof NegationContract:
+            return sub.sub;
+            break;
+          case sub instanceof WithContract:
+            return WithContract(sub.binding, NegationContract(sub.sub));
+            break;
+          default:
+            error("Contract not implemented: " + contract.toString(), (new Error()).fileName, (new Error()).lineNumber);
+            break;
+        }
       }
-    }
   }
 
   function expandNot(contract) {
@@ -278,34 +277,34 @@
 
     // canonical contracts
     /*if(canonical(sub)) return contract;
-    else*/ {
-      switch(true) {
-        case sub instanceof OrContract:
-          return AndContract(NotContract(sub.first), NotContract(sub.second));
-          break;
-        case sub instanceof AndContract:
-          return OrContract(NotContract(sub.first), NotContract(sub.second));
-          break;
-        case sub instanceof IntersectionContract:
-          return UnionContract(NotContract(sub.first), NotContract(sub.second));
-          break;
-        case sub instanceof UnionContract:
-          return IntersectionContract(NotContract(sub.first), NotContract(sub.second));
-          break;
-        case sub instanceof NotContract:
-          return sub.sub;
-          break;
-        case sub instanceof NegationContract:
-          return sub.sub;
-          break;
-        case sub instanceof WithContract:
-          return WithContract(sub.binding, NotContract(sub.sub));
-          break;
-        default:
-          error("Contract not implemented: " + contract.toString(), (new Error()).fileName, (new Error()).lineNumber);
-          break;
-      }
-    }  
+      else*/ {
+        switch(true) {
+          case sub instanceof OrContract:
+            return AndContract(NotContract(sub.first), NotContract(sub.second));
+            break;
+          case sub instanceof AndContract:
+            return OrContract(NotContract(sub.first), NotContract(sub.second));
+            break;
+          case sub instanceof IntersectionContract:
+            return UnionContract(NotContract(sub.first), NotContract(sub.second));
+            break;
+          case sub instanceof UnionContract:
+            return IntersectionContract(NotContract(sub.first), NotContract(sub.second));
+            break;
+          case sub instanceof NotContract:
+            return sub.sub;
+            break;
+          case sub instanceof NegationContract:
+            return sub.sub;
+            break;
+          case sub instanceof WithContract:
+            return WithContract(sub.binding, NotContract(sub.sub));
+            break;
+          default:
+            error("Contract not implemented: " + contract.toString(), (new Error()).fileName, (new Error()).lineNumber);
+            break;
+        }
+      }  
   }
 
   /**

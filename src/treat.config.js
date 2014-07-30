@@ -70,6 +70,8 @@
   var membrabne = undefined;
   // decompile functions
   var decompile = undefined;
+  // canonicalize contracts
+  var canonicalize = undefined;
 
   Object.defineProperties(Config, {
     "assertion": {
@@ -96,6 +98,15 @@
       },
       set: function (arg) {
         decompile = (decompile===undefined) ? arg : decompile;
+        return arg;
+      }                        
+    },
+    "canonicalize": {
+      get: function () {
+        return (canonicalize===undefined) ? true : canonicalize;
+      },
+      set: function (arg) {
+        canonicalize = (canonicalize===undefined) ? arg : canonicalize;
         return arg;
       }                        
     }});

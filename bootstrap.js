@@ -61,7 +61,8 @@ var Contract = TreatJS.build();
 TreatJS.configure({
    assertion:true,
    membrabe:true,
-   decompile:true
+   decompile:true,
+   canonicalize: true
    });
 
 // set verbose
@@ -72,85 +73,8 @@ TreatJS.verbose({
 
 // ==================================================
 
-load("test/canonicalize/canonicalize.js");
-
-quit();
-
-
-// TODO, teste mix forms
-// also with base contarcts/ flat contracts
-
-// replace base contracts with its immediate result when delayed
-
-(function() {
-
-  function addUnchecked(a, b) {
-    if(a==1) return "x";
-    if(a==2) return false;
-    return (a+b);
-  }
-
-  var union1 = _.Union(
-    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
-    _.AdvancedFunctionContract([IsNumber, IsNumber], IsString));
-
-  var addChecked = _.assert(addUnchecked, union1);
-//  addChecked(1, 1);
-  //addChecked5(2, 1);
-  //addChecked5(1, "a");
-  addChecked(3, 1);
-
-  print("ss");
-  print(union1.constructor);
-
-
-})(); 
-
-
-
-//load('test/test.js');
-
-/*
-
-(function() {
-
-  function addUnchecked(a, b) {
-    if(a==1) return "x";
-    if(a==2) return false;
-    return (a+b);
-  }
-
-  var union1 = _.Union(
-    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
-    _.AdvancedFunctionContract([IsNumber, IsNumber], IsString));
-
-  var union2 = _.Union(
-    _.AdvancedFunctionContract([IsString, IsString], IsNumber),
-    _.AdvancedFunctionContract([IsString, IsString], IsString));
-
-
-  var addChecked = _.assert(addUnchecked, _.Intersection(union1, union2));
-  addChecked(1, 1);
-  addChecked(3, 1); // shoud blame callee
-
-
-
-  //addChecked5(2, 1);
-  //addChecked5(1, "a");
-//  addChecked5(3, 1);
-
-})();
-*/
 
 // ==================================================
-
-//this["?"]={l:"<3"};
-
-//print(this["?"].l);
-
-//var . = 5;
-
-//TJS.Function
 
 
 // ==================================================
