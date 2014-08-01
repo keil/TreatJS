@@ -46,18 +46,17 @@ var regExpBenchmark = null;
 
 function RegExpSetup() {
   regExpBenchmark = new RegExpBenchmark();
+  /* CONTRACT */ regExpBenchmark = $.assert(regExpBenchmark, $.AdvancedObjectContract({run:IsFunction}));
   RegExpRun(); // run once to get system initialized
 }
 
-/* CONTRACT */ $.assert(RegExpSetup, InstanceOfFunction);
+/* CONTRACT */ $.assert(RegExpSetup, IsFunction);
 
-
-function RegExpRun() {
-        /* CONTRACT */ regExpBenchmark = $.assert(regExpBenchmark, $.AdvancedObjectContract({run:InstanceOfFunction}));
+function RegExpRun() { 
   regExpBenchmark.run();
 }
 
-/* CONTRACT */ $.assert(RegExpRun, InstanceOfFunction);
+/* CONTRACT */ $.assert(RegExpRun, IsFunction);
 
 
 function RegExpTearDown() {
