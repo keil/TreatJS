@@ -56,13 +56,14 @@ load("test/contracts.js");
 
 // set Contract
 var Contract = TreatJS.build();
+TreatJS.export(this);
 
 // set configuration
 TreatJS.configure({
    assertion:true,
    membrabe:true,
    decompile:true,
-   canonicalize: true
+   canonicalize: true 
    });
 
 // set verbose
@@ -73,9 +74,7 @@ TreatJS.verbose({
 
 // ==================================================
 
-
 // ==================================================
-
 
 // ==================================================
 
