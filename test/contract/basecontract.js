@@ -13,6 +13,10 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+var GreaterThanZero = TreatJS.BaseContract(function(arg) {
+  return (arg>0);
+},"GreaterThanZero");
+
 var x = _.assert(4711, IsNumber);
 var x = _.assert("4711", IsString);
 var x = _.assert(4711, GreaterThanZero);

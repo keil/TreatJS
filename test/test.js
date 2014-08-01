@@ -19,6 +19,29 @@ function run(file) {
   load(file);
 }
 
+// Aliase - for compatibility with older versions
+var IsNumber = typeOfNumber;
+var IsString = typeOfString;
+var IsBoolean = typeOfBoolean;
+var IsObject = typeOfObject;
+var IsFunction = typeOfFunction;
+
+var IsNaN = isNaN;
+var IsUndef = isUndefined;
+var IsNull = isNull;
+
+var InstanceOfFunction = instanceOfFunction;
+var InstanceOfObject = instanceOfObject;
+var InstanceOfArray = instanceOfArray;
+var InstanceOfTarget = instanceOfTarget;
+
+var True = isTrue;
+var False = isFalse;
+
+var IsArray = instanceOfArray;
+
+var _ = TreatJS;
+
 // contracts
 run("test/contract/basecontract.js");
 run("test/contract/functioncontract.js");
