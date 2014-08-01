@@ -51,6 +51,11 @@
   var IntersectionContract = _.Intersection;
   var NegationContract = _.Negation;
 
+  //                        _         _ _        
+  //  __ __ _ _ _  ___ _ _ (_)__ __ _| (_)______ 
+  // / _/ _` | ' \/ _ \ ' \| / _/ _` | | |_ / -_)
+  // \__\__,_|_||_\___/_||_|_\__\__,_|_|_/__\___|
+
   function canonicalize(contract) {
     if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
@@ -78,6 +83,12 @@
       }
     }
   }
+
+  //                               _ ___     _                      _   _          
+  //    _____ ___ __  __ _ _ _  __| |_ _|_ _| |_ ___ _ _ ___ ___ __| |_(_)___ _ _  
+  //   / -_) \ / '_ \/ _` | ' \/ _` || || ' \  _/ -_) '_(_-</ -_) _|  _| / _ \ ' \ 
+  //   \___/_\_\ .__/\__,_|_||_\__,_|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_|
+  //           |_|                                                                 
 
   function expandIntersection(contract) {
     if(!(contract instanceof IntersectionContract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
@@ -120,6 +131,12 @@
     } 
   }
 
+  //                               _  ___      
+  //    _____ ___ __  __ _ _ _  __| |/ _ \ _ _ 
+  //   / -_) \ / '_ \/ _` | ' \/ _` | (_) | '_|
+  //   \___/_\_\ .__/\__,_|_||_\__,_|\___/|_|  
+  //           |_|                             
+
   function expandOr(contract) {
     if(!(contract instanceof OrContract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
@@ -161,6 +178,12 @@
     }
   }
 
+  //                               _ ___     _                      _   _          ___       
+  //    _____ ___ __  __ _ _ _  __| |_ _|_ _| |_ ___ _ _ ___ ___ __| |_(_)___ _ _ / _ \ _ _  
+  //   / -_) \ / '_ \/ _` | ' \/ _` || || ' \  _/ -_) '_(_-</ -_) _|  _| / _ \ ' \ (_) | ' \ 
+  //   \___/_\_\ .__/\__,_|_||_\__,_|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_\___/|_||_|
+  //           |_|                                                                           
+
   function expandIntersectionOn(contract, contractP)  {
     switch(true) {
       case contractP instanceof OrContract:
@@ -180,6 +203,12 @@
         break;
     }
   }
+
+  //                               _  ___       ___       
+  //    _____ ___ __  __ _ _ _  __| |/ _ \ _ _ / _ \ _ _  
+  //   / -_) \ / '_ \/ _` | ' \/ _` | (_) | '_| (_) | ' \ 
+  //   \___/_\_\ .__/\__,_|_||_\__,_|\___/|_|  \___/|_||_|
+  //           |_|                                        
 
   function expandOrOn(contract, contractP)  {
     switch(true) {
@@ -201,74 +230,85 @@
     }
   }
 
+  //                               ___      ___ _   _    
+  //    _____ ___ __  __ _ _ _  __| \ \    / (_) |_| |_  
+  //   / -_) \ / '_ \/ _` | ' \/ _` |\ \/\/ /| |  _| ' \ 
+  //   \___/_\_\ .__/\__,_|_||_\__,_| \_/\_/ |_|\__|_||_|
+  //           |_|                                       
+
   function expandWith(contract) {
     if(!(contract instanceof WithContract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
     var sub = canonicalize(contract.sub);
     var binding = contract.binding;
 
-    // canonical contracts
-    /*if(canonical(sub)) return contract;
-      else*/ {
-        switch(true) {
-          case sub instanceof OrContract:
-            return OrContract(WithContract(binding, sub.first), WithContract(binding, sub.second));
-            break;
-          case sub instanceof IntersectionContract:
-            return IntersectionContract(WithContract(binding, sub.first), WithContract(binding, sub.second));
-            break;
-          case sub instanceof NotContract:
-            return expandWith(WithContract(binding, canonicalize(sub)));
-            break;
-          case sub instanceof NegationContract:
-            return expandWith(WithContract(binding, canonicalize(sub)));
-            break;
-          case sub instanceof WithContract:
-            return expandWith(WithContract(binding, canonicalize(sub)));
-            break;
-          default:
-            error("Contract not implemented: " + contract.toString(), (new Error()).fileName, (new Error()).lineNumber);
-            break;
-        }
-      }
+
+    switch(true) {
+      case sub instanceof OrContract:
+        return OrContract(WithContract(binding, sub.first), WithContract(binding, sub.second));
+        break;
+      case sub instanceof IntersectionContract:
+        return IntersectionContract(WithContract(binding, sub.first), WithContract(binding, sub.second));
+        break;
+      case sub instanceof NotContract:
+        return expandWith(WithContract(binding, canonicalize(sub)));
+        break;
+      case sub instanceof NegationContract:
+        return expandWith(WithContract(binding, canonicalize(sub)));
+        break;
+      case sub instanceof WithContract:
+        return expandWith(WithContract(binding, canonicalize(sub)));
+        break;
+      default:
+        error("Contract not implemented: " + contract.toString(), (new Error()).fileName, (new Error()).lineNumber);
+        break;
+    }
   }
+
+  //                               _ _  _               _   _          
+  //    _____ ___ __  __ _ _ _  __| | \| |___ __ _ __ _| |_(_)___ _ _  
+  //   / -_) \ / '_ \/ _` | ' \/ _` | .` / -_) _` / _` |  _| / _ \ ' \ 
+  //   \___/_\_\ .__/\__,_|_||_\__,_|_|\_\___\__, \__,_|\__|_\___/_||_|
+  //           |_|                           |___/                     
 
   function expandNegation(contract) {
     if(!(contract instanceof NegationContract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
     var sub = canonicalize(contract.sub);
 
-    // canonical contracts
-    /*if(canonical(sub)) return contract;
-      else*/ {
-        switch(true) {
-          case sub instanceof OrContract:
-            return AndContract(NegationContract(sub.first), NegationContract(sub.second));
-            break;
-          case sub instanceof AndContract:
-            return OrContract(NegationContract(sub.first), NegationContract(sub.second));
-            break;
-          case sub instanceof IntersectionContract:
-            return UnionContract(NegationContract(sub.first), NegationContract(sub.second));
-            break;
-          case sub instanceof UnionContract:
-            return IntersectionContract(NegationContract(sub.first), NegationContract(sub.second));
-            break;
-          case sub instanceof NotContract:
-            return sub.sub;
-            break;
-          case sub instanceof NegationContract:
-            return sub.sub;
-            break;
-          case sub instanceof WithContract:
-            return WithContract(sub.binding, NegationContract(sub.sub));
-            break;
-          default:
-            error("Contract not implemented: " + contract.toString(), (new Error()).fileName, (new Error()).lineNumber);
-            break;
-        }
-      }
+    switch(true) {
+      case sub instanceof OrContract:
+        return AndContract(NegationContract(sub.first), NegationContract(sub.second));
+        break;
+      case sub instanceof AndContract:
+        return OrContract(NegationContract(sub.first), NegationContract(sub.second));
+        break;
+      case sub instanceof IntersectionContract:
+        return UnionContract(NegationContract(sub.first), NegationContract(sub.second));
+        break;
+      case sub instanceof UnionContract:
+        return IntersectionContract(NegationContract(sub.first), NegationContract(sub.second));
+        break;
+      case sub instanceof NotContract:
+        return sub.sub;
+        break;
+      case sub instanceof NegationContract:
+        return sub.sub;
+        break;
+      case sub instanceof WithContract:
+        return WithContract(sub.binding, NegationContract(sub.sub));
+        break;
+      default:
+        error("Contract not implemented: " + contract.toString(), (new Error()).fileName, (new Error()).lineNumber);
+        break;
+    }
   }
+
+  //                               _ _  _     _   
+  //    _____ ___ __  __ _ _ _  __| | \| |___| |_ 
+  //   / -_) \ / '_ \/ _` | ' \/ _` | .` / _ \  _|
+  //   \___/_\_\ .__/\__,_|_||_\__,_|_|\_\___/\__|
+  //           |_|                                
 
   function expandNot(contract) {
     if(!(contract instanceof NotContract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
