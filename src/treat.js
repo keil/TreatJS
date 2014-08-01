@@ -58,9 +58,9 @@ function TreatJS(configuration) {
 
     __define("With", this.WithContract, _);
 
-    __define("Union", this.UnionContract, _);
-    __define("Intersection", this.IntersectionContract, _);
-    __define("Negation", this.NegationContract, _);
+    __define("Union", this.Union, _);
+    __define("Intersection", this.Intersection, _);
+    __define("Negation", this.Negation, _);
 
     __define("And", this.AndContract, _);
     __define("Or", this.OrContract, _);
@@ -86,6 +86,53 @@ function TreatJS(configuration) {
 
     return _;
   }
+
+  this.export = function(target, prefix, suffix) {
+    prefix = (prefix===undefined) ? "__" : prefix;
+    suffix = (suffix===undefined) ? "__" : suffix;
+
+    // assert
+    __define(prefix + "construct" + suffix, this.construct, target);
+    __define(prefix + "assert" + suffix, this.assert, target);
+
+    // contract
+    __define(prefix + "Base" + suffix, this.BaseContract, target);
+
+    __define(prefix + "Function" + suffix, this.FunctionContract, target);
+    __define(prefix + "Method" + suffix, this.MethodContract, target);
+    __define(prefix + "Dependent" + suffix, this.DependentContract, target);
+
+    __define(prefix + "Object" + suffix, this.ObjectContract, target);
+
+    __define(prefix + "With" + suffix, this.WithContract, target);
+
+    __define(prefix + "Union" + suffix, this.Union, target);
+    __define(prefix + "Intersection" + suffix, this.Intersection, target);
+    __define(prefix + "Negation" + suffix, this.Negation, target);
+
+    __define(prefix + "And" + suffix, this.AndContract, target);
+    __define(prefix + "Or" + suffix, this.OrContract, target);
+    __define(prefix + "Not" + suffix, this.NotContract, target);
+
+    __define(prefix + "Constructor" + suffix, this.ContractConstructor, target);
+
+    // convinience
+    __define(prefix + "AObject" + suffix, this.AdvancedObjectContract, target);
+
+    __define(prefix + "AFunction" + suffix, this.AdvancedFunctionContract, target);
+    __define(prefix + "SFunction" + suffix, this.SimpleFunctionContract, target);
+
+    __define(prefix + "AMethod" + suffix, this.AdvancedMethodContract, target);
+    __define(prefix + "SMethod" + suffix, this.SimpleMethodContract, target);
+
+    __define(prefix + "SDependent" + suffix, this.SimpleDependentContract, target);
+
+    // util
+    __define(prefix + "StringMap" + suffix, this.Map.StringMap, target);
+    __define(prefix + "Mapping" + suffix, this.MapMapping, target);
+    __define(prefix + "RegExpMap" + suffix, this.MapRegExpMap, target);
+  }
+
 
   // Note: Method for print output!
   // Not implemented right now.
