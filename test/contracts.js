@@ -41,6 +41,9 @@ var typeOfFunction = TreatJS.BaseContract(function(arg) {
   return ((typeof arg) === "function");
 },"typeOfFunction");
 
+var typeOfUndefined = TreatJS.BaseContract(function(arg) {
+  return ((typeof arg) === "undefined");
+},"typeOfUndefined");
 
 
 /* InstanceOf-Contracts */
@@ -48,6 +51,8 @@ var typeOfFunction = TreatJS.BaseContract(function(arg) {
 var instanceOfTarget =  TreatJS.BaseContract(function(arg) {
   return (arg instanceof target); 
 },"instanceOfTarget");
+
+
 
 var instanceOfObject =  TreatJS.With({Object:Object}, TreatJS.BaseContract(function(arg) {
   return (arg instanceof Object); 
@@ -60,6 +65,34 @@ var instanceOfFunction =  TreatJS.With({Function:Function}, TreatJS.BaseContract
 var instanceOfArray = TreatJS.With({Array:Array}, TreatJS.BaseContract(function(arg) {
   return (arg instanceof Array);
 },"instanceOfArray"));
+
+var instanceOfBoolean = TreatJS.With({Boolean:Boolean}, TreatJS.BaseContract(function(arg) {
+  return (arg instanceof Boolean);
+},"instanceOfBoolean"));
+
+var instanceOfDate = TreatJS.With({Date:Date}, TreatJS.BaseContract(function(arg) {
+  return (arg instanceof Date);
+},"instanceOfDate"));
+
+var instanceOfIterator = TreatJS.With({Iterator:Iterator}, TreatJS.BaseContract(function(arg) {
+  return (arg instanceof Iterator);
+},"instanceOfIterator"));
+
+var instanceOfNumber = TreatJS.With({Number:Number}, TreatJS.BaseContract(function(arg) {
+  return (arg instanceof Number);
+},"instanceOfNumber"));
+
+var instanceOfString = TreatJS.With({String:String}, TreatJS.BaseContract(function(arg) {
+  return (arg instanceof String);
+},"instanceOfString"));
+
+var instanceOfRegExp = TreatJS.With({RegExp:RegExp}, TreatJS.BaseContract(function(arg) {
+  return (arg instanceof RegExp);
+},"instanceOfRegExp"));
+
+var instanceOfError = TreatJS.With({Error:Error}, TreatJS.BaseContract(function(arg) {
+  return (arg instanceof Error);
+},"instanceOfError"));
 
 
 
