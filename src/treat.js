@@ -56,7 +56,7 @@ function TreatJS(configuration) {
 
     __define("Object", this.ObjectContract, _);
 
-    __define("With", this.WithContract, _);
+    __define("With", this.With, _);
 
     __define("Union", this.Union, _);
     __define("Intersection", this.Intersection, _);
@@ -104,7 +104,7 @@ function TreatJS(configuration) {
 
     __define(prefix + "Object" + suffix, this.ObjectContract, target);
 
-    __define(prefix + "With" + suffix, this.WithContract, target);
+    __define(prefix + "With" + suffix, this.With, target);
 
     __define(prefix + "Union" + suffix, this.Union, target);
     __define(prefix + "Intersection" + suffix, this.Intersection, target);
