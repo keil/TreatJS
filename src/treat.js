@@ -66,7 +66,7 @@ function TreatJS(configuration) {
     __define("Or", this.Or, _);
     __define("Not", this.Not, _);
 
-    __define("Constructor", this.ContractConstructor, _);
+    __define("Constructor", this.Contract, _);
 
     // convinience
     __define("AObject", this.AdvancedObjectContract, _);
@@ -114,7 +114,7 @@ function TreatJS(configuration) {
     __define(prefix + "Or" + suffix, this.Or, target);
     __define(prefix + "Not" + suffix, this.Not, target);
 
-    __define(prefix + "Constructor" + suffix, this.ContractConstructor, target);
+    __define(prefix + "Constructor" + suffix, this.Contract, target);
 
     // convinience
     __define(prefix + "AObject" + suffix, this.AdvancedObjectContract, target);
