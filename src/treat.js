@@ -81,7 +81,7 @@ function TreatJS(configuration) {
 
     // util
     __define("StringMap", this.Map.StringMap, _);
-    __define("Mapping", this.MapMapping, _);
+    __define("Mapping", this.Map.Mapping, _);
     __define("RegExpMap", this.MapRegExpMap, _);
 
     return _;
@@ -129,7 +129,7 @@ function TreatJS(configuration) {
 
     // util
     __define(prefix + "StringMap" + suffix, this.Map.StringMap, target);
-    __define(prefix + "Mapping" + suffix, this.MapMapping, target);
+    __define(prefix + "Mapping" + suffix, this.Map.Mapping, target);
     __define(prefix + "RegExpMap" + suffix, this.MapRegExpMap, target);
   }
 
