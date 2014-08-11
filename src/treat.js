@@ -62,9 +62,9 @@ function TreatJS(configuration) {
     __define("Intersection", this.Intersection, _);
     __define("Negation", this.Negation, _);
 
-    __define("And", this.AndContract, _);
-    __define("Or", this.OrContract, _);
-    __define("Not", this.NotContract, _);
+    __define("And", this.And, _);
+    __define("Or", this.Or, _);
+    __define("Not", this.Not, _);
 
     __define("Constructor", this.ContractConstructor, _);
 
@@ -110,9 +110,9 @@ function TreatJS(configuration) {
     __define(prefix + "Intersection" + suffix, this.Intersection, target);
     __define(prefix + "Negation" + suffix, this.Negation, target);
 
-    __define(prefix + "And" + suffix, this.AndContract, target);
-    __define(prefix + "Or" + suffix, this.OrContract, target);
-    __define(prefix + "Not" + suffix, this.NotContract, target);
+    __define(prefix + "And" + suffix, this.And, target);
+    __define(prefix + "Or" + suffix, this.Or, target);
+    __define(prefix + "Not" + suffix, this.Not, target);
 
     __define(prefix + "Constructor" + suffix, this.ContractConstructor, target);
 
