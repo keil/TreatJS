@@ -142,10 +142,13 @@
     }, this);
 
     __getter("callee", function() {
+      // TODO
       return and(domain.caller, implies(domain.callee, range.callee));
     }, this);
 
     __getter("contract", function() {
+      //return and(this.caller, this.callee);
+      // TODO short form for return and(this.caller, this.callee);
       return and(domain.contract, range.contract);
     }, this);
 
@@ -237,13 +240,17 @@
     }, this);
 
     __getter("callee", function() {
-      return and(implies(left.caller, left.callee), implies(right.caller, right.callee));
+      return and(left.callee, right.callee);
+      // TODO, short form for
+      //return and(implies(left.caller, left.callee), implies(right.caller, right.callee));
     }, this);
 
     __getter("contract", function() {
-      return or(
+      return and(this.callee, this.caller);
+      // TODO
+/*      return or(
         and(left.contract, implies(right.caller, right.callee)),
-        and(right.contract, implies(left.caller, left.callee)));
+        and(right.contract, implies(left.caller, left.callee)));*/
     }, this);
 
     __define("blame", function() {
@@ -286,13 +293,16 @@
     }, this);
 
     __getter("callee", function() {
-      return or(implies(left.caller, left.callee), implies(right.caller, right.callee));
+      return or(left.callee, right.callee);
+      // TODO
+      //return or(implies(left.caller, left.callee), implies(right.caller, right.callee));
     }, this);
 
     __getter("contract", function() {
-      return or(
+      return and(this.callee, this.caller);
+      /*return or(
         and(and(left.caller, right.caller), left.callee),
-        and(and(left.caller, right.caller), right.callee));
+        and(and(left.caller, right.caller), right.callee));*/
     }, this);
 
     __define("blame", function() {
@@ -331,7 +341,11 @@
     var sub =  Handle.new();
 
     __getter("caller", function() {
-      return not(sub.caller);
+      // TODO
+      return True;
+
+      
+      //return not(sub.caller);
     }, this);
 
     __getter("callee", function() {
@@ -340,7 +354,9 @@
     }, this);
 
     __getter("contract", function() {
-      return not(sub.contract);
+      // TODO
+      return and(this.callee, this.caller);
+      //return not(sub.contract);
     }, this);
 
     __define("blame", function() {
@@ -376,10 +392,13 @@
     }, this);
 
     __getter("callee", function() {
-      return and(implies(left.caller, left.callee), implies(right.caller, right.callee));
+      // TODO
+      return implies(and(left.caller, right.caller), and(left.callee, right.callee))
+      //return and(implies(left.caller, left.callee), implies(right.caller, right.callee));
     }, this);
 
     __getter("contract", function() {
+      
       return and(left.contract, right.contract);
     }, this);
 
@@ -424,7 +443,13 @@
     }, this);
 
     __getter("callee", function() {
-      return and(implies(left.caller, left.callee), implies(right.caller, right.callee));
+      //return or(left.callee, right.callee);
+      //return or(and(left.caller, left.callee), and(right.caller, right.callee));
+      // TODO, 
+      // svn 
+      return implies(or(left.caller, right.caller), or(and(left.caller, left.callee), and(right.caller, right.callee)));
+      
+      //return or(implies(left.caller, left.callee), implies(right.caller, right.callee));
     }, this);
 
     __getter("contract", function() {
@@ -466,11 +491,16 @@
     var sub =  Handle.new();
 
     __getter("caller", function() {
-      return not(sub.caller);
+      return True;
+      // TODO
+      // return not(sub.caller);
     }, this);
 
     __getter("callee", function() {
-      return not(sub.callee);
+      // TODO
+      return implies(sub.caller, not(sub.callee));
+      //return implies(sub.caller, not(sub.callee));
+      //return not(sub.callee);
     }, this);
 
     __getter("contract", function() {
