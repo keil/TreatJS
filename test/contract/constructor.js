@@ -49,7 +49,7 @@
     return _.FunctionContract(_.BaseContract(pre), _.BaseContract(post));
   } 
   var constructor = _.Constructor(eqLength);
-  var contract = _.construct(constructor, 7);
+  var contract = _.construct(constructor, [7]);
 
   var f = function(list) {
     return Array(7);
@@ -78,7 +78,7 @@
   } 
 
   var constructor = _.Constructor(eqGlobalValue);
-  var contract = _.construct(constructor, print);
+  var contract = _.construct(constructor, [print]);
 
   var g = function() {
     globalValue1 = true ? globalValue1 : "X";
@@ -112,7 +112,7 @@
   } 
 
   var constructor = _.Constructor(eqGlobalValue);
-  var contract = _.construct(constructor, print);
+  var contract = _.construct(constructor, [print]);
 
   var g = function() {
     globalValue1 = true ? globalValue1 : {x:"X"};;
@@ -142,7 +142,7 @@
 
 
   var constructor = _.Constructor(eqGlobalValue);
-  var contract = _.construct(constructor, globalValue1);
+  var contract = _.construct(constructor, [globalValue1]);
 
   var g = function() {
     globalValue1 = false ? globalValue1 : {x:"X"};;
@@ -164,7 +164,7 @@
   var constructor1 = _.Constructor(preCons);
 
   function postCons(postValue) {
-    return _.construct(constructor, globalValue1);
+    return _.construct(constructor, [globalValue1]);
   }
 
   var constructor2 = _.Constructor(postCons);
@@ -173,7 +173,7 @@
 
 
   var constructor = _.Constructor(eqGlobalValue);
-  var contract = _.construct(constructor, globalValue1);
+  var contract = _.construct(constructor, [globalValue1]);
 
   var g = function() {
     globalValue1 = false ? globalValue1 : {x:"X"};;
@@ -262,7 +262,7 @@
     return _.BaseContract(predicate);
   } 
   var constructor = _.Constructor(ContractConstructor);
-  var contract = _.construct(constructor, undefined);
+  var contract = _.construct(constructor, [undefined]);
 
   _.assert(4711, _.With({Array:Array}, contract));
   //_.assert(4711, contract);

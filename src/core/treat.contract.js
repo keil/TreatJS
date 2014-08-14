@@ -341,7 +341,7 @@
         get: function () { return binding; } },
       "build": {
         get: function () { return function() {
-          return _.construct(this);
+          return _.construct(this, arguments);
         } } },
     });
 

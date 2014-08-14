@@ -795,14 +795,12 @@
   //| (_| (_) | | | \__ \ |_| |  | |_| | (__| |_ 
   // \___\___/|_| |_|___/\__|_|   \__,_|\___|\__|
 
-  function construct(constructor) {
+  function construct(constructor, args) {
     log("construct", constructor);
 
     if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
 
-    var args = Array.slice(arguments);
-    args.shift();
-    return constructWith(args, constructor, new Global());
+    return constructWith(((args==undefined) ? [] : args), constructor, new Global());
   }
 
   function constructWith(args, constructor, global) {
