@@ -142,7 +142,7 @@
       return lbr + map.toString() + rbr;
     };
   }
-  ObjectContract.prototype = new ImmediateContract();
+  ObjectContract.prototype = new DelayedContract();
 
   // ___                        _         _    ___         _               _   
   //|   \ ___ _ __  ___ _ _  __| |___ _ _| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
