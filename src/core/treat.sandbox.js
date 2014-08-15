@@ -130,6 +130,8 @@
 
       // pass-through of Contract System
       if(name=="_") return target[name];
+      else if(name=="Contract") return target[name];
+      else if(name=="C") return target[name];
 
       // pass-through of Contracts   
       if( _.Config.contractPassThrough) {

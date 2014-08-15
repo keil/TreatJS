@@ -134,8 +134,7 @@ function f ( x, y ) {
 var C = Contract.Function(Contract.AObject({}), typeOfNumber);
 
 var g = Contract.assert(f, C);
-
-g(1,2);
+//g(1,2);
 
 
 
@@ -164,26 +163,15 @@ var between = Contract.Base(function(arg) {
 var x = Contract.assert(11, Contract.With({min:0,max:100}, between));
 
 
-quit();
 
 var Between = Contract.Constructor( function (min, max) {
-  //return Contract.Base(function(arg) {
-  //// TODO make contracts avaliable insice sandbox
-  return _.BaseContract ( function (arg) {
+  return Contract.Base( function (arg) {
     return (min < arg) && (arg < max);
   }, "Between" + min + "-" + max);
 });
 
 var between0_100 = Between.build(0, 100);
-
-var x = Contract.assert(111, between0_100);
-
-
-
-//var x = Contract.assert(4, between(100.200));
-
-//todo between
-
+var x = Contract.assert(11, between0_100);
 
 
 // ==================================================

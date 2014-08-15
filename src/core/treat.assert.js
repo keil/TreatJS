@@ -817,6 +817,7 @@
     var argsArray = args;
 
     var treatjs = {};
+    var contract = {}
     var newBaseContract = function (predicate, name) {
       return SandboxContract(predicate, globalArg, name);
     };
@@ -828,7 +829,16 @@
       else __define(property, _[property], treatjs);
     }
 
+    for(property in _.build()) {
+      if(property==="Base") {
+        __define(property, newBaseContract, contract);
+      }
+      else __define(property, _[property], contract);
+    }
+
     globalArg["_"] = treatjs;
+    globalArg["Contract"] = contract;
+    globalArg["C"] = globalArg["Contract"];
 
     var contract = (_.eval(constructor.constructor, globalArg, thisArg, argsArray));
 
