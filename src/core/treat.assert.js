@@ -64,6 +64,7 @@
   var BaseCallback = _.Callback.BaseCallback;
   var FunctionCallback = _.Callback.FunctionCallback;
   var ObjectCallback = _.Callback.ObjectCallback;
+  var PropertyCallback = _.Callback.PropertyCallback;
 
   var IntersectionCallback = _.Callback.IntersectionCallback;
   var UnionCallback = _.Callback.UnionCallback;
@@ -559,13 +560,13 @@
    * Canonical Contracts:
    *
    * Immediate Contracts I,J ::=
-   *  B | O | (I cap J)
+   *  B | (I cap J)
    *  [| (I or J)]
    *  [| (not I)]
    *  [| with x=e I]
    *
    * Delayed Contracts Q,R ::=
-   *  C->D | x->C | (Q cap R)
+   *  C->D | x->C | (Q cap R) | O
    *  [| (Q or R)]
    *  [| (not Q)]
    *  [| with x=e Q]
@@ -736,11 +737,13 @@
   function ObjectHandler(contract, global, handler) {
     if(!(this instanceof ObjectHandler)) return new ObjectHandler(contract, global, handler);
 
+    var callback = ObjectCallback(handler, contract);
+
     var callbacks = {};
     var cache = new WeakMap();
 
     function getCallback(name) {
-      callbacks[name] = callbacks[name] || ObjectCallback(handler, contract);
+      callbacks[name] = callbacks[name] || PropertyCallback(callback.objectHandler, contract);
       return callbacks[name];
     }
 
