@@ -27,12 +27,23 @@ var test = _.assert(
   // Test 3.1
   // ObjectContract with nested base-level With
 
+
+  var funC =  _.Not(_.FunctionContract(_.ObjectContract(
+          _.Map.StringMap({0:IsNumber})), IsNumber));
+  var funX = _.assert(function(x) {return 1; }, funC);
+
+  funX("1");
+  // funX(1);
+
   var contract = _.Not(
-      _.ObjectContract(_.Map.StringMap({
-        x:IsNumber,
-        y:_.FunctionContract(_.ObjectContract(_.Map.StringMap({0:GreaterThanZero})), IsNumber),
-        z:Any
-      })));
+      _.ObjectContract(
+        _.Map.StringMap({
+          x:IsNumber,
+          y:_.FunctionContract(
+            _.ObjectContract(
+              _.Map.StringMap({0:IsNumber})), IsNumber),
+          z:Any
+        })));
 
 var obj = {
   x:"4711",

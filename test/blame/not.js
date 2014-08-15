@@ -26,7 +26,7 @@
   var addChecked = _.assert(addUnchecked, not);
 
   addChecked("a","b");
-  //addChecked(10,10);
+  // addChecked(10,10);
   addChecked(-1,-11);
   addChecked(1,1);
   addChecked(-1,1);
