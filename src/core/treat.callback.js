@@ -85,6 +85,20 @@
         merge(m.contract, n.contract));
   }
 
+  Handle.and = function(m, n) {
+    return Handle(
+        and(m.caller, n.caller),
+        and(m.callee, n.callee),
+        and(m.contract, n.contract));
+  }
+
+  Handle.or = function(m, n) {
+    return Handle(
+        or(m.caller, n.caller),
+        or(m.callee, n.callee),
+        or(m.contract, n.contract));
+  }
+
 
   // ___          _    ___      _ _ _             _   
   //| _ \___  ___| |_ / __|__ _| | | |__  __ _ __| |__
@@ -106,7 +120,7 @@
     }, this);
 
     __getter("contract", function() {
-      return root.contract;
+      return and(this.callee, this.caller);
     }, this);
 
     __define("blame", function() {
@@ -142,14 +156,15 @@
     }, this);
 
     __getter("callee", function() {
-      // TODO
-      return and(domain.caller, implies(domain.callee, range.callee));
+      if(domain.callee === Unknown) {
+        return and(domain.caller, range.callee);
+      } else {
+        return and(domain.caller, implies(domain.callee, range.callee));
+      }
     }, this);
 
     __getter("contract", function() {
-      //return and(this.caller, this.callee);
-      // TODO short form for return and(this.caller, this.callee);
-      return and(domain.contract, range.contract);
+      return and(this.caller, this.callee);
     }, this);
 
     __define("blame", function() {
@@ -181,8 +196,8 @@
   // \___/|_.__// \___\__|\__|\___\__,_|_|_|_.__/\__,_\__|_\_\
   //          |__/                                            
 
-  function ObjectCallback(handler, contract) {
-    if(!(this instanceof ObjectCallback)) return new ObjectCallback(handler, contract);
+  function PropertyCallback(handler, contract) {
+    if(!(this instanceof ObjectCallback)) return new PropertyCallback(handler, contract);
     else Callback.apply(this, arguments);
 
     var set = undefined;
@@ -218,6 +233,40 @@
       }).bind(this);
     }, this);
   }
+  PropertyCallback.prototype = Callback.prototype;
+  PropertyCallback.prototype.toString = function() {
+    return "<PropertyCallback>";
+  }
+
+  function ObjectCallback(handler, contract) {
+    if(!(this instanceof ObjectCallback)) return new ObjectCallback(handler, contract);
+    else Callback.apply(this, arguments);
+
+    var obj = Handle(True, True, True);
+
+    __getter("caller", function() {
+      return obj.caller;
+    }, this);
+
+    __getter("callee", function() {
+      return obj.callee;
+    }, this);
+
+    __getter("contract", function() {
+      return and(this.caller, this.callee);
+    }, this);
+
+    __define("blame", function() {
+      return contract;
+    }, this);
+
+    __getter("objectHandler", function() {
+      return (function(handle) {
+        obj = Handle.and(obj, handle);
+        handler(this);    
+      }).bind(this);
+    }, this);
+  }
   ObjectCallback.prototype = Callback.prototype;
   ObjectCallback.prototype.toString = function() {
     return "<ObjectCallback>";
@@ -241,16 +290,10 @@
 
     __getter("callee", function() {
       return and(left.callee, right.callee);
-      // TODO, short form for
-      //return and(implies(left.caller, left.callee), implies(right.caller, right.callee));
     }, this);
 
     __getter("contract", function() {
       return and(this.callee, this.caller);
-      // TODO
-/*      return or(
-        and(left.contract, implies(right.caller, right.callee)),
-        and(right.contract, implies(left.caller, left.callee)));*/
     }, this);
 
     __define("blame", function() {
@@ -294,15 +337,10 @@
 
     __getter("callee", function() {
       return or(left.callee, right.callee);
-      // TODO
-      //return or(implies(left.caller, left.callee), implies(right.caller, right.callee));
     }, this);
 
     __getter("contract", function() {
       return and(this.callee, this.caller);
-      /*return or(
-        and(and(left.caller, right.caller), left.callee),
-        and(and(left.caller, right.caller), right.callee));*/
     }, this);
 
     __define("blame", function() {
@@ -341,22 +379,15 @@
     var sub =  Handle.new();
 
     __getter("caller", function() {
-      // TODO
       return True;
-
-      
-      //return not(sub.caller);
     }, this);
 
     __getter("callee", function() {
-      return not(sub.callee);
-      return not(implies(sub.caller, sub.callee));
+      return implies(sub.callee, not(sub.caller));
     }, this);
 
     __getter("contract", function() {
-      // TODO
       return and(this.callee, this.caller);
-      //return not(sub.contract);
     }, this);
 
     __define("blame", function() {
@@ -392,14 +423,11 @@
     }, this);
 
     __getter("callee", function() {
-      // TODO
       return implies(and(left.caller, right.caller), and(left.callee, right.callee))
-      //return and(implies(left.caller, left.callee), implies(right.caller, right.callee));
     }, this);
 
     __getter("contract", function() {
-      
-      return and(left.contract, right.contract);
+      return and(this.callee, this.caller);
     }, this);
 
     __define("blame", function() {
@@ -443,17 +471,11 @@
     }, this);
 
     __getter("callee", function() {
-      //return or(left.callee, right.callee);
-      //return or(and(left.caller, left.callee), and(right.caller, right.callee));
-      // TODO, 
-      // svn 
       return implies(or(left.caller, right.caller), or(and(left.caller, left.callee), and(right.caller, right.callee)));
-      
-      //return or(implies(left.caller, left.callee), implies(right.caller, right.callee));
     }, this);
 
     __getter("contract", function() {
-      return or(left.contract, right.contract);
+      return and(this.callee, this.caller);
     }, this);
 
     __define("blame", function() {
@@ -492,19 +514,15 @@
 
     __getter("caller", function() {
       return True;
-      // TODO
-      // return not(sub.caller);
     }, this);
 
     __getter("callee", function() {
-      // TODO
+      print(sub.caller);
       return implies(sub.caller, not(sub.callee));
-      //return implies(sub.caller, not(sub.callee));
-      //return not(sub.callee);
     }, this);
 
     __getter("contract", function() {
-      return not(sub.contract);
+      return and(this.callee, this.caller);
     }, this);
 
     __define("blame", function() {
@@ -573,6 +591,8 @@
   __define("BaseCallback", BaseCallback, _.Callback);
   __define("FunctionCallback", FunctionCallback, _.Callback);
   __define("ObjectCallback", ObjectCallback, _.Callback);
+  __define("PropertyCallback", PropertyCallback, _.Callback);
+
 
   __define("IntersectionCallback", IntersectionCallback, _.Callback);
   __define("UnionCallback", UnionCallback, _.Callback);
