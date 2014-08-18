@@ -68,7 +68,7 @@ TreatJS.configure({
 
 // set verbose
 TreatJS.verbose({
-  assert:false,
+  assert:true,
   sandbox:false
 });
 
@@ -121,6 +121,159 @@ run("test/blame/not.js");
 
 print("...");
 */
+
+
+
+//quit();
+
+
+// ==================================================
+
+
+
+function even (x) { // @ Num -> Bool
+
+  var oddC = Contract.assert(odd, Contract.AFunction([typeOfNumber], typeOfBoolean));
+
+  if(x==0) return true;
+  else return oddC(x-1);
+}
+
+function odd (x) { // @ Num -> Bool
+
+  var evenC = Contract.assert(even, Contract.AFunction([typeOfNumber], typeOfBoolean));
+
+  if(x==0) return false;
+  else return evenC(x-1);
+}
+
+
+
+//print(even(100));
+//print(even(1));
+
+
+// ==================================================
+
+// AND Contract
+// [Number x Number] --> Number AND [String x String] --> String
+// ==>
+// [Number x Number] AND [String x String] --> Numbe AND String
+// ==>
+// [Number AND String x Number AND String] --> Numbe AND String
+
+function add (x, y) {
+  return (x+y);
+}
+
+function f () {
+  var addC = Contract.assert(add, Contract.AFunction([typeOfNumber, typeOfNumber], typeOfNumber));
+  return addC(1, 1);
+}
+
+function g () {
+  var addC = Contract.assert(add, Contract.AFunction([typeOfString, typeOfString], typeOfString));
+  return addC("1", "1");
+}
+
+// because AND and LIFTING is not possible
+// others have to wrap every use of add, like gradual systems
+// so, we result in nested proxies and waste al lot of stace 
+//
+// BUT, we can intersection!
+
+print(f());
+print(g());
+
+
+
+
+
+
+quit();
+
+// ==================================================
+
+var metahandler = {get: function(target, name, receiver) {
+  print("@" + name);
+  return target[name];
+}}
+var handler = new Proxy({}, metahandler);
+
+var obj = new Proxy({x:1}, handler);
+
+//print(obj.x = 1);
+//print(obj instanceof Object);
+
+
+try {
+  function MyError(message) {
+    this.name = "MyError";
+    this.message = message || "Default Message";
+  }
+  MyError.prototype = new Error();
+  MyError.prototype.constructor = MyError
+  
+    //new Proxy({x:1}, handler);
+
+  throw new Proxy(new MyError(), handler);
+
+} catch ( e ) {
+  print(":)");
+//  print(e.message);
+}
+
+//var e = new 
+
+
+
+quit();
+
+
+// ==================================================
+
+
+// predicates are nor ables to throw violations in function contarcts
+// base and object contarcts ?
+var f = Contract.assert(function (x) {
+
+ // Contract.assert(1, typeOfNumber);
+
+  return (x+1);
+}, Contract.AFunction([typeOfNumber], typeOfNumber));
+
+var o = Contract.assert({x:"1"}, Contract.AObject({x:typeOfNumber}));
+
+
+
+var predicate = function (x) {
+
+  //Contract.assert(true, Contract.Base(function() {return false;}) );
+
+  C("1");
+
+  //o.x;
+  f("1");
+  return true;
+}
+
+var flat = Contract.Base(predicate, "true");
+var withf = Contract.With({f:f, o:o, Contract:Contract, C:f}, flat);
+
+var x = Contract.assert(1, withf);
+
+
+
+
+
+
+
+//f("1");
+
+
+
+
+quit();
 
 // ==================================================
 
