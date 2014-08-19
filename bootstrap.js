@@ -57,6 +57,7 @@ load("test/contracts.js");
 // set Contract
 var Contract = TreatJS.build();
 TreatJS.export(this);
+//TreatJS.integrate();
 
 // set configuration
 TreatJS.configure({
@@ -135,7 +136,87 @@ print("...");
 //load("examples/between.js");
 //load("examples/evenodd.js");
 
-load("examples/boolean.js");
+//load("examples/boolean.js");
+
+
+
+try {
+  throw new Error("");
+} catch ( e ) {
+  print("-catch-");
+  throw new Error("X");
+} finally {
+  print("-finally-");
+  throw new Error("Y");
+} 
+
+
+
+
+quit();
+
+// function add
+function add (x, y) {
+  return (x+y);
+}
+
+//Contract.Function(1234);
+
+//Contract.assert(6, typeOfString);
+
+Contract.assert(5, Contract.Base(function() { adsf; return true;}));
+
+
+
+try {
+
+(function() {
+
+  function f() {
+
+    // add shoudl be of type [Number, Number] -> Number
+    var addC = Contract.assert(add, Contract.AFunction([typeOfNumber, typeOfNumber], typeOfNumber));
+
+    return addC(1,1);
+  }
+
+  print(f());
+
+  function g() {
+
+    // add shoudl be of type [String, String] -> String
+    var addC = Contract.assert(add, Contract.AFunction([typeOfString, typeOfString], typeOfString));
+
+    return addC("1", "1");
+  }
+
+  print(g());
+
+})();
+
+
+} catch ( e ) {
+print (e);
+print (e.stack);
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 quit();
 

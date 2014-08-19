@@ -14,7 +14,7 @@
  */
 (function(_) {
 
-  function Exception(message) {
+  function TreatJSError(message) {
     this.name = "Error";
     this.message = message || "";
 
@@ -24,10 +24,10 @@
 
     this.stack = (new Error).stack;
   }
-  Exception.prototype = new Error();
-  Exception.prototype.constructor = Exception;
+  TreatJSError.prototype = new Error();
+  TreatJSError.prototype.constructor = TreatJSError;
 
-  function Violation(message) {
+  function TreatJSViolation(message) {
     this.name = "Sandbox Violation";
     this.message = message || "";
     this.stack = (new Error).stack;
@@ -38,10 +38,10 @@
 
     this.stack = (new Error).stack; 
   }
-  Violation.prototype = new Error();
-  Violation.prototype.constructor = Violation;
+  TreatJSViolation.prototype = new Error();
+  TreatJSViolation.prototype.constructor = TreatJSViolation;
 
-  function Blame(contract, message) {
+  function TreatJSBlame(contract, message) {
     this.name = "Contract Violation";
     this.message = message || "";
 
@@ -51,10 +51,8 @@
 
     this.stack = (new Error).stack; 
   }
-  Blame.prototype = new Error();
-  Blame.prototype.constructor = Blame;
-
-
+  TreatJSBlame.prototype = new Error();
+  TreatJSBlame.prototype.constructor = TreatJSBlame;
 
   // ______                     
   //|  ____|                    
@@ -64,7 +62,7 @@
   //|______|_|  |_|  \___/|_|   
 
   function error(msg, file, line) {
-    throw new Exception(msg);
+    throw new TreatJSError(msg);
     /*if(_.Debugger && _.Debugger instanceof TreatJSDebugger) {
       _.Debugger.error(msg, file, line);
       } else {
@@ -75,7 +73,7 @@
   }
 
   function violation(msg, file, line) {
-    throw new Violation(msg);
+    throw new TreatJSViolation(msg);
     /*if(_.Debugger instanceof TreatJSDebugger) {
       _.Debugger.violation(msg, file, line);
       } else {
@@ -87,7 +85,7 @@
   }
 
   function blame(contract, msg, file, line) { 
-    throw new Blame(contract, msg);
+    throw new TreatJSBlame(contract, msg);
     //    quit();
     /*if(_.Debugger instanceof TreatJSDebugger) {
       _.Debugger.blame(contract, msg, file, line);
@@ -107,5 +105,9 @@
   __define("error", error, _);
   __define("violation", violation, _);
   __define("blame", blame, _);
+
+  __define("TreatJSError", TreatJSError, _);
+  __define("TreatJSViolation", TreatJSViolation, _);
+  __define("TreatJSBlame", TreatJSBlame, _);
 
 })(TreatJS);

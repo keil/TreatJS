@@ -19,6 +19,10 @@
   var violation = _.violation;
   var blame = _.blame;
 
+  var TreatJSError = _.TreatJSError;
+  var TreatJSViolation = _.TreatJSViolation;
+  var TreatJSBlame = _.TreatJSBlame;
+
   // prototypes
   var Contract = _.Core.Contract;
   var Constructor = _.Core.Constructor;
@@ -483,6 +487,7 @@
       try {
         var result = translate(_.eval(contract.predicate, globalArg, thisArg, argsArray));
       } catch (e) {
+        throw new Error("asdf");
         var result = _.Logic.Conflict;
       } finally {
         var handle = Handle(_.Logic.True, result, result);

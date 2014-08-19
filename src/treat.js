@@ -133,6 +133,18 @@ function TreatJS(configuration) {
     __define(prefix + "RegExpMap" + suffix, this.MapRegExpMap, target);
   }
 
+  /*
+  this.integrate = function () {
+
+    // TODO
+    //var assert = this.assert;
+
+    __define("assert", function(contarct) {
+      print("@@@" + this);
+      //return assert(this, contract);
+    }, Function);
+    //__define("assert", this.assert, Object);
+  } */
 
   // Note: Method for print output!
   // Not implemented right now.
