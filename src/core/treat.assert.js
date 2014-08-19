@@ -168,7 +168,7 @@
     var callback = RootCallback(function(handle) {
       if(handle.contract.isFalse()) {
 
-        var msg = "Contract Violation: " + handle.blame();
+        var msg = handle.blame();
         msg+="\n";
         msg+="Blame is on: ";
         if(handle.caller.isFalse() && !handle.callee.isFalse()) {
