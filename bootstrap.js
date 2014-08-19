@@ -126,6 +126,18 @@ print("...");
 
 //quit();
 
+//load("examples/intersection.js");
+//load("examples/recursion.js");
+
+//load("examples/tailrecursion.js");
+
+//load("examples/typeof.js");
+//load("examples/between.js");
+//load("examples/evenodd.js");
+
+load("examples/boolean.js");
+
+quit();
 
 
 
@@ -134,85 +146,6 @@ print("...");
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// ==================================================
-
-
-
-function even (x) { // @ Num -> Bool
-
-  var oddC = Contract.assert(odd, Contract.AFunction([typeOfNumber], typeOfBoolean));
-
-  if(x==0) return true;
-  else return oddC(x-1);
-}
-
-function odd (x) { // @ Num -> Bool
-
-  var evenC = Contract.assert(even, Contract.AFunction([typeOfNumber], typeOfBoolean));
-
-  if(x==0) return false;
-  else return evenC(x-1);
-}
-
-
-
-//print(even(100));
-//print(even(1));
-
-
-// ==================================================
-
-// AND Contract
-// [Number x Number] --> Number AND [String x String] --> String
-// ==>
-// [Number x Number] AND [String x String] --> Numbe AND String
-// ==>
-// [Number AND String x Number AND String] --> Numbe AND String
-
-function add (x, y) {
-  return (x+y);
-}
-
-function f () {
-  var addC = Contract.assert(add, Contract.AFunction([typeOfNumber, typeOfNumber], typeOfNumber));
-  return addC(1, 1);
-}
-
-function g () {
-  var addC = Contract.assert(add, Contract.AFunction([typeOfString, typeOfString], typeOfString));
-  return addC("1", "1");
-}
-
-// because AND and LIFTING is not possible
-// others have to wrap every use of add, like gradual systems
-// so, we result in nested proxies and waste al lot of stace 
-//
-// BUT, we can intersection!
-
-print(f());
-print(g());
 
 
 
@@ -221,46 +154,27 @@ print(g());
 
 quit();
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// quit();
 // ==================================================
 
-var metahandler = {get: function(target, name, receiver) {
-  print("@" + name);
-  return target[name];
-}}
-var handler = new Proxy({}, metahandler);
 
-var obj = new Proxy({x:1}, handler);
-
-//print(obj.x = 1);
-//print(obj instanceof Object);
-
-
-try {
-  function MyError(message) {
-    this.name = "MyError";
-    this.message = message || "Default Message";
-  }
-  MyError.prototype = new Error();
-  MyError.prototype.constructor = MyError
-  
-    //new Proxy({x:1}, handler);
-
-  throw new Proxy(new MyError(), handler);
-
-} catch ( e ) {
-  print(":)");
-//  print(e.message);
-}
-
-//var e = new 
-
-
-
-quit();
-
-
+// quit();
 // ==================================================
-
 
 // predicates are nor ables to throw violations in function contarcts
 // base and object contarcts ?
@@ -291,71 +205,10 @@ var withf = Contract.With({f:f, o:o, Contract:Contract, C:f}, flat);
 
 var x = Contract.assert(1, withf);
 
-
-
-
-
-
-
-//f("1");
-
-
-
-
-quit();
-
+// quit();
 // ==================================================
 
-
-function f ( x, y ) {
-  //x; y;
-  return "1";
-}
-
-//var C = Contract.AFunction([typeOfNumber, typeOfNumber], typeOfNumber);
-var C = Contract.Function(Contract.AObject({}), typeOfNumber);
-
-var g = Contract.assert(f, C);
-//g(1,2);
-
-
-
-
-var Even = Contract.Base(function(arg) {
-  return (arg % 2 === 0);
-},"even?");
-
-var Odd = Contract.Base(function(arg) {
-  return (arg % 2 === 1);
-},"odd?");
-
-
-
-(function(min, max) {
-  return function(arg) {
-    return (min <= arg <= max);
-  }
-})
-
-
-var between = Contract.Base(function(arg) {
-  return (min < arg) && (arg < max);
-},"betwween");
-
-var x = Contract.assert(11, Contract.With({min:0,max:100}, between));
-
-
-
-var Between = Contract.Constructor( function (min, max) {
-  return Contract.Base( function (arg) {
-    return (min < arg) && (arg < max);
-  }, "Between" + min + "-" + max);
-});
-
-var between0_100 = Between.build(0, 100);
-var x = Contract.assert(11, between0_100);
-
-
+// quit();
 // ==================================================
 
 quit();
