@@ -139,6 +139,16 @@ print("...");
 //load("examples/boolean.js");
 
 
+run("test/miscellaneous/logic.js");
+
+
+
+
+
+
+//quit();
+
+function test() {
 
 try {
   throw new Error("");
@@ -147,13 +157,32 @@ try {
   throw new Error("X");
 } finally {
   print("-finally-");
-  throw new Error("Y");
+  //throw new Error("Y");
+  //return "sdsdfg";
 } 
 
+}
+
+//print(test());
+
+/*
+try {
+  throw new Error("");
+} catch ( e ) {
+  print("-catch1-");
+  throw new Error("X");
+} catch ( e ) {
+  print("-catch2-");
+  throw new Error("X");
+} finally {
+  print("-finally-");
+  throw new Error("Y");
+} 
+*/
 
 
 
-quit();
+//quit();
 
 // function add
 function add (x, y) {
@@ -161,14 +190,12 @@ function add (x, y) {
 }
 
 //Contract.Function(1234);
-
 //Contract.assert(6, typeOfString);
-
-Contract.assert(5, Contract.Base(function() { adsf; return true;}));
-
+//Contract.assert(5, Contract.Base(function() { x; return true;}));
 
 
-try {
+
+//try {
 
 (function() {
 
@@ -187,7 +214,7 @@ try {
     // add shoudl be of type [String, String] -> String
     var addC = Contract.assert(add, Contract.AFunction([typeOfString, typeOfString], typeOfString));
 
-    return addC("1", "1");
+    return addC(1, "1");
   }
 
   print(g());
@@ -195,12 +222,11 @@ try {
 })();
 
 
-} catch ( e ) {
-print (e);
-print (e.stack);
+//} catch ( e ) {
+//print (e);
+//print (e.stack);
 
-}
-
+//}
 
 
 
