@@ -185,12 +185,9 @@
           msg+="-";
         }
 
-        /* TODO
-         * remove print output
-         */
-        print("@Caller:   " + handle.caller);
-        print("@Callee:   " + handle.callee);
-        print("@Contract: " + handle.contract);
+        msg += "\n" + "@Caller:   " + handle.caller;
+        msg += "\n" + "@Callee:   " + handle.callee;
+        msg += "\n" + "@Contract: " + handle.contract;
 
         blame(contract, msg, (new Error()).fileName, (new Error()).lineNumber);
       }
@@ -486,13 +483,20 @@
 
       try {
         var result = translate(_.eval(contract.predicate, globalArg, thisArg, argsArray));
-      } catch (e) {
-        throw new Error("asdf");
-        var result = _.Logic.Conflict;
+      } catch (e) { 
+        if(e instanceof TreatJSError) {
+          var result = e;
+        } else {
+          var result = _.Logic.Conflict;
+        }
       } finally {
-        var handle = Handle(_.Logic.True, result, result);
-        callback.predicateHandler(handle);
-        return arg;
+        if(result instanceof TreatJSError) {
+          throw result;
+        } else {
+          var handle = Handle(_.Logic.True, result, result);
+          callback.predicateHandler(handle);
+          return arg;
+        }
       }
     }
 
@@ -534,13 +538,21 @@
       try {
         var result = translate(contract.predicate.apply(thisArg, argsArray));
       } catch (e) {
-        var result = _.Logic.make(1,1);
+        if(e instanceof TreatJSError) {
+          var result = e;
+        } else {
+          var result = _.Logic.Conflict;
+        }
       } finally {
-        var handle = Handle(_.Logic.True, result, result);
-        callback.predicateHandler(handle);
-        clear(contract.global);
-        copy(backupGlobal, contract.global);
-        return arg;
+        if(result instanceof TreatJSError) {
+          throw result;
+        } else {
+          var handle = Handle(_.Logic.True, result, result);
+          callback.predicateHandler(handle);
+          clear(contract.global);
+          copy(backupGlobal, contract.global);
+          return arg;
+        }
       }
     }
 
