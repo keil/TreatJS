@@ -156,11 +156,7 @@
     }, this);
 
     __getter("callee", function() {
-      if(domain.callee === Unknown) {
-        return and(domain.caller, range.callee);
-      } else {
-        return and(domain.caller, implies(domain.callee, range.callee));
-      }
+      return and(domain.caller, implies(domain.callee, range.callee));
     }, this);
 
     __getter("contract", function() {
