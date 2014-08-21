@@ -14,17 +14,17 @@
  */
 (function(_) {
 
-  function Value(x,y) {
-    if(!(this instanceof Value)) return new Value(x,y);
+  function Value(t,f) {
+    if(!(this instanceof Value)) return new Value(t,f);
 
     Object.defineProperties(this, {
-      "x": {
+      "t": {
         get: function () { 
-          return x;
+          return t;
         }},
-      "y": {
+      "f": {
         get: function () { 
-          return y;
+          return f;
         }}});
 
     this.toString = function() {
@@ -52,7 +52,7 @@
 
   function make(x,y) {
     var v = new Value(x,y);
-    var key = (v.x*2)+(v.y);
+    var key = (v.t*2)+(v.f);
 
     if(cache[key]===undefined) {
       cache[key] = v;
@@ -62,61 +62,97 @@
     return v;
   }
 
+  function translate(b) {
+    return b ? make(1,0) : make(0,1)
+  }
+
   function toString(v) {
-    switch((v.x*2)+(v.y)) {
+    switch((v.t*2)+(v.f)) {
       case 0:
-        return '~Unknown~';
-        break;
+        return '<Unknown>'
+          break;
       case 1:
-        return '~False~';
+        return '<False>';
         break;
       case 2:
-        return '~True~';
+        return '<True>';
         break;
       case 3:
-        return '~Conflict~';
+        return '<Conflict>';
         break;
     }
   }
 
   function isFalse(v) {
-    return (v.y===1);
+    return (v.f===1);
   }
 
   function isTrue(v) {
-    return (v.x===1);
+    return (v.t===1);
   }
 
   function isUnknown(v) {
-    return (v.x===0) && (v.y===0);
+    return (v.t===0) && (v.f===0);
   }
 
   function isConflict(v) {
-    return (v.x===1) && (v.y===1);
+    return (v.t===1) && (v.f===1);
   }
 
-  function not(v) {
-    return make(v.y,v.x);
+  /*
+   * Convolution  
+   */
+
+  function convolution(v) {
+    return make((v.t ? 0 : 1), (v.f ? 0 : 1));
   }
+
+  /*
+   * Truth  
+   */
 
   function and(v, vp) {
-    return make((v.x&vp.x), (v.y|vp.y));
+    return make((v.t&vp.t), (v.f|vp.f));
   }
 
   function or(v, vp) {
-    return make((v.x|vp.x), (v.y&vp.y));
+    return make((v.t|vp.t), (v.f&vp.f));
+  }
+
+  function not(v) {
+    return make(v.f,v.t);
   }
 
   function implies(v, vp) {
-    return make((v.y|vp.x), (v.x&vp.y));
+    return or(convolution(v), vp);
   }
 
-  function merge(v, vp) {
-    return make((v.x|vp.x), (v.y|vp.y));
+  function lesseq(v, vp) {
+    return translate((v.t<=vp.t)&(vp.f<=v.f));
   }
 
-  function translate(b) {
-    return b ? make(1,0) : make(0,1)
+  /*
+   * Knowledge 
+   */ 
+
+  function join(v, vp) {
+    return make((v.t|vp.t), (v.f|vp.f));
+  }
+
+  function meet(v, vp) {
+    return make((v.t&vp.t), (v.f&vp.f));
+  }
+
+  function neg(v, vp) {
+    return make(v.f,v.t);
+  }
+
+  function entails(v, vp) {
+    return join(convolution(v), vp);
+  }
+
+  function subseteq(v, vp) {
+    return translate((v.t<=vp.t)&(v.f<=vp.f));
   }
 
   /**
@@ -127,12 +163,23 @@
 
   __define("TruthValue", Value, _.Logic);
 
-
   __define("and", and, _.Logic);
   __define("or", or, _.Logic);
+  __define("not", not, _.Logic); 
   __define("implies", implies, _.Logic);
-  __define("not", not, _.Logic);
-  __define("merge", merge, _.Logic);
+  __define("lesseq", lesseq, _.Logic);
+
+  __define("meet", meet, _.Logic);
+  __define("join", join, _.Logic);
+  __define("neg", neg, _.Logic); 
+  __define("entails", entails, _.Logic);
+  __define("subseteq", subseteq, _.Logic);
+
+  __define("convolution", convolution, _.Logic);
+
+  // NOTE: deprecated
+  __define("merge", join, _.Logic);
+
   __define("make", make, _.Logic);
   __define("translate", translate, _.Logic);
 
