@@ -22,7 +22,7 @@
     this.lineNumber = undefined;
     this.columnNumber = undefined;
 
-    this.stack = (new Error).stack;
+    if(_.Config.stackTrace) this.stack = (new Error).stack;
   }
   TreatJSError.prototype = new Error();
   TreatJSError.prototype.constructor = TreatJSError;
@@ -36,9 +36,9 @@
     this.lineNumber = undefined;
     this.columnNumber = undefined;
 
-    this.stack = (new Error).stack; 
+    if(_.Config.stackTrace) this.stack = (new Error).stack; 
   }
-  TreatJSViolation.prototype = new Error();
+  TreatJSViolation.prototype = new TreatJSError();
   TreatJSViolation.prototype.constructor = TreatJSViolation;
 
   function TreatJSBlame(contract, message) {
@@ -49,9 +49,9 @@
     this.lineNumber = undefined;
     this.columnNumber = undefined;
 
-    this.stack = (new Error).stack; 
+    if(_.Config.stackTrace) this.stack = (new Error).stack; 
   }
-  TreatJSBlame.prototype = new Error();
+  TreatJSBlame.prototype = new TreatJSError();
   TreatJSBlame.prototype.constructor = TreatJSBlame;
 
   // ______                     
@@ -62,40 +62,39 @@
   //|______|_|  |_|  \___/|_|   
 
   function error(msg, file, line) {
-    throw new TreatJSError(msg);
-    /*if(_.Debugger && _.Debugger instanceof TreatJSDebugger) {
-      _.Debugger.error(msg, file, line);
-      } else {
-      print("Error (" + file + ":" + line + "):\n" + msg);
-      if(_.Config.stackTrace) print(new Error().stack);
+    var error =  new TreatJSError(msg);
+
+    if(_.Config.quitOnError) {
+      print(error);
+      print(error.stack);
       quit();
-      }*/
+    } else {
+      throw error;
+    }
   }
 
   function violation(msg, file, line) {
-    throw new TreatJSViolation(msg);
-    /*if(_.Debugger instanceof TreatJSDebugger) {
-      _.Debugger.violation(msg, file, line);
-      } else {
+    var error =  new TreatJSViolation(msg);
 
-      print("Violation: (" + file + ":" + line + "):\n" + msg);
-      if(_.Config.stackTrace) print(new Error().stack);
+    if(_.Config.quitOnError) {
+      print(error);
+      print(error.stack);
       quit();
-      }*/
+    } else {
+      throw error;
+    }
   }
 
-  function blame(contract, msg, file, line) { 
-    throw new TreatJSBlame(contract, msg);
-    //    quit();
-    /*if(_.Debugger instanceof TreatJSDebugger) {
-      _.Debugger.blame(contract, msg, file, line);
-      } else {
+  function blame(contract, msg, file, line) {
+    var error = new TreatJSBlame(contract, msg);
 
-      print("Violation: (" + file + ":" + line + "):\n" + msg);
-      print("Violated Contract: " + contract.toString());
-      if(_.Config.stackTrace) print(new Error().stack);
+    if(_.Config.quitOnError) {
+      print(error);
+      print(error.stack);
       quit();
-      }*/
+    } else {
+      throw error;
+    }
   }
 
   /**
