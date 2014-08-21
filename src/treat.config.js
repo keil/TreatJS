@@ -128,6 +128,9 @@
   // print stack trace on error
   var stackTrace = true;
 
+  // call quit
+  var quitOnError = true;
+
   Object.defineProperties(Config, {
     "newGlobal": {
       get: function () {
@@ -142,6 +145,11 @@
     "contractPassThrough": {
       get: function () {
         return contractPassThrough;
+      }
+    },
+    "quitOnError": {
+      get: function () {
+        return quitOnError;
       }
     },
     "stackTrace": {
