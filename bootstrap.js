@@ -99,6 +99,43 @@ var _ = TreatJS;
 
 var GreaterThanZero = Contract.Base ( function(x) { return (x>0); }, "GreaterThanZero" );
 
+
+var even = Contract.Base(function(arg) {
+  return (arg % 2 === 0);
+},"even");
+
+var odd = Contract.Base(function(arg) {
+  return (arg % 2 === 1);
+},"odd");
+
+var pos = Contract.Base(function(arg) {
+  return (arg > 0);
+},"even");
+
+var f  (x) {
+
+}
+
+
+
+
+print(even);
+
+quit();
+
+var f = function ( n ) {
+ return function ( g ) {
+  return g(n);
+ }
+}
+
+var fc = Contract.assert(f, Contract.AFunction([typeOfNumber], Contract.AFunction([Contract.AFunction([GreaterThanZero], GreaterThanZero)], typeOfNumber)));
+
+
+fc(0)(function(x){ return 1;})
+
+quit();
+
 /*
 // blame
 run("test/blame/base.js");
@@ -139,7 +176,35 @@ print("...");
 //load("examples/boolean.js");
 
 
-run("test/miscellaneous/logic.js");
+//run("test/miscellaneous/logic.js");
+
+
+function id ( x ) {
+ return x;
+}
+
+var l = Contract.Base(function(x) {
+  return (x<0);
+});
+
+var m = Contract.Base(function(f) {
+  return (f(0)<0);
+});
+
+var c = Contract.AFunction([Any], l);
+var d = Contract.AFunction([c], m);
+
+var idD = Contract.assert( id, d);
+
+idD(id);
+
+
+
+
+
+
+
+quit();
 
 
 
