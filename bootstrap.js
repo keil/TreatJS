@@ -112,11 +112,18 @@ var pos = Contract.Base(function(arg) {
   return (arg > 0);
 },"even");
 
-var f  (x) {
-
+var f = function (x) {
+  return x-2;
 }
 
+var g = Contract.assert(f, 
+    Contract.Union(
+      Contract.AFunction([pos], pos),
+      Contract.AFunction([even], even)
+      )  
+    );
 
+g(3);
 
 
 print(even);
@@ -124,9 +131,9 @@ print(even);
 quit();
 
 var f = function ( n ) {
- return function ( g ) {
-  return g(n);
- }
+  return function ( g ) {
+    return g(n);
+  }
 }
 
 var fc = Contract.assert(f, Contract.AFunction([typeOfNumber], Contract.AFunction([Contract.AFunction([GreaterThanZero], GreaterThanZero)], typeOfNumber)));
@@ -180,7 +187,7 @@ print("...");
 
 
 function id ( x ) {
- return x;
+  return x;
 }
 
 var l = Contract.Base(function(x) {
@@ -215,35 +222,35 @@ quit();
 
 function test() {
 
-try {
-  throw new Error("");
-} catch ( e ) {
-  print("-catch-");
-  throw new Error("X");
-} finally {
-  print("-finally-");
-  //throw new Error("Y");
-  //return "sdsdfg";
-} 
+  try {
+    throw new Error("");
+  } catch ( e ) {
+    print("-catch-");
+    throw new Error("X");
+  } finally {
+    print("-finally-");
+    //throw new Error("Y");
+    //return "sdsdfg";
+  } 
 
 }
 
 //print(test());
 
 /*
-try {
-  throw new Error("");
-} catch ( e ) {
-  print("-catch1-");
-  throw new Error("X");
-} catch ( e ) {
-  print("-catch2-");
-  throw new Error("X");
-} finally {
-  print("-finally-");
-  throw new Error("Y");
-} 
-*/
+   try {
+   throw new Error("");
+   } catch ( e ) {
+   print("-catch1-");
+   throw new Error("X");
+   } catch ( e ) {
+   print("-catch2-");
+   throw new Error("X");
+   } finally {
+   print("-finally-");
+   throw new Error("Y");
+   } 
+   */
 
 
 
@@ -352,7 +359,7 @@ quit();
 // base and object contarcts ?
 var f = Contract.assert(function (x) {
 
- // Contract.assert(1, typeOfNumber);
+  // Contract.assert(1, typeOfNumber);
 
   return (x+1);
 }, Contract.AFunction([typeOfNumber], typeOfNumber));
