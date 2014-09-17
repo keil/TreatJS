@@ -160,7 +160,7 @@
   },"isUndefined"));
 
   var isNull = TreatJS.BaseContract(function(arg) {
-    return (arg === "boolean");
+    return (arg === null);
   },"isNull");
 
   var isTrue = TreatJS.BaseContract(function(arg) {
