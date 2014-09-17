@@ -46,7 +46,7 @@ load("src/treat.convenience.js");
 /// _/ _ \ ' \  _| '_/ _` / _|  _(_-<
 //\__\___/_||_\__|_| \__,_\__|\__/__/
 
-load("test/contracts.js");
+load("contracts/contracts.js");
 
 //              __ _                    _   _          
 // __ ___ _ _  / _(_)__ _ _  _ _ _ __ _| |_(_)___ _ _  
@@ -88,7 +88,8 @@ var IsNull = isNull;
 var InstanceOfFunction = instanceOfFunction;
 var InstanceOfObject = instanceOfObject;
 var InstanceOfArray = instanceOfArray;
-var InstanceOfTarget = instanceOfTarget;
+var InstanceOfTarget = instanceOf;
+var instanceOfTarget = instanceOf;
 
 var True = isTrue;
 var False = isFalse;

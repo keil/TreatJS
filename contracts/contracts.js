@@ -88,11 +88,11 @@
 
 
   // typeOf Base Contract
-  var typeOf = Contract.Base(function (arg) {
+  var typeOf = TreatJS.BaseContract(function (arg) {
     return ((typeof arg) === type);
   }, "typeOf");
 
-  var TypeOf = Contract.Constructor( function ( type ) {
+  var TypeOf = TreatJS.Constructor( function ( type ) {
     return Contract.Base(function (arg) {
       return ((typeof arg) === type);
     }, "typeOf " + type);
@@ -103,11 +103,11 @@
 
   /* InstanceOf-Contracts */
 
-  var instanceOfTarget =  TreatJS.BaseContract(function(arg) {
+  var instanceOf =  TreatJS.BaseContract(function(arg) {
     return (arg instanceof target); 
-  },"instanceOfTarget");
+  },"instanceOf");
 
-  __regeister("instanceOfTarget", instanceOfTarget, "instanceOf - Contracts");
+  __regeister("instanceOf", instanceOf, "instanceOf - Contracts");
 
 
 
@@ -238,11 +238,11 @@
   __regeister("Zero", Zero, "Miscellaneous");
 
 
-  var between = Contract.Base(function(arg) {
+  var between = TreatJS.BaseContract(function(arg) {
     return (min < arg) && (arg < max);
   },"between");
 
-  var Between = Contract.Constructor( function (min, max) {
+  var Between = TreatJS.Constructor( function (min, max) {
     return Contract.Base( function (arg) {
       return (min < arg) && (arg < max);
     }, "Between " + min + "-" + max);
