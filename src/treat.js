@@ -82,7 +82,7 @@ function TreatJS(configuration) {
     // util
     __define("StringMap", this.Map.StringMap, _);
     __define("Mapping", this.Map.Mapping, _);
-    __define("RegExpMap", this.MapRegExpMap, _);
+    __define("RegExpMap", this.Map.RegExpMap, _);
 
     return _;
   }
@@ -130,10 +130,8 @@ function TreatJS(configuration) {
     // util
     __define(prefix + "StringMap" + suffix, this.Map.StringMap, target);
     __define(prefix + "Mapping" + suffix, this.Map.Mapping, target);
-    __define(prefix + "RegExpMap" + suffix, this.MapRegExpMap, target);
+    __define(prefix + "RegExpMap" + suffix, this.Map.RegExpMap, target);
   }
-
-
 
   function makeManual() {
     var Manual = [];
@@ -194,7 +192,7 @@ function TreatJS(configuration) {
 
     // util
     __include("StringMap", this.Map.StringMap, "Maps");
-    __include("RegExpMap", this.MapRegExpMap, "Maps");
+    __include("RegExpMap", this.Map.RegExpMap, "Maps");
     __include("Mapping", this.Map.Mapping, "Maps");
 
     return Manual;
