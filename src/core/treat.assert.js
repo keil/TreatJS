@@ -846,11 +846,13 @@
       else __define(property, _[property], treatjs);
     }
 
-    for(property in _.build()) {
+    var build = _.build();
+
+    for(property in build) {
       if(property==="Base") {
         __define(property, newBaseContract, contract);
       }
-      else __define(property, _[property], contract);
+      else __define(property, build[property], contract);
     }
 
     globalArg["_"] = treatjs;
