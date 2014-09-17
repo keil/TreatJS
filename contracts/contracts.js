@@ -27,7 +27,7 @@
     __define(name, contract, this);
   }
 
-  Contracts.toString = function () {
+  var toString = function () {
     var str = "";
     for (var cl in Contracts) {
       str += "* " + cl + "\n\n";
@@ -42,6 +42,10 @@
     return str;
   }
 
+  Object.defineProperty(Contracts, "toString", {
+    get: function () { return toString; },
+    enumerable: false
+  });
 
   /**
    * Predefined Contarcts
@@ -299,32 +303,5 @@
   }, "ArrayOf").ctor;
 
   __regeister("ArrayOf", ArrayOf, "Miscellaneous");
-
-
-  //function ctor (ctor) {
-  //  return ctor.build.bind(ctor);
-  //
-  //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 })(TreatJS);

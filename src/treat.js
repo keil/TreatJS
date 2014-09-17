@@ -142,7 +142,7 @@ function TreatJS(configuration) {
       Manual[id][name] = entry;
     }
 
-    Manual.toString = function () {
+    var toString = function () {
       var str = "";
       for (var cl in Manual) {
         str += "* " + cl + "\n\n";
@@ -153,6 +153,11 @@ function TreatJS(configuration) {
       }
       return str;
     }
+
+    Object.defineProperty(Manual, "toString", {
+      get: function () { return toString; },
+      enumerable: false
+    });
 
     // assert
     __include("assert", this.assert, "Methods");
