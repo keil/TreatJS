@@ -133,6 +133,17 @@ function TreatJS(configuration) {
     __define(prefix + "RegExpMap" + suffix, this.MapRegExpMap, target);
   }
 
+
+  this.printManual = function () {
+  }
+
+  this.printContracts = function () {
+    
+  }
+
+
+
+
   /*
   this.integrate = function () {
 

@@ -123,7 +123,9 @@ var g = Contract.assert(f,
       )  
     );
 
-g(3);
+g(2);
+
+
 
 
 print(even);
