@@ -86,6 +86,21 @@
   __regeister("typeOfFunction", typeOfFunction, "typeOf - Contracts");
   __regeister("typeOfUndefined", typeOfUndefined, "typeOf - Contracts");
 
+
+  // typeOf Base Contract
+  var typeOf = Contract.Base(function (arg) {
+    return ((typeof arg) === type);
+  }, "typeOf");
+
+  var TypeOf = Contract.Constructor( function ( type ) {
+    return Contract.Base(function (arg) {
+      return ((typeof arg) === type);
+    }, "typeOf " + type);
+  });
+
+  __regeister("typeOf", typeOf, "typeOf - Contracts");
+  __regeister("TypeOf", TypeOf, "typeOf - Contracts");
+
   /* InstanceOf-Contracts */
 
   var instanceOfTarget =  TreatJS.BaseContract(function(arg) {
@@ -198,23 +213,42 @@
 
   var Even = TreatJS.BaseContract(function(arg) {
     return (arg % 2 === 0);
-  },"even");
+  },"Even");
 
   var Odd = TreatJS.BaseContract(function(arg) {
     return (arg % 2 === 1);
-  },"odd");
+  },"Odd");
 
   var Pos = TreatJS.BaseContract(function(arg) {
     return (arg > 0);
-  },"even");
+  },"Pos");
 
   var Neg = TreatJS.BaseContract(function(arg) {
     return (arg < 0);
-  },"even");
+  },"Neg");
+
+  var Zero = TreatJS.BaseContract(function(arg) {
+    return (arg === 0);
+  },"Zero");
 
   __regeister("Even", Even, "Miscellaneous");
   __regeister("Odd", Odd, "Miscellaneous");
   __regeister("Pos", Pos, "Miscellaneous");
   __regeister("Neg", Neg, "Miscellaneous");
+  __regeister("Zero", Zero, "Miscellaneous");
+
+
+  var between = Contract.Base(function(arg) {
+    return (min < arg) && (arg < max);
+  },"between");
+
+  var Between = Contract.Constructor( function (min, max) {
+    return Contract.Base( function (arg) {
+      return (min < arg) && (arg < max);
+    }, "Between " + min + "-" + max);
+  });
+
+  __regeister("between", between, "Miscellaneous");
+  __regeister("Between", Between, "Miscellaneous");
 
 })(TreatJS);
