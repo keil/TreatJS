@@ -155,9 +155,9 @@
     return (arg === NaN);
   },"isNaN");
 
-  var isUndefined = TreatJS.BaseContract(function(arg) {
+  var isUndefined = TreatJS.With({undefined:undefined}, TreatJS.BaseContract(function(arg) {
     return (arg === undefined);
-  },"isUndefined");
+  },"isUndefined"));
 
   var isNull = TreatJS.BaseContract(function(arg) {
     return (arg === "boolean");
