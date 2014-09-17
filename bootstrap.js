@@ -127,6 +127,9 @@ var g = Contract.assert(f,
 g(2);
 
 
+//var X = new Array();
+//Contract.assert(X, InstanceOf(Array));
+
 
 print(TreatJS.Contracts);
 print(TreatJS.Manual);

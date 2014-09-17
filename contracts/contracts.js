@@ -96,7 +96,7 @@
     return Contract.Base(function (arg) {
       return ((typeof arg) === type);
     }, "typeOf " + type);
-  });
+  }).ctor;
 
   __regeister("typeOf", typeOf, "typeOf - Contracts");
   __regeister("TypeOf", TypeOf, "typeOf - Contracts");
@@ -162,7 +162,13 @@
   __regeister("instanceOfRegExp", instanceOfRegExp, "instanceOf - Contracts");
   __regeister("instanceOfError", instanceOfError, "instanceOf - Contracts");
 
+  var InstanceOf = TreatJS.Constructor(function(target) {
+    return Contract.Base(function(arg) {
+      return (arg instanceof target); 
+    },"instanceOf")
+  }, "InstanceOf").ctor;
 
+  __regeister("InstanceOf", InstanceOf, "instanceOf - Contracts");
 
   /* Is-Contracts */
 
@@ -246,9 +252,79 @@
     return Contract.Base( function (arg) {
       return (min < arg) && (arg < max);
     }, "Between " + min + "-" + max);
-  });
+  }).ctor;
 
   __regeister("between", between, "Miscellaneous");
   __regeister("Between", Between, "Miscellaneous");
+
+  var UpperCase = TreatJS.BaseContract(function(arg) {
+    return (/^[A-Z]+$/).test(arg);
+  }, "UpperCase");
+
+  var LowerCase = TreatJS.BaseContract(function(arg) {
+    return (/^[a-z]+$/).test(arg);
+  }, "UpperCase");
+
+  __regeister("UpperCase", UpperCase, "Miscellaneous");
+  __regeister("LowerCase", LowerCase, "Miscellaneous");
+
+  var LengthOf = TreatJS.Constructor(function(length) {
+    return Contract.Base(function(arg) {
+      return (arg.length === length); 
+    },"lengthOf")
+  }, "LengthOf").ctor;
+
+  var LengthLt = TreatJS.Constructor(function(length) {
+    return Contract.Base(function(arg) {
+      return (arg.length < length); 
+    },"lengthLt")
+  }, "LengthLt").ctor;
+
+  var LengthGt = TreatJS.Constructor(function(length) {
+    return Contract.Base(function(arg) {
+      return (arg.length > length); 
+    },"lengthGt")
+  }, "LengthGt").ctor;
+
+  __regeister("LengthOf", LengthOf, "Miscellaneous"); 
+  __regeister("LengthLt", LengthLt, "Miscellaneous");
+  __regeister("LengthGt", LengthGt, "Miscellaneous");
+
+  var ArrayOf = TreatJS.Constructor(function(target) {
+    return Contract.Object(Contract.RegExpMap([
+        Contract.Mapping(/^\d*$/,
+          Contract.Base(function(arg) {
+            return (arg instanceof target); 
+          },"arrayOf"))])); 
+  }, "ArrayOf").ctor;
+
+  __regeister("ArrayOf", ArrayOf, "Miscellaneous");
+
+
+  //function ctor (ctor) {
+  //  return ctor.build.bind(ctor);
+  //
+  //}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 })(TreatJS);

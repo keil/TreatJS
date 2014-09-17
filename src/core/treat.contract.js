@@ -343,6 +343,9 @@
         get: function () { return function() {
           return _.construct(this, arguments);
         } } },
+      "ctor": {
+        get: function () { return this.build.bind(this);
+      } }
     });
 
     this.toString = function() { return "[*" + ((name!=undefined) ? name : constructor.toString()) + "*]"; };
