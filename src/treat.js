@@ -138,7 +138,18 @@ function TreatJS(configuration) {
   }
 
   this.printContracts = function () {
+    var str = "";
+    for (var cl in this.Contracts) {
+      str += "* " + cl + "\n\n";
+      
+      for (var con in this.Contracts[cl]) {
+        str += "** " + con + "\n";
+      }
+
+     str += "\n";
+    }
     
+    return str;
   }
 
 

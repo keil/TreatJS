@@ -127,6 +127,9 @@ g(2);
 
 
 
+print(TreatJS.printContracts());
+
+
 
 print(even);
 

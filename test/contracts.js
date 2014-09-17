@@ -19,7 +19,7 @@
   __define("Contracts", Contracts, _);
 
   function __regeister (name, contract, classid) {
-    var id = (classid || "");
+    var id = (classid || "Miscellaneous");
 
     if (Contracts[id] == undefined) Contracts[id] = [];
 
@@ -35,7 +35,7 @@
     return true; 
   },"Any");
 
-  __regeister("Any", Any, "");
+  __regeister("Any", Any, "Miscellaneous");
 
   /* TypeOf-Contracts */
 
@@ -176,42 +176,29 @@
   __regeister("isPrimitiveValue", isPrimitiveValue, "is - Contracts");
   __regeister("isNativeFunction", isNativeFunction, "is - Contracts");
 
+
+
+  /* Miscellaneous */
+
+  var Even = TreatJS.BaseContract(function(arg) {
+    return (arg % 2 === 0);
+  },"even");
+
+  var Odd = TreatJS.BaseContract(function(arg) {
+    return (arg % 2 === 1);
+  },"odd");
+
+  var Pos = TreatJS.BaseContract(function(arg) {
+    return (arg > 0);
+  },"even");
+
+  var Neg = TreatJS.BaseContract(function(arg) {
+    return (arg < 0);
+  },"even");
+
+  __regeister("Even", Even, "Miscellaneous");
+  __regeister("Odd", Odd, "Miscellaneous");
+  __regeister("Pos", Pos, "Miscellaneous");
+  __regeister("Neg", Neg, "Miscellaneous");
+
 })(TreatJS);
-
-
-
-
-
-
-
-
-/*
-   var even = Contract.Base(function(arg) {
-   return (arg % 2 === 0);
-   },"even");
-
-   __register("even", even);
-
-
-
-
-
-
-   var even = Contract.Base(function(arg) {
-   return (arg % 2 === 0);
-   },"even");
-
-   var odd = Contract.Base(function(arg) {
-   return (arg % 2 === 1);
-   },"odd");
-
-   var pos = Contract.Base(function(arg) {
-   return (arg > 0);
-   },"even");
-
-   var even = Contract.Base(function(arg) {
-   return (arg % 2 === 0);
-   },"even");
-
-
-*/
