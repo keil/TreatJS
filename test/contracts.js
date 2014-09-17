@@ -27,6 +27,22 @@
     __define(name, contract, this);
   }
 
+  Contracts.toString = function () {
+    var str = "";
+    for (var cl in Contracts) {
+      str += "* " + cl + "\n\n";
+
+      for (var con in Contracts[cl]) {
+        str += "** " + con + "\n";
+      }
+
+      str += "\n";
+    }
+
+    return str;
+  }
+
+
   /**
    * Predefined Contarcts
    */

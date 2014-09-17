@@ -127,11 +127,10 @@ g(2);
 
 
 
-print(TreatJS.printContracts());
+print(TreatJS.Contracts);
+print(TreatJS.Manual);
 
 
-
-print(even);
 
 quit();
 
