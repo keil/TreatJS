@@ -78,6 +78,87 @@ load("contracts/aliases.js");
 
 // ...
 
+
+function Handler (origin) {
+
+  this.has = function(scope, name) {
+      return (name in origin);
+    };
+
+  this.get = function(target, name, receiver) {
+    return origin[name];
+  }
+
+  this.set = function(target, name, value, receiver) {
+    return origin[name] = value;
+  }
+  
+  Object.defineProperty(this, "target", {
+    set: function (target) {
+      origin = target;
+    },
+    enumerable: true
+  });
+}
+
+var origin = {x:1};
+var handler = new Handler(origin);
+
+var target = {x:2};
+var proxy = new Proxy(target, handler);
+
+print(proxy.x);
+origin.x = 3;
+print(proxy.x);
+
+handler.target = {x:4};
+print(proxy.x);
+
+
+
+//
+
+
+var x = 1;
+var y = 1;
+
+function addXY () {
+ return x+y;
+}
+
+print(addXY());
+
+function fexible (fun) {
+  var scope = {};
+  var handler = new Handler(scope);
+  var global = new Proxy({}, handler);
+  var body = "(function() {'use strict'; return " + ("(" + fun.toString() + ")") + "})();";
+  var sbxed = eval("(function() { with(global) { return " + body + " }})();");
+
+  Object.defineProperty(sbxed, "global", {
+    set: function (target) {
+      handler.target = target;
+    },
+    enumerable: true
+  });
+
+  return sbxed;
+}
+
+var addXYf = fexible(addXY);
+print(addXYf());
+addXYf.global = {x:2, y:2};
+print(addXYf());
+
+
+
+
+
+
+
+
+
+
 // ==================================================
 
 quit();
