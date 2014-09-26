@@ -56,7 +56,7 @@ TreatJS.export(this);
 TreatJS.configure({
   assertion:true,
   membrabe:true,
-  decompile:true,
+  decompile:false,
   canonicalize: true 
 });
 
@@ -76,7 +76,12 @@ load("contracts/aliases.js");
 
 // ==================================================
 
-load("examples/blame.js");
+// TODO, decompile is set to false!
+//
+//load("examples/blame.js");
+
+//var x = 7;
+//print(x===Object(x));
 
 // ==================================================
 
