@@ -174,7 +174,7 @@ var ZeroZero = Contract.Base(
   // blame CONTEXT, because .. Subject is responsible to guarantee that  
   // f ist called only with Pos
 
-})();
+});
 
 
 
@@ -222,3 +222,202 @@ var ZeroZero = Contract.Base(
 
   
 });
+
+
+// INTERSECTION
+
+(function() {
+
+  function id (x, y) {
+    return y;
+  }
+
+  function f (x, y) {
+    return y; 
+  }
+
+  var PosPos = Contract.AFunction([Pos], Pos);
+  var EvenEven = Contract.AFunction([Even], Even);
+
+  var g = Contract.assert(f, Contract.Intersection(PosPos, EvenEven));
+
+  // Context: Argument: Union aus Pos, Even
+  // Subject: Return: Pos Or Union Or Both
+
+  g(1, 1); // ok
+  //g(2, 1); // blame subject
+  g(1, 2); // ok
+  g(0, 0); // ok
+  //g(-1, 1) // blame context
+
+});
+
+//quit();
+
+(function() {
+
+  function id (x, y) {
+    return y;
+  }
+
+  function f (x) {
+    return x; 
+  }
+
+  var PosPos = Contract.AFunction([Pos], Pos);
+  var EvenEven = Contract.AFunction([Even], Even);
+
+  var g = Contract.assert(f, Contract.Intersection(
+      Contract.AFunction([PosPos], Any), 
+      Contract.AFunction([EvenEven], Any)));
+
+  var h = g(id);
+  // Context: Argument: Union aus Pos, Even
+  // --> Argument of the Argument:  Intersection aus Pos, Even
+  // Subject: Return: Pos Or Union Or Both
+
+  // h(1, 1); // blame subejct
+  h(2, 1); // ok
+  h(1, 2); // blame subject
+  h(0, 2); // ok
+  //g(-1, 1) // blame context
+
+});
+
+// UNION
+
+(function() {
+
+  function id (x, y) {
+    return y;
+  }
+
+  function f (x, y) {
+    return y; 
+  }
+
+  var PosPos = Contract.AFunction([Pos], Pos);
+  var EvenEven = Contract.AFunction([Even], Even);
+
+  var g = Contract.assert(f, Contract.Union(PosPos, EvenEven));
+
+  // Context: Argument: Intersection aus Pos, Even
+  // Subject: Return: Pos Or Union
+
+  //g(1, 1); // blmae context
+  g(2, 1); // ok
+  //g(2, 0); // ok, if not g(2,1)
+  //g(0, 2); // blame
+  g(-1, 1) // blame context
+
+});
+
+(function() {
+
+  function id (x, y) {
+    return y;
+  }
+
+  function f (x) {
+    return x; 
+  }
+
+  var PosPos = Contract.AFunction([Pos], Pos);
+  var EvenEven = Contract.AFunction([Even], Even);
+
+  var g = Contract.assert(f, Contract.Union(
+      Contract.AFunction([PosPos], Any), 
+      Contract.AFunction([EvenEven], Any)));
+
+  var h = g(id);
+  // Context: Argument: Intersection aus Pos, Even
+  // --> Argument of the Argument:  Union aus Pos, Even
+  // Subject: Return: Pos Or Union Or Both
+
+  //h(1, 1); // ok
+  h(2, 1); // ok
+  //h(1, 2); // blame subject
+  //h(0, 2); // ok
+  //g(-1, 1) // blame context
+
+});
+
+
+
+
+// TEST 
+
+(function() {
+
+  function id (x, y) {
+    return y;
+  }
+
+  function f (x) {
+    return x; 
+  }
+
+  var Left = Contract.Base(function(id) {
+    // id(1,1); // blame (!)
+    id(2, 1); // ok
+    // id(2, 0); // blame if id(2, 1);
+    // id(0, 1); // blame
+    return true;
+  }, "Left");
+
+  var Right = Contract.Base(function(id) {
+    //id(2, 0); // blame if id(2, 1);
+    return true;
+  }, "Right");
+
+  var PosPos = Contract.AFunction([Pos], Pos);
+  var EvenEven = Contract.AFunction([Even], Even);
+  //var EvenEven = Contract.AFunction([Any], Any);
+
+  var g = Contract.assert(f, Contract.Intersection(
+      Contract.AFunction([PosPos], Left), 
+      Contract.AFunction([EvenEven], Right)));
+
+  // ID is Union PosPos, EvenEven
+  var h = g(id);
+
+});
+
+
+(function() {
+
+  function id (x, y) {
+    return y;
+  }
+
+  function f (x) {
+    return x; 
+  }
+
+  var Left = Contract.Base(function(id) {
+    //id(0,0); // ok
+    // id(1,1); // ok // BUG, should be OK, Structure must be renewed
+
+    // id(2,1); // blame (!)
+    return true;
+  }, "Left");
+
+  var Right = Contract.Base(function(id) {
+    //id(2, 0); // blame if id(2, 1);
+    return true;
+  }, "Right");
+
+  var PosPos = Contract.AFunction([Pos], Pos);
+  var EvenEven = Contract.AFunction([Even], Even);
+  // var EvenEven = Contract.AFunction([Any], Any);
+
+  var g = Contract.assert(f, Contract.Union(
+      Contract.AFunction([PosPos], Left), 
+      Contract.AFunction([EvenEven], Right)));
+
+  // ID is Intersection PosPos, EvenEven
+  var h = g(id);
+
+})();
+
+

@@ -78,7 +78,7 @@ load("contracts/aliases.js");
 
 // TODO, decompile is set to false!
 //
-//load("examples/blame.js");
+load("examples/blame.js");
 
 //var x = 7;
 //print(x===Object(x));
