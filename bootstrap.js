@@ -80,6 +80,44 @@ load("contracts/aliases.js");
 //
 load("examples/blame.js");
 
+
+(function() {
+  
+  function add (x, y) {
+    return ""; //(x+y);
+  }
+
+  var addC = Contract.assert(add, Contract.AFunction([typeOfNumber, typeOfNumber], typeOfNumber));
+
+  //addC(1,2);
+  //addC(1,"2");
+  //addC("1",2);
+
+});
+
+
+(function() {
+  
+ function add (x, y) {
+    return (x+y);
+  }
+
+  var addC = Contract.assert(add, 
+    Contract.Intersection(
+      Contract.AFunction([typeOfNumber, typeOfNumber], typeOfNumber),
+      Contract.AFunction([typeOfString, typeOfString], typeOfString)
+    ));
+
+//    addC(1,2);
+//    addC("1",2);
+//    addC("1","2");
+
+
+
+});
+
+
+
 //var x = 7;
 //print(x===Object(x));
 

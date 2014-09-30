@@ -395,8 +395,8 @@ var ZeroZero = Contract.Base(
   }
 
   var Left = Contract.Base(function(id) {
-    //id(0,0); // ok
-    // id(1,1); // ok // BUG, should be OK, Structure must be renewed
+   id(0,0); // ok
+   id(1,1); // ok // BUG, should be OK, Structure must be renewed
 
     // id(2,1); // blame (!)
     return true;
