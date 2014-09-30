@@ -391,12 +391,17 @@ var ZeroZero = Contract.Base(
   }
 
   function f (x) {
+    //x(0,0);
+    //x(1,1);
+    //x(2,2);
+    //x(3,3);
     return x; 
   }
 
   var Left = Contract.Base(function(id) {
    id(0,0); // ok
    id(1,1); // ok // BUG, should be OK, Structure must be renewed
+   //or nor BUG ?
 
     // id(2,1); // blame (!)
     return true;
@@ -417,6 +422,9 @@ var ZeroZero = Contract.Base(
 
   // ID is Intersection PosPos, EvenEven
   var h = g(id);
+
+  //h(0,0);
+  //h(1,1);
 
 })();
 
