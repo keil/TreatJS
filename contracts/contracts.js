@@ -221,13 +221,13 @@
 
   /* Miscellaneous */
 
-  var Even = TreatJS.BaseContract(function(arg) {
-    return (arg % 2 === 0);
-  },"Even");
+  var Even = TreatJS.With({Math:Math}, TreatJS.BaseContract(function(arg) {
+    return (Math.abs(arg) % 2 === 0);
+  },"Even"));
 
-  var Odd = TreatJS.BaseContract(function(arg) {
-    return (arg % 2 === 1);
-  },"Odd");
+  var Odd = TreatJS.With({Math:Math}, TreatJS.BaseContract(function(arg) {
+    return (Math.abs(arg) % 2 === 1);
+  },"Odd"));
 
   var Pos = TreatJS.BaseContract(function(arg) {
     return (arg > 0);
