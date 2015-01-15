@@ -52,6 +52,8 @@
   var IntersectionContract = _.Intersection;
   var NegationContract = _.Negation;
 
+  var ReflectionContract = _.Reflection;
+
   // maps
   var Map = _.Map;
   var StringMap = _.Map.StringMap;
@@ -164,7 +166,7 @@
 
   function assert(arg, contract) {
     log("assert", contract);
-    count(_.Statistic.ASSERT); // TODO
+    count(_.Statistic.ASSERT);
 
     // disbale assertion
     if(!_.Config.assertion) return arg;
@@ -482,7 +484,7 @@
     //|___/\__,_/__/\___|\___\___/_||_\__|_| \__,_\__|\__|
 
     else if(contract instanceof BaseContract) {
-      count(_.Statistic.BASE); // TODO
+      count(_.Statistic.BASE);
 
       var globalArg = global.dump();
       var thisArg = undefined;
@@ -575,13 +577,24 @@
       return assertWith(arg, construct(contract), global, callbackHandler);
     }
 
-    // TODO 
-   
-    else if(contract instanceof _.Reflection) {
-      return _.assertReflection(arg, contract, global, callbackHandler);
+    // ___      __ _        _   _          
+    //| _ \___ / _| |___ __| |_(_)___ _ _  
+    //|   / -_)  _| / -_) _|  _| / _ \ ' \ 
+    //|_|_\___|_| |_\___\__|\__|_\___/_||_|
+
+    if(contract instanceof ReflectionContract) {
+      if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, _.Logic.False, _.Logic.False));
+
+      var reflect = new ReflectionHandler(contract, global, callbackHandler);
+      var noop = new NoOpHandler();
+      var proxy = new Proxy(arg, new Proxy(noop, reflect));
+      return proxy;
     }
 
-    
+    //    _      __           _ _   
+    // __| |___ / _|__ _ _  _| | |_ 
+    /// _` / -_)  _/ _` | || | |  _|
+    //\__,_\___|_| \__,_|\_,_|_|\__|
 
     else error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
   }
@@ -826,6 +839,33 @@
     }
   }
 
+  function ReflectionHandler(contract, global, handler) {
+    if(!(this instanceof ReflectionHandler)) return new ReflectionHandler(contract, global, handler);
+
+    this.get = function(target, name, receiver) {
+
+      if(name === contract.trap) {
+        return assertWith(target[name], contract.sub, global, handler);
+      } else {
+        return target[name];
+      }
+    };
+  }
+
+  function NoOpHandler() {
+    if(!(this instanceof NoOpHandler)) return new NoOpHandler();
+
+    // default get trap
+    this.get = function(target, name, receiver) {
+      return target[name];
+    };
+
+    // default set trap
+    this.set = function(target, name, value, receiver) {
+      return target[name]=value;
+    };
+  }
+
   //                     _                   _   
   //                    | |                 | |  
   //  ___ ___  _ __  ___| |_ _ __ _   _  ___| |_ 
@@ -893,10 +933,5 @@
   __define("canonical", canonical, _);
   __define("delayed", delayed, _);
   __define("immediate", immediate, _);
-
-
-  // TODO, remove this
-  __define("assertWith", assertWith, _);
-
 
 })(TreatJS);
