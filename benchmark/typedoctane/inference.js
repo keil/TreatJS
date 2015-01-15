@@ -20,6 +20,40 @@ var _types_ = [];
 // argumentID ::=
 // arguments = 0 -- (lenhth-1)
 // return    = -1
+function _update_ (funID, config) {
+
+  if(!_contains_(funID, config)) {
+    var callID = _types_[funID].length;
+    _types_[funID][callID] = config;
+  }
+
+//  if(_types_[funID][callID][argID]===undefined) {
+//    return (_types_[funID][callID][argID]=_typeof_(val));
+//  } else {
+//    print("Inference Error.");
+    //throw Error("Inference Error.");
+    //    if(_types_[fid][i]===_typeof_(v)) {
+    //      return true;
+    //    } else {
+    //      return (_types_[fid][i]="any"); 
+    //    }
+//  }
+}
+
+function _contains_ (funID, config) {
+  var any = false;
+  for(var callID = 0; callID < _types_[funID].length; callID++) {
+    var contains = true;
+    for(var argID = -1; argID < _types_[funID][callID].length; argID++) {
+      // TODO, teste -1
+      contains = contains && _types_[funID][callID][argID]===config[argID];
+    }
+    any = any || contains;
+  }
+}
+
+/*
+
 function _update_ (funID, callID, argID, val) {
   if(_types_[funID][callID][argID]===undefined) {
     return (_types_[funID][callID][argID]=_typeof_(val));
@@ -33,6 +67,7 @@ function _update_ (funID, callID, argID, val) {
     //    }
   }
 }
+*/
 
 // calculate type information
 function _typeof_ (val) {
@@ -45,27 +80,18 @@ function _TypeHandler_(funID) {
     // current call configuration
     var configuration = new Array();
 
-    // update arguments
-    for(var argID = 0; argID < args.length; i++) {
-      configuration[argID] = _typeof_(arg[argID]))
-      //_update_(funID, callID, i, args[i]);
-    }
-   
-    
-    
-    var callID = _types_[funID].length;
-    print(funID + "/" + callID);
-    _types_[funID][callID] = new Array();
-
-    // update arguments
-    for(var i = 0; i < args.length; i++) {
-      _update_(funID, callID, i, args[i]);
+    // set argument types
+    for(var argID = 0; argID < args.length; argID++) {
+      configuration[argID] = _typeof_(args[argID]);
     }
 
     var r = target.apply(thisValue, args);
 
-    // update return
-    _update_ (funID, callID, -1, r);
+    // set return type
+    configuration[-1] = _typeof_(r);
+
+    // update call configuration
+    _update_(funID, configuration);
 
     return r;
   }
@@ -98,9 +124,9 @@ for(var funID in _types_) {
   // function
   _print_("_TYPES_['"+funID+"']=[];");
 
-  for(var callID = 0; callID < _types_[funID].length; i++) {
+  for(var callID = 0; callID < _types_[funID].length; callID++) {
     _print_("_TYPES_['"+funID+"']['"+callID+"']=[];");
-    for(var argID = 0; argID < _types_[funID][callID].length; i++) {
+    for(var argID = -1; argID < _types_[funID][callID].length; argID++) {
       _print_("_TYPES_['"+fid+"']['"+callID+"']["+argID+"]='"+_types_[funID][argID]+"';");
     }
   }
