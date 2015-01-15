@@ -142,7 +142,7 @@
       return lbr + map.toString() + rbr;
     };
   }
-//  ObjectContract.prototype = new DelayedContract();
+  //  ObjectContract.prototype = new DelayedContract();
   ObjectContract.prototype = new ImmediateContract();
 
   // ___                        _         _    ___         _               _   
@@ -320,6 +320,27 @@
   }
   NegationContract.prototype = new WrapperContract();
 
+  // ___      __ _        _   _          ___         _               _   
+  //| _ \___ / _| |___ __| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
+  //|   / -_)  _| / -_) _|  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
+  //|_|_\___|_| |_\___\__|\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
+
+  function ReflectionContract(trap, sub) {
+    if(!(this instanceof ReflectionContract)) return new ReflectionContract(trap, sub);
+
+    if((typeof trap)!=="string") error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber); 
+    if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+    Object.defineProperties(this, {
+      "trap": {
+        get: function () { return trap; } },
+      "sub": {
+        get: function () { return sub; } }
+    });
+
+    this.toString = function() { return "" +  trap + " @ " + sub.toString(); };
+  }
+  ReflectionContract.prototype = new ImmediateContract();
 
   //  _____                _                   _             
   // / ____|              | |                 | |            
@@ -346,7 +367,7 @@
         } } },
       "ctor": {
         get: function () { return this.build.bind(this);
-      } }
+        } }
     });
 
     this.toString = function() { return "[*" + ((name!=undefined) ? name : constructor.toString()) + "*]"; };
@@ -375,6 +396,8 @@
   __define("And", AndContract, _);
   __define("Or", OrContract, _);
   __define("Not", NotContract, _);
+
+  __define("Reflection", ReflectionContract, _);
 
   __define("Constructor", ContractConstructor, _);
 
