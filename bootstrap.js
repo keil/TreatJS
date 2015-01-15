@@ -79,6 +79,40 @@ TreatJS.verbose({
 load("contracts/contracts.js");
 load("contracts/aliases.js");
 
+// Test Implementation of Access Permission Contracts
+//  
+
+
+var AccessContract = Contract.Constructor (function ctor (ac) {
+  var any = Contract.Base(function(property) {
+    return true;
+  });
+  var readable = Contract.Base(function(property) {
+    return (property!=="b");
+    return true;
+  });
+  var writeable = Contract.Base(function(property) {
+    return true;
+  });
+   
+  var get = Contract.Get(Contract.And(
+    Contract.AFunction({1:readable}, any),
+    Contract.Dependent(Contract.Constructor(ctor))
+    ));
+  var set = Contract.Get(Contract.AFunction({1:writeable}, any));
+
+  return Contract.And(get, set);
+});
+
+var Access = AccessContract.ctor;
+
+var target = {a:{a:{}, b:{}, c:{}}, b:{a:{}, b:{}, c:{}}, c:{a:{}, b:{}, c:{}}};
+var object = Contract.assert(target, Access("a.a"));
+
+object.a;
+//object.b;
+object.a.b;
+
 
 
 
@@ -86,8 +120,8 @@ load("contracts/aliases.js");
 // TODO
 
 // reflection
-run("test/reflect/get.js");
-run("test/reflect/set.js");
+//run("test/reflect/get.js");
+//run("test/reflect/set.js");
 
 
 
@@ -96,7 +130,7 @@ TreatJS.Statistic.print(print);
 quit();
 
 // ==================================================
-
+/*
 var AccessContract = Contract.Constructor (function ctor (pstr) {
 //  var readable = true;
 //  var writeable = true;
@@ -115,12 +149,12 @@ var AccessContract = Contract.Constructor (function ctor (pstr) {
 
 var Access = AccessContract.ctor;
 
-var target = {a:{x:{}}, x:1, next:{a:{}, x:1}};
-var object = Contract.assert(target, /*Contract.*/Access("a.b.c"));
+var target = {a:{x:{}}, x:1, next:{a:{}, x:1}};*/
+//var object = Contract.assert(target, /*Contract.*/Access("a.b.c"));
 
 
-var oa = object.a;
-oa.x;
+//var oa = object.a;
+//oa.x;
 //var ox=object.x;
 //var on=object.next;
 //on.a;
@@ -149,12 +183,12 @@ var arraySpec = Contract.AObject(Contract.RegExpMap([
 quit();
 
 
-
+/*
 Contract.And(
     Contract.Object({c:typeOfNumber}),
     Contract.Reflect.Get(ObjCon, Con, ObjCon)
 );
-
+*/
 //Problem, getter function, and  and the argument has to be wrapped bevore calling the getter
 //Loesung, Reihenfolge umdrehen umdrehen
 
@@ -166,7 +200,3 @@ Contract.And(
 
 
 
-Contract.Object(
-    Contract.Reflect.Get(),
-    Contract.Reflect.Set()
-);
