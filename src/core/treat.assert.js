@@ -89,6 +89,13 @@
     }
   }
 
+  /** count(msg)
+   * @param key String
+   */
+  function count(key) {
+    if(_.Config.Verbose.statistic) _.Statistic.inc(key);
+  }
+
   // ___               _ _              ___         _               _   
   /// __| __ _ _ _  __| | |__  _____ __/ __|___ _ _| |_ _ _ __ _ __| |_ 
   //\__ \/ _` | ' \/ _` | '_ \/ _ \ \ / (__/ _ \ ' \  _| '_/ _` / _|  _|
@@ -157,6 +164,7 @@
 
   function assert(arg, contract) {
     log("assert", contract);
+    count(_.Statistic.ASSERT); // TODO
 
     // disbale assertion
     if(!_.Config.assertion) return arg;
@@ -474,6 +482,8 @@
     //|___/\__,_/__/\___|\___\___/_||_\__|_| \__,_\__|\__|
 
     else if(contract instanceof BaseContract) {
+      count(_.Statistic.BASE); // TODO
+
       var globalArg = global.dump();
       var thisArg = undefined;
       var argsArray = new Array();
@@ -564,6 +574,14 @@
     else if(contract instanceof Constructor) {
       return assertWith(arg, construct(contract), global, callbackHandler);
     }
+
+    // TODO 
+   
+    else if(contract instanceof _.Reflection) {
+      return _.assertReflection(arg, contract, global, callbackHandler);
+    }
+
+    
 
     else error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
   }
@@ -875,5 +893,10 @@
   __define("canonical", canonical, _);
   __define("delayed", delayed, _);
   __define("immediate", immediate, _);
+
+
+  // TODO, remove this
+  __define("assertWith", assertWith, _);
+
 
 })(TreatJS);

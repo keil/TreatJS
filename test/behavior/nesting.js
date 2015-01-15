@@ -17,11 +17,11 @@
   var obj = {x:true};
   var obj2 = {x:false};
 
-  Predicate = _.BaseContract(function(arg) {
+  var Predicate = _.BaseContract(function(arg) {
     return true;
   });
 
-  Predicate2 = _.BaseContract(function(arg) {
+  var Predicate2 = _.BaseContract(function(arg) {
     _.assert(arg, contract);
     return true;
     //  return (contract instanceof Object);

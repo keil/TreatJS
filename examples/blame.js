@@ -5,8 +5,8 @@ var f = function (x) {
 
 var PosPos = Contract.AFunction([Pos], Pos);
 var ZeroZero = Contract.Base(
- function(f) { f(0); return true; }, "[f(0)=0]"
-);
+    function(f) { f(0); return true; }, "[f(0)=0]"
+    );
 
 
 
@@ -29,14 +29,14 @@ var ZeroZero = Contract.Base(
   var x = Contract.assert(7, typeOfNumber);
   //var x = Contract.assert(7, typeOfString);
   var ff = Contract.assert(function() {return 0;}, ZeroZero);
- 
+
 });
 
 (function () {
 
   var g = Contract.assert(f, PosPos);
   var h = Contract.assert(g, ZeroZero);
-
+  h(1);
 
 
 
@@ -73,13 +73,15 @@ var ZeroZero = Contract.Base(
   // blame CONTEXT
 
   var h = Contract.assert(g, ZeroZero);
+  h(1);
+  
   // blame SUBJECT of Zero (because of blame/CONFLICT)
   // otherwise blame CONTEXT of PosPos
 
   // 3-ch solution should not blame the contract PosPos, it should blame the ZeroZero
   // --> no extract, or extract only correspondig to the assertion!
 
-});
+})();
 
 
 
@@ -97,10 +99,10 @@ var ZeroZero = Contract.Base(
 
   var g = Contract.assert(f, Contract.AFunction([PosPos], True));
   var h = g(f); 
-  
+
   // h(1);
   // all fine
-  
+
   h(0);
   // blame SUBJECT, because .. Subject is responsible to guarantee that  
   // f ist called only with Pos
@@ -115,15 +117,15 @@ var ZeroZero = Contract.Base(
 
   var g = Contract.assert(f, Contract.AFunction([PosPos], True));
   var h = g(f); 
-  
+
   // h(1);
   // all fine
-  
+
   // h(0);
   // blame CONTEXT, because .. Subject is responsible to guarantee that  
   // f ist called only with Pos
 
-});
+})();
 
 
 
@@ -152,12 +154,12 @@ var ZeroZero = Contract.Base(
   var EvenEven = Contract.AFunction([Even], Even);
 
   var ZeroZero = Contract.Base(
-   function(f) { f(2); return true; }, "ZeroZero?"
-  );
+    function(f) { f(2); return true; }, "ZeroZero?"
+    );
 
   var OneOne = Contract.Base(
-   function(f) { f(2); return true}, "?OneOne?"
-  );
+    function(f) { f(2); return true}, "?OneOne?"
+    );
 
 
   var PosPosOneOne = Contract.AFunction([PosPos], OneOne);
@@ -166,10 +168,10 @@ var ZeroZero = Contract.Base(
   var g = Contract.assert(id , Contract.Intersection(PosPosOneOne, EvenEvenZeroZero));
 
   var h = g(ff); 
-  
+
   // h(1);
   // all fine
-  
+
   // h(0);
   // blame CONTEXT, because .. Subject is responsible to guarantee that  
   // f ist called only with Pos
@@ -191,12 +193,12 @@ var ZeroZero = Contract.Base(
   var PosPos = Contract.AFunction([Pos], Pos);
 
   var ZeroZero = Contract.Base(
-   function(f) { f(-1); return true; }, "ZeroZero?"
-  );
+    function(f) { f(-1); return true; }, "ZeroZero?"
+    );
 
   var g = Contract.assert(id , Contract.Intersection(PosPos, ZeroZero));
   var h = g(ff); 
-  
+
 });
 
 (function () {
@@ -212,15 +214,15 @@ var ZeroZero = Contract.Base(
   var PosPos = Contract.AFunction([Pos], Pos);
 
   var ZeroZero = Contract.Base(
-   function(f) { f(0); return true; }, "ZeroZero?"
-  );
+    function(f) { f(0); return true; }, "ZeroZero?"
+    );
 
   //var g = Contract.assert(id , Contract.Union(PosPos, ZeroZero));
   var g = Contract.assert(id , Contract.Union(ZeroZero, PosPos));
 
   // Correct, order of contratcs depends on the user
 
-  
+
 });
 
 
@@ -375,8 +377,8 @@ var ZeroZero = Contract.Base(
   //var EvenEven = Contract.AFunction([Any], Any);
 
   var g = Contract.assert(f, Contract.Intersection(
-      Contract.AFunction([PosPos], Left), 
-      Contract.AFunction([EvenEven], Right)));
+        Contract.AFunction([PosPos], Left), 
+        Contract.AFunction([EvenEven], Right)));
 
   // ID is Union PosPos, EvenEven
   var h = g(id);
@@ -399,9 +401,9 @@ var ZeroZero = Contract.Base(
   }
 
   var Left = Contract.Base(function(id) {
-   id(0,0); // ok
-   id(1,1); // ok // BUG, should be OK, Structure must be renewed
-   //or nor BUG ?
+    id(0,0); // ok
+    id(1,1); // ok // BUG, should be OK, Structure must be renewed
+    //or nor BUG ?
 
     // id(2,1); // blame (!)
     return true;
@@ -417,8 +419,8 @@ var ZeroZero = Contract.Base(
   // var EvenEven = Contract.AFunction([Any], Any);
 
   var g = Contract.assert(f, Contract.Union(
-      Contract.AFunction([PosPos], Left), 
-      Contract.AFunction([EvenEven], Right)));
+        Contract.AFunction([PosPos], Left), 
+        Contract.AFunction([EvenEven], Right)));
 
   // ID is Intersection PosPos, EvenEven
   var h = g(id);
@@ -426,6 +428,4 @@ var ZeroZero = Contract.Base(
   //h(0,0);
   //h(1,1);
 
-})();
-
-
+});

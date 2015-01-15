@@ -63,11 +63,11 @@
 
     if(!(caller instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
     if(!(callee instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
-    if(!(contract instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
+//    if(!(contract instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
 
     __define("caller", caller, this);
     __define("callee", callee, this);
-    __define("contract", contract, this);
+//    __define("contract", contract, this);
   }
 
   Handle.prototype.toString = function() {
@@ -81,22 +81,31 @@
   Handle.update = function(m, n) {
     return Handle(
         merge(m.caller, n.caller),
-        merge(m.callee, n.callee),
-        merge(m.contract, n.contract));
+        merge(m.callee, n.callee)
+        //merge(m.contract, n.contract)
+        );
   }
 
   Handle.and = function(m, n) {
     return Handle(
         and(m.caller, n.caller),
-        and(m.callee, n.callee),
-        and(m.contract, n.contract));
+        and(m.callee, n.callee)
+        //and(m.contract, n.contract)
+        );
   }
 
   Handle.or = function(m, n) {
     return Handle(
-        or(m.caller, n.caller),
-        or(m.callee, n.callee),
-        or(m.contract, n.contract));
+        (m.caller.isFalse) ? n.caller = False :
+        ((m.caller.isTrue) ? n.caller = True : Unknown),
+
+        (m.callee.isFalse) ? n.callee = False :
+        ((m.callee.isTrue) ? n.callee = True : Unknown)
+
+        //or(m.caller, n.caller),
+        //or(m.callee, n.callee)
+        //or(m.contract, n.contract)
+        );
   }
 
 
@@ -580,7 +589,7 @@
 
   __define("Callback", {}, _);
 
-  __define("Callback", {}, _.Callback);
+  __define("Callback", Callback, _.Callback);
   __define("Handle", Handle, _.Callback);
 
   __define("RootCallback", RootCallback, _.Callback);

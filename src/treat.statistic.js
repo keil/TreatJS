@@ -53,6 +53,6 @@
   Statistic.prototype.ASSERT = "ASSERT";
   Statistic.prototype.BASE = "BASE";
 
-  __define("Statistic", Statistic, _);
+  __define("Statistic", Statistic(), _);
 
 })(TreatJS);

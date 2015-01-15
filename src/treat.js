@@ -79,6 +79,12 @@ function TreatJS(configuration) {
 
     __define("SDependent", this.SimpleDependentContract, _);
 
+    // reflection // TODO
+    __define("Get", this.GetContract, _);
+    __define("Set", this.SetContract, _);
+
+
+
     // util
     __define("StringMap", this.Map.StringMap, _);
     __define("Mapping", this.Map.Mapping, _);

@@ -98,4 +98,6 @@ run("test/blame/not.js");
 // canonicalize
 load("test/canonicalize/canonicalize.js");
 
+TreatJS.Statistic.print();
+
 quit();
