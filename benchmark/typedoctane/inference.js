@@ -13,55 +13,77 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+// list of all type informations
+// functionID x callID x argumentID
 var _types_ = [];
 
-// 0--(lenhth-1) arguments
-// -1 return
-function _update_ (fid, i, v) {
-  if(_types_[fid][i]===undefined) {
-    return (_types_[fid][i]=_typeof_(v));
+// argumentID ::=
+// arguments = 0 -- (lenhth-1)
+// return    = -1
+function _update_ (funID, callID, argID, val) {
+  if(_types_[funID][callID][argID]===undefined) {
+    return (_types_[funID][callID][argID]=_typeof_(val));
   } else {
-    if(_types_[fid][i]===_typeof_(v)) {
-      return true;
-    } else {
-      return (_types_[fid][i]="any");
-    }
+    print("Inference Error.");
+    //throw Error("Inference Error.");
+    //    if(_types_[fid][i]===_typeof_(v)) {
+    //      return true;
+    //    } else {
+    //      return (_types_[fid][i]="any"); 
+    //    }
   }
 }
 
-function _typeof_ (v) {
-  if(v instanceof Array) return "array";
-  else return (typeof v);
+// calculate type information
+function _typeof_ (val) {
+  return (typeof val);
 }
 
-function _TypeHandler_(fid) {
+function _TypeHandler_(funID) {
   this.apply = function(target, thisValue, args) {
-    //return target.apply(thisValue, args);
-    // TODO test
-    //if(_types_[fid]!==undefined) {
-    //  return target.apply(thisValue, args);
-    //}
-    for(var i = 0; i < args.length; i++) {
-    //for(var i in args) {
-//    print('update ' + i);
-      _update_(fid, i, args[i]);
+
+    // current call configuration
+    var configuration = new Array();
+
+    // update arguments
+    for(var argID = 0; argID < args.length; i++) {
+      configuration[argID] = _typeof_(arg[argID]))
+      //_update_(funID, callID, i, args[i]);
     }
+   
+    
+    
+    var callID = _types_[funID].length;
+    print(funID + "/" + callID);
+    _types_[funID][callID] = new Array();
+
+    // update arguments
+    for(var i = 0; i < args.length; i++) {
+      _update_(funID, callID, i, args[i]);
+    }
+
     var r = target.apply(thisValue, args);
-    _update_ (fid, -1, r);
+
+    // update return
+    _update_ (funID, callID, -1, r);
+
     return r;
   }
 }
 
-// TODO
-function _wrap2_ (f) {
+// noop-wrap 
+function _wrapNoOp_ (f) {
   return f;
 }
 
+// wrap
 function _wrap_ (f) {
   var fid = _file_+_freshID_();
   _types_[fid] = new Array();
   return new Proxy(f, new _TypeHandler_(fid));
 }
+
+
 
 load("benchmark/typedoctane/run.js");
 
@@ -71,13 +93,22 @@ _print_("");
 _print_("_TYPES_=[];");
 _print_("");
 
-for(var fid in _types_) {
-  // TODO, function return is not checked because of -1
-  _print_("_TYPES_['"+fid+"']=[];");
-//  for(var i in _types_[fid]) {
-  for(var i = 0; i < _types_[fid].length; i++) {
-    _print_("_TYPES_['"+fid+"']["+i+"]='"+_types_[fid][i]+"';");
+for(var funID in _types_) {
+  
+  // function
+  _print_("_TYPES_['"+funID+"']=[];");
+
+  for(var callID = 0; callID < _types_[funID].length; i++) {
+    _print_("_TYPES_['"+funID+"']['"+callID+"']=[];");
+    for(var argID = 0; argID < _types_[funID][callID].length; i++) {
+      _print_("_TYPES_['"+fid+"']['"+callID+"']["+argID+"]='"+_types_[funID][argID]+"';");
+    }
   }
+
+  //  for(var i in _types_[fid]) {
+//  for(var i = 0; i < _types_[fid].length; i++) {
+//    _print_("_TYPES_['"+fid+"']["+i+"]='"+_types_[fid][i]+"';");
+//  }
   //  print(_makeContract_(fid));
   //  print("");
 }

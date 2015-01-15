@@ -30,17 +30,17 @@ var wrapped_dir = 'benchmark/wrapped/';
 load(base_dir + 'base.js');
 
 _load_(wrapped_dir,'richards.js');
-_load_(wrapped_dir,'deltablue.js');
+/*_load_(wrapped_dir,'deltablue.js');
 _load_(wrapped_dir,'crypto.js');
 _load_(wrapped_dir,'raytrace.js');
 _load_(wrapped_dir,'earley-boyer.js');
 _load_(wrapped_dir,'regexp.js');
 _load_(wrapped_dir,'splay.js'); 
 _load_(wrapped_dir,'navier-stokes.js');
-_load_(wrapped_dir,'pdfjs.js');
+_load_(wrapped_dir,'pdfjs.js');*/
 
 // failed (contract #2 has to be deavtivated)
-_load_(wrapped_dir,'mandreel.js');
+/*_load_(wrapped_dir,'mandreel.js');
 
 _load_(wrapped_dir,'gbemu-part1.js');
 _load_(wrapped_dir,'gbemu-part2.js');
@@ -49,13 +49,13 @@ _load_(wrapped_dir,'code-load.js');
 _load_(wrapped_dir,'box2d.js');
 
 _load_(wrapped_dir,'zlib.js');
-_load_(wrapped_dir,'zlib-data.js');
+_load_(wrapped_dir,'zlib-data.js');*/
 
 // failed
 // use online type information of typescript.js'
-_load_(wrapped_dir,'typescript.js');
+/*_load_(wrapped_dir,'typescript.js');
 _load_(wrapped_dir,'typescript-input.js');
-_load_(wrapped_dir,'typescript-compiler.js');
+_load_(wrapped_dir,'typescript-compiler.js');*/
 
 
 var success = true;
