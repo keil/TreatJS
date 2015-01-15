@@ -74,7 +74,7 @@ var ZeroZero = Contract.Base(
 
   var h = Contract.assert(g, ZeroZero);
   h(1);
-  
+
   // blame SUBJECT of Zero (because of blame/CONFLICT)
   // otherwise blame CONTEXT of PosPos
 
