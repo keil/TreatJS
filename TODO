@@ -1,8 +1,11 @@
 ## Major Tasks ##
 
+- 3-ch blaming
+
+- dynamic global scopes for base contract reuse
+- and caching of predicates
+
 ## Minor Tasks ##
 
 #2 Blame in Contracts
 - restrict throw is not a possibe because the CB structure is already updated
-
-- bug prototypes
