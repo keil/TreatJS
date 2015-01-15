@@ -63,11 +63,11 @@
 
     if(!(caller instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
     if(!(callee instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
-//    if(!(contract instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
+    //    if(!(contract instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
 
     __define("caller", caller, this);
     __define("callee", callee, this);
-//    __define("contract", contract, this);
+    //    __define("contract", contract, this);
   }
 
   Handle.prototype.toString = function() {
