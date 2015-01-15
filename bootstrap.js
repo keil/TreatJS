@@ -82,17 +82,26 @@ load("contracts/aliases.js");
 // Test Implementation of Access Permission Contracts
 //  
 
+load("lib//lib_stringmap.js");
 
-var AccessContract = Contract.Constructor (function ctor (ac) {
+load("lib/jscontest2/apc.js");
+load("lib/jscontest2/contract.js");
+load("lib/jscontest2/parser.js");
+
+var AccessContract = Contract.Constructor (function ctor (contr) {
+
+
   var any = Contract.Base(function(property) {
     return true;
   });
-  var readable = Contract.Base(function(property) {
-    return (property!=="b");
-    return true;
+  var readable = Contract.Base(function(name) {
+    return contr.isReadable(name);
+    //return (property!=="b");
+    //return true;
   });
-  var writeable = Contract.Base(function(property) {
-    return true;
+  var writeable = Contract.Base(function(name) {
+    return contr.isWriteable(name);
+    //return true;
   });
    
   var get = Contract.Get(Contract.And(
@@ -107,11 +116,11 @@ var AccessContract = Contract.Constructor (function ctor (ac) {
 var Access = AccessContract.ctor;
 
 var target = {a:{a:{}, b:{}, c:{}}, b:{a:{}, b:{}, c:{}}, c:{a:{}, b:{}, c:{}}};
-var object = Contract.assert(target, Access("a.a"));
+var object = Contract.assert(target, Access(__APC.Parser.parse("a.a")));
 
 object.a;
 //object.b;
-object.a.b;
+//object.a.b;
 
 
 

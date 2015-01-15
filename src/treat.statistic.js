@@ -28,7 +28,7 @@
     }
 
     this.get = function(key) {
-      return counts[key];
+      return (counts[key]) ? counts[key] : 0;
     }
 
     this.print = function () {
@@ -45,8 +45,8 @@
         }
       }
 
-      log("#" + this.ASSERT + " = ", counts[this.ASSERT]);
-      log("#" + this.BASE + " = ", counts[this.BASE]);
+      log("#" + this.ASSERT + " = ", this.get(this.ASSERT));
+      log("#" + this.BASE + " = ", this.get(this.BASE));
     }
   }
 

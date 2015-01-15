@@ -45,6 +45,16 @@ var Richards = new BenchmarkSuite('Richards', [35302], [
  * operating system.
  **/
 function runRichards() {
+
+  var f =  _wrap_ (function (x,y,z) {
+    return (x===y) ? 1 : "1";
+  });
+
+  f(true, 0, 1);
+  f(true, 0, 1);
+  f(0, 1, 2);
+  f(0, 0, 2);
+
   var scheduler = new Scheduler();
 
   scheduler.addIdleTask(ID_IDLE, 0, null, COUNT);
