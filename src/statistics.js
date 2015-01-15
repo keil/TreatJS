@@ -13,7 +13,6 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-// Note: Still Testing Code
 
 function TreatJSStatistics() {
   if(!(this instanceof TreatJSStatistics)) return new TreatJSStatistics();
@@ -21,7 +20,7 @@ function TreatJSStatistics() {
   var counts = new Array();
 
   this.inc = function(key) {
-    return (counts[key]) ? (counts[key]++) : counts[key]=0;
+    return (counts[key]) ? (counts[key]=counts[key]+1) : counts[key]=1;
   }
 
   this.reset = function() {
@@ -32,29 +31,24 @@ function TreatJSStatistics() {
     return counts[key];
   }
 
-  this.print = function (out) {
-    counts.foreach(function(key, value) {
-      out("#" + key + " = " + value);
-    })
+  this.print = function () {
+
+    if(_.Config.Verbose.statistic) {
+      __out(padding_right("TreatJS Statistics ", ".", 30));
+      __blank();
+    }
+
+    function log(msg, value) {
+      if(_.Config.Verbose.statistic) {
+        __subout(padding_right(msg + " ", ".", 30) + padding_left(value + "", " ", 9));
+        __blank();
+      }
+    }
+
+    log("#" + this.ASSERT + " = ", counts[this.ASSERT]);
+    log("#" + this.BASE + " = ", counts[this.BASE]);
   }
 }
 
-TreatJSStatistics.prototype.ASSERTION = "ASSERTION";
-
+TreatJSStatistics.prototype.ASSERT = "ASSERT";
 TreatJSStatistics.prototype.BASE = "BASE";
-
-TreatJSStatistics.prototype.FUNCTION = "FUNCTION";
-TreatJSStatistics.prototype.DEPENDENT = "DEPENDENT";
-TreatJSStatistics.prototype.OBJECT = "OBJECT";
-
-TreatJSStatistics.prototype.INTERSECTION = "INTERSECTION";
-TreatJSStatistics.prototype.UNION = "UNION";
-
-TreatJSStatistics.prototype.AND = "AND";
-TreatJSStatistics.prototype.OR = "OR";
-TreatJSStatistics.prototype.NOT = "NOT";
-
-TreatJSStatistics.prototype.WITH = "WITH";
-
-
-// COPNSTRUCTOR
