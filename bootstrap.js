@@ -85,56 +85,11 @@ load("contracts/aliases.js");
 
 // TODO
 
+// reflection
+run("test/reflect/get.js");
+run("test/reflect/set.js");
 
 
-
-
-var targetCon = Contract.Base(function(arg) {
-  return true;
-});
-
-var nameCon = Contract.Base(function(arg) {
-  return (arg==="a") ? true : false ;
-  //return true;
-});
-
-var valueCon = Contract.Base(function(arg) {
-  return (typeof arg === "number") ? true : false;
-});
-
-var receiverCon = Contract.Base(function(arg) {
-  return true;
-});
-
-
-var obj = {a:4711, b:4712, c:4713};
-//var con = Contract.Reflect.Get(targetCon, nameCon, receiverCon);
-var con = Contract.Get(targetCon, nameCon, receiverCon);
-var prx = Contract.assert(obj, con);
-
-print("--- " + prx.a);
-//print("--- " + prx.b);
-//print("--- " + prx.c);
-
-
-var con2 = Contract.Set(targetCon, nameCon, valueCon, receiverCon);
-var prx2 = Contract.assert(prx, con2);
-
-print("--- " + prx2.a);
-print("--- " + (prx2.a=1));
-print("--- " + prx2.a);
-
-//print("--- " + (prx2.b="L"));
-//print("--- " + (prx2.a="L"));
-
-
-/**
-typeNumber --> Any
-
-
-
-
-**/
 
 TreatJS.Statistic.print(print);
 
