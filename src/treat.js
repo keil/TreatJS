@@ -66,6 +66,8 @@ function TreatJS(configuration) {
     __define("Or", this.Or, _);
     __define("Not", this.Not, _);
 
+    __define("Reflection", this.Reflection, _);
+
     __define("Constructor", this.Constructor, _);
 
     // convinience
@@ -79,11 +81,9 @@ function TreatJS(configuration) {
 
     __define("SDependent", this.SimpleDependentContract, _);
 
-    // reflection // TODO
-    __define("Get", this.GetContract, _);
-    __define("Set", this.SetContract, _);
-
-
+    // reflection 
+    __define("Get", this.Reflect.Get, _);
+    __define("Set", this.Reflect.Set, _);
 
     // util
     __define("StringMap", this.Map.StringMap, _);
