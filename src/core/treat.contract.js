@@ -34,22 +34,22 @@
   function DelayedContract() {
     if(!(this instanceof DelayedContract)) return new DelayedContract();
   }
-  DelayedContract.prototype = new Contract();
+  DelayedContract.prototype = Object.create(Contract.prototype);
 
   function ImmediateContract() {
     if(!(this instanceof ImmediateContract)) return new ImmediateContract();
   }
-  ImmediateContract.prototype = new Contract();
+  ImmediateContract.prototype = Object.create(Contract.prototype);
 
   function CombinatorContract() {
     if(!(this instanceof CombinatorContract)) return new CombinatorContract();
   }
-  CombinatorContract.prototype = new Contract();
+  CombinatorContract.prototype = Object.create(Contract.prototype);
 
   function WrapperContract() {
     if(!(this instanceof WrapperContract)) return new WrapperContract();
   }
-  WrapperContract.prototype = new Contract();
+  WrapperContract.prototype = Object.create(Contract.prototype);
 
   // ___                ___         _               _   
   //| _ ) __ _ ___ ___ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -69,7 +69,7 @@
     });
     this.toString = function() { return "[" + ((name!=undefined) ? name : predicate.toString()) + "]"; };
   }
-  BaseContract.prototype = new ImmediateContract();
+  BaseContract.prototype = Object.create(ImmediateContract.prototype);
 
   // ___          _   _   _          ___         _               _   
   //| __|  _ _ _ | |_| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -91,7 +91,7 @@
 
     this.toString = function() { return "(" + domain.toString() + "->" + range.toString() + ")"; };
   }
-  FunctionContract.prototype = new DelayedContract();
+  FunctionContract.prototype = Object.create(DelayedContract.prototype);
 
   // __  __     _   _            _  ___         _               _   
   //|  \/  |___| |_| |_  ___  __| |/ __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -116,7 +116,7 @@
 
     this.toString = function() { return "(" + domain.toString() + "->" + range.toString() + "|" + context.toString() + ")"; };
   }
-  MethodContract.prototype = new DelayedContract();
+  MethodContract.prototype = Object.create(DelayedContract.prototype);
 
   //  ___  _     _        _    ___         _               _   
   // / _ \| |__ (_)___ __| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -142,8 +142,7 @@
       return lbr + map.toString() + rbr;
     };
   }
-  //  ObjectContract.prototype = new DelayedContract();
-  ObjectContract.prototype = new ImmediateContract();
+  ObjectContract.prototype = Object.create(ImmediateContract.prototype);
 
   // ___                        _         _    ___         _               _   
   //|   \ ___ _ __  ___ _ _  __| |___ _ _| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -163,7 +162,7 @@
 
     this.toString = function() { return "(" + constructor.toString() + "->" + "*" + ")"; };
   }
-  DependentContract.prototype = new DelayedContract();
+  DependentContract.prototype = Object.create(DelayedContract.prototype);
 
   //   _           _  ___         _               _   
   //  /_\  _ _  __| |/ __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -185,7 +184,7 @@
 
     this.toString = function() { return "(" + first.toString() + "and" + second.toString() + ")"; };
   }
-  AndContract.prototype = new CombinatorContract();
+  AndContract.prototype = Object.create(CombinatorContract.prototype);
 
   //  ___       ___         _               _   
   // / _ \ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -207,7 +206,7 @@
 
     this.toString = function() { return "(" + first.toString() + "or" + second.toString() + ")"; };
   }
-  OrContract.prototype = new CombinatorContract();
+  OrContract.prototype = Object.create(CombinatorContract.prototype);
 
   // _  _     _    ___         _               _   
   //| \| |___| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -227,7 +226,7 @@
     this.sub = sub;
     this.toString = function() { return "(not(" + sub.toString() + "))"; };
   }
-  NotContract.prototype = new WrapperContract();
+  NotContract.prototype = Object.create(WrapperContract.prototype);
 
   //__      ___ _   _    ___         _               _   
   //\ \    / (_) |_| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -253,7 +252,7 @@
       return "(with {" + domain + "}" + sub.toString() + ")";
     };
   }
-  WithContract.prototype = new WrapperContract();
+  WithContract.prototype = Object.create(WrapperContract.prototype);
 
 
   // ___     _                      _   _          ___         _               _   
@@ -276,7 +275,7 @@
 
     this.toString = function() { return "(" + first.toString() + "cap" + second.toString() + ")"; };
   }
-  IntersectionContract.prototype = new CombinatorContract();
+  IntersectionContract.prototype = Object.create(CombinatorContract.prototype);
 
   // _   _      _          ___         _               _   
   //| | | |_ _ (_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -298,7 +297,7 @@
 
     this.toString = function() { return "(" + first.toString() + "cup" + second.toString() + ")"; };
   }
-  UnionContract.prototype = new CombinatorContract();
+  UnionContract.prototype = Object.create(CombinatorContract.prototype);
 
   // _  _               _   _          ___         _               _   
   //| \| |___ __ _ __ _| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -318,7 +317,7 @@
 
     this.toString = function() { return "(neg(" + sub.toString() + "))"; };
   }
-  NegationContract.prototype = new WrapperContract();
+  NegationContract.prototype = Object.create(WrapperContract.prototype);
 
   // ___      __ _        _   _          ___         _               _   
   //| _ \___ / _| |___ __| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -340,7 +339,7 @@
 
     this.toString = function() { return "" +  trap + " @ " + sub.toString(); };
   }
-  ReflectionContract.prototype = new ImmediateContract();
+  ReflectionContract.prototype = Object.create(ImmediateContract.prototype);
 
   //  _____                _                   _             
   // / ____|              | |                 | |            
@@ -372,7 +371,7 @@
 
     this.toString = function() { return "[*" + ((name!=undefined) ? name : constructor.toString()) + "*]"; };
   }
-  ContractConstructor.prototype = new Constructor();
+  ContractConstructor.prototype = Object.create(Constructor.prototype);
 
   /**
    * Core Contracts

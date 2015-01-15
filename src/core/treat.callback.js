@@ -71,6 +71,7 @@
     //    __define("contract", contract, this);
   }
 
+  Handle.prototype = {};
   Handle.prototype.toString = function() {
     return "Caller: "+this.caller+", Callee: "+this.callee+", Contract: "+this.contract;
   }
@@ -144,7 +145,7 @@
       }).bind(this);
     }, this);
   }
-  RootCallback.prototype = Callback.prototype;
+  RootCallback.prototype = Object.create(Callback.prototype);
   RootCallback.prototype.toString = function() {
     return "<RootCallback>";
   }
@@ -191,7 +192,7 @@
       }).bind(this);
     }, this);
   }
-  FunctionCallback.prototype = Callback.prototype;
+  FunctionCallback.prototype = Object.create(Callback.prototype);
   FunctionCallback.prototype.toString = function() {
     return "<FunctionCallback>";
   }
@@ -203,7 +204,7 @@
   //          |__/                                            
 
   function PropertyCallback(handler, contract) {
-    if(!(this instanceof ObjectCallback)) return new PropertyCallback(handler, contract);
+    if(!(this instanceof PropertyCallback)) return new PropertyCallback(handler, contract);
     else Callback.apply(this, arguments);
 
     var set = undefined;
@@ -239,7 +240,7 @@
       }).bind(this);
     }, this);
   }
-  PropertyCallback.prototype = Callback.prototype;
+  PropertyCallback.prototype = Object.create(Callback.prototype);
   PropertyCallback.prototype.toString = function() {
     return "<PropertyCallback>";
   }
@@ -273,7 +274,7 @@
       }).bind(this);
     }, this);
   }
-  ObjectCallback.prototype = Callback.prototype;
+  ObjectCallback.prototype = Object.create(Callback.prototype);
   ObjectCallback.prototype.toString = function() {
     return "<ObjectCallback>";
   }
@@ -320,7 +321,7 @@
       }).bind(this);
     }, this);
   }
-  IntersectionCallback.prototype = Callback.prototype;
+  IntersectionCallback.prototype = Object.create(Callback.prototype);
   IntersectionCallback.prototype.toString = function() {
     return "<IntersectionCallback>";
   }
@@ -367,7 +368,7 @@
       }).bind(this);
     }, this);
   }
-  UnionCallback.prototype = Callback.prototype;
+  UnionCallback.prototype = Object.create(Callback.prototype);
   UnionCallback.prototype.toString = function() {
     return "<UnionCallback>";
   }
@@ -407,7 +408,7 @@
       }).bind(this);
     }, this);
   }
-  NegationCallback.prototype = Callback.prototype;
+  NegationCallback.prototype = Object.create(Callback.prototype);
   NegationCallback.prototype.toString = function() {
     return "<NegationCallback>";
   }
@@ -454,7 +455,7 @@
       }).bind(this);
     }, this);
   }
-  AndCallback.prototype = Callback.prototype;
+  AndCallback.prototype = Object.create(Callback.prototype);
   AndCallback.prototype.toString = function() {
     return "<AndCallback>";
   }
@@ -502,7 +503,7 @@
       }).bind(this);
     }, this);
   }
-  OrCallback.prototype = Callback.prototype;
+  OrCallback.prototype = Object.create(Callback.prototype);
   OrCallback.prototype.toString = function() {
     return "<OrCallback>";
   }
@@ -542,13 +543,10 @@
       }).bind(this);
     }, this);
   }
-  NotCallback.prototype = Callback.prototype;
+  NotCallback.prototype = Object.create(Callback.prototype);
   NotCallback.prototype.toString = function() {
     return "<NotCallback>";
   }
-
-  // TODO
-  // BASE Callback
 
   function BaseCallback(handler, contract) {
     if(!(this instanceof BaseCallback)) return new BaseCallback(handler, contract);
@@ -579,7 +577,7 @@
       }).bind(this);
     }, this);
   }
-  BaseCallback.prototype = Callback.prototype;
+  BaseCallback.prototype = Object.create(Callback.prototype);
   BaseCallback.prototype.toString = function() {
     return "<BaseCallback>";
   }
@@ -598,7 +596,6 @@
   __define("FunctionCallback", FunctionCallback, _.Callback);
   __define("ObjectCallback", ObjectCallback, _.Callback);
   __define("PropertyCallback", PropertyCallback, _.Callback);
-
 
   __define("IntersectionCallback", IntersectionCallback, _.Callback);
   __define("UnionCallback", UnionCallback, _.Callback);

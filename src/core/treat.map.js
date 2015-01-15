@@ -73,6 +73,7 @@
       return "[" + mappings + "]";
     };
   }
+  Map.prototype = {};
 
   function StringMap(elements, strict) { 
     if(!(this instanceof StringMap)) return new StringMap(elements, strict);
@@ -95,7 +96,7 @@
       }
     } else {}
   }
-  StringMap.prototype = new Map();
+  StringMap.prototype = Object.create(Map.prototype);
 
   function Mapping(regexp, contract) {
     if(!(this instanceof Mapping)) return new Mapping(regexp, contract);
@@ -145,7 +146,7 @@
       });
     }
   }
-  RegExpMap.prototype = new Map();
+  RegExpMap.prototype = Object.create(Map.prototype);
 
   /**
    * Map

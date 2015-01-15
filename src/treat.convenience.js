@@ -41,9 +41,6 @@
   var Mapping = _.Map.Mapping;
   var RegExpMap = _.Map.RegExpMap;
 
-  var Blank = new BaseContract(function(){return true;}, "-");
-  var BlankC = new ContractConstructor(function(){return Blank;});
-
   //  ___  _     _        _    ___         _               _   
   // / _ \| |__ (_)___ __| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
   //| (_) | '_ \| / -_) _|  _| (__/ _ \ ' \  _| '_/ _` / _|  _|
@@ -62,7 +59,7 @@
     }
 
   }
-  AdvancedObjectContract.prototype = new ObjectContract(new Map());
+  AdvancedObjectContract.prototype = Object.create(ObjectContract.prototype);
 
   // ___          _   _   _          ___         _               _   
   //| __|  _ _ _ | |_| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -80,7 +77,7 @@
       FunctionContract.call(this, AdvancedObjectContract(domain, strict), range);
     } else error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
   }
-  AdvancedFunctionContract.prototype = new FunctionContract(Blank, Blank);
+  AdvancedFunctionContract.prototype = Object.create(FunctionContract.prototype);
 
   function SimpleFunctionContract() {
     if(!(this instanceof SimpleFunctionContract)) {
@@ -97,7 +94,7 @@
 
     FunctionContract.call(this, AdvancedObjectContract(domain, false), range);
   }
-  SimpleFunctionContract.prototype = new FunctionContract(Blank, Blank);
+  SimpleFunctionContract.prototype = Object.create(FunctionContract.prototype);
 
   // __  __     _   _            _  ___         _               _   
   //|  \/  |___| |_| |_  ___  __| |/ __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -116,7 +113,7 @@
       MethodContract.call(this, AdvancedObjectContract(domain, strict), range, context);
     } else error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
   }
-  AdvancedMethodContract.prototype = new MethodContract(Blank, Blank, Blank);
+  AdvancedMethodContract.prototype = Object.create(MethodContract.prototype);
 
   function SimpleMethodContract() {
     if(!(this instanceof SimpleMethodContract)) {
@@ -134,7 +131,7 @@
 
     MethodContract.call(this, AdvancedObjectContract(domain, false), range, context);
   }
-  SimpleMethodContract.prototype = new MethodContract(Blank, Blank, Blank);
+  SimpleMethodContract.prototype = Object.create(MethodContract.prototype);
 
   // ___                        _         _    ___         _               _   
   //|   \ ___ _ __  ___ _ _  __| |___ _ _| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -153,7 +150,7 @@
     }
     DependentContract.call(this, ContractConstructor(ctor, {name:name, contract:contract}));
   }
-  SimpleDependentContract.prototype = new DependentContract(BlankC);
+  SimpleDependentContract.prototype = Object.create(DependentContract.prototype);
 
   /**
    * Convenience Contracts

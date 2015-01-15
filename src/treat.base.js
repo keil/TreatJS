@@ -24,6 +24,7 @@
   function Contract() {
     if(!(this instanceof Contract)) return new Contract();
   };
+  Contract.prototype = {};
 
   function Constructor() {
     if(!(this instanceof Constructor)) return new Constructor();
@@ -31,7 +32,7 @@
     // empty constructor call
     this.build = function () {};
   }
-  Constructor.prototype = new Contract();
+  Constructor.prototype = Object.create(Contract.prototype);
 
   /**
    * Core Components
