@@ -20,7 +20,7 @@ var print = _print_;
 load("benchmark/typedoctane/TYPES_m.js");
 
 // TODO
-function _wrapX_ (f) {
+/*function _wrapX_ (f) {
   var fid = _file_+_freshID_();
   if(_TYPES_[fid]!==undefined) {
     var contract = _makeContract_(fid);
@@ -32,12 +32,16 @@ function _wrapX_ (f) {
   }
 
 //  return _wrap_(f);
-}
+}*/
 
 function _wrap_ (f) {
   var fid = _file_+_freshID_();
   if(_TYPES_[fid]!==undefined) {
     var contract = _makeContract_(fid);
+    
+    print("@ASSERT " + contract); // TODO
+    return f;
+
     return _.assert(f, contract);
   } else {
     return f;
@@ -46,31 +50,48 @@ function _wrap_ (f) {
 
 load("benchmark/typedoctane/run.js");
 
-function _makeTypeContract_ (t) {
-  if(t == "number") return (_IsNumber_);
-  else if(t == "string") return (_IsString_);
-  else if(t == "boolean") return (_IsBoolean_);
-  else if(t == "undefined") return (_IsUndef_);
-  else if(t == "object") return (_IsObject_);
-  else if(t == "function") return (_IsFunction_);
-//  else if(t == "array") return (_IsArray_);
-  else return (_Any_);
+// returns a base contract
+function _makeBaseContract_(type) {
+  if(type == "number") return (typeOfNumber);
+  else if(type == "string") return (typeOfString);
+  else if(type == "boolean") return (typeOfBoolean);
+  else if(type == "undefined") return (typeOfUndefined);
+  else if(type == "object") return (typeOfObject);
+  else if(type == "function") return (typeOfFunction);
+  else throw Error("Undefined Type");
 }
 
-function _makeContract_(fid) {
-  var types = _TYPES_[fid];
-
+// returns a function contract
+function _makeFunctionContract_(call) {
   var args = [];
-  for(var i in types) {
+  for(var i in call) {
     if(i!=-1) {
-      args[i] = _makeTypeContract_(_TYPES_[fid][i]);
+      args[i] = _makeBaseContract_(call[i]);
     }
   }
-
   var map = _.Map.StringMap(args);
   var domain = _.ObjectContract(map);
-  var range = _makeTypeContract_(_TYPES_[fid][-1]);
+  var range = _makeTypeContract_(call[-1]);
   var contract = _.FunctionContract(domain, range);
+
+  return contract;
+}
+
+// returns an intersection of function contracts
+function _makeIntersectionContract_(calls) {
+  if(call.length===1) {
+    var shifted = calls.shift();
+    return _makeFunctionContract_(shifted);
+  } else {
+    var shifted = calls.shift();
+    return Contract.Intersection(_makeFunctionContract_(shifted), _makeIntersectionContract_(calls));
+  }
+}
+
+// returns an intersection of function contracts
+function _makeContract_ (funID) {
+  var calls = _TYPES_[fid];
+  var contract = _makeIntersectionContract_(calls);
   return contract;
 }
 

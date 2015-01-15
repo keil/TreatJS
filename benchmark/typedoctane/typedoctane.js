@@ -35,6 +35,34 @@ function _freshID_() {
   return ("#"+_counter_);
 }
 
+
+var typeOfNumber = TreatJS.BaseContract(function(arg) {
+  return ((typeof arg) === "number");
+},"typeOfNumber");
+
+var typeOfString = TreatJS.BaseContract(function(arg) {
+  return ((typeof arg) === "string");
+},"typeOfString");
+
+var typeOfBoolean = TreatJS.BaseContract(function(arg) {
+  return ((typeof arg) === "boolean");
+},"typeOfBoolean");
+
+var typeOfObject =  TreatJS.BaseContract(function(arg) {
+  return ((typeof arg) === "object");
+},"typeOfObject");
+
+var typeOfFunction = TreatJS.BaseContract(function(arg) {
+  return ((typeof arg) === "function");
+},"typeOfFunction");
+
+var typeOfUndefined = TreatJS.BaseContract(function(arg) {
+  return ((typeof arg) === "undefined");
+},"typeOfUndefined");
+
+
+
+/*
 var _IsNumber_ = _.BaseContract(function(arg) {
   return ((typeof arg) === "number");
 },"IsNumber");
@@ -71,5 +99,6 @@ var _IsArray_ = _.With({Array:Array}, _.BaseContract(function(arg) {
 var _IsArrayT_ = _.BaseContract(function(arg) {
   return true;
 },"IsArray");
+*/
 
 quit();

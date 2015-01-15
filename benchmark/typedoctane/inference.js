@@ -40,6 +40,24 @@ function _update_ (funID, config) {
 //  }
 }
 
+var existing = new Array();
+
+function _contains_ (funID, config) {
+  var string = funID + "/";
+
+  for(var argID = 0; argID < config.length; argID++) {
+    string += config[argID] + "->";
+  }
+  string += config[-1];
+
+  if(existing[string]) return true;
+  else {
+    existing[string]=true;
+    return false;
+  }
+}
+
+/*
 function _contains_ (funID, config) {
   var any = false;
   for(var callID = 0; callID < _types_[funID].length; callID++) {
@@ -51,6 +69,7 @@ function _contains_ (funID, config) {
     any = any || contains;
   }
 }
+*/
 
 /*
 
@@ -127,7 +146,7 @@ for(var funID in _types_) {
   for(var callID = 0; callID < _types_[funID].length; callID++) {
     _print_("_TYPES_['"+funID+"']['"+callID+"']=[];");
     for(var argID = -1; argID < _types_[funID][callID].length; argID++) {
-      _print_("_TYPES_['"+fid+"']['"+callID+"']["+argID+"]='"+_types_[funID][argID]+"';");
+      _print_("_TYPES_['"+funID+"']['"+callID+"']["+argID+"]='"+_types_[funID][argID]+"';");
     }
   }
 
