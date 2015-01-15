@@ -51,6 +51,8 @@
   var IntersectionContract = _.Intersection;
   var NegationContract = _.Negation;
 
+  var ReflectionContract = _.Reflection;
+
   //                        _         _ _        
   //  __ __ _ _ _  ___ _ _ (_)__ __ _| (_)______ 
   // / _/ _` | ' \/ _ \ ' \| / _/ _` | | |_ / -_)

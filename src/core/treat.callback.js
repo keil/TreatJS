@@ -49,6 +49,7 @@
     if(!(contract instanceof _.Contract)) error("Wrong Contract.", (new Error()).fileName, (new Error()).lineNumber);
   }
 
+  Callback.prototype = {};
   Callback.prototype.toString = function() {
     return "<Callback>";
   }

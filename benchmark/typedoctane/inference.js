@@ -146,7 +146,7 @@ for(var funID in _types_) {
   for(var callID = 0; callID < _types_[funID].length; callID++) {
     _print_("_TYPES_['"+funID+"']['"+callID+"']=[];");
     for(var argID = -1; argID < _types_[funID][callID].length; argID++) {
-      _print_("_TYPES_['"+funID+"']['"+callID+"']["+argID+"]='"+_types_[funID][argID]+"';");
+      _print_("_TYPES_['"+funID+"']['"+callID+"']["+argID+"]='"+_types_[funID][callID][argID]+"';");
     }
   }
 

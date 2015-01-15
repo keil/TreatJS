@@ -3,4 +3,6 @@
 ## Minor Tasks ##
 
 #2 Blame in Contracts
-- restrict throw is not a possible because the CB structure is already updated
+- restrict throw is not a possibe because the CB structure is already updated
+
+- bug prototypes
