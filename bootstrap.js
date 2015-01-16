@@ -88,39 +88,81 @@ load("lib/jscontest2/apc.js");
 load("lib/jscontest2/contract.js");
 load("lib/jscontest2/parser.js");
 
-var AccessContract = Contract.Constructor (function ctor (contr) {
+var AccessContract = Contract.Constructor (function ctor (apcon, print) {
+  print("readable? " + "a" + " " + apcon.isReadable("a"));
+  print("#" + apcon.isReadable("a"));
 
-
+  
   var any = Contract.Base(function(property) {
     return true;
   });
   var readable = Contract.Base(function(name) {
-    return contr.isReadable(name);
+    //print("readable? " + name + " " + apcon.isReadable(name));
+    //return true;
+    return apcon.isReadable(name);
     //return (property!=="b");
     //return true;
   });
   var writeable = Contract.Base(function(name) {
-    return contr.isWriteable(name);
+    //print("writeable? " + name + " " + apcon.isWriteable(name));
+    return apcon.isWriteable(name);
     //return true;
   });
-   
-  var get = Contract.Get(Contract.And(
+  
+  var Access = Contract.Constructor(ctor).ctor;
+  apcon.derive("a");
+
+  /*var get = Contract.Get(Contract.And(
     Contract.AFunction({1:readable}, any),
-    Contract.Dependent(Contract.Constructor(ctor))
-    ));
-  var set = Contract.Get(Contract.AFunction({1:writeable}, any));
+    Contract.AFunction({}, Access(apcon.derive("a"), print))
+    //Contract.Dependent(Contract.Constructor(ctor))
+  ));*/
+  var get = Contract.Get(Contract.AFunction({1:readable}, any));
+  var set = Contract.Set(Contract.AFunction({1:writeable}, any));
 
   return Contract.And(get, set);
 });
 
+var con = __APC.Parser.parse("a.a");
+print("@" + con.isReadable("a"));
+
 var Access = AccessContract.ctor;
+//var AccessAA = Access(con, print);
+//load("contracts/access.js");
+
+
+/*
+try {
+    var con = __APC.Parser.parse("a.a");
+print("@" + con.isReadable("a"));
+
+var Access = AccessContract.ctor;
+var AccessAA = Access(con, print);
+//load("contracts/access.js");
+
+} catch (e) {
+    if (e instanceof Error) {
+        print(e.message);
+        print(e.stack);
+    }
+}
+*/
 
 var target = {a:{a:{}, b:{}, c:{}}, b:{a:{}, b:{}, c:{}}, c:{a:{}, b:{}, c:{}}};
-var object = Contract.assert(target, Access(__APC.Parser.parse("a.a")));
+//var object = Contract.assert(target, Access("a.a", Object, Error, undefined, print));
+var object = Contract.assert(target, Access(con, print));
+
+
 
 object.a;
 //object.b;
+//object.a.a;
 //object.a.b;
+
+//object.a = 7;
+//object.b = 7;
+
+
 
 
 

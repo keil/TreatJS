@@ -17,7 +17,7 @@
 var print = _print_;
 
 // load type information
-load("benchmark/typedoctane/TYPES_m.js");
+load("benchmark/typedoctane/TYPES_m2.js");
 
 // TODO
 /*function _wrapX_ (f) {
@@ -35,14 +35,13 @@ load("benchmark/typedoctane/TYPES_m.js");
 }*/
 
 function _wrap_ (f) {
-  var fid = _file_+_freshID_();
-  if(_TYPES_[fid]!==undefined) {
-    var contract = _makeContract_(fid);
+  var funID = _file_+_freshID_();
+  if(_TYPES_[funID].length>0) {
+    var contract = _makeContract_(funID);
     
     print("@ASSERT " + contract); // TODO
     return f;
-
-    return _.assert(f, contract);
+    //return _.assert(f, contract);
   } else {
     return f;
   }
@@ -71,7 +70,7 @@ function _makeFunctionContract_(call) {
   }
   var map = _.Map.StringMap(args);
   var domain = _.ObjectContract(map);
-  var range = _makeTypeContract_(call[-1]);
+  var range = _makeBaseContract_(call[-1]);
   var contract = _.FunctionContract(domain, range);
 
   return contract;
@@ -79,18 +78,20 @@ function _makeFunctionContract_(call) {
 
 // returns an intersection of function contracts
 function _makeIntersectionContract_(calls) {
-  if(call.length===1) {
+  if(calls.length===1) {
     var shifted = calls.shift();
     return _makeFunctionContract_(shifted);
-  } else {
+  } else if(calls.length>1) {
     var shifted = calls.shift();
     return Contract.Intersection(_makeFunctionContract_(shifted), _makeIntersectionContract_(calls));
+  } else {
+    return Any;
   }
 }
 
 // returns an intersection of function contracts
 function _makeContract_ (funID) {
-  var calls = _TYPES_[fid];
+  var calls = _TYPES_[(funID)];
   var contract = _makeIntersectionContract_(calls);
   return contract;
 }

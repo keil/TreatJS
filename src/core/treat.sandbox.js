@@ -52,7 +52,7 @@
 
     if(cache.contains(target)) {
       return cache.get(target);
-    } else { 
+    } else {
       var membraneHandler = new Membrabe(global);
       var proxy = new Proxy(target, membraneHandler);
 
@@ -71,7 +71,8 @@
     this.getOwnPropertyDescriptor = function(target, name) {
       log("[[getOwnPropertyDescriptor]]", name);
       var desc = Object.getOwnPropertyDescriptor(target, name);
-      if (desc !== undefined) desc.value = wrap(desc, global);
+      //if (desc !== undefined) desc.value = wrap(desc.value, global);
+      print(desc)
       return desc;
     };
     this.getOwnPropertyNames = function(target) {
@@ -91,15 +92,15 @@
       return delete target[name];
     };
     this.freeze = function(target) {
-      log("[[freeze]]", name);
+      log("[[freeze]]", "");
       return Object.freeze(target);
     };
     this.seal = function(target) {
-      log("[[seal]]", name);
+      log("[[seal]]", "");
       return Object.seal(target);
     };
     this.preventExtensions = function(target) {
-      log("[[preventExtensions]]", name);
+      log("[[preventExtensions]]", "");
       return Object.preventExtensions(target);
     };
     this.isFrozen = function(target) {
@@ -107,11 +108,11 @@
       return Object.isFrozen(target);
     };
     this.isSealed = function(target) {
-      log("[[isSealed]]", name);
+      log("[[isSealed]]", "");
       return Object.isSealed(target);
     };
     this.isExtensible = function(target) {
-      log("[[isExtensible]]", name);
+      log("[[isExtensible]]", "");
       return Object.isExtensible(target);
     };
     this.has = function(target, name) {
