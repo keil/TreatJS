@@ -25,6 +25,8 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+TreatJS.Statistic.reset();
+
 var base_dir = 'benchmark/typedoctane/';
 var wrapped_dir = 'benchmark/wrapped/';
 load(base_dir + 'base.js');

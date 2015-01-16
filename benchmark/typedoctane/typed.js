@@ -40,8 +40,8 @@ function _wrap_ (f) {
     var contract = _makeContract_(funID);
     
     print("@ASSERT " + contract); // TODO
-    return f;
-    //return _.assert(f, contract);
+    //return f;
+    return _.assert(f, contract);
   } else {
     return f;
   }

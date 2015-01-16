@@ -51,6 +51,10 @@ var AccessContract = Contract.Constructor (function ctor (str, Object, Error, un
   var APC = {};
 
 
+
+
+
+
   (function(APC){
 
     //////////////////////////////////////////////////

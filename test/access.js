@@ -1,6 +1,7 @@
 var con = __APC.Parser.parse("a.a");
+
 var target = {a:{a:{}, b:{}, c:{}}, b:{a:{}, b:{}, c:{}}, c:{a:{}, b:{}, c:{}}};
-var object = Contract.assert(target, Access(con));
+var object = Contract.assert(target, Contract.With({a:2}, Access(con)));
 
 object.a;
 //object.b;
