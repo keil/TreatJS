@@ -1,16 +1,5 @@
 var Richards = new BenchmarkSuite('Richards', [35302], [new Benchmark('Richards', true, false, 8200, runRichards)]);
 
-// TODO
-var f =  _wrap_ (function (x,y,z) {
-  return (x===y) ? 1 : "1";
-});
-
-f(true, 0, 1);
-f(true, 0, 1);
-f(0, 1, 2);
-f(0, 0, 2);
-
-
 function runRichards() {
     var scheduler = new Scheduler();
     scheduler.addIdleTask(ID_IDLE, 0, null, COUNT);

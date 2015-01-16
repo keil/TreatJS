@@ -46,11 +46,13 @@
       }
 
       log("#" + this.ASSERT + " = ", this.get(this.ASSERT));
+      log("#" + this.ASSERTWITH + " = ", this.get(this.ASSERTWITH));
       log("#" + this.BASE + " = ", this.get(this.BASE));
     }
   }
 
   Statistic.prototype.ASSERT = "ASSERT";
+  Statistic.prototype.ASSERTWITH = "ASSERTWITH";
   Statistic.prototype.BASE = "BASE";
 
   __define("Statistic", Statistic(), _);

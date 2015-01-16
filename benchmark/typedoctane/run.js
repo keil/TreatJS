@@ -104,3 +104,5 @@ print(end);
 
 print(end-start);
 */
+
+TreatJS.Statistic.print(print);

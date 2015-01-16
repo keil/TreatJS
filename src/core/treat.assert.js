@@ -207,6 +207,7 @@
 
   function assertWith(arg, contract, global, callbackHandler) {
     log("assert with", contract);
+    count(_.Statistic.ASSERTWITH);
 
     if(!(contract instanceof Contract)) error("Wrong Contract.", (new Error()).fileName, (new Error()).lineNumber);
     if(!(callbackHandler instanceof Function)) error("Wrong Callback Handler.", (new Error()).fileName, (new Error()).lineNumber);

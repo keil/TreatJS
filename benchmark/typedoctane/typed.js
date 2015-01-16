@@ -17,7 +17,7 @@
 var print = _print_;
 
 // load type information
-load("benchmark/typedoctane/TYPES_m2.js");
+load("benchmark/typedoctane/TYPES_a.js");
 
 // TODO
 /*function _wrapX_ (f) {
