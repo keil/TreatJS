@@ -37,6 +37,7 @@
 
   var sandbox = undefined;
   var assert = undefined;
+  var statistic = undefined;
 
   Object.defineProperties(Verbose, {
     "sandbox": {
@@ -46,7 +47,8 @@
     set: function (arg) {
       sandbox = (sandbox===undefined) ? arg : sandbox;
       return arg;
-    }
+    },
+    enumerable:true
     },
     "assert": {
       get: function () {
@@ -55,8 +57,19 @@
     set: function (arg) {
       assert = (assert===undefined) ? arg : assert;
       return arg;
-    }
     },
+    enumerable:true
+    },
+    "statistic": {
+      get: function () {
+        return (statistic===undefined) ? false : statistic;
+      },
+      set: function (arg) {
+        statistic = (statistic===undefined) ? arg : statistic;
+        return arg;
+      },
+      enumerable:true
+    }
   });
 
   //               _    _     
@@ -67,7 +80,7 @@
   // contract assertion
   var assertion = undefined;
   //  sandbox membrane
-  var membrabne = undefined;
+  var membrane = undefined;
   // decompile functions
   var decompile = undefined;
   // canonicalize contracts
@@ -81,16 +94,18 @@
     set: function (arg) {
       assertion = (assertion===undefined) ? arg : assertion;
       return arg;
-    }                        
+    },
+    enumerable:true
     },
     "membrane": {
       get: function () {
-        return (membrabne===undefined) ? true : membrabne;
+        return (membrane===undefined) ? true : membrane;
       },
     set: function (arg) {
-      membrabne = (membrabne===undefined) ? arg : membrabne;
+      membrane = (membrane===undefined) ? arg : membrane;
       return arg;
-    }                        
+    },
+    enumerable:true
     },
     "decompile": {
       get: function () {
@@ -99,7 +114,8 @@
       set: function (arg) {
         decompile = (decompile===undefined) ? arg : decompile;
         return arg;
-      }                        
+      },
+      enumerable:true
     },
     "canonicalize": {
       get: function () {
@@ -108,7 +124,8 @@
       set: function (arg) {
         canonicalize = (canonicalize===undefined) ? arg : canonicalize;
         return arg;
-      }                        
+      },
+      enumerable:true
     }});
 
   //               _     
@@ -135,28 +152,33 @@
     "newGlobal": {
       get: function () {
         return newGlobal;
-      }
+      },
+    enumerable:true,
     },
     "nativePassThrough": {
       get: function () {
         return nativePassThrough;
-      }
+      },
+    enumerable:true
     },
     "contractPassThrough": {
       get: function () {
         return contractPassThrough;
-      }
+      },
+    enumerable:true
     },
     "quitOnError": {
       get: function () {
         return quitOnError;
-      }
+      },
+      enumerable:true
     },
     "stackTrace": {
       get: function () {
         return stackTrace;
-      }
+      },
+      enumerable:true
     }
   });
-
+ 
 })(TreatJS);
