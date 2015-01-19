@@ -51,6 +51,7 @@
    */
   function wrap(target, global) { 
     log("[[wrap]]");
+    count(_.Statistic.MEMBRANE);
 
     // IF target is primitive value, return target
     if (target !== Object(target)) {
@@ -80,7 +81,7 @@
       var desc = Object.getOwnPropertyDescriptor(target, name);
       //if (desc !== undefined) desc.value = wrap(desc.value, global);
       print(desc)
-      return desc;
+        return desc;
     };
     this.getOwnPropertyNames = function(target) {
       log("[[getOwnPropertyNames]]", name);
@@ -237,7 +238,7 @@
    * @return a secure function
    */
   function decompile(fun, globalArg) {
-     count(_.Statistic.DECOMPILE);
+    count(_.Statistic.DECOMPILE);
 
     var string = "(" + fun.toString() + ")"; 
     var sandbox = globalArg;
