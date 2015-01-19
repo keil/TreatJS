@@ -48,12 +48,23 @@
       log("#" + this.ASSERT + " = ", this.get(this.ASSERT));
       log("#" + this.ASSERTWITH + " = ", this.get(this.ASSERTWITH));
       log("#" + this.BASE + " = ", this.get(this.BASE));
+      log("#" + this.DECOMPILE + " = ", this.get(this.DECOMPILE));
+      log("#" + this.CALLBACK + " = ", this.get(this.CALLBACK));
     }
   }
 
+  // counter flag for top-level contract assertions
   Statistic.prototype.ASSERT = "ASSERT";
+  // counter flag for internal contract assertions
   Statistic.prototype.ASSERTWITH = "ASSERTWITH";
+
+  // counter flag for predicate evaluation assertions
   Statistic.prototype.BASE = "BASE";
+  // counter flag for sabdbox decompile operations
+  Statistic.prototype.DECOMPILE = "DECOMPILE";
+
+  // counter flag for callback update operations
+  Statistic.prototype.CALLBACK = "CALLBACK";
 
   __define("Statistic", Statistic(), _);
 
