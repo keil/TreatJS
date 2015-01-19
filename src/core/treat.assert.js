@@ -519,6 +519,8 @@
     //|___/\__,_|_||_\__,_|_.__/\___/_\_\\___\___/_||_\__|_| \__,_\__|\__|
 
     else if(contract instanceof SandboxContract) {
+      count(_.Statistic.BASE);
+
       var globalArg = global.dump(); 
       var thisArg = undefined;
       var argsArray = new Array();

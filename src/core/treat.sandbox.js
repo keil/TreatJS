@@ -27,6 +27,13 @@
     }
   }
 
+  /** count(msg)
+   * @param key String
+   */
+  function count(key) {
+    if(_.Config.Verbose.statistic) _.Statistic.inc(key);
+  }
+
   // __  __           _                      
   //|  \/  |___ _ __ | |__ _ _ __ _ _ _  ___ 
   //| |\/| / -_) '  \| '_ \ '_/ _` | ' \/ -_)
@@ -230,6 +237,8 @@
    * @return a secure function
    */
   function decompile(fun, globalArg) {
+     count(_.Statistic.DECOMPILE);
+
     var string = "(" + fun.toString() + ")"; 
     var sandbox = globalArg;
     var secureFun = eval("(function() { with(sandbox) { return " + string + " }})();");

@@ -31,6 +31,13 @@
 
   var TruthValue = _.Logic.TruthValue;
 
+  /** count(msg)
+   * @param key String
+   */
+  function count(key) {
+    if(_.Config.Verbose.statistic) _.Statistic.inc(key);
+  }
+
   //  _____      _ _ _                _        
   // / ____|    | | | |              | |       
   //| |     __ _| | | |__   __ _  ___| | _____ 
@@ -81,6 +88,8 @@
   }
 
   Handle.update = function(m, n) {
+    count(_.Statistic.CALLBACK);
+
     return Handle(
         merge(m.caller, n.caller),
         merge(m.callee, n.callee)
