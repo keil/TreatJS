@@ -1,5 +1,8 @@
 ## Major Tasks ##
-:
+
+- encapsulate print/sysou
+- extend export/manual
+
 - 3-ch blaming
 
 - dynamic global scopes for base contract reuse

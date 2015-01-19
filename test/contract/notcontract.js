@@ -57,6 +57,8 @@ test.x;
 test.y("adf");
 //test.z;
 
-var test = _.assert(-4711, _.Not(_.And(IsNumber, GreaterThanZero)));
+//var test = _.assert(-4711, _.Not(_.And(IsNumber, GreaterThanZero)));
+var test = _.assert(-1, _.Not(_.And(IsNumber, GreaterThanZero)));
+var test = _.assert(-1, _.Or(_.Not(IsNumber), _.Not(GreaterThanZero)));
 var test = _.assert("4711", _.Not(_.Or(IsNumber, False)));
 var test = _.assert(4711, _.Not(_.Not(IsNumber)));

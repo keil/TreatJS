@@ -20,14 +20,18 @@
 // libraries
 load("lib/lib_padding.js");
 
+load("src/system.js");
+
 // base source files
 // load("src/out.js"); // TODO
 // load("src/debugger.js"); // TODO
 load("src/treat.js");
-load("src/treat.system.js");
 load("src/treat.base.js");
 load("src/treat.config.js");
 load("src/treat.statistic.js");
+load("src/treat.print.js");
+load("src/treat.export.js");
+load("src/treat.manual.js");
 
 // core api
 load("src/core/treat.violation.js");
@@ -59,7 +63,7 @@ var Contract = TreatJS.build();
 // set configuration
 TreatJS.configure({
   assertion: true,
-  membrabe: true,
+  membrane: true,
   decompile: true,
   canonicalize: true 
 });
@@ -79,11 +83,15 @@ TreatJS.verbose({
 load("contracts/contracts.js");
 load("contracts/aliases.js");
 
+// ==================================================
 
-load("contracts/access3.js");
-load("test/access.js");
+//load("contracts/access3.js");
+//load("test/access.js");
 
-TreatJS.Statistic.print(print);
+// ==================================================
+
+TreatJS.Config.print();
+TreatJS.Statistic.print();
 
 quit();
 
