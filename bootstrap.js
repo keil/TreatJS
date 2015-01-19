@@ -63,8 +63,8 @@ var Contract = TreatJS.build();
 // set configuration
 TreatJS.configure({
   assertion: true,
-  membrane: true,
-  decompile: true,
+  membrane: false,
+  decompile: false,
   canonicalize: true 
 });
 
@@ -87,6 +87,10 @@ load("contracts/aliases.js");
 
 //load("contracts/access3.js");
 //load("test/access.js");
+
+load("test/lax.js");
+load("test/picky.js");
+load("test/indy.js");
 
 // ==================================================
 
