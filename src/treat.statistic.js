@@ -30,27 +30,6 @@
     this.get = function(key) {
       return (counts[key]) ? counts[key] : 0;
     }
-
-    this.print = function () {
-
-      if(_.Config.Verbose.statistic) {
-        __out(padding_right("TreatJS Statistics ", ".", 30));
-        __blank();
-      }
-
-      function log(msg, value) {
-        if(_.Config.Verbose.statistic) {
-          __subout(padding_right(msg + " ", ".", 30) + padding_left(value + "", " ", 9));
-          __blank();
-        }
-      }
-
-      log("#" + this.ASSERT + " = ", this.get(this.ASSERT));
-      log("#" + this.ASSERTWITH + " = ", this.get(this.ASSERTWITH));
-      log("#" + this.BASE + " = ", this.get(this.BASE));
-      log("#" + this.DECOMPILE + " = ", this.get(this.DECOMPILE));
-      log("#" + this.CALLBACK + " = ", this.get(this.CALLBACK));
-    }
   }
 
   // counter flag for top-level contract assertions
@@ -60,6 +39,8 @@
 
   // counter flag for predicate evaluation assertions
   Statistic.prototype.BASE = "BASE";
+  // counter flag for sabdbox wrap operations
+  Statistic.prototype.MEMBRANE = "MEMBRANE";
   // counter flag for sabdbox decompile operations
   Statistic.prototype.DECOMPILE = "DECOMPILE";
 
