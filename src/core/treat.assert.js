@@ -654,7 +654,9 @@
         }
         break;
       case contract instanceof WrapperContract:
-        return false;
+        return canonical(contract.sub);
+        // TODO
+        //return false;
         break;
       default:
         error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);

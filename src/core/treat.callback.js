@@ -439,7 +439,9 @@
     }, this);
 
     __getter("callee", function() {
-      return implies(and(left.caller, right.caller), and(left.callee, right.callee))
+      return implies(and(left.caller, right.caller), and(left.callee, right.callee));
+      //TODO
+      //return and(left.callee, right.callee);
     }, this);
 
     __getter("contract", function() {
@@ -529,12 +531,16 @@
     var sub =  Handle.new();
 
     __getter("caller", function() {
-      return True;
+      return True; 
     }, this);
 
     __getter("callee", function() {
-      print(sub.caller);
-      return implies(sub.caller, not(sub.callee));
+      print("@@" + sub.caller);
+      print("$$" + sub.callee);
+      print("%%" + not(sub.callee));
+      //return implies(sub.caller, not(sub.callee));
+      return or(not(sub.caller), not(sub.callee));
+      return not(and(sub.caller, sub.callee));
     }, this);
 
     __getter("contract", function() {
