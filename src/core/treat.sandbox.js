@@ -248,7 +248,7 @@
 
   /** pre decompile (fun, globalArg)
    *
-   * Gets the predicate from teh cache or decompiles it 
+   * Gets the predicate from the cache or decompiles it 
    *
    * @param fun The function object.
    * @param globalArg The secure global object.
