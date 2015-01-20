@@ -15,20 +15,24 @@
 (function(_) {
 
   var printConfiguration = function () {
-    __out(padding_right("TreatJS Configuration ", ".", 30));
-    __blank();
 
     function log(msg, value) {
       __subout(padding_right(msg + " ", ".", 30) + padding_left(value + "", " ", 9));
       __blank();
     }
 
+    __out(padding_right("TreatJS Configuration ", ".", 30));
+    __blank();
+
     for(var conf in _.Config) {
-      log("%" + conf + " = ", _.Config[conf]);
+      log(":" + conf + " = ", _.Config[conf]);
     }
 
-    for(var conf in _.Verbose) {
-      log("%" + conf + " = ", _.Verbose[conf]);
+    __out(padding_right("TreatJS Verbose Mode ", ".", 30));
+    __blank();
+
+    for(var conf in _.Config.Verbose) {
+      log(":" + conf + " = ", _.Config.Verbose[conf]);
     }
   }
 
@@ -41,12 +45,9 @@
       __blank(); 
     }
 
-    log("#" + _.Statistic.ASSERT + " = ", _.Statistic.get(_.Statistic.ASSERT));
-    log("#" + _.Statistic.ASSERTWITH + " = ", _.Statistic.get(_.Statistic.ASSERTWITH));
-    log("#" + _.Statistic.BASE + " = ", _.Statistic.get(_.Statistic.BASE));
-    log("#" + _.Statistic.DECOMPILE + " = ", _.Statistic.get(_.Statistic.DECOMPILE));
-    log("#" + _.Statistic.MEMBRANE + " = ", _.Statistic.get(_.Statistic.MEMBRANE));
-    log("#" + _.Statistic.CALLBACK + " = ", _.Statistic.get(_.Statistic.CALLBACK));
+    for(var counter in _.Statistic) {
+      log("#" + counter + " = ", _.Statistic.get(counter));
+    }
   }
 
   Object.defineProperties(_.Config, {
