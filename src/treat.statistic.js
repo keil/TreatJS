@@ -19,17 +19,31 @@
 
     var counts = new Array();
 
-    this.inc = function(key) {
+    function inc(key) {
       return (counts[key]) ? (counts[key]=counts[key]+1) : counts[key]=1;
     }
 
-    this.reset = function() {
+    function reset() {
       counts = new Array();
     }
 
-    this.get = function(key) {
+    function get(key) {
       return (counts[key]) ? counts[key] : 0;
     }
+
+    Object.defineProperties(this, {
+      "inc": {
+        get: function () { return inc; } }
+    });
+    Object.defineProperties(this, {
+      "reset": {
+        get: function () { return reset; } }
+    });
+    Object.defineProperties(this, {
+      "get": {
+        get: function () { return get; } }
+    });
+
   }
 
   // counter flag for top-level contract assertions
