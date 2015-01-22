@@ -72,7 +72,7 @@ TreatJS.configure({
 TreatJS.verbose({
   assert: false,
   sandbox: false,
-  statistic: true
+  statistic: false 
 });
 
 //            _               _      
@@ -83,90 +83,4 @@ TreatJS.verbose({
 load("contracts/contracts.js");
 load("contracts/aliases.js");
 
-// ==================================================
-
-//load("contracts/access3.js");
-//load("test/access.js");
-
-load("test/lax.js");
-load("test/picky.js");
-load("test/indy.js");
-
-// ==================================================
-
-TreatJS.Config.print();
-TreatJS.Statistic.print();
-
 quit();
-
-// ==================================================
-/*
-var AccessContract = Contract.Constructor (function ctor (pstr) {
-//  var readable = true;
-//  var writeable = true;
-  var contract = Contract.Base(function(type) {
-    return (typeof type) === "number";
-  });
-
-
-
-//  return Contract.Object();
-  return Contract.Object(Contract.RegExpMap([Contract.Mapping(/^xxx$/, contract),
-      Contract.Mapping(/^(\d|\w)$/, Contract.Constructor(ctor))
-    //   Contract.Mapping(/^x$/, contract)
-    ]));
-});
-
-var Access = AccessContract.ctor;
-
-var target = {a:{x:{}}, x:1, next:{a:{}, x:1}};*/
-//var object = Contract.assert(target, /*Contract.*/Access("a.b.c"));
-
-
-//var oa = object.a;
-//oa.x;
-//var ox=object.x;
-//var on=object.next;
-//on.a;
-//on.x;
-
-quit();
-
-
-/*
-// TypeOf Constructor
-var TypeOf = Contract.Constructor(function ctor(type ) {
-  return Contract.Base(function (arg) {
-    return ((typeof arg) === type);
-  }, "typeOf " + type);
-});
-
-var typeOfNumberx = TypeOf.build("number");
-
-var arraySpec = Contract.AObject(Contract.RegExpMap([
-  Contract.Mapping(/get(^Day+Month+Year$)/,
-    Contract.SFunction(Any, typeOfNumber))]))
-*/
-
-// ==================================================
-
-quit();
-
-
-/*
-Contract.And(
-    Contract.Object({c:typeOfNumber}),
-    Contract.Reflect.Get(ObjCon, Con, ObjCon)
-);
-*/
-//Problem, getter function, and  and the argument has to be wrapped bevore calling the getter
-//Loesung, Reihenfolge umdrehen umdrehen
-
-
-//Contract.Object(
-//    get
-//    dependent cointract,w ekcher mit argumetn name gecalled wird
-//)
-
-
-
