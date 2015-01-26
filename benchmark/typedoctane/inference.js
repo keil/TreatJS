@@ -103,13 +103,6 @@ for(var funID in _types_) {
       _print_("_TYPES_['"+funID+"']['"+callID+"']["+argID+"]='"+_types_[funID][callID][argID]+"';");
     }
   }
-
-  //  for(var i in _types_[fid]) {
-  //  for(var i = 0; i < _types_[fid].length; i++) {
-  //    _print_("_TYPES_['"+fid+"']["+i+"]='"+_types_[fid][i]+"';");
-  //  }
-  //  print(_makeContract_(fid));
-  //  print("");
 }
 
 _print_("//-- END: TYPES --");

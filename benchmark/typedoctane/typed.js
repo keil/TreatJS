@@ -16,9 +16,7 @@
 // backup print
 var print = _print_;
 // load type information
-load("benchmark/typedoctane/splay_types.js"); // TODO
-
-
+//load("benchmark/typedoctane/splay_types.js"); // TODO
 
 function _wrap_(f) {
   var funID = _file_+_freshID_();
