@@ -15,7 +15,7 @@
 
 // repalce print
 var _print_ = print;
-//print = function() {}
+print = function() {}
 
 //  makes TreatJS available under $
 //  Note: required to run the testcases
@@ -35,6 +35,7 @@ function _freshID_() {
   return ("#"+_counter_);
 }
 
+// contarcts
 
 var typeOfNumber = TreatJS.BaseContract(function(arg) {
   return ((typeof arg) === "number");
@@ -59,46 +60,5 @@ var typeOfFunction = TreatJS.BaseContract(function(arg) {
 var typeOfUndefined = TreatJS.BaseContract(function(arg) {
   return ((typeof arg) === "undefined");
 },"typeOfUndefined");
-
-
-
-/*
-var _IsNumber_ = _.BaseContract(function(arg) {
-  return ((typeof arg) === "number");
-},"IsNumber");
-
-var _IsString_ = _.BaseContract(function(arg) {
-  return ((typeof arg) === "string");
-},"IsString");
-
-var _IsBoolean_ = _.BaseContract(function(arg) {
-  return ((typeof arg) === "boolean");
-},"IsBoolean");
-
-var _IsUndef_ = _.BaseContract(function(arg) {
-  return ((arg+"") == "undefined");
-},"IsUndef");
-
-var _Any_ = _.BaseContract(function(arg) {
-  return true; 
-},"Any");
-
-var _IsObject_ = _.BaseContract(function(arg) {
-  return ((typeof arg) === "object");
-},"TypeOfObject");
-
-var _IsFunction_ = _.BaseContract(function(arg) {
-  return ((typeof arg) === "function");
-},"TypeOfFunction");
-
-// TODO
-var _IsArray_ = _.With({Array:Array}, _.BaseContract(function(arg) {
-  return (arg instanceof Array);
-},"IsArray"));
-
-var _IsArrayT_ = _.BaseContract(function(arg) {
-  return true;
-},"IsArray");
-*/
 
 quit();

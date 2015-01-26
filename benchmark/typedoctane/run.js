@@ -25,21 +25,22 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-TreatJS.Statistic.reset();
+//TreatJS.Statistic.reset();
+//TreatJS.Config.print();
 
 var base_dir = 'benchmark/typedoctane/';
 var wrapped_dir = 'benchmark/wrapped/';
 load(base_dir + 'base.js');
 
-_load_(wrapped_dir,'richards.js');
-/*_load_(wrapped_dir,'deltablue.js');
-_load_(wrapped_dir,'crypto.js');
-_load_(wrapped_dir,'raytrace.js');
-_load_(wrapped_dir,'earley-boyer.js');
-_load_(wrapped_dir,'regexp.js');
+//_load_(wrapped_dir,'richards.js');
+//_load_(wrapped_dir,'deltablue.js');
+//_load_(wrapped_dir,'crypto.js');
+//_load_(wrapped_dir,'raytrace.js');
+//_load_(wrapped_dir,'earley-boyer.js');
+//_load_(wrapped_dir,'regexp.js');
 _load_(wrapped_dir,'splay.js'); 
-_load_(wrapped_dir,'navier-stokes.js');
-_load_(wrapped_dir,'pdfjs.js');*/
+//_load_(wrapped_dir,'navier-stokes.js');
+//_load_(wrapped_dir,'pdfjs.js');*/
 
 // failed (contract #2 has to be deavtivated)
 /*_load_(wrapped_dir,'mandreel.js');
@@ -107,4 +108,6 @@ print(end);
 print(end-start);
 */
 
-TreatJS.Statistic.print(print);
+TreatJS.Version.print();
+TreatJS.Config.print();
+TreatJS.Statistic.print();

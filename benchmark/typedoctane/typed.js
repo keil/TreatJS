@@ -15,39 +15,21 @@
 
 // backup print
 var print = _print_;
-
 // load type information
-load("benchmark/typedoctane/TYPES_a.js");
+load("benchmark/typedoctane/splay_types.js"); // TODO
 
-// TODO
-/*function _wrapX_ (f) {
-  var fid = _file_+_freshID_();
-  if(_TYPES_[fid]!==undefined) {
-    var contract = _makeContract_(fid);
-    print("assert " + contract);
-    return (new Proxy(f, {}));
-    //return _.assert(f, contract);
-  } else {
-    return f;
-  }
 
-//  return _wrap_(f);
-}*/
 
-function _wrap_ (f) {
+function _wrap_(f) {
   var funID = _file_+_freshID_();
   if(_TYPES_[funID].length>0) {
     var contract = _makeContract_(funID);
-    
-    print("@ASSERT " + contract); // TODO
-    //return f;
+    _print_("@ASSERT " + contract); 
     return _.assert(f, contract);
   } else {
     return f;
   }
 }
-
-load("benchmark/typedoctane/run.js");
 
 // returns a base contract
 function _makeBaseContract_(type) {
@@ -95,5 +77,7 @@ function _makeContract_ (funID) {
   var contract = _makeIntersectionContract_(calls);
   return contract;
 }
+
+load("benchmark/typedoctane/run.js");
 
 quit();
