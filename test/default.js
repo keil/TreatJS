@@ -13,6 +13,47 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+
+
+(function() {
+
+  function f(x, r) {
+    return r;
+  }
+
+  var NumNum = Contract.AFunction([typeOfNumber], typeOfNumber);
+  var g = Contract.assert(f, NumNum);
+
+  //g(1,1); // ok
+  //g(1,"a"); // blame subject
+  //g("a", 1); // blame context
+  g("a","a"); // blame context
+  
+})();
+
+
+
+//load("test/blame/negation.js");
+
+
+// ==================================================
+// test polymorphic contracts
+
+//load("contracts/access3.js");
+//load("test/access.js");
+
+
+TreatJS.Version.print();
+TreatJS.Config.print();
+TreatJS.Statistic.print();
+
+
+
+
+quit();
+
+
+
 // ==================================================
 
 //load("contracts/access3.js");
