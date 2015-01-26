@@ -63,8 +63,8 @@ var Contract = TreatJS.build();
 // set configuration
 TreatJS.configure({
   assertion: true,
-  membrane: false,
-  decompile: false,
+  membrane: true,
+  decompile: true,
   canonicalize: true 
 });
 
@@ -72,7 +72,7 @@ TreatJS.configure({
 TreatJS.verbose({
   assert: false,
   sandbox: false,
-  statistic: false 
+  statistic: true 
 });
 
 //            _               _      
