@@ -166,4 +166,26 @@
 
   __define("SimpleDependentContract", SimpleDependentContract, _);
 
+
+  /*
+  // TODO, test
+
+
+  // TODO
+  function ForAllContract(domain, range, strict) {
+    if(!(this instanceof ForAllContract)) return new ForAllContract(domain, range, strict);
+
+    if(!(range instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+    if(domain instanceof Array) {
+      FunctionContract.call(this, AdvancedObjectContract(domain, strict), range);
+    } else if(domain instanceof Object) {
+      FunctionContract.call(this, AdvancedObjectContract(domain, strict), range);
+    } else error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+  }
+  ForAllContract.prototype = Object.create(FunctionContract.prototype);
+
+*/
+
+
 })(TreatJS);

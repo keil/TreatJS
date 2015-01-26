@@ -70,8 +70,8 @@ TreatJS.configure({
 
 // set verbose
 TreatJS.verbose({
-  assert: false,
-  sandbox: false,
+  assert: true,
+  sandbox: true,
   statistic: true 
 });
 

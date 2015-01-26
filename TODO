@@ -1,5 +1,20 @@
 ## Major Tasks ##
 
+- logic for boolean algebra
+Idea, context and subject are not allowed to fulfill the contract
+is one fullfls it, than blame
+corresponds to lattice structiore
+
+Negation:
+
+       (false, false)
+
+(true, false)  (false, true)
+
+        (true, true)
+
+
+
 - encapsulate print/sysou
 - extend export/manual
 

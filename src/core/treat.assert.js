@@ -180,7 +180,8 @@
     }
 
     var callback = RootCallback(function(handle) {
-      if(handle.contract.isFalse()) {
+      //if(handle.contract.isFalse()) { // TODO, use something like handle.isFalse
+      if(handle.caller.isFalse() || handle.callee.isFalse()) {
 
         var msg = handle.blame();
         msg+="\n";

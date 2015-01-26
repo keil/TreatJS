@@ -27,9 +27,47 @@
   //g(1,1); // ok
   //g(1,"a"); // blame subject
   //g("a", 1); // blame context
-  g("a","a"); // blame context
+  //g("a","a"); // blame context
   
 })();
+
+(function() {
+
+  function f(x, r) {
+    return r;
+  }
+
+  var NumNum = Contract.AFunction([typeOfNumber], typeOfNumber);
+  var g = Contract.assert(f, NumNum);
+
+  //g(1,1); // ok
+  //g(1,"a"); // blame subject
+  //g("a", 1); // blame context
+  //g("a","a"); // blame context
+  
+})();
+
+
+
+(function() {
+
+  function f(x, r) {
+    return r;
+  }
+
+  var NumNum = Contract.AFunction([typeOfNumber], typeOfNumber);
+  var g = Contract.assert(f, NumNum);
+
+  //g(1,1); // ok
+  //g(1,"a"); // blame subject
+  //g("a", 1); // blame context
+  //g("a","a"); // blame context
+  
+})();
+
+
+
+
 
 
 

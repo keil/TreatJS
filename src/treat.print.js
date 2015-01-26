@@ -14,6 +14,13 @@
  */
 (function(_) {
 
+  var printVersion = function() {
+    __out(padding_right("TreatJS Version ", ".", 30));
+    __blank();
+    __subout(padding_right(TreatJS.version + " ", ".", 30));
+    __blank();
+  }
+
   var printConfiguration = function () {
 
     function log(msg, value) {
@@ -49,6 +56,22 @@
       log("#" + counter + " = ", _.Statistic.get(counter));
     }
   }
+
+  var Version = {};
+
+  Object.defineProperties(_, {
+    "Version": {
+      get: function () {
+        return Version;
+      }
+    }});
+
+  Object.defineProperties(Version, {
+    "print": {
+      get: function () {
+        return printVersion;
+      }
+    }});
 
   Object.defineProperties(_.Config, {
     "print": {
