@@ -61,4 +61,8 @@ var typeOfUndefined = TreatJS.BaseContract(function(arg) {
   return ((typeof arg) === "undefined");
 },"typeOfUndefined");
 
+var any = TreatJS.BaseContract(function(arg) {
+  return true;
+},"any");
+
 quit();

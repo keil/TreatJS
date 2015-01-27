@@ -19325,10 +19325,4 @@ _TYPES_['earley-boyer.js#3953']=[];
 _TYPES_['earley-boyer.js#3954']=[];
 _TYPES_['earley-boyer.js#3955']=[];
 _TYPES_['earley-boyer.js#3956']=[];
-_TYPES_['sc_toWriteOrDisplayString']=[];
-_TYPES_['sc_toWriteOrDisplayString']['0']=[];
-_TYPES_['sc_toDisplayString']=[];
-_TYPES_['sc_toWriteString']=[];
-_TYPES_['sc_toWriteCircleString']=[];
-_TYPES_['sc_toWriteCircleString']['0']=[];
 //-- END: TYPES --

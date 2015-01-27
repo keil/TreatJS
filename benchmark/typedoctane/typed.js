@@ -37,7 +37,8 @@ function _makeBaseContract_(type) {
   else if(type == "undefined") return (typeOfUndefined);
   else if(type == "object") return (typeOfObject);
   else if(type == "function") return (typeOfFunction);
-  else throw Error("Undefined Type");
+  else return (any);
+  // throw Error("Undefined Type");
 }
 
 // returns a function contract

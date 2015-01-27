@@ -32,7 +32,7 @@ var base_dir = 'benchmark/typedoctane/';
 var wrapped_dir = 'benchmark/wrapped/';
 load(base_dir + 'base.js');
 
-//_load_(wrapped_dir,'richards.js');
+_load_(wrapped_dir,'richards.js');
 //_load_(wrapped_dir,'deltablue.js');
 //_load_(wrapped_dir,'crypto.js');
 //_load_(wrapped_dir,'raytrace.js');
@@ -47,6 +47,7 @@ load(base_dir + 'base.js');
 
 //_load_(wrapped_dir,'gbemu-part1.js');
 //_load_(wrapped_dir,'gbemu-part2.js');
+
 //_load_(wrapped_dir,'code-load.js');
 
 //_load_(wrapped_dir,'box2d.js');
@@ -54,7 +55,7 @@ load(base_dir + 'base.js');
 //_load_(wrapped_dir,'zlib.js');
 //_load_(wrapped_dir,'zlib-data.js');
 
-// failed
+// failed // TODO
 // use online type information of typescript.js'
 //_load_(wrapped_dir,'typescript.js');
 //_load_(wrapped_dir,'typescript-input.js');

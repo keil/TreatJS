@@ -63,15 +63,15 @@ var Contract = TreatJS.build();
 // set configuration
 TreatJS.configure({
   assertion: true,
-  membrane: true,
-  decompile: true,
+  membrane: false,
+  decompile: false,
   canonicalize: true 
 });
 
 // set verbose
 TreatJS.verbose({
-  assert: true,
-  sandbox: true,
+  assert: false,
+  sandbox: false,
   statistic: true 
 });
 
