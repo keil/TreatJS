@@ -111,7 +111,7 @@
   // is Parametric a delayed Constructor ?
 
   function Parametric(vars, sub) {
-    if(!(this instanceof Parametric)) return new Parametric(vars, contract);
+    if(!(this instanceof Parametric)) return new Parametric(vars, sub);
 
     if(!(vars instanceof Variables)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
     if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
@@ -161,13 +161,53 @@
 
 
 
-  function In() {
-  }
+  function In(sub) {
+    if(!(this instanceof In)) return new In(sub);
 
-  function Out() {
-  }
+    if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
-  function Forall() {
+    Object.defineProperties(this, {
+      "sub": {
+        get: function () { return sub; }
+      }
+    });
+
+    this.toString = function() {  return "(in(" + sub.toString() + "))"; };
+  }
+  In.prototype = Object.create(Contract.prototype); // TODO, prototype instanceof Constructor
+
+  function Out(sub) {
+    if(!(this instanceof Out)) return new Out(sub);
+
+    if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+    Object.defineProperties(this, {
+      "sub": {
+        get: function () { return sub; }
+      }
+    });
+
+    this.toString = function() {  return "(out(" + sub.toString() + "))"; };
+  }
+  Out.prototype = Object.create(Contract.prototype); // TODO, prototype instanceof Constructor
+
+
+  function Forall(vars, sub) {
+    if(!(this instanceof Forall)) return new Forall(vars, sub);
+
+    if(!(vars instanceof Variables)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+    if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+    Object.defineProperties(this, {
+      "vars": {
+        get: function () { return vars; }
+      },
+      "sub": {
+        get: function () { return sub; }
+      },
+    });
+
+    this.toString = function() {  return "(forall(" + vcars.toString() + "." + sub.toString() + "))"; };
   }
 
 })(TreatJS);
