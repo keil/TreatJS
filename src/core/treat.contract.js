@@ -337,7 +337,7 @@
         get: function () { return sub; } }
     });
 
-    this.toString = function() { return "" +  trap + " @ " + sub.toString(); };
+    this.toString = function() { return "" + trap + " @ " + sub.toString(); };
   }
   ReflectionContract.prototype = Object.create(ImmediateContract.prototype);
 
