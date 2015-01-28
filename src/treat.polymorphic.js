@@ -210,4 +210,26 @@
     this.toString = function() {  return "(forall(" + vcars.toString() + "." + sub.toString() + "))"; };
   }
 
+
+
+//  var x = new Proxy(trget, handler);
+
+      //var reflect = new ReflectionHandler(contract, global, callbackHandler);
+      //var noop = new NoOpHandler();
+      //var proxy = new Proxy(arg, new Proxy(noop, reflect));
+
+
+
+  function SubstituteHandler(contract, global, handler) {
+    if(!(this instanceof SubstituteHandler)) return new SubstituteHandler(contract, global, handler);
+
+    this.get = function(target, name, receiver) {
+      // TODO, handler set subkject to false
+    };
+  }
+
+ 
+
+
+
 })(TreatJS);

@@ -27,6 +27,28 @@ function TreatJSDebugger() {
   this.blame = function(contract, msg, file, line) {}
 }
 
+
+TreatJSDebugger.prototype.assertNoBlame = function(fun) {
+  try {
+    fun()
+  } catch (err) {
+    throw new Error("Failure: No-Blame expected!");
+  }
+  return undefined;
+}
+
+TreatJSDebugger.prototype.assertBlame = function(fun) {
+  try {
+    fun()
+  } catch (err) {
+    return undefined;
+  }
+  throw new Error("Failure: Blame expected!");
+}
+
+
+
+
 function TreatJSDebuggerUnit() {
   if(!(this instanceof TreatJSDebugger)) return new TreatJSDebugger();
   else TreatJSDebugger.call(this);
@@ -78,6 +100,9 @@ function TreatJSDebuggerUnit() {
       stack.pop();
     }
   }
+
+
+
 
   this.assertNoError = function() {
     assertTrue(errorStack);
