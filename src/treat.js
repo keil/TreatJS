@@ -36,6 +36,11 @@ TreatJS.prototype = {};
 TreatJS.prototype.toString = (function() { return '[[TreatJS]]'; });
 
 TreatJS.prototype.configure = function(configuration) {
+
+  // treat.config.js generiert nur ein Configuration Object
+  // ein call of configure erzeugt eines mit werten und 
+  // speichert dieses read only ab
+
   for(setting in configuration) {
     this.Config[setting] = configuration[setting];
   } 
