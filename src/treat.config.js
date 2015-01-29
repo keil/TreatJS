@@ -12,23 +12,12 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-(function(_) {
+(function(TreatJS) {
 
+  // TreatJS Configuration Flags 
   var Config = new Object();
-  Object.defineProperties(_, {
-    "Config": {
-      get: function () {
-        return Config;
-      }
-    }});
-
+  // TreatJS Verbose Flags
   var Verbose = new Object();
-  Object.defineProperties(Config, {
-    "Verbose": {
-      get: function () {
-        return Verbose;
-      }
-    }});
 
   //             _                 
   //__ _____ _ _| |__  ___ ___ ___ 
@@ -150,35 +139,28 @@
 
   Object.defineProperties(Config, {
     "newGlobal": {
-      get: function () {
-        return newGlobal;
-      },
-    enumerable:true,
+      value: newGlobal, enumerable:true,
     },
     "nativePassThrough": {
-      get: function () {
-        return nativePassThrough;
-      },
-    enumerable:true
+      value: nativePassThrough, enumerable:true
     },
     "contractPassThrough": {
-      get: function () {
-        return contractPassThrough;
-      },
-    enumerable:true
+      value: contractPassThrough, enumerable:true
     },
     "quitOnError": {
-      get: function () {
-        return quitOnError;
-      },
-      enumerable:true
+      value: quitOnError, enumerable:true
     },
     "stackTrace": {
-      get: function () {
-        return stackTrace;
-      },
-      enumerable:true
+      value: stackTrace, enumerable:true
     }
   });
- 
+
+  //         _               _ 
+  // _____ _| |_ ___ _ _  __| |
+  /// -_) \ /  _/ -_) ' \/ _` |
+  //\___/_\_\\__\___|_||_\__,_|
+
+  TreatJS.extend("Config", Config);
+  TreatJS.extend("Verbose", Verbose);
+
 })(TreatJS);

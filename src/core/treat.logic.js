@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -12,20 +12,15 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-(function(_) {
+(function(TreatJS) {
 
   function Value(t,f) {
     if(!(this instanceof Value)) return new Value(t,f);
 
     Object.defineProperties(this, {
-      "t": {
-        get: function () { 
-          return t;
-        }},
-      "f": {
-        get: function () { 
-          return f;
-        }}});
+      "t": {value: t},
+      "f": {value: f}
+    });
 
     this.toString = function() {
       return toString(this);
@@ -156,50 +151,46 @@
   }
 
   /**
-   * Map
+   * export Logic
    */
 
-  __define("Logic", {}, _);
+  __define__("Logic", {}, TreatJS);
 
-  __define("TruthValue", Value, _.Logic);
+  __define__("TruthValue", Value, TreatJS.Logic);
 
-  __define("and", and, _.Logic);
-  __define("or", or, _.Logic);
-  __define("not", not, _.Logic); 
-  __define("implies", implies, _.Logic);
-  __define("lesseq", lesseq, _.Logic);
+  __define__("and", and, TreatJS.Logic);
+  __define__("or", or, TreatJS.Logic);
+  __define__("not", not, TreatJS.Logic); 
+  __define__("implies", implies, TreatJS.Logic);
+  __define__("lesseq", lesseq, TreatJS.Logic);
 
-  __define("meet", meet, _.Logic);
-  __define("join", join, _.Logic);
-  __define("neg", neg, _.Logic); 
-  __define("entails", entails, _.Logic);
-  __define("subseteq", subseteq, _.Logic);
+  __define__("meet", meet, TreatJS.Logic);
+  __define__("join", join, TreatJS.Logic);
+  __define__("neg", neg, TreatJS.Logic); 
+  __define__("entails", entails, TreatJS.Logic);
+  __define__("subseteq", subseteq, TreatJS.Logic);
 
-  __define("convolution", convolution, _.Logic);
+  __define__("convolution", convolution, TreatJS.Logic);
 
   // NOTE: deprecated
-  __define("merge", join, _.Logic);
+  __define__("merge", join, TreatJS.Logic);
 
-  __define("make", make, _.Logic);
-  __define("translate", translate, _.Logic);
+  __define__("make", make, TreatJS.Logic);
+  __define__("translate", translate, TreatJS.Logic);
 
-  Object.defineProperties(_.Logic, {
+  Object.defineProperties(TreatJS.Logic, {
     "Unknown": {
-      get: function () { 
-        return make(0,0);
-      }},
+      value: make(0,0)
+    },
     "False": {
-      get: function () { 
-        return make(0,1);
-      }},
+      value: make(0,1)
+    },
     "True": {
-      get: function () { 
-        return make(1,0);
-      }},
+      value: make(1,0)
+    },
     "Conflict": {
-      get: function () { 
-        return make(1,1);
-      }}
+      value: make(1,1)
+    }
   });
 
 })(TreatJS);

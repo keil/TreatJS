@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -12,16 +12,212 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-(function(_) {
+(function(TreatJS) {
+
+  // _    _                 _ _           
+  //| |  | |               | | |          
+  //| |__| | __ _ _ __   __| | | ___ _ __ 
+  //|  __  |/ _` | '_ \ / _` | |/ _ \ '__|
+  //| |  | | (_| | | | | (_| | |  __/ |   
+  //|_|  |_|\__,_|_| |_|\__,_|_|\___|_|   
 
   function Handler() {
-     if(!(this instanceof Handler)) return new Handler();
-
+    if(!(this instanceof Handler)) return new Handler();
   }
   Handler.prototype = {};
   Handler.toString = function () { "[Halder]"; };
 
+  // ___      _                  _ _  _              _ _         
+  //|   \ ___| |__ _ _  _ ___ __| | || |__ _ _ _  __| | |___ _ _ 
+  //| |) / -_) / _` | || / -_) _` | __ / _` | ' \/ _` | / -_) '_|
+  //|___/\___|_\__,_|\_, \___\__,_|_||_\__,_|_||_\__,_|_\___|_|  
+  //                 |__/                                        
 
+  function DelayedHandler(assert) {
+    if(!(this instanceof DelayedHandler)) return new DelayedHandler(assert);
+    else Handler.call(this);
+
+    this.apply = function(target, thisArg, args) {
+      return assert().apply(thisArg, args);
+    };
+  }
+  DelayedHandler.prototype = Object.create(Handler.prototype);
+
+  // ___             _   _          _  _              _ _         
+  //| __|  _ _ _  __| |_(_)___ _ _ | || |__ _ _ _  __| | |___ _ _ 
+  //| _| || | ' \/ _|  _| / _ \ ' \| __ / _` | ' \/ _` | / -_) '_|
+  //|_| \_,_|_||_\__|\__|_\___/_||_|_||_\__,_|_||_\__,_|_\___|_|  
+
+  function FunctionHandler(contract, global, handler) {
+    if(!(this instanceof FunctionHandler)) return new FunctionHandler(contract, global, handler);
+    else Handler.call(this);
+
+    this.apply = function(target, thisArg, args) {
+      var callback = FunctionCallback(handler, contract);
+      var args = assertWith(args, contract.domain, global, callback.domainHandler);
+      var val = target.apply(thisArg, args);  
+      return assertWith(val, contract.range, global, callback.rangeHandler);
+    };
+    this.construct = function(target, args) {
+      var obj = Object.create(target.prototype);
+      this.apply(target, obj, args);
+      return obj;
+    };
+  }
+  FunctionHandler.prototype = Object.create(Handler.prototype);
+
+  // __  __     _   _            _ _  _              _ _         
+  //|  \/  |___| |_| |_  ___  __| | || |__ _ _ _  __| | |___ _ _ 
+  //| |\/| / -_)  _| ' \/ _ \/ _` | __ / _` | ' \/ _` | / -_) '_|
+  //|_|  |_\___|\__|_||_\___/\__,_|_||_\__,_|_||_\__,_|_\___|_|  
+
+  function MethodHandler(contract, global, handler) {
+    if(!(this instanceof MethodHandler)) return new MethodHandler(contract, global, handler);
+    else Handler.call(this);
+
+    this.apply = function(target, thisArg, args) {
+
+      // domain := arguments + this
+      // range  := return
+
+      var callback = FunctionCallback(handler, contract);
+      var domainCallback = AndCallback(callback.domainHandler, contract);
+
+      var thisArg = assertWith(thisArg, contract.context, global, domainCallback.leftHandler);
+      var args = assertWith(args, contract.domain, global, domainCallback.rightHandler);
+      var val = target.apply(thisArg, args);  
+      return assertWith(val, contract.range, global, callback.rangeHandler);
+    };
+    this.construct = function(target, args) {
+      var obj = Object.create(target.prototype);
+      this.apply(target, obj, args);
+      return obj;
+    };
+  }
+  MethodHandler.prototype = Object.create(Handler.prototype);
+
+  // ___                        _         _   _  _              _ _         
+  //|   \ ___ _ __  ___ _ _  __| |___ _ _| |_| || |__ _ _ _  __| | |___ _ _ 
+  //| |) / -_) '_ \/ -_) ' \/ _` / -_) ' \  _| __ / _` | ' \/ _` | / -_) '_|
+  //|___/\___| .__/\___|_||_\__,_\___|_||_\__|_||_\__,_|_||_\__,_|_\___|_|  
+  //         |_|                                                            
+
+  function DependentHandler(contract, global, handler) {
+    if(!(this instanceof DependentHandler)) return new DependentHandler(contract, global, handler);
+    else Handler.call(this);
+
+    this.apply = function(target, thisArg, args) {
+      var range = constructWith(args, contract.constructor, global);
+      var val = target.apply(thisArg, args); 
+      return assertWith(val, range, global, handler);
+    };
+    this.construct = function(target, args) {
+      var obj = Object.create(target.prototype);
+      this.apply(target, this, args);
+      return obj;
+    };
+  }
+  DependentHandler.prototype = Object.create(Handler.prototype);
+
+  //  ___  _     _        _   _  _              _ _         
+  // / _ \| |__ (_)___ __| |_| || |__ _ _ _  __| | |___ _ _ 
+  //| (_) | '_ \| / -_) _|  _| __ / _` | ' \/ _` | / -_) '_|
+  // \___/|_.__// \___\__|\__|_||_\__,_|_||_\__,_|_\___|_|  
+  //          |__/                                          
+
+  function ObjectHandler(contract, global, handler) {
+    if(!(this instanceof ObjectHandler)) return new ObjectHandler(contract, global, handler);
+    else Handler.call(this);
+
+    var callback = ObjectCallback(handler, contract);
+
+    var callbacks = {};
+    var cache = new WeakMap();
+
+    function getCallback(name) {
+      callbacks[name] = callbacks[name] || PropertyCallback(callback.objectHandler, contract);
+      return callbacks[name];
+    }
+
+    this.get = function(target, name, receiver) {
+
+      function assert(target, name, global, callback) {
+        if(contract.map instanceof StringMap) {
+          return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, callback.getHandler) : target[name];
+        } else {
+          var target = target[name];
+          contract.map.slice(name).foreach(function(i, contract) {
+            target = assertWith(target, contract, global, callback.getHandler);
+          });
+          return target;
+        } 
+      }
+
+      var callback = getCallback(name);
+
+      if(target[name] instanceof Object) {
+        if(cache.has(target[name])) {
+          return cache.get(target[name]);
+        } else {
+          var contracted = assert(target, name, global, callback);
+          cache.set(target[name], contracted);
+          return contracted;
+        }
+      } else {
+        return assert(target, name, global, callback);
+      }
+    };
+
+    this.set = function(target, name, value, reveiver) {
+      var callback = getCallback(name);
+
+      if(contract.map instanceof StringMap) {
+        value = (contract.map.has(name)) ? assertWith(value, contract.map.get(name), global, callback.setHandler) : value;
+      } else {
+        contract.map.slice(name).foreach(function(i, contract) {
+          value = assertWith(value, contract, global, callback.setHandler);
+        });
+      } 
+
+      return target[name] = value;
+    }
+  }
+  ObjectHandler.prototype = Object.create(Handler.prototype);
+
+  // ___      __ _        _   _          _  _              _ _         
+  //| _ \___ / _| |___ __| |_(_)___ _ _ | || |__ _ _ _  __| | |___ _ _ 
+  //|   / -_)  _| / -_) _|  _| / _ \ ' \| __ / _` | ' \/ _` | / -_) '_|
+  //|_|_\___|_| |_\___\__|\__|_\___/_||_|_||_\__,_|_||_\__,_|_\___|_|  
+
+  function ReflectionHandler(contract, global, handler) {
+    if(!(this instanceof ReflectionHandler)) return new ReflectionHandler(contract, global, handler);
+    else Handler.call(this);
+
+    this.get = function(target, name, receiver) {
+
+      if(name === contract.trap) {
+        return assertWith(target[name], contract.sub, global, handler);
+      } else {
+        return target[name];
+      }
+    };
+  }
+  ReflectionHandler.prototype = Object.create(Handler.prototype);
+
+  function NoOpHandler() {
+    if(!(this instanceof NoOpHandler)) return new NoOpHandler();
+
+    // default get trap
+    this.get = function(target, name, receiver) {
+      return target[name];
+    };
+
+    // default set trap
+    this.set = function(target, name, value, receiver) {
+      return target[name]=value;
+    };
+  }
+  NoOpHandler.prototype = Object.create(Handler.prototype);
 
   // ___     _                         _    _    _  _              _ _         
   //| _ \___| |_  _ _ __  ___ _ _ _ __| |_ (_)__| || |__ _ _ _  __| | |___ _ _ 
@@ -29,6 +225,7 @@
   //|_| \___/_|\_, |_|_|_\___/_| | .__/_||_|_\__|_||_\__,_|_||_\__,_|_\___|_|  
   //           |__/              |_|                                           
 
+  // TODO - testing code
   function PolymorphicHandler(handler) {
     if(!(this instanceof PolymorphicHandler)) return new PolymorphicHandler(contract, global, handler);
     else Handler.call(this);
@@ -39,15 +236,18 @@
   }
   PolymorphicHandler.prototype = Object.create(Handler.prototype);
 
-  
   /**
    * export TreatJS Handler
    */
 
-  __define("Handler", {}, _);
+  __define("Handler", {}, TreatJS);
 
-  // TODO
-
-  __define("PolymorphicHandler", PolymorphicHandler, _.Handler);
+  __define("DelayedHandler", DelayedHandler, TreatJS.Handler);
+  __define("FunctionHandler", FunctionHandler, TreatJS.Handler);
+  __define("MethodHandler", MethodHandler, TreatJS.Handler);
+  __define("ObjectHandler", ObjectHandler, TreatJS.Handler);
+  __define("ReflectionHandler", ReflectionHandler, TreatJS.Handler);
+  __define("NoOpHandler", ReflectionHandler, TreatJS.Handler);
+  __define("PolymorphicHandler", PolymorphicHandler, TreatJS.Handler);
 
 })(TreatJS);

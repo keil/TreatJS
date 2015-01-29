@@ -59,6 +59,20 @@
 
   var ContractContract = _.Polymorphic.Abstraction;
 
+  // TODO
+  var TreatJS = _;
+
+  // handler
+  var FunctionHandler = TreatJS.Handler.FunctionHandler;
+  var DependentHandler = TreatJS.Handler.DependentHandler;
+  var MethodHandler = TreatJS.Handler.MethodHandler;
+  var ObjectHandler = TreatJS.Handler.ObjectHandler;
+  var RefelctionHandler = TreatJS.Handler.ReflectionHandler;
+  var FunctionHandler = TreatJS.Handler.FunctionHandler;
+  var FunctionHandler = TreatJS.Handler.FunctionHandler;
+  var FunctionHandler = TreatJS.Handler.FunctionHandler;
+
+
 
   // maps
   var Map = _.Map;
@@ -748,157 +762,8 @@
     }
   }
 
-  // _    _                 _ _           
-  //| |  | |               | | |          
-  //| |__| | __ _ _ __   __| | | ___ _ __ 
-  //|  __  |/ _` | '_ \ / _` | |/ _ \ '__|
-  //| |  | | (_| | | | | (_| | |  __/ |   
-  //|_|  |_|\__,_|_| |_|\__,_|_|\___|_|   
 
-  function DelayedHandler(assert) {
-    if(!(this instanceof DelayedHandler)) return new DelayedHandler(assert);
-
-    this.apply = function(target, thisArg, args) {
-      return assert().apply(thisArg, args);
-    };
-  }
-
-  function FunctionHandler(contract, global, handler) {
-    if(!(this instanceof FunctionHandler)) return new FunctionHandler(contract, global, handler);
-    this.apply = function(target, thisArg, args) {
-      var callback = FunctionCallback(handler, contract);
-      var args = assertWith(args, contract.domain, global, callback.domainHandler);
-      var val = target.apply(thisArg, args);  
-      return assertWith(val, contract.range, global, callback.rangeHandler);
-    };
-    this.construct = function(target, args) {
-      var obj = Object.create(target.prototype);
-      this.apply(target, obj, args);
-      return obj;
-    };
-  }
-
-  function MethodHandler(contract, global, handler) {
-    if(!(this instanceof MethodHandler)) return new MethodHandler(contract, global, handler);
-
-    this.apply = function(target, thisArg, args) {
-
-      // domain := arguments + this
-      // range  := return
-
-      var callback = FunctionCallback(handler, contract);
-      var domainCallback = AndCallback(callback.domainHandler, contract);
-
-      var thisArg = assertWith(thisArg, contract.context, global, domainCallback.leftHandler);
-      var args = assertWith(args, contract.domain, global, domainCallback.rightHandler);
-      var val = target.apply(thisArg, args);  
-      return assertWith(val, contract.range, global, callback.rangeHandler);
-    };
-    this.construct = function(target, args) {
-      var obj = Object.create(target.prototype);
-      this.apply(target, obj, args);
-      return obj;
-    };
-  }
-
-  function DependentHandler(contract, global, handler) {
-    if(!(this instanceof DependentHandler)) return new DependentHandler(contract, global, handler);
-
-    this.apply = function(target, thisArg, args) {
-      var range = constructWith(args, contract.constructor, global);
-      var val = target.apply(thisArg, args); 
-      return assertWith(val, range, global, handler);
-    };
-    this.construct = function(target, args) {
-      var obj = Object.create(target.prototype);
-      this.apply(target, this, args);
-      return obj;
-    };
-  }
-
-  function ObjectHandler(contract, global, handler) {
-    if(!(this instanceof ObjectHandler)) return new ObjectHandler(contract, global, handler);
-
-    var callback = ObjectCallback(handler, contract);
-
-    var callbacks = {};
-    var cache = new WeakMap();
-
-    function getCallback(name) {
-      callbacks[name] = callbacks[name] || PropertyCallback(callback.objectHandler, contract);
-      return callbacks[name];
-    }
-
-    this.get = function(target, name, receiver) {
-
-      function assert(target, name, global, callback) {
-        if(contract.map instanceof StringMap) {
-          return (contract.map.has(name)) ? assertWith(target[name], contract.map.get(name), global, callback.getHandler) : target[name];
-        } else {
-          var target = target[name];
-          contract.map.slice(name).foreach(function(i, contract) {
-            target = assertWith(target, contract, global, callback.getHandler);
-          });
-          return target;
-        } 
-      }
-
-      var callback = getCallback(name);
-
-      if(target[name] instanceof Object) {
-        if(cache.has(target[name])) {
-          return cache.get(target[name]);
-        } else {
-          var contracted = assert(target, name, global, callback);
-          cache.set(target[name], contracted);
-          return contracted;
-        }
-      } else {
-        return assert(target, name, global, callback);
-      }
-    };
-
-    this.set = function(target, name, value, reveiver) {
-      var callback = getCallback(name);
-
-      if(contract.map instanceof StringMap) {
-        value = (contract.map.has(name)) ? assertWith(value, contract.map.get(name), global, callback.setHandler) : value;
-      } else {
-        contract.map.slice(name).foreach(function(i, contract) {
-          value = assertWith(value, contract, global, callback.setHandler);
-        });
-      } 
-
-      return target[name] = value;
-    }
-  }
-
-  function ReflectionHandler(contract, global, handler) {
-    if(!(this instanceof ReflectionHandler)) return new ReflectionHandler(contract, global, handler);
-
-    this.get = function(target, name, receiver) {
-
-      if(name === contract.trap) {
-        return assertWith(target[name], contract.sub, global, handler);
-      } else {
-        return target[name];
-      }
-    };
-  }
-
-  function NoOpHandler() {
-    if(!(this instanceof NoOpHandler)) return new NoOpHandler();
-
-    // default get trap
-    this.get = function(target, name, receiver) {
-      return target[name];
-    };
-
-    // default set trap
-    this.set = function(target, name, value, receiver) {
-      return target[name]=value;
-    };
-  }
+  // TODO, ahnmdler
 
   //                     _                   _   
   //                    | |                 | |  

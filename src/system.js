@@ -54,6 +54,7 @@ function __dump(value) {
 
 
 function __define(name, property, target) {
+  //print("!!! deprecated !!!");
   Object.defineProperty(target, name, {
     get: function () { return property; },
     enumerable: true
@@ -61,11 +62,41 @@ function __define(name, property, target) {
 }
 
 function __getter(name, getter, target) {
+  //print("!!! deprecated !!!");
   Object.defineProperty(target, name, {
     get: getter,
   enumerable: true
   });
 }
+
+/*
+function __export(name, property, target) {
+  //print("!!! deprecated !!!");
+  Object.defineProperty(target, name, {
+    get: function () { return property; },
+    enumerable: true
+  });
+}
+*/
+
+function __define__(name, value, target) {
+  Object.defineProperty(target, name, {
+    value: value, enumerable: true
+  });
+}
+
+function __getter__(name, getter, target) {
+  Object.defineProperty(target, name, {
+    get: getter, enumerable: true
+  });
+}
+
+function __setter__(name, getter, target) {
+  Object.defineProperty(target, name, {
+    get: getter, enumerable: true
+  });
+}
+
 
 //////////////////////////////////////////////////
 // OUTPUT

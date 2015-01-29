@@ -73,6 +73,7 @@
     return _;
   }
 
+  /*
   _.export = function(target, prefix, suffix) {
     prefix = (prefix===undefined) ? "__" : prefix;
     suffix = (suffix===undefined) ? "__" : suffix;
@@ -118,5 +119,6 @@
     __define(prefix + "Mapping" + suffix, this.Map.Mapping, target);
     __define(prefix + "RegExpMap" + suffix, this.Map.RegExpMap, target);
   }
+  */
 
 })(TreatJS);

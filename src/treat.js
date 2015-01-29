@@ -29,11 +29,9 @@ function TreatJS(configuration) {
   var version = "TreatJS 1.2.16 (PoC)";
 
   Object.defineProperties(this, {
-    "version": {
-      get: function () { return version; } }
+    "version": { value: version }
   });
 }
-
 TreatJS.prototype = {};
 TreatJS.prototype.toString = (function() { return '[[TreatJS]]'; });
 
@@ -47,6 +45,12 @@ TreatJS.prototype.verbose = function(configuration) {
   for(setting in configuration) {
     this.Config.Verbose[setting] = configuration[setting];
   } 
+}
+
+TreatJS.prototype.expand = function(name, value) {
+  Object.defineProperty(this, name, {
+    value: value, enumerable: true
+  });
 }
 
 // TreatJS
