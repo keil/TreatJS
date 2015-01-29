@@ -39,15 +39,21 @@ load("src/core/treat.sandbox.js");
 load("src/core/treat.logic.js");
 load("src/core/treat.callback.js");
 load("src/core/treat.map.js");
+
+// polymorphic api // TODO
+load("src/treat.polymorphic.js");
+
 load("src/core/treat.contract.js");
 load("src/core/treat.assert.js");
 load("src/treat.canonicalize.js");
 
 // convenience api
 load("src/treat.convenience.js");
-
 // reflection api
 load("src/treat.reflect.js");
+
+// polymorphic api
+//load("src/treat.polymorphic.js");
 
 //              __ _                    _   _          
 // __ ___ _ _  / _(_)__ _ _  _ _ _ __ _| |_(_)___ _ _  

@@ -42,6 +42,8 @@
 
     __define("Reflection", this.Reflection, _);
 
+    __define("Polymorphic", this.Polymorphic, _);
+
     __define("Constructor", this.Constructor, _);
 
     // convinience
@@ -55,9 +57,13 @@
 
     __define("SDependent", this.SimpleDependentContract, _);
 
-    // reflection 
+    // reflection     
     __define("Get", this.Reflect.Get, _);
     __define("Set", this.Reflect.Set, _);
+
+    // polymorphic
+    __define("Variable", this.Polymorphic.Variable, _);
+    // TODO, add more
 
     // util
     __define("StringMap", this.Map.StringMap, _);

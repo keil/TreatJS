@@ -19,8 +19,8 @@
 
 
   // TODO cache 
-  function Variable(name) {
-    if(!(this instanceof Variable)) return new Variable(name);
+  function VariableContract(name) {
+    if(!(this instanceof VariableContract)) return new VariableContract(name);
 
     if((typeof name) !== 'string') error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
@@ -32,8 +32,7 @@
     this.toString = function() { return "$"+name ; };
 
   }
-  Variable.prototype = Object.create(Contract.prototype);
-  // TODO, prototype is constructor
+  VariableContract.prototype = Object.create(Constructor.prototype);
 
 
   function List() {
@@ -51,7 +50,7 @@
       var index = values.indexOf(value);
       if(index==-1) values.push(value);
       else values[index] = value;
-      return keys.length;
+      return values.length;
     }
 
     this.get = function(key) {
@@ -76,8 +75,8 @@
   }
   List.prototype = {};
 
-  function Variables(elements) { 
-    if(!(this instanceof Variables)) return new Variables(elements);
+  function VariableList(elements) { 
+    if(!(this instanceof VariableList)) return new VariableList(elements);
     else List.call(this);
 
     if(elements instanceof Array) {
@@ -91,7 +90,7 @@
       }
     } else {}
   }
-  Variables.prototype = Object.create(List.prototype);
+  VariableList.prototype = Object.create(List.prototype);
 
 
 
@@ -110,113 +109,137 @@
 
   // is Parametric a delayed Constructor ?
 
-  function Parametric(vars, sub) {
-    if(!(this instanceof Parametric)) return new Parametric(vars, sub);
+  /*
+     function Parametric(vars, sub) {
+     if(!(this instanceof Parametric)) return new Parametric(vars, sub);
 
-    if(!(vars instanceof Variables)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-    if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+     if(!(vars instanceof Variables)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+     if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
-    Object.defineProperties(this, {
-      "vars": {
-        get: function () { return vars; }
-      },
-      "sub": {
-        get: function () { return sub; }
-      },
-    });
+     Object.defineProperties(this, {
+     "vars": {
+     get: function () { return vars; }
+     },
+     "sub": {
+     get: function () { return sub; }
+     },
+     });
 
-    this.toString = function() {  return "(" + vcars.toString() + "." + sub.toString() + ")"; };
-  }
-
-
-  function f(g, x) {
-    return g(x);
-  }
-
-  function h(x) {
-    return x;
-  }
+     this.toString = function() {  return "(" + vcars.toString() + "." + sub.toString() + ")"; };
+     }
 
 
-  var A = new Variable('A');
-  var B = new Variable('B');
+     function f(g, x) {
+     return g(x);
+     }
 
-  var C = Parametric(
-      [A,B],
-      Contract.AFunction([ Contract.AFunction([A], B), A], B);
-      );
+     function h(x) {
+     return x;
+     }
+     */
 
-  var e = Contract.assert(f, C);
+  /*
+     var A = new Variable('A');
+     var B = new Variable('B');
 
-  e(typeofNumber, typeofNumber)(h, 1);
+     var C = Parametric(
+     [A,B],
+     Contract.AFunction([ Contract.AFunction([A], B), A], B);
+     );
+
+     var e = Contract.assert(f, C);
+
+     e(typeofNumber, typeofNumber)(h, 1);
 
   //d = e(typeofNumber, typeofNumber);
   //d(h, 1);
 
 
   //Contract.Constructor(function())
+  */
 
 
 
 
+  /*
+     function In(sub) {
+     if(!(this instanceof In)) return new In(sub);
+
+     if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+     Object.defineProperties(this, {
+     "sub": {
+     get: function () { return sub; }
+     }
+     });
+
+     this.toString = function() {  return "(in(" + sub.toString() + "))"; };
+     }
+     In.prototype = Object.create(Contract.prototype); // TODO, prototype instanceof Constructor
+
+     function Out(sub) {
+     if(!(this instanceof Out)) return new Out(sub);
+
+     if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+     Object.defineProperties(this, {
+     "sub": {
+     get: function () { return sub; }
+     }
+     });
+
+     this.toString = function() {  return "(out(" + sub.toString() + "))"; };
+     }
+     Out.prototype = Object.create(Contract.prototype); // TODO, prototype instanceof Constructor
 
 
-  function In(sub) {
-    if(!(this instanceof In)) return new In(sub);
+     function Forall(vars, sub) {
+     if(!(this instanceof Forall)) return new Forall(vars, sub);
 
-    if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+     if(!(vars instanceof Variables)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+     if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
-    Object.defineProperties(this, {
-      "sub": {
-        get: function () { return sub; }
-      }
-    });
+     Object.defineProperties(this, {
+     "vars": {
+     get: function () { return vars; }
+     },
+     "sub": {
+     get: function () { return sub; }
+     },
+     });
 
-    this.toString = function() {  return "(in(" + sub.toString() + "))"; };
+     this.toString = function() {  return "(forall(" + vcars.toString() + "." + sub.toString() + "))"; };
+     }
+     */
+
+
+  //  var x = new Proxy(trget, handler);
+
+  //var reflect = new ReflectionHandler(contract, global, callbackHandler);
+  //var noop = new NoOpHandler();
+  //var proxy = new Proxy(arg, new Proxy(noop, reflect));
+
+
+
+
+  function ParametricHandler(contract, global, handler) {
+    if(!(this instanceof ParametricHandler)) return new ParametricHandler(contract, global, handler);
+
+    this.apply = function(target, thisArg, args) {
+      var bindings = {};
+      contract.vars.foreach(function(key, value) {
+        bindings[value.name] = args[key];
+        // TODO, test if instanceof contarct
+      }); // TODO, test if proeprties are set
+      //var newglobal = global.merge(contract.binding);
+
+      return Contract.With(bindings, contract.sub); // TODO, test
+      //assertWith(val, range, global, handler);
+    };
+
   }
-  In.prototype = Object.create(Contract.prototype); // TODO, prototype instanceof Constructor
-
-  function Out(sub) {
-    if(!(this instanceof Out)) return new Out(sub);
-
-    if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-
-    Object.defineProperties(this, {
-      "sub": {
-        get: function () { return sub; }
-      }
-    });
-
-    this.toString = function() {  return "(out(" + sub.toString() + "))"; };
-  }
-  Out.prototype = Object.create(Contract.prototype); // TODO, prototype instanceof Constructor
 
 
-  function Forall(vars, sub) {
-    if(!(this instanceof Forall)) return new Forall(vars, sub);
-
-    if(!(vars instanceof Variables)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-    if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-
-    Object.defineProperties(this, {
-      "vars": {
-        get: function () { return vars; }
-      },
-      "sub": {
-        get: function () { return sub; }
-      },
-    });
-
-    this.toString = function() {  return "(forall(" + vcars.toString() + "." + sub.toString() + "))"; };
-  }
-
-
-
-//  var x = new Proxy(trget, handler);
-
-      //var reflect = new ReflectionHandler(contract, global, callbackHandler);
-      //var noop = new NoOpHandler();
-      //var proxy = new Proxy(arg, new Proxy(noop, reflect));
 
 
 
@@ -228,7 +251,22 @@
     };
   }
 
- 
+
+
+
+
+
+
+
+  /**
+   * Polymorphic Contracts
+   */
+
+  __define("Polymorphic", {}, _);
+
+  __define("Variable", VariableContract, _.Polymorphic);
+  __define("Variables", VariableList, _.Polymorphic);
+
 
 
 

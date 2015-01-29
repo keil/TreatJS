@@ -15,6 +15,66 @@
 
 
 
+//load("test/blame/negation.js");
+
+
+// ==================================================
+// test polymorphic contracts
+
+//load("contracts/access3.js");
+//load("test/access.js");
+
+/*
+ * Note: A Parametric Contract can be implemented by using 
+ * with (dynamic binding/ value application) or constructores.
+ * Difference: they were evaluated right away when asserted. 
+ * A Parametric Contract is some kind of delayed constructor,
+ * that only accepts contracts as agruments.
+ */
+
+var A = Contract.Polymorphic.Variable("A");
+var B = Contract.Polymorphic.Variable("B");
+var C = Contract.Polymorphic.Variable("C");
+
+var V = Contract.Polymorphic.Variables([A,B]);
+
+var F = Contract.AFunction([A,A], A);
+//print(F);
+
+
+/*
+var F = Contract.AFunction([A,A], A);
+var V = Contract.Variables([A,B]);
+var P = Contract.Parametric(V, F);
+*/
+
+var f = function(x,y) {
+  return (x+y);
+}
+
+var plus1 = Contract.assert(f, Contract.With({$A:typeOfNumber, $B:typeOfNumber}, F));
+plus1(1,2);
+
+//var plus = Contract.assert(f, P);
+
+// f(typeOfNumber, typeOfString)(1, 2);
+// var g = f(typeOfNumber, typeOfString); g(1, 2);
+
+
+
+
+TreatJS.Version.print();
+TreatJS.Config.print();
+TreatJS.Statistic.print();
+
+quit();
+
+
+
+
+
+/*
+
 (function() {
 
   function f(x, r) {
@@ -65,7 +125,7 @@
   
 })();
 
-
+*/
 
 
 

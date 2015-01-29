@@ -1,5 +1,9 @@
 ## Major Tasks ##
 
+- mey introduce a contract environment, miliar to a type environment that helps to abstract contracts
+- culd be a clone ob global 
+
+
 - logic for boolean algebra
 Idea, context and subject are not allowed to fulfill the contract
 is one fullfls it, than blame
