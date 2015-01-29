@@ -26,7 +26,7 @@
 function TreatJS(configuration) {
   if(!(this instanceof TreatJS)) return new TreatJS(configuration);
 
-  var version = "TreatJS 1.2.15";
+  var version = "TreatJS 1.2.16 (PoC)";
 
   Object.defineProperties(this, {
     "version": {

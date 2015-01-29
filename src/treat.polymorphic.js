@@ -14,6 +14,74 @@
  */
 (function(_) {
 
+  // id --> proxy
+  var proxies = new WeakMap();
+  // proxy --> value;
+  var values = new WeakMap();
+
+  function wrap(value, id, callbackHandler) {
+    var proxy = new Proxy({}, new Proxy({}, new _.Handler.PolymorphicHandler(callbackHandler))); 
+    proxies.set(id, proxy);
+    values.set(proxy, value);
+    return proxy;
+  }
+
+  function unwrap(proxy) {
+    return values.get(proxy);
+  }
+
+  // check contract
+  // wrap value
+  // unwrap value, 
+  // id guarantees that the wraped value and the 
+  // id value has to be the same
+
+
+  function assertWith(arg, contract, global, callbackHandler) {
+
+    if (false) {}
+
+    else if(contract instanceof InContract) {
+      var val =  wrap(arg, contract.sub, callbackHandler);
+      return val;
+    }
+
+    else if(contract instanceof OutContract) {
+      if(arg !== proxies.get(contract.sub)) callbackHandler(_.Callback.Handle(_.Logic.False, _.Logic.True, _.Logic.False));
+      return values.get(arg);
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   var Contract = _.Core.Contract;
   var Constructor = _.Core.Constructor;
 
@@ -101,10 +169,6 @@
 
 
 
-
-
-
-
   // Todo, better to define Vars-Object similar to Map ?
 
   // is Parametric a delayed Constructor ?
@@ -161,38 +225,37 @@
 
 
 
+  function InContract(sub) {
+    if(!(this instanceof InContract)) return new InContract(sub);
+
+    if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+    Object.defineProperties(this, {
+      "sub": {
+        get: function () { return sub; }
+      }
+    });
+
+    this.toString = function() {  return "(in(" + sub.toString() + "))"; };
+  }
+  InContract.prototype = Object.create(Contract.prototype); // TODO, prototype instanceof Constructor
+
+  function OutContract(sub) {
+    if(!(this instanceof OutContract)) return new OutContract(sub);
+
+    if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+    Object.defineProperties(this, {
+      "sub": {
+        get: function () { return sub; }
+      }
+    });
+
+    this.toString = function() {  return "(out(" + sub.toString() + "))"; };
+  }
+  OutContract.prototype = Object.create(Contract.prototype); // TODO, prototype instanceof Constructor
+
   /*
-     function In(sub) {
-     if(!(this instanceof In)) return new In(sub);
-
-     if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-
-     Object.defineProperties(this, {
-     "sub": {
-     get: function () { return sub; }
-     }
-     });
-
-     this.toString = function() {  return "(in(" + sub.toString() + "))"; };
-     }
-     In.prototype = Object.create(Contract.prototype); // TODO, prototype instanceof Constructor
-
-     function Out(sub) {
-     if(!(this instanceof Out)) return new Out(sub);
-
-     if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-
-     Object.defineProperties(this, {
-     "sub": {
-     get: function () { return sub; }
-     }
-     });
-
-     this.toString = function() {  return "(out(" + sub.toString() + "))"; };
-     }
-     Out.prototype = Object.create(Contract.prototype); // TODO, prototype instanceof Constructor
-
-
      function Forall(vars, sub) {
      if(!(this instanceof Forall)) return new Forall(vars, sub);
 
@@ -211,7 +274,6 @@
      this.toString = function() {  return "(forall(" + vcars.toString() + "." + sub.toString() + "))"; };
      }
      */
-
 
   //  var x = new Proxy(trget, handler);
 
@@ -243,16 +305,6 @@
 
 
 
-  function SubstituteHandler(contract, global, handler) {
-    if(!(this instanceof SubstituteHandler)) return new SubstituteHandler(contract, global, handler);
-
-    this.get = function(target, name, receiver) {
-      // TODO, handler set subkject to false
-    };
-  }
-
-
-
 
 
 
@@ -267,7 +319,13 @@
   __define("Variable", VariableContract, _.Polymorphic);
   __define("Variables", VariableList, _.Polymorphic);
 
+  //  __define("Abstraction", ContractAbstraction, _.Polymorphic);
 
 
+
+  __define("In", InContract, _.Polymorphic);
+  __define("Out", OutContract, _.Polymorphic);
+
+  __define("assert", assertWith, _.Polymorphic);
 
 })(TreatJS);

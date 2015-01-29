@@ -93,6 +93,8 @@
   }
   FunctionContract.prototype = Object.create(DelayedContract.prototype);
 
+
+  // TODO, should'nt this be a convinience contract ?
   // __  __     _   _            _  ___         _               _   
   //|  \/  |___| |_| |_  ___  __| |/ __|___ _ _| |_ _ _ __ _ __| |_ 
   //| |\/| / -_)  _| ' \/ _ \/ _` | (__/ _ \ ' \  _| '_/ _` / _|  _|
@@ -340,6 +342,38 @@
     this.toString = function() { return "" + trap + " @ " + sub.toString(); };
   }
   ReflectionContract.prototype = Object.create(ImmediateContract.prototype);
+
+  //   _   _       _               _   _          
+  //  /_\ | |__ __| |_ _ _ __ _ __| |_(_)___ _ _  
+  // / _ \| '_ (_-<  _| '_/ _` / _|  _| / _ \ ' \ 
+  ///_/ \_\_.__/__/\__|_| \__,_\__|\__|_\___/_||_|                                            
+
+  function ContractAbstraction(vars, sub) {
+    if(!(this instanceof ContractAbstraction)) return new ContractAbstraction(vars, sub);
+
+    if(!(binding instanceof Object)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+    if(!(variable instanceof Variable)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+    if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+    Object.defineProperties(this, {
+      "variable": {
+        get: function () { return vars; }
+      },
+      "sub": {
+        get: function () { return sub; }
+      },
+    });
+
+    this.toString = function() {  return "(" + varibale.toString() + "." + sub.toString() + ")"; };
+  }
+  ContractAbstraction.prototype = Object.create(Contract.prototype);
+
+
+
+
+
+
+
 
   //  _____                _                   _             
   // / ____|              | |                 | |            

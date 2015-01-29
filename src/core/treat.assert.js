@@ -57,6 +57,8 @@
   // contracts // TODO
   var VariableContract = _.Polymorphic.Variable;
 
+  var ContractContract = _.Polymorphic.Abstraction;
+
 
   // maps
   var Map = _.Map;
@@ -270,7 +272,7 @@
     //|___/\___| .__/\___|_||_\__,_\___|_||_\__|\___\___/_||_\__|_| \__,_\__|\__|
     //         |_|                                                               
 
-    if(contract instanceof DependentContract) {
+    else if(contract instanceof DependentContract) {
       if(!(arg instanceof Function)) callbackHandler(Handle(_.Logic.True, _.Logic.False, _.Logic.False));
 
       var handler = new DependentHandler(contract, global, callbackHandler);
@@ -587,6 +589,22 @@
       return assertWith(arg, construct(contract, global.dump()), global, callbackHandler);
     }
 
+    // TODO, abstraction
+
+//   _   _       _               _   _          
+//  /_\ | |__ __| |_ _ _ __ _ __| |_(_)___ _ _  
+// / _ \| '_ (_-<  _| '_/ _` / _|  _| / _ \ ' \ 
+///_/ \_\_.__/__/\__|_| \__,_\__|\__|_\___/_||_|
+
+// else if(contract instanceof ContractAbstraction) {
+//      // TODO: old code
+//      // return assertWith(arg, construct(contract), global, callbackHandler);
+//      return assertWith(arg, construct(contract, global.dump()), global, callbackHandler);
+//    }
+
+ 
+
+
     // ___      __ _        _   _          
     //| _ \___ / _| |___ __| |_(_)___ _ _  
     //|   / -_)  _| / -_) _|  _| / _ \ ' \ 
@@ -600,6 +618,10 @@
       var proxy = new Proxy(arg, new Proxy(noop, reflect));
       return proxy;
     }
+
+
+    else if(true) return _.Polymorphic.assert(arg, contract, global, callbackHandler)
+
 
     //    _      __           _ _   
     // __| |___ / _|__ _ _  _| | |_ 
@@ -951,15 +973,15 @@
     //|  _/ _` | '_/ _` | '  \/ -_)  _| '_| / _| (__/ _ \ ' \  _| '_/ _` / _|  _|
     //|_| \__,_|_| \__,_|_|_|_\___|\__|_| |_\__|\___\___/_||_\__|_| \__,_\__|\__|
 
-    /* if(contract instanceof ParametricContract) {
-      if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, _.Logic.False, _.Logic.False));
+    if(contract instanceof ParametricContract) {
+      //if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, _.Logic.False, _.Logic.False));
       // TODO, this must be a contract
 
       //var handler = new MethodHandler(contract, global, callbackHandler);
       //var proxy = new Proxy(arg, handler);
       //return proxy;
       return undefined;
-    } */
+    } 
 
     //__   __        _      _    _      ___         _               _   
     //\ \ / /_ _ _ _(_)__ _| |__| |___ / __|___ _ _| |_ _ _ __ _ __| |_ 

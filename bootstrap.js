@@ -44,6 +44,8 @@ load("src/core/treat.map.js");
 load("src/treat.polymorphic.js");
 
 load("src/core/treat.contract.js");
+load("src/core/treat.handler.js");
+// load("src/core/treat.construct.js"); // TODO
 load("src/core/treat.assert.js");
 load("src/treat.canonicalize.js");
 
