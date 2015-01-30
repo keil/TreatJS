@@ -26,6 +26,7 @@
     var toString = function () {
       var str = "";
       for (var cl in Manual) {
+        ck
         str += "* " + cl + "\n\n";
         for (var en in Manual[cl]) {
           str += "** " + en + "\n";
@@ -45,36 +46,36 @@
     include("construct", this.construct, "Methods");
 
     // contract
-    include("Base", this.BaseContract, "Core - Contrcts");
+    include("Base", this.BaseContract, "Core - Contracts");
 
-    include("Function", this.FunctionContract, "Core - Contrcts");
-    include("Method", this.MethodContract, "Core - Contrcts");
-    include("Dependent", this.DependentContract, "Core - Contrcts");
+    include("Function", this.FunctionContract, "Core - Contracts");
+    include("Method", this.MethodContract, "Core - Contracts");
+    include("Dependent", this.DependentContract, "Core - Contracts");
 
-    include("Object", this.ObjectContract, "Core - Contrcts");
+    include("Object", this.ObjectContract, "Core - Contracts");
 
-    include("With", this.With, "Core - Contrcts");
+    include("With", this.With, "Core - Contracts");
 
-    include("Union", this.Union, "Core - Contrcts");
-    include("Intersection", this.Intersection, "Core - Contrcts");
-    include("Negation", this.Negation, "Core - Contrcts");
+    include("Union", this.Union, "Core - Contracts");
+    include("Intersection", this.Intersection, "Core - Contracts");
+    include("Negation", this.Negation, "Core - Contracts");
 
-    include("And", this.And, "Core - Contrcts");
-    include("Or", this.Or, "Core - Contrcts");
-    include("Not", this.Not, "Core - Contrcts");
+    include("And", this.And, "Core - Contracts");
+    include("Or", this.Or, "Core - Contracts");
+    include("Not", this.Not, "Core - Contracts");
 
     include("Constructor", this.Constructor, "Constructors");
 
     // convinience
-    include("AObject", this.AdvancedObjectContract, "Convenience - Contrcts");
+    include("AObject", this.AdvancedObjectContract, "Convenience - Contracts");
 
-    include("AFunction", this.AdvancedFunctionContract, "Convenience - Contrcts");
-    include("SFunction", this.SimpleFunctionContract, "Convenience - Contrcts");
+    include("AFunction", this.AdvancedFunctionContract, "Convenience - Contracts");
+    include("SFunction", this.SimpleFunctionContract, "Convenience - Contracts");
 
-    include("AMethod", this.AdvancedMethodContract, "Convenience - Contrcts");
-    include("SMethod", this.SimpleMethodContract, "Convenience - Contrcts");
+    include("AMethod", this.AdvancedMethodContract, "Convenience - Contracts");
+    include("SMethod", this.SimpleMethodContract, "Convenience - Contracts");
 
-    include("SDependent", this.SimpleDependentContract, "Convenience - Contrcts");
+    include("SDependent", this.SimpleDependentContract, "Convenience - Contracts");
 
     // util
     include("StringMap", this.Map.StringMap, "Maps");
