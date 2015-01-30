@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -12,9 +12,9 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-(function(_) {
+(function(TreatJS) {
 
-  var ReflectionContract = _.Reflection;
+  var ReflectionContract = TreatJS.Contract.Reflection;
 
   //  ___     _   
   // / __|___| |_ 
@@ -38,13 +38,14 @@
   }
   SetContract.prototype = Object.create(ReflectionContract.prototype);
 
-  /**
-   * Reflection Contracts
-   */
+  //         _               _ 
+  // _____ _| |_ ___ _ _  __| |
+  /// -_) \ /  _/ -_) ' \/ _` |
+  //\___/_\_\\__\___|_||_\__,_|
 
-  __define("Reflect", {}, _);
+  TreatJS.extend("Reflection", {});
 
-  __define("Get", GetContract, _.Reflect);
-  __define("Set", SetContract, _.Reflect);
+  TreatJS.define(TreatJS.Reflection, "Get", GetContract);
+  TreatJS.define(TreatJS.Reflection, "Set", SetContract);
 
 })(TreatJS);
