@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -23,40 +23,32 @@
 //| (_ | / _ \ '_ \/ _` | | | (_) | '_ \| / -_) _|  _|
 // \___|_\___/_.__/\__,_|_|  \___/|_.__// \___\__|\__|
 //                                    |__/            
-function TreatJS(configuration) {
-  if(!(this instanceof TreatJS)) return new TreatJS(configuration);
+function TreatJS(configuration, verbose, out) {
+  if(!(this instanceof TreatJS)) return new TreatJS(configuration, verbose, out);
 
   var version = "TreatJS 1.2.16 (PoC)";
 
   Object.defineProperties(this, {
     "version": { value: version }
   });
+
+  Object.defineProperties(this, {
+    "configuration": { value: (configuration===undefined) ? {} : configuration }
+  });
+
+  Object.defineProperties(this, {
+    "verbose": { value: (verbose===undefined) ? {} : verbose }
+  });
+
+  Object.defineProperties(this, {
+    "out": { value: (out===undefined) ? {} : out }
+  });
 }
 TreatJS.prototype = {};
 TreatJS.prototype.toString = (function() { return '[[TreatJS]]'; });
 
-TreatJS.prototype.configure = function(configuration) {
-
-  // treat.config.js generiert nur ein Configuration Object
-  // ein call of configure erzeugt eines mit werten und 
-  // speichert dieses read only ab
-
-  for(setting in configuration) {
-    this.Config[setting] = configuration[setting];
-  } 
-};
-
-TreatJS.prototype.verbose = function(configuration) {
-  for(setting in configuration) {
-    this.Config.Verbose[setting] = configuration[setting];
-  } 
-}
-
-TreatJS.prototype.expand = function(name, value) {
+TreatJS.prototype.extend = function(name, value) {
   Object.defineProperty(this, name, {
     value: value, enumerable: true
   });
 }
-
-// TreatJS
-var TreatJS = new TreatJS();

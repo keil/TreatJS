@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -14,52 +14,7 @@
  */
 (function(TreatJS) {
 
-  // TreatJS Configuration Flags 
   var Config = new Object();
-  // TreatJS Verbose Flags
-  var Verbose = new Object();
-
-  //             _                 
-  //__ _____ _ _| |__  ___ ___ ___ 
-  //\ V / -_) '_| '_ \/ _ (_-</ -_)
-  // \_/\___|_| |_.__/\___/__/\___|
-
-  var sandbox = undefined;
-  var assert = undefined;
-  var statistic = undefined;
-
-  Object.defineProperties(Verbose, {
-    "sandbox": {
-      get: function () {
-        return (sandbox===undefined) ? false : sandbox;
-      },
-    set: function (arg) {
-      sandbox = (sandbox===undefined) ? arg : sandbox;
-      return arg;
-    },
-    enumerable:true
-    },
-    "assert": {
-      get: function () {
-        return (assert===undefined) ? false : assert;
-      },
-    set: function (arg) {
-      assert = (assert===undefined) ? arg : assert;
-      return arg;
-    },
-    enumerable:true
-    },
-    "statistic": {
-      get: function () {
-        return (statistic===undefined) ? false : statistic;
-      },
-      set: function (arg) {
-        statistic = (statistic===undefined) ? arg : statistic;
-        return arg;
-      },
-      enumerable:true
-    }
-  });
 
   //               _    _     
   // ___ _ _  __ _| |__| |___ 
@@ -67,55 +22,36 @@
   //\___|_||_\__,_|_.__/_\___|
 
   // contract assertion
-  var assertion = undefined;
+  var DEFAULT_ASSERTION    = true;
   //  sandbox membrane
-  var membrane = undefined;
+  var DEFAULT_MEMBRANE     = true;
   // decompile functions
-  var decompile = undefined;
+  var DEFAULT_DECOMPILE    = true;
   // canonicalize contracts
-  var canonicalize = undefined;
+  var DEFAULT_CANONICALIZE = true;
 
   Object.defineProperties(Config, {
     "assertion": {
-      get: function () {
-        return (assertion===undefined) ? true : assertion;
-      },
-    set: function (arg) {
-      assertion = (assertion===undefined) ? arg : assertion;
-      return arg;
+      value: ((TreatJS.configuration.assertion===undefined) ? 
+              DEFAULT_ASSERTION : TreatJS.configuration.assertion), 
+        enumerable: true
     },
-    enumerable:true
-    },
-    "membrane": {
-      get: function () {
-        return (membrane===undefined) ? true : membrane;
-      },
-    set: function (arg) {
-      membrane = (membrane===undefined) ? arg : membrane;
-      return arg;
-    },
-    enumerable:true
+    "membrane":  { 
+      value: ((TreatJS.configuration.membrane===undefined) ? 
+              DEFAULT_MEMBRANE : TreatJS.configuration.membrane), 
+      enumerable: true
     },
     "decompile": {
-      get: function () {
-        return (decompile===undefined) ? true : decompile;
-      },
-      set: function (arg) {
-        decompile = (decompile===undefined) ? arg : decompile;
-        return arg;
-      },
-      enumerable:true
+      value: ((TreatJS.configuration.decompile===undefined) ? 
+              DEFAULT_DECOMPILE : TreatJS.configuration.decompile), 
+      enumerable: true
     },
     "canonicalize": {
-      get: function () {
-        return (canonicalize===undefined) ? true : canonicalize;
-      },
-      set: function (arg) {
-        canonicalize = (canonicalize===undefined) ? arg : canonicalize;
-        return arg;
-      },
-      enumerable:true
-    }});
+      value: ((TreatJS.configuration.canonicalize===undefined) ? 
+              DEFAULT_CANONICALIZE : TreatJS.configuration.canonicalize), 
+      enumerable: true
+    }
+  });
 
   //               _     
   // _ __  ___  __| |___ 
@@ -123,35 +59,46 @@
   //|_|_|_\___/\__,_\___|
 
   // use newGlobal in sandbox
-  var newGlobal = false;
+  var DEFAULT_NEWGLOBAL = false;
 
   // pass-through of native functions
-  var nativePassThrough = true;
+  var DEFAULT_NATIVEPASSTHROUGH = true;
 
   // pass-through of contracts
-  var contractPassThrough = true;
+  var DEFAULT_CONTRACTPASSTHROUGH = true;
 
   // print stack trace on error
-  var stackTrace = true;
+  var DEFAULT_STACKTRACE = true;
 
   // call quit
-  var quitOnError = true;
+  var DEFAULT_QUITONERROR = true;
+
 
   Object.defineProperties(Config, {
     "newGlobal": {
-      value: newGlobal, enumerable:true,
+      value: ((TreatJS.configuration.newGlobal===undefined) ? 
+              DEFAULT_NEWGLOBAL : TreatJS.configuration.newGlobal),
+        enumerable: true
     },
-    "nativePassThrough": {
-      value: nativePassThrough, enumerable:true
+    "nativePassThrough":  { 
+      value: ((TreatJS.configuration.nativePassThrough===undefined) ? 
+              DEFAULT_NATIVEPASSTHROUGH : TreatJS.configuration.nativePassThrough),
+      enumerable: true
     },
     "contractPassThrough": {
-      value: contractPassThrough, enumerable:true
+      value: ((TreatJS.configuration.contractPassThrough===undefined) ? 
+              DEFAULT_CONTRACTPASSTHROUGH : TreatJS.configuration.contractPassThrough),
+      enumerable: true
     },
     "quitOnError": {
-      value: quitOnError, enumerable:true
+      value: ((TreatJS.configuration.quitOnError===undefined) ? 
+              DEFAULT_STACKTRACE : TreatJS.configuration.quitOnError),
+      enumerable: true
     },
     "stackTrace": {
-      value: stackTrace, enumerable:true
+      value: ((TreatJS.configuration.stackTrace===undefined) ? 
+              DEFAULT_QUITONERROR : TreatJS.configuration.stackTrace), 
+      enumerable: true
     }
   });
 
@@ -161,6 +108,5 @@
   //\___/_\_\\__\___|_||_\__,_|
 
   TreatJS.extend("Config", Config);
-  TreatJS.extend("Verbose", Verbose);
 
 })(TreatJS);
