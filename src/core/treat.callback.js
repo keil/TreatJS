@@ -12,7 +12,7 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-(function(TreatJTreatJS) {
+(function(TreatJS) {
 
   var error = TreatJS.error;
   var violation = TreatJS.violation;
@@ -35,7 +35,7 @@
    * @param key String
    */
   function count(key) {
-    if(TreatJS.Config.Verbose.statistic) TreatJS.Statistic.inc(key);
+    if(TreatJS.Verbose.statistic) TreatJS.Statistic.inc(key);
   }
 
   //  _____      _ _ _                _        
@@ -54,8 +54,8 @@
     if(!(this instanceof Callback)) return new Callback(handler);
 
     if(!(handler instanceof Function)) error("Wrong Callback Handler.", (new Error()).fileName, (new Error()).lineNumber);
-    //if(!(contract instanceof TreatJS.Contract)) error("Wrong Contract.", (new Error()).fileName, (new Error()).lineNumber);
-    //TODO
+    //TODO, cleanup
+    //if(!(contract instanceof TreatJS.Contract)) error("Wrong Contract.", (new Error()).fileName, (new Error()).lineNumber); 
   }
   Callback.prototype = {};
   Callback.prototype.toString = function() {
@@ -72,7 +72,8 @@
 
     if(!(caller instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
     if(!(callee instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
-    //    if(!(contract instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
+    //TODO, cleanup
+    // if(!(contract instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
 
     __define__("caller", caller, this);
     __define__("callee", callee, this);
@@ -88,7 +89,6 @@
 
   Handle.update = function(m, n) {
     count(TreatJS.Statistic.CALLBACK);
-
     return Handle(
         merge(m.caller, n.caller),
         merge(m.callee, n.callee)
@@ -216,7 +216,6 @@
     else Callback.apply(this, arguments);
 
     var obj = Handle(True, True, True);
-
 
     __getter__("caller", function() {
       return obj.caller;
@@ -442,7 +441,7 @@
   }
   NotCallback.prototype = Object.create(Callback.prototype);
   NotCallback.prototype.toString = function() {
-    return "<NotCallback>";
+    return "[[NotCallback]]";
   }
 
   function BaseCallback(handler) {
@@ -469,27 +468,28 @@
     return "[[BaseCallback]]";
   }
 
-  /**
-   * export Callback
-   */
+  //         _               _ 
+  // _____ _| |_ ___ _ _  __| |
+  /// -_) \ /  _/ -_) ' \/ _` |
+  //\___/_\_\\__\___|_||_\__,_|
 
-  __define__("Callback", {}, TreatJS);
+  TreatJS.extend("Callback", {});
 
-  __define__("Callback", Callback, TreatJS.Callback);
-  __define__("Handle", Handle, TreatJS.Callback);
+  TreatJS.define(TreatJS.Callback, "Callback", Callback);
+  TreatJS.define(TreatJS.Callback, "Handle", Handle);
 
-  __define__("RootCallback", RootCallback, TreatJS.Callback);
-  __define__("BaseCallback", BaseCallback, TreatJS.Callback);
-  __define__("FunctionCallback", FunctionCallback, TreatJS.Callback);
-  __define__("ObjectCallback", ObjectCallback, TreatJS.Callback);
-  __define__("PropertyCallback", PropertyCallback, TreatJS.Callback);
+  TreatJS.define(TreatJS.Callback, "RootCallback", RootCallback);
+  TreatJS.define(TreatJS.Callback, "BaseCallback", BaseCallback);
+  TreatJS.define(TreatJS.Callback, "FunctionCallback", FunctionCallback);
+  TreatJS.define(TreatJS.Callback, "ObjectCallback", ObjectCallback);
+  TreatJS.define(TreatJS.Callback, "PropertyCallback", PropertyCallback);
 
-  __define__("IntersectionCallback", IntersectionCallback, TreatJS.Callback);
-  __define__("UnionCallback", UnionCallback, TreatJS.Callback);
-  __define__("NegationCallback", NegationCallback, TreatJS.Callback);
+  TreatJS.define(TreatJS.Callback, "IntersectionCallback", IntersectionCallback);
+  TreatJS.define(TreatJS.Callback, "UnionCallback", UnionCallback);
+  TreatJS.define(TreatJS.Callback, "NegationCallback", NegationCallback);
 
-  __define__("AndCallback", AndCallback, TreatJS.Callback);
-  __define__("OrCallback", OrCallback, TreatJS.Callback);
-  __define__("NotCallback", NotCallback, TreatJS.Callback);
+  TreatJS.define(TreatJS.Callback, "AndCallback", AndCallback);
+  TreatJS.define(TreatJS.Callback, "OrCallback", OrCallback);
+  TreatJS.define(TreatJS.Callback, "NotCallback", NotCallback);
 
 })(TreatJS);
