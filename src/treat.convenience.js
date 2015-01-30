@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -12,34 +12,30 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-(function(_) {
+(function(TreatJS) {
 
-  var error = _.error;
-  var violation = _.violation;
-  var blame = _.blame;
+  // out
+  var error = TreatJS.error;
+  var violation = TreatJS.violation;
+  var blame = TreatJS.blame;
 
-  var Contract = _.Core.Contract;
-  var Constructor = _.Core.Constructor;
+  // prototypes
+  var Contract = TreatJS.Core.Contract;
+  var Constructor = TreatJS.Core.Constructor;
 
-  var ContractConstructor = _.Constructor;
+  // contracts
+  var FunctionContract = TreatJS.Contract.Function;
+  var MethodContract = TreatJS.Contract.Method;
+  var DependentContract = TreatJS.Contract.Dependent;
+  var ObjectContract = TreatJS.Contract.Object;
 
-  var BaseContract = _.BaseContract;
+  var WithContract = TreatJS.Contract.With;
 
-  var FunctionContract = _.FunctionContract;
-  var MethodContract = _.MethodContract;
-  var DependentContract = _.DependentContract;
-  var ObjectContract = _.ObjectContract;
-
-  var WithContract = _.With;
-
-  var AndContract = _.And;
-  var OrContract = _.Or;
-  var NotContract = _.Not;
-
-  var Map = _.Map.Map;
-  var StringMap = _.Map.StringMap;
-  var Mapping = _.Map.Mapping;
-  var RegExpMap = _.Map.RegExpMap;
+  // Map
+  var Map = TreatJS.Map.Map;
+  var StringMap = TreatJS.Map.StringMap;
+  var Mapping = TreatJS.Map.Mapping;
+  var RegExpMap = TreatJS.Map.RegExpMap;
 
   //  ___  _     _        _    ___         _               _   
   // / _ \| |__ (_)___ __| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -57,7 +53,6 @@
     } else {
       ObjectContract.call(this, StringMap({}, strict));
     }
-
   }
   AdvancedObjectContract.prototype = Object.create(ObjectContract.prototype);
 
@@ -100,35 +95,6 @@
   //|  \/  |___| |_| |_  ___  __| |/ __|___ _ _| |_ _ _ __ _ __| |_ 
   //| |\/| / -_)  _| ' \/ _ \/ _` | (__/ _ \ ' \  _| '_/ _` / _|  _|
   //|_|  |_\___|\__|_||_\___/\__,_|\___\___/_||_\__|_| \__,_\__|\__|
-
-    // TODO, should'nt this be a convinience contract ?
-  // __  __     _   _            _  ___         _               _   
-  //|  \/  |___| |_| |_  ___  __| |/ __|___ _ _| |_ _ _ __ _ __| |_ 
-  //| |\/| / -_)  _| ' \/ _ \/ _` | (__/ _ \ ' \  _| '_/ _` / _|  _|
-  //|_|  |_\___|\__|_||_\___/\__,_|\___\___/_||_\__|_| \__,_\__|\__|
-
-  /*function MethodContract(domain, range, context) {
-    if(!(this instanceof MethodContract)) return new MethodContract(domain, range, context);
-
-    if(!(domain instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-    if(!(range instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-    if(!(context instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-
-    Object.defineProperties(this, {
-    "domain": {
-    get: function () { return domain; } },
-    "range": {
-    get: function () { return range; } },
-    "context": {
-    get: function () { return context; } }
-    });
-
-    this.toString = function() { return "(" + domain.toString() + "->" + range.toString() + "|" + context.toString() + ")"; };
-    }
-    MethodContract.prototype = Object.create(DelayedContract.prototype);
-    */
-
-
 
   function AdvancedMethodContract(domain, range, context, strict) {
     if(!(this instanceof AdvancedMethodContract)) return new AdvancedMethodContract(domain, range, context, strict);
@@ -175,46 +141,27 @@
     function ctor() {
       var binding = {};
       binding[name]=arguments;
-      return _.With(binding, contract);
+      return WithContract(binding, contract);
     }
     DependentContract.call(this, ContractConstructor(ctor, {name:name, contract:contract}));
   }
   SimpleDependentContract.prototype = Object.create(DependentContract.prototype);
 
-  /**
-   * Convenience Contracts
-   */
+  //         _               _ 
+  // _____ _| |_ ___ _ _  __| |
+  /// -_) \ /  _/ -_) ' \/ _` |
+  //\___/_\_\\__\___|_||_\__,_|
 
-  __define("AdvancedObjectContract", AdvancedObjectContract, _);
+  TreatJS.extend("Convenience", {});
 
-  __define("AdvancedFunctionContract", AdvancedFunctionContract, _);
-  __define("SimpleFunctionContract", SimpleFunctionContract, _);
+  TreatJS.define(TreatJS.Convenience, "AObject", AdvancedObjectContract);
 
-  __define("AdvancedMethodContract", AdvancedMethodContract, _);
-  __define("SimpleMethodContract", SimpleMethodContract, _);
+  TreatJS.define(TreatJS.Convenience, "AFunction", AdvancedFunctionContract);
+  TreatJS.define(TreatJS.Convenience, "SFunction", SimpleFunctionContract);
 
-  __define("SimpleDependentContract", SimpleDependentContract, _);
+  TreatJS.define(TreatJS.Convenience, "AMethod", AdvancedMethodContract);
+  TreatJS.define(TreatJS.Convenience, "SMethod", SimpleMethodContract);
 
-
-  /*
-  // TODO, test
-
-
-  // TODO
-  function ForAllContract(domain, range, strict) {
-    if(!(this instanceof ForAllContract)) return new ForAllContract(domain, range, strict);
-
-    if(!(range instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-
-    if(domain instanceof Array) {
-      FunctionContract.call(this, AdvancedObjectContract(domain, strict), range);
-    } else if(domain instanceof Object) {
-      FunctionContract.call(this, AdvancedObjectContract(domain, strict), range);
-    } else error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-  }
-  ForAllContract.prototype = Object.create(FunctionContract.prototype);
-
-*/
-
+  TreatJS.define(TreatJS.Convenience, "SDependent", SimpleDependentContract);
 
 })(TreatJS);
