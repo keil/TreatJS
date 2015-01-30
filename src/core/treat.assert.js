@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -12,92 +12,84 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-(function(_) {
+(function(TreatJS) {
 
   // out
-  var error = _.error;
-  var violation = _.violation;
-  var blame = _.blame;
-
-  var TreatJSError = _.TreatJSError;
-  var TreatJSViolation = _.TreatJSViolation;
-  var TreatJSBlame = _.TreatJSBlame;
+  var error = TreatJS.error;
+  var violation = TreatJS.violation;
+  var blame = TreatJS.blame;
 
   // prototypes
-  var Contract = _.Core.Contract;
-  var Constructor = _.Core.Constructor;
+  var Contract = TreatJS.Core.Contract;
+  var Constructor = TreatJS.Core.Constructor;
 
-  // contracts
-  var DelayedContract = _.Delayed;
-  var ImmediateContract = _.Immediate;
-  var CombinatorContract = _.Combinator;
-  var WrapperContract = _.Wrapper;
+  // core contracts
+  var DelayedContract = TreatJS.Contract.Delayed;
+  var ImmediateContract = TreatJS.Contract.Immediate;
+  var CombinatorContract = TreatJS.Contract.Combinator;
+  var WrapperContract = TreatJS.Contract.Wrapper;
 
-  var ContractConstructor = _.Constructor;
+  var BaseContract = TreatJS.Contract.Base;
 
-  var BaseContract = _.BaseContract;
+  var FunctionContract = TreatJS.Contract.Function;
+  var MethodContract = TreatJS.Contract.Method;
+  var DependentContract = TreatJS.Contract.Dependent;
+  var ObjectContract = TreatJS.Contract.Object;
 
-  var FunctionContract = _.FunctionContract;
-  var MethodContract = _.MethodContract;
-  var DependentContract = _.DependentContract;
-  var ObjectContract = _.ObjectContract;
+  var WithContract = TreatJS.Contract.With;
 
-  var WithContract = _.With;
+  var AndContract = TreatJS.Contract.And;
+  var OrContract = TreatJS.Contract.Or;
+  var NotContract = TreatJS.Contract.Not;
 
-  var AndContract = _.And;
-  var OrContract = _.Or;
-  var NotContract = _.Not;
+  var UnionContract = TreatJS.Contract.Union;
+  var IntersectionContract = TreatJS.Contract.Intersection;
+  var NegationContract = TreatJS.Contract.Negation;
 
-  var UnionContract = _.Union;
-  var IntersectionContract = _.Intersection;
-  var NegationContract = _.Negation;
+  var ReflectionContract = TreatJS.Contract.Reflection;
 
-  var ReflectionContract = _.Reflection;
+  // TODO, experimental
+  //var VariableContract = TreatJS.Polymorphic.Variable;
+  //var ContractContract = TreatJS.Polymorphic.Abstraction;
 
-  // contracts // TODO
-  var VariableContract = _.Polymorphic.Variable;
-
-  var ContractContract = _.Polymorphic.Abstraction;
-
-  // TODO
-  var TreatJS = _;
+  // core constuctors
+  var ContractConstructor = TreatJS.Constructor.Constructor;
 
   // handler
-  var FunctionHandler = TreatJS.Handler.FunctionHandler;
-  var DependentHandler = TreatJS.Handler.DependentHandler;
-  var MethodHandler = TreatJS.Handler.MethodHandler;
-  var ObjectHandler = TreatJS.Handler.ObjectHandler;
-  var RefelctionHandler = TreatJS.Handler.ReflectionHandler;
-  var FunctionHandler = TreatJS.Handler.FunctionHandler;
-  var FunctionHandler = TreatJS.Handler.FunctionHandler;
-  var FunctionHandler = TreatJS.Handler.FunctionHandler;
+  var DelayedHandler = TreatJS.Handler.Delayed;
 
-
+  var FunctionHandler = TreatJS.Handler.Function;
+  var DependentHandler = TreatJS.Handler.Dependent;
+  var MethodHandler = TreatJS.Handler.Method;
+  var ObjectHandler = TreatJS.Handler.Object;
+  
+  var RefelctionHandler = TreatJS.Handler.Reflection;
+  var NoOpHandler = TreatJS.Handler.NoOp;
 
   // maps
-  var Map = _.Map;
-  var StringMap = _.Map.StringMap;
+  var Map = TreatJS.Map.Map;
+  var StringMap = TreatJS.Map.StringMap;
 
-  // callbacks
-  var Callback = _.Callback.Callback;
-  var Handle =  _.Callback.Handle;
+  // core callbacks
+  var Callback = TreatJS.Callback.Callback;
+  var Handle =  TreatJS.Callback.Handle;
 
-  var AndCallback = _.Callback.AndCallback;
-  var OrCallback = _.Callback.OrCallback;
-  var NotCallback = _.Callback.NotCallback;
+  var RootCallback = TreatJS.Callback.Root;
+  var BaseCallback = TreatJS.Callback.Base;
+  var FunctionCallback = TreatJS.Callback.Function;
+  var ObjectCallback = TreatJS.Callback.Object;
+  var PropertyCallback = TreatJS.Callback.Property;
 
-  var RootCallback = _.Callback.RootCallback;
-  var BaseCallback = _.Callback.BaseCallback;
-  var FunctionCallback = _.Callback.FunctionCallback;
-  var ObjectCallback = _.Callback.ObjectCallback;
-  var PropertyCallback = _.Callback.PropertyCallback;
+  var AndCallback = TreatJS.Callback.And;
+  var OrCallback = TreatJS.Callback.Or;
+  var NotCallback = TreatJS.Callback.Not;
 
-  var IntersectionCallback = _.Callback.IntersectionCallback;
-  var UnionCallback = _.Callback.UnionCallback;
-  var NegationCallback = _.Callback.NegationCallback;
+  var IntersectionCallback = TreatJS.Callback.Intersection;
+  var UnionCallback = TreatJS.Callback.Union;
+  var NegationCallback = TreatJS.Callback.Negation;
 
   // logic
-  var translate = _.Logic.translate;
+  var translate = TreatJS.Logic.translate;
 
   /** log(msg)
    * @param msg String message
@@ -115,7 +107,7 @@
    * @param key String
    */
   function count(key) {
-    if(_.Config.Verbose.statistic) _.Statistic.inc(key);
+    if(_.Config.Verbose.statistic) TreatJS.Statistic.inc(key);
   }
 
   // ___               _ _              ___         _               _   
@@ -194,7 +186,7 @@
     if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
     if(_.Config.canonicalize) {
-      if(!canonical(contract)) return assert(arg, _.canonicalize(contract));
+      if(!canonical(contract)) return assert(arg, TreatJS.canonicalize(contract));
     } else {
       if(!canonical(contract)) error("Non-canonical contract", (new Error()).fileName, (new Error()).lineNumber);
     }
@@ -239,7 +231,7 @@
     //|_| \_,_|_||_|_\_\\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
     if(contract instanceof FunctionContract) {
-      if(!(arg instanceof Function)) callbackHandler(Handle(_.Logic.True, _.Logic.False, _.Logic.False));
+      if(!(arg instanceof Function)) callbackHandler(Handle(_.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
 
       var handler = new FunctionHandler(contract, global, callbackHandler);
       var proxy = new Proxy(arg, handler);
@@ -252,7 +244,7 @@
     //|_|  |_\___|\__|_||_\___/\__,_|\___\___/_||_\__|_| \__,_\__|\__|
 
     if(contract instanceof MethodContract) {
-      if(!(arg instanceof Function)) callbackHandler(Handle(_.Logic.True, _.Logic.False, _.Logic.False));
+      if(!(arg instanceof Function)) callbackHandler(Handle(_.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
 
       var handler = new MethodHandler(contract, global, callbackHandler);
       var proxy = new Proxy(arg, handler);
@@ -266,7 +258,7 @@
     //          |__/                                             
 
     else if (contract instanceof ObjectContract) {
-      if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, _.Logic.False, _.Logic.False));
+      if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
 
       /* STRICT MODE */
       if(contract.strict) {
@@ -287,7 +279,7 @@
     //         |_|                                                               
 
     else if(contract instanceof DependentContract) {
-      if(!(arg instanceof Function)) callbackHandler(Handle(_.Logic.True, _.Logic.False, _.Logic.False));
+      if(!(arg instanceof Function)) callbackHandler(Handle(_.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
 
       var handler = new DependentHandler(contract, global, callbackHandler);
       var proxy = new Proxy(arg, handler);
@@ -521,7 +513,7 @@
         if(e instanceof TreatJSError) {
           var result = e;
         } else {
-          var result = _.Logic.Conflict;
+          var result = TreatJS.Logic.Conflict;
         }
       } finally {
         if(result instanceof TreatJSError) {
@@ -577,7 +569,7 @@
         if(e instanceof TreatJSError) {
           var result = e;
         } else {
-          var result = _.Logic.Conflict;
+          var result = TreatJS.Logic.Conflict;
         }
       } finally {
         if(result instanceof TreatJSError) {
@@ -625,7 +617,7 @@
     //|_|_\___|_| |_\___\__|\__|_\___/_||_|
 
     if(contract instanceof ReflectionContract) {
-      if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, _.Logic.False, _.Logic.False));
+      if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
 
       var reflect = new ReflectionHandler(contract, global, callbackHandler);
       var noop = new NoOpHandler();
@@ -634,7 +626,7 @@
     }
 
 
-    else if(true) return _.Polymorphic.assert(arg, contract, global, callbackHandler)
+    else if(true) return TreatJS.Polymorphic.assert(arg, contract, global, callbackHandler)
 
 
     //    _      __           _ _   
@@ -812,7 +804,7 @@
         else __define(property, _[property], treatjs);
       }
 
-      var build = _.build();
+      var build = TreatJS.build();
 
       for(property in build) {
         if(property==="Base") {
@@ -839,7 +831,7 @@
     //|_| \__,_|_| \__,_|_|_|_\___|\__|_| |_\__|\___\___/_||_\__|_| \__,_\__|\__|
 
     if(contract instanceof ParametricContract) {
-      //if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, _.Logic.False, _.Logic.False));
+      //if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
       // TODO, this must be a contract
 
       //var handler = new MethodHandler(contract, global, callbackHandler);
@@ -866,7 +858,7 @@
     //|___|_||_\___\___/_||_\__|_| \__,_\__|\__|
 
     if(contract instanceof InContract) {
-      //if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, _.Logic.False, _.Logic.False));
+      //if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
 
       //var handler = new MethodHandler(contract, global, callbackHandler);
       //var proxy = new Proxy(arg, handler);
@@ -880,7 +872,7 @@
     // \___/ \_,_|\__|\___\___/_||_\__|_| \__,_\__|\__|
 
     if(contract instanceof OutContract) {
-      //if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, _.Logic.False, _.Logic.False));
+      //if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
 
       //var handler = new MethodHandler(contract, global, callbackHandler);
       //var proxy = new Proxy(arg, handler);
@@ -915,6 +907,16 @@
 
 
   }
+
+
+
+    //         _               _ 
+  // _____ _| |_ ___ _ _  __| |
+  /// -_) \ /  _/ -_) ' \/ _` |
+  //\___/_\_\\__\___|_||_\__,_|
+
+  TreatJS.extend("assert", construct);
+
 
   /**
    * Core Functions

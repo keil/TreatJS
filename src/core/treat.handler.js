@@ -250,6 +250,7 @@
 
   TreatJS.define(TreatJS.Handler, "Function", FunctionHandler);
   TreatJS.define(TreatJS.Handler, "Method", MethodHandler);
+  TreatJS.define(TreatJS.Handler, "Dependent", DependentHandler);
   TreatJS.define(TreatJS.Handler, "Object", ObjectHandler);
 
   TreatJS.define(TreatJS.Handler, "Reflection", ReflectionHandler);
