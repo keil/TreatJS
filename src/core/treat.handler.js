@@ -231,10 +231,10 @@
     else Handler.call(this);
 
     this.get = function(target, name, receiver) {
-      handler( _.Callback.Handle(_.Logic.True, _.Logic.False, _.Logic.False));
+    handler( _.Callback.Handle(_.Logic.True, _.Logic.False, _.Logic.False));
     };
-  }
-  PolymorphicHandler.prototype = Object.create(Handler.prototype);*/
+    }
+    PolymorphicHandler.prototype = Object.create(Handler.prototype);*/
 
 
 
@@ -244,13 +244,13 @@
   /// -_) \ /  _/ -_) ' \/ _` |
   //\___/_\_\\__\___|_||_\__,_|
 
-  TreatJS.extend("Hnadler", {});
+  TreatJS.extend("Handler", {});
 
   TreatJS.define(TreatJS.Handler, "Delayed", DelayedHandler);
 
   TreatJS.define(TreatJS.Handler, "Function", FunctionHandler);
-  TreatJS.define(TreatJS.Handler, "Method", MethodContract);
-  TreatJS.define(TreatJS.Handler, "Object", ObjectContract);
+  TreatJS.define(TreatJS.Handler, "Method", MethodHandler);
+  TreatJS.define(TreatJS.Handler, "Object", ObjectHandler);
 
   TreatJS.define(TreatJS.Handler, "Reflection", ReflectionHandler);
   TreatJS.define(TreatJS.Handler, "NoOp", NoOpHandler);
