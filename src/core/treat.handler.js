@@ -236,18 +236,24 @@
   }
   PolymorphicHandler.prototype = Object.create(Handler.prototype);
 
-  /**
-   * export TreatJS Handler
-   */
 
-  __define("Handler", {}, TreatJS);
 
-  __define("DelayedHandler", DelayedHandler, TreatJS.Handler);
-  __define("FunctionHandler", FunctionHandler, TreatJS.Handler);
-  __define("MethodHandler", MethodHandler, TreatJS.Handler);
-  __define("ObjectHandler", ObjectHandler, TreatJS.Handler);
-  __define("ReflectionHandler", ReflectionHandler, TreatJS.Handler);
-  __define("NoOpHandler", ReflectionHandler, TreatJS.Handler);
-  __define("PolymorphicHandler", PolymorphicHandler, TreatJS.Handler);
+
+  //         _               _ 
+  // _____ _| |_ ___ _ _  __| |
+  /// -_) \ /  _/ -_) ' \/ _` |
+  //\___/_\_\\__\___|_||_\__,_|
+
+  TreatJS.extend("Hnadler", {});
+
+  TreatJS.define(TreatJS.Handler, "Delayed", DelayedHandler);
+
+  TreatJS.define(TreatJS.Handler, "Function", FunctionHandler);
+  TreatJS.define(TreatJS.Handler, "Method", MethodContract);
+  TreatJS.define(TreatJS.Handler, "Object", ObjectContract);
+
+  TreatJS.define(TreatJS.Handler, "Reflection", ReflectionHandler);
+  TreatJS.define(TreatJS.Handler, "NoOp", NoOpHandler);
+  TreatJS.define(TreatJS.Handler, "Polymorphic", PolymorphicHandler);
 
 })(TreatJS);

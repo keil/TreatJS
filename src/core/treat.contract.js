@@ -103,13 +103,12 @@
     return "(" + this.domain.toString() + "->" + this.range.toString() + ")";
   }; 
 
-  // TODO, should'nt this be a convinience contract ?
   // __  __     _   _            _  ___         _               _   
   //|  \/  |___| |_| |_  ___  __| |/ __|___ _ _| |_ _ _ __ _ __| |_ 
   //| |\/| / -_)  _| ' \/ _ \/ _` | (__/ _ \ ' \  _| '_/ _` / _|  _|
   //|_|  |_\___|\__|_||_\___/\__,_|\___\___/_||_\__|_| \__,_\__|\__|
 
-  /*function MethodContract(domain, range, context) {
+  function MethodContract(domain, range, context) {
     if(!(this instanceof MethodContract)) return new MethodContract(domain, range, context);
 
     if(!(domain instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
@@ -117,18 +116,21 @@
     if(!(context instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
     Object.defineProperties(this, {
-    "domain": {
-    get: function () { return domain; } },
-    "range": {
-    get: function () { return range; } },
-    "context": {
-    get: function () { return context; } }
+      "domain": {
+        value: domain
+      },
+      "range": {
+        value: range
+      },
+      "context": {
+        value: context
+      }
     });
-
-    this.toString = function() { return "(" + domain.toString() + "->" + range.toString() + "|" + context.toString() + ")"; };
-    }
-    MethodContract.prototype = Object.create(DelayedContract.prototype);
-    */
+  }
+  MethodContract.prototype = Object.create(DelayedContract.prototype);
+  MethodContract.prototype.toString = function() {
+    return "(" + domain.toString() + "->" + range.toString() + "|" + context.toString() + ")";
+  };
 
   //  ___  _     _        _    ___         _               _   
   // / _ \| |__ (_)___ __| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -417,7 +419,7 @@
   TreatJS.define(TreatJS.Contract, "Base", BaseContract);
 
   TreatJS.define(TreatJS.Contract, "Function", FunctionContract);
-  // __define("MethodContract", MethodContract, _); //TODO, deprecated
+  TreatJS.define(TreatJS.Contract, "Method", MethodContract);
   TreatJS.define(TreatJS.Contract, "Dependent", DependentContract);
   TreatJS.define(TreatJS.Contract, "Object", ObjectContract);
 
