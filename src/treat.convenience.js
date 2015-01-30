@@ -101,6 +101,35 @@
   //| |\/| / -_)  _| ' \/ _ \/ _` | (__/ _ \ ' \  _| '_/ _` / _|  _|
   //|_|  |_\___|\__|_||_\___/\__,_|\___\___/_||_\__|_| \__,_\__|\__|
 
+    // TODO, should'nt this be a convinience contract ?
+  // __  __     _   _            _  ___         _               _   
+  //|  \/  |___| |_| |_  ___  __| |/ __|___ _ _| |_ _ _ __ _ __| |_ 
+  //| |\/| / -_)  _| ' \/ _ \/ _` | (__/ _ \ ' \  _| '_/ _` / _|  _|
+  //|_|  |_\___|\__|_||_\___/\__,_|\___\___/_||_\__|_| \__,_\__|\__|
+
+  /*function MethodContract(domain, range, context) {
+    if(!(this instanceof MethodContract)) return new MethodContract(domain, range, context);
+
+    if(!(domain instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+    if(!(range instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+    if(!(context instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+    Object.defineProperties(this, {
+    "domain": {
+    get: function () { return domain; } },
+    "range": {
+    get: function () { return range; } },
+    "context": {
+    get: function () { return context; } }
+    });
+
+    this.toString = function() { return "(" + domain.toString() + "->" + range.toString() + "|" + context.toString() + ")"; };
+    }
+    MethodContract.prototype = Object.create(DelayedContract.prototype);
+    */
+
+
+
   function AdvancedMethodContract(domain, range, context, strict) {
     if(!(this instanceof AdvancedMethodContract)) return new AdvancedMethodContract(domain, range, context, strict);
 

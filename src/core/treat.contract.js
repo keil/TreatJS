@@ -74,7 +74,9 @@
     });
   }
   BaseContract.prototype = Object.create(ImmediateContract.prototype);
-  this.toString = function() { return "[" + ((name!=undefined) ? name : predicate.toString()) + "]"; }; // TODO
+  BaseContract.prototype.toString = function() {
+    return "[" + ((this.name!=undefined) ? this.name : this.predicate.toString()) + "]";
+  };
 
   // ___          _   _   _          ___         _               _   
   //| __|  _ _ _ | |_| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -97,8 +99,9 @@
     });
   }
   FunctionContract.prototype = Object.create(DelayedContract.prototype);
-  this.toString = function() { return "(" + domain.toString() + "->" + range.toString() + ")"; }; // TODO
-
+  FunctionContract.prototype.toString = function() {
+    return "(" + this.domain.toString() + "->" + this.range.toString() + ")";
+  }; 
 
   // TODO, should'nt this be a convinience contract ?
   // __  __     _   _            _  ___         _               _   
@@ -148,13 +151,11 @@
     });
   }
   ObjectContract.prototype = Object.create(ImmediateContract.prototype);
-  this.toString = function() {
-    var lbr = (map.strict) ? "{" : "|";
-    var rbr = (map.strict) ? "}" : "|";
-    return lbr + map.toString() + rbr;
-  }; // TODO
-
-
+  ObjectContract.prototype.toString = function() {
+    var lbr = (this.map.strict) ? "{" : "|";
+    var rbr = (this.map.strict) ? "}" : "|";
+    return "(" + lbr + this.map.toString() + rbr + ")";
+  };
 
   // ___                        _         _    ___         _               _   
   //|   \ ___ _ __  ___ _ _  __| |___ _ _| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -174,8 +175,9 @@
     });
   }
   DependentContract.prototype = Object.create(DelayedContract.prototype);
-  this.toString = function() { return "(" + constructor.toString() + "->" + "*" + ")"; }; // TODO
-
+  DependentContract.prototype.toString = function() {
+    return "(" + this.constructor.toString() + "->" + "*" + ")";
+  };
 
   //   _           _  ___         _               _   
   //  /_\  _ _  __| |/ __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -198,8 +200,9 @@
     });
   }
   AndContract.prototype = Object.create(CombinatorContract.prototype);
-  this.toString = function() { return "(" + first.toString() + "and" + second.toString() + ")"; }; // TODO
-
+  AndContract.prototype.toString = function() {
+    return "(" + this.first.toString() + "and" + this.second.toString() + ")";
+  };
 
   //  ___       ___         _               _   
   // / _ \ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -222,7 +225,9 @@
     });
   }
   OrContract.prototype = Object.create(CombinatorContract.prototype);
-  this.toString = function() { return "(" + first.toString() + "or" + second.toString() + ")"; }; // TODO
+  OrContract.prototype.toString = function() {
+    return "(" + this.first.toString() + "or" + this.second.toString() + ")";
+  };
 
   // _  _     _    ___         _               _   
   //| \| |___| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -239,11 +244,11 @@
         value: sub
       }
     });
-
-    this.sub = sub;
-    this.toString = function() { return "(not(" + sub.toString() + "))"; };
   }
   NotContract.prototype = Object.create(WrapperContract.prototype);
+  NotContract.prototype.toString = function() {
+    return "(not" + this.sub.toString() + ")";
+  };
 
   //__      ___ _   _    ___         _               _   
   //\ \    / (_) |_| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -256,7 +261,6 @@
     if(!(binding instanceof Object)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
     if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
-    // TODO
     Object.defineProperties(this, {
       "bindings": {
         value: binding
@@ -265,15 +269,13 @@
         value: sub
       }
     });
-
-    this.toString = function() {
-      var domain = "";
-      for(name in binding) domain += " " + name;
-      return "(with {" + domain + "}" + sub.toString() + ")";
-    };
   }
   WithContract.prototype = Object.create(WrapperContract.prototype);
-
+  WithContract.prototype.toString = function() {
+    var domain = "";
+    for(name in this.binding) domain += " " + name;
+    return "(with {" + domain + "}" + this.sub.toString() + ")";
+  };
 
   // ___     _                      _   _          ___         _               _   
   //|_ _|_ _| |_ ___ _ _ ___ ___ __| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -296,7 +298,9 @@
     });
   }
   IntersectionContract.prototype = Object.create(CombinatorContract.prototype);
-  this.toString = function() { return "(" + first.toString() + "cap" + second.toString() + ")"; }; // TODO
+  IntersectionContract.prototype.toString = function() {
+    return "(" + this.first.toString() + "cap" + this.second.toString() + ")";
+  };
 
   // _   _      _          ___         _               _   
   //| | | |_ _ (_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -319,7 +323,9 @@
     });
   }
   UnionContract.prototype = Object.create(CombinatorContract.prototype);
-  this.toString = function() { return "(" + first.toString() + "cup" + second.toString() + ")"; }; // TODO
+  UnionContract.prototype.toString = function() {
+    return "(" + first.toString() + "cup" + second.toString() + ")";
+  };
 
   // _  _               _   _          ___         _               _   
   //| \| |___ __ _ __ _| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -336,11 +342,12 @@
       "sub": {
         value: sub
       }
-    });
-
-    this.toString = function() { return "(neg(" + sub.toString() + "))"; };
+    }); 
   }
   NegationContract.prototype = Object.create(WrapperContract.prototype);
+  NegationContract.prototype.toString = function() {
+    return "(neg" + sub.toString() + ")";
+  };
 
   // ___      __ _        _   _          ___         _               _   
   //| _ \___ / _| |___ __| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -363,35 +370,36 @@
     });
   }
   ReflectionContract.prototype = Object.create(ImmediateContract.prototype);
-  this.toString = function() { return "" + trap + " @ " + sub.toString(); }; // TODO
+  ReflectionContract.prototype.toString = function() {
+    return "(" + trap + " @ " + sub.toString() + ")";
+  };
 
-
+  // TODO, experimental code
   //   _   _       _               _   _          
   //  /_\ | |__ __| |_ _ _ __ _ __| |_(_)___ _ _  
   // / _ \| '_ (_-<  _| '_/ _` / _|  _| / _ \ ' \ 
   ///_/ \_\_.__/__/\__|_| \__,_\__|\__|_\___/_||_|                                            
 
-  function ContractAbstraction(vars, sub) {
+  /*function ContractAbstraction(vars, sub) {
     if(!(this instanceof ContractAbstraction)) return new ContractAbstraction(vars, sub);
 
-    if(!(binding instanceof Object)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
     if(!(variable instanceof Variable)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
     if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
     Object.defineProperties(this, {
-      "variable": {
-        value: variable
-      },
-      "sub": {
-        value: sub
-      }
+    "variable": {
+    value: variable
+    },
+    "sub": {
+    value: sub
+    }
     });
 
-  }
-  ContractAbstraction.prototype = Object.create(Contract.prototype);
-  this.toString = function() {  return "(" + varibale.toString() + "." + sub.toString() + ")"; }; // TODO
-
-
+    }
+    ContractAbstraction.prototype = Object.create(Contract.prototype);
+    ContractAbstraction.prototype.toString = function() {
+    return "(" + varibale.toString() + "." + sub.toString() + ")";
+    };*/
 
 
   //         _               _ 
@@ -401,41 +409,28 @@
 
   TreatJS.extend("Contract", {});
 
-  TreatJS.define(TreatJS.Contract, "Map", Map);
-  TreatJS.define(TreatJS.Contract, "StringMap", StringMap);
-  TreatJS.define(TreatJS.Contract, "Mapping", Mapping);
-  TreatJS.define(TreatJS.Contract, "RegExpMap", RegExpMap);
+  TreatJS.define(TreatJS.Contract, "Delayed", DelayedContract);
+  TreatJS.define(TreatJS.Contract, "Immediate", ImmediateContract);
+  TreatJS.define(TreatJS.Contract, "Combinator", CombinatorContract);
+  TreatJS.define(TreatJS.Contract, "Wrapper", WrapperContract);
 
+  TreatJS.define(TreatJS.Contract, "Base", BaseContract);
 
+  TreatJS.define(TreatJS.Contract, "Function", FunctionContract);
+  // __define("MethodContract", MethodContract, _); //TODO, deprecated
+  TreatJS.define(TreatJS.Contract, "Dependent", DependentContract);
+  TreatJS.define(TreatJS.Contract, "Object", ObjectContract);
 
-  // old
+  TreatJS.define(TreatJS.Contract, "With", WithContract);
 
-  __define("Contract", Contract, _);
+  TreatJS.define(TreatJS.Contract, "And", AndContract);
+  TreatJS.define(TreatJS.Contract, "Or", OrContract);
+  TreatJS.define(TreatJS.Contract, "Not", NotContract);
 
-  __define("BaseContract", BaseContract, _);
+  TreatJS.define(TreatJS.Contract, "Intersection", IntersectionContract);
+  TreatJS.define(TreatJS.Contract, "Union", UnionContract);
+  TreatJS.define(TreatJS.Contract, "Negation", NegationContract);
 
-  __define("FunctionContract", FunctionContract, _);
-  __define("MethodContract", MethodContract, _);
-  __define("DependentContract", DependentContract, _);
-  __define("ObjectContract", ObjectContract, _);
-
-  __define("With", WithContract, _);
-
-  __define("Union", UnionContract, _);
-  __define("Intersection", IntersectionContract, _);
-  __define("Negation", NegationContract, _);
-
-  __define("And", AndContract, _);
-  __define("Or", OrContract, _);
-  __define("Not", NotContract, _);
-
-  __define("Reflection", ReflectionContract, _);
-
-  __define("Constructor", ContractConstructor, _);
-
-  __define("Delayed", DelayedContract, _);
-  __define("Immediate", ImmediateContract, _);
-  __define("Combinator", CombinatorContract, _);
-  __define("Wrapper", WrapperContract, _);
+  TreatJS.define(TreatJS.Contract, "Reflection", ReflectionContract);
 
 })(TreatJS);

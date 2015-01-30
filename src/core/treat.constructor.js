@@ -48,13 +48,13 @@
         }
       },
       "ctor": {
-        value: this.build.bind(this);
+        value: this.build.bind(this)
       }
     });
   }
   ContractConstructor.prototype = Object.create(Constructor.prototype);
   ContractConstructor.prototype.toString = function() {
-    return "(*" + ((name!=undefined) ? name : constructor.toString()) + "*)";
+    return "[*" + ((name!=undefined) ? name : constructor.toString()) + "*]";
   };
 
   //         _               _ 
