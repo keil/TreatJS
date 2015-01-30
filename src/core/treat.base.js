@@ -25,11 +25,14 @@
     if(!(this instanceof Contract)) return new Contract();
   };
   Contract.prototype = {};
+  Contract.prototype.toString = (function() { return '[[Contract]]'; });
 
   function Constructor() {
     if(!(this instanceof Constructor)) return new Constructor();
   }
   Constructor.prototype = Object.create(Contract.prototype);
+  Constructor.prototype.toString = (function() { return '[[Contract]]'; });
+
 
   // define empty build and ctor function
   // TODO, is this step still required ?

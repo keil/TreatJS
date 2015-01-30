@@ -22,7 +22,6 @@
   var StringMap = TreatJS.Map.StringMap;
 
   var Contract = TreatJS.Core.Contract;
-  var Constructor = TreatJS.Core.Constructor;
 
   //  _____            _                  _       
   // / ____|          | |                | |      
@@ -35,21 +34,25 @@
     if(!(this instanceof DelayedContract)) return new DelayedContract();
   }
   DelayedContract.prototype = Object.create(Contract.prototype);
+  DelayedContract.prototype.toString = (function() { return '[[DelayedContract]]'; });
 
   function ImmediateContract() {
     if(!(this instanceof ImmediateContract)) return new ImmediateContract();
   }
   ImmediateContract.prototype = Object.create(Contract.prototype);
+  ImmediateContract.prototype.toString = (function() { return '[[ImmediateContract]]'; });
 
   function CombinatorContract() {
     if(!(this instanceof CombinatorContract)) return new CombinatorContract();
   }
   CombinatorContract.prototype = Object.create(Contract.prototype);
+  CombinatorContract.prototype.toString = (function() { return '[[CombinatorContract]]'; });
 
   function WrapperContract() {
     if(!(this instanceof WrapperContract)) return new WrapperContract();
   }
   WrapperContract.prototype = Object.create(Contract.prototype);
+  WrapperContract.prototype.toString = (function() { return '[[WrapperContract]]'; });
 
   // ___                ___         _               _   
   //| _ ) __ _ ___ ___ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -63,13 +66,15 @@
 
     Object.defineProperties(this, {
       "predicate": {
-        get: function () { return predicate; } },
+        value: predicate
+      },
       "name": {
-        get: function () { return name; } }
+        value: name
+      }
     });
-    this.toString = function() { return "[" + ((name!=undefined) ? name : predicate.toString()) + "]"; };
   }
   BaseContract.prototype = Object.create(ImmediateContract.prototype);
+  this.toString = function() { return "[" + ((name!=undefined) ? name : predicate.toString()) + "]"; }; // TODO
 
   // ___          _   _   _          ___         _               _   
   //| __|  _ _ _ | |_| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -84,14 +89,15 @@
 
     Object.defineProperties(this, {
       "domain": {
-        get: function () { return domain; } },
+        value: domain
+      },
       "range": {
-        get: function () { return range; } }
+        value: range
+      }
     });
-
-    this.toString = function() { return "(" + domain.toString() + "->" + range.toString() + ")"; };
   }
   FunctionContract.prototype = Object.create(DelayedContract.prototype);
+  this.toString = function() { return "(" + domain.toString() + "->" + range.toString() + ")"; }; // TODO
 
 
   // TODO, should'nt this be a convinience contract ?
@@ -100,7 +106,7 @@
   //| |\/| / -_)  _| ' \/ _ \/ _` | (__/ _ \ ' \  _| '_/ _` / _|  _|
   //|_|  |_\___|\__|_||_\___/\__,_|\___\___/_||_\__|_| \__,_\__|\__|
 
-  function MethodContract(domain, range, context) {
+  /*function MethodContract(domain, range, context) {
     if(!(this instanceof MethodContract)) return new MethodContract(domain, range, context);
 
     if(!(domain instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
@@ -108,17 +114,18 @@
     if(!(context instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
     Object.defineProperties(this, {
-      "domain": {
-        get: function () { return domain; } },
-      "range": {
-        get: function () { return range; } },
-      "context": {
-        get: function () { return context; } }
+    "domain": {
+    get: function () { return domain; } },
+    "range": {
+    get: function () { return range; } },
+    "context": {
+    get: function () { return context; } }
     });
 
     this.toString = function() { return "(" + domain.toString() + "->" + range.toString() + "|" + context.toString() + ")"; };
-  }
-  MethodContract.prototype = Object.create(DelayedContract.prototype);
+    }
+    MethodContract.prototype = Object.create(DelayedContract.prototype);
+    */
 
   //  ___  _     _        _    ___         _               _   
   // / _ \| |__ (_)___ __| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -133,18 +140,21 @@
 
     Object.defineProperties(this, {
       "strict": {
-        get: function () { return map.strict; } },
+        value: map.strict
+      },
       "map": {
-        get: function () { return map; } }
+        value: map
+      }
     });
-
-    this.toString = function() {
-      var lbr = (map.strict) ? "{" : "|";
-      var rbr = (map.strict) ? "}" : "|";
-      return lbr + map.toString() + rbr;
-    };
   }
   ObjectContract.prototype = Object.create(ImmediateContract.prototype);
+  this.toString = function() {
+    var lbr = (map.strict) ? "{" : "|";
+    var rbr = (map.strict) ? "}" : "|";
+    return lbr + map.toString() + rbr;
+  }; // TODO
+
+
 
   // ___                        _         _    ___         _               _   
   //|   \ ___ _ __  ___ _ _  __| |___ _ _| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -159,12 +169,13 @@
 
     Object.defineProperties(this, {
       "constructor": {
-        get: function () { return constructor; } }
+        value: constructor
+      }
     });
-
-    this.toString = function() { return "(" + constructor.toString() + "->" + "*" + ")"; };
   }
   DependentContract.prototype = Object.create(DelayedContract.prototype);
+  this.toString = function() { return "(" + constructor.toString() + "->" + "*" + ")"; }; // TODO
+
 
   //   _           _  ___         _               _   
   //  /_\  _ _  __| |/ __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -179,14 +190,16 @@
 
     Object.defineProperties(this, {
       "first": {
-        get: function () { return first; } },
+        value: first
+      },
       "second": {
-        get: function () { return second; } }
+        value: second
+      }
     });
-
-    this.toString = function() { return "(" + first.toString() + "and" + second.toString() + ")"; };
   }
   AndContract.prototype = Object.create(CombinatorContract.prototype);
+  this.toString = function() { return "(" + first.toString() + "and" + second.toString() + ")"; }; // TODO
+
 
   //  ___       ___         _               _   
   // / _ \ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -201,14 +214,15 @@
 
     Object.defineProperties(this, {
       "first": {
-        get: function () { return first; } },
+        value: first
+      },
       "second": {
-        get: function () { return second; } }
+        value: second
+      }
     });
-
-    this.toString = function() { return "(" + first.toString() + "or" + second.toString() + ")"; };
   }
   OrContract.prototype = Object.create(CombinatorContract.prototype);
+  this.toString = function() { return "(" + first.toString() + "or" + second.toString() + ")"; }; // TODO
 
   // _  _     _    ___         _               _   
   //| \| |___| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -222,7 +236,8 @@
 
     Object.defineProperties(this, {
       "sub": {
-        get: function () { return sub; } }
+        value: sub
+      }
     });
 
     this.sub = sub;
@@ -241,11 +256,14 @@
     if(!(binding instanceof Object)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
     if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
+    // TODO
     Object.defineProperties(this, {
-      "binding": {
-        get: function () { return binding; } },
+      "bindings": {
+        value: binding
+      },
       "sub": {
-        get: function () { return sub; } }
+        value: sub
+      }
     });
 
     this.toString = function() {
@@ -270,14 +288,15 @@
 
     Object.defineProperties(this, {
       "first": {
-        get: function () { return first; } },
+        value: first
+      },
       "second": {
-        get: function () { return second; } }
+        value: second
+      }
     });
-
-    this.toString = function() { return "(" + first.toString() + "cap" + second.toString() + ")"; };
   }
   IntersectionContract.prototype = Object.create(CombinatorContract.prototype);
+  this.toString = function() { return "(" + first.toString() + "cap" + second.toString() + ")"; }; // TODO
 
   // _   _      _          ___         _               _   
   //| | | |_ _ (_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -292,14 +311,15 @@
 
     Object.defineProperties(this, {
       "first": {
-        get: function () { return first; } },
+        value: first
+      },
       "second": {
-        get: function () { return second; } }
+        value: second
+      }
     });
-
-    this.toString = function() { return "(" + first.toString() + "cup" + second.toString() + ")"; };
   }
   UnionContract.prototype = Object.create(CombinatorContract.prototype);
+  this.toString = function() { return "(" + first.toString() + "cup" + second.toString() + ")"; }; // TODO
 
   // _  _               _   _          ___         _               _   
   //| \| |___ __ _ __ _| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -314,7 +334,8 @@
 
     Object.defineProperties(this, {
       "sub": {
-        get: function () { return sub; } }
+        value: sub
+      }
     });
 
     this.toString = function() { return "(neg(" + sub.toString() + "))"; };
@@ -334,14 +355,16 @@
 
     Object.defineProperties(this, {
       "trap": {
-        get: function () { return trap; } },
+        value: trap
+      },
       "sub": {
-        get: function () { return sub; } }
+        value: sub
+      }
     });
-
-    this.toString = function() { return "" + trap + " @ " + sub.toString(); };
   }
   ReflectionContract.prototype = Object.create(ImmediateContract.prototype);
+  this.toString = function() { return "" + trap + " @ " + sub.toString(); }; // TODO
+
 
   //   _   _       _               _   _          
   //  /_\ | |__ __| |_ _ _ __ _ __| |_(_)___ _ _  
@@ -357,59 +380,18 @@
 
     Object.defineProperties(this, {
       "variable": {
-        get: function () { return vars; }
+        value: variable
       },
       "sub": {
-        get: function () { return sub; }
-      },
+        value: sub
+      }
     });
 
-    this.toString = function() {  return "(" + varibale.toString() + "." + sub.toString() + ")"; };
   }
   ContractAbstraction.prototype = Object.create(Contract.prototype);
+  this.toString = function() {  return "(" + varibale.toString() + "." + sub.toString() + ")"; }; // TODO
 
 
-
-
-
-
-
-
-  //  _____                _                   _             
-  // / ____|              | |                 | |            
-  //| |     ___  _ __  ___| |_ _ __ _   _  ___| |_ ___  _ __ 
-  //| |    / _ \| '_ \/ __| __| '__| | | |/ __| __/ _ \| '__|
-  //| |___| (_) | | | \__ \ |_| |  | |_| | (__| || (_) | |   
-  // \_____\___/|_| |_|___/\__|_|   \__,_|\___|\__\___/|_|   
-
-  function ContractConstructor(constructor, binding, name) {
-    if(!(this instanceof ContractConstructor)) return new ContractConstructor(constructor, binding, name);
-
-    if(!(constructor instanceof Function)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-
-    Object.defineProperties(this, {
-      "constructor": {
-        get: function () { return constructor; } },
-      "name": {
-        get: function () { return name; } },
-      "binding": {
-        get: function () { return binding; } },
-      "build": {
-        get: function () { return function() {
-          return _.construct(this, arguments);
-        } } },
-      "ctor": {
-        get: function () { return this.build.bind(this);
-        } }
-    });
-
-    this.toString = function() { return "[*" + ((name!=undefined) ? name : constructor.toString()) + "*]"; };
-  }
-  ContractConstructor.prototype = Object.create(Constructor.prototype);
-
-  /**
-   * Core Contracts
-   */
 
 
   //         _               _ 
@@ -417,12 +399,12 @@
   /// -_) \ /  _/ -_) ' \/ _` |
   //\___/_\_\\__\___|_||_\__,_|
 
-  TreatJS.extend("Map", {});
+  TreatJS.extend("Contract", {});
 
-  TreatJS.define(TreatJS.Map, "Map", Map);
-  TreatJS.define(TreatJS.Map, "StringMap", StringMap);
-  TreatJS.define(TreatJS.Map, "Mapping", Mapping);
-  TreatJS.define(TreatJS.Map, "RegExpMap", RegExpMap);
+  TreatJS.define(TreatJS.Contract, "Map", Map);
+  TreatJS.define(TreatJS.Contract, "StringMap", StringMap);
+  TreatJS.define(TreatJS.Contract, "Mapping", Mapping);
+  TreatJS.define(TreatJS.Contract, "RegExpMap", RegExpMap);
 
 
 
