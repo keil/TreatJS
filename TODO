@@ -25,6 +25,10 @@ Idea, context and subject are not allowed to fulfill the contract
 is one fullfls it, than blame
 corresponds to lattice structiore
 
+- new version number
+
+- new alias file
+
 Negation:
 
        (false, false)
@@ -34,6 +38,9 @@ Negation:
         (true, true)
 
 
+- webpage docu anpassen
+- manuel 
+- export
 
 - encapsulate print/sysou
 - extend export/manual

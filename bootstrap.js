@@ -60,7 +60,7 @@ load("src/treat.verbose.js");
 load("src/treat.statistic.js");
 load("src/treat.print.js");
 
-load("src/treat.export.js");// TODO
+load("src/treat.export.js");// TODO, add new contract types
 load("src/treat.manual.js");// TODO
 
 
@@ -83,24 +83,18 @@ load("src/core/treat.contract.js");// TODO, cleanup, experimental code inside
 load("src/core/treat.constructor.js");
 
 load("src/core/treat.handler.js");// TODO, cleanup, experimental code inside
-load("src/core/treat.construct.js"); // TODO
-load("src/core/treat.assert.js");// TODO
 load("src/core/treat.canonicalize.js");// TODO, add new contract types
-
-
+load("src/core/treat.construct.js"); // TODO
+load("src/core/treat.assert.js");// TODO, cleanup, experimental code
 
 // convenience api
-load("src/treat.convenience.js");// TODO
+load("src/treat.convenience.js");
 
 // reflection api
-load("src/treat.reflect.js");// TODO
-
+load("src/treat.reflect.js");
 
 // polymorphic api
-//load("src/treat.polymorphic.js"); // TODO
-
-
-
+//load("src/treat.polymorphic.js"); // TODO experimental code
 
 //            _               _      
 // __ ___ _ _| |_ _ _ __ _ __| |_ ___

@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -12,113 +12,78 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-(function(_) {
+(function(TreatJS) {
 
-  _.build = function() {
-    var _ = {};
+  function make(target, name, value) {
+    Object.defineProperty(target, name, {
+      value: value, enumerable: true
+    });
+  }
+
+  function build() {
+    var Contract = {};
 
     // assert
-    __define("construct", this.construct, _);
-    __define("assert", this.assert, _);
+    make(Contract, "construct", TreatJS.construct);
+    make(Contract, "assert", TreatJS.assert);
 
     // contract
-    __define("Base", this.BaseContract, _);
+    make(Contract, "Base", TreatJS.Contract.Base);
 
-    __define("Function", this.FunctionContract, _);
-    __define("Method", this.MethodContract, _);
-    __define("Dependent", this.DependentContract, _);
+    make(Contract, "Function", TreatJS.Contract.Function);
+    make(Contract, "Method", TreatJS.Contract.Method);
+    make(Contract, "Dependent", TreatJS.Contract.Dependent);
 
-    __define("Object", this.ObjectContract, _);
+    make(Contract, "Object", TreatJS.Contract.Object);
 
-    __define("With", this.With, _);
+    make(Contract, "With", TreatJS.Contract.With);
 
-    __define("Union", this.Union, _);
-    __define("Intersection", this.Intersection, _);
-    __define("Negation", this.Negation, _);
+    make(Contract, "Union", TreatJS.Contract.Union);
+    make(Contract, "Intersection", TreatJS.Contract.Intersection);
+    make(Contract, "Negation", TreatJS.Contract.Negation);
 
-    __define("And", this.And, _);
-    __define("Or", this.Or, _);
-    __define("Not", this.Not, _);
+    make(Contract, "And", TreatJS.Contract.And);
+    make(Contract, "Or", TreatJS.Contract.Or);
+    make(Contract, "Not", TreatJS.Contract.Not);
 
-    __define("Reflection", this.Reflection, _);
+    make(Contract, "Reflection", TreatJS.Contract.Reflection);
 
-    __define("Polymorphic", this.Polymorphic, _);
+    //__define("Polymorphic", TreatJS.Polymorphic, _);
 
-    __define("Constructor", this.Constructor, _);
+    make(Contract, "Constructor", TreatJS.Constructor.Constructor);
 
     // convinience
-    __define("AObject", this.AdvancedObjectContract, _);
+    make(Contract, "AObject", TreatJS.Convenience.AObject);
 
-    __define("AFunction", this.AdvancedFunctionContract, _);
-    __define("SFunction", this.SimpleFunctionContract, _);
+    make(Contract, "AFunction", TreatJS.Convenience.AFunction);
+    make(Contract, "SFunction", TreatJS.Convenience.SFunction);
 
-    __define("AMethod", this.AdvancedMethodContract, _);
-    __define("SMethod", this.SimpleMethodContract, _);
+    make(Contract, "AMethod", TreatJS.Convenience.AMethod);
+    make(Contract, "SMethod", TreatJS.Convenience.SMethod);
 
-    __define("SDependent", this.SimpleDependentContract, _);
+    make(Contract, "SDependent", TreatJS.Convenience.SDependent);
 
     // reflection     
-    __define("Get", this.Reflect.Get, _);
-    __define("Set", this.Reflect.Set, _);
+    make(Contract, "Get", TreatJS.Reflection.Get);
+    make(Contract, "Set", TreatJS.Reflection.Set);
 
     // polymorphic
-    __define("Variable", this.Polymorphic.Variable, _);
+    //make(Contract, "Variable", TreatJS.Polymorphic.Variable, _);
     // TODO, add more
 
     // util
-    __define("StringMap", this.Map.StringMap, _);
-    __define("Mapping", this.Map.Mapping, _);
-    __define("RegExpMap", this.Map.RegExpMap, _);
+    make(Contract, "StringMap", TreatJS.Map.StringMap);
+    make(Contract, "Mapping", TreatJS.Map.Mapping);
+    make(Contract, "RegExpMap", TreatJS.Map.RegExpMap);
 
-    return _;
+    return Contract;
   }
 
-  /*
-  _.export = function(target, prefix, suffix) {
-    prefix = (prefix===undefined) ? "__" : prefix;
-    suffix = (suffix===undefined) ? "__" : suffix;
+  //         _               _ 
+  // _____ _| |_ ___ _ _  __| |
+  /// -_) \ /  _/ -_) ' \/ _` |
+  //\___/_\_\\__\___|_||_\__,_|
 
-    // assert
-    __define(prefix + "construct" + suffix, this.construct, target);
-    __define(prefix + "assert" + suffix, this.assert, target);
-
-    // contract
-    __define(prefix + "Base" + suffix, this.BaseContract, target);
-
-    __define(prefix + "Function" + suffix, this.FunctionContract, target);
-    __define(prefix + "Method" + suffix, this.MethodContract, target);
-    __define(prefix + "Dependent" + suffix, this.DependentContract, target);
-
-    __define(prefix + "Object" + suffix, this.ObjectContract, target);
-
-    __define(prefix + "With" + suffix, this.With, target);
-
-    __define(prefix + "Union" + suffix, this.Union, target);
-    __define(prefix + "Intersection" + suffix, this.Intersection, target);
-    __define(prefix + "Negation" + suffix, this.Negation, target);
-
-    __define(prefix + "And" + suffix, this.And, target);
-    __define(prefix + "Or" + suffix, this.Or, target);
-    __define(prefix + "Not" + suffix, this.Not, target);
-
-    __define(prefix + "Constructor" + suffix, this.Constructor, target);
-
-    // convinience
-    __define(prefix + "AObject" + suffix, this.AdvancedObjectContract, target);
-
-    __define(prefix + "AFunction" + suffix, this.AdvancedFunctionContract, target);
-    __define(prefix + "SFunction" + suffix, this.SimpleFunctionContract, target);
-
-    __define(prefix + "AMethod" + suffix, this.AdvancedMethodContract, target);
-    __define(prefix + "SMethod" + suffix, this.SimpleMethodContract, target);
-
-    __define(prefix + "SDependent" + suffix, this.SimpleDependentContract, target);
-
-    // util
-    __define(prefix + "StringMap" + suffix, this.Map.StringMap, target);
-    __define(prefix + "Mapping" + suffix, this.Map.Mapping, target);
-    __define(prefix + "RegExpMap" + suffix, this.Map.RegExpMap, target);
-  }
-  */
+  TreatJS.extend("build", build);
 
 })(TreatJS);
