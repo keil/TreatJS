@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -12,46 +12,46 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-(function(_) {
+(function(TreatJS) {
 
-  // out
-  var error = _.error;
+  // error 
+  var error = TreatJS.error;
 
   // predicates
-  var canonical = _.canonical;
-  var delayed = _.delayed;
-  var immediate = _.immediate;
+  var canonical = TreatJS.canonical;
+  var delayed = TreatJS.delayed;
+  var immediate = TreatJS.immediate;
 
   // prototypes
-  var Contract = _.Core.Contract;
-  var Constructor = _.Core.Constructor;
+  var Contract = TreatJS.Core.Contract;
+  var Constructor = TreatJS.Core.Constructor;
 
   // contracts
-  var DelayedContract = _.Delayed;
-  var ImmediateContract = _.Immediate;
-  var CombinatorContract = _.Combinator;
-  var WrapperContract = _.Wrapper;
+  var DelayedContract = TreatJS.Delayed;
+  var ImmediateContract = TreatJS.Immediate;
+  var CombinatorContract = TreatJS.Combinator;
+  var WrapperContract = TreatJS.Wrapper;
 
-  var ContractConstructor = _.Constructor;
+  var ContractConstructor = TreatJS.Constructor;
 
-  var BaseContract = _.BaseContract;
+  var BaseContract = TreatJS.BaseContract;
 
-  var FunctionContract = _.FunctionContract;
-  var MethodContract = _.MethodContract;
-  var DependentContract = _.DependentContract;
-  var ObjectContract = _.ObjectContract;
+  var FunctionContract = TreatJS.FunctionContract;
+  var MethodContract = TreatJS.MethodContract;
+  var DependentContract = TreatJS.DependentContract;
+  var ObjectContract = TreatJS.ObjectContract;
 
-  var WithContract = _.With;
+  var WithContract = TreatJS.With;
 
-  var AndContract = _.And;
-  var OrContract = _.Or;
-  var NotContract = _.Not;
+  var AndContract = TreatJS.And;
+  var OrContract = TreatJS.Or;
+  var NotContract = TreatJS.Not;
 
-  var UnionContract = _.Union;
-  var IntersectionContract = _.Intersection;
-  var NegationContract = _.Negation;
+  var UnionContract = TreatJS.Union;
+  var IntersectionContract = TreatJS.Intersection;
+  var NegationContract = TreatJS.Negation;
 
-  var ReflectionContract = _.Reflection;
+  var ReflectionContract = TreatJS.Reflection;
 
   //                        _         _ _        
   //  __ __ _ _ _  ___ _ _ (_)__ __ _| (_)______ 
@@ -317,42 +317,39 @@
 
     var sub = canonicalize(contract.sub);
 
-    // canonical contracts
-    /*if(canonical(sub)) return contract;
-      else*/ {
-        switch(true) {
-          case sub instanceof OrContract:
-            return AndContract(NotContract(sub.first), NotContract(sub.second));
-            break;
-          case sub instanceof AndContract:
-            return OrContract(NotContract(sub.first), NotContract(sub.second));
-            break;
-          case sub instanceof IntersectionContract:
-            return UnionContract(NotContract(sub.first), NotContract(sub.second));
-            break;
-          case sub instanceof UnionContract:
-            return IntersectionContract(NotContract(sub.first), NotContract(sub.second));
-            break;
-          case sub instanceof NotContract:
-            return sub.sub;
-            break;
-          case sub instanceof NegationContract:
-            return sub.sub;
-            break;
-          case sub instanceof WithContract:
-            return WithContract(sub.binding, NotContract(sub.sub));
-            break;
-          default:
-            error("Contract not implemented: " + contract.toString(), (new Error()).fileName, (new Error()).lineNumber);
-            break;
-        }
-      }  
+    switch(true) {
+      case sub instanceof OrContract:
+        return AndContract(NotContract(sub.first), NotContract(sub.second));
+        break;
+      case sub instanceof AndContract:
+        return OrContract(NotContract(sub.first), NotContract(sub.second));
+        break;
+      case sub instanceof IntersectionContract:
+        return UnionContract(NotContract(sub.first), NotContract(sub.second));
+        break;
+      case sub instanceof UnionContract:
+        return IntersectionContract(NotContract(sub.first), NotContract(sub.second));
+        break;
+      case sub instanceof NotContract:
+        return sub.sub;
+        break;
+      case sub instanceof NegationContract:
+        return sub.sub;
+        break;
+      case sub instanceof WithContract:
+        return WithContract(sub.binding, NotContract(sub.sub));
+        break;
+      default:
+        error("Contract not implemented: " + contract.toString(), (new Error()).fileName, (new Error()).lineNumber);
+        break;
+    }
   }
 
-  /**
-   * Canonicalize 
-   */
+  //         _               _ 
+  // _____ _| |_ ___ _ _  __| |
+  /// -_) \ /  _/ -_) ' \/ _` |
+  //\___/_\_\\__\___|_||_\__,_|
 
-  __define("canonicalize", canonicalize, _);
+  TreatJS.extend("canonicalize", canonicalize);
 
 })(TreatJS);

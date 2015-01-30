@@ -226,7 +226,7 @@
   //           |__/              |_|                                           
 
   // TODO - testing code
-  function PolymorphicHandler(handler) {
+  /*function PolymorphicHandler(handler) {
     if(!(this instanceof PolymorphicHandler)) return new PolymorphicHandler(contract, global, handler);
     else Handler.call(this);
 
@@ -234,7 +234,7 @@
       handler( _.Callback.Handle(_.Logic.True, _.Logic.False, _.Logic.False));
     };
   }
-  PolymorphicHandler.prototype = Object.create(Handler.prototype);
+  PolymorphicHandler.prototype = Object.create(Handler.prototype);*/
 
 
 
@@ -254,6 +254,6 @@
 
   TreatJS.define(TreatJS.Handler, "Reflection", ReflectionHandler);
   TreatJS.define(TreatJS.Handler, "NoOp", NoOpHandler);
-  TreatJS.define(TreatJS.Handler, "Polymorphic", PolymorphicHandler);
+  //TreatJS.define(TreatJS.Handler, "Polymorphic", PolymorphicHandler);
 
 })(TreatJS);

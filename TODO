@@ -11,6 +11,8 @@
 
 
 
+- test how often TreatJS extend and define are called
+
 - improve performance by removing getter
 
 

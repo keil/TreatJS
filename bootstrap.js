@@ -79,17 +79,14 @@ load("src/core/treat.map.js");// TODO, cleanup
 // polymorphic api 
 load("src/treat.polymorphic.js");// TODO
 
-load("src/core/treat.contract.js");// TODO
+load("src/core/treat.contract.js");// TODO, cleanup, experimental code inside
+load("src/core/treat.constructor.js");
 
-
-
-
-load("src/core/treat.handler.js");// TODO
-
-// load("src/core/treat.construct.js"); // TODO
-load("src/core/treat.canonicalize.js");// TODO
-
+load("src/core/treat.handler.js");// TODO, cleanup, experimental code inside
+load("src/core/treat.construct.js"); // TODO
 load("src/core/treat.assert.js");// TODO
+load("src/core/treat.canonicalize.js");// TODO, add new contract types
+
 
 
 // convenience api
