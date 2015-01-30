@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -12,13 +12,13 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-(function(_) {
+(function(TreatJS) {
 
-  var error = _.error;
-  var violation = _.violation;
-  var blame = _.blame;
+  var error = TreatJS.error;
+  var violation = TreatJS.violation;
+  var blame = TreatJS.blame;
 
-  var Contract = _.Core.Contract;
+  var Contract = TreatJS.Core.Contract;
 
   // __  __           
   //|  \/  |__ _ _ __ 
@@ -32,58 +32,66 @@
     var keys = [];
     var values = [];
 
-    this.foreach = function(callback) {
-      keys.foreach(function (index, key) {
-        callback(key, values[index]);     
-      });
-    }
-
-    this.set = function(key, value) {
-      if(!(value instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-
-      if(keys.indexOf(key)==-1) keys.push(key);
-      var index = keys.indexOf(key);
-      values[index] = value;
-
-      return keys.length;
-    }
-
     Object.defineProperties(this, {
-      "strict": {
-        get: function () { return (strict===undefined) ? false : strict; }
-      }});
-
-    this.get = function(key) {
-      return values[keys.indexOf(key)];
-    }
-
-    this.has = function(key) {
-      return (keys.indexOf(key)==-1) ? false : true;
-    }
-
-    this.slice = function(key) {
-      return values[keys.indexOf(key)];                
-    }
-
-    this.toString = function() { 
-      var mappings = "";
-      this.foreach(function(key, contract) {
-        mappings += " " + key + ":" + contract;
-      });
-      return "[" + mappings + "]";
-    };
+      "strict": { value: (strict===undefined) ? false : strict },
+      "keys": { value: keys },
+      "values": { value: values } 
+    });
   }
   Map.prototype = {};
+
+  Map.prototype.get = function(key) {
+    return this.values[this.keys.indexOf(key)];
+  }
+
+  Map.prototype.set = function(key, value) {
+    if(!(value instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+    if(this.keys.indexOf(key)==-1) this.keys.push(key);
+    var index = this.keys.indexOf(key);
+    this.values[index] = value;
+
+    return this.keys.length;
+  }
+
+  Map.prototype.has = function(key) {
+    return (this.keys.indexOf(key)==-1) ? false : true;
+  }
+
+  Map.prototype.slice = function(key) {
+    return this.values[this.keys.indexOf(key)];                
+  }
+
+  Map.prototype.toString = function() { 
+    var mappings = "";
+    this.foreach(function(key, contract) {
+      mappings += " " + key + ":" + contract;
+    });
+    return "[" + mappings + "]";
+  };
+
+  Map.prototype.foreach = function(callback) {
+    this.keys.foreach(function (index, key) {
+      callback(key, values[index]);     
+    });
+  }
+
+  // ___ _       _           __  __           
+  /// __| |_ _ _(_)_ _  __ _|  \/  |__ _ _ __ 
+  //\__ \  _| '_| | ' \/ _` | |\/| / _` | '_ \
+  //|___/\__|_| |_|_||_\__, |_|  |_\__,_| .__/
+  //                   |___/            |_|   
 
   function StringMap(elements, strict) { 
     if(!(this instanceof StringMap)) return new StringMap(elements, strict);
     else Map.call(this, strict);
 
-    var set = this.set;
-    this.set = function(key, value) {
-      if(!(typeof key === "string")) error("Wrong Type. String required, "+(typeof key)+" found.", (new Error()).fileName, (new Error()).lineNumber);
-      else set(key, value);
-    }
+    // TODO, deprecated
+    // var set = this.set;
+    // this.set = function(key, value) {
+    //  if(!(typeof key === "string")) error("Wrong Type. String required, "+(typeof key)+" found.", (new Error()).fileName, (new Error()).lineNumber);
+    //  else set(key, value);
+    // }
 
     if(elements instanceof Array) {
       var base = this; 
@@ -97,6 +105,16 @@
     } else {}
   }
   StringMap.prototype = Object.create(Map.prototype);
+  StringMap.prototype.set = function(key, value) {
+    if(!(typeof key === "string")) error("Wrong Type. String required, "+(typeof key)+" found.", (new Error()).fileName, (new Error()).lineNumber);
+    else Map.prototype.set.call(this, key, value);
+  }
+
+  // __  __                _           
+  //|  \/  |__ _ _ __ _ __(_)_ _  __ _ 
+  //| |\/| / _` | '_ \ '_ \ | ' \/ _` |
+  //|_|  |_\__,_| .__/ .__/_|_||_\__, |
+  //            |_|  |_|         |___/ 
 
   function Mapping(regexp, contract) {
     if(!(this instanceof Mapping)) return new Mapping(regexp, contract);
@@ -105,38 +123,42 @@
     if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
     Object.defineProperties(this, {
-      "regexp": {
-        get: function () { return regexp; } },
-      "contract": {
-        get: function () { return contract; } }
+      "regexp": { value: regexp },
+      "contract": { value: contract }
     });        
   }
+  // ___          ___     __  __           
+  //| _ \___ __ _| __|_ _|  \/  |__ _ _ __ 
+  //|   / -_) _` | _|\ \ / |\/| / _` | '_ \
+  //|_|_\___\__, |___/_\_\_|  |_\__,_| .__/
+  //        |___/                    |_|   
 
   function RegExpMap(elements) {
     if(!(this instanceof RegExpMap)) return new RegExpMap(elements);
     else Map.call(this, false);
 
-    var set = this.set;
-    this.set = function(key, value) {
+    // TODO, cleanup
+    /*var set = this.set;
+      this.set = function(key, value) {
       if(!(key instanceof RegExp)) error("Wrong Type. RegExp required, "+(typeof key)+" found.", (new Error()).fileName, (new Error()).lineNumber);
       else set(key, value);
-    }
+      }
 
-    this.has = function(key) {
+      this.has = function(key) {
       var has = false;
       this.foreach(function(index, contract) {
-        has = (index.test(key)) ? true : key;
+      has = (index.test(key)) ? true : key;
       });
       return has;
-    }
+      }
 
-    this.slice = function(key) {
+      this.slice = function(key) {
       var contracts = [];
       this.foreach(function(index, contract) {
-        if(index.test(key)) contracts.push(contract);
+      if(index.test(key)) contracts.push(contract);
       });
       return contracts;
-    }
+      }*/
 
     if(elements instanceof Array) {
       var base = this; 
@@ -148,15 +170,37 @@
   }
   RegExpMap.prototype = Object.create(Map.prototype);
 
-  /**
-   * Map
-   */
+  RegExpMap.prototype.set = function(key, value) {
+    if(!(key instanceof RegExp)) error("Wrong Type. RegExp required, "+(typeof key)+" found.", (new Error()).fileName, (new Error()).lineNumber);
+    else Map.prototype.set.call(this, key, value);
+  }
 
-  __define("Map", {}, _);
+  RegExpMap.prototype.has = function(key) {
+    var has = false;
+    this.foreach(function(index, contract) {
+      has = (index.test(key)) ? true : key;
+    });
+    return has;
+  }
 
-  __define("Map", Map, _.Map);
-  __define("StringMap", StringMap, _.Map);
-  __define("Mapping", Mapping, _.Map);
-  __define("RegExpMap", RegExpMap, _.Map);
+  RegExpMap.prototype.slice = function(key) {
+    var contracts = [];
+    this.foreach(function(index, contract) {
+      if(index.test(key)) contracts.push(contract);
+    });
+    return contracts;
+  }
+
+  //         _               _ 
+  // _____ _| |_ ___ _ _  __| |
+  /// -_) \ /  _/ -_) ' \/ _` |
+  //\___/_\_\\__\___|_||_\__,_|
+
+  TreatJS.extend("Map", {});
+
+  TreatJS.define(TreatJS.Map, "Map", Map);
+  TreatJS.define(TreatJS.Map, "StringMap", StringMap);
+  TreatJS.define(TreatJS.Map, "Mapping", Mapping);
+  TreatJS.define(TreatJS.Map, "RegExpMap", RegExpMap);
 
 })(TreatJS);
