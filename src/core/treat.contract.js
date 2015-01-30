@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -12,17 +12,17 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-(function(_) {
+(function(TreatJS) {
 
-  var error = _.error;
-  var violation = _.violation;
-  var blame = _.blame;
+  var error = TreatJS.error;
+  var violation = TreatJS.violation;
+  var blame = TreatJS.blame;
 
-  var Map = _.Map.Map;
-  var StringMap = _.Map.StringMap;
+  var Map = TreatJS.Map.Map;
+  var StringMap = TreatJS.Map.StringMap;
 
-  var Contract = _.Core.Contract;
-  var Constructor = _.Core.Constructor;
+  var Contract = TreatJS.Core.Contract;
+  var Constructor = TreatJS.Core.Constructor;
 
   //  _____            _                  _       
   // / ____|          | |                | |      
@@ -410,6 +410,23 @@
   /**
    * Core Contracts
    */
+
+
+  //         _               _ 
+  // _____ _| |_ ___ _ _  __| |
+  /// -_) \ /  _/ -_) ' \/ _` |
+  //\___/_\_\\__\___|_||_\__,_|
+
+  TreatJS.extend("Map", {});
+
+  TreatJS.define(TreatJS.Map, "Map", Map);
+  TreatJS.define(TreatJS.Map, "StringMap", StringMap);
+  TreatJS.define(TreatJS.Map, "Mapping", Mapping);
+  TreatJS.define(TreatJS.Map, "RegExpMap", RegExpMap);
+
+
+
+  // old
 
   __define("Contract", Contract, _);
 

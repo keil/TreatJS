@@ -43,12 +43,22 @@ function TreatJS(configuration, verbose, out) {
   Object.defineProperties(this, {
     "out": { value: (out===undefined) ? {} : out }
   });
+
+  // store current Function.prototype.toString
+  this.extend("Base", {});
+  this.define(this.Base, "toString",  Function.prototype.toString);
 }
 TreatJS.prototype = {};
 TreatJS.prototype.toString = (function() { return '[[TreatJS]]'; });
 
 TreatJS.prototype.extend = function(name, value) {
   Object.defineProperty(this, name, {
+    value: value, enumerable: true
+  });
+}
+
+TreatJS.prototype.define = function(target, name, value) {
+  Object.defineProperty(target, name, {
     value: value, enumerable: true
   });
 }

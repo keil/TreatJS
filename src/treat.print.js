@@ -64,7 +64,7 @@
 
   TreatJS.extend("Version", {});
 
-  Object.defineProperties(Version, {
+  Object.defineProperties(TreatJS.Version, {
     "print": { value: printVersion }
   });
 
