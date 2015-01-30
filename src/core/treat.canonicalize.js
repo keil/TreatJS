@@ -53,6 +53,123 @@
 
   var ReflectionContract = TreatJS.Reflection;
 
+  // _ __ _ _ ___ __| (_)__ __ _| |_ ___ ___
+  //| '_ \ '_/ -_) _` | / _/ _` |  _/ -_|_-<
+  //| .__/_| \___\__,_|_\__\__,_|\__\___/__/
+  //|_|                                     
+
+  /**
+   * Canonical Contracts:
+   *
+   * Immediate Contracts I,J ::=
+   *  B | (I cap J)
+   *  [| (I or J)]
+   *  [| (not I)]
+   *  [| with x=e I]
+   *
+   * Delayed Contracts Q,R ::=
+   *  C->D | x->C | (Q cap R) | O
+   *  [| (Q or R)]
+   *  [| (not Q)]
+   *  [| with x=e Q]
+   *
+   * Contracts C,D ::=
+   *  I | Q | (C cup D) | (I cap C)
+   *  [| (C and D) | (I or C)]
+   *
+   */
+
+  /** Canonical Contract
+   * @param contract Contract
+   * @return true if contract is in canonical form, false otherwise
+   */
+  function canonical(contract) {
+    if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+    switch(true) {
+      case immediate(contract):
+        return true;
+        break;
+      case delayed(contract):
+        return true;
+        break;
+      case contract instanceof CombinatorContract:
+        switch(true) {
+          case contract instanceof UnionContract:
+          case contract instanceof AndContract:
+            return true;
+            break;
+          case contract instanceof IntersectionContract:
+          case contract instanceof OrContract:
+            return (immediate(contract.first) && canonical(contract.second));
+        }
+        break;
+      case contract instanceof WrapperContract:
+        return canonical(contract.sub);
+        // TODO
+        //return false;
+        break;
+      default:
+        error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
+    }
+  }
+
+  /** Delayed Contract
+   * @param contract Contract
+   * @return true if contract is element of Delayed Contract, false otherwise
+   */
+  function delayed(contract) {
+    if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+    switch(true) {
+      case contract instanceof ImmediateContract:
+        return false;
+        break;
+      case contract instanceof DelayedContract:
+        return true;
+        break;
+      case contract instanceof CombinatorContract: 
+        if((contract instanceof IntersectionContract) || (contract instanceof OrContract))
+          return (delayed(contract.first) && delayed(contract.second));
+        else
+          return false;
+        break;
+      case contract instanceof WrapperContract:
+        return delayed(contract.sub);
+        break;
+      default:
+        error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
+    }
+  }
+
+  /** Immediate Contract
+   * @param contract Contract
+   * @return true if contract is element of Immediate Contract, false otherwise
+   */
+  function immediate(contract) {
+    if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+    switch(true) {
+      case contract instanceof ImmediateContract:
+        return true;
+        break;
+      case contract instanceof DelayedContract:
+        return false;
+        break;
+      case contract instanceof CombinatorContract: 
+        if((contract instanceof IntersectionContract) || (contract instanceof OrContract))
+          return (immediate(contract.first) && immediate(contract.second));
+        else
+          return false;
+        break;
+      case contract instanceof WrapperContract:
+        return immediate(contract.sub);
+        break;
+      default:
+        error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
+    }
+  }
+
   //                        _         _ _        
   //  __ __ _ _ _  ___ _ _ (_)__ __ _| (_)______ 
   // / _/ _` | ' \/ _ \ ' \| / _/ _` | | |_ / -_)
@@ -349,6 +466,10 @@
   // _____ _| |_ ___ _ _  __| |
   /// -_) \ /  _/ -_) ' \/ _` |
   //\___/_\_\\__\___|_||_\__,_|
+
+  TreatJS.extend("canonical", canonical);
+  TreatJS.extend("delayed", delayed);
+  TreatJS.extend("immediate", immediate);
 
   TreatJS.extend("canonicalize", canonicalize);
 

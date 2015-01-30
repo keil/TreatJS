@@ -23,6 +23,11 @@
   var Contract = TreatJS.Core.Contract;
   var Constructor = TreatJS.Core.Constructor;
 
+   // core contracts
+  var ImmediateContract = TreatJS.Contract.Immediate;
+
+
+
   // TODO, global, assert
 
 
