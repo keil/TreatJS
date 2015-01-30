@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -12,7 +12,7 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-(function(_) {
+(function(TreatJS) {
 
   function Statistic() {
     if(!(this instanceof Statistic)) return new Statistic();
@@ -32,18 +32,14 @@
     }
 
     Object.defineProperties(this, {
-      "inc": {
-        get: function () { return inc; } }
+      "inc": { value: inc }
     });
     Object.defineProperties(this, {
-      "reset": {
-        get: function () { return reset; } }
+      "reset": { value: reset }
     });
     Object.defineProperties(this, {
-      "get": {
-        get: function () { return get; } }
+      "get": { value: get }
     });
-
   }
 
   // counter flag for top-level contract assertions
@@ -61,6 +57,11 @@
   // counter flag for callback update operations
   Statistic.prototype.CALLBACK = "CALLBACK";
 
-  __define("Statistic", Statistic(), _);
+  //         _               _ 
+  // _____ _| |_ ___ _ _  __| |
+  /// -_) \ /  _/ -_) ' \/ _` |
+  //\___/_\_\\__\___|_||_\__,_|
+
+  TreatJS.extend("Statistic", (new Statistic()));
 
 })(TreatJS);
