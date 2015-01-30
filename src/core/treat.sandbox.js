@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -12,16 +12,16 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-(function(_) {
+(function(TreatJS) {
 
-  var error = _.error;
-  var violation = _.violation;
+  var error = TreatJS.error;
+  var violation = TreatJS.violation;
 
   /** log(msg)
    * @param msg String message
    */ 
   function log(msg, target) {
-    if(_.Config.Verbose.sandbox) {
+    if(TreatJS.Verbose.sandbox) {
       __out(padding_right(msg + " ", ".", 30) + ((target!=undefined)?" "+target:""));
       __blank();
     }
@@ -31,7 +31,7 @@
    * @param key String
    */
   function count(key) {
-    if(_.Config.Verbose.statistic) _.Statistic.inc(key);
+    if(TreatJS.Verbose.statistic) _.Statistic.inc(key);
   }
 
   // __  __           _                      
@@ -415,14 +415,6 @@
     }
   }
 
-  /**
-   * Core Functions
-   */
-
-  __define("eval", evalFunction, _);
-  __define("bind", bindFunction, _);
-  __define("wrap", wrap, _);
-
   // _    _  _      _   _         ___             _   _          
   //(_)__| \| |__ _| |_(_)_ _____| __|  _ _ _  __| |_(_)___ _ _  
   //| (_-< .` / _` |  _| \ V / -_) _| || | ' \/ _|  _| / _ \ ' \ 
@@ -456,6 +448,15 @@
     }
   }
 
-  __define("isNativeFunction", isNativeFunction, _);
+  //         _               _ 
+  // _____ _| |_ ___ _ _  __| |
+  /// -_) \ /  _/ -_) ' \/ _` |
+  //\___/_\_\\__\___|_||_\__,_|
+
+  TreatJS.extend("eval", evalFunction);
+  TreatJS.extend("bind", bindFunction);
+  TreatJS.extend("wrap", wrap);
+
+  TreatJS.define(TreatJS.Base, "isNativeFunction", isNativeFunction);
 
 })(TreatJS);

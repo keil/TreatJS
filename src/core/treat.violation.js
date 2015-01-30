@@ -101,10 +101,11 @@
    * expand
    */
 
-  TreatJS.expand("error", error);
-  TreatJS.expand("violation", violation);
-  TreatJS.expand("blame", blame);
+  TreatJS.extend("error", error);
+  TreatJS.extend("violation", violation);
+  TreatJS.extend("blame", blame);
 
+  // TODO, cleanup
   //TreatJS.expand("TreatJSError", TreatJSError);
   //TreatJS.expand("TreatJSViolation", TreatJSViolation);
   //TreatJS.expand("TreatJSBlame", TreatJSBlame);

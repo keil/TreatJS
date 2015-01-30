@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -12,7 +12,7 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-(function(_) {
+(function(TreatJS) {
 
   //  _____            _                  _       
   // / ____|          | |                | |      
@@ -28,28 +28,22 @@
 
   function Constructor() {
     if(!(this instanceof Constructor)) return new Constructor();
-
-    // empty constructor call
-    this.build = function () {};
   }
   Constructor.prototype = Object.create(Contract.prototype);
 
-  /**
-   * Core Components
-   */
+  // define empty build and ctor function
+  // TODO, is this step still required ?
+  // Constructor.prototype.build = (function () {});
+  // Constructor.prototype.ctor = (function () {});
 
-  __define("Core", {}, _);
+  //         _               _ 
+  // _____ _| |_ ___ _ _  __| |
+  /// -_) \ /  _/ -_) ' \/ _` |
+  //\___/_\_\\__\___|_||_\__,_|
 
-  __define("Contract", Contract, _.Core);
-  __define("Constructor", Constructor, _.Core);
+  TreatJS.extend("Core", {});
+  TreatJS.define(TreatJS.Core, "Contract", Contract);
+  TreatJS.define(TreatJS.Core, "Constructor", Constructor);
 
-  /**
-   * Evaluation Base
-   */
 
-  __define("Base", {}, _);
-  // references Function.prototype.toString
-  __define("toString", Function.prototype.toString, _.Base);
-
-  return _ ;
 })(TreatJS);
