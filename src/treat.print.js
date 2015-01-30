@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -12,7 +12,7 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-(function(_) {
+(function(TreatJS) {
 
   var printVersion = function() {
     __out(padding_right("TreatJS Version ", ".", 30));
@@ -57,34 +57,23 @@
     }
   }
 
-  var Version = {};
+  //         _               _ 
+  // _____ _| |_ ___ _ _  __| |
+  /// -_) \ /  _/ -_) ' \/ _` |
+  //\___/_\_\\__\___|_||_\__,_|
 
-  Object.defineProperties(_, {
-    "Version": {
-      get: function () {
-        return Version;
-      }
-    }});
+  TreatJS.extend("Version", {});
 
   Object.defineProperties(Version, {
-    "print": {
-      get: function () {
-        return printVersion;
-      }
-    }});
+    "print": { value: printVersion }
+  });
 
-  Object.defineProperties(_.Config, {
-    "print": {
-      get: function () {
-        return printConfiguration;
-      }
-    }});
+  Object.defineProperties(TreatJS.Config, {
+    "print": { value: printConfiguration }
+  });
 
-  Object.defineProperties(_.Statistic, {
-    "print": {
-      get: function () {
-        return printStatistic;
-      }
-    }});
+  Object.defineProperties(TreatJS.Statistic, {
+    "print": { value: printStatistic }
+  });
 
 })(TreatJS);
