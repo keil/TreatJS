@@ -1,5 +1,19 @@
 ## Major Tasks ##
 
+* Capsulte Log Output
+** remove global __out functions
+
+* Move MethodContract to Convinience API
+** Remove MethodHandller and assert
+
+* Remove deprecated functions in system
+** Use TreatJS. extend .. 
+
+
+
+- improve performance by removing getter
+
+
 - mey introduce a contract environment, miliar to a type environment that helps to abstract contracts
 - culd be a clone ob global 
 
