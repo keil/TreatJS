@@ -150,33 +150,36 @@
     return translate((v.t<=vp.t)&(v.f<=vp.f));
   }
 
-  /**
-   * export Logic
-   */
+  //         _               _ 
+  // _____ _| |_ ___ _ _  __| |
+  /// -_) \ /  _/ -_) ' \/ _` |
+  //\___/_\_\\__\___|_||_\__,_|
 
-  __define__("Logic", {}, TreatJS);
+  TreatJS.extend("Logic", {});
 
-  __define__("TruthValue", Value, TreatJS.Logic);
+  TreatJS.define(TreatJS.Logic, "TruthValue", Value);
 
-  __define__("and", and, TreatJS.Logic);
-  __define__("or", or, TreatJS.Logic);
-  __define__("not", not, TreatJS.Logic); 
-  __define__("implies", implies, TreatJS.Logic);
-  __define__("lesseq", lesseq, TreatJS.Logic);
+  TreatJS.define(TreatJS.Logic, "and", and);
+  TreatJS.define(TreatJS.Logic, "or", or);
+  TreatJS.define(TreatJS.Logic, "not", not); 
+  TreatJS.define(TreatJS.Logic, "implies", implies);
 
-  __define__("meet", meet, TreatJS.Logic);
-  __define__("join", join, TreatJS.Logic);
-  __define__("neg", neg, TreatJS.Logic); 
-  __define__("entails", entails, TreatJS.Logic);
-  __define__("subseteq", subseteq, TreatJS.Logic);
+  TreatJS.define(TreatJS.Logic, "lesseq", lesseq);
 
-  __define__("convolution", convolution, TreatJS.Logic);
+  TreatJS.define(TreatJS.Logic, "meet", meet);
+  TreatJS.define(TreatJS.Logic, "join", join);
+  TreatJS.define(TreatJS.Logic, "neg", neg);
+  TreatJS.define(TreatJS.Logic, "entails", entails);
 
-  // NOTE: deprecated
-  __define__("merge", join, TreatJS.Logic);
+  TreatJS.define(TreatJS.Logic, "subseteq", subseteq);
 
-  __define__("make", make, TreatJS.Logic);
-  __define__("translate", translate, TreatJS.Logic);
+  TreatJS.define(TreatJS.Logic, "convolution", convolution);
+
+  // TODO, NOTE: deprecated
+  TreatJS.define(TreatJS.Logic, "merge", join);
+
+  TreatJS.define(TreatJS.Logic, "make", make);
+  TreatJS.define(TreatJS.Logic, "translate", translate);
 
   Object.defineProperties(TreatJS.Logic, {
     "Unknown": {
