@@ -14,11 +14,19 @@
  */
 (function(TreatJS) {
 
+  var METHODS = "Methods";
+  var CORE = "Core - Contracts";
+  var CONVENIENCE = "Convenience - Contracts";
+  var REFLECTION = "Reflection - Contracts";
+
+  var MAPS = "Maps";
+  var MISCELLANEOUS = "Miscellaneous";
+
   function makeManual() {
     var Manual = [];
 
-    function include (name, entry, classid) {
-      var id = (classid || "Miscellaneous");
+    function add (name, entry, classid) {
+      var id = (classid || MISCELLANEOUS);
       if (Manual[id] == undefined) Manual[id] = [];
       Manual[id][name] = entry;
     }
@@ -27,9 +35,9 @@
       var str = "";
       for (var cl in Manual) {
         ck
-        str += "* " + cl + "\n\n";
+          str += cl + ":\n\n";
         for (var en in Manual[cl]) {
-          str += "** " + en + "\n";
+          str += " - " + en + "\n";
         }
         str += "\n";
       }
@@ -37,54 +45,61 @@
     }
 
     Object.defineProperty(Manual, "toString", {
-      get: function () { return toString; },
-      enumerable: false
+      value: toString, enumerable: false
     });
 
-    // assert
-    include("assert", this.assert, "Methods");
-    include("construct", this.construct, "Methods");
+    // methods
+    add("assert", METHODS);
+    add("construct", METHODS);
 
     // contract
-    include("Base", this.BaseContract, "Core - Contracts");
+    add("Base", CORE);
 
-    include("Function", this.FunctionContract, "Core - Contracts");
-    include("Method", this.MethodContract, "Core - Contracts");
-    include("Dependent", this.DependentContract, "Core - Contracts");
+    add("Function", CORE);
+    add("Method", CORE);
+    add("Dependent", CORE);
 
-    include("Object", this.ObjectContract, "Core - Contracts");
+    add("Object", CORE);
 
-    include("With", this.With, "Core - Contracts");
+    add("With", CORE);
 
-    include("Union", this.Union, "Core - Contracts");
-    include("Intersection", this.Intersection, "Core - Contracts");
-    include("Negation", this.Negation, "Core - Contracts");
+    add("Union", CORE);
+    add("Intersection", CORE);
+    add("Negation", CORE);
 
-    include("And", this.And, "Core - Contracts");
-    include("Or", this.Or, "Core - Contracts");
-    include("Not", this.Not, "Core - Contracts");
+    add("And", CORE);
+    add("Or", CORE);
+    add("Not", CORE);
 
-    include("Constructor", this.Constructor, "Constructors");
+    add("Constructor", this.Constructor, "Constructors");
 
     // convinience
-    include("AObject", this.AdvancedObjectContract, "Convenience - Contracts");
+    add("AObject", CONVENIENCE);
 
-    include("AFunction", this.AdvancedFunctionContract, "Convenience - Contracts");
-    include("SFunction", this.SimpleFunctionContract, "Convenience - Contracts");
+    add("AFunction", CONVENIENCE);
+    add("SFunction", CONVENIENCE);
 
-    include("AMethod", this.AdvancedMethodContract, "Convenience - Contracts");
-    include("SMethod", this.SimpleMethodContract, "Convenience - Contracts");
+    add("AMethod", CONVENIENCE);
+    add("SMethod", CONVENIENCE);
 
-    include("SDependent", this.SimpleDependentContract, "Convenience - Contracts");
+    add("SDependent", CONVENIENCE);
+
+    // refelction
+    // TODO, add reflection API
 
     // util
-    include("StringMap", this.Map.StringMap, "Maps");
-    include("RegExpMap", this.Map.RegExpMap, "Maps");
-    include("Mapping", this.Map.Mapping, "Maps");
+    add("StringMap", MAPS);
+    add("RegExpMap", MAPS);
+    add("Mapping", MAPS);
 
     return Manual;
   }
 
-  _.Manual = makeManual();
+  //         _               _ 
+  // _____ _| |_ ___ _ _  __| |
+  /// -_) \ /  _/ -_) ' \/ _` |
+  //\___/_\_\\__\___|_||_\__,_|
+
+  TreatJS.extend("Manual", makeManual());
 
 })(TreatJS);

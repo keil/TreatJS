@@ -58,10 +58,10 @@ load("src/treat.config.js");
 load("src/treat.verbose.js");
 
 load("src/treat.statistic.js");
-load("src/treat.print.js");
+load("src/treat.print.js"); // TODO, ass print package, print export, print manual
 
 load("src/treat.export.js");// TODO, add new contract types
-load("src/treat.manual.js");// TODO
+load("src/treat.manual.js");// TODO, add new contarct types
 
 
 // core api
