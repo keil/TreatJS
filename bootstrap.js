@@ -40,8 +40,8 @@ load("src/treat.js");
 // TreatJS // TODO
 var TreatJS = new TreatJS({// 
   /****/assertion: true,// as 
-    /**/membrane: false, 
-    /**/decompile: false, 
+    /**/membrane: true, 
+    /**/decompile: true, 
     /**/canonicalize: true
 }, {
   /****/assert: false,

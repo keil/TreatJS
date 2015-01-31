@@ -49,10 +49,10 @@ function _makeFunctionContract_(call) {
       args[i] = _makeBaseContract_(call[i]);
     }
   }
-  var map = _.Map.StringMap(args);
-  var domain = _.ObjectContract(map);
+  var map = TreatJS.Map.StringMap(args);
+  var domain = TreatJS.Contract.Object(map);
   var range = _makeBaseContract_(call[-1]);
-  var contract = _.FunctionContract(domain, range);
+  var contract = TreatJS.Contract.Function(domain, range);
 
   return contract;
 }

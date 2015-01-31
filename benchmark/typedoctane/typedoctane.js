@@ -37,31 +37,31 @@ function _freshID_() {
 
 // contarcts
 
-var typeOfNumber = TreatJS.BaseContract(function(arg) {
+var typeOfNumber = TreatJS.Contract.Base(function(arg) {
   return ((typeof arg) === "number");
 },"typeOfNumber");
 
-var typeOfString = TreatJS.BaseContract(function(arg) {
+var typeOfString = TreatJS.Contract.Base(function(arg) {
   return ((typeof arg) === "string");
 },"typeOfString");
 
-var typeOfBoolean = TreatJS.BaseContract(function(arg) {
+var typeOfBoolean = TreatJS.Contract.Base(function(arg) {
   return ((typeof arg) === "boolean");
 },"typeOfBoolean");
 
-var typeOfObject =  TreatJS.BaseContract(function(arg) {
+var typeOfObject =  TreatJS.Contract.Base(function(arg) {
   return ((typeof arg) === "object");
 },"typeOfObject");
 
-var typeOfFunction = TreatJS.BaseContract(function(arg) {
+var typeOfFunction = TreatJS.Contract.Base(function(arg) {
   return ((typeof arg) === "function");
 },"typeOfFunction");
 
-var typeOfUndefined = TreatJS.BaseContract(function(arg) {
+var typeOfUndefined = TreatJS.Contract.Base(function(arg) {
   return ((typeof arg) === "undefined");
 },"typeOfUndefined");
 
-var any = TreatJS.BaseContract(function(arg) {
+var any = TreatJS.Contract.Base(function(arg) {
   return true;
 },"any");
 

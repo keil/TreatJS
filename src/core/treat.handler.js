@@ -14,6 +14,24 @@
  */
 (function(TreatJS) {
 
+  // core callbacks
+  var Callback = TreatJS.Callback.Callback;
+  var Handle =  TreatJS.Callback.Handle;
+
+  var RootCallback = TreatJS.Callback.Root;
+  var BaseCallback = TreatJS.Callback.Base;
+  var FunctionCallback = TreatJS.Callback.Function;
+  var ObjectCallback = TreatJS.Callback.Object;
+  var PropertyCallback = TreatJS.Callback.Property;
+
+  var AndCallback = TreatJS.Callback.And;
+  var OrCallback = TreatJS.Callback.Or;
+  var NotCallback = TreatJS.Callback.Not;
+
+  var IntersectionCallback = TreatJS.Callback.Intersection;
+  var UnionCallback = TreatJS.Callback.Union;
+  var NegationCallback = TreatJS.Callback.Negation;
+
   // _    _                 _ _           
   //| |  | |               | | |          
   //| |__| | __ _ _ __   __| | | ___ _ __ 

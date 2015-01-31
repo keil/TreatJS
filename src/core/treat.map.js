@@ -71,6 +71,7 @@
   };
 
   Map.prototype.foreach = function(callback) {
+    var values = this.values;
     this.keys.foreach(function (index, key) {
       callback(key, values[index]);     
     });
