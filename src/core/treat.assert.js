@@ -19,6 +19,10 @@
   var violation = TreatJS.violation;
   var blame = TreatJS.blame;
 
+  var TreatJSError = TreatJS.Error.TreatJSError;
+  var TreatJSViolation = TreatJS.Error.TreatJSViolation;
+  var TreatJSBlame = TreatJS.Error.TreatJSBlame;
+
   // prototypes
   var Contract = TreatJS.Core.Contract;
   var Constructor = TreatJS.Core.Constructor;
@@ -152,8 +156,8 @@
 
     // copy bindings
     var raw = {};
-    for(var name in global) {
-      raw[name] = gloanl[name];
+    for(var name in bindings) {
+      raw[name] = bindings[name];
     }
 
     Object.defineProperties(this, {
@@ -242,7 +246,7 @@
         blame(contract, msg, (new Error()).fileName, (new Error()).lineNumber);
       }
     }, contract);
-    return assertWith(arg, contract, new Global(), callback.rootHandler);
+    return assertWith(arg, contract, new Global({}), callback.rootHandler);
   }
 
   function assertWith(arg, contract, global, callbackHandler) {

@@ -47,6 +47,7 @@ Object.defineProperty(Array.prototype, "clear", {value: function() {
 /* Dump Values to String Output
 */
 function __dump(value) {
+  throw new Error('__dump is deprecated');
   if (value === Object(value)) return "[" + typeof value + "]";
   if (typeof value == "string") return "\"" + value + "\"";
   return "" + value;
@@ -54,6 +55,7 @@ function __dump(value) {
 
 
 function __define(name, property, target) {
+  throw new Error('__define is deprecated' + (new Error).stack);
   //print("!!! deprecated !!!");
   Object.defineProperty(target, name, {
     get: function () { return property; },
@@ -62,6 +64,7 @@ function __define(name, property, target) {
 }
 
 function __getter(name, getter, target) {
+  throw new Error('__getter is deprecated' + (new Error).stack);
   //print("!!! deprecated !!!");
   Object.defineProperty(target, name, {
     get: getter,
@@ -80,18 +83,21 @@ function __export(name, property, target) {
 */
 
 function __define__(name, value, target) {
+  //throw new Error('__define__ is deprecated' + (new Error).stack);
   Object.defineProperty(target, name, {
     value: value, enumerable: true
   });
 }
 
 function __getter__(name, getter, target) {
+  //throw new Error('__getter__ is deprecated' + (new Error).stack);
   Object.defineProperty(target, name, {
     get: getter, enumerable: true
   });
 }
 
 function __setter__(name, getter, target) {
+  //throw new Error('__setter__ is deprecated' + (new Error).stack);
   Object.defineProperty(target, name, {
     get: getter, enumerable: true
   });

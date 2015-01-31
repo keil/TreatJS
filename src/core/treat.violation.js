@@ -105,9 +105,10 @@
   TreatJS.extend("violation", violation);
   TreatJS.extend("blame", blame);
 
-  // TODO, cleanup
-  //TreatJS.expand("TreatJSError", TreatJSError);
-  //TreatJS.expand("TreatJSViolation", TreatJSViolation);
-  //TreatJS.expand("TreatJSBlame", TreatJSBlame);
+  TreatJS.extend("Error", {});
+
+  TreatJS.define(TreatJS.Error, "TreatJSError", TreatJSError);
+  TreatJS.define(TreatJS.Error, "TreatJSViolation", TreatJSViolation);
+  TreatJS.define(TreatJS.Error, "TreatJSBlame", TreatJSBlame);
 
 })(TreatJS);

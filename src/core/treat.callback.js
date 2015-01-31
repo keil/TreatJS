@@ -478,18 +478,18 @@
   TreatJS.define(TreatJS.Callback, "Callback", Callback);
   TreatJS.define(TreatJS.Callback, "Handle", Handle);
 
-  TreatJS.define(TreatJS.Callback, "RootCallback", RootCallback);
-  TreatJS.define(TreatJS.Callback, "BaseCallback", BaseCallback);
-  TreatJS.define(TreatJS.Callback, "FunctionCallback", FunctionCallback);
-  TreatJS.define(TreatJS.Callback, "ObjectCallback", ObjectCallback);
-  TreatJS.define(TreatJS.Callback, "PropertyCallback", PropertyCallback);
+  TreatJS.define(TreatJS.Callback, "Root", RootCallback);
+  TreatJS.define(TreatJS.Callback, "Base", BaseCallback);
+  TreatJS.define(TreatJS.Callback, "Function", FunctionCallback);
+  TreatJS.define(TreatJS.Callback, "Object", ObjectCallback);
+  TreatJS.define(TreatJS.Callback, "Property", PropertyCallback);
 
-  TreatJS.define(TreatJS.Callback, "IntersectionCallback", IntersectionCallback);
-  TreatJS.define(TreatJS.Callback, "UnionCallback", UnionCallback);
-  TreatJS.define(TreatJS.Callback, "NegationCallback", NegationCallback);
+  TreatJS.define(TreatJS.Callback, "Intersection", IntersectionCallback);
+  TreatJS.define(TreatJS.Callback, "Union", UnionCallback);
+  TreatJS.define(TreatJS.Callback, "Negation", NegationCallback);
 
-  TreatJS.define(TreatJS.Callback, "AndCallback", AndCallback);
-  TreatJS.define(TreatJS.Callback, "OrCallback", OrCallback);
-  TreatJS.define(TreatJS.Callback, "NotCallback", NotCallback);
+  TreatJS.define(TreatJS.Callback, "And", AndCallback);
+  TreatJS.define(TreatJS.Callback, "Or", OrCallback);
+  TreatJS.define(TreatJS.Callback, "Not", NotCallback);
 
 })(TreatJS);

@@ -13,7 +13,7 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-var GreaterThanZero = TreatJS.BaseContract(function(arg) {
+var GreaterThanZero = TreatJS.Contract.Base(function(arg) {
   return (arg>0);
 },"GreaterThanZero");
 
@@ -28,4 +28,4 @@ function predicate(arg) {
   return true;
 }
 
-var sec = _.assert(obj, _.BaseContract(predicate));
+var sec = _.assert(obj, TreatJS.Contract.Base(predicate));

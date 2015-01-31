@@ -17,41 +17,34 @@
   // error 
   var error = TreatJS.error;
 
-  // predicates
-  var canonical = TreatJS.canonical;
-  var delayed = TreatJS.delayed;
-  var immediate = TreatJS.immediate;
-
   // prototypes
   var Contract = TreatJS.Core.Contract;
   var Constructor = TreatJS.Core.Constructor;
 
   // contracts
-  var DelayedContract = TreatJS.Delayed;
-  var ImmediateContract = TreatJS.Immediate;
-  var CombinatorContract = TreatJS.Combinator;
-  var WrapperContract = TreatJS.Wrapper;
+  var DelayedContract = TreatJS.Contract.Delayed;
+  var ImmediateContract = TreatJS.Contract.Immediate;
+  var CombinatorContract = TreatJS.Contract.Combinator;
+  var WrapperContract = TreatJS.Contract.Wrapper;
 
-  var ContractConstructor = TreatJS.Constructor;
+  var BaseContract = TreatJS.Contract.Base;
 
-  var BaseContract = TreatJS.BaseContract;
+  var FunctionContract = TreatJS.Contract.Function;
+  var MethodContract = TreatJS.Contract.Method;
+  var DependentContract = TreatJS.Contract.Dependent;
+  var ObjectContract = TreatJS.Contract.Object;
 
-  var FunctionContract = TreatJS.FunctionContract;
-  var MethodContract = TreatJS.MethodContract;
-  var DependentContract = TreatJS.DependentContract;
-  var ObjectContract = TreatJS.ObjectContract;
+  var WithContract = TreatJS.Contract.With;
 
-  var WithContract = TreatJS.With;
+  var AndContract = TreatJS.Contract.And;
+  var OrContract = TreatJS.Contract.Or;
+  var NotContract = TreatJS.Contract.Not;
 
-  var AndContract = TreatJS.And;
-  var OrContract = TreatJS.Or;
-  var NotContract = TreatJS.Not;
+  var UnionContract = TreatJS.Contract.Union;
+  var IntersectionContract = TreatJS.Contract.Intersection;
+  var NegationContract = TreatJS.Contract.Negation;
 
-  var UnionContract = TreatJS.Union;
-  var IntersectionContract = TreatJS.Intersection;
-  var NegationContract = TreatJS.Negation;
-
-  var ReflectionContract = TreatJS.Reflection;
+  var ReflectionContract = TreatJS.Contract.Reflection;
 
   // _ __ _ _ ___ __| (_)__ __ _| |_ ___ ___
   //| '_ \ '_/ -_) _` | / _/ _` |  _/ -_|_-<
@@ -113,7 +106,7 @@
         error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
     }
   }
-
+  
   /** Delayed Contract
    * @param contract Contract
    * @return true if contract is element of Delayed Contract, false otherwise

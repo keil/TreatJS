@@ -313,7 +313,7 @@
   /**
    * Polymorphic Contracts
    */
-
+/*
   __define("Polymorphic", {}, _);
 
   __define("Variable", VariableContract, _.Polymorphic);
@@ -327,5 +327,5 @@
   __define("Out", OutContract, _.Polymorphic);
 
   __define("assert", assertWith, _.Polymorphic);
-
+*/
 })(TreatJS);

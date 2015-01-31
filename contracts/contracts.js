@@ -24,7 +24,9 @@
     if (Contracts[id] == undefined) Contracts[id] = [];
 
     Contracts[id][name] = contract;
-    __define(name, contract, this);
+    
+    Object.defineProperty(this, name, {value:contract});
+    //__define(name, contract, this); 
   }
 
   var toString = function () {
