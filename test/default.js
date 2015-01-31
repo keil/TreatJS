@@ -16,7 +16,7 @@
 
 
 //load("test/blame/negation.js");
-
+/*
 var A = Contract.Polymorphic.Variable("A");
 var B = Contract.Polymorphic.Variable("B");
 var C = Contract.Polymorphic.Variable("C");
@@ -32,7 +32,7 @@ function id(x) {
 var f = Contract.assert(id, F);
 print(f(1));
 
-
+*/
 
 
 

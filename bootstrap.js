@@ -103,8 +103,8 @@ load("src/treat.reflect.js");
 
 var Contract = TreatJS.build();
 
-load("contracts/contracts.js");
-load("contracts/aliases.js");
+load("contracts/contracts.js"); // TODO, renew
+load("contracts/aliases.js"); // TODO, renew
 
 
 

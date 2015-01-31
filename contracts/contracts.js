@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -13,10 +13,10 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-(function(_) {
-
+(function(TreatJS) {
+  
   var Contracts = [];
-  __define("Contracts", Contracts, _);
+  //__define("Contracts", Contracts, _);
 
   function __regeister (name, contract, classid) {
     var id = (classid || "Miscellaneous");
@@ -51,7 +51,7 @@
    * Predefined Contarcts
    */
 
-  var Any = TreatJS.BaseContract(function(arg) {
+  var Any = TreatJS.Contract.Base(function(arg) {
     return true; 
   },"Any");
 
@@ -59,27 +59,27 @@
 
   /* TypeOf-Contracts */
 
-  var typeOfNumber = TreatJS.BaseContract(function(arg) {
+  var typeOfNumber = TreatJS.Contract.Base(function(arg) {
     return ((typeof arg) === "number");
   },"typeOfNumber");
 
-  var typeOfString = TreatJS.BaseContract(function(arg) {
+  var typeOfString = TreatJS.Contract.Base(function(arg) {
     return ((typeof arg) === "string");
   },"typeOfString");
 
-  var typeOfBoolean = TreatJS.BaseContract(function(arg) {
+  var typeOfBoolean = TreatJS.Contract.Base(function(arg) {
     return ((typeof arg) === "boolean");
   },"typeOfBoolean");
 
-  var typeOfObject =  TreatJS.BaseContract(function(arg) {
+  var typeOfObject =  TreatJS.Contract.Base(function(arg) {
     return ((typeof arg) === "object");
   },"typeOfObject");
 
-  var typeOfFunction = TreatJS.BaseContract(function(arg) {
+  var typeOfFunction = TreatJS.Contract.Base(function(arg) {
     return ((typeof arg) === "function");
   },"typeOfFunction");
 
-  var typeOfUndefined = TreatJS.BaseContract(function(arg) {
+  var typeOfUndefined = TreatJS.Contract.Base(function(arg) {
     return ((typeof arg) === "undefined");
   },"typeOfUndefined");
 
@@ -92,11 +92,11 @@
 
 
   // typeOf Base Contract
-  var typeOf = TreatJS.BaseContract(function (arg) {
+  var typeOf = TreatJS.Contract.Base(function (arg) {
     return ((typeof arg) === type);
   }, "typeOf");
 
-  var TypeOf = TreatJS.Constructor( function ( type ) {
+  var TypeOf = TreatJS.Constructor.Constructor( function ( type ) {
     return Contract.Base(function (arg) {
       return ((typeof arg) === type);
     }, "typeOf " + type);
@@ -107,7 +107,7 @@
 
   /* InstanceOf-Contracts */
 
-  var instanceOf =  TreatJS.BaseContract(function(arg) {
+  var instanceOf =  TreatJS.Contract.Base(function(arg) {
     return (arg instanceof target); 
   },"instanceOf");
 
@@ -115,43 +115,43 @@
 
 
 
-  var instanceOfObject =  TreatJS.With({Object:Object}, TreatJS.BaseContract(function(arg) {
+  var instanceOfObject =  TreatJS.Contract.With({Object:Object}, TreatJS.Contract.Base(function(arg) {
     return (arg instanceof Object); 
   },"instanceOfObject"));
 
-  var instanceOfFunction =  TreatJS.With({Function:Function}, TreatJS.BaseContract(function(arg) {
+  var instanceOfFunction =  TreatJS.Contract.With({Function:Function}, TreatJS.Contract.Base(function(arg) {
     return (arg instanceof Function); 
   },"instanceOfFunction"));
 
-  var instanceOfArray = TreatJS.With({Array:Array}, TreatJS.BaseContract(function(arg) {
+  var instanceOfArray = TreatJS.Contract.With({Array:Array}, TreatJS.Contract.Base(function(arg) {
     return (arg instanceof Array);
   },"instanceOfArray"));
 
-  var instanceOfBoolean = TreatJS.With({Boolean:Boolean}, TreatJS.BaseContract(function(arg) {
+  var instanceOfBoolean = TreatJS.Contract.With({Boolean:Boolean}, TreatJS.Contract.Base(function(arg) {
     return (arg instanceof Boolean);
   },"instanceOfBoolean"));
 
-  var instanceOfDate = TreatJS.With({Date:Date}, TreatJS.BaseContract(function(arg) {
+  var instanceOfDate = TreatJS.Contract.With({Date:Date}, TreatJS.Contract.Base(function(arg) {
     return (arg instanceof Date);
   },"instanceOfDate"));
 
-  var instanceOfIterator = TreatJS.With({Iterator:Iterator}, TreatJS.BaseContract(function(arg) {
+  var instanceOfIterator = TreatJS.Contract.With({Iterator:Iterator}, TreatJS.Contract.Base(function(arg) {
     return (arg instanceof Iterator);
   },"instanceOfIterator"));
 
-  var instanceOfNumber = TreatJS.With({Number:Number}, TreatJS.BaseContract(function(arg) {
+  var instanceOfNumber = TreatJS.Contract.With({Number:Number}, TreatJS.Contract.Base(function(arg) {
     return (arg instanceof Number);
   },"instanceOfNumber"));
 
-  var instanceOfString = TreatJS.With({String:String}, TreatJS.BaseContract(function(arg) {
+  var instanceOfString = TreatJS.Contract.With({String:String}, TreatJS.Contract.Base(function(arg) {
     return (arg instanceof String);
   },"instanceOfString"));
 
-  var instanceOfRegExp = TreatJS.With({RegExp:RegExp}, TreatJS.BaseContract(function(arg) {
+  var instanceOfRegExp = TreatJS.Contract.With({RegExp:RegExp}, TreatJS.Contract.Base(function(arg) {
     return (arg instanceof RegExp);
   },"instanceOfRegExp"));
 
-  var instanceOfError = TreatJS.With({Error:Error}, TreatJS.BaseContract(function(arg) {
+  var instanceOfError = TreatJS.Contract.With({Error:Error}, TreatJS.Contract.Base(function(arg) {
     return (arg instanceof Error);
   },"instanceOfError"));
 
@@ -166,7 +166,7 @@
   __regeister("instanceOfRegExp", instanceOfRegExp, "instanceOf - Contracts");
   __regeister("instanceOfError", instanceOfError, "instanceOf - Contracts");
 
-  var InstanceOf = TreatJS.Constructor(function(target) {
+  var InstanceOf = TreatJS.Constructor.Constructor(function(target) {
     return Contract.Base(function(arg) {
       return (arg instanceof target); 
     },"instanceOf")
@@ -176,23 +176,23 @@
 
   /* Is-Contracts */
 
-  var isNaN= TreatJS.BaseContract(function(arg) {
+  var isNaN= TreatJS.Contract.Base(function(arg) {
     return (arg === NaN);
   },"isNaN");
 
-  var isUndefined = TreatJS.With({undefined:undefined}, TreatJS.BaseContract(function(arg) {
+  var isUndefined = TreatJS.Contract.With({undefined:undefined}, TreatJS.Contract.Base(function(arg) {
     return (arg === undefined);
   },"isUndefined"));
 
-  var isNull = TreatJS.BaseContract(function(arg) {
+  var isNull = TreatJS.Contract.Base(function(arg) {
     return (arg === null);
   },"isNull");
 
-  var isTrue = TreatJS.BaseContract(function(arg) {
+  var isTrue = TreatJS.Contract.Base(function(arg) {
     return (arg) ? true : false; 
   },"isTrue");
 
-  var isFalse = TreatJS.BaseContract(function(arg) {
+  var isFalse = TreatJS.Contract.Base(function(arg) {
     return (arg) ? false : true; 
   },"isFalse");
 
@@ -206,11 +206,11 @@
 
   /* Is-Contracts */
 
-  var isPrimitiveValue = TreatJS.BaseContract(function(arg) {
+  var isPrimitiveValue = TreatJS.Contract.Base(function(arg) {
     return (target !== Object(target)) ? true : false; 
   },"isPrimitiveValue");
 
-  var isNativeFunction = TreatJS.BaseContract(function(arg) {
+  var isNativeFunction = TreatJS.Contract.Base(function(arg) {
     return (Function.prototype.toString.apply(func).indexOf('[native code]') > -1); 
   },"isNativeFunction");
 
@@ -221,23 +221,23 @@
 
   /* Miscellaneous */
 
-  var Even = TreatJS.With({Math:Math}, TreatJS.BaseContract(function(arg) {
+  var Even = TreatJS.Contract.With({Math:Math}, TreatJS.Contract.Base(function(arg) {
     return (Math.abs(arg) % 2 === 0);
   },"Even"));
 
-  var Odd = TreatJS.With({Math:Math}, TreatJS.BaseContract(function(arg) {
+  var Odd = TreatJS.Contract.With({Math:Math}, TreatJS.Contract.Base(function(arg) {
     return (Math.abs(arg) % 2 === 1);
   },"Odd"));
 
-  var Pos = TreatJS.BaseContract(function(arg) {
+  var Pos = TreatJS.Contract.Base(function(arg) {
     return (arg > 0);
   },"Pos");
 
-  var Neg = TreatJS.BaseContract(function(arg) {
+  var Neg = TreatJS.Contract.Base(function(arg) {
     return (arg < 0);
   },"Neg");
 
-  var Zero = TreatJS.BaseContract(function(arg) {
+  var Zero = TreatJS.Contract.Base(function(arg) {
     return (arg === 0);
   },"Zero");
 
@@ -248,11 +248,11 @@
   __regeister("Zero", Zero, "Miscellaneous");
 
 
-  var between = TreatJS.BaseContract(function(arg) {
+  var between = TreatJS.Contract.Base(function(arg) {
     return (min < arg) && (arg < max);
   },"between");
 
-  var Between = TreatJS.Constructor( function (min, max) {
+  var Between = TreatJS.Constructor.Constructor( function (min, max) {
     return Contract.Base( function (arg) {
       return (min < arg) && (arg < max);
     }, "Between " + min + "-" + max);
@@ -261,30 +261,30 @@
   __regeister("between", between, "Miscellaneous");
   __regeister("Between", Between, "Miscellaneous");
 
-  var UpperCase = TreatJS.BaseContract(function(arg) {
+  var UpperCase = TreatJS.Contract.Base(function(arg) {
     return (/^[A-Z]+$/).test(arg);
   }, "UpperCase");
 
-  var LowerCase = TreatJS.BaseContract(function(arg) {
+  var LowerCase = TreatJS.Contract.Base(function(arg) {
     return (/^[a-z]+$/).test(arg);
   }, "UpperCase");
 
   __regeister("UpperCase", UpperCase, "Miscellaneous");
   __regeister("LowerCase", LowerCase, "Miscellaneous");
 
-  var LengthOf = TreatJS.Constructor(function(length) {
+  var LengthOf = TreatJS.Constructor.Constructor(function(length) {
     return Contract.Base(function(arg) {
       return (arg.length === length); 
     },"lengthOf")
   }, "LengthOf").ctor;
 
-  var LengthLt = TreatJS.Constructor(function(length) {
+  var LengthLt = TreatJS.Constructor.Constructor(function(length) {
     return Contract.Base(function(arg) {
       return (arg.length < length); 
     },"lengthLt")
   }, "LengthLt").ctor;
 
-  var LengthGt = TreatJS.Constructor(function(length) {
+  var LengthGt = TreatJS.Constructor.Constructor(function(length) {
     return Contract.Base(function(arg) {
       return (arg.length > length); 
     },"lengthGt")
@@ -294,7 +294,7 @@
   __regeister("LengthLt", LengthLt, "Miscellaneous");
   __regeister("LengthGt", LengthGt, "Miscellaneous");
 
-  var ArrayOf = TreatJS.Constructor(function(target) {
+  var ArrayOf = TreatJS.Constructor.Constructor(function(target) {
     return Contract.Object(Contract.RegExpMap([
         Contract.Mapping(/^\d*$/,
           Contract.Base(function(arg) {

@@ -44,11 +44,11 @@
       },
       "build": {
         value: function() {
-          return _.construct(this, arguments);
+          return TreatJS.construct(this, arguments);
         }
       },
       "ctor": {
-        value: this.build.bind(this)
+        value: TreatJS.construct.bind(this)
       }
     });
   }
