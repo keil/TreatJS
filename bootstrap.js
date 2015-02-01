@@ -82,7 +82,7 @@ load("src/treat.polymorphic.js");// TODO
 load("src/core/treat.contract.js");// TODO, cleanup, experimental code inside
 load("src/core/treat.constructor.js");
 
-load("src/core/treat.handler.js");// TODO, cleanup, experimental code inside
+//load("src/core/treat.handler.js");// TODO, cleanup, experimental code inside
 load("src/core/treat.canonicalize.js");// TODO, add new contract types
 load("src/core/treat.construct.js"); // TODO
 load("src/core/treat.assert.js");// TODO, cleanup, experimental code
@@ -106,6 +106,39 @@ var Contract = TreatJS.build();
 load("contracts/contracts.js"); // TODO, renew
 load("contracts/aliases.js"); // TODO, renew
 
+
+/**
+
+var object = {};
+
+object.x = 0;
+//object.length = 0;
+
+object.doSth = function(x) {
+  //this.length=x;
+  this.x=x;
+}
+
+Object.defineProperty(object, 'length', {get:function() {
+  return object.x;
+}});
+
+
+
+
+var start = new Date().getTime();
+
+for (var i=0; i<1000000000; i++) {
+  if(object.length>=0) {
+    object.doSth(i);
+  }
+}
+
+var end = new Date().getTime();
+print("# " + (end-start) + " ms");
+
+
+*/
 
 
 quit();
