@@ -330,7 +330,7 @@
       handler(this);    
       }).bind(this), this);*/
 
-    Object.defineProperty(this, "subHandler", {value:function(handle) {
+    Object.defineProperty(this, "objectHandler", {value:function(handle) {
       obj = Handle.and(obj, handle);
       update();
     }});
