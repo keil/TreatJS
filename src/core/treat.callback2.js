@@ -67,6 +67,7 @@
 
   function Handle(caller, callee) {
     if(!(this instanceof Handle)) return new Handle(caller, callee);
+    // TODO, needed ?
 
     if(!(caller instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
     if(!(callee instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
@@ -75,12 +76,6 @@
       "caller": {value: caller, enumerable: true},
       "callee": {value: callee, enumerable: true}  
     });
-
-    //TODO, cleanup
-    // if(!(contract instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
-
-    //__define__("caller", caller, this);
-    //__define__("callee", callee, this);
   }
   Handle.prototype = {};
   Handle.prototype.toString = function() {
@@ -132,16 +127,17 @@
 
     var root = Handle.fresh();
 
-    // TODO, new Update Function
     function update() {
       var caller = root.caller;
       var callee = root.callee;
 
       // TODO, make update
-      handler({
+      /*handler({
         caller:caller,
         callee:callee      
-      });
+      });*/
+
+      handler(new Handle(caller, callee));
     }
 
     /*__getter__("caller", function() {
@@ -158,8 +154,13 @@
       }).bind(this), this);*/
 
     Object.defineProperty(this, "rootHandler", {value:function(handle) {
+      // merge child 
       root = Handle.merge(root, handle);
-      update();
+      
+      handler({
+        caller:root.caller,
+        callee:root.callee      
+      });
     }});
   }
   RootCallback.prototype = Object.create(Callback.prototype);
@@ -189,10 +190,13 @@
       var callee = and(domain.caller, implies(domain.callee, range.callee));
 
       // TODO, make update
-      handler({
+       /*handler({
         caller:caller,
         callee:callee      
-      });
+      });*/
+
+      handler(new Handle(caller, callee));
+
     }
 
     /*__getter__("caller", function() {
@@ -253,10 +257,12 @@
       var callee = (set) ? implies(set.callee, get.callee) : get.callee;
 
       // TODO, make update
-      handler({
+      /*handler({
         caller:caller,
         callee:callee      
-      });
+      });*/
+
+      handler(new Handle(caller, callee));
     }
 
 
@@ -311,10 +317,13 @@
       var callee = obj.callee;
 
       // TODO, make update
-      handler({
+       /*handler({
         caller:caller,
         callee:callee      
-      });
+      });*/
+
+      handler(new Handle(caller, callee));
+
     }
 
     /*__getter__("caller", function() {
@@ -358,10 +367,12 @@
       var callee = and(left.callee, right.callee);
 
       // TODO, make update
-      handler({
+       /*handler({
         caller:caller,
         callee:callee      
-      });
+      });*/
+
+      handler(new Handle(caller, callee));
     }
 
     /*__getter__("caller", function() {
@@ -417,10 +428,12 @@
       var callee = or(left.callee, right.callee);
 
       // TODO, make update
-      handler({
+       /*handler({
         caller:caller,
         callee:callee      
-      });
+      });*/
+
+      handler(new Handle(caller, callee));
     }
 
     /*__getter__("caller", function() {
@@ -474,10 +487,12 @@
       var callee = implies(sub.caller, not(sub.callee));
 
       // TODO, make update
-      handler({
+      /*handler({
         caller:caller,
         callee:callee      
-      });
+      });*/
+
+      handler(new Handle(caller, callee));
     }
 
     /*__getter__("caller", function() {
@@ -522,10 +537,12 @@
       var callee = and(implies(left.caller, left.callee), implies(right.caller, right.callee));
 
       // TODO, make update
-      handler({
+       /*handler({
         caller:caller,
         callee:callee      
-      });
+      });*/
+
+      handler(new Handle(caller, callee));
     }
 
     /*__getter__("caller", function() {
@@ -582,10 +599,12 @@
       var callee = implies(or(left.caller, right.caller), or(and(left.caller, left.callee), and(right.caller, right.callee)));
 
       // TODO, make update
-      handler({
+       /*handler({
         caller:caller,
         callee:callee      
-      });
+      });*/
+
+      handler(new Handle(caller, callee));
     }
 
 
@@ -639,10 +658,12 @@
       var callee = Tree;
 
       // TODO, make update
-      handler({
+       /*handler({
         caller:caller,
         callee:callee      
-      });
+      });*/
+
+      handler(new Handle(caller, callee));
     }
 
 
@@ -689,10 +710,12 @@
       var callee = predicate.callee;
 
       // TODO, make update
-      handler({
+       /*handler({
         caller:caller,
         callee:callee      
-      });
+      });*/
+
+      handler(new Handle(caller, callee));
     }
     /*__getter__("caller", function() {
       return predicate.caller;
