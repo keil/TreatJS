@@ -169,6 +169,7 @@
   Global.prototype = {};
 
   Global.prototype.dump = function() {
+    return this.raw;
     var dump = {};
     for(var name in this.raw) {
       dump[name] = this.raw[name];

@@ -9,6 +9,7 @@
 * Remove deprecated functions in system
 ** Use TreatJS. extend .. 
 
+* Decompile BUG
 
 
 - test how often TreatJS extend and define are called

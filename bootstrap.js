@@ -14,29 +14,29 @@
  */
 
 /*
-function TestList() {
+   function TestList() {
 
-  this.first = undefined;
-  this.last = this.first;
+   this.first = undefined;
+   this.last = this.first;
 
-  //this.length = 0;
-  Object.defineProperty(this, "length", {value:0});
-  //Object.defineProperty(this, "length", {get:function() {return 0;}});
+//this.length = 0;
+Object.defineProperty(this, "length", {value:0});
+//Object.defineProperty(this, "length", {get:function() {return 0;}});
 }
 TestList.prototype = {};
 TestList.prototype.add = function(value) {
-  return undefined;
-  var element = {value:value, next:undefined};
-  if(this.last) {
-    this.last.next = element;
-    this.last = element;
-    //this.length++; // XXX
-  }
-  else {
-    this.first = element;
-    this.last = element;
-    //this.length++; // XXX
-  };
+return undefined;
+var element = {value:value, next:undefined};
+if(this.last) {
+this.last.next = element;
+this.last = element;
+//this.length++; // XXX
+}
+else {
+this.first = element;
+this.last = element;
+//this.length++; // XXX
+};
 }
 
 
@@ -48,7 +48,7 @@ var list = new TestList();
 var start = new Date().getTime();
 
 for (var i=0; i<100000000; i++) {
-  if(list.length<10000000) list.add(i);
+if(list.length<10000000) list.add(i);
 }
 
 var end = new Date().getTime();
@@ -57,16 +57,33 @@ print("# " + (end-start) + " ms");
 
 */
 
+/*
 
 
+function decompile(fun, globalArg) {
+  count(_.Statistic.DECOMPILE);
+
+  var string = "(" + fun.toString() + ")"; 
+  var sandbox = globalArg;
+  var secureFun = eval("(function() { with(sandbox) { return " + string + " }})();");
+  return secureFun;
+}
 
 
+var x = 1;
+
+function plusX(arg) {
+  return (arg+x);
+}
 
 
+print(plusX(1));
 
 
+quit();
 
 
+*/
 
 
 
@@ -111,8 +128,8 @@ var TreatJS = new TreatJS({//
     /**/decompile: true, 
     /**/canonicalize: true
 }, {
-  /****/assert: false,
-    /**/sandbox: false,
+  /****/assert: true,
+    /**/sandbox: true,
     /**/statistic: true
 });
 
@@ -177,18 +194,18 @@ load("contracts/aliases.js"); // TODO, renew
 
 /**
 
-var object = {};
+  var object = {};
 
-object.x = 0;
+  object.x = 0;
 //object.length = 0;
 
 object.doSth = function(x) {
-  //this.length=x;
-  this.x=x;
+//this.length=x;
+this.x=x;
 }
 
 Object.defineProperty(object, 'length', {get:function() {
-  return object.x;
+return object.x;
 }});
 
 
@@ -197,9 +214,9 @@ Object.defineProperty(object, 'length', {get:function() {
 var start = new Date().getTime();
 
 for (var i=0; i<1000000000; i++) {
-  if(object.length>=0) {
-    object.doSth(i);
-  }
+if(object.length>=0) {
+object.doSth(i);
+}
 }
 
 var end = new Date().getTime();

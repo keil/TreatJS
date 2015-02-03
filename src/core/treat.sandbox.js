@@ -256,15 +256,19 @@
    */
   function preDecompile(fun, globalArg) { 
     if(_dcache.has(globalArg)) {
+      log("[[dcache hit]]"); // TODO
       var _fcache = _dcache.get(globalArg);
       if(_fcache.has(fun)) {
+        log("[[fcache hit]]"); // TODO
         return _fcache.get(fun);
       } else {
+        log("[[fcache miss]]"); // TODO
         var secureFun = decompile(fun, globalArg);
         _fcache.set(fun, secureFun);
         return secureFun;
       }
     } else {
+      log("[[dcache miss]]"); // TODO
       var _fcache = new WeakMap();
       var secureFun = decompile(fun, globalArg);
       _fcache.set(fun, secureFun);
@@ -287,6 +291,7 @@
     if(!(fun instanceof Function)) error("No Function Object", (new Error()).fileName, (new Error()).lineNumber);
 
     var secureFun = preDecompile(fun, globalArg);
+    // secure fun, eval (global, this, args) // TODO
     return secureFun.apply(thisArg, argsArray);
   }
 
