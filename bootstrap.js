@@ -13,6 +13,73 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+/*
+function TestList() {
+
+  this.first = undefined;
+  this.last = this.first;
+
+  //this.length = 0;
+  Object.defineProperty(this, "length", {value:0});
+  //Object.defineProperty(this, "length", {get:function() {return 0;}});
+}
+TestList.prototype = {};
+TestList.prototype.add = function(value) {
+  return undefined;
+  var element = {value:value, next:undefined};
+  if(this.last) {
+    this.last.next = element;
+    this.last = element;
+    //this.length++; // XXX
+  }
+  else {
+    this.first = element;
+    this.last = element;
+    //this.length++; // XXX
+  };
+}
+
+
+
+
+
+var list = new TestList();
+
+var start = new Date().getTime();
+
+for (var i=0; i<100000000; i++) {
+  if(list.length<10000000) list.add(i);
+}
+
+var end = new Date().getTime();
+
+print("# " + (end-start) + " ms");
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ___ ___ _  _ _ _ __ ___ 
 //(_-</ _ \ || | '_/ _/ -_)
 ///__/\___/\_,_|_| \__\___|
@@ -71,7 +138,8 @@ load("src/core/treat.violation.js");// TODO, cleanup
 load("src/core/treat.sandbox.js");// TODO, cdecompile hache
 
 load("src/core/treat.logic.js");// TODO, cleanup
-load("src/core/treat.callback.js");// TODO, cleanup, alternative to getter?
+//load("src/core/treat.callback.js");// TODO, cleanup, alternative to getter?
+load("src/core/treat.callback2.js");
 
 load("src/core/treat.map.js");// TODO, cleanup
 // TODO, experimental code
