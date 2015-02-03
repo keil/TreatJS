@@ -241,7 +241,7 @@
     count(_.Statistic.DECOMPILE);
 
     var string = "(" + fun.toString() + ")"; 
-    var sandbox = globalArg;
+    var sandbox = globalArg; //.dump(); // TODO
     var secureFun = eval("(function() { with(sandbox) { return " + string + " }})();");
     return secureFun;
   }
@@ -254,7 +254,7 @@
    * @param globalArg The secure global object.
    * @return a secure function
    */
-  function preDecompile(fun, globalArg) { 
+  function preDecompile(fun, globalArg) {
     if(_dcache.has(globalArg)) {
       log("[[dcache hit]]"); // TODO
       var _fcache = _dcache.get(globalArg);

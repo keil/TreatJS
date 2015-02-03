@@ -57,18 +57,6 @@ print("# " + (end-start) + " ms");
 
 */
 
-/*
-
-
-function decompile(fun, globalArg) {
-  count(_.Statistic.DECOMPILE);
-
-  var string = "(" + fun.toString() + ")"; 
-  var sandbox = globalArg;
-  var secureFun = eval("(function() { with(sandbox) { return " + string + " }})();");
-  return secureFun;
-}
-
 
 var x = 1;
 
@@ -77,13 +65,64 @@ function plusX(arg) {
 }
 
 
-print(plusX(1));
+function wrap(fun) {
 
+  function decompile(fun, globalArg) {
+    var string = "(" + fun.toString() + ")"; 
+    var sandbox = globalArg;
+    var secureFun = eval("(function() { with(sandbox) { return " + string + " }})();");
+    return secureFun;
+  }
+
+  function Handler (origin) {
+    this.has = function(scope, name) {
+     // return true;
+      return origin.hasOwnProperty(name);
+        //Object.prototype.hasOwnProperty(origin, name);
+//        (name in origin);
+      // return true; // TODO, required ?
+    };
+
+    this.get = function(target, name, receiver) {
+      return origin[name];
+    }
+
+    this.set = function(target, name, value, receiver) {
+      return origin[name] = value;
+    }
+
+    Object.defineProperty(this, "target", {
+      set: function (target) {
+        origin = target;
+      },
+      enumerable: true
+    });
+  }
+  var handler = new Handler({xxx:4711});
+  var global = new Proxy({}, handler);
+
+  var g = decompile(fun, global);
+
+  Object.defineProperty(g, "eval", {
+      value: function (global, thisArg, args) {
+        handler.target = global;
+        return this.apply(thisArg, args);
+      },
+      enumerable: true
+    });
+    return g;
+}
+
+var plusX = wrap(plusX);
+
+print(plusX(1));
+//handler.target = {x:4711};
+//print(plusX(1));
+print(plusX.eval({x:4711}, this, [5]));
 
 quit();
 
 
-*/
 
 
 

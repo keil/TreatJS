@@ -608,7 +608,9 @@
     else if(contract instanceof BaseContract) {
       count(TreatJS.Statistic.BASE);
 
-      var globalArg = global.dump();
+      //var globalArg = global.dump(); // TODO
+      var globalArg = global; // TODO
+
       var thisArg = undefined;
       var argsArray = new Array();
       argsArray.push(arg);
