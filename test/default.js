@@ -36,7 +36,7 @@ print(f(1));
 
 
 function f (x, y) {
-  return x+y;
+  return ''+x+y;
 }
 
 var add = Contract.assert(f, Contract.AFunction([typeOfNumber, typeOfNumber], typeOfNumber));

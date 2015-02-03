@@ -57,7 +57,7 @@ print("# " + (end-start) + " ms");
 
 */
 
-
+/*
 var x = 1;
 
 function plusX(arg) {
@@ -121,7 +121,7 @@ print(plusX(1));
 print(plusX.eval({x:4711}, this, [5]));
 
 quit();
-
+*/
 
 
 
@@ -167,8 +167,8 @@ var TreatJS = new TreatJS({//
     /**/decompile: true, 
     /**/canonicalize: true
 }, {
-  /****/assert: true,
-    /**/sandbox: true,
+  /****/assert: false,
+    /**/sandbox: false,
     /**/statistic: true
 });
 
@@ -191,7 +191,10 @@ load("src/treat.manual.js");// TODO, add new contarct types
 load("src/core/treat.base.js");// TODO, cleanup
 load("src/core/treat.violation.js");// TODO, cleanup
 
-load("src/core/treat.sandbox.js");// TODO, cdecompile hache
+//load("src/core/treat.sandbox.js");// TODO, cdecompile hache
+load("src/core/treat.decompile.js");// TODO, cdecompile hache
+load("src/core/treat.sandbox2.js");// TODO, cdecompile hache
+
 
 load("src/core/treat.logic.js");// TODO, cleanup
 //load("src/core/treat.callback.js");// TODO, cleanup, alternative to getter?

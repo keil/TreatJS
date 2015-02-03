@@ -149,6 +149,7 @@
   //| (_ | / _ \ '_ \/ _` | |
   // \___|_\___/_.__/\__,_|_|
 
+  // TODO, use normal object as global, same for caches
   function Global(bindings) {
     if(!(this instanceof Global)) return new Global(bindings);
 
@@ -169,7 +170,7 @@
   Global.prototype = {};
 
   Global.prototype.dump = function() {
-    return this.raw;
+    //return this.raw;
     var dump = {};
     for(var name in this.raw) {
       dump[name] = this.raw[name];
@@ -227,7 +228,7 @@
       // TODO, use something like handle.isFalse
       if(handle.caller.isFalse() || handle.callee.isFalse()) {
 
-        var msg = handle.blame();
+        var msg = contract.toString(); /*handle.blame();*/
         msg+="\n";
         msg+="Blame is on: ";
 
