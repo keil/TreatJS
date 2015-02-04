@@ -53,7 +53,7 @@
  
     Object.defineProperty(newfun, "eval", {
       value: function (global, thisArg, args) {
-        print(this.apply(thisArg, args));
+        //print(this.apply(thisArg, args));
       // TODO, setr target
         //handler.target = global;
         return this.apply(thisArg, args);

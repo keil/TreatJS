@@ -82,7 +82,7 @@
       log("[[getOwnPropertyDescriptor]]", name);
       var desc = Object.getOwnPropertyDescriptor(target, name);
       //if (desc !== undefined) desc.value = wrap(desc.value, global);
-      print(desc)
+      //print(desc) // TODO
         return desc;
     };
     this.getOwnPropertyNames = function(target) {
