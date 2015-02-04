@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -15,115 +15,110 @@
 
 function testCC(contract) {
   print("\n\n");
-  print("canonical? " + _.canonical(contract));
+  print("canonical? " + Contract.canonical(contract));
   print(contract);
 
-  if(!_.canonical(contract)) throw new Error("No canonical contract!");
-  var contractP = _.canonicalize(contract);
+  if(!Contract.canonical(contract)) throw new Error("No canonical contract!");
+  var contractP = Contract.canonicalize(contract);
   print(contractP);
-  if(!_.canonical(contractP)) throw new Error("No canonical contract!");
+  if(!Contract.canonical(contractP)) throw new Error("No canonical contract!");
 }
 
 function testNCC(contract) {
   print("\n\n");
-  print("canonical? " + _.canonical(contract));
+  print("canonical? " + Contract.canonical(contract));
   print(contract);
 
-  if(_.canonical(contract)) throw new Error("No non-canonical contract!");
-  var contractP = _.canonicalize(contract);
+  if(Contract.canonical(contract)) throw new Error("No non-canonical contract!");
+  var contractP = Contract.canonicalize(contract);
   print(contractP);
-  if(!_.canonical(contractP)) throw new Error("No canonical contract!");
+  if(!Contract.canonical(contractP)) throw new Error("No canonical contract!");
 }
 
-
-// TODO, make two test functions
-
 var bc = IsBoolean;
-var oc = _.ObjectContract(_.Map.StringMap());
-var fc = _.FunctionContract( _.ObjectContract(_.Map.StringMap({0:IsNumber})), IsNumber);
-var dc = _.DependentContract( _.Constructor(function(){}));
-
-
+var oc = Contract.Object(Contract.StringMap());
+var fc = Contract.Function( Contract.Object(Contract.StringMap({0:IsNumber})), IsNumber);
+var dc = Contract.Dependent( Contract.Constructor(function(){}));
 
 // Canonical Contracts
 // Immediate Contract
 testCC ( bc );
 testCC ( oc );
 
-testCC ( _.Or(bc, oc) );
-testCC ( _.Intersection(bc, oc) );
+testCC ( Contract.Or(bc, oc) );
+testCC ( Contract.Intersection(bc, oc) );
 
-//testCC ( _.Negation(bc) ); // TODO
-testCC ( _.Not(bc) );
+//testCC ( Contract.Negation(bc) ); // TODO
+testCC ( Contract.Not(bc) );
 
-testCC ( _.With({}, bc) );
+testCC ( Contract.With({}, bc) );
 
 // Delayed Contract
 testCC ( fc );
 testCC ( dc );
 
-testCC ( _.Or(fc, dc) );
-testCC ( _.Intersection(fc, dc) );
+testCC ( Contract.Or(fc, dc) );
+testCC ( Contract.Intersection(fc, dc) );
 
-testCC ( _.Negation(fc) );
-testCC ( _.Not(fc) );
+testCC ( Contract.Negation(fc) );
+testCC ( Contract.Not(fc) );
 
-testCC ( _.With({}, fc) );
+testCC ( Contract.With({}, fc) );
 
 // Contracts
-testCC ( _.Or(bc, fc) );
-testCC ( _.Intersection(bc, fc) );
+testCC ( Contract.Or(bc, fc) );
+testCC ( Contract.Intersection(bc, fc) );
 
-testCC ( _.And(bc, fc) );
-testCC ( _.Union(bc, fc) );
+testCC ( Contract.And(bc, fc) );
+testCC ( Contract.Union(bc, fc) );
 
-testCC ( _.And(bc, fc) );
-testCC ( _.Union(bc, fc) );
+testCC ( Contract.And(bc, fc) );
+testCC ( Contract.Union(bc, fc) );
 
-testCC ( _.Or(bc, _.And(bc, fc)) );
-testCC ( _.Intersection(bc, _.And(bc, fc)) );
+testCC ( Contract.Or(bc, Contract.And(bc, fc)) );
+testCC ( Contract.Intersection(bc, Contract.And(bc, fc)) );
 
-testCC ( _.And(_.And(bc, fc), _.Or(bc, _.And(bc, fc))) );
-testCC ( _.Union(_.And(bc, fc), _.Intersection(bc, _.And(bc, fc))) );
+testCC ( Contract.And(Contract.And(bc, fc), Contract.Or(bc, Contract.And(bc, fc))) );
+testCC ( Contract.Union(Contract.And(bc, fc), Contract.Intersection(bc, Contract.And(bc, fc))) );
 
 // Non-canonical Contracts
-testNCC ( _.Or(fc, bc) );
-testNCC ( _.Intersection(fc, bc) );
+testNCC ( Contract.Or(fc, bc) );
+testNCC ( Contract.Intersection(fc, bc) );
 
-//testNCC ( _.Negation(_.Or(bc, fc)) );
-//testNCC ( _.Negation(_.Intersection(bc, fc)) );
+//testNCC ( Contract.Negation(Contract.Or(bc, fc)) );
+//testNCC ( Contract.Negation(Contract.Intersection(bc, fc)) );
 
-//testNCC ( _.Negation(_.And(bc, fc)) );
-//testNCC ( _.Negation(_.Union(bc, fc)) );
+//testNCC ( Contract.Negation(Contract.And(bc, fc)) );
+//testNCC ( Contract.Negation(Contract.Union(bc, fc)) );
 
-//testNCC ( _.Negation(_.Or(fc, bc)) );
-//testNCC ( _.Negation(_.Intersection(fc, bc)) );
+//testNCC ( Contract.Negation(Contract.Or(fc, bc)) );
+//testNCC ( Contract.Negation(Contract.Intersection(fc, bc)) );
 
-//testNCC ( _.Negation(_.And(fc, bc)) );
-//testNCC ( _.Negation(_.Union(fc, bc)) );
+//testNCC ( Contract.Negation(Contract.And(fc, bc)) );
+//testNCC ( Contract.Negation(Contract.Union(fc, bc)) );
 
-testCC ( _.With({},_.Or(bc, fc)) );
-testCC ( _.With({},_.Intersection(bc, fc)) );
+testCC ( Contract.With({},Contract.Or(bc, fc)) );
+testCC ( Contract.With({},Contract.Intersection(bc, fc)) );
 
-//testNCC ( _.Negation(_.With({},_.Or(bc, fc))) );
-//testNCC ( _.Negation(_.With({},_.Intersection(bc, fc))) );
+//testNCC ( Contract.Negation(Contract.With({},Contract.Or(bc, fc))) );
+//testNCC ( Contract.Negation(Contract.With({},Contract.Intersection(bc, fc))) );
 
-testCC ( _.Union ( _.Intersection(fc, bc), _.Intersection(fc, bc) ));
-testNCC ( _.Intersection ( _.Union(fc, bc), _.Union(fc, bc) ));
+testCC ( Contract.Union ( Contract.Intersection(fc, bc), Contract.Intersection(fc, bc) ));
+testNCC ( Contract.Intersection ( Contract.Union(fc, bc), Contract.Union(fc, bc) ));
 
-//testCC ( _.Union ( _.Negation(_.Intersection(fc, bc)), _.Intersection(fc, bc) ));
-//testNCC ( _.Intersection ( _.Negation(_.Union(fc, bc)), _.Union(fc, bc) ));
+//testCC ( Contract.Union ( Contract.Negation(Contract.Intersection(fc, bc)), Contract.Intersection(fc, bc) ));
+//testNCC ( Contract.Intersection ( Contract.Negation(Contract.Union(fc, bc)), Contract.Union(fc, bc) ));
 
 (function() {
 
-  var contract = _.Or(
-    _.And(
-      _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
-      _.Not(_.AdvancedFunctionContract([IsString, IsString], _.Not(IsString)))
+  var contract = Contract.Or(
+    Contract.And(
+      Contract.AdFunction([IsNumber, IsNumber], IsNumber),
+      Contract.Not(Contract.AFunction([IsString, IsString], Contract.Not(IsString)))
       ),
-    _.And(
-      _.AdvancedFunctionContract([IsBoolean, IsBoolean], IsBoolean),
-      _.Not(_.AdvancedFunctionContract([IsNaN, IsNaN], _.Not(IsNaN)))
+    Contract.And(
+      Contract.AFunction([IsBoolean, IsBoolean], IsBoolean),
+      Contract.Not(Contract.AFunction([IsNaN, IsNaN], Contract.Not(IsNaN)))
       )
     );
 
@@ -131,6 +126,6 @@ testNCC ( _.Intersection ( _.Union(fc, bc), _.Union(fc, bc) ));
 
 })();
 
-testCC ( _.Not(_.And(IsNumber, GreaterThanZero)));
-testCC ( _.Not(_.Or(IsNumber, False)));
-testCC ( _.Not(_.Not(IsNumber)));
+testCC ( Contract.Not(Contract.And(IsNumber, GreaterThanZero)));
+testCC ( Contract.Not(Contract.Or(IsNumber, False)));
+testCC ( Contract.Not(Contract.Not(IsNumber)));

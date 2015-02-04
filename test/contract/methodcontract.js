@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -19,13 +19,13 @@ var func3       = function(x, y) { return (x+y);}
 
 var obj         = {p:"#"};
 
-var context = Contract.BaseContract(function(thisArg) {
+var context = Contract.Base(function(thisArg) {
   return (thisArg.p === "#");
 }, "#");
 
 obj.test = Contract.assert(
     func,
-    Contract.MethodContract(Contract.Object(Contract.Map.StringMap({0:IsNumber})), IsNumber, context)
+    Contract.Method(Contract.Object(Contract.StringMap({0:IsNumber})), IsNumber, context)
     );
 
 obj.test2 = Contract.assert(
@@ -35,7 +35,7 @@ obj.test2 = Contract.assert(
 
 obj.test3 = Contract.assert(
     func3,
-    Contract.MethodContract(Contract.Object(Contract.Map.StringMap({0:IsNumber, 1:IsNumber})), IsNumber, context)
+    Contract.Method(Contract.Object(Contract.StringMap({0:IsNumber, 1:IsNumber})), IsNumber, context)
     );
 
   obj.test(4711);
@@ -62,13 +62,13 @@ function f() {}
 
 (function() {
   var f = function(a) {return 7};
-  var c = Contract.MethodContract(Contract.Object(Contract.Map.StringMap({0:IsNumber})), IsNumber, context);
+  var c = Contract.Method(Contract.Object(Contract.StringMap({0:IsNumber})), IsNumber, context);
   obj.g = Contract.assert(f, c);
 
   obj.g(7);
   //obj.g(true);
 
-  var d = Contract.Not(Contract.MethodContract(Contract.Object(Contract.Map.StringMap({0:IsNumber})), IsNumber, context));
+  var d = Contract.Not(Contract.Method(Contract.Object(Contract.StringMap({0:IsNumber})), IsNumber, context));
   obj.h = Contract.assert(f, d);
 
   // h(7);

@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -19,13 +19,13 @@ function eqLength(preArg) {
     return (preArg.length==postArg.length);
   };
 
-  return _.BaseContract(predicate);
+  return Contract.BaseContract(predicate);
 } 
 
-var contract = _.DependentContract(_.Constructor(eqLength));
+var contract = Contract.Dependent(Contract.Constructor(eqLength));
 
 var f = function(list) {
   return Array(7);
 }
-var ff = _.assert(f, contract);
+var ff = Contract.assert(f, contract);
 ff(Array(7));

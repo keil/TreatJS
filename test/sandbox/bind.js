@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -51,7 +51,7 @@ function f() {
   // this.y=2; // violation
 
   // a; // violation
-  //  b=2; // violation
+  // b=2; // violation
 
   var u=1; // ok
   u; // ok
@@ -134,9 +134,6 @@ function h() {
   return hprime();
 }
 
-
-
-
 var x = {z:z, c:c, g:g, h:h, o:o, n:n, print:print}; // allowed values
 var ff = TreatJS.bind(f, x);
 print(ff);
@@ -147,4 +144,3 @@ ff();
 
 //print(f());
 //
-

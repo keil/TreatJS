@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -15,9 +15,9 @@
 
 var obj = {a:4711, b:"4712", c:"true"}
 
-var test = _.assert(
+var test = Contract.assert(
     obj,
-    _.Not(_.AdvancedObjectContract({a:IsNumber, b:IsString, c:IsBoolean}, false)));
+    Contract.Not(Contract.AObject({a:IsNumber, b:IsString, c:IsBoolean}, false)));
 
 //test.a;
 //test.b;
@@ -26,9 +26,9 @@ test.c;
 
 var obj = {a:"4711", b:4712, c:"true"}
 
-var test = _.assert(
+var test = Contract.assert(
     obj,
-    _.Not(_.AdvancedObjectContract({a:IsNumber, b:IsString, c:IsBoolean}, true)));
+    Contract.Not(Contract.AObject({a:IsNumber, b:IsString, c:IsBoolean}, true)));
 
 //test.a;
 //test.b;

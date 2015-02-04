@@ -1,7 +1,7 @@
 /*
  *  JavaScript Contracts
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  *  http://proglang.informatik.uni-freiburg.de/
  * All rights reserved.
  *
@@ -14,9 +14,9 @@
 
 var obj = {a:4711, b:4712, 0:4713}
 
-var test = _.assert(
+var test = Contract.assert(
     obj,
-    _.AdvancedObjectContract([IsNumber, IsBoolean]));
+    Contract.AObject([IsNumber, IsBoolean]));
 
 test.a;
 test.b;
@@ -25,9 +25,9 @@ test[0];
 //test[1];
 
 
-var test2 = _.assert(
+var test2 = Contract.assert(
     obj,
-    _.AdvancedObjectContract({a:IsNumber, c:IsNumber}));
+    Contract.AObject({a:IsNumber, c:IsNumber}));
 
 test2.a;
 test2.b;
@@ -36,9 +36,9 @@ test2[0];
 test2[1];
 
 
-var test = _.assert(
+var test = Contract.assert(
     obj,
-    _.ObjectContract(_.Map.RegExpMap([_.Map.Mapping(/a|b|c/, IsNumber), _.Map.Mapping(/0|1/, IsNumber)])));
+    Contract.Object(Contract.RegExpMap([Contract.Mapping(/a|b|c/, IsNumber), Contract.Mapping(/0|1/, IsNumber)])));
 
 test.a;
 test.b;

@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -22,12 +22,12 @@
     return (a+b);
   }
 
-  var context = _.BaseContract(function(thisArg) {
+  var context = Contract.BaseContract(function(thisArg) {
     return (thisArg.p === "#");
   }, "#");
 
-  obj.addChecked = _.assert(addUnchecked,
-    _.AdvancedMethodContract([IsNumber, IsNumber], IsNumber, context)
+  obj.addChecked = Contract.assert(addUnchecked,
+    Contract.AMethod([IsNumber, IsNumber], IsNumber, context)
     );
 
   obj.addChecked(1, 2);

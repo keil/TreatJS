@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -36,7 +36,7 @@
   //and thus the return is always false
 
   //if this contract blames the context, than the subject is false
-  
+
 })();
 
 
@@ -53,27 +53,27 @@ quit();
 
 
 /*
-(function() {
+   (function() {
 
-  function id(x) {
-    return x;
-  }
+   function id(x) {
+   return x;
+   }
 
-  function f(x, r) {
-    return r;
-  }
+   function f(x, r) {
+   return r;
+   }
 
-  var bottom = Contract.Base(function(){return false;}, "false");
-  var NumNum = Contract.AFunction([typeOfNumber], typeOfNumber);
-  var NumNumFalse = Contract.AFunction([NumNum], bottom);
-  //var g = Contract.assert(id, NumNumFalse)(f);
-  //will not work for contracts because function is not tested
-  //and thus the return is always false
+   var bottom = Contract.Base(function(){return false;}, "false");
+   var NumNum = Contract.AFunction([typeOfNumber], typeOfNumber);
+   var NumNumFalse = Contract.AFunction([NumNum], bottom);
+//var g = Contract.assert(id, NumNumFalse)(f);
+//will not work for contracts because function is not tested
+//and thus the return is always false
 
-  //g(1,1); // blame subject
-  //g(1,"a"); // blame subject
-  //g("a", 1); // blame subject
-  //g("a","a"); // blame subject
+//g(1,1); // blame subject
+//g(1,"a"); // blame subject
+//g("a", 1); // blame subject
+//g("a","a"); // blame subject
 
 })();
 */
@@ -171,4 +171,3 @@ quit();
   //plusP(1,"1",1); // blame context (blame context)
 
 })();
-

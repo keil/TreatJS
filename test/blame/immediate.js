@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -13,6 +13,5 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-var value = _.assert(4, _.Intersection(IsNumber, IsNumber));
-
-//var value = _.assert(4, _.Intersection(IsNumber, IsString));
+var value = Contract.assert(4, Contract.Intersection(IsNumber, IsNumber));
+//var value = Contract.assert(4, Contract.Intersection(IsNumber, IsString));

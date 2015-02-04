@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -25,11 +25,11 @@
     return (a+b);
   }
 
-  var intersection = _.Intersection(
-    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
-    _.AdvancedFunctionContract([IsString, IsString], IsString));
+  var intersection = Contract.Intersection(
+    Contract.AFunction([IsNumber, IsNumber], IsNumber),
+    Contract.AFunction([IsString, IsString], IsString));
 
-  var addChecked = _.assert(addUnchecked, intersection);
+  var addChecked = Contract.assert(addUnchecked, intersection);
 
   addChecked("a","b");
   addChecked(1,1);
@@ -43,11 +43,11 @@
     return (a+b);
   }
 
-  var intersection1 = _.Intersection(
-    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
-    _.AdvancedFunctionContract([IsString, IsString], IsString));
+  var intersection1 = Contract.Intersection(
+    Contract.AFunction([IsNumber, IsNumber], IsNumber),
+    Contract.AFunction([IsString, IsString], IsString));
 
-  var addChecked1 = _.assert(addUncheckedX, intersection1);
+  var addChecked1 = Contract.assert(addUncheckedX, intersection1);
 
   addChecked1(1,1);
   addChecked1("1","1");
@@ -60,17 +60,17 @@
     return /*"1"+*/(a+b);
   }
 
-  var intersection = _.Or(
-    _.And(
-      _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
-      _.Not(_.AdvancedFunctionContract([IsString, IsString], _.Not(IsString)))
+  var intersection = Contract.Or(
+    Contract.And(
+      Contract.AFunction([IsNumber, IsNumber], IsNumber),
+      Contract.Not(Contract.AFunction([IsString, IsString], Contract.Not(IsString)))
       ),
-    _.And(
-      _.AdvancedFunctionContract([IsString, IsString], IsString),
-      _.Not(_.AdvancedFunctionContract([IsNumber, IsNumber], _.Not(IsNumber)))
+    Contract.And(
+      Contract.AFunction([IsString, IsString], IsString),
+      Contract.Not(Contract.AFunction([IsNumber, IsNumber], Contract.Not(IsNumber)))
       )
     );
-  var addChecked = _.assert(addUnchecked, intersection);
+  var addChecked = Contract.assert(addUnchecked, intersection);
 
   //addChecked(1,"1");
   //addChecked("1",1);

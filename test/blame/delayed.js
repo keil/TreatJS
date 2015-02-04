@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -16,14 +16,14 @@
 function f(a) { return a+1; }
 function ff(a) { return "1"+a; }
 
-//var gf = _.assert(4, _.Intersection(IsNumber, _.AdvancedFunctionContract([IsNumber], IsNumber)));
+//var gf = Contract.assert(4, Contract.Intersection(IsNumber, Contract.AFunction([IsNumber], IsNumber)));
 
-//var g = _.assert(f, _.Intersection(IsNumber, _.AdvancedFunctionContract([IsNumber], IsNumber)));
+//var g = Contract.assert(f, Contract.Intersection(IsNumber, Contract.AFunction([IsNumber], IsNumber)));
 
-var g = _.assert(f, _.Intersection(IsFunction, _.AdvancedFunctionContract([IsNumber], IsNumber)));
+var g = Contract.assert(f, Contract.Intersection(IsFunction, Contract.AFunction([IsNumber], IsNumber)));
 g(1);
 g("a");
 
-var gg = _.assert(ff, _.Intersection(IsFunction, _.AdvancedFunctionContract([IsNumber], IsNumber)));
+var gg = Contract.assert(ff, Contract.Intersection(IsFunction, Contract.AFunction([IsNumber], IsNumber)));
 //gg(1);
 gg("a");

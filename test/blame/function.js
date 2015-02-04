@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -20,8 +20,8 @@
     return (a+b);
   }
 
-  var addChecked = _.assert(addUnchecked,
-    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber)
+  var addChecked = Contract.assert(addUnchecked,
+    Contract.AFunction([IsNumber, IsNumber], IsNumber)
     );
 
   addChecked(1, 2);
@@ -36,8 +36,8 @@
     return (a+b);
   }
 
-  var addChecked = _.assert(addUnchecked,
-    _.AdvancedFunctionContract([IsString, IsString], IsString)
+  var addChecked = Contract.assert(addUnchecked,
+    Contract.AFunction([IsString, IsString], IsString)
     );
 
   addChecked("1", "2");
@@ -51,8 +51,8 @@
   function addUnchecked(a, b) {
     return 1+(a+b);
   }
-  var addChecked = _.assert(addUnchecked, 
-    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber));
+  var addChecked = Contract.assert(addUnchecked, 
+    Contract.AFunction([IsNumber, IsNumber], IsNumber));
 
   addChecked(3,3);
   //addChecked("3","3");
@@ -65,16 +65,16 @@
     f(1);
     return 7;
   }
-  var NumNumToNumC = _.assert(NumNumToNum, 
-    _.AdvancedFunctionContract([_.AdvancedFunctionContract([IsNumber], IsNumber)], IsNumber));
+  var NumNumToNumC = Contract.assert(NumNumToNum, 
+    Contract.AFunction([Contract.AFunction([IsNumber], IsNumber)], IsNumber));
 
   NumNumToNumC(NumToNum);
 
   function NumToNumNum(x) {
     return NumToNum;
   }
-  var NumToNumNumC = _.assert(NumToNumNum, 
-      _.AdvancedFunctionContract([IsNumber], _.AdvancedFunctionContract([IsNumber], IsNumber)));
+  var NumToNumNumC = Contract.assert(NumToNumNum, 
+      Contract.AFunction([IsNumber], Contract.AFunction([IsNumber], IsNumber)));
 
   NumToNumNumC(7)(2);
   //NumToNumNumC("1")(2);
@@ -92,8 +92,8 @@
     f(1);
     return NumToNum2;
   }
-  var NumNumToNumNumC = _.assert(NumNumToNumNum, 
-      _.AdvancedFunctionContract([_.AdvancedFunctionContract([IsNumber], IsNumber)], _.AdvancedFunctionContract([IsNumber], IsNumber)));
+  var NumNumToNumNumC = Contract.assert(NumNumToNumNum, 
+      Contract.AFunction([Contract.AFunction([IsNumber], IsNumber)], Contract.AFunction([IsNumber], IsNumber)));
 
   NumNumToNumNumC(NumToNum1)(1);
 
@@ -104,8 +104,8 @@
   function NumNumToNumNumX(f) {
     return NumToNum3;
   }
-  var NumNumToNumNumXC = _.assert(NumNumToNumNumX, 
-      _.AdvancedFunctionContract([_.AdvancedFunctionContract([IsNumber], IsNumber)], _.AdvancedFunctionContract([IsNumber], IsNumber)));
+  var NumNumToNumNumXC = Contract.assert(NumNumToNumNumX, 
+      Contract.AFunction([Contract.AFunction([IsNumber], IsNumber)], Contract.AFunction([IsNumber], IsNumber)));
 
   NumNumToNumNumXC(NumToNum3)(1);
 

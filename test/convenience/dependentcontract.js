@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -24,15 +24,15 @@
       return (preArg[0].length==postArg.length);
     };
 
-    return _.BaseContract(predicate);
+    return Contract.Base(predicate);
   } 
 
-  var contract = _.SimpleDependentContract("preArg", eqLength());
+  var contract = Contract.SDependent("preArg", eqLength());
 
   var f = function(list) {
     return Array(7);
   }
-  var ff = _.assert(f, contract);
+  var ff = Contract.assert(f, contract);
   ff(Array(7));
 })();
 
@@ -46,10 +46,10 @@
       return (preArg[0]==postArg);
     };
 
-    return _.BaseContract(predicate);
+    return Contract.Base(predicate);
   } 
 
-  var contract = _.SimpleDependentContract("preArg", eqGlobalValue());
+  var contract = Contract.SDependent("preArg", eqGlobalValue());
 
   var g = function() {
     globalValue1 = true ? globalValue1 : "X";
@@ -60,7 +60,7 @@
     return globalValue1;
   }
 
-  var ggg = _.assert(gg, _.With({print:print},contract));
+  var ggg = Contract.assert(gg, Contract.With({print:print},contract));
   ggg(globalValue1);
 })();
 
@@ -74,10 +74,10 @@
       return (globalValue1==postArg);
     };
 
-    return _.BaseContract(predicate);
+    return Contract.Base(predicate);
   } 
 
-  var contract2 = _.SimpleDependentContract("preArg", eqGlobalValue2());
+  var contract2 = Contract.SDependent("preArg", eqGlobalValue2());
 
   var g2 = function() {
     globalValue1 = true ? globalValue1 : {x:"X"};
@@ -88,7 +88,7 @@
     return globalValue1;
   }
 
-  var ggg2 = _.assert(gg2, _.With({print:print,globalValue1:globalValue1},contract2));
+  var ggg2 = Contract.assert(gg2, Contract.With({print:print,globalValue1:globalValue1},contract2));
   ggg2(globalValue1);
 })();
 
@@ -114,11 +114,11 @@
       return true;
     }
 
-    return _.FunctionContract(_.BaseContract(Any), _.BaseContract(Any));
-    //return _.BaseContract(Any);
+    return Contract.Function(Contract.Base(Any), Contract.Base(Any));
+    //return Contract.Base(Any);
   } 
 
-  var contractX = _.SimpleDependentContract("preArg", callOnceX());
+  var contractX = Contract.SDependent("preArg", callOnceX());
 
   function h() {
   }
@@ -127,7 +127,7 @@
     return h;
   }
 
-  var hhh = _.assert(hh, _.With({print:print},contractX));
+  var hhh = Contract.assert(hh, Contract.With({print:print},contractX));
   hhhh = hhh();
 })();
 
@@ -153,12 +153,12 @@
     }
 
     // using this is not possible becaise the predicate is not defined inside of the sandbox
-    //return _.FunctionContract(_.Not(_.BaseContract(predicate)), _.BaseContract(Any));
-    //return _.BaseContract(predicate);
-    return _.BaseContract(Any);
+    //return Contract.Function(Contract.Not(Contract.Base(predicate)), Contract.Base(Any));
+    //return Contract.Base(predicate);
+    return Contract.Base(Any);
   } 
 
-  var contract = _.SimpleDependentContract("preArg", callOnce());
+  var contract = Contract.SDependent("preArg", callOnce());
 
   function h() {
   }
@@ -167,7 +167,7 @@
     return h;
   }
 
-  var hhh = _.assert(hh, _.With({print:print}, contract));
+  var hhh = Contract.assert(hh, Contract.With({print:print}, contract));
   hhhh = hhh();
   hhhh();
   //hhhh();

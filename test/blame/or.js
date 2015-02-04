@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -18,15 +18,15 @@
     return /*"1"+*/(a+b);
   }
 
- var or = _.Or(
-    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
-    _.AdvancedFunctionContract([IsString, IsString], IsString));
+  var or = Contract.Or(
+    Contract.AFunction([IsNumber, IsNumber], IsNumber),
+    Contract.AFunction([IsString, IsString], IsString));
 
- var addChecked = _.assert(addUnchecked, or);
+  var addChecked = Contract.assert(addUnchecked, or);
 
-addChecked("a","b");
-addChecked(1,1);
- 
+  addChecked("a","b");
+  addChecked(1,1);
+
 })();
 
 (function() {
@@ -35,13 +35,13 @@ addChecked(1,1);
     return (a+b);
   }
 
- var or = _.Or(
-    _.AdvancedFunctionContract([IsNumber, IsNumber], IsNumber),
-    _.AdvancedFunctionContract([GreaterThanZero, GreaterThanZero], GreaterThanZero));
+  var or = Contract.Or(
+    Contract.AFunction([IsNumber, IsNumber], IsNumber),
+    Contract.AFunction([GreaterThanZero, GreaterThanZero], GreaterThanZero));
 
- var addChecked = _.assert(addUnchecked, or);
+  var addChecked = Contract.assert(addUnchecked, or);
 
-//addChecked("a","b");
-addChecked(1,1);
- 
+  //addChecked("a","b");
+  addChecked(1,1);
+
 })();

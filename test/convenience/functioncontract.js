@@ -1,7 +1,7 @@
 /*
  *  JavaScript Contracts
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  *  http://proglang.informatik.uni-freiburg.de/
  * All rights reserved.
  *
@@ -14,25 +14,25 @@
 
 var func = function(x,y,z) {return z;};
 
-//var test = _.assert(
+//var test = Contract.assert(
 //                func,
-//                _.SimpleFunctionContract(true, true));
+//                Contract.SFunction(true, true));
 //test(3,4,5);
 
 (function() {
 
-  var test = _.assert(
+  var test = Contract.assert(
     func,
-    _.SimpleFunctionContract(IsString, IsNumber, IsNumber));
+    Contract.SFunction(IsString, IsNumber, IsNumber));
   test("3",4,5);
   //test("3",4,true);
 
 })();
 (function() {
 
-  var test = _.assert(
+  var test = Contract.assert(
     func,
-    _.SimpleFunctionContract(IsNumber, IsBoolean));
+    Contract.SFunction(IsNumber, IsBoolean));
   //test(3,4,5);
   test(3,4,true);
   test(3,"",true);
@@ -41,9 +41,9 @@ var func = function(x,y,z) {return z;};
 })();
 (function() {
 
-  var test = _.assert(
+  var test = Contract.assert(
     func,
-    _.SimpleFunctionContract(IsNumber, IsNumber, IsBoolean));
+    Contract.SFunction(IsNumber, IsNumber, IsBoolean));
   //test(3,4,5);
   //test("3","4",true);
   test(3,7,true);
@@ -52,9 +52,9 @@ var func = function(x,y,z) {return z;};
 })();
 (function() {
 
-  var test = _.assert(
+  var test = Contract.assert(
     func,
-    _.SimpleFunctionContract(IsNumber, IsNumber, IsBoolean));
+    Contract.SFunction(IsNumber, IsNumber, IsBoolean));
   //test(3,4,5);
   test(3,4,true);
   //test(3,"",true);
@@ -64,9 +64,9 @@ var func = function(x,y,z) {return z;};
 
 (function() {
 
-  var test = _.assert(
+  var test = Contract.assert(
     func,
-    _.AdvancedFunctionContract({}, IsBoolean));
+    Contract.AFunction({}, IsBoolean));
   //test(3,4,5);
   test(3,4,true);
   test(3,"",true);
@@ -76,9 +76,9 @@ var func = function(x,y,z) {return z;};
 
 (function() {
 
-  var test = _.assert(
+  var test = Contract.assert(
     func,
-    _.AdvancedFunctionContract({0:IsNumber, 3:IsString}, IsBoolean));
+    Contract.AFunction({0:IsNumber, 3:IsString}, IsBoolean));
   //test(3,4,5);
   //test(3,4,true);
   test(3,"",true);
@@ -87,9 +87,9 @@ var func = function(x,y,z) {return z;};
 })();
 (function() {
 
-  var test = _.assert(
+  var test = Contract.assert(
     func,
-    _.AdvancedFunctionContract([IsNumber, IsNumber], IsBoolean));
+    Contract.AFunction([IsNumber, IsNumber], IsBoolean));
   //test(3,4,5);
   test(3,4,true);
   //test(3,"",true);
