@@ -1,0 +1,40 @@
+  _____             _      _ ___ 
+ |_   _| _ ___ __ _| |_ _ | / __|
+   | || '_/ -_) _` |  _| || \__ \
+   |_||_| \___\__,_|\__|\__/|___/
+                                 
+ * TreatJS: Higher-Order Contracts for JavaScript
+ * http://proglang.informatik.uni-freiburg.de/treatjs/
+
+ * Copyright (c) 2013-2015, Proglang, University of Freiburg.
+ * http://proglang.informatik.uni-freiburg.de/
+ * All rights reserved.
+
+ * Author Matthias Keil
+ * http://www.informatik.uni-freiburg.de/~keilr/
+
+load richards.js
+@ASSERT ((|[ 0:[typeOfNumber] 1:[typeOfNumber] 2:[typeOfObject] 3:[typeOfNumber]]|)->[typeOfUndefined])
+@ASSERT ((|[ 0:[typeOfNumber] 1:[typeOfNumber] 2:[typeOfObject]]|)->[typeOfUndefined])
+@ASSERT ((|[ 0:[typeOfNumber] 1:[typeOfNumber] 2:[typeOfObject]]|)->[typeOfUndefined])
+@ASSERT ((|[ 0:[typeOfNumber] 1:[typeOfNumber] 2:[typeOfObject]]|)->[typeOfUndefined])
+@ASSERT ((|[ 0:[typeOfNumber] 1:[typeOfNumber] 2:[typeOfObject] 3:[typeOfObject]]|)->[typeOfUndefined])
+@ASSERT ((|[ 0:[typeOfNumber] 1:[typeOfNumber] 2:[typeOfObject] 3:[typeOfObject]]|)->[typeOfUndefined])
+@ASSERT ((|[]|)->[typeOfUndefined])
+@ASSERT ((|[ 0:[typeOfNumber]]|)->[typeOfObject])
+@ASSERT ((|[]|)->[typeOfObject])
+@ASSERT ((|[]|)->[typeOfObject])
+@ASSERT ((|[ 0:[typeOfObject]]|)->[typeOfObject])
+@ASSERT ((|[]|)->[typeOfUndefined])
+@ASSERT ((|[]|)->[typeOfUndefined])
+@ASSERT ((|[]|)->[typeOfUndefined])
+@ASSERT ((|[]|)->[typeOfBoolean])
+@ASSERT ((|[]|)->[typeOfUndefined])
+@ASSERT ((|[]|)->[typeOfUndefined])
+@ASSERT ((|[]|)->[typeOfObject])
+@ASSERT ((|[ 0:[typeOfObject] 1:[typeOfObject]]|)->[typeOfObject])
+@ASSERT ((|[ 0:[typeOfObject]]|)->[typeOfObject])
+@ASSERT ((|[ 0:[typeOfObject]]|)->[typeOfObject])
+@ASSERT ((|[ 0:[typeOfObject]]|)->[typeOfObject])
+@ASSERT ((|[ 0:[typeOfObject]]|)->[typeOfObject])
+@ASSERT ((|[ 0:[typeOfObject]]|)->[typeOfObject])
