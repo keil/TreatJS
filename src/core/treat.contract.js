@@ -130,7 +130,7 @@
   }
   MethodContract.prototype = Object.create(DelayedContract.prototype);
   MethodContract.prototype.toString = function() {
-    return "(" + domain.toString() + "->" + range.toString() + "|" + context.toString() + ")";
+    return "(" + this.domain.toString() + "->" + this.range.toString() + "|" + this.context.toString() + ")";
   };
 
   //  ___  _     _        _    ___         _               _   
@@ -327,7 +327,7 @@
   }
   UnionContract.prototype = Object.create(CombinatorContract.prototype);
   UnionContract.prototype.toString = function() {
-    return "(" + first.toString() + "cup" + second.toString() + ")";
+    return "(" + this.first.toString() + "cup" + this.second.toString() + ")";
   };
 
   // _  _               _   _          ___         _               _   
@@ -349,7 +349,7 @@
   }
   NegationContract.prototype = Object.create(WrapperContract.prototype);
   NegationContract.prototype.toString = function() {
-    return "(neg" + sub.toString() + ")";
+    return "(neg" + this.sub.toString() + ")";
   };
 
   // ___      __ _        _   _          ___         _               _   
@@ -374,7 +374,7 @@
   }
   ReflectionContract.prototype = Object.create(ImmediateContract.prototype);
   ReflectionContract.prototype.toString = function() {
-    return "(" + trap + " @ " + sub.toString() + ")";
+    return "(" + this.trap + " @ " + this.sub.toString() + ")";
   };
 
   // TODO, experimental code

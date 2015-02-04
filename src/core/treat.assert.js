@@ -947,9 +947,9 @@
     if(constructor instanceof ContractConstructor) {
       // BASE CNTRACT
       
-      //var newglobal = (constructor.binding!==undefined) ? global.merge(constructor.binding) : global;   
-      //var globalArg = newglobal.dump(); 
-      var globalArg = global.dump();
+      var newglobal = (constructor.binding!==undefined) ? global.merge(constructor.binding) : global;   
+      var globalArg = newglobal.dump(); 
+      //var globalArg = global.dump(); // TODO
       var thisArg = undefined;
       var argsArray = args;
 

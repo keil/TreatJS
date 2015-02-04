@@ -31,6 +31,9 @@
 
   var WithContract = TreatJS.Contract.With;
 
+  // constructors
+  var ContractConstructor = TreatJS.Constructor.Constructor;
+
   // Map
   var Map = TreatJS.Map.Map;
   var StringMap = TreatJS.Map.StringMap;
@@ -141,7 +144,7 @@
     function ctor() {
       var binding = {};
       binding[name]=arguments;
-      return WithContract(binding, contract);
+      return Contract.With(binding, contract);
     }
     DependentContract.call(this, ContractConstructor(ctor, {name:name, contract:contract}));
   }
