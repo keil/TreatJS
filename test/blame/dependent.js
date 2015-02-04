@@ -19,7 +19,7 @@ function eqLength(preArg) {
     return (preArg.length==postArg.length);
   };
 
-  return Contract.BaseContract(predicate);
+  return Contract.Base(predicate);
 } 
 
 var contract = Contract.Dependent(Contract.Constructor(eqLength));

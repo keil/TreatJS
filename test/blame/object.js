@@ -15,10 +15,10 @@
 
 var objUnchecked = {x:4711, y:"4711", a:{x:4711, y:"4711"}, f:function(x) {return 4711;}, g:function(z) {return "4711";} };
 
-var objChecked = Contract.assert(objUnchecked, Contract.AdvancedObjectContract({
+var objChecked = Contract.assert(objUnchecked, Contract.AObject({
   x:IsNumber,
     y:IsNumber,
-    a:Contract.AdvancedObjectContract({x:IsNumber, y:IsNumber}),
+    a:Contract.AObject({x:IsNumber, y:IsNumber}),
     f:Contract.AFunction([IsNumber], IsNumber),
     g:Contract.AFunction([IsNumber], IsNumber),
 }));

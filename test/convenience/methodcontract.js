@@ -15,7 +15,7 @@
 var func = function(x,y,z) {return z;};
 var obj = {p : "#"};
 
-var context = new Contract.BaseContract(function(thisArg) {
+var context = new Contract.Base(function(thisArg) {
   return (thisArg.p === "#");
 }, "pIs#");
 

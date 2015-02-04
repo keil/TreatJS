@@ -30,7 +30,7 @@
 
   // Base Contracts
 
-  var x = Contract.assert(4711, Contract.With({_:_, contract:Predicate}, Predicate2));
+  var x = Contract.assert(4711, Contract.With({Contract:Contract, contract:Predicate}, Predicate2));
 })();
 
 (function () {

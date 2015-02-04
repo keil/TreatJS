@@ -22,7 +22,7 @@
     return (a+b);
   }
 
-  var context = Contract.BaseContract(function(thisArg) {
+  var context = Contract.Base(function(thisArg) {
     return (thisArg.p === "#");
   }, "#");
 
