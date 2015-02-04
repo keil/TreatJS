@@ -36,65 +36,87 @@
     if(TreatJS.Verbose.statistic) TreatJS.Statistic.inc(key);
   }
 
-
-  /** decompile (fun, globalArg)
+  /** decompile (fun)
    *
    * Decompiles a function 
    *
    * @param fun The function object.
-   * @param globalArg The secure global object.
    * @return a secure function
    */
   function decompile(fun) {
     log("decompile", fun.toString());
     count(TreatJS.Statistic.DECOMPILE);
 
-    var string = "(" + fun.toString() + ")"; 
-    var global = new Proxy({}, new GlobalHandler({}));
-    var newfun = eval("(function() { with(global) { return " + string + " }})();");
- 
-    Object.defineProperty(newfun, "eval", {
-      value: function (global, thisArg, args) {
-        //print(this.apply(thisArg, args));
-      // TODO, setr target
-        //handler.target = global;
-        return this.apply(thisArg, args);
-        // TODO, make schure that the value is resetted after call
-        // mybe by ... 
-      },
-      enumerable: true
-    });
+    var scopeHandler = new ScopeHandler();
 
-    return newfun;
+    var string = "(" + fun.toString() + ")"; 
+    var scope = (new Proxy({}, scopeHandler));
+    var newfun = eval("(function() { with(scope) { return " + string + " }})();");
+
+    return new Proxy(newfun, new DynamicHandler(newfun, scopeHandler));
   }
 
+  // ___                   _  _              _ _         
+  /// __| __ ___ _ __  ___| || |__ _ _ _  __| | |___ _ _ 
+  //\__ \/ _/ _ \ '_ \/ -_) __ / _` | ' \/ _` | / -_) '_|
+  //|___/\__\___/ .__/\___|_||_\__,_|_||_\__,_|_\___|_|  
+  //            |_|                                      
 
-  function GlobalHandler (origin) {
-    this.has = function(scope, name) {
-      // return true;
-      return origin.hasOwnProperty(name);
-      //Object.prototype.hasOwnProperty(origin, name);
-      //        (name in origin);
-      // return true; // TODO, required ?
+  function ScopeHandler (scope) {
+
+    // the scoped object
+    var scoped = (scope || {});
+
+    this.has = function(target, name) {
+      return (name in scoped);
     };
 
     this.get = function(target, name, receiver) {
-      return origin[name];
+      return scoped[name];
     }
 
     this.set = function(target, name, value, receiver) {
-      return origin[name] = value;
+      return scoped[name] = value;
     }
 
-    Object.defineProperty(this, "target", {
-      set: function (target) {
-        origin = target;
+    // scope-setter 
+    // resets the objects used in the scope chain
+    Object.defineProperty(this, "scope", {
+      set: function (newscope) {
+        scoped = newscope;
       },
       enumerable: true
     });
   }
 
+  // ___                       _    _  _              _ _         
+  //|   \ _  _ _ _  __ _ _ __ (_)__| || |__ _ _ _  __| | |___ _ _ 
+  //| |) | || | ' \/ _` | '  \| / _| __ / _` | ' \/ _` | / -_) '_|
+  //|___/ \_, |_||_\__,_|_|_|_|_\__|_||_\__,_|_||_\__,_|_\___|_|  
+  //      |__/                                                    
 
+  // TODO, at the moment we set only the global object
+  // guaranteed on every call
+
+  function DynamicHandler(target, scopeHandler) {
+
+    function eval(scopeArg, thisArg, argsArg) { 
+      scopeHandler.scope = scopeArg;
+      return target.apply(thisArg, argsArg);
+    }
+
+    this.has = function(target, name) {
+      return (name==="eval") ? true : (name in target);
+    }
+
+    this.get = function(target, name, receiver) {
+      return (name==="eval") ? eval : target[name];
+    }
+
+    this.apply = function(target, thisArg, argsArray) {
+      return eval({}, thisArg, argsArray);
+    }
+  }
 
   //         _               _ 
   // _____ _| |_ ___ _ _  __| |

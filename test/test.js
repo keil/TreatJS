@@ -19,6 +19,7 @@ function run(file) {
   load(file);
 }
 
+// TODO
 // Aliase - for compatibility with older versions
 var IsNumber = typeOfNumber;
 var IsString = typeOfString;
@@ -41,6 +42,7 @@ var False = isFalse;
 var IsArray = instanceOfArray;
 
 var _ = TreatJS;
+var _ = Contract;
 
 // contracts
 run("test/contract/basecontract.js");

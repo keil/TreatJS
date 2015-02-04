@@ -26,15 +26,15 @@
     var post = function (postArg) {
       return (length==postArg.length);
     };
-    return _.FunctionContract(_.BaseContract(pre), _.BaseContract(post));
+    return Contract.Function(Contract.Base(pre), Contract.Base(post));
   } 
-  var constructor = _.Constructor(eqLength);
-  var contract = _.construct(constructor);
+  var constructor = Contract.Constructor(eqLength);
+  var contract = Contract.construct(constructor);
 
   var f = function(list) {
     return Array(7);
   }
-  var ff = _.assert(f, contract);
+  var ff = Contract.assert(f, contract);
   ff(Array(7));
 })();
 
@@ -46,15 +46,15 @@
     var post = function (postArg) {
       return (length==postArg.length);
     };
-    return _.FunctionContract(_.BaseContract(pre), _.BaseContract(post));
+    return Contract.Function(Contract.Base(pre), Contract.Base(post));
   } 
-  var constructor = _.Constructor(eqLength);
-  var contract = _.construct(constructor, [7]);
+  var constructor = Contract.Constructor(eqLength);
+  var contract = Contract.construct(constructor, [7]);
 
   var f = function(list) {
     return Array(7);
   }
-  var ff = _.assert(f, contract);
+  var ff = Contract.assert(f, contract);
   ff(Array(7));
 })();
 
@@ -74,11 +74,11 @@
     var post = function (postArg) {
       return (value==postArg);
     };
-    return _.FunctionContract(_.BaseContract(pre), _.BaseContract(post));
+    return Contract.Function(Contract.Base(pre), Contract.Base(post));
   } 
 
-  var constructor = _.Constructor(eqGlobalValue);
-  var contract = _.construct(constructor, [print]);
+  var constructor = Contract.Constructor(eqGlobalValue);
+  var contract = Contract.construct(constructor, [print]);
 
   var g = function() {
     globalValue1 = true ? globalValue1 : "X";
@@ -89,7 +89,7 @@
     return globalValue1;
   }
 
-  var ggg = _.assert(gg, contract);
+  var ggg = Contract.assert(gg, contract);
   ggg(globalValue1);
 })();
 
@@ -108,11 +108,11 @@
     var post = function (postArg) {
       return (value==postArg);
     };
-    return _.FunctionContract(_.BaseContract(pre), _.BaseContract(post));
+    return Contract.Function(Contract.Base(pre), Contract.Base(post));
   } 
 
-  var constructor = _.Constructor(eqGlobalValue);
-  var contract = _.construct(constructor, [print]);
+  var constructor = Contract.Constructor(eqGlobalValue);
+  var contract = Contract.construct(constructor, [print]);
 
   var g = function() {
     globalValue1 = true ? globalValue1 : {x:"X"};;
@@ -123,7 +123,7 @@
     return globalValue1;
   }
 
-  var ggg = _.assert(gg, contract);
+  var ggg = Contract.assert(gg, contract);
   ggg(globalValue1);
 })();
 
@@ -136,19 +136,19 @@
     var predicate = function (postArg) {
       return true; (preValue==postValue);
     };
-    return _.BaseContract(predicate); 
+    return Contract.Base(predicate); 
   }
 
 
 
-  var constructor = _.Constructor(eqGlobalValue);
-  var contract = _.construct(constructor, [globalValue1]);
+  var constructor = Contract.Constructor(eqGlobalValue);
+  var contract = Contract.construct(constructor, [globalValue1]);
 
   var g = function() {
     globalValue1 = false ? globalValue1 : {x:"X"};;
   }
 
-  var gg = _.assert(g, _.FunctionContract(Any, _.With({postValue:globalValue1}, contract)));
+  var gg = Contract.assert(g, Contract.Function(Any, Contract.With({postValue:globalValue1}, contract)));
   gg();
 });
 (function() {
@@ -158,28 +158,28 @@
     var predicate = function (postArg) {
       return true; (preValue==postValue);
     };
-    return _.BaseContract(predicate); 
+    return Contract.Base(predicate); 
   }
 
-  var constructor1 = _.Constructor(preCons);
+  var constructor1 = Contract.Constructor(preCons);
 
   function postCons(postValue) {
-    return _.construct(constructor, [globalValue1]);
+    return Contract.construct(constructor, [globalValue1]);
   }
 
-  var constructor2 = _.Constructor(postCons);
+  var constructor2 = Contract.Constructor(postCons);
 
 
 
 
-  var constructor = _.Constructor(eqGlobalValue);
-  var contract = _.construct(constructor, [globalValue1]);
+  var constructor = Contract.Constructor(eqGlobalValue);
+  var contract = Contract.construct(constructor, [globalValue1]);
 
   var g = function() {
     globalValue1 = false ? globalValue1 : {x:"X"};;
   }
 
-  var gg = _.assert(g, _.FunctionContract(Any, _.With({postValue:globalValue1}, contract)));
+  var gg = Contract.assert(g, Contract.Function(Any, Contract.With({postValue:globalValue1}, contract)));
   gg();
 });
 
@@ -204,16 +204,16 @@
       return true;
     }
 
-    return _.FunctionContract(_.BaseContract(predicate), _.BaseContract(Any));
+    return Contract.Function(Contract.Base(predicate), Contract.Base(Any));
   } 
 
-  var constructor = _.Constructor(callOnce);
-  var contract = _.construct(constructor);
+  var constructor = Contract.Constructor(callOnce);
+  var contract = Contract.construct(constructor);
 
   function h() {
   }
 
-  var hh = _.assert(h, contract);
+  var hh = Contract.assert(h, contract);
   hh();
   //hh();
 })();
@@ -236,17 +236,17 @@
       return true;
     }
 
-    return _.FunctionContract(_.Not(_.BaseContract(predicate)), _.BaseContract(Any));
+    return Contract.Function(Contract.Not(Contract.Base(predicate)), Contract.Base(Any));
   } 
 
-  var constructor = _.Constructor(callOnce);
+  var constructor = Contract.Constructor(callOnce);
   var contract = constructor.build();
-  //        var contract = _.construct(constructor);
+  //        var contract = Contract.construct(constructor);
 
   function h() {
   }
 
-  var hh = _.assert(h, contract);
+  var hh = Contract.assert(h, contract);
   hh();
   // hh();
 })();
@@ -259,11 +259,11 @@
       Array;
       return true;
     }
-    return _.BaseContract(predicate);
+    return Contract.Base(predicate);
   } 
-  var constructor = _.Constructor(ContractConstructor);
-  var contract = _.construct(constructor, [undefined]);
+  var constructor = Contract.Constructor(ContractConstructor);
+  var contract = Contract.construct(constructor, [undefined]);
 
-  _.assert(4711, _.With({Array:Array}, contract));
-  //_.assert(4711, contract);
+  Contract.assert(4711, Contract.With({Array:Array}, contract));
+  //Contract.assert(4711, contract);
 })();

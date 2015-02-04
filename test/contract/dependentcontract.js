@@ -22,15 +22,15 @@ function eqLength(preArg) {
     return (preArg.length==postArg.length);
   };
 
-  return _.BaseContract(predicate);
+  return Contract.Base(predicate);
 } 
 
-var contract = _.DependentContract(_.Constructor(eqLength));
+var contract = Contract.Dependent(Contract.Constructor(eqLength));
 
 var f = function(list) {
   return Array(7);
 }
-var ff = _.assert(f, contract);
+var ff = Contract.assert(f, contract);
 ff(Array(7));
 
 
@@ -44,10 +44,10 @@ function eqGlobalValue(preArg) {
     return (preArg==postArg);
   };
 
-  return _.BaseContract(predicate);
+  return Contract.Base(predicate);
 } 
 
-var contract = _.DependentContract(_.Constructor(eqGlobalValue));
+var contract = Contract.Dependent(Contract.Constructor(eqGlobalValue));
 
 var g = function() {
   globalValue1 = true ? globalValue1 : "X";
@@ -58,7 +58,7 @@ function gg() {
   return globalValue1;
 }
 
-var ggg = _.assert(gg, _.With({print:print},contract));
+var ggg = Contract.assert(gg, Contract.With({print:print},contract));
 ggg(globalValue1);
 
 // 2nd run
@@ -71,10 +71,10 @@ function eqGlobalValue2(preArg) {
     return (preArg==postArg);
   };
 
-  return _.BaseContract(predicate);
+  return Contract.Base(predicate);
 } 
 
-var contract2 = _.DependentContract(_.Constructor(eqGlobalValue2));
+var contract2 = Contract.Dependent(Contract.Constructor(eqGlobalValue2));
 
 var g2 = function() {
   globalValue1 = true ? globalValue1 : {x:"X"};
@@ -85,7 +85,7 @@ function gg2() {
   return globalValue1;
 }
 
-var ggg2 = _.assert(gg2, _.With({print:print,globalValue1:globalValue1},contract2));
+var ggg2 = Contract.assert(gg2, Contract.With({print:print,globalValue1:globalValue1},contract2));
 ggg2(globalValue1);
 
 // Test Use-Case #3
@@ -109,11 +109,11 @@ function callOnce(preArg) {
     return true;
   }
 
-  return _.FunctionContract(_.BaseContract(predicate), _.BaseContract(Any));
-  //return _.BaseContract(predicate);
+  return Contract.Function(Contract.Base(predicate), Contract.Base(Any));
+  //return Contract.Base(predicate);
 } 
 
-var contract = _.DependentContract(_.Constructor(callOnce));
+var contract = Contract.Dependent(Contract.Constructor(callOnce));
 
 function h() {
 }
@@ -122,7 +122,7 @@ function hh() {
   return h;
 }
 
-var hhh = _.assert(hh, _.With({print:print},contract));
+var hhh = Contract.assert(hh, Contract.With({print:print},contract));
 hhhh = hhh();
 hhhh();
 //hhhh();
@@ -144,11 +144,11 @@ function callOnce(preArg) {
     return true;
   }
 
-  return _.FunctionContract(_.Not(_.BaseContract(predicate)), _.BaseContract(Any));
-  //return _.BaseContract(predicate);
+  return Contract.Function(Contract.Not(Contract.Base(predicate)), Contract.Base(Any));
+  //return Contract.Base(predicate);
 } 
 
-var contract = _.DependentContract(_.Constructor(callOnce));
+var contract = Contract.Dependent(Contract.Constructor(callOnce));
 
 function h() {
 }
@@ -157,7 +157,7 @@ function hh() {
   return h;
 }
 
-var hhh = _.assert(hh, _.With({print:print},contract));
+var hhh = Contract.assert(hh, Contract.With({print:print},contract));
 hhhh = hhh();
 hhhh();
 //hhhh();

@@ -17,19 +17,19 @@ var func        = function(x) {return 4711;}
 var func2       = function(x) {return "chacha";}
 var func3       = function(x, y) { return (x+y);}
 
-var test = _.assert(
+var test = Contract.assert(
     func,
-    _.FunctionContract(_.ObjectContract(_.Map.StringMap({0:IsNumber})), IsNumber)
+    Contract.Function(Contract.Object(Contract.StringMap({0:IsNumber})), IsNumber)
     );
 
-var test2 = _.assert(
+var test2 = Contract.assert(
     func2,
-    _.FunctionContract(Any, IsString)
+    Contract.Function(Any, IsString)
     );
 
-var test3 = _.assert(
+var test3 = Contract.assert(
     func3,
-    _.FunctionContract(_.ObjectContract(_.Map.StringMap({0:IsNumber, 1:IsNumber})), IsNumber)
+    Contract.Function(Contract.Object(Contract.StringMap({0:IsNumber, 1:IsNumber})), IsNumber)
     );
 
   test(4711);
@@ -41,8 +41,8 @@ var test3 = _.assert(
     return (a>b);
   }
 
-//g = _.assert(f, _.FunctionContract({0:IsNumber, 1:IsNumber}, IsBoolean));
-//g = _.assert(f, _.SFunctionContract(IsNumber, IsNumber, IsBoolean));
+//g = Contract.assert(f, Contract.Function({0:IsNumber, 1:IsNumber}, IsBoolean));
+//g = Contract.assert(f, Contract.SFunction(IsNumber, IsNumber, IsBoolean));
 
 //g(1,2);
 //g(2,1);
@@ -56,14 +56,14 @@ function f() {}
 
 (function() {
   var f = function(a) {return 7};
-  var c = _.FunctionContract(_.ObjectContract(_.Map.StringMap({0:IsNumber})), IsNumber);
-  var g = _.assert(f, c);
+  var c = Contract.Function(Contract.Object(Contract.StringMap({0:IsNumber})), IsNumber);
+  var g = Contract.assert(f, c);
 
   g(7);
   //g(true);
 
-  var d = _.Not(_.FunctionContract(_.ObjectContract(_.Map.StringMap({0:IsNumber})), IsNumber));
-  var h = _.assert(f, d);
+  var d = Contract.Not(Contract.Function(Contract.Object(Contract.StringMap({0:IsNumber})), IsNumber));
+  var h = Contract.assert(f, d);
 
   // h(7);
   h(true);

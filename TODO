@@ -11,6 +11,8 @@
 
 * Decompile BUG
 
+* Test sandbox violation
+
 
 - test how often TreatJS extend and define are called
 

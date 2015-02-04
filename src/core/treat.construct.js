@@ -107,20 +107,41 @@
 
     if(constructor instanceof ContractConstructor) {
       // BASE CNTRACT
-      var newglobal = (constructor.binding!==undefined) ? global.merge(constructor.binding) : global;   
-      var globalArg = newglobal.dump(); 
+      
+      //var newglobal = (constructor.binding!==undefined) ? global.merge(constructor.binding) : global;   
+      //var globalArg = newglobal.dump(); 
+      var globalArg = global.dump();
       var thisArg = undefined;
       var argsArray = args;
 
-      var treatjs = {};
-      var contract = {}
+      var build = TreatJS.build();
+      var contract = {};
+      for(var property in build) {
+        contract[property] = build[property];
+      }
+      
       var newBaseContract = function (predicate, name) {
+        print("=====================================================================");
         return SandboxContract(predicate, globalArg, name);
       };
 
+      contract.Base = newBaseContract;
+      globalArg["Contract"] = contract;
+
+
+
+      // TODO
+      //Contract.BaseContract = newBaseContract;
+
+      //globalArg["Contract"] = TreatJS.build();
+      //globalArg["Contract"].Base = newBaseContract;
+
+      //var treatjs = {};
+      //var contract = {}
+      
       // TODO, only one avaliable in Sandbox
 
-      for(property in TreatJS) {
+      /*for(property in TreatJS) {
         if(property==="BaseContract") {
           treatjs[property] = newBaseContract;
           //__define(property, newBaseContract, treatjs);
@@ -129,11 +150,11 @@
           treatjs[property] = TreatJS[property];
           //__define(property, _[property], treatjs);
         }
-      }
+      }*/
 
-      var build = TreatJS.build();
+      //var build = TreatJS.build();
 
-      for(property in build) {
+      /*for(property in build) {
         if(property==="Base") {
           contract[property] = newBaseContract;
           //__define(property, newBaseContract, contract);
@@ -142,7 +163,7 @@
           contract[property] = build[property];
           //__define(property, build[property], contract);
         }
-      }
+      }*/
 
       //globalArg["_"] = treatjs;
       //globalArg["Contract"] = contract;

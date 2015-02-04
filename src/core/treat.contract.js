@@ -265,7 +265,7 @@
     if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
     Object.defineProperties(this, {
-      "bindings": {
+      "binding": {
         value: binding
       },
       "sub": {
@@ -276,7 +276,7 @@
   WithContract.prototype = Object.create(WrapperContract.prototype);
   WithContract.prototype.toString = function() {
     var domain = "";
-    for(name in this.binding) domain += " " + name;
+    for(name in this.binding) domain += ((domain===""?"":",")) + name;
     return "(with {" + domain + "}" + this.sub.toString() + ")";
   };
 

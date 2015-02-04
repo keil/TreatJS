@@ -41,7 +41,7 @@
   //| |\/| / -_) '  \| '_ \ '_/ _` | ' \/ -_)
   //|_|  |_\___|_|_|_|_.__/_| \__,_|_||_\___|
 
-  var cache = new Cache();
+  var cache =  new WeakMap();
 
   /** wrap(target)
    *
@@ -52,7 +52,7 @@
    * @return Membrane Reference/ Proxy 
    */
   function wrap(target, global) { 
-    log("[[wrap]]");
+    log("wrap");
     count(TreatJS.Statistic.MEMBRANE);
 
     // IF target is primitive value, return target
@@ -60,13 +60,13 @@
       return target;
     }
 
-    if(cache.contains(target)) {
+    if(cache.has(target)) {
       return cache.get(target);
     } else {
       var membraneHandler = new Membrabe(global);
       var proxy = new Proxy(target, membraneHandler);
 
-      cache.put(target, proxy);
+      cache.set(target, proxy);
 
       return proxy;
     }
@@ -79,64 +79,64 @@
    */
   function Membrabe(global) {
     this.getOwnPropertyDescriptor = function(target, name) {
-      log("[[getOwnPropertyDescriptor]]", name);
+      log("getOwnPropertyDescriptor", name);
       var desc = Object.getOwnPropertyDescriptor(target, name);
       //if (desc !== undefined) desc.value = wrap(desc.value, global);
       //print(desc) // TODO
         return desc;
     };
     this.getOwnPropertyNames = function(target) {
-      log("[[getOwnPropertyNames]]", name);
+      log("getOwnPropertyNames", name);
       return Object.getOwnPropertyNames(target);
     };
     this.getPrototypeOf = function(target) {
-      log("[[getPrototypeOf]]", name);
+      log("getPrototypeOf", name);
       return Object.getPrototypeOf(target)
     };
     this.defineProperty = function(target, name, desc) {
-      log("[[defineProperty]]", name);
+      log("defineProperty", name);
       return Object.defineProperty(target, name, desc);
     };
     this.deleteProperty = function(target, name) {
-      log("[[deleteProperty]]", name);
+      log("deleteProperty", name);
       return delete target[name];
     };
     this.freeze = function(target) {
-      log("[[freeze]]", "");
+      log("freeze", "");
       return Object.freeze(target);
     };
     this.seal = function(target) {
-      log("[[seal]]", "");
+      log("seal", "");
       return Object.seal(target);
     };
     this.preventExtensions = function(target) {
-      log("[[preventExtensions]]", "");
+      log("preventExtensions", "");
       return Object.preventExtensions(target);
     };
     this.isFrozen = function(target) {
-      log("[[isFrozen]]", name);
+      log("isFrozen", name);
       return Object.isFrozen(target);
     };
     this.isSealed = function(target) {
-      log("[[isSealed]]", "");
+      log("isSealed", "");
       return Object.isSealed(target);
     };
     this.isExtensible = function(target) {
-      log("[[isExtensible]]", "");
+      log("isExtensible", "");
       return Object.isExtensible(target);
     };
     this.has = function(target, name) {
-      log("[[has]]", name);
+      log("has", name);
       if(!(name in target)) violation("Unauthorized Access " + name, (new Error()).fileName, (new Error()).lineNumber);
       else return (name in target);
     };
     this.hasOwn = function(target, name) {
-      log("[[hasOwn]]", name);
+      log("hasOwn", name);
       if(!(name in target)) violation("Unauthorized Access " + name, (new Error()).fileName, (new Error()).lineNumber);
       else return ({}).hasOwnProperty.call(target, name); 
     };
     this.get = function(target, name, receiver) {
-      log("[[get]]", name);
+      log("get", name);
       if(!(name in target)) violation("Unauthorized Access " + name, (new Error()).fileName, (new Error()).lineNumber);
 
       // pass-through of Contract System
@@ -162,7 +162,7 @@
       }
     };
     this.set = function(target, name, value, receiver) {
-      log("[[set]]", name);
+      log("set", name);
       // NOTE: no write access allowed
       violation("Unauthorized Access " + name, (new Error()).fileName, (new Error()).lineNumber);
       //otherwise use this code:
@@ -170,7 +170,7 @@
       //else return target[name] = value;
     };
     this.enumerate = function(target) {
-      log("[[enumerate]]", name);
+      log("enumerate", name);
       var result = [];
       for (var name in target) {
         result.push(name);
@@ -178,15 +178,15 @@
       return result;
     };
     this.keys = function(target) {
-      log("[[keys]]");
+      log("keys");
       return Object.keys(target);
     };
     this.apply = function(target, thisArg, argsArray) {
-      log("[[apply]]");
+      log("apply");
       return evalFunction(target, global, thisArg, argsArray);
     };
     this.construct = function(target, argsArray) {
-      log("[[construct]]");
+      log("construct");
       return evalNew(target, global, this, argsArray);
     };
   };
@@ -196,7 +196,8 @@
   //| (__/ _` / _| ' \/ -_)
   // \___\__,_\__|_||_\___|
 
-  function Cache() {     
+  // TODO
+  function CacheXXX() {     
     var handlerMap = new WeakMap();
 
     /** put entry
@@ -258,11 +259,11 @@
    */
   function preDecompile(fun, globalArg) {
     if(dcache.has(fun)) {
-      log("[[dcache hit]]"); // TODO
+      log("dcache hit"); // TODO
       var secureFun = dcache.get(fun);
       return secureFun;
     } else {
-      log("[[dcache miss]]"); // TODO
+      log("dcache miss"); // TODO
       var secureFun = decompile(fun);
       dcache.set(fun, secureFun);
       return secureFun;
@@ -282,9 +283,10 @@
   function evalInSandbox(fun, globalArg, thisArg, argsArray) {
     if(!(fun instanceof Function)) error("No Function Object", (new Error()).fileName, (new Error()).lineNumber);
 
-    var secureFun = preDecompile(fun, globalArg);
+    var secureFun = preDecompile(fun);
     // secure fun, eval (global, this, args) // TODO
     //return secureFun.apply(thisArg, argsArray);
+ 
     return secureFun.eval(globalArg, thisArg, argsArray); // TODO, do the same in new
   }
 
@@ -302,9 +304,10 @@
   function evalNewInSandbox(fun, globalArg, thisArg, argsArray) {
     if(!(fun instanceof Function)) error("No Function Object", (new Error()).fileName, (new Error()).lineNumber);
 
-    var secureFun = preDecompile(fun, globalArg);
+    var secureFun = preDecompile(fun);
     var newObj = Object.create(secureFun.prototype);
-    var val = secureFun.apply(newObj, argsArray);
+    //var val = secureFun.apply(newObj, argsArray); // TODO
+   var val = secureFun.eval(globalArg, newObj, argsArray);
 
     return (val instanceof Object) ? val : newObj;
   }
@@ -332,7 +335,7 @@
       var sandboxGlobalArg = wrap(globalArg, globalArg);
       var sandboxThisArg = wrap(thisArg, {});
       var sandboxArgsArray = wrap(argsArray, {});
-
+      
       return evalInSandbox(fun, sandboxGlobalArg, sandboxThisArg, sandboxArgsArray);
     }
   }

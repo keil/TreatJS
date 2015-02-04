@@ -19,23 +19,23 @@ var func3       = function(x, y) { return (x+y);}
 
 var obj         = {p:"#"};
 
-var context = _.BaseContract(function(thisArg) {
+var context = Contract.BaseContract(function(thisArg) {
   return (thisArg.p === "#");
 }, "#");
 
-obj.test = _.assert(
+obj.test = Contract.assert(
     func,
-    _.MethodContract(_.ObjectContract(_.Map.StringMap({0:IsNumber})), IsNumber, context)
+    Contract.MethodContract(Contract.Object(Contract.Map.StringMap({0:IsNumber})), IsNumber, context)
     );
 
-obj.test2 = _.assert(
+obj.test2 = Contract.assert(
     func2,
-    _.MethodContract(Any, IsString, context)
+    Contract.MethodContract(Any, IsString, context)
     );
 
-obj.test3 = _.assert(
+obj.test3 = Contract.assert(
     func3,
-    _.MethodContract(_.ObjectContract(_.Map.StringMap({0:IsNumber, 1:IsNumber})), IsNumber, context)
+    Contract.MethodContract(Contract.Object(Contract.Map.StringMap({0:IsNumber, 1:IsNumber})), IsNumber, context)
     );
 
   obj.test(4711);
@@ -47,8 +47,8 @@ obj.test3 = _.assert(
     return (a>b);
   }
 
-//g = _.assert(f, _.MethodContract({0:IsNumber, 1:IsNumber}, IsBoolean));
-//g = _.assert(f, _.SMethodContract(IsNumber, IsNumber, IsBoolean));
+//g = Contract.assert(f, Contract.MethodContract({0:IsNumber, 1:IsNumber}, IsBoolean));
+//g = Contract.assert(f, Contract.SMethodContract(IsNumber, IsNumber, IsBoolean));
 
 //g(1,2);
 //g(2,1);
@@ -62,14 +62,14 @@ function f() {}
 
 (function() {
   var f = function(a) {return 7};
-  var c = _.MethodContract(_.ObjectContract(_.Map.StringMap({0:IsNumber})), IsNumber, context);
-  obj.g = _.assert(f, c);
+  var c = Contract.MethodContract(Contract.Object(Contract.Map.StringMap({0:IsNumber})), IsNumber, context);
+  obj.g = Contract.assert(f, c);
 
   obj.g(7);
   //obj.g(true);
 
-  var d = _.Not(_.MethodContract(_.ObjectContract(_.Map.StringMap({0:IsNumber})), IsNumber, context));
-  obj.h = _.assert(f, d);
+  var d = Contract.Not(Contract.MethodContract(Contract.Object(Contract.Map.StringMap({0:IsNumber})), IsNumber, context));
+  obj.h = Contract.assert(f, d);
 
   // h(7);
   obj.h(true);

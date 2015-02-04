@@ -31,7 +31,7 @@
     if(!(this instanceof Constructor)) return new Constructor();
   }
   Constructor.prototype = Object.create(Contract.prototype);
-  Constructor.prototype.toString = (function() { return '[[Contract]]'; });
+  Constructor.prototype.toString = (function() { return '[[Constructor]]'; });
 
 
   // define empty build and ctor function

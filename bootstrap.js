@@ -167,8 +167,8 @@ var TreatJS = new TreatJS({//
     /**/decompile: true, 
     /**/canonicalize: true
 }, {
-  /****/assert: false,
-    /**/sandbox: false,
+  /****/assert: true,
+    /**/sandbox: true,
     /**/statistic: true
 });
 
@@ -211,7 +211,7 @@ load("src/core/treat.constructor.js");
 
 //load("src/core/treat.handler.js");// TODO, cleanup, experimental code inside
 load("src/core/treat.canonicalize.js");// TODO, add new contract types
-load("src/core/treat.construct.js"); // TODO
+//load("src/core/treat.construct.js"); // TODO
 load("src/core/treat.assert.js");// TODO, cleanup, experimental code
 
 // convenience api
@@ -232,7 +232,6 @@ var Contract = TreatJS.build();
 
 load("contracts/contracts.js"); // TODO, renew
 load("contracts/aliases.js"); // TODO, renew
-
 
 /**
 

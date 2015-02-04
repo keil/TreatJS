@@ -13,6 +13,32 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+var x = ":'(";
+
+function p (arg) {
+  x;
+  //x = ":)";
+  return true;
+}
+
+var P = Contract.Base(p);
+
+Contract.assert({}, Contract.With({x:4711, y:4712}, P));
+print(x);
+
+
+
+
+
+
+
+
+
+
+
+
+load("test/test.js"); // TODO, renew
+quit();
 
 
 //load("test/blame/negation.js");
@@ -33,8 +59,7 @@ var f = Contract.assert(id, F);
 print(f(1));
 
 */
-
-
+/*
 function f (x, y) {
   return ''+x+y;
 }
@@ -51,7 +76,7 @@ TreatJS.Config.print();
 TreatJS.Statistic.print();
 
 quit();
-
+*/
 
 
 // ==================================================

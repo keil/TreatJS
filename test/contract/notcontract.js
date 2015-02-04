@@ -13,35 +13,35 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-var test = _.assert("4711", _.Not(IsNumber));
+var test = Contract.assert("4711", Contract.Not(IsNumber));
 
 var func        = function(x) {return "4711";}
 
-var test = _.assert(
+var test = Contract.assert(
     func,
-    _.Not(_.FunctionContract(_.ObjectContract(_.Map.StringMap({0:IsNumber})), IsNumber)
+    Contract.Not(Contract.Function(Contract.Object(Contract.StringMap({0:IsNumber})), IsNumber)
       ));
   test("4711");
 
 
   // Test 3.1
-  // ObjectContract with nested base-level With
+  // Object with nested base-level With
 
 
-  var funC =  _.Not(_.FunctionContract(_.ObjectContract(
-          _.Map.StringMap({0:IsNumber})), IsNumber));
-  var funX = _.assert(function(x) {return 1; }, funC);
+  var funC =  Contract.Not(Contract.Function(Contract.Object(
+          Contract.StringMap({0:IsNumber})), IsNumber));
+  var funX = Contract.assert(function(x) {return 1; }, funC);
 
   funX("1");
   // funX(1);
 
-  var contract = _.Not(
-      _.ObjectContract(
-        _.Map.StringMap({
+  var contract = Contract.Not(
+      Contract.Object(
+        Contract.StringMap({
           x:IsNumber,
-          y:_.FunctionContract(
-            _.ObjectContract(
-              _.Map.StringMap({0:IsNumber})), IsNumber),
+          y:Contract.Function(
+            Contract.Object(
+              Contract.StringMap({0:IsNumber})), IsNumber),
           z:Any
         })));
 
@@ -51,14 +51,14 @@ var obj = {
   z:"chacha"
 };
 
-var test = _.assert(obj, contract);
+var test = Contract.assert(obj, contract);
 
 test.x;
 test.y("adf");
 //test.z;
 
-//var test = _.assert(-4711, _.Not(_.And(IsNumber, GreaterThanZero)));
-var test = _.assert(-1, _.Not(_.And(IsNumber, GreaterThanZero)));
-var test = _.assert(-1, _.Or(_.Not(IsNumber), _.Not(GreaterThanZero)));
-var test = _.assert("4711", _.Not(_.Or(IsNumber, False)));
-var test = _.assert(4711, _.Not(_.Not(IsNumber)));
+//var test = Contract.assert(-4711, Contract.Not(Contract.And(IsNumber, GreaterThanZero)));
+var test = Contract.assert(-1, Contract.Not(Contract.And(IsNumber, GreaterThanZero)));
+var test = Contract.assert(-1, Contract.Or(Contract.Not(IsNumber), Contract.Not(GreaterThanZero)));
+var test = Contract.assert("4711", Contract.Not(Contract.Or(IsNumber, False)));
+var test = Contract.assert(4711, Contract.Not(Contract.Not(IsNumber)));

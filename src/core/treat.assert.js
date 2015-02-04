@@ -103,9 +103,9 @@
   // canonicalize
   var canonicalize = TreatJS.canonicalize;
 
-  // construct
-  var construct = TreatJS.construct;
-  var constructWith = TreatJS.constructWith;
+  // construct // TODO
+  //var construct = TreatJS.construct;
+  //var constructWith = TreatJS.constructWith;
 
 
   /** log(msg)
@@ -151,7 +151,6 @@
   //| (_ | / _ \ '_ \/ _` | |
   // \___|_\___/_.__/\__,_|_|
 
-  // TODO, use normal object as global, same for caches
   function Global(bindings) {
     if(!(this instanceof Global)) return new Global(bindings);
 
@@ -191,7 +190,7 @@
   Global.prototype.merge = function(bindings) {
     var newglobal = this.dump();
     for(var name in bindings) {
-      newglobal[name] = binding[name];
+      newglobal[name] = bindings[name];
     }
     return new Global(newglobal);
   }
@@ -227,7 +226,6 @@
     }
 
     var callback = RootCallback(function(handle) {
-      // TODO, use something like handle.isFalse
       if(handle.caller.isFalse() || handle.callee.isFalse()) {
 
         var msg = contract.toString(); /*handle.blame();*/
@@ -327,6 +325,14 @@
     //  \_/\_/ |_|\__|_||_\___\___/_||_\__|_| \__,_\__|\__|                                                   
 
     else if (contract instanceof WithContract) {
+      /*var newglobal = {}; // TODO, use global merge // newglobal = new Gloabl();
+
+      for(var name in global) {
+        newglobal[name] = global[name];
+      }
+      for(var name in contract.bindings) {
+        newglobal[name] = contract.binding[name];
+      }*/
       var newglobal = global.merge(contract.binding);
       return assertWith(arg, contract.sub, newglobal, callbackHandler);
     }
@@ -555,15 +561,15 @@
 
       var globalArg = global.dump(); 
       var thisArg = undefined;
-      var argsArray = new Array();
-
-      argsArray.push(TreatJS.wrap(arg)); // TODO
-
+      var argsArray = [TreatJS.wrap(arg)];
+ 
       /* Merge global objects
       */ 
 
       var callback = BaseCallback(callbackHandler, contract);
 
+      // TODO, why is this required ?
+      // without new decompiling with would not work!
       // clone object
       function clone(obj) {
         var tmp = {};
@@ -611,22 +617,22 @@
     else if(contract instanceof BaseContract) {
       count(TreatJS.Statistic.BASE);
 
-      //var globalArg = global.dump(); // TODO
-      var globalArg = global; // TODO
-
+      var globalArg = global.dump();
       var thisArg = undefined;
-      var argsArray = new Array();
-      argsArray.push(arg);
+      var argsArg = [arg];
 
       var callback = BaseCallback(callbackHandler, contract);
 
       try {
-        var result = translate(TreatJS.eval(contract.predicate, globalArg, thisArg, argsArray));
+        var result = translate(TreatJS.eval(contract.predicate, globalArg, thisArg, argsArg));
       } catch (e) { 
         if(e instanceof TreatJSError) {
           var result = e;
         } else {
-          print("@@@@@@@@@2" + e + e.stack);
+          
+          // TODO
+          print("PREDICATE EXCEPTION \n" + e + "\n" + e.stack);
+                    
           var result = TreatJS.Logic.Conflict;
         }
       } finally {
@@ -907,6 +913,184 @@
     };
     }
     PolymorphicHandler.prototype = Object.create(Handler.prototype);*/
+
+
+// TODO
+
+  //                     _                   _   
+  //                    | |                 | |  
+  //  ___ ___  _ __  ___| |_ _ __ _   _  ___| |_ 
+  // / __/ _ \| '_ \/ __| __| '__| | | |/ __| __|
+  //| (_| (_) | | | \__ \ |_| |  | |_| | (__| |_ 
+  // \___\___/|_| |_|___/\__|_|   \__,_|\___|\__|
+
+  function construct(constructor, args) {
+    log("construct", constructor);
+
+    if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
+
+    // TODO, extend global over Constructors
+    // and merge wih arguments
+    return constructWith(constructor, ((args==undefined) ? [] : args), new Global({}));
+  }
+
+  function constructWith(constructor, args, global) {
+    log("construct with", constructor);
+
+    if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
+
+    //  ___         _               _    ___             _               _           
+    // / __|___ _ _| |_ _ _ __ _ __| |_ / __|___ _ _  __| |_ _ _ _  _ __| |_ ___ _ _ 
+    //| (__/ _ \ ' \  _| '_/ _` / _|  _| (__/ _ \ ' \(_-<  _| '_| || / _|  _/ _ \ '_|
+    // \___\___/_||_\__|_| \__,_\__|\__|\___\___/_||_/__/\__|_|  \_,_\__|\__\___/_|  
+
+    if(constructor instanceof ContractConstructor) {
+      // BASE CNTRACT
+      
+      //var newglobal = (constructor.binding!==undefined) ? global.merge(constructor.binding) : global;   
+      //var globalArg = newglobal.dump(); 
+      var globalArg = global.dump();
+      var thisArg = undefined;
+      var argsArray = args;
+
+      var build = TreatJS.build();
+      var contract = {};
+      for(var property in build) {
+        contract[property] = build[property];
+      }
+      
+      var newBaseContract = function (predicate, name) {
+        print("=====================================================================");
+        return SandboxContract(predicate, globalArg, name);
+      };
+
+      contract.Base = newBaseContract;
+      globalArg["Contract"] = contract;
+
+
+
+      // TODO
+      //Contract.BaseContract = newBaseContract;
+
+      //globalArg["Contract"] = TreatJS.build();
+      //globalArg["Contract"].Base = newBaseContract;
+
+      //var treatjs = {};
+      //var contract = {}
+      
+      // TODO, only one avaliable in Sandbox
+
+      /*for(property in TreatJS) {
+        if(property==="BaseContract") {
+          treatjs[property] = newBaseContract;
+          //__define(property, newBaseContract, treatjs);
+        }
+        else {
+          treatjs[property] = TreatJS[property];
+          //__define(property, _[property], treatjs);
+        }
+      }*/
+
+      //var build = TreatJS.build();
+
+      /*for(property in build) {
+        if(property==="Base") {
+          contract[property] = newBaseContract;
+          //__define(property, newBaseContract, contract);
+        }
+        else {
+          contract[property] = build[property];
+          //__define(property, build[property], contract);
+        }
+      }*/
+
+      //globalArg["_"] = treatjs;
+      //globalArg["Contract"] = contract;
+      //globalArg["C"] = globalArg["Contract"];
+      //Not really sandboxed
+
+      var contract = (TreatJS.eval(constructor.constructor, globalArg, thisArg, argsArray));
+
+      if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+      return contract;
+    }
+
+
+
+    // ___                         _       _     ___         _               _   
+    //| _ \__ _ _ _ __ _ _ __  ___| |_ _ _(_)__ / __|___ _ _| |_ _ _ __ _ __| |_ 
+    //|  _/ _` | '_/ _` | '  \/ -_)  _| '_| / _| (__/ _ \ ' \  _| '_/ _` / _|  _|
+    //|_| \__,_|_| \__,_|_|_|_\___|\__|_| |_\__|\___\___/_||_\__|_| \__,_\__|\__|
+
+    if(contract instanceof ParametricContract) {
+      //if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
+      // TODO, this must be a contract
+
+      //var handler = new MethodHandler(contract, global, callbackHandler);
+      //var proxy = new Proxy(arg, handler);
+      //return proxy;
+      return undefined;
+    } 
+
+    //__   __        _      _    _      ___         _               _   
+    //\ \ / /_ _ _ _(_)__ _| |__| |___ / __|___ _ _| |_ _ _ __ _ __| |_ 
+    // \ V / _` | '_| / _` | '_ \ / -_) (__/ _ \ ' \  _| '_/ _` / _|  _|
+    //  \_/\__,_|_| |_\__,_|_.__/_\___|\___\___/_||_\__|_| \__,_\__|\__|
+
+    if(constructor instanceof VariableContract) {
+      print(constructor);
+      print(args[constructor]);
+      return args[constructor]; // TODO test
+    }
+
+    /*
+    // ___      ___         _               _   
+    //|_ _|_ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
+    // | || ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
+    //|___|_||_\___\___/_||_\__|_| \__,_\__|\__|
+
+    if(contract instanceof InContract) {
+    //if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
+
+    //var handler = new MethodHandler(contract, global, callbackHandler);
+    //var proxy = new Proxy(arg, handler);
+    //return proxy;
+    return undefined;
+    }
+
+    //  ___       _    ___         _               _   
+    // / _ \ _  _| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
+    //| (_) | || |  _| (__/ _ \ ' \  _| '_/ _` / _|  _|
+    // \___/ \_,_|\__|\___\___/_||_\__|_| \__,_\__|\__|
+
+    if(contract instanceof OutContract) {
+    //if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
+
+    //var handler = new MethodHandler(contract, global, callbackHandler);
+    //var proxy = new Proxy(arg, handler);
+    //return proxy;
+    return undefined;
+    }
+    */
+
+
+    //    _      __           _ _   
+    // __| |___ / _|__ _ _  _| | |_ 
+    /// _` / -_)  _/ _` | || | |  _|
+    //\__,_\___|_| \__,_|\_,_|_|\__|
+
+    else error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
+
+  }
+
+  //         _               _ 
+  // _____ _| |_ ___ _ _  __| |
+  /// -_) \ /  _/ -_) ' \/ _` |
+  //\___/_\_\\__\___|_||_\__,_|
+
+  TreatJS.extend("construct", construct);
+  TreatJS.extend("constructWith", constructWith);
+
 
 
 
