@@ -140,7 +140,7 @@ function h() {
 
 
 var x = {z:z, c:c, g:g, h:h, o:o, n:n, print:print}; // allowed values
-var result = _.eval(f, x);
+var result = TreatJS.eval(f, x);
 //print(result);
 
 //print(f());

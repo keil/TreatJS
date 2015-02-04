@@ -13,45 +13,45 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-var u = _.Logic.Unknown;
-var f = _.Logic.False;
-var t = _.Logic.True;
-var x = _.Logic.Conflict;
+var u = TreatJS.Logic.Unknown;
+var f = TreatJS.Logic.False;
+var t = TreatJS.Logic.True;
+var x = TreatJS.Logic.Conflict;
 
 function test(v,vp,op,r) {
   switch(op) {
     case 'and':
-      out2(v,vp,op,r,(_.Logic.and(v,vp)===r));
+      out2(v,vp,op,r,(TreatJS.Logic.and(v,vp)===r));
       break;
     case 'or':
-      out2(v,vp,op,r,(_.Logic.or(v,vp)===r));
+      out2(v,vp,op,r,(TreatJS.Logic.or(v,vp)===r));
       break;
     case 'implies':
-      out2(v,vp,op,r,(_.Logic.implies(v,vp)===r));
+      out2(v,vp,op,r,(TreatJS.Logic.implies(v,vp)===r));
       break;
     case 'lesseq':
-      out2(v,vp,op,r,(_.Logic.lesseq(v,vp)===r));
+      out2(v,vp,op,r,(TreatJS.Logic.lesseq(v,vp)===r));
       break;
     case 'not':
-      out1(v,vp,op,r,(_.Logic.not(v)===r));
+      out1(v,vp,op,r,(TreatJS.Logic.not(v)===r));
       break;
     case 'convolution':
-      out1(v,vp,op,r,(_.Logic.convolution(v)===r));
+      out1(v,vp,op,r,(TreatJS.Logic.convolution(v)===r));
       break;
     case 'meet':
-      out2(v,vp,op,r,(_.Logic.meet(v,vp)===r));
+      out2(v,vp,op,r,(TreatJS.Logic.meet(v,vp)===r));
       break;
     case 'join':
-      out2(v,vp,op,r,(_.Logic.join(v,vp)===r));
+      out2(v,vp,op,r,(TreatJS.Logic.join(v,vp)===r));
       break;
     case 'entails':
-      out2(v,vp,op,r,(_.Logic.entails(v,vp)===r));
+      out2(v,vp,op,r,(TreatJS.Logic.entails(v,vp)===r));
       break;
     case 'subseteq':
-      out2(v,vp,op,r,(_.Logic.subseteq(v,vp)===r));
+      out2(v,vp,op,r,(TreatJS.Logic.subseteq(v,vp)===r));
       break;
     case 'neg':
-      out1(v,vp,op,r,(_.Logic.neg(v)===r));
+      out1(v,vp,op,r,(TreatJS.Logic.neg(v)===r));
       break;
 
   }

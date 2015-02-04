@@ -138,7 +138,7 @@ function h() {
 
 
 var x = {z:z, c:c, g:g, h:h, o:o, n:n, print:print}; // allowed values
-var ff = _.bind(f, x);
+var ff = TreatJS.bind(f, x);
 print(ff);
 print(ff === f);
 ff();
