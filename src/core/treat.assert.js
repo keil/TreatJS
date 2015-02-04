@@ -105,6 +105,8 @@
 
   // construct
   var construct = TreatJS.construct;
+  var constructWith = TreatJS.constructWith;
+
 
   /** log(msg)
    * @param msg String message
@@ -264,7 +266,7 @@
     //|_| \_,_|_||_|_\_\\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
     if(contract instanceof FunctionContract) {
-      if(!(arg instanceof Function)) callbackHandler(Handle(_.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
+      if(!(arg instanceof Function)) callbackHandler(Handle(TreatJS.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
 
       var handler = new FunctionHandler(contract, global, callbackHandler);
       var proxy = new Proxy(arg, handler);
@@ -277,7 +279,7 @@
     //|_|  |_\___|\__|_||_\___/\__,_|\___\___/_||_\__|_| \__,_\__|\__|
 
     if(contract instanceof MethodContract) {
-      if(!(arg instanceof Function)) callbackHandler(Handle(_.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
+      if(!(arg instanceof Function)) callbackHandler(Handle(TreatJS.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
 
       var handler = new MethodHandler(contract, global, callbackHandler);
       var proxy = new Proxy(arg, handler);
@@ -291,7 +293,7 @@
     //          |__/                                             
 
     else if (contract instanceof ObjectContract) {
-      if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
+      if(!(arg instanceof Object)) callbackHandler(Handle(TreatJS.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
 
       /* STRICT MODE */
       if(contract.strict) {
@@ -312,7 +314,7 @@
     //         |_|                                                               
 
     else if(contract instanceof DependentContract) {
-      if(!(arg instanceof Function)) callbackHandler(Handle(_.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
+      if(!(arg instanceof Function)) callbackHandler(Handle(TreatJS.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
 
       var handler = new DependentHandler(contract, global, callbackHandler);
       var proxy = new Proxy(arg, handler);
@@ -535,7 +537,7 @@
     //|_|_\___|_| |_\___\__|\__|_\___/_||_|
 
     if(contract instanceof ReflectionContract) {
-      if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
+      if(!(arg instanceof Object)) callbackHandler(Handle(TreatJS.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
 
       var reflect = new ReflectionHandler(contract, global, callbackHandler);
       var noop = new NoOpHandler();
@@ -555,7 +557,7 @@
       var thisArg = undefined;
       var argsArray = new Array();
 
-      argsArray.push(_.wrap(arg));
+      argsArray.push(TreatJS.wrap(arg)); // TODO
 
       /* Merge global objects
       */ 
@@ -592,7 +594,7 @@
         if(result instanceof TreatJSError) {
           throw result;
         } else {
-          var handle = Handle(_.Logic.True, result, result);
+          var handle = Handle(TreatJS.Logic.True, result, result);
           callback.predicateHandler(handle);
           clear(contract.global);
           copy(backupGlobal, contract.global);
@@ -619,18 +621,19 @@
       var callback = BaseCallback(callbackHandler, contract);
 
       try {
-        var result = translate(_.eval(contract.predicate, globalArg, thisArg, argsArray));
+        var result = translate(TreatJS.eval(contract.predicate, globalArg, thisArg, argsArray));
       } catch (e) { 
         if(e instanceof TreatJSError) {
           var result = e;
         } else {
+          print("@@@@@@@@@2" + e + e.stack);
           var result = TreatJS.Logic.Conflict;
         }
       } finally {
         if(result instanceof TreatJSError) {
           throw result;
         } else {
-          var handle = Handle(_.Logic.True, result, result);
+          var handle = new Handle(TreatJS.Logic.True, result);
           callback.predicateHandler(handle);
           return arg;
         }
@@ -776,7 +779,7 @@
     else Handler.call(this);
 
     this.apply = function(target, thisArg, args) {
-      var range = constructWith(args, contract.constructor, global);
+      var range = constructWith(contract.constructor, args, global);
       var val = target.apply(thisArg, args); 
       return assertWith(val, range, global, handler);
     };
@@ -900,7 +903,7 @@
     else Handler.call(this);
 
     this.get = function(target, name, receiver) {
-    handler( _.Callback.Handle(_.Logic.True, _.Logic.False, _.Logic.False));
+    handler( TreatJS.Callback.Handle(_.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
     };
     }
     PolymorphicHandler.prototype = Object.create(Handler.prototype);*/

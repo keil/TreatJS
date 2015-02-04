@@ -655,7 +655,7 @@
     // TODO, new Update Function
     function update() {
       var caller = True;
-      var callee = Tree;
+      var callee = True;
 
       // TODO, make update
        /*handler({

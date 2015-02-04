@@ -26,6 +26,10 @@
    // core contracts
   var ImmediateContract = TreatJS.Contract.Immediate;
 
+  // core constructors
+  var ContractConstructor = TreatJS.Constructor.Constructor;
+
+
 
 
   // TODO, global, assert
@@ -55,7 +59,7 @@
   //\__ \/ _` | ' \/ _` | '_ \/ _ \ \ / (__/ _ \ ' \  _| '_/ _` / _|  _|
   //|___/\__,_|_||_\__,_|_.__/\___/_\_\\___\___/_||_\__|_| \__,_\__|\__|
 
-  function SandboxContract(predicate, global, name) {
+  /*function SandboxContract(predicate, global, name) {
     if(!(this instanceof SandboxContract)) return new SandboxContract(predicate, global, name);
 
     if(!(predicate instanceof Function)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
@@ -72,7 +76,7 @@
 
     this.toString = function() { return "[" + ((name!=undefined) ? name : predicate.toString()) + "]"; };
   }
-  SandboxContract.prototype = new ImmediateContract();
+  SandboxContract.prototype = new ImmediateContract();*/
 
   //                     _                   _   
   //                    | |                 | |  
@@ -114,27 +118,38 @@
         return SandboxContract(predicate, globalArg, name);
       };
 
-      for(property in _) {
+      // TODO, only one avaliable in Sandbox
+
+      for(property in TreatJS) {
         if(property==="BaseContract") {
-          __define(property, newBaseContract, treatjs);
+          treatjs[property] = newBaseContract;
+          //__define(property, newBaseContract, treatjs);
         }
-        else __define(property, _[property], treatjs);
+        else {
+          treatjs[property] = TreatJS[property];
+          //__define(property, _[property], treatjs);
+        }
       }
 
       var build = TreatJS.build();
 
       for(property in build) {
         if(property==="Base") {
-          __define(property, newBaseContract, contract);
+          contract[property] = newBaseContract;
+          //__define(property, newBaseContract, contract);
         }
-        else __define(property, build[property], contract);
+        else {
+          contract[property] = build[property];
+          //__define(property, build[property], contract);
+        }
       }
 
-      globalArg["_"] = treatjs;
-      globalArg["Contract"] = contract;
-      globalArg["C"] = globalArg["Contract"];
+      //globalArg["_"] = treatjs;
+      //globalArg["Contract"] = contract;
+      //globalArg["C"] = globalArg["Contract"];
+      //Not really sandboxed
 
-      var contract = (_.eval(constructor.constructor, globalArg, thisArg, argsArray));
+      var contract = (TreatJS.eval(constructor.constructor, globalArg, thisArg, argsArray));
 
       if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
       return contract;
@@ -214,5 +229,6 @@
   //\___/_\_\\__\___|_||_\__,_|
 
   TreatJS.extend("construct", construct);
+  TreatJS.extend("constructWith", constructWith);
 
 })(TreatJS);

@@ -22,6 +22,7 @@
   var StringMap = TreatJS.Map.StringMap;
 
   var Contract = TreatJS.Core.Contract;
+  var Constructor = TreatJS.Core.Constructor;
 
   //  _____            _                  _       
   // / ____|          | |                | |      

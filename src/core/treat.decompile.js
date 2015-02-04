@@ -21,8 +21,10 @@
    * @param msg String message
    */ 
   function log(msg, target) {
-    if(TreatJS.Verbose.sandbox) {
-      __out(padding_right(msg + " ", ".", 30) + ((target!=undefined)?" "+target:""));
+    if(TreatJS.Verbose.assert) {
+      __out(padding_right(msg + " ", ".", 30));
+      __blank();
+      __out(((target!=undefined)?" "+target:""));
       __blank();
     }
   }
@@ -31,7 +33,7 @@
    * @param key String
    */
   function count(key) {
-    if(TreatJS.Verbose.statistic) _.Statistic.inc(key);
+    if(TreatJS.Verbose.statistic) TreatJS.Statistic.inc(key);
   }
 
 
@@ -44,7 +46,7 @@
    * @return a secure function
    */
   function decompile(fun) {
-    log("[[decompile]]");
+    log("decompile", fun.toString());
     count(TreatJS.Statistic.DECOMPILE);
 
     var string = "(" + fun.toString() + ")"; 

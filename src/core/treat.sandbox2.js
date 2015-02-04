@@ -33,7 +33,7 @@
    * @param key String
    */
   function count(key) {
-    if(TreatJS.Verbose.statistic) _.Statistic.inc(key);
+    if(TreatJS.Verbose.statistic) TreatJS.Statistic.inc(key);
   }
 
   // __  __           _                      
@@ -53,7 +53,7 @@
    */
   function wrap(target, global) { 
     log("[[wrap]]");
-    count(_.Statistic.MEMBRANE);
+    count(TreatJS.Statistic.MEMBRANE);
 
     // IF target is primitive value, return target
     if (target !== Object(target)) {
@@ -145,14 +145,14 @@
       else if(name=="C") return target[name];
 
       // pass-through of Contracts   
-      if( _.Config.contractPassThrough) {
-        if(target[name] instanceof _.Core.Contract) {
+      if( TreatJS.Config.contractPassThrough) {
+        if(target[name] instanceof TreatJS.Core.Contract) {
           return target[name];
         }
       }
 
       // pass-through of native functions
-      if( _.Config.nativePassThrough) {
+      if( TreatJS.Config.nativePassThrough) {
         if(isNativeFunction(target[name])) {
           return target[name];
         }
@@ -324,9 +324,9 @@
     thisArg = (thisArg!=undefined) ? thisArg : globalArg;
     argsArray = (argsArray!=undefined) ? argsArray : new Array();
 
-    if(!_.Config.decompile) {
+    if(!TreatJS.Config.decompile) {
       with(globalArg) { return fun.apply(thisArg, argsArray); }
-    } else if(!_.Config.membrane) {
+    } else if(!TreatJS.Config.membrane) {
       return evalInSandbox(fun, globalArg, thisArg, argsArray);
     } else {
       var sandboxGlobalArg = wrap(globalArg, globalArg);
@@ -352,9 +352,9 @@
     thisArg = (thisArg!=undefined) ? thisArg : globalArg;
     argsArray = (argsArray!=undefined) ? argsArray : new Array();
 
-    if(!_.Config.decompile) {
+    if(!TreatJS.Config.decompile) {
       with(globalArg) { return fun.apply(thisArg, argsArray); }
-    } else if(!_.Config.membrane) {
+    } else if(!TreatJS.Config.membrane) {
       return evalNewInSandbox(fun, globalArg, thisArg, argsArray);
     } else {
       var sandboxGlobalArg = wrap(globalArg, globalArg);
@@ -400,9 +400,9 @@
     thisArg = (thisArg!=undefined) ? thisArg : globalArg;
     argsArray = (argsArray!=undefined) ? argsArray : new Array();
 
-    if(!_.Config.decompile) {
+    if(!TreatJS.Config.decompile) {
       return fun; 
-    } else if(!_.Config.membrane) {
+    } else if(!TreatJS.Config.membrane) {
       return bindInSandbox(fun, globalArg, thisArg, argsArray);
     } else {
       var sandboxGlobalArg = wrap(globalArg, globalArg);
@@ -436,9 +436,9 @@
    * @return Function
    */
   function getToStringFunction() {
-    if(_.Base.toString!=undefined) {
-      return _.Base.toString;
-    } else if(_.Config.newGlobal) {
+    if(TreatJS.Base.toString!=undefined) {
+      return TreatJS.Base.toString;
+    } else if(TreatJS.Config.newGlobal) {
       var g = newGlobal();
       return (g.Function.prototype.toString);
     } else {

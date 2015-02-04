@@ -54,7 +54,7 @@
   }
   ContractConstructor.prototype = Object.create(Constructor.prototype);
   ContractConstructor.prototype.toString = function() {
-    return "[*" + ((name!=undefined) ? name : constructor.toString()) + "*]";
+    return "[*" + ((this.name!=undefined) ? this.name : this.constructor.toString()) + "*]";
   };
 
   //         _               _ 
