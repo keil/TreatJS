@@ -19,6 +19,7 @@ print = function() {}
 
 //  makes TreatJS available under $
 //  Note: required to run the testcases
+var _ = TreatJS;
 var $ = _ ;
 
 var _file_ = undefined;
