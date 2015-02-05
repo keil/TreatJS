@@ -44,7 +44,7 @@ function TreatJS(configuration, verbose, out) {
     "out": { value: (out===undefined) ? {} : out }
   });
 
-  // store current Function.prototype.toString
+  // stores current Function.prototype.toString
   this.extend("Base", {});
   this.define(this.Base, "toString",  Function.prototype.toString);
 }

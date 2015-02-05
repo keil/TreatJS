@@ -3,6 +3,7 @@
 
 *** TreatJS 1.2.17 (PoC)
 * Runtime optimization on Callback Structure
+* New flexibel predicate decompilation
 * New TreatJS Debugger
 
 *** TreatJS 1.2.16 (PoC)

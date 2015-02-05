@@ -56,10 +56,10 @@ var TreatJS = new TreatJS({
 },{
   /** Print contract assertions
    * (default: false)
-   */assert: true,
+   */assert: false,
   /** Print sandbox operations
    * (default: false)
-   */sandbox: true,
+   */sandbox: false,
   /** Print statistics
    * (default: false)
    */statistic: true
@@ -84,14 +84,11 @@ load("src/treat.manual.js");// TODO, add new contarct types
 load("src/core/treat.base.js");
 load("src/core/treat.violation.js"); // TODO, change clame mode
 
-//load("src/core/treat.sandbox.js");// TODO, cdecompile hache
-load("src/core/treat.decompile.js");// TODO, cdecompile hache
-load("src/core/treat.sandbox2.js");// TODO, cdecompile hache
+load("src/core/treat.decompile.js");
+load("src/core/treat.sandbox.js");
 
-
-load("src/core/treat.logic.js");// TODO, cleanup
-//load("src/core/treat.callback.js");// TODO, cleanup, alternative to getter?
-load("src/core/treat.callback2.js");
+load("src/core/treat.logic.js");
+load("src/core/treat.callback.js"); // TODO
 
 load("src/core/treat.map.js");// TODO, cleanup
 // TODO, experimental code

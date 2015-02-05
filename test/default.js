@@ -13,75 +13,34 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-// debugger unit
-var dunit = new TreatJSDebugger();
+(function() {
 
-
-var x = ":'(";
-
-function p (arg) {
-  //x;
-  //x = ":)";
-  return false;
-}
-
-var P = Contract.Base(p);
-
-//Contract.assert({}, Contract.With({x:4711, y:4712}, P));
-
-dunit.assertSubjectBlame(function() {
-  Contract.assert({}, Contract.With({x:4711, y:4712}, P));
-});
-
-dunit.assertSubjectBlame(function() {
-  Contract.assert({}, Contract.With({x:4711, y:4712}, P));
-});
-
-print(x);
-
-load("test/test.js");
-
-
-TreatJS.Statistic.print();
-
-
-
-
-
-
-
-
-
-//load("test/test.js"); // TODO, renew
-quit();
-
-
-//load("test/blame/negation.js");
-/*
-var A = Contract.Polymorphic.Variable("A");
-var B = Contract.Polymorphic.Variable("B");
-var C = Contract.Polymorphic.Variable("C");
-
-
-var F = Contract.AFunction([Contract.Polymorphic.In(A)], Contract.Polymorphic.Out(A));
-
-function id(x) {
-  //var z = x+1;
-  return x;
-}
-
-var f = Contract.assert(id, F);
-print(f(1));
-
-*/
-/*
 function f (x, y) {
-  return ''+x+y;
+  return ""+(x+y);
 }
 
-var add = Contract.assert(f, Contract.AFunction([typeOfNumber, typeOfNumber], typeOfNumber));
+var plus = Contract.assert(f,
+    Contract.And(
+      Contract.AFunction([typeOfString,typeOfString], typeOfString),
+      Contract.AFunction([typeOfString,typeOfString], typeOfString)
+      )
+    );
 
-add(1, 2);
+plus("1","2");
+plus("1","2");
+//plus(1,2);
+//plus(true,true);
+
+})();
+
+
+
+
+
+
+
+
+
 
 
 
@@ -90,8 +49,172 @@ TreatJS.Version.print();
 TreatJS.Config.print();
 TreatJS.Statistic.print();
 
+
+
+
 quit();
+
+var a = {val:"a"};
+var b = {val:"b"};
+var c = {val:"c"};
+
+var get = function () {
+  return a;
+}
+
+var doSth = function () {
+  print("L");
+}
+
+
+var current = a;
+
+if(current === (current=get())) doSth();
+print(current.val);
+
+//print((current=get()).val);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+quit();
+
+var y = 1;
+
+function add1(x) {
+  return (x+y);
+}
+
+print("@@@" + add1(4711));
+
+with({y:1000}) {
+  print("@@@" + add1(4711));
+}
+
+var x = 1;
+var y = 2;
+
+function f () {
+  return function () {
+    return (x+y);
+  }
+}
+
+var gf = f();
+print(gf());
+print(gf());
+x=477979;
+print(gf());
+
+
+var d = TreatJS.decompile(f);
+var df = d();
+print(df());
+
+var df1 = d.eval({x:4711, y:4712});
+print(df1());
+print(df1());
+
+var df2 = d.eval({x:-4711, y:-4712});
+print(df2());
+print(df2());
+
+print(df1());
+
+
+
+// debugger unit
+var dunit = new TreatJSDebugger();
+
+(function() {
+
+  function f (x, y) {
+    return ""+(x+y);
+  }
+
+  var plus = Contract.assert(f,
+    Contract.Intersection(
+      Contract.AFunction([typeOfNumber,typeOfNumber], typeOfNumber),
+      Contract.AFunction([typeOfString,typeOfString], typeOfString)
+      )
+    );
+
+  dunit.assertNoBlame(function() {
+    plus("1","2");
+  });
+
+  dunit.assertNoBlame(function() {
+    //plus(1,2);
+  });
+
+  dunit.assertSubjectBlame(function() {
+    plus(1,2);
+  });
+
+  dunit.assertContextBlame(function() {
+    plus(true,true);
+  });
+
+})();
+
+
+
+
+
+//load("test/test.js"); // TODO, renew
+//
+
+TreatJS.Version.print();
+TreatJS.Statistic.print();
+quit();
+
+
+//load("test/blame/negation.js");
+/*
+   var A = Contract.Polymorphic.Variable("A");
+   var B = Contract.Polymorphic.Variable("B");
+   var C = Contract.Polymorphic.Variable("C");
+
+
+   var F = Contract.AFunction([Contract.Polymorphic.In(A)], Contract.Polymorphic.Out(A));
+
+   function id(x) {
+//var z = x+1;
+return x;
+}
+
+var f = Contract.assert(id, F);
+print(f(1));
+
 */
+/*
+   function f (x, y) {
+   return ''+x+y;
+   }
+
+   var add = Contract.assert(f, Contract.AFunction([typeOfNumber, typeOfNumber], typeOfNumber));
+
+   add(1, 2);
+
+
+
+
+   TreatJS.Version.print();
+   TreatJS.Config.print();
+   TreatJS.Statistic.print();
+
+   quit();
+   */
 
 
 // ==================================================
@@ -108,19 +231,19 @@ quit();
  * that only accepts contracts as agruments.
  */
 /*
-var A = Contract.Polymorphic.Variable("A");
-var B = Contract.Polymorphic.Variable("B");
-var C = Contract.Polymorphic.Variable("C");
+   var A = Contract.Polymorphic.Variable("A");
+   var B = Contract.Polymorphic.Variable("B");
+   var C = Contract.Polymorphic.Variable("C");
 
-var V = Contract.Polymorphic.Variables([A,B]);
+   var V = Contract.Polymorphic.Variables([A,B]);
 
-var F = Contract.AFunction([A,A], A);
+   var F = Contract.AFunction([A,A], A);
 //print(F);
 
 var abs = Contract.Abstraction(function (A) {
-  return Contract.Abstraction(function(B) {
-    return Contract.AFunction([A,A], B);
-  });
+return Contract.Abstraction(function(B) {
+return Contract.AFunction([A,A], B);
+});
 });
 
 abs(Num)(Bool);
@@ -132,10 +255,10 @@ var Abs = Contract.Abstraction("a", abs);
 */
 
 /*
-var F = Contract.AFunction([A,A], A);
-var V = Contract.Variables([A,B]);
-var P = Contract.Parametric(V, F);
-*/
+   var F = Contract.AFunction([A,A], A);
+   var V = Contract.Variables([A,B]);
+   var P = Contract.Parametric(V, F);
+   */
 
 var f = function(x,y) {
   return (x+y);
@@ -164,54 +287,54 @@ quit();
 
 /*
 
-(function() {
+   (function() {
 
-  function f(x, r) {
-    return r;
-  }
+   function f(x, r) {
+   return r;
+   }
 
-  var NumNum = Contract.AFunction([typeOfNumber], typeOfNumber);
-  var g = Contract.assert(f, NumNum);
+   var NumNum = Contract.AFunction([typeOfNumber], typeOfNumber);
+   var g = Contract.assert(f, NumNum);
 
-  //g(1,1); // ok
-  //g(1,"a"); // blame subject
-  //g("a", 1); // blame context
-  //g("a","a"); // blame context
-  
+//g(1,1); // ok
+//g(1,"a"); // blame subject
+//g("a", 1); // blame context
+//g("a","a"); // blame context
+
 })();
 
 (function() {
 
-  function f(x, r) {
-    return r;
-  }
+function f(x, r) {
+return r;
+}
 
-  var NumNum = Contract.AFunction([typeOfNumber], typeOfNumber);
-  var g = Contract.assert(f, NumNum);
+var NumNum = Contract.AFunction([typeOfNumber], typeOfNumber);
+var g = Contract.assert(f, NumNum);
 
-  //g(1,1); // ok
-  //g(1,"a"); // blame subject
-  //g("a", 1); // blame context
-  //g("a","a"); // blame context
-  
+//g(1,1); // ok
+//g(1,"a"); // blame subject
+//g("a", 1); // blame context
+//g("a","a"); // blame context
+
 })();
 
 
 
 (function() {
 
-  function f(x, r) {
-    return r;
-  }
+function f(x, r) {
+return r;
+}
 
-  var NumNum = Contract.AFunction([typeOfNumber], typeOfNumber);
-  var g = Contract.assert(f, NumNum);
+var NumNum = Contract.AFunction([typeOfNumber], typeOfNumber);
+var g = Contract.assert(f, NumNum);
 
-  //g(1,1); // ok
-  //g(1,"a"); // blame subject
-  //g("a", 1); // blame context
-  //g("a","a"); // blame context
-  
+//g(1,1); // ok
+//g(1,"a"); // blame subject
+//g("a", 1); // blame context
+//g("a","a"); // blame context
+
 })();
 
 */
@@ -280,9 +403,9 @@ quit();
   var D = Contract.AFunction([NegNeg], B);
 
   var f = Contract.assert(id, Contract.Intersection(C, D));
-  
+
   var g = f(id);
-  
+
   g(42);
 
 });
@@ -307,20 +430,20 @@ quit();
 
 // ==================================================
 /*
-var AccessContract = Contract.Constructor (function ctor (pstr) {
+   var AccessContract = Contract.Constructor (function ctor (pstr) {
 //  var readable = true;
 //  var writeable = true;
-  var contract = Contract.Base(function(type) {
-    return (typeof type) === "number";
-  });
+var contract = Contract.Base(function(type) {
+return (typeof type) === "number";
+});
 
 
 
 //  return Contract.Object();
-  return Contract.Object(Contract.RegExpMap([Contract.Mapping(/^xxx$/, contract),
-      Contract.Mapping(/^(\d|\w)$/, Contract.Constructor(ctor))
-    //   Contract.Mapping(/^x$/, contract)
-    ]));
+return Contract.Object(Contract.RegExpMap([Contract.Mapping(/^xxx$/, contract),
+Contract.Mapping(/^(\d|\w)$/, Contract.Constructor(ctor))
+//   Contract.Mapping(/^x$/, contract)
+]));
 });
 
 var Access = AccessContract.ctor;
@@ -342,16 +465,16 @@ quit();
 /*
 // TypeOf Constructor
 var TypeOf = Contract.Constructor(function ctor(type ) {
-  return Contract.Base(function (arg) {
-    return ((typeof arg) === type);
-  }, "typeOf " + type);
+return Contract.Base(function (arg) {
+return ((typeof arg) === type);
+}, "typeOf " + type);
 });
 
 var typeOfNumberx = TypeOf.build("number");
 
 var arraySpec = Contract.AObject(Contract.RegExpMap([
-  Contract.Mapping(/get(^Day+Month+Year$)/,
-    Contract.SFunction(Any, typeOfNumber))]))
+Contract.Mapping(/get(^Day+Month+Year$)/,
+Contract.SFunction(Any, typeOfNumber))]))
 */
 
 // ==================================================
@@ -360,11 +483,11 @@ quit();
 
 
 /*
-Contract.And(
-    Contract.Object({c:typeOfNumber}),
-    Contract.Reflect.Get(ObjCon, Con, ObjCon)
-);
-*/
+   Contract.And(
+   Contract.Object({c:typeOfNumber}),
+   Contract.Reflect.Get(ObjCon, Con, ObjCon)
+   );
+   */
 //Problem, getter function, and  and the argument has to be wrapped bevore calling the getter
 //Loesung, Reihenfolge umdrehen umdrehen
 

@@ -39,8 +39,9 @@ run("test/contract/constructor.js");
 run("test/sandbox/sandbox.js");
 run("test/sandbox/bind.js");
 
-// callback tests
+// miscellaneous tests
 run("test/miscellaneous/logic.js");
+//run("test/miscellaneous/debugger.js");
 
 // behavior
 run("test/behavior/negative.js");
@@ -81,6 +82,7 @@ load("test/canonicalize/canonicalize.js");
 run("test/reflect/get.js");
 run("test/reflect/set.js");
 
+TreatJS.Version.print();
 TreatJS.Statistic.print();
 
 quit();
