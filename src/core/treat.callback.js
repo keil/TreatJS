@@ -155,8 +155,10 @@
 
     Object.defineProperty(this, "rootHandler", {value:function(handle) {
       // merge child 
-      root = Handle.merge(root, handle);
-      
+      //root = Handle.merge(root, handle);
+      root = Handle.merge(handle, handle);
+      // TODO, root callback do not store the results
+
       handler({
         caller:root.caller,
         callee:root.callee      

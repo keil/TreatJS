@@ -22,7 +22,7 @@
    */ 
   function log(msg, target) {
     if(TreatJS.Verbose.assert) {
-      __out(padding_right(msg + " ", ".", 30));
+      __out(padding_right("decompile . " + msg + " ", ".", 30));
       __blank();
       __out(((target!=undefined)?" "+target:""));
       __blank();
@@ -34,6 +34,29 @@
    */
   function count(key) {
     if(TreatJS.Verbose.statistic) TreatJS.Statistic.inc(key);
+  }
+
+  // global -> ( function -> function' )
+  var dcache = new WeakMap();
+
+  /** pre decompile (fun, globalArg)
+   *
+   * Gets the predicate from the cache or decompiles it 
+   *
+   * @param fun The function object.
+   * @param globalArg The secure global object.
+   * @return a secure function
+   */
+  function cache(fun) {
+    if(dcache.has(fun)) {
+      log("dcache hit");
+      return dcache.get(fun);
+    } else {
+      log("dcache miss");
+      var decompiled = decompile(fun);
+      dcache.set(fun, decompiled);
+      return decompiled;
+    }
   }
 
   /** decompile (fun)
@@ -126,4 +149,3 @@
   TreatJS.extend("decompile", decompile);
 
 })(TreatJS);
-
