@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -13,117 +13,37 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-// Note: Still Testing Code
-
 function TreatJSDebugger() {
   if(!(this instanceof TreatJSDebugger)) return new TreatJSDebugger();
-
-  // TODO
-  this.catch = function(result) {
-  }
-
-  this.error = function(msg, file, line) {}
-  this.violation = function(msg, file, line) {}
-  this.blame = function(contract, msg, file, line) {}
 }
-
 
 TreatJSDebugger.prototype.assertNoBlame = function(fun) {
   try {
     fun()
   } catch (err) {
-    throw new Error("Failure: No-Blame expected!");
+    throw new Error("Failure: No-Blame expected!" + "\n" + err.toString());
   }
   return undefined;
 }
 
-TreatJSDebugger.prototype.assertBlame = function(fun) {
+TreatJSDebugger.prototype.assertContextBlame = function(fun) {
   try {
     fun()
   } catch (err) {
+    if(err.blamed!==TreatJS.Error.TreatJSBlame.CONTEXT)
+      throw new Error("Failure: Context-Blame expected!" + "\n" + err.toString());
     return undefined;
   }
-  throw new Error("Failure: Blame expected!");
+  throw new Error("Failure: Context-Blame expected!");
 }
 
-
-
-
-function TreatJSDebuggerUnit() {
-  if(!(this instanceof TreatJSDebugger)) return new TreatJSDebugger();
-  else TreatJSDebugger.call(this);
-
-  var errorStack = new Array();
-  var violationStack = new Array();
-  var blameStack = new Array();
-
-  this.error = function(msg, file, line) {
-    errorStack.push("Error (" + file + ":" + line + "):\n" + msg);
+TreatJSDebugger.prototype.assertSubjectBlame = function(fun) {
+  try {
+    fun()
+  } catch (err) {
+    if(err.blamed!==TreatJS.Error.TreatJSBlame.SUBJECT)
+      throw new Error("Failure: Subject-Blame expected!" + "\n" + err.toString());
+    return undefined;
   }
-  this.violation = function(msg, file, line) {
-    violationStack.push("Error (" + file + ":" + line + "):\n" + msg);
-  }
-
-  this.blame = function(contract, msg, file, line) {
-    blameStack.push(
-        ("Violation: (" + file + ":" + line + "):\n" + msg) + "\n" +
-        ("Violated Contract: " + contract.toString())
-        );
-  }
-
-  function assertTrue(stack) {
-    var result = stack.pop();
-
-    if(!result) {
-      print(new Error().stack);
-      quit();
-    }
-    clear(stack);
-  }
-
-  function assertFalse(stack) {
-    var result = stack.pop();
-
-    print("RESULT " + result);
-
-    if(!result) {
-      print(new Error().stack);
-      quit();
-    } else {
-      print("" + result);
-    }
-    clear(stack);
-  }
-
-  function clear(stack) {
-    while(stack.length > 0) {
-      stack.pop();
-    }
-  }
-
-
-
-
-  this.assertNoError = function() {
-    assertTrue(errorStack);
-  }
-  this.assertError = function() {
-    assertFalse(errorStack);
-  }
-
-  this.assertNoViolation = function() {
-    assertTrue(violationStack);
-  }
-  this.assertViolation = function() {
-    assertFalse(violationStack);
-  }
-
-  this.assertNoBlame = function() {
-    assertTrue(blameStack);
-  }
-  this.assertBlame = function() {
-    assertFalse(blameStack);
-  }
-
+  throw new Error("Failure: Subject-Blame expected!");
 }
-TreatJSDebuggerUnit.prototype = new TreatJSDebugger();
