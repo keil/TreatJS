@@ -39,6 +39,8 @@ dunit.assertSubjectBlame(function() {
 
 print(x);
 
+load("test/test.js");
+
 
 TreatJS.Statistic.print();
 

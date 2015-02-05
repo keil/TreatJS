@@ -75,7 +75,7 @@ run("test/blame/and.js");
 run("test/blame/not.js");
 
 // canonicalize
-//load("test/canonicalize/canonicalize.js");
+load("test/canonicalize/canonicalize.js");
 
 // reflection
 run("test/reflect/get.js");

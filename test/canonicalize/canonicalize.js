@@ -15,24 +15,24 @@
 
 function testCC(contract) {
   print("\n\n");
-  print("canonical? " + Contract.canonical(contract));
+  print("canonical? " + TreatJS.canonical(contract));
   print(contract);
 
-  if(!Contract.canonical(contract)) throw new Error("No canonical contract!");
-  var contractP = Contract.canonicalize(contract);
+  if(!TreatJS.canonical(contract)) throw new Error("No canonical contract!");
+  var contractP = TreatJS.canonicalize(contract);
   print(contractP);
-  if(!Contract.canonical(contractP)) throw new Error("No canonical contract!");
+  if(!TreatJS.canonical(contractP)) throw new Error("No canonical contract!");
 }
 
 function testNCC(contract) {
   print("\n\n");
-  print("canonical? " + Contract.canonical(contract));
+  print("canonical? " + TreatJS.canonical(contract));
   print(contract);
 
-  if(Contract.canonical(contract)) throw new Error("No non-canonical contract!");
-  var contractP = Contract.canonicalize(contract);
+  if(TreatJS.canonical(contract)) throw new Error("No non-canonical contract!");
+  var contractP = TreatJS.canonicalize(contract);
   print(contractP);
-  if(!Contract.canonical(contractP)) throw new Error("No canonical contract!");
+  if(!TreatJS.canonical(contractP)) throw new Error("No canonical contract!");
 }
 
 var bc = IsBoolean;
@@ -113,7 +113,7 @@ testNCC ( Contract.Intersection ( Contract.Union(fc, bc), Contract.Union(fc, bc)
 
   var contract = Contract.Or(
     Contract.And(
-      Contract.AdFunction([IsNumber, IsNumber], IsNumber),
+      Contract.AFunction([IsNumber, IsNumber], IsNumber),
       Contract.Not(Contract.AFunction([IsString, IsString], Contract.Not(IsString)))
       ),
     Contract.And(
