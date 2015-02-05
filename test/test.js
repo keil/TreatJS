@@ -25,6 +25,7 @@ function run(file) {
 // contracts
 run("test/contract/basecontract.js");
 run("test/contract/functioncontract.js");
+run("test/contract/methodcontract.js");
 run("test/contract/objectcontract.js");
 
 run("test/contract/andcontract.js");
@@ -42,6 +43,7 @@ run("test/sandbox/bind.js");
 // miscellaneous tests
 run("test/miscellaneous/logic.js");
 run("test/miscellaneous/debugger.js");
+run("test/miscellaneous/decompile.js");
 
 // behavior
 run("test/behavior/negative.js");
@@ -69,11 +71,11 @@ run("test/blame/method.js");
 
 run("test/blame/intersection.js");
 run("test/blame/union.js");
-//run("test/blame/negation.js");
+//run("test/blame/negation.js"); // TODO
 
 run("test/blame/or.js");
 run("test/blame/and.js");
-run("test/blame/not.js");
+// run("test/blame/not.js"); // TODO
 
 // canonicalize
 load("test/canonicalize/canonicalize.js");
@@ -81,6 +83,11 @@ load("test/canonicalize/canonicalize.js");
 // reflection
 run("test/reflect/get.js");
 run("test/reflect/set.js");
+
+// callback
+//run("test/callback/lax.js");
+//run("test/callback/picky.js");
+//run("test/callback/indy.js");
 
 TreatJS.Version.print();
 TreatJS.Statistic.print();

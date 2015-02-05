@@ -1,10 +1,5 @@
 ## Bugs ##
 
-* Statistics are not print in test mode
-* TestCases
-
-
-
 ## Features ##
 
 * 3ch Blaming / Multiparty Blaming
@@ -14,8 +9,6 @@
 * Polymorphic Contracts
 
 * Access Permission Contracts
-
-
 
 ## Major Tasks ##
 
@@ -31,7 +24,10 @@
 
 * Binding in Constructor
 
+* Capsulte Log Output
+** remove global __out functions
 
+* Not/ Negation
 
 ## Minor Tasks ##
 
@@ -41,97 +37,4 @@
 
 * Add new Contracts to export/build 
 
-
-
-
-
-
-
-
-
-
-
-## Major Tasks ##
-
-* Capsulte Log Output
-** remove global __out functions
-
-* Move MethodContract to Convinience API
-** Remove MethodHandller and assert
-
-* Remove deprecated functions in system
-** Use TreatJS. extend .. 
-
-* Decompile BUG
-
-* Test sandbox violation
-
-
-- test how often TreatJS extend and define are called
-
-- improve performance by removing getter
-
-
-- mey introduce a contract environment, miliar to a type environment that helps to abstract contracts
-- culd be a clone ob global 
-
-
-- logic for boolean algebra
-Idea, context and subject are not allowed to fulfill the contract
-is one fullfls it, than blame
-corresponds to lattice structiore
-
-- new version number
-
-- new alias file
-
-Negation:
-
-       (false, false)
-
-(true, false)  (false, true)
-
-        (true, true)
-
-
-- webpage docu anpassen
-- manuel 
-- export
-
-- encapsulate print/sysou
-- extend export/manual
-
-- 3-ch blaming
-
-- dynamic global scopes for base contract reuse
-- and caching of predicates
-
-- check function caching
-
-## Minor Tasks ##
-
-- simple dependent contract wich takes an argumetn C->\x.D
-
-- exclude print/sysout tto a global logger/ TratJS Out
-- debugger
-
-
-
-#2 Blame in Contracts
-- restrict throw is not a possibe because the CB structure is already updated
-
-#3 Indy/ 3CH Blaming
-- contract assertions has to strore
-  map: <target> --> <contract>
-
-- sandbox exnapsulation has to check 
--- id the original <target> is contracted (map.has(<target>))
--- if yes, that the contract has to be assigend to the decompiled function
-   decompile(<target>) @ map(<target>)
--- and an special callback has to be set
---- outside context is always true; 
---- inside context is mapped to outside contract;
---- inside subject is the outside subject
-
-
-
+* Documentation and Webpage

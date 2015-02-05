@@ -1,0 +1,15 @@
+#2 Blame in Contracts
+- restrict throw is not a possibe because the CB structure is already updated
+
+#3 Indy/ 3CH Blaming
+- contract assertions has to strore
+  map: <target> --> <contract>
+
+- sandbox exnapsulation has to check 
+-- id the original <target> is contracted (map.has(<target>))
+-- if yes, that the contract has to be assigend to the decompiled function
+   decompile(<target>) @ map(<target>)
+-- and an special callback has to be set
+--- outside context is always true; 
+--- inside context is mapped to outside contract;
+--- inside subject is the outside subject

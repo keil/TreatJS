@@ -30,7 +30,7 @@ obj.test = Contract.assert(
 
 obj.test2 = Contract.assert(
     func2,
-    Contract.MethodContract(Any, IsString, context)
+    Contract.Method(Any, IsString, context)
     );
 
 obj.test3 = Contract.assert(
