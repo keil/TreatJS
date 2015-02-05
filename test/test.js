@@ -41,7 +41,7 @@ run("test/sandbox/bind.js");
 
 // miscellaneous tests
 run("test/miscellaneous/logic.js");
-//run("test/miscellaneous/debugger.js");
+run("test/miscellaneous/debugger.js");
 
 // behavior
 run("test/behavior/negative.js");

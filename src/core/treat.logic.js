@@ -21,28 +21,30 @@
       "t": {value: t},
       "f": {value: f}
     });
+  }
+  Value.prototype = {};
 
-    this.toString = function() {
-      return toString(this);
-    }
-
-    this.isFalse = function() {
-      return isFalse(this);
-    }
-
-    this.isTrue = function() {
-      return isTrue(this);
-    }
-
-    this.isUnknown = function() {
-      return isUnknown(this);
-    }
-
-    this.isConfict = function() {
-      return isConflict(this);
-    }
+  Value.prototype.toString = function() {
+    return toString(this);
   }
 
+  Value.prototype.isFalse = function() {
+    return isFalse(this);
+  }
+
+  Value.prototype.isTrue = function() {
+    return isTrue(this);
+  }
+
+  Value.prototype.isUnknown = function() {
+    return isUnknown(this);
+  }
+
+  Value.prototype.isConfict = function() {
+    return isConflict(this);
+  }
+
+  // value cache
   var cache = [];
 
   function make(x,y) {

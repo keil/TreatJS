@@ -25,17 +25,16 @@
   function makeManual() {
     var Manual = [];
 
-    function add (name, entry, classid) {
+    function add (name, classid) {
       var id = (classid || MISCELLANEOUS);
       if (Manual[id] == undefined) Manual[id] = [];
-      Manual[id][name] = entry;
+      Manual[id][name] = null;
     }
 
     var toString = function () {
       var str = "";
       for (var cl in Manual) {
-        ck
-          str += cl + ":\n\n";
+        str += cl + ":\n\n";
         for (var en in Manual[cl]) {
           str += " - " + en + "\n";
         }

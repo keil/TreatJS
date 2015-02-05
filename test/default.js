@@ -51,7 +51,6 @@ TreatJS.Statistic.print();
 
 
 
-
 quit();
 
 var a = {val:"a"};

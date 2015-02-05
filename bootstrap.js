@@ -74,21 +74,21 @@ load("src/treat.config.js");
 load("src/treat.verbose.js");
 
 load("src/treat.statistic.js");
-load("src/treat.print.js"); // TODO, ass print package, print export, print manual
 
-load("src/treat.export.js");// TODO, add new contract types
-load("src/treat.manual.js");// TODO, add new contarct types
+load("src/treat.export.js");
+load("src/treat.manual.js");
+load("src/treat.print.js");
 
 
 // core api
 load("src/core/treat.base.js");
-load("src/core/treat.violation.js"); // TODO, change clame mode
+load("src/core/treat.violation.js"); // TODO, change mode
 
 load("src/core/treat.decompile.js");
 load("src/core/treat.sandbox.js");
 
-load("src/core/treat.logic.js"); // TODO
-load("src/core/treat.callback.js"); // TODO
+load("src/core/treat.logic.js");
+load("src/core/treat.callback.js");
 
 load("src/core/treat.map.js");
 // TODO, experimental code
@@ -100,7 +100,7 @@ load("src/core/treat.contract.js");
 load("src/core/treat.constructor.js");
 
 load("src/core/treat.canonicalize.js");
-load("src/core/treat.assert.js"); // TODO, cleanup
+load("src/core/treat.assert.js"); // TODO, cleanup/ new features
 
 // convenience api
 load("src/treat.convenience.js");
@@ -118,5 +118,12 @@ load("src/treat.reflect.js");
 
 var Contract = TreatJS.build();
 
-load("contracts/contracts.js"); // TODO, renew
+load("contracts/contracts.js");
 load("contracts/aliases.js");
+
+//TreatJS.Version.print();
+//TreatJS.Config.print();
+//TreatJS.Statistic.print();
+//TreatJS.Build.print();
+//TreatJS.Package.print();
+//print(TreatJS.Manual.toString());

@@ -60,25 +60,13 @@
     return "[[Callback]]";
   }
 
-  // TODO
-  var cache = [];
-
-  function c(h) {
-    if(cache[h.toString]!==undefined) {
-      return cache[h.toString];
-    } else {
-      cache[h.toString] = h;
-      return h;
-    }
-  }
-
   // _  _              _ _     
   //| || |__ _ _ _  __| | |___ 
   //| __ / _` | ' \/ _` | / -_)
   //|_||_\__,_|_||_\__,_|_\___|
 
   function Handle(caller, callee) {
-    if(!(this instanceof Handle)) return c(new Handle(caller, callee));
+    if(!(this instanceof Handle)) return new Handle(caller, callee);
 
     if(!(caller instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
     if(!(callee instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
@@ -99,21 +87,21 @@
 
   Handle.merge = function(m, n) {
     count(TreatJS.Statistic.CALLBACK);
-    return Handle(
+    return new Handle(
         join(m.caller, n.caller),
         join(m.callee, n.callee)
         );
   }
 
   Handle.and = function(m, n) {
-    return Handle(
+    return new Handle(
         and(m.caller, n.caller),
         and(m.callee, n.callee)
         );
   }
 
   Handle.or = function(m, n) {
-    return Handle(
+    return new Handle(
         or(m.caller, n.caller),
         or(m.callee, n.callee)
         );
@@ -137,11 +125,7 @@
     }
 
     Object.defineProperty(this, "rootHandler", {value:function(handle) {
-      //root = Handle.merge(handle, handle);
-      //update();
-
-      // TODO
-      if(root !== (root = Handle.merge(handle, handle))) update();
+      root = Handle.merge(handle, handle);
       update();
     }});
   }
@@ -149,10 +133,6 @@
   RootCallback.prototype.toString = function() {
     return "[[RootCallback]]";
   }
-
-  // TODO, cache handles
-  // only update if differnet
-
 
   // ___             _   _          ___      _ _ _             _   
   //| __|  _ _ _  __| |_(_)___ _ _ / __|__ _| | | |__  __ _ __| |__
@@ -173,13 +153,13 @@
     }
 
     Object.defineProperty(this, "domainHandler", {value:function(handle) {
-      // TODO
-      if(domain !== (domain = Handle.merge(domain, handle))) update();
+      domain = Handle.merge(domain, handle);
+      update();
     }});
 
     Object.defineProperty(this, "rangeHandler", {value:function(handle) {
-      // TODO
-      if(range !== (range = Handle.merge(range, handle))) update();
+      range = Handle.merge(range, handle);
+      update();
     }});
 
   }
@@ -208,14 +188,13 @@
     }
 
     Object.defineProperty(this, "setHandler", {value:function(handle) {
-      // TODO
       set = (set) ? Handle.merge(set, handle) : handle;
       update();
     }});
 
     Object.defineProperty(this, "getHandler", {value:function(handle) {
-      // TODO
-      if(get !== (get = Handle.merge(get, handle))) update();
+      get = Handle.merge(get, handle);
+      update();
     }});
 
   }
@@ -237,8 +216,8 @@
     }
 
     Object.defineProperty(this, "objectHandler", {value:function(handle) {
-      // TODO
-      if(obj !== (obj = Handle.and(obj, handle))) update();
+      obj = Handle.and(obj, handle);
+      update();
     }});
   }
   ObjectCallback.prototype = Object.create(Callback.prototype);
@@ -265,13 +244,13 @@
     }
 
     Object.defineProperty(this, "leftHandler", {value:function(handle) {
-      // TODO
-      if(left !== (left = Handle.merge(left, handle))) update();
+      left = Handle.merge(left, handle);
+      update();
     }});
 
     Object.defineProperty(this, "rightHandler", {value:function(handle) {
-      // TODO
-      if(right !== (right = Handle.merge(right, handle))) update();
+      right = Handle.merge(right, handle);
+      update();
     }});
 
 
@@ -300,13 +279,13 @@
     }
 
     Object.defineProperty(this, "leftHandler", {value:function(handle) {
-      // TODO
-      if(left !== (left = Handle.merge(left, handle))) update();
+      left = Handle.merge(left, handle);
+      update();
     }});
 
     Object.defineProperty(this, "rightHandler", {value:function(handle) {
-      // TODO
-      if(right !== (right = Handle.merge(right, handle))) update();
+      right = Handle.merge(right, handle);
+      update();
     }});
   }
   UnionCallback.prototype = Object.create(Callback.prototype);
@@ -333,8 +312,8 @@
     }
 
     Object.defineProperty(this, "subHandler", {value:function(handle) {
-      // TODO
-      if(sub !== (sub = Handle.merge(sub, handle))) update();
+      sub = Handle.merge(sub, handle);
+      update();
     }});
   }
   NegationCallback.prototype = Object.create(Callback.prototype);
@@ -361,14 +340,12 @@
     }
 
     Object.defineProperty(this, "leftHandler", {value:function(handle) {
-      // TODO
-      if(left !== (left = Handle.merge(left, handle)))
+      left = Handle.merge(left, handle);
       update();
     }});
 
     Object.defineProperty(this, "rightHandler", {value:function(handle) {
-      // TODO
-      if(right !== (right = Handle.merge(right, handle)))
+      right = Handle.merge(right, handle);
       update();
     }});
   }
@@ -396,14 +373,12 @@
     }
 
     Object.defineProperty(this, "leftHandler", {value:function(handle) {
-      // TODO
-      if(left !== (left = Handle.merge(left, handle)))
+      left = Handle.merge(left, handle);
       update();
     }});
 
     Object.defineProperty(this, "rightHandler", {value:function(handle) {
-      // TODO
-      if(right !== (right = Handle.merge(right, handle)))
+      right = Handle.merge(right, handle);
       update();
     }});
   }
@@ -430,8 +405,8 @@
     }
 
     Object.defineProperty(this, "subHandler", {value:function(handle) {
-      // TODO
-      if(sub !== (sub = Handle.merge(sub, handle))) update();
+      sub = Handle.merge(sub, handle);
+      update();
     }});
   }
   NotCallback.prototype = Object.create(Callback.prototype);
@@ -442,7 +417,7 @@
   // ___                ___      _ _ _             _   
   //| _ ) __ _ ___ ___ / __|__ _| | | |__  __ _ __| |__
   //| _ \/ _` (_-</ -_) (__/ _` | | | '_ \/ _` / _| / /
-  //|___/\__,_/__/\___|\___\__,_|_|_|_.__/\__,_\__|_\_\
+  //|___/\__,_/__/\___|\___\__,_|_|_|_.__/\__,_\__|_\_\                                                  
 
   function BaseCallback(handler) {
     if(!(this instanceof BaseCallback)) return new BaseCallback(handler);
@@ -457,8 +432,8 @@
     }
 
     Object.defineProperty(this, "predicateHandler", {value:function(handle) {
-      // TODO
-      if(predicate !== (predicate = Handle.merge(predicate, handle))) update();
+      predicate = Handle.merge(predicate, handle);
+      update();
     }});
   }
   BaseCallback.prototype = Object.create(Callback.prototype);

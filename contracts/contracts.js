@@ -12,41 +12,45 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-
 (function(TreatJS) {
-  
+
+  // List of predefine contracts
   var Contracts = [];
-  //__define("Contracts", Contracts, _);
 
-  function __regeister (name, contract, classid) {
-    var id = (classid || "Miscellaneous");
+  //         _               _ 
+  // _____ _| |_ ___ _ _  __| |
+  /// -_) \ /  _/ -_) ' \/ _` |
+  //\___/_\_\\__\___|_||_\__,_|
 
+  TreatJS.extend("Predefined", Contracts);
+
+  var CLASS_Miscellaneous = "Miscellaneous";
+  var CLASS_typeof = "TypeOf Contarcts";
+  var CLASS_instanceof = "Instanceof Contracts";
+  var CLASS_is = "Is Contracts";
+
+  function regeister (name, contract, classid) {
+    var id = (classid || CLASS_Miscellaneous);
     if (Contracts[id] == undefined) Contracts[id] = [];
-
-    Contracts[id][name] = contract;
-    
-    Object.defineProperty(this, name, {value:contract});
-    //__define(name, contract, this); 
+    Contracts[id][name] = contract;   
+    Object.defineProperty(this, name, {value:contract, enumerable:true});
   }
 
   var toString = function () {
     var str = "";
     for (var cl in Contracts) {
       str += "* " + cl + "\n\n";
-
       for (var con in Contracts[cl]) {
         str += "** " + con + "\n";
       }
-
       str += "\n";
     }
-
     return str;
   }
 
   Object.defineProperty(Contracts, "toString", {
     get: function () { return toString; },
-    enumerable: false
+  enumerable: false
   });
 
   /**
@@ -57,7 +61,7 @@
     return true; 
   },"Any");
 
-  __regeister("Any", Any, "Miscellaneous");
+  /** **/ regeister("Any", Any, CLASS_Miscellaneous);
 
   /* TypeOf-Contracts */
 
@@ -85,12 +89,12 @@
     return ((typeof arg) === "undefined");
   },"typeOfUndefined");
 
-  __regeister("typeOfNumber", typeOfNumber, "typeOf - Contracts");
-  __regeister("typeOfString", typeOfString, "typeOf - Contracts");
-  __regeister("typeOfBoolean", typeOfBoolean, "typeOf - Contracts");
-  __regeister("typeOfObject", typeOfObject, "typeOf - Contracts");
-  __regeister("typeOfFunction", typeOfFunction, "typeOf - Contracts");
-  __regeister("typeOfUndefined", typeOfUndefined, "typeOf - Contracts");
+  /** **/ regeister("typeOfNumber", typeOfNumber, CLASS_typeof);
+  /** **/ regeister("typeOfString", typeOfString, CLASS_typeof);
+  /** **/ regeister("typeOfBoolean", typeOfBoolean, CLASS_typeof);
+  /** **/ regeister("typeOfObject", typeOfObject, CLASS_typeof);
+  /** **/ regeister("typeOfFunction", typeOfFunction, CLASS_typeof);
+  /** **/ regeister("typeOfUndefined", typeOfUndefined, CLASS_typeof);
 
 
   // typeOf Base Contract
@@ -104,8 +108,8 @@
     }, "typeOf " + type);
   }).ctor;
 
-  __regeister("typeOf", typeOf, "typeOf - Contracts");
-  __regeister("TypeOf", TypeOf, "typeOf - Contracts");
+  /** **/ regeister("typeOf", typeOf, CLASS_typeof);
+  /** **/ regeister("TypeOf", TypeOf, CLASS_typeof);
 
   /* InstanceOf-Contracts */
 
@@ -113,7 +117,7 @@
     return (arg instanceof target); 
   },"instanceOf");
 
-  __regeister("instanceOf", instanceOf, "instanceOf - Contracts");
+  /** **/ regeister("instanceOf", instanceOf, CLASS_instanceof);
 
 
 
@@ -157,16 +161,16 @@
     return (arg instanceof Error);
   },"instanceOfError"));
 
-  __regeister("instanceOfObject", instanceOfObject, "instanceOf - Contracts");
-  __regeister("instanceOfFunction", instanceOfFunction, "instanceOf - Contracts");
-  __regeister("instanceOfArray", instanceOfArray, "instanceOf - Contracts");
-  __regeister("instanceOfBoolean", instanceOfBoolean, "instanceOf - Contracts");
-  __regeister("instanceOfDate", instanceOfDate, "instanceOf - Contracts");
-  __regeister("instanceOfIterator", instanceOfIterator, "instanceOf - Contracts");
-  __regeister("instanceOfNumber", instanceOfNumber, "instanceOf - Contracts");
-  __regeister("instanceOfString", instanceOfString, "instanceOf - Contracts");
-  __regeister("instanceOfRegExp", instanceOfRegExp, "instanceOf - Contracts");
-  __regeister("instanceOfError", instanceOfError, "instanceOf - Contracts");
+  /** **/ regeister("instanceOfObject", instanceOfObject, CLASS_instanceof);
+  /** **/ regeister("instanceOfFunction", instanceOfFunction, CLASS_instanceof);
+  /** **/ regeister("instanceOfArray", instanceOfArray, CLASS_instanceof);
+  /** **/ regeister("instanceOfBoolean", instanceOfBoolean, CLASS_instanceof);
+  /** **/ regeister("instanceOfDate", instanceOfDate, CLASS_instanceof);
+  /** **/ regeister("instanceOfIterator", instanceOfIterator, CLASS_instanceof);
+  /** **/ regeister("instanceOfNumber", instanceOfNumber, CLASS_instanceof);
+  /** **/ regeister("instanceOfString", instanceOfString, CLASS_instanceof);
+  /** **/ regeister("instanceOfRegExp", instanceOfRegExp, CLASS_instanceof);
+  /** **/ regeister("instanceOfError", instanceOfError, CLASS_instanceof);
 
   var InstanceOf = TreatJS.Constructor.Constructor(function(target) {
     return Contract.Base(function(arg) {
@@ -174,7 +178,7 @@
     },"instanceOf")
   }, "InstanceOf").ctor;
 
-  __regeister("InstanceOf", InstanceOf, "instanceOf - Contracts");
+  /** **/ regeister("InstanceOf", InstanceOf, CLASS_instanceof);
 
   /* Is-Contracts */
 
@@ -198,11 +202,11 @@
     return (arg) ? false : true; 
   },"isFalse");
 
-  __regeister("isNaN", isNaN, "is - Contracts");
-  __regeister("isUndefined", isUndefined, "is - Contracts");
-  __regeister("isNull", isNull, "is - Contracts");
-  __regeister("isTrue", isTrue, "is - Contracts");
-  __regeister("isFalse", isFalse, "is - Contracts");
+  /** **/ regeister("isNaN", isNaN, CLASS_is);
+  /** **/ regeister("isUndefined", isUndefined, CLASS_is);
+  /** **/ regeister("isNull", isNull, CLASS_is);
+  /** **/ regeister("isTrue", isTrue, CLASS_is);
+  /** **/ regeister("isFalse", isFalse, CLASS_is);
 
 
 
@@ -216,8 +220,8 @@
     return (Function.prototype.toString.apply(func).indexOf('[native code]') > -1); 
   },"isNativeFunction");
 
-  __regeister("isPrimitiveValue", isPrimitiveValue, "is - Contracts");
-  __regeister("isNativeFunction", isNativeFunction, "is - Contracts");
+  /** **/ regeister("isPrimitiveValue", isPrimitiveValue, CLASS_is);
+  /** **/ regeister("isNativeFunction", isNativeFunction, CLASS_is);
 
 
 
@@ -247,12 +251,12 @@
     return (x>0);
   }, "GreaterThanZero");
 
-  __regeister("Even", Even, "Miscellaneous");
-  __regeister("Odd", Odd, "Miscellaneous");
-  __regeister("Pos", Pos, "Miscellaneous");
-  __regeister("Neg", Neg, "Miscellaneous");
-  __regeister("Zero", Zero, "Miscellaneous");
-  __regeister("GtZero", GtZero, "Miscellaneous");
+  /** **/ regeister("Even", Even, CLASS_Miscellaneous);
+  /** **/ regeister("Odd", Odd, CLASS_Miscellaneous);
+  /** **/ regeister("Pos", Pos, CLASS_Miscellaneous);
+  /** **/ regeister("Neg", Neg, CLASS_Miscellaneous);
+  /** **/ regeister("Zero", Zero, CLASS_Miscellaneous);
+  /** **/ regeister("GtZero", GtZero, CLASS_Miscellaneous);
 
   var between = TreatJS.Contract.Base(function(arg) {
     return (min < arg) && (arg < max);
@@ -264,8 +268,8 @@
     }, "Between " + min + "-" + max);
   }).ctor;
 
-  __regeister("between", between, "Miscellaneous");
-  __regeister("Between", Between, "Miscellaneous");
+  /** **/ regeister("between", between, CLASS_Miscellaneous);
+  /** **/ regeister("Between", Between, CLASS_Miscellaneous);
 
   var UpperCase = TreatJS.Contract.Base(function(arg) {
     return (/^[A-Z]+$/).test(arg);
@@ -275,8 +279,8 @@
     return (/^[a-z]+$/).test(arg);
   }, "UpperCase");
 
-  __regeister("UpperCase", UpperCase, "Miscellaneous");
-  __regeister("LowerCase", LowerCase, "Miscellaneous");
+  /** **/ regeister("UpperCase", UpperCase, CLASS_Miscellaneous);
+  /** **/ regeister("LowerCase", LowerCase, CLASS_Miscellaneous);
 
   var LengthOf = TreatJS.Constructor.Constructor(function(length) {
     return Contract.Base(function(arg) {
@@ -296,9 +300,9 @@
     },"lengthGt")
   }, "LengthGt").ctor;
 
-  __regeister("LengthOf", LengthOf, "Miscellaneous"); 
-  __regeister("LengthLt", LengthLt, "Miscellaneous");
-  __regeister("LengthGt", LengthGt, "Miscellaneous");
+  /** **/ regeister("LengthOf", LengthOf, CLASS_Miscellaneous); 
+  /** **/ regeister("LengthLt", LengthLt, CLASS_Miscellaneous);
+  /** **/ regeister("LengthGt", LengthGt, CLASS_Miscellaneous);
 
   var ArrayOf = TreatJS.Constructor.Constructor(function(target) {
     return Contract.Object(Contract.RegExpMap([
@@ -308,6 +312,6 @@
           },"arrayOf"))])); 
   }, "ArrayOf").ctor;
 
-  __regeister("ArrayOf", ArrayOf, "Miscellaneous");
+  /** **/ regeister("ArrayOf", ArrayOf, CLASS_Miscellaneous);
 
 })(TreatJS);
