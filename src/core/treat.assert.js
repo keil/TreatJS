@@ -107,6 +107,7 @@
   //var construct = TreatJS.construct;
   //var constructWith = TreatJS.constructWith;
 
+  var TreatJSBlame = TreatJS.Error.TreatJSBlame;
 
   /** log(msg)
    * @param msg String message
@@ -228,14 +229,17 @@
     var callback = RootCallback(function(handle) {
       if(handle.caller.isFalse() || handle.callee.isFalse()) {
 
+        var blamed = ""; // TODO
         var msg = contract.toString(); /*handle.blame();*/
         msg+="\n";
         msg+="Blame is on: ";
 
         if(handle.caller.isFalse() && !handle.callee.isFalse()) {
           msg+="Caller";
+          blamed = TreatJSBlame.CONTEXT;
         } else if(!handle.caller.isFalse() && handle.callee.isFalse()) {
           msg+="Callee";
+          blamed = TreatJSBlame.SUBJECT;
         } else if(handle.caller.isFalse() && handle.callee.isFalse()) {
           msg+="Caller, Callee";
         } else {
@@ -245,7 +249,7 @@
         msg += "\n" + "@Caller:   " + handle.caller;
         msg += "\n" + "@Callee:   " + handle.callee;
 
-        blame(contract, msg, (new Error()).fileName, (new Error()).lineNumber);
+        blame(contract, blamed, msg, (new Error()).fileName, (new Error()).lineNumber);
       }
     }, contract);
     return assertWith(arg, contract, new Global({}), callback.rootHandler);

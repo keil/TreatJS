@@ -41,8 +41,9 @@
   TreatJSViolation.prototype = new TreatJSError();
   TreatJSViolation.prototype.constructor = TreatJSViolation;
 
-  function TreatJSBlame(contract, message) {
+  function TreatJSBlame(contract, blamed, message) {
     this.name = "Contract Violation";
+    this.blamed = blamed;
     this.message = message || "";
 
     this.fileName = "TreatJS";
@@ -53,6 +54,9 @@
   }
   TreatJSBlame.prototype = new TreatJSError();
   TreatJSBlame.prototype.constructor = TreatJSBlame;
+
+  TreatJSBlame.SUBJECT = "CALLEE";
+  TreatJSBlame.CONTEXT = "CALLER";
 
   // ______                     
   //|  ____|                    
@@ -85,8 +89,8 @@
     }
   }
 
-  function blame(contract, msg, file, line) {
-    var error = new TreatJSBlame(contract, msg);
+  function blame(contract, blamed, msg, file, line) {
+    var error = new TreatJSBlame(contract, blamed, msg);
 
     if(TreatJS.Config.quitOnError) {
       print(error);

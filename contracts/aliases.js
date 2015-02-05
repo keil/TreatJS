@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -35,6 +35,4 @@ var False = isFalse;
 
 var IsArray = instanceOfArray;
 
-var _ = TreatJS;
-
-var GreaterThanZero = Contract.Base ( function(x) { return (x>0); }, "GreaterThanZero" );
+var GreaterThanZero = GtZero; 

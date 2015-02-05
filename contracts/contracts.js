@@ -243,12 +243,16 @@
     return (arg === 0);
   },"Zero");
 
+  var GtZero = TreatJS.Contract.Base(function(arg) {
+    return (x>0);
+  }, "GreaterThanZero");
+
   __regeister("Even", Even, "Miscellaneous");
   __regeister("Odd", Odd, "Miscellaneous");
   __regeister("Pos", Pos, "Miscellaneous");
   __regeister("Neg", Neg, "Miscellaneous");
   __regeister("Zero", Zero, "Miscellaneous");
-
+  __regeister("GtZero", GtZero, "Miscellaneous");
 
   var between = TreatJS.Contract.Base(function(arg) {
     return (min < arg) && (arg < max);

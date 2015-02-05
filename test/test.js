@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -13,36 +13,14 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+// debugger unit
+var dunit = new TreatJSDebugger();
+
 // runs a testcase
 function run(file) {
   print("\n\n\n##########\n# " + file + "\n");
   load(file);
 }
-
-// TODO
-// Aliase - for compatibility with older versions
-var IsNumber = typeOfNumber;
-var IsString = typeOfString;
-var IsBoolean = typeOfBoolean;
-var IsObject = typeOfObject;
-var IsFunction = typeOfFunction;
-
-var IsNaN = isNaN;
-var IsUndef = isUndefined;
-var IsNull = isNull;
-
-var InstanceOfFunction = instanceOfFunction;
-var InstanceOfObject = instanceOfObject;
-var InstanceOfArray = instanceOfArray;
-var InstanceOfTarget = instanceOfTarget;
-
-var True = isTrue;
-var False = isFalse;
-
-var IsArray = instanceOfArray;
-
-var _ = TreatJS;
-var _ = Contract;
 
 // contracts
 run("test/contract/basecontract.js");
@@ -82,7 +60,6 @@ run("test/blame/base.js");
 run("test/blame/immediate.js");
 run("test/blame/delayed.js");
 
-
 run("test/blame/function.js");
 run("test/blame/dependent.js");
 run("test/blame/object.js");
@@ -91,14 +68,14 @@ run("test/blame/method.js");
 
 run("test/blame/intersection.js");
 run("test/blame/union.js");
-run("test/blame/negation.js");
+//run("test/blame/negation.js");
 
 run("test/blame/or.js");
 run("test/blame/and.js");
 run("test/blame/not.js");
 
 // canonicalize
-load("test/canonicalize/canonicalize.js");
+//load("test/canonicalize/canonicalize.js");
 
 // reflection
 run("test/reflect/get.js");

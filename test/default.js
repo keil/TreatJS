@@ -13,20 +13,34 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+// debugger unit
+var dunit = new TreatJSDebugger();
+
+
 var x = ":'(";
 
 function p (arg) {
-  x;
+  //x;
   //x = ":)";
-  return true;
+  return false;
 }
 
 var P = Contract.Base(p);
 
-Contract.assert({}, Contract.With({x:4711, y:4712}, P));
+//Contract.assert({}, Contract.With({x:4711, y:4712}, P));
+
+dunit.assertSubjectBlame(function() {
+  Contract.assert({}, Contract.With({x:4711, y:4712}, P));
+});
+
+dunit.assertSubjectBlame(function() {
+  Contract.assert({}, Contract.With({x:4711, y:4712}, P));
+});
+
 print(x);
 
 
+TreatJS.Statistic.print();
 
 
 
@@ -36,8 +50,7 @@ print(x);
 
 
 
-
-load("test/test.js"); // TODO, renew
+//load("test/test.js"); // TODO, renew
 quit();
 
 

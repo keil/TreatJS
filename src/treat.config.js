@@ -73,7 +73,6 @@
   // call quit
   var DEFAULT_QUITONERROR = true;
 
-
   Object.defineProperties(Config, {
     "newGlobal": {
       value: ((TreatJS.configuration.newGlobal===undefined) ? 

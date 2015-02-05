@@ -13,129 +13,6 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-/*
-   function TestList() {
-
-   this.first = undefined;
-   this.last = this.first;
-
-//this.length = 0;
-Object.defineProperty(this, "length", {value:0});
-//Object.defineProperty(this, "length", {get:function() {return 0;}});
-}
-TestList.prototype = {};
-TestList.prototype.add = function(value) {
-return undefined;
-var element = {value:value, next:undefined};
-if(this.last) {
-this.last.next = element;
-this.last = element;
-//this.length++; // XXX
-}
-else {
-this.first = element;
-this.last = element;
-//this.length++; // XXX
-};
-}
-
-
-
-
-
-var list = new TestList();
-
-var start = new Date().getTime();
-
-for (var i=0; i<100000000; i++) {
-if(list.length<10000000) list.add(i);
-}
-
-var end = new Date().getTime();
-
-print("# " + (end-start) + " ms");
-
-*/
-
-/*
-var x = 1;
-
-function plusX(arg) {
-  return (arg+x);
-}
-
-
-function wrap(fun) {
-
-  function decompile(fun, globalArg) {
-    var string = "(" + fun.toString() + ")"; 
-    var sandbox = globalArg;
-    var secureFun = eval("(function() { with(sandbox) { return " + string + " }})();");
-    return secureFun;
-  }
-
-  function Handler (origin) {
-    this.has = function(scope, name) {
-     // return true;
-      return origin.hasOwnProperty(name);
-        //Object.prototype.hasOwnProperty(origin, name);
-//        (name in origin);
-      // return true; // TODO, required ?
-    };
-
-    this.get = function(target, name, receiver) {
-      return origin[name];
-    }
-
-    this.set = function(target, name, value, receiver) {
-      return origin[name] = value;
-    }
-
-    Object.defineProperty(this, "target", {
-      set: function (target) {
-        origin = target;
-      },
-      enumerable: true
-    });
-  }
-  var handler = new Handler({xxx:4711});
-  var global = new Proxy({}, handler);
-
-  var g = decompile(fun, global);
-
-  Object.defineProperty(g, "eval", {
-      value: function (global, thisArg, args) {
-        handler.target = global;
-        return this.apply(thisArg, args);
-      },
-      enumerable: true
-    });
-    return g;
-}
-
-var plusX = wrap(plusX);
-
-print(plusX(1));
-//handler.target = {x:4711};
-//print(plusX(1));
-print(plusX.eval({x:4711}, this, [5]));
-
-quit();
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // ___ ___ _  _ _ _ __ ___ 
 //(_-</ _ \ || | '_/ _/ -_)
 ///__/\___/\_,_|_| \__\___|
@@ -143,11 +20,14 @@ quit();
 // libraries
 load("lib/lib_padding.js");
 
-load("src/system.js"); // TODO
+// miscellaneous extenstions
+load("src/system.js");
 
-// base source files
-// load("src/out.js"); // TODO
-// load("src/debugger.js"); // TODO
+// TreatJS debugger
+load("src/debugger.js");
+
+// TreatJS log output
+//load("src/out.js"); // TODO
 
 //              __ _                    _   _          
 // __ ___ _ _  / _(_)__ _ _  _ _ _ __ _| |_(_)___ _ _  
@@ -155,21 +35,34 @@ load("src/system.js"); // TODO
 //\__\___/_||_|_| |_\__, |\_,_|_| \__,_|\__|_\___/_||_|
 //                  |___/                              
 
-
-
-
 load("src/treat.js");
 
-// TreatJS // TODO
-var TreatJS = new TreatJS({// 
-  /****/assertion: true,// as 
-    /**/membrane: true, 
-    /**/decompile: true, 
-    /**/canonicalize: true
-}, {
-  /****/assert: true,
-    /**/sandbox: true,
-    /**/statistic: true
+var TreatJS = new TreatJS({
+  /** Enable contract asserstion
+   * (default: true)
+   */assertion: true,
+  /** Enable sandbox membrane 
+   * (default: true)
+   */membrane: true,
+  /** Enable function decompilation
+   * (default: true)
+   */decompile: true,
+  /** Enable contract normalization
+   * (default: true)
+   */canonicalize: true,
+  /** Quit execution 
+   * (default: true)
+   */quitOnError: false
+},{
+  /** Print contract assertions
+   * (default: false)
+   */assert: true,
+  /** Print sandbox operations
+   * (default: false)
+   */sandbox: true,
+  /** Print statistics
+   * (default: false)
+   */statistic: true
 });
 
 //         _               _             
@@ -188,8 +81,8 @@ load("src/treat.manual.js");// TODO, add new contarct types
 
 
 // core api
-load("src/core/treat.base.js");// TODO, cleanup
-load("src/core/treat.violation.js");// TODO, cleanup
+load("src/core/treat.base.js");
+load("src/core/treat.violation.js"); // TODO, change clame mode
 
 //load("src/core/treat.sandbox.js");// TODO, cdecompile hache
 load("src/core/treat.decompile.js");// TODO, cdecompile hache
@@ -231,111 +124,4 @@ load("src/treat.reflect.js");
 var Contract = TreatJS.build();
 
 load("contracts/contracts.js"); // TODO, renew
-load("contracts/aliases.js"); // TODO, renew
-
-/**
-
-  var object = {};
-
-  object.x = 0;
-//object.length = 0;
-
-object.doSth = function(x) {
-//this.length=x;
-this.x=x;
-}
-
-Object.defineProperty(object, 'length', {get:function() {
-return object.x;
-}});
-
-
-
-
-var start = new Date().getTime();
-
-for (var i=0; i<1000000000; i++) {
-if(object.length>=0) {
-object.doSth(i);
-}
-}
-
-var end = new Date().getTime();
-print("# " + (end-start) + " ms");
-
-
-*/
-
-
-quit();
-
-//              __ _                    _   _          
-// __ ___ _ _  / _(_)__ _ _  _ _ _ __ _| |_(_)___ _ _  
-/// _/ _ \ ' \|  _| / _` | || | '_/ _` |  _| / _ \ ' \ 
-//\__\___/_||_|_| |_\__, |\_,_|_| \__,_|\__|_\___/_||_|
-//                  |___/                              
-
-// set configuration
-/*TreatJS.configure({
-  assertion: true,
-  membrane: false,
-  decompile: false,
-  canonicalize: true 
-  });
-
-// set verbose
-TreatJS.verbose({
-assert: false,
-sandbox: false,
-statistic: true 
-});*/
-
-// set Contract
-//TreatJS.export(this);
-//TreatJS.integrate();
-
-/*
-
-   function __getterX(name, property, target) {
-   Object.defineProperty(target, name, {
-   get: function () { return property; },
-   enumerable: true
-   });
-   }
-
-   function __valueX(name, property, target) {
-   Object.defineProperty(target, name, {
-   value:property,
-   enumerable: true
-   });
-   }
-
-
-
-   var start = new Date().getTime();
-
-   function f(x,y) {
-   return (x+y);
-   }
-
-   var obj = {};
-//obj.p=1;
-//Object.defineProperty(obj, "p", {value:1});
-//__valueX("p", 1, obj);
-//Object.defineProperty(obj, "p", { get: function () { return 1; } });
-__getterX("p", 1, obj);
-
-
-for(var i=0; i<1000000000; i++) {
-
-if(obj.p) {
-f(1,2);
-}
-}
-
-var end = new Date().getTime();
-var time = end - start;
-print('Execution time: ' + time);
-*/
-
-
+load("contracts/aliases.js");

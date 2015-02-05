@@ -31,15 +31,15 @@
     __out(padding_right("TreatJS Configuration ", ".", 30));
     __blank();
 
-    for(var conf in _.Config) {
-      log(":" + conf + " = ", _.Config[conf]);
+    for(var conf in TreatJS.Config) {
+      log(":" + conf + " = ", TreatJS.Config[conf]);
     }
 
     __out(padding_right("TreatJS Verbose Mode ", ".", 30));
     __blank();
 
-    for(var conf in _.Config.Verbose) {
-      log(":" + conf + " = ", _.Config.Verbose[conf]);
+    for(var conf in TreatJS.Config.Verbose) {
+      log(":" + conf + " = ", TreatJS.Config.Verbose[conf]);
     }
   }
 
@@ -52,8 +52,8 @@
       __blank(); 
     }
 
-    for(var counter in _.Statistic) {
-      log("#" + counter + " = ", _.Statistic.get(counter));
+    for(var counter in TreatJS.Statistic) {
+      log("#" + counter + " = ", TreatJS.Statistic.get(counter));
     }
   }
 

@@ -33,12 +33,6 @@
   Constructor.prototype = Object.create(Contract.prototype);
   Constructor.prototype.toString = (function() { return '[[Constructor]]'; });
 
-
-  // define empty build and ctor function
-  // TODO, is this step still required ?
-  // Constructor.prototype.build = (function () {});
-  // Constructor.prototype.ctor = (function () {});
-
   //         _               _ 
   // _____ _| |_ ___ _ _  __| |
   /// -_) \ /  _/ -_) ' \/ _` |
@@ -47,6 +41,5 @@
   TreatJS.extend("Core", {});
   TreatJS.define(TreatJS.Core, "Contract", Contract);
   TreatJS.define(TreatJS.Core, "Constructor", Constructor);
-
 
 })(TreatJS);
