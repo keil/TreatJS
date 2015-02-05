@@ -23,7 +23,7 @@
 //| (_ | / _ \ '_ \/ _` | | | (_) | '_ \| / -_) _|  _|
 // \___|_\___/_.__/\__,_|_|  \___/|_.__// \___\__|\__|
 //                                    |__/            
-function TreatJS(configuration, verbose, out) {
+function TreatJS(configuration, verbose, out, dunit) {
   if(!(this instanceof TreatJS)) return new TreatJS(configuration, verbose, out);
 
   var version = "TreatJS 1.2.17 (PoC)";
@@ -41,7 +41,11 @@ function TreatJS(configuration, verbose, out) {
   });
 
   Object.defineProperties(this, {
-    "out": { value: (out===undefined) ? {} : out }
+    "output": { value: out }
+  });
+
+  Object.defineProperties(this, {
+    "debugger": { value: dunit }
   });
 
   // stores current Function.prototype.toString

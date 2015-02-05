@@ -13,9 +13,6 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-// debugger unit
-var dunit = new TreatJSDebugger();
-
 // runs a testcase
 function run(file) {
   print("\n\n\n##########\n# " + file + "\n");

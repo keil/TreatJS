@@ -15,10 +15,42 @@
 
 // ==================================================
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+//print = undefined;
+//putstr=undefined
+
+(function() {
+
+  function f (x, y) {
+    return ""+(x+y);
+  }
+
+  var plus = Contract.assert(f,
+    Contract.Intersection(
+      Contract.AFunction([typeOfNumber,typeOfNumber], typeOfNumber),
+      Contract.AFunction([typeOfString,typeOfString], typeOfString)
+      )
+    );
+
+  plus("1", "2");
+
+})();
+
+
 // ==================================================
 
-TreatJS.Version.print();
-TreatJS.Config.print();
 TreatJS.Statistic.print();
 
 // ==================================================

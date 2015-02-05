@@ -95,15 +95,18 @@
   // blame
   var TreatJSBlame = TreatJS.Error.TreatJSBlame;
 
+  // TreatJS Output
+  var Output = Treatjs.output;
+
   /** log(msg)
    * @param msg String message
    */ 
   function log(msg, target) {
     if(TreatJS.Verbose.assert) {
-      __out(padding_right("assert / " + msg + " ", ".", 30));
-      __blank();
-      __out(((target!=undefined)?" "+target:""));
-      __blank();
+      Output.out(padding_right("assert / " + msg + " ", ".", 30));
+      Output.blank();
+      Output.out(((target!=undefined)? target + "\n" : ""));
+      Output.blank();
     }
   }
 

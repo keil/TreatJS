@@ -27,7 +27,23 @@ load("src/system.js");
 load("src/debugger.js");
 
 // TreatJS log output
-//load("src/out.js"); // TODO
+load("src/out.js");
+
+//    _     _                           
+// __| |___| |__ _  _ __ _ __ _ ___ _ _ 
+/// _` / -_) '_ \ || / _` / _` / -_) '_|
+//\__,_\___|_.__/\_,_\__, \__, \___|_|  
+//                   |___/|___/         
+
+var dunit = new TreatJSDebugger();
+
+//          _             _   
+// ___ _  _| |_ _ __ _  _| |_ 
+/// _ \ || |  _| '_ \ || |  _|
+//\___/\_,_|\__| .__/\_,_|\__|
+//             |_|            
+
+var out = new TreatJSShellOut();
 
 //              __ _                    _   _          
 // __ ___ _ _  / _(_)__ _ _  _ _ _ __ _| |_(_)___ _ _  
@@ -56,14 +72,14 @@ var TreatJS = new TreatJS({
 },{
   /** Print contract assertions
    * (default: false)
-   */assert: false,
+   */assert: true,
   /** Print sandbox operations
    * (default: false)
-   */sandbox: false,
+   */sandbox: true,
   /** Print statistics
    * (default: false)
    */statistic: true
-});
+}, out, dunit);
 
 //         _               _             
 // _____ _| |_ ___ _ _  __(_)___ _ _  ___
@@ -121,9 +137,13 @@ var Contract = TreatJS.build();
 load("contracts/contracts.js");
 load("contracts/aliases.js");
 
-//TreatJS.Version.print();
-//TreatJS.Config.print();
+// ==================================================
+
+TreatJS.Version.print();
+TreatJS.Config.print();
 //TreatJS.Statistic.print();
 //TreatJS.Build.print();
 //TreatJS.Package.print();
+
+// print the manual
 //print(TreatJS.Manual.toString());
