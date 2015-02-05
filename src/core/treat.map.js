@@ -87,13 +87,6 @@
     if(!(this instanceof StringMap)) return new StringMap(elements, strict);
     else Map.call(this, strict);
 
-    // TODO, deprecated
-    // var set = this.set;
-    // this.set = function(key, value) {
-    //  if(!(typeof key === "string")) error("Wrong Type. String required, "+(typeof key)+" found.", (new Error()).fileName, (new Error()).lineNumber);
-    //  else set(key, value);
-    // }
-
     if(elements instanceof Array) {
       var base = this; 
       elements.foreach(function(key, value) {
@@ -106,6 +99,7 @@
     } else {}
   }
   StringMap.prototype = Object.create(Map.prototype);
+
   StringMap.prototype.set = function(key, value) {
     if(!(typeof key === "string")) error("Wrong Type. String required, "+(typeof key)+" found.", (new Error()).fileName, (new Error()).lineNumber);
     else Map.prototype.set.call(this, key, value);
@@ -137,29 +131,6 @@
   function RegExpMap(elements) {
     if(!(this instanceof RegExpMap)) return new RegExpMap(elements);
     else Map.call(this, false);
-
-    // TODO, cleanup
-    /*var set = this.set;
-      this.set = function(key, value) {
-      if(!(key instanceof RegExp)) error("Wrong Type. RegExp required, "+(typeof key)+" found.", (new Error()).fileName, (new Error()).lineNumber);
-      else set(key, value);
-      }
-
-      this.has = function(key) {
-      var has = false;
-      this.foreach(function(index, contract) {
-      has = (index.test(key)) ? true : key;
-      });
-      return has;
-      }
-
-      this.slice = function(key) {
-      var contracts = [];
-      this.foreach(function(index, contract) {
-      if(index.test(key)) contracts.push(contract);
-      });
-      return contracts;
-      }*/
 
     if(elements instanceof Array) {
       var base = this; 

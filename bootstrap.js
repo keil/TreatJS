@@ -87,22 +87,20 @@ load("src/core/treat.violation.js"); // TODO, change clame mode
 load("src/core/treat.decompile.js");
 load("src/core/treat.sandbox.js");
 
-load("src/core/treat.logic.js");
+load("src/core/treat.logic.js"); // TODO
 load("src/core/treat.callback.js"); // TODO
 
-load("src/core/treat.map.js");// TODO, cleanup
+load("src/core/treat.map.js");
 // TODO, experimental code
 // not a core API at the moment ?
 // polymorphic api 
-load("src/treat.polymorphic.js");// TODO
+//load("src/treat.polymorphic.js");
 
-load("src/core/treat.contract.js");// TODO, cleanup, experimental code inside
+load("src/core/treat.contract.js");
 load("src/core/treat.constructor.js");
 
-//load("src/core/treat.handler.js");// TODO, cleanup, experimental code inside
-load("src/core/treat.canonicalize.js");// TODO, add new contract types
-//load("src/core/treat.construct.js"); // TODO
-load("src/core/treat.assert.js");// TODO, cleanup, experimental code
+load("src/core/treat.canonicalize.js");
+load("src/core/treat.assert.js"); // TODO, cleanup
 
 // convenience api
 load("src/treat.convenience.js");

@@ -383,27 +383,28 @@
   // / _ \| '_ (_-<  _| '_/ _` / _|  _| / _ \ ' \ 
   ///_/ \_\_.__/__/\__|_| \__,_\__|\__|_\___/_||_|                                            
 
-  /*function ContractAbstraction(vars, sub) {
-    if(!(this instanceof ContractAbstraction)) return new ContractAbstraction(vars, sub);
+  /*
+     function ContractAbstraction(vars, sub) {
+     if(!(this instanceof ContractAbstraction)) return new ContractAbstraction(vars, sub);
 
-    if(!(variable instanceof Variable)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-    if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+     if(!(variable instanceof Variable)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+     if(!(sub instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
-    Object.defineProperties(this, {
-    "variable": {
-    value: variable
-    },
-    "sub": {
-    value: sub
-    }
-    });
+     Object.defineProperties(this, {
+     "variable": {
+     value: variable
+     },
+     "sub": {
+     value: sub
+     }
+     });
 
-    }
-    ContractAbstraction.prototype = Object.create(Contract.prototype);
-    ContractAbstraction.prototype.toString = function() {
-    return "(" + varibale.toString() + "." + sub.toString() + ")";
-    };*/
-
+     }
+     ContractAbstraction.prototype = Object.create(Contract.prototype);
+     ContractAbstraction.prototype.toString = function() {
+     return "(" + varibale.toString() + "." + sub.toString() + ")";
+     };
+     */
 
   //         _               _ 
   // _____ _| |_ ___ _ _  __| |

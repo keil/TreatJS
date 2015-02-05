@@ -9,10 +9,11 @@
 
 * 3ch Blaming / Multiparty Blaming
 
+* Contract Abstraction
 
+* Polymorphic Contracts
 
-
-
+* Access Permission Contracts
 
 
 
@@ -20,8 +21,15 @@
 
 * Exclude Print Output
 
+* Eclude Blame Message
+
 * New Style of Function decompilation
 ** Real Dynamic handler
+** Bindings in Constructor
+
+* Definition of Not/ Negation
+
+* Binding in Constructor
 
 
 
@@ -29,6 +37,9 @@
 
 * Exclude Aliasing
 
+* Add new Contracts to Canonicalize
+
+* Add new Contracts to export/build 
 
 
 

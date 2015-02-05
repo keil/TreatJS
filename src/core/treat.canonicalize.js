@@ -106,7 +106,7 @@
         error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
     }
   }
-  
+
   /** Delayed Contract
    * @param contract Contract
    * @return true if contract is element of Delayed Contract, false otherwise

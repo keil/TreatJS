@@ -59,17 +59,6 @@
   // core constuctors
   var ContractConstructor = TreatJS.Constructor.Constructor;
 
-  // handler
-/*  var DelayedHandler = TreatJS.Handler.Delayed;
-
-  var FunctionHandler = TreatJS.Handler.Function;
-  var DependentHandler = TreatJS.Handler.Dependent;
-  var MethodHandler = TreatJS.Handler.Method;
-  var ObjectHandler = TreatJS.Handler.Object;
-
-  var RefelctionHandler = TreatJS.Handler.Reflection;
-  var NoOpHandler = TreatJS.Handler.NoOp;*/
-
   // maps
   var Map = TreatJS.Map.Map;
   var StringMap = TreatJS.Map.StringMap;
@@ -103,10 +92,7 @@
   // canonicalize
   var canonicalize = TreatJS.canonicalize;
 
-  // construct // TODO
-  //var construct = TreatJS.construct;
-  //var constructWith = TreatJS.constructWith;
-
+  // blame
   var TreatJSBlame = TreatJS.Error.TreatJSBlame;
 
   /** log(msg)
@@ -114,7 +100,7 @@
    */ 
   function log(msg, target) {
     if(TreatJS.Verbose.assert) {
-      __out(padding_right(msg + " ", ".", 30));
+      __out(padding_right("assert / " + msg + " ", ".", 30));
       __blank();
       __out(((target!=undefined)?" "+target:""));
       __blank();
@@ -172,7 +158,6 @@
   Global.prototype = {};
 
   Global.prototype.dump = function() {
-    //return this.raw;
     var dump = {};
     for(var name in this.raw) {
       dump[name] = this.raw[name];
@@ -329,14 +314,6 @@
     //  \_/\_/ |_|\__|_||_\___\___/_||_\__|_| \__,_\__|\__|                                                   
 
     else if (contract instanceof WithContract) {
-      /*var newglobal = {}; // TODO, use global merge // newglobal = new Gloabl();
-
-      for(var name in global) {
-        newglobal[name] = global[name];
-      }
-      for(var name in contract.bindings) {
-        newglobal[name] = contract.binding[name];
-      }*/
       var newglobal = global.merge(contract.binding);
       return assertWith(arg, contract.sub, newglobal, callbackHandler);
     }
@@ -566,9 +543,6 @@
       var globalArg = global.dump(); 
       var thisArg = undefined;
       var argsArray = [TreatJS.wrap(arg)];
- 
-      /* Merge global objects
-      */ 
 
       var callback = BaseCallback(callbackHandler, contract);
 
@@ -633,10 +607,6 @@
         if(e instanceof TreatJSError) {
           var result = e;
         } else {
-          
-          // TODO
-          print("PREDICATE EXCEPTION \n" + e + "\n" + e.stack);
-                    
           var result = TreatJS.Logic.Conflict;
         }
       } finally {
@@ -685,18 +655,7 @@
     else error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
   }
 
-  //         _               _ 
-  // _____ _| |_ ___ _ _  __| |
-  /// -_) \ /  _/ -_) ' \/ _` |
-  //\___/_\_\\__\___|_||_\__,_|
-
-  TreatJS.extend("assert", assert);
-
-
-  // TODO, test
-  //
-
-    // _    _                 _ _           
+  // _    _                 _ _           
   //| |  | |               | | |          
   //| |__| | __ _ _ __   __| | | ___ _ __ 
   //|  __  |/ _` | '_ \ / _` | |/ _ \ '__|
@@ -919,7 +878,7 @@
     PolymorphicHandler.prototype = Object.create(Handler.prototype);*/
 
 
-// TODO
+  // TODO
 
   //                     _                   _   
   //                    | |                 | |  
@@ -950,7 +909,7 @@
 
     if(constructor instanceof ContractConstructor) {
       // BASE CNTRACT
-      
+
       var newglobal = (constructor.binding!==undefined) ? global.merge(constructor.binding) : global;   
       var globalArg = newglobal.dump(); 
       //var globalArg = global.dump(); // TODO
@@ -962,9 +921,8 @@
       for(var property in build) {
         contract[property] = build[property];
       }
-      
+
       var newBaseContract = function (predicate, name) {
-        print("=====================================================================");
         return SandboxContract(predicate, globalArg, name);
       };
 
@@ -981,31 +939,31 @@
 
       //var treatjs = {};
       //var contract = {}
-      
+
       // TODO, only one avaliable in Sandbox
 
       /*for(property in TreatJS) {
         if(property==="BaseContract") {
-          treatjs[property] = newBaseContract;
-          //__define(property, newBaseContract, treatjs);
-        }
-        else {
-          treatjs[property] = TreatJS[property];
-          //__define(property, _[property], treatjs);
-        }
+        treatjs[property] = newBaseContract;
+      //__define(property, newBaseContract, treatjs);
+      }
+      else {
+      treatjs[property] = TreatJS[property];
+      //__define(property, _[property], treatjs);
+      }
       }*/
 
       //var build = TreatJS.build();
 
       /*for(property in build) {
         if(property==="Base") {
-          contract[property] = newBaseContract;
-          //__define(property, newBaseContract, contract);
-        }
-        else {
-          contract[property] = build[property];
-          //__define(property, build[property], contract);
-        }
+        contract[property] = newBaseContract;
+      //__define(property, newBaseContract, contract);
+      }
+      else {
+      contract[property] = build[property];
+      //__define(property, build[property], contract);
+      }
       }*/
 
       //globalArg["_"] = treatjs;
@@ -1092,18 +1050,10 @@
   /// -_) \ /  _/ -_) ' \/ _` |
   //\___/_\_\\__\___|_||_\__,_|
 
+  TreatJS.extend("assert", assert);
   TreatJS.extend("construct", construct);
-  TreatJS.extend("constructWith", constructWith);
 
-
-
-
-
-  //         _               _ 
-  // _____ _| |_ ___ _ _  __| |
-  /// -_) \ /  _/ -_) ' \/ _` |
-  //\___/_\_\\__\___|_||_\__,_|
-
+  // Handler
   TreatJS.extend("Handler", {});
 
   TreatJS.define(TreatJS.Handler, "Delayed", DelayedHandler);
@@ -1116,7 +1066,5 @@
   TreatJS.define(TreatJS.Handler, "Reflection", ReflectionHandler);
   TreatJS.define(TreatJS.Handler, "NoOp", NoOpHandler);
   //TreatJS.define(TreatJS.Handler, "Polymorphic", PolymorphicHandler);
-
-
 
 })(TreatJS);
