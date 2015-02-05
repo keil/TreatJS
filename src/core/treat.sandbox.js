@@ -24,7 +24,7 @@
    */ 
   function log(msg, target) {
     if(TreatJS.Verbose.sandbox) {
-      __out(padding_right(msg + " ", ".", 30) + ((target!=undefined)?" "+target:""));
+      __out(padding_right("sandbox / " + msg + " ", ".", 30) + ((target!=undefined)?" "+target:""));
       __blank();
     }
   }
@@ -83,7 +83,7 @@
       var desc = Object.getOwnPropertyDescriptor(target, name);
       //if (desc !== undefined) desc.value = wrap(desc.value, global);
       //print(desc) // TODO
-        return desc;
+      return desc;
     };
     this.getOwnPropertyNames = function(target) {
       log("getOwnPropertyNames", name);
@@ -145,14 +145,14 @@
       else if(name=="C") return target[name];
 
       // pass-through of Contracts   
-      if( TreatJS.Config.contractPassThrough) {
+      if(TreatJS.Config.contractPassThrough) {
         if(target[name] instanceof TreatJS.Core.Contract) {
           return target[name];
         }
       }
 
       // pass-through of native functions
-      if( TreatJS.Config.nativePassThrough) {
+      if(TreatJS.Config.nativePassThrough) {
         if(isNativeFunction(target[name])) {
           return target[name];
         }
@@ -191,84 +191,10 @@
     };
   };
 
-  //  ___         _        
-  // / __|__ _ __| |_  ___ 
-  //| (__/ _` / _| ' \/ -_)
-  // \___\__,_\__|_||_\___|
-
-  // TODO
-  function CacheXXX() {     
-    var handlerMap = new WeakMap();
-
-    /** put entry
-     * @param object Key
-     * @param object Value
-     */
-    this.put = function(target, proxy) {
-      return handlerMap.set(target, proxy);
-    };
-    /** get entry
-     * @param proxy Key value
-     */
-    this.get = function(target) {
-      return handlerMap.get(target);
-    };
-
-    /** contains key
-     * @param proxy
-     * @return true if key is element of map, false otherwise
-     */
-    this.contains = function(key) {
-      return (handlerMap.get(key, undefined) !== undefined) ? true : false;
-    }
-  };
-
   // ___               _ _             
   /// __| __ _ _ _  __| | |__  _____ __
   //\__ \/ _` | ' \/ _` | '_ \/ _ \ \ /
   //|___/\__,_|_||_\__,_|_.__/\___/_\_\
-
-
-  // global -> ( function -> function' )
-  var dcache = new WeakMap();
-
-  /** decompile (fun, globalArg)
-   *
-   * Decompiles a function 
-   *
-   * @param fun The function object.
-   * @param globalArg The secure global object.
-   * @return a secure function
-   */
-/*  function decompile(fun, globalArg) {
-    count(TreatJS.Statistic.DECOMPILE);
-
-    var string = "(" + fun.toString() + ")"; 
-    var sandbox = globalArg; //.dump(); // TODO
-    var secureFun = eval("(function() { with(sandbox) { return " + string + " }})();");
-    return secureFun;
-  }/*
-
-  /** pre decompile (fun, globalArg)
-   *
-   * Gets the predicate from the cache or decompiles it 
-   *
-   * @param fun The function object.
-   * @param globalArg The secure global object.
-   * @return a secure function
-   */
-  function preDecompile(fun, globalArg) {
-    if(dcache.has(fun)) {
-      log("dcache hit"); // TODO
-      var secureFun = dcache.get(fun);
-      return secureFun;
-    } else {
-      log("dcache miss"); // TODO
-      var secureFun = decompile(fun);
-      dcache.set(fun, secureFun);
-      return secureFun;
-    }
-  }
 
   /** evalInSandbox(fun[, globalArg, thisArg, argsArray])
    *
@@ -283,11 +209,8 @@
   function evalInSandbox(fun, globalArg, thisArg, argsArray) {
     if(!(fun instanceof Function)) error("No Function Object", (new Error()).fileName, (new Error()).lineNumber);
 
-    var secureFun = preDecompile(fun);
-    // secure fun, eval (global, this, args) // TODO
-    //return secureFun.apply(thisArg, argsArray);
- 
-    return secureFun.eval(globalArg, thisArg, argsArray); // TODO, do the same in new
+    var secureFun = decompile(fun);
+    return secureFun.eval(globalArg, thisArg, argsArray);
   }
 
   /** evalNewInSandbox(fun[, globalArg, thisArg, argsArray])
@@ -300,14 +223,12 @@
    * @param argArray The function arguments
    * @return The result of fun.apply(thisArg, argsArray);
    */
-  // TODO, recompile cahe
   function evalNewInSandbox(fun, globalArg, thisArg, argsArray) {
     if(!(fun instanceof Function)) error("No Function Object", (new Error()).fileName, (new Error()).lineNumber);
 
-    var secureFun = preDecompile(fun);
+    var secureFun = decompile(fun);
     var newObj = Object.create(secureFun.prototype);
-    //var val = secureFun.apply(newObj, argsArray); // TODO
-   var val = secureFun.eval(globalArg, newObj, argsArray);
+    var val = secureFun.eval(globalArg, newObj, argsArray);
 
     return (val instanceof Object) ? val : newObj;
   }
@@ -335,7 +256,7 @@
       var sandboxGlobalArg = wrap(globalArg, globalArg);
       var sandboxThisArg = wrap(thisArg, {});
       var sandboxArgsArray = wrap(argsArray, {});
-      
+
       return evalInSandbox(fun, sandboxGlobalArg, sandboxThisArg, sandboxArgsArray);
     }
   }
@@ -461,4 +382,3 @@
   TreatJS.define(TreatJS.Base, "isNativeFunction", isNativeFunction);
 
 })(TreatJS);
-

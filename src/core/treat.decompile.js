@@ -22,7 +22,7 @@
    */ 
   function log(msg, target) {
     if(TreatJS.Verbose.assert) {
-      __out(padding_right("decompile . " + msg + " ", ".", 30));
+      __out(padding_right("decompile / " + msg + " ", ".", 30));
       __blank();
       __out(((target!=undefined)?" "+target:""));
       __blank();
@@ -44,10 +44,12 @@
    * Gets the predicate from the cache or decompiles it 
    *
    * @param fun The function object.
-   * @param globalArg The secure global object.
+   * @param caching Enables function caching.
    * @return a secure function
    */
-  function cache(fun) {
+  function cache(fun, caching) {
+    if(caching===false) return decompile(fun);
+
     if(dcache.has(fun)) {
       log("dcache hit");
       return dcache.get(fun);
@@ -118,9 +120,6 @@
   //|___/ \_, |_||_\__,_|_|_|_|_\__|_||_\__,_|_||_\__,_|_\___|_|  
   //      |__/                                                    
 
-  // TODO, at the moment we set only the global object
-  // guaranteed on every call
-
   function DynamicHandler(target, scopeHandler) {
 
     function eval(scopeArg, thisArg, argsArg) { 
@@ -146,6 +145,6 @@
   /// -_) \ /  _/ -_) ' \/ _` |
   //\___/_\_\\__\___|_||_\__,_|
 
-  TreatJS.extend("decompile", decompile);
+  TreatJS.extend("decompile", cache);
 
 })(TreatJS);

@@ -175,9 +175,6 @@
 
   TreatJS.define(TreatJS.Logic, "convolution", convolution);
 
-  // TODO, NOTE: deprecated
-  TreatJS.define(TreatJS.Logic, "merge", join);
-
   TreatJS.define(TreatJS.Logic, "make", make);
   TreatJS.define(TreatJS.Logic, "translate", translate);
 
