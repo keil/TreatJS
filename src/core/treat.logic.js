@@ -25,23 +25,52 @@
   Value.prototype = {};
 
   Value.prototype.toString = function() {
-    return toString(this);
+    switch((this.t*2)+(this.f)) {
+      case 0:
+        return '<Unknown>';
+        break;
+      case 1:
+        return '<False>';
+        break;
+      case 2:
+        return '<True>';
+        break;
+      case 3:
+        return '<Conflict>';
+        break;
+    }
+  }
+
+  Value.prototype.subseteqFalse = function() {
+    return (this.t===0);
+  }
+
+  Value.prototype.supseteqFalse = function() {
+    return (this.f===1);
+  }
+
+  Value.prototype.subseteqTrue = function() {
+    return (this.f===0);
+  }
+
+  Value.prototype.supseteqTrue = function() {
+    return (this.t===1);
   }
 
   Value.prototype.isFalse = function() {
-    return isFalse(this);
+    return (this.t===0) && (this.f===1);
   }
 
   Value.prototype.isTrue = function() {
-    return isTrue(this);
+    return (this.t===1) && (this.f===o);
   }
 
   Value.prototype.isUnknown = function() {
-    return isUnknown(this);
+    return (this.t===0) && (this.f===0);
   }
 
   Value.prototype.isConfict = function() {
-    return isConflict(this);
+    return (this.t===1) && (this.f===1);
   }
 
   // value cache
@@ -61,39 +90,6 @@
 
   function translate(b) {
     return b ? make(1,0) : make(0,1)
-  }
-
-  function toString(v) {
-    switch((v.t*2)+(v.f)) {
-      case 0:
-        return '<Unknown>'
-          break;
-      case 1:
-        return '<False>';
-        break;
-      case 2:
-        return '<True>';
-        break;
-      case 3:
-        return '<Conflict>';
-        break;
-    }
-  }
-
-  function isFalse(v) {
-    return (v.f===1);
-  }
-
-  function isTrue(v) {
-    return (v.t===1);
-  }
-
-  function isUnknown(v) {
-    return (v.t===0) && (v.f===0);
-  }
-
-  function isConflict(v) {
-    return (v.t===1) && (v.f===1);
   }
 
   /*
@@ -140,7 +136,7 @@
     return make((v.t&vp.t), (v.f&vp.f));
   }
 
-  function neg(v, vp) {
+  function neg(v) {
     return make(v.f,v.t);
   }
 

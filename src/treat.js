@@ -41,11 +41,11 @@ function TreatJS(configuration, verbose, out, dunit) {
   });
 
   Object.defineProperties(this, {
-    "output": { value: out }
+    "output": { value: (out || new TreatJSOut()) }
   });
 
   Object.defineProperties(this, {
-    "debugger": { value: dunit }
+    "debugger": { value: (dunit || new TreatJSDebugger()) }
   });
 
   // stores current Function.prototype.toString

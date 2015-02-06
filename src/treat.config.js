@@ -73,6 +73,9 @@
   // call quit
   var DEFAULT_QUITONERROR = true;
 
+  // pass-through of predicate exceptions
+  var DEFAULT_EXCEPTIONSPASSTHROUGH = true;
+
   Object.defineProperties(Config, {
     "newGlobal": {
       value: ((TreatJS.configuration.newGlobal===undefined) ? 
@@ -97,6 +100,11 @@
     "stackTrace": {
       value: ((TreatJS.configuration.stackTrace===undefined) ? 
               DEFAULT_QUITONERROR : TreatJS.configuration.stackTrace), 
+      enumerable: true
+    },
+    "exceptionPassThrough":  { 
+      value: ((TreatJS.configuration.exceptionPassThrough===undefined) ? 
+              DEFAULT_EXCEPTIONSPASSTHROUGH : TreatJS.configuration.exceptionPassThrough),
       enumerable: true
     }
   });

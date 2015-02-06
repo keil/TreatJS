@@ -14,6 +14,9 @@
  */
 (function(TreatJS) {
 
+  // TreatJS Output
+  var output = TreatJS.output;
+
   //          _     _    __   __          _          
   // _ __ _ _(_)_ _| |_  \ \ / /__ _ _ __(_)___ _ _  
   //| '_ \ '_| | ' \  _|  \ V / -_) '_(_-< / _ \ ' \ 
@@ -21,10 +24,8 @@
   //|_|                                              
 
   var printVersion = function() {
-    __out(padding_right("TreatJS Version ", ".", 30));
-    __blank();
-    __subout(padding_right(TreatJS.version + " ", ".", 30));
-    __blank();
+    output.println("TreatJS Version");
+    output.printsubln(TreatJS.version, "");
   }
 
   //          _     _      ___           __ _                    _   _          
@@ -36,19 +37,16 @@
   var printConfiguration = function () {
 
     function log(msg, value) {
-      __subout(padding_right(msg + " ", ".", 30) + padding_left(value + "", " ", 9));
-      __blank();
+      output.printsubln(msg, value);
     }
 
-    __out(padding_right("TreatJS Configuration ", ".", 30));
-    __blank();
+    output.println("TreatJS Configuration");
 
     for(var conf in TreatJS.Config) {
       log(":" + conf + " = ", TreatJS.Config[conf]);
     }
 
-    __out(padding_right("TreatJS Verbose Mode ", ".", 30));
-    __blank();
+    output.println("TreatJS Verbose Mode");
 
     for(var conf in TreatJS.Config.Verbose) {
       log(":" + conf + " = ", TreatJS.Config.Verbose[conf]);
@@ -62,12 +60,10 @@
   //|_|                                                  
 
   var printStatistic = function () {
-    __out(padding_right("TreatJS Statistics ", ".", 30));
-    __blank();
+    output.println("TreatJS Statistics");
 
     function log(msg, value) {
-      __subout(padding_right(msg + " ", ".", 30) + padding_left(value + "", " ", 9));
-      __blank(); 
+      output.printsubln(msg, value);
     }
 
     for(var counter in TreatJS.Statistic) {
@@ -82,12 +78,10 @@
   //|_|                                                  
 
   var printPackage = function () {
-    __out(padding_right("TreatJS Package", ".", 30));
-    __blank();
+    output.println("TreatJS Package");
 
     function log(msg, value) {
-      __subout(padding_right(msg + " ", ".", 30) + padding_left(value + "", " ", 9));
-      __blank(); 
+      output.printsubln(msg, value);;
     }
 
     function printPackage(package, prefix) {
@@ -107,12 +101,10 @@
   //|_|                          |_|                
 
   var printExport = function () {
-    __out(padding_right("TreatJS Build ", ".", 30));
-    __blank();
+    output.println("TreatJS Build");
 
     function log(msg, value) {
-      __subout(padding_right(msg + " ", ".", 30) + padding_left(value + "", " ", 9));
-      __blank(); 
+      output.printsubln(msg, value);
     }
 
     function printPackage(package, prefix) {

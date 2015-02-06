@@ -17,15 +17,14 @@
   var error = TreatJS.error;
   var violation = TreatJS.violation;
 
+  var logoutput = TreatJS.output;
+
   /** log(msg)
    * @param msg String message
    */ 
   function log(msg, target) {
     if(TreatJS.Verbose.assert) {
-      __out(padding_right("decompile / " + msg + " ", ".", 30));
-      __blank();
-      __out(((target!=undefined)?" "+target:""));
-      __blank();
+       logoutput.log(logoutput.DECOMPILE, msg, target);
     }
   }
 

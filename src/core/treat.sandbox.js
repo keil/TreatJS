@@ -19,13 +19,14 @@
 
   var decompile = TreatJS.decompile;
 
+  var logoutput = TreatJS.output;
+
   /** log(msg)
    * @param msg String message
    */ 
   function log(msg, target) {
     if(TreatJS.Verbose.sandbox) {
-      __out(padding_right("sandbox / " + msg + " ", ".", 30) + ((target!=undefined)?" "+target:""));
-      __blank();
+      logoutput.log(logoutput.SANDBOX, msg, target);
     }
   }
 

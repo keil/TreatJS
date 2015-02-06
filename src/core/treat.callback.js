@@ -82,7 +82,7 @@
   }
 
   Handle.fresh = function() {
-    return Handle(Unknown, Unknown);
+    return new Handle(Unknown, Unknown);
   }
 
   Handle.merge = function(m, n) {

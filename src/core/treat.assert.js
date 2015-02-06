@@ -96,17 +96,14 @@
   var TreatJSBlame = TreatJS.Error.TreatJSBlame;
 
   // TreatJS Output
-  var Output = Treatjs.output;
+  var logoutput = TreatJS.output;
 
   /** log(msg)
    * @param msg String message
    */ 
   function log(msg, target) {
     if(TreatJS.Verbose.assert) {
-      Output.out(padding_right("assert / " + msg + " ", ".", 30));
-      Output.blank();
-      Output.out(((target!=undefined)? target + "\n" : ""));
-      Output.blank();
+      logoutput.log(logoutput.ASSERT, msg, target);
     }
   }
 
@@ -215,20 +212,20 @@
     }
 
     var callback = RootCallback(function(handle) {
-      if(handle.caller.isFalse() || handle.callee.isFalse()) {
+      if(handle.caller.supseteqFalse() || handle.callee.supseteqFalse()) {
 
         var blamed = ""; // TODO
         var msg = contract.toString(); /*handle.blame();*/
         msg+="\n";
         msg+="Blame is on: ";
 
-        if(handle.caller.isFalse() && !handle.callee.isFalse()) {
+        if(handle.caller.supseteqFalse() && !handle.callee.supseteqFalse()) {
           msg+="Caller";
           blamed = TreatJSBlame.CONTEXT;
-        } else if(!handle.caller.isFalse() && handle.callee.isFalse()) {
+        } else if(!handle.caller.supseteqFalse() && handle.callee.supseteqFalse()) {
           msg+="Callee";
           blamed = TreatJSBlame.SUBJECT;
-        } else if(handle.caller.isFalse() && handle.callee.isFalse()) {
+        } else if(handle.caller.supseteqFalse() && handle.callee.supseteqFalse()) {
           msg+="Caller, Callee";
         } else {
           msg+="-";
@@ -574,11 +571,13 @@
       } catch (e) {
         if(e instanceof TreatJSError) {
           var result = e;
-        } else {
+        } else if(TreatJS.Config.exceptionPassThrough) {
+          var result = e;
+        }  else {
           var result = TreatJS.Logic.Conflict;
         }
       } finally {
-        if(result instanceof TreatJSError) {
+        if(result instanceof Error) {
           throw result;
         } else {
           var handle = Handle(TreatJS.Logic.True, result, result);
@@ -609,11 +608,13 @@
       } catch (e) { 
         if(e instanceof TreatJSError) {
           var result = e;
+        } else if(TreatJS.Config.exceptionPassThrough) {
+          var result = e;
         } else {
           var result = TreatJS.Logic.Conflict;
         }
       } finally {
-        if(result instanceof TreatJSError) {
+        if(result instanceof Error) {
           throw result;
         } else {
           var handle = new Handle(TreatJS.Logic.True, result);
