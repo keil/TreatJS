@@ -29,11 +29,8 @@
   var DEFAULT_DECOMPILE    = true;
   // canonicalize contracts
   var DEFAULT_CANONICALIZE = true;
-
-  // TODO
   // callback updates
-  var DEFAULT_CALLBACK     = false;
-
+  var DEFAULT_CALLBACK     = true;
 
   Object.defineProperties(Config, {
     "assertion": {

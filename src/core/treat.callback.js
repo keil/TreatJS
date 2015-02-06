@@ -118,13 +118,12 @@
     var root = Handle.fresh();
 
     function update() {
-      count(TreatJS.Statistic.CALLBACK);
-
-      var caller = root.caller;
-      var callee = root.callee;
-      
-      // TODO
-      if(TreatJS.Config.callback) handler(new Handle(caller, callee));
+      if(TreatJS.Config.callback) {
+        count(TreatJS.Statistic.CALLBACK);
+        var caller = root.caller;
+        var callee = root.callee;
+        handler(new Handle(caller, callee));
+      }
     }
 
     Object.defineProperty(this, "rootHandler", {value:function(handle) {
@@ -150,12 +149,12 @@
     var range = Handle.fresh();
 
     function update() {
-      count(TreatJS.Statistic.CALLBACK);
-
-      var caller = and(domain.callee, range.caller);
-      var callee = and(domain.caller, implies(domain.callee, range.callee));
-      // TODO
-      if(TreatJS.Config.callback) handler(new Handle(caller, callee));
+      if(TreatJS.Config.callback) {
+        count(TreatJS.Statistic.CALLBACK);
+        var caller = and(domain.callee, range.caller);
+        var callee = and(domain.caller, implies(domain.callee, range.callee));
+        handler(new Handle(caller, callee));
+      }
     }
 
     Object.defineProperty(this, "domainHandler", {value:function(handle) {
@@ -188,12 +187,12 @@
     var get = Handle.fresh();
 
     function update() {
-      count(TreatJS.Statistic.CALLBACK);
-
-      var caller = (set) ? join(get.caller, set.callee) : get.caller;
-      var callee = (set) ? implies(set.callee, get.callee) : get.callee;
-      // TODO
-      if(TreatJS.Config.callback) handler(new Handle(caller, callee));
+      if(TreatJS.Config.callback) {
+        count(TreatJS.Statistic.CALLBACK);
+        var caller = (set) ? join(get.caller, set.callee) : get.caller;
+        var callee = (set) ? implies(set.callee, get.callee) : get.callee;
+        handler(new Handle(caller, callee));
+      }
     }
 
     Object.defineProperty(this, "setHandler", {value:function(handle) {
@@ -219,12 +218,12 @@
     var obj = Handle(True, True, True);
 
     function update() {
-      count(TreatJS.Statistic.CALLBACK);
-
-      var caller = obj.caller;
-      var callee = obj.callee;
-      // TODO
-      if(TreatJS.Config.callback) handler(new Handle(caller, callee));
+      if(TreatJS.Config.callback) {
+        count(TreatJS.Statistic.CALLBACK);
+        var caller = obj.caller;
+        var callee = obj.callee;
+        handler(new Handle(caller, callee));
+      }
     }
 
     Object.defineProperty(this, "objectHandler", {value:function(handle) {
@@ -250,12 +249,12 @@
     var right = Handle.fresh();
 
     function update() {
-      count(TreatJS.Statistic.CALLBACK);
-
-      var caller = or(left.caller, right.caller);
-      var callee = and(left.callee, right.callee);
-      // TODO
-      if(TreatJS.Config.callback) handler(new Handle(caller, callee));
+      if(TreatJS.Config.callback) {
+        count(TreatJS.Statistic.CALLBACK);
+        var caller = or(left.caller, right.caller);
+        var callee = and(left.callee, right.callee);
+        handler(new Handle(caller, callee));
+      }
     }
 
     Object.defineProperty(this, "leftHandler", {value:function(handle) {
@@ -288,12 +287,12 @@
     var right = Handle.fresh();
 
     function update() {
-      count(TreatJS.Statistic.CALLBACK);
-
-      var caller = and(left.caller, right.caller);
-      var callee = or(left.callee, right.callee);
-      // TODO
-      if(TreatJS.Config.callback) handler(new Handle(caller, callee));
+      if(TreatJS.Config.callback) {
+        count(TreatJS.Statistic.CALLBACK);
+        var caller = and(left.caller, right.caller);
+        var callee = or(left.callee, right.callee);
+        handler(new Handle(caller, callee));
+      }
     }
 
     Object.defineProperty(this, "leftHandler", {value:function(handle) {
@@ -324,12 +323,12 @@
     var sub =  Handle.fresh();
 
     function update() {
-      count(TreatJS.Statistic.CALLBACK);
-
-      var caller = sub.caller;
-      var callee = implies(sub.caller, not(sub.callee));
-      // TODO
-      if(TreatJS.Config.callback) handler(new Handle(caller, callee));
+      if(TreatJS.Config.callback) {
+        count(TreatJS.Statistic.CALLBACK);
+        var caller = sub.caller;
+        var callee = implies(sub.caller, not(sub.callee));
+        handler(new Handle(caller, callee));
+      }
     }
 
     Object.defineProperty(this, "subHandler", {value:function(handle) {
@@ -355,12 +354,12 @@
     var right = Handle.fresh();
 
     function update() {
-      count(TreatJS.Statistic.CALLBACK);
-
-      var caller = and(left.caller, right.caller);
-      var callee = and(implies(left.caller, left.callee), implies(right.caller, right.callee));
-      // TODO
-      if(TreatJS.Config.callback) handler(new Handle(caller, callee));
+      if(TreatJS.Config.callback) {
+        count(TreatJS.Statistic.CALLBACK);
+        var caller = and(left.caller, right.caller);
+        var callee = and(implies(left.caller, left.callee), implies(right.caller, right.callee));
+        handler(new Handle(caller, callee));
+      }
     }
 
     Object.defineProperty(this, "leftHandler", {value:function(handle) {
@@ -391,12 +390,12 @@
     var right = Handle.fresh();
 
     function update() {
-      count(TreatJS.Statistic.CALLBACK);
-
-      var caller = or(left.caller, right.caller);
-      var callee = implies(or(left.caller, right.caller), or(and(left.caller, left.callee), and(right.caller, right.callee)));
-      // TODO
-      if(TreatJS.Config.callback) handler(new Handle(caller, callee));
+      if(TreatJS.Config.callback) {
+        count(TreatJS.Statistic.CALLBACK);
+        var caller = or(left.caller, right.caller);
+        var callee = implies(or(left.caller, right.caller), or(and(left.caller, left.callee), and(right.caller, right.callee)));
+        handler(new Handle(caller, callee));
+      }
     }
 
     Object.defineProperty(this, "leftHandler", {value:function(handle) {
@@ -426,12 +425,12 @@
     var sub =  Handle.fresh();
 
     function update() {
-      count(TreatJS.Statistic.CALLBACK);
-
-      var caller = True;
-      var callee = True;
-      // TODO
-      if(TreatJS.Config.callback) handler(new Handle(caller, callee));
+      if(TreatJS.Config.callback) {
+        count(TreatJS.Statistic.CALLBACK);
+        var caller = True;
+        var callee = True;
+        handler(new Handle(caller, callee));
+      }
     }
 
     Object.defineProperty(this, "subHandler", {value:function(handle) {
@@ -456,12 +455,12 @@
     var predicate = new Handle(Unknown, Unknown, Unknown);
 
     function update() {
-      count(TreatJS.Statistic.CALLBACK);
-
-      var caller = predicate.caller;
-      var callee = predicate.callee;
-      // TODO
-      if(TreatJS.Config.callback) handler(new Handle(caller, callee));
+      if(TreatJS.Config.callback) {
+        count(TreatJS.Statistic.CALLBACK);
+        var caller = predicate.caller;
+        var callee = predicate.callee;
+        handler(new Handle(caller, callee));
+      }
     }
 
     Object.defineProperty(this, "predicateHandler", {value:function(handle) {

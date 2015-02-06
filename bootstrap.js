@@ -65,7 +65,7 @@ var TreatJS = new TreatJS({
    */decompile: true,
   /** Enable callback updates
    * (default: true)
-   */callback: false,
+   */callback: true,
   /** Enable contract normalization
    * (default: true)
    */canonicalize: true,
@@ -81,7 +81,7 @@ var TreatJS = new TreatJS({
    */sandbox: false,
   /** Print statistics
    * (default: false)
-   */statistic: true 
+   */statistic: false 
 }, out, dunit);
 
 //         _               _             
