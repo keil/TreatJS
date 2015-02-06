@@ -63,6 +63,9 @@ var TreatJS = new TreatJS({
   /** Enable function decompilation
    * (default: true)
    */decompile: true,
+  /** Enable callback updates
+   * (default: true)
+   */callback: true,
   /** Enable contract normalization
    * (default: true)
    */canonicalize: true,

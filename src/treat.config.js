@@ -30,6 +30,11 @@
   // canonicalize contracts
   var DEFAULT_CANONICALIZE = true;
 
+  // TODO
+  // callback updates
+  var DEFAULT_CALLBACK     = false;
+
+
   Object.defineProperties(Config, {
     "assertion": {
       value: ((TreatJS.configuration.assertion===undefined) ? 
@@ -49,6 +54,11 @@
     "canonicalize": {
       value: ((TreatJS.configuration.canonicalize===undefined) ? 
               DEFAULT_CANONICALIZE : TreatJS.configuration.canonicalize), 
+      enumerable: true
+    },
+    "callback": {
+      value: ((TreatJS.configuration.callback===undefined) ? 
+              DEFAULT_CALLBACK : TreatJS.configuration.callback), 
       enumerable: true
     }
   });
