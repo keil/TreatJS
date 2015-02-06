@@ -144,7 +144,6 @@ load("contracts/aliases.js");
 
 TreatJS.Version.print();
 TreatJS.Config.print();
-
 //TreatJS.Statistic.print();
 //TreatJS.Build.print();
 //TreatJS.Package.print();
