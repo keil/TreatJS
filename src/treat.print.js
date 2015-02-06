@@ -48,8 +48,8 @@
 
     output.println("TreatJS Verbose Mode");
 
-    for(var conf in TreatJS.Config.Verbose) {
-      log(":" + conf + " = ", TreatJS.Config.Verbose[conf]);
+    for(var conf in TreatJS.Verbose) {
+      log(":" + conf + " = ", TreatJS.Verbose[conf]);
     }
   }
 
