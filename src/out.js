@@ -64,12 +64,12 @@ TreatJSShellOut.prototype.log = function (classid, message, target) {
   }
 };
 
-TreatJSOut.prototype.println = function (message) {
+TreatJSShellOut.prototype.println = function (message) {
   this.out(padding_right(message + " ", ".", this.splitWidth));
   this.blank();
 };
 
-TreatJSOut.prototype.printsubln = function (message, value) {
+TreatJSShellOut.prototype.printsubln = function (message, value) {
   this.subout(padding_right(message + " ", ".", this.subSplitWidth) + padding_left(value + "", " ", this.valueWidth));
   this.blank(); 
 };

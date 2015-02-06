@@ -15,22 +15,6 @@
 
 // ==================================================
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-//print = undefined;
-//putstr=undefined
-
 (function() {
 
   function f (x, y) {

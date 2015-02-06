@@ -212,6 +212,8 @@
     }
 
     var callback = RootCallback(function(handle) {
+      log("root update", handle);
+
       if(handle.caller.supseteqFalse() || handle.callee.supseteqFalse()) {
 
         var blamed = ""; // TODO
