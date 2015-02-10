@@ -55,12 +55,19 @@ function TreatJS(configuration, verbose, out, dunit) {
 TreatJS.prototype = {};
 TreatJS.prototype.toString = (function() { return '[[TreatJS]]'; });
 
+// TreatJS Evaluation Semantics
+TreatJS.prototype.LAX   = 'LAX';
+TreatJS.prototype.PICKY = 'PICKY';
+TreatJS.prototype.INDY  = 'INDY';
+
+// TreatJS Package Extend
 TreatJS.prototype.extend = function(name, value) {
   Object.defineProperty(this, name, {
     value: value, enumerable: true
   });
 }
 
+// TreatJS Package Define
 TreatJS.prototype.define = function(target, name, value) {
   Object.defineProperty(target, name, {
     value: value, enumerable: true
