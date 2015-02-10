@@ -21,6 +21,8 @@
   /// -_) ' \/ _` | '_ \ / -_)
   //\___|_||_\__,_|_.__/_\___|
 
+  // evaluation semantics
+  var DEFAULT_SEMANTICS    = TreatJS.LAX;
   // contract assertion
   var DEFAULT_ASSERTION    = true;
   //  sandbox membrane
@@ -33,10 +35,15 @@
   var DEFAULT_CALLBACK     = true;
 
   Object.defineProperties(Config, {
+    "semantics": {
+      value: ((TreatJS.configuration.semantics===undefined) ? 
+              DEFAULT_SEMANTICS : TreatJS.configuration.semantics), 
+        enumerable: true
+    },
     "assertion": {
       value: ((TreatJS.configuration.assertion===undefined) ? 
               DEFAULT_ASSERTION : TreatJS.configuration.assertion), 
-        enumerable: true
+      enumerable: true
     },
     "membrane":  { 
       value: ((TreatJS.configuration.membrane===undefined) ? 
