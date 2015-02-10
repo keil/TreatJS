@@ -65,20 +65,20 @@
   //| __ / _` | ' \/ _` | / -_)
   //|_||_\__,_|_||_\__,_|_\___|
 
-  function Handle(caller, callee) {
-    if(!(this instanceof Handle)) return new Handle(caller, callee);
+  function Handle(context, subject) {
+    if(!(this instanceof Handle)) return new Handle(context, subject);
 
-    if(!(caller instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
-    if(!(callee instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
+    if(!(context instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
+    if(!(subject instanceof TruthValue)) error("Wrong TruthValue.", (new Error()).fileName, (new Error()).lineNumber);
 
     Object.defineProperties(this, {
-      "caller": {value: caller, enumerable: true},
-      "callee": {value: callee, enumerable: true}  
+      "context": {value: context, enumerable: true},
+      "subject": {value: subject, enumerable: true}  
     });
   }
   Handle.prototype = {};
   Handle.prototype.toString = function() {
-    return "Caller: "+this.caller+", Callee: "+this.callee;
+    return "Caller: "+this.context+", Callee: "+this.subject;
   }
 
   Handle.fresh = function() {
@@ -87,22 +87,22 @@
 
   Handle.merge = function(m, n) {
     return new Handle(
-        join(m.caller, n.caller),
-        join(m.callee, n.callee)
+        join(m.context, n.context),
+        join(m.subject, n.subject)
         );
   }
 
   Handle.and = function(m, n) {
     return new Handle(
-        and(m.caller, n.caller),
-        and(m.callee, n.callee)
+        and(m.context, n.context),
+        and(m.subject, n.subject)
         );
   }
 
   Handle.or = function(m, n) {
     return new Handle(
-        or(m.caller, n.caller),
-        or(m.callee, n.callee)
+        or(m.context, n.context),
+        or(m.subject, n.subject)
         );
   }
 
@@ -120,9 +120,9 @@
     function update() {
       if(TreatJS.Config.callback) {
         count(TreatJS.Statistic.CALLBACK);
-        var caller = root.caller;
-        var callee = root.callee;
-        handler(new Handle(caller, callee));
+        var context = root.context;
+        var subject = root.subject;
+        handler(new Handle(context, subject));
       }
     }
 
@@ -151,9 +151,9 @@
     function update() {
       if(TreatJS.Config.callback) {
         count(TreatJS.Statistic.CALLBACK);
-        var caller = and(domain.callee, range.caller);
-        var callee = and(domain.caller, implies(domain.callee, range.callee));
-        handler(new Handle(caller, callee));
+        var context = and(domain.subject, range.context);
+        var subject = and(domain.context, implies(domain.subject, range.subject));
+        handler(new Handle(context, subject));
       }
     }
 
@@ -189,9 +189,9 @@
     function update() {
       if(TreatJS.Config.callback) {
         count(TreatJS.Statistic.CALLBACK);
-        var caller = (set) ? join(get.caller, set.callee) : get.caller;
-        var callee = (set) ? implies(set.callee, get.callee) : get.callee;
-        handler(new Handle(caller, callee));
+        var context = (set) ? join(get.context, set.subject) : get.context;
+        var subject = (set) ? implies(set.subject, get.subject) : get.subject;
+        handler(new Handle(context, subject));
       }
     }
 
@@ -220,9 +220,9 @@
     function update() {
       if(TreatJS.Config.callback) {
         count(TreatJS.Statistic.CALLBACK);
-        var caller = obj.caller;
-        var callee = obj.callee;
-        handler(new Handle(caller, callee));
+        var context = obj.context;
+        var subject = obj.subject;
+        handler(new Handle(context, subject));
       }
     }
 
@@ -251,9 +251,9 @@
     function update() {
       if(TreatJS.Config.callback) {
         count(TreatJS.Statistic.CALLBACK);
-        var caller = or(left.caller, right.caller);
-        var callee = and(left.callee, right.callee);
-        handler(new Handle(caller, callee));
+        var context = or(left.context, right.context);
+        var subject = and(left.subject, right.subject);
+        handler(new Handle(context, subject));
       }
     }
 
@@ -289,9 +289,9 @@
     function update() {
       if(TreatJS.Config.callback) {
         count(TreatJS.Statistic.CALLBACK);
-        var caller = and(left.caller, right.caller);
-        var callee = or(left.callee, right.callee);
-        handler(new Handle(caller, callee));
+        var context = and(left.context, right.context);
+        var subject = or(left.subject, right.subject);
+        handler(new Handle(context, subject));
       }
     }
 
@@ -325,9 +325,9 @@
     function update() {
       if(TreatJS.Config.callback) {
         count(TreatJS.Statistic.CALLBACK);
-        var caller = sub.caller;
-        var callee = implies(sub.caller, not(sub.callee));
-        handler(new Handle(caller, callee));
+        var context = sub.context;
+        var subject = implies(sub.context, not(sub.subject));
+        handler(new Handle(context, subject));
       }
     }
 
@@ -356,9 +356,9 @@
     function update() {
       if(TreatJS.Config.callback) {
         count(TreatJS.Statistic.CALLBACK);
-        var caller = and(left.caller, right.caller);
-        var callee = and(implies(left.caller, left.callee), implies(right.caller, right.callee));
-        handler(new Handle(caller, callee));
+        var context = and(left.context, right.context);
+        var subject = and(implies(left.context, left.subject), implies(right.context, right.subject));
+        handler(new Handle(context, subject));
       }
     }
 
@@ -392,9 +392,9 @@
     function update() {
       if(TreatJS.Config.callback) {
         count(TreatJS.Statistic.CALLBACK);
-        var caller = or(left.caller, right.caller);
-        var callee = implies(or(left.caller, right.caller), or(and(left.caller, left.callee), and(right.caller, right.callee)));
-        handler(new Handle(caller, callee));
+        var context = or(left.context, right.context);
+        var subject = implies(or(left.context, right.context), or(and(left.context, left.subject), and(right.context, right.subject)));
+        handler(new Handle(context, subject));
       }
     }
 
@@ -427,9 +427,9 @@
     function update() {
       if(TreatJS.Config.callback) {
         count(TreatJS.Statistic.CALLBACK);
-        var caller = True;
-        var callee = True;
-        handler(new Handle(caller, callee));
+        var context = True;
+        var subject = True;
+        handler(new Handle(context, subject));
       }
     }
 
@@ -457,9 +457,9 @@
     function update() {
       if(TreatJS.Config.callback) {
         count(TreatJS.Statistic.CALLBACK);
-        var caller = predicate.caller;
-        var callee = predicate.callee;
-        handler(new Handle(caller, callee));
+        var context = predicate.context;
+        var subject = predicate.subject;
+        handler(new Handle(context, subject));
       }
     }
 
