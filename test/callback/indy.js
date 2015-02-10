@@ -93,8 +93,8 @@
   var id2Plus = Contract.assert(id2, Contract.AFunction([plusContract], Any));
 
   id2Plus(f, testPlusStr);
-  
   id2Plus(f, testPlusNum); 
+
   // Note, balme #[testPlus/Num] is wring, because it dies not violate 
   // the context of f
   
@@ -104,16 +104,19 @@
 
 
   //id2Plus(f, testPlusBool);
+  // blaming the subject is wrong, because 
+  // its the contract that violates the context
+  // however, 
 
-  dunit.assertNoBlame(function() {
+  /*dunit.assertNoBlame(function() {
     id2Plus(f, testPlusStr);
   });
-  dunit.assertSubjectBlame(function() {
+  dunit.assertContextBlame(function() {
     id2Plus(f, testPlusNum);
-  });
-  /*dunit.asserContextBlame(function() {
-    id2Plus(f, testPlusBool);
   });*/
+  dunit.assertContextBlame(function() {
+    id2Plus(f, testPlusBool);
+  });
 
 
   /*

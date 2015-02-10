@@ -86,7 +86,7 @@
     
     } else if (TreatJS.Config.semantics===TreatJS.INDY) {
       print("@@@ INDY");
-      if(TreatJS.contracted(fun)) newfun = TreatJS.reassert(fun, newfun);
+      if(TreatJS.contracted(fun)) newfun = TreatJS.reassert2(fun, newfun);
 
         // make same as picky, 
         // gleiche assertion order and callbacks

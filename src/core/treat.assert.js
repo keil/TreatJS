@@ -203,7 +203,7 @@
 
   var ctxtStack = new Array();
 
-  var f = ctxtStack.pop;
+/*  var f = ctxtStack.pop;
   var g = ctxtStack.push;
 
   // TODO
@@ -215,7 +215,7 @@
   ctxtStack.push = function () {
     print("### PUSH");
     return g.apply(ctxtStack, arguments);
-  }
+  }*/
 
 
 
@@ -1165,6 +1165,7 @@
   }
 
 
+  // TODO, teste das unwrap, and rewrap
 
 
   function reassert(origin, target) {
@@ -1182,12 +1183,18 @@
 
   function reassert2(origin, target) {
     print("@@@ CALL REASSERT 2");
-    if(!ccache.has(origin)) return target;
+    if(!ccache.has(origin)) return reassert(origin, target);
+      //return target;
 
     var assertion = ccache.get(origin);
-    var contracted = reassert(assertion.target, target);
+    var contracted = reassert2(assertion.target, target);
 
-    return assertContract(contracted, assertion.contract, assertion.global, assertion.callbackHandler);
+    return assert(contracted, assertion.contract);
+    
+
+    // var contracted = reassert(origin, target);
+
+
   }
 
   TreatJS.extend("reassert2", reassert2);

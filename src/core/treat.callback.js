@@ -113,11 +113,8 @@
 
   // TODO
   function RootCallback(handler, contractArg, subjectArg, contextArg) {
-    if(!(this instanceof RootCallback)) return new RootCallback(handler);
+    if(!(this instanceof RootCallback)) return new RootCallback(handler, contractArg, subjectArg, contextArg);
     else Callback.apply(this, arguments);
-
-    print(contextArg);
-
 
     // TODO
     Object.defineProperties(this, {
