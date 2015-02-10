@@ -118,6 +118,7 @@
 
     print(contextArg);
 
+
     // TODO
     Object.defineProperties(this, {
       "contract" : { value:contractArg, enumerable:true },
