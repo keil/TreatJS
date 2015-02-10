@@ -56,8 +56,8 @@ load("src/treat.js");
 var TreatJS = new TreatJS({
   /** TreatJS evaluation semantics
    * (default: TreatJS.LAX)
-   */semantics: TreatJS.prototype.PICKY,
-  /** Enable contract asserstion
+   */semantics: TreatJS.prototype.INDY,
+  /** Enable contract assertion
    * (default: true)
    */assertion: true,
   /** Enable sandbox membrane 

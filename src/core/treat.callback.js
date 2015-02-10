@@ -111,9 +111,19 @@
   //|   / _ \/ _ \  _| (__/ _` | | | '_ \/ _` / _| / /
   //|_|_\___/\___/\__|\___\__,_|_|_|_.__/\__,_\__|_\_\
 
-  function RootCallback(handler) {
+  // TODO
+  function RootCallback(handler, contractArg, subjectArg, contextArg) {
     if(!(this instanceof RootCallback)) return new RootCallback(handler);
     else Callback.apply(this, arguments);
+
+    print(contextArg);
+
+    // TODO
+    Object.defineProperties(this, {
+      "contract" : { value:contractArg, enumerable:true },
+      "subject" : { value:subjectArg, enumerable:true },
+      "context" : { value:contextArg, enumerable:true }
+    });
 
     var root = Handle.fresh();
 
@@ -122,7 +132,7 @@
         count(TreatJS.Statistic.CALLBACK);
         var context = root.context;
         var subject = root.subject;
-        handler(new Handle(context, subject));
+        handler(new Handle(context, subject), contractArg, subjectArg, contextArg); // TODO
       }
     }
 

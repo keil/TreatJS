@@ -211,7 +211,23 @@
     if(!(fun instanceof Function)) error("No Function Object", (new Error()).fileName, (new Error()).lineNumber);
 
     var secureFun = decompile(fun);
-    return secureFun.eval(globalArg, thisArg, argsArray);
+
+    // TODO, add to decompile, 
+    // no, not possible because of differnent globals and differnt cntarcts ?
+    // or ?
+    /*if(TreatJS.contracted(fun)) {
+      print("@@@ WRAP CONTRACTED FUNCTION");
+      var contract = TreatJS.contractOf(fun);
+      var callback = TreatJS.callbackOf(fun);
+      var global = TreatJS.globalOf(fun);
+
+      // global ?
+      // // assert with
+      var secureFun = TreatJS.assertWith(secureFun, contract, global, callback);
+    }*/
+    //return secureFun.apply(thisArg, argsArray)
+    
+    return secureFun.eval(globalArg, thisArg, argsArray); // TODO
   }
 
   /** evalNewInSandbox(fun[, globalArg, thisArg, argsArray])

@@ -77,8 +77,61 @@
     var scope = (new Proxy({}, scopeHandler));
     var newfun = eval("(function() { with(scope) { return " + string + " }})();");
 
+
+// TreatJS.PICKY
+
+    if(TreatJS.Config.semantics===TreatJS.PICKY) {
+      print("@@@ PICKY");
+      if(TreatJS.contracted(fun)) newfun = TreatJS.reassert(fun, newfun);
+    
+    } else if (TreatJS.Config.semantics===TreatJS.INDY) {
+      print("@@@ INDY");
+      if(TreatJS.contracted(fun)) newfun = TreatJS.reassert(fun, newfun);
+
+        // make same as picky, 
+        // gleiche assertion order and callbacks
+        // bot a fresh root callback instead of a chain 
+    }
+
+
+    // TODO, add to decompile, 
+    // no, not possible because of differnent globals and differnt cntarcts ?
+    // or ?
+    /*if(TreatJS.contracted(fun)) {
+      print("@@@ WRAP CONTRACTED FUNCTION");
+      var contract = TreatJS.contractOf(fun);
+      var callback = TreatJS.callbackOf(fun);
+      var global = TreatJS.globalOf(fun);
+      // global ?
+      // // assert with
+      //var newfun = TreatJS.assertWith(newfun, contract, global, callback);
+      var newfun = TreatJS.assertWith(newfun, contract, global, TreatJS.Callback.Context(callback).subHandler);
+    }*/
+
+/*    print("@@@ CONTRACTED ? " + TreatJS.contracted(fun));
+    if(TreatJS.contracted(fun)) {
+      print("@@@ WRAP CONTRACTED FUNCTION");
+      var newfun = reassert(fun, newfun);
+    }
+*/
+
+
+
     return new Proxy(newfun, new DynamicHandler(newfun, scopeHandler));
   }
+
+  function reassert(origin, arg) {
+    var target = TreatJS.targetOf(origin);
+    var contract = TreatJS.contractOf(origin);
+    var global = TreatJS.globalOf(origin);
+    var callback = TreatJS.callbackOf(origin);
+
+    return (target===undefined) ? arg : 
+      TreatJS.assertWith(reassert(target, arg), contract, global, callback);
+  }
+
+
+
 
   // ___                   _  _              _ _         
   /// __| __ ___ _ __  ___| || |__ _ _ _  __| | |___ _ _ 

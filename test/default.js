@@ -15,6 +15,19 @@
 
 // ==================================================
 
+
+
+// evaluation semantics
+if(TreatJS.Config.semantics===TreatJS.LAX)
+  run("test/callback/lax.js");
+else if(TreatJS.Config.semantics===TreatJS.PICKY)
+  run("test/callback/picky.js");
+else if(TreatJS.Config.semantics===TreatJS.INDY)
+  run("test/callback/indy.js");
+
+
+
+
 (function() {
 
   function f (x, y) {
@@ -31,7 +44,7 @@
   plus("1", "2");
   //plus(1, 2);
 
-})();
+});
 
 
 // ==================================================
