@@ -54,6 +54,9 @@ var out = new TreatJSShellOut();
 load("src/treat.js");
 
 var TreatJS = new TreatJS({
+  /** TreatJS evaluation semantics
+   * (default: TreatJS.LAX)
+   */semantics: TreatJS.prototype.PICKY,
   /** Enable contract asserstion
    * (default: true)
    */assertion: true,
@@ -81,7 +84,7 @@ var TreatJS = new TreatJS({
    */sandbox: false,
   /** Print statistics
    * (default: false)
-   */statistic: false 
+   */statistic: true 
 }, out, dunit);
 
 //         _               _             
@@ -108,6 +111,7 @@ load("src/core/treat.sandbox.js");
 
 load("src/core/treat.logic.js");
 load("src/core/treat.callback.js");
+//load("src/core/treat.callback2.js"); // nor necessary 
 
 load("src/core/treat.map.js");
 // TODO, experimental code
