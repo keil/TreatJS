@@ -78,7 +78,7 @@
   }
   Handle.prototype = {};
   Handle.prototype.toString = function() {
-    return "Caller: "+this.context+", Callee: "+this.subject;
+    return "Context: "+this.context+", Subject: "+this.subject;
   }
 
   Handle.fresh = function() {
@@ -146,8 +146,8 @@
   //| (__/ _` | | | '_ \/ _` / _| / /
   // \___\__,_|_|_|_.__/\__,_\__|_\_\
 
-  function ContextCallback(subjectHandler, contextHandler, contractArg, subjectArg, contextArg) {
-    if(!(this instanceof ContextCallback)) return new ContextCallback(subjectHandler, contextHandler, contractArg, subjectArg, contextArg);
+  function SwitchCallback(subjectHandler, contextHandler, contractArg, subjectArg, contextArg) {
+    if(!(this instanceof SwitchCallback)) return new SwitchCallback(subjectHandler, contextHandler, contractArg, subjectArg, contextArg);
     else Callback.apply(this, arguments);
 
     var sub = Handle.fresh();
@@ -180,9 +180,9 @@
       updateSubject();
     }});
   }
-  ContextCallback.prototype = Object.create(Callback.prototype);
-  ContextCallback.prototype.toString = function() {
-    return "[[ContextCallback]]";
+  SwitchCallback.prototype = Object.create(Callback.prototype);
+  SwitchCallback.prototype.toString = function() {
+    return "[[SwitchCallback]]";
   }
 
   // ___             _   _          ___      _ _ _             _   
@@ -533,6 +533,8 @@
   TreatJS.define(TreatJS.Callback, "Handle", Handle);
 
   TreatJS.define(TreatJS.Callback, "Root", RootCallback);
+  TreatJS.define(TreatJS.Callback, "Switch", SwitchCallback);
+
   TreatJS.define(TreatJS.Callback, "Base", BaseCallback);
   TreatJS.define(TreatJS.Callback, "Function", FunctionCallback);
   TreatJS.define(TreatJS.Callback, "Object", ObjectCallback);
@@ -545,10 +547,5 @@
   TreatJS.define(TreatJS.Callback, "And", AndCallback);
   TreatJS.define(TreatJS.Callback, "Or", OrCallback);
   TreatJS.define(TreatJS.Callback, "Not", NotCallback);
-
-
-  // TODO
-  TreatJS.define(TreatJS.Callback, "Context", ContextCallback);
-
 
 })(TreatJS);
