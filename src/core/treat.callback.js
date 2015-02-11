@@ -109,54 +109,11 @@
   // ___          _    ___      _ _ _             _   
   //| _ \___  ___| |_ / __|__ _| | | |__  __ _ __| |__
   //|   / _ \/ _ \  _| (__/ _` | | | '_ \/ _` / _| / /
-  //|_|_\___/\___/\__|\___\__,_|_|_|_.__/\__,_\__|_\_\
+  //|_|_\___/\___/\__|\___\__,_|_|_|_.__/\__,_\__|_\_\ 
 
-  /*
-  // TODO
-  function RootCallback(handler, contractArg, subjectArg, contextArg) {
-  if(!(this instanceof RootCallback)) return new RootCallback(handler, contractArg, subjectArg, contextArg);
-  else Callback.apply(this, arguments);
-
-  // TODO
-  Object.defineProperties(this, {
-  "contract" : { value:contractArg, enumerable:true },
-  "subject" : { value:subjectArg, enumerable:true },
-  "context" : { value:contextArg, enumerable:true }
-  });
-
-  var root = Handle.fresh();
-
-  function update() {
-  if(TreatJS.Config.callback) {
-  count(TreatJS.Statistic.CALLBACK);
-  var context = root.context;
-  var subject = root.subject;
-  handler(new Handle(context, subject), contractArg, subjectArg, contextArg); // TODO
-  }
-  }
-
-  Object.defineProperty(this, "rootHandler", {value:function(handle) {
-  root = Handle.merge(handle, handle);
-  update();
-  }});
-  }
-  RootCallback.prototype = Object.create(Callback.prototype);
-  RootCallback.prototype.toString = function() {
-  return "[[RootCallback]]";
-  }
-  */
-
-  // TODO
   function RootCallback(handler, contractArg, subjectArg, contextArg) {
     if(!(this instanceof RootCallback)) return new RootCallback(handler, contractArg, subjectArg, contextArg);
     else Callback.apply(this, arguments);
-
-    // TODO
-    /*Object.defineProperties(this, {
-      "contract" : { value:contractArg, enumerable:true },
-      "subject" : { value:subjectArg, enumerable:true },
-      "context" : { value:contextArg, enumerable:true }
-      });*/
 
     var root = Handle.fresh();
 
@@ -165,7 +122,7 @@
         count(TreatJS.Statistic.CALLBACK);
         var context = root.context;
         var subject = root.subject;
-        handler(new Handle(context, subject), contractArg, subjectArg, contextArg); // TODO
+        handler(new Handle(context, subject), contractArg, subjectArg, contextArg);
       }
     }
 
@@ -179,17 +136,15 @@
     return "[[RootCallback]]";
   }
 
-
-
-
-
-
-
-
-
-
-
-
+  //  ___         _           _     ___        _ _      _    
+  // / __|___ _ _| |_ _____ _| |_  / __|_ __ _(_) |_ __| |_  
+  //| (__/ _ \ ' \  _/ -_) \ /  _| \__ \ V  V / |  _/ _| ' \ 
+  // \___\___/_||_\__\___/_\_\\__| |___/\_/\_/|_|\__\__|_||_|
+  //                                                        
+  //  ___      _ _ _             _   
+  // / __|__ _| | | |__  __ _ __| |__
+  //| (__/ _` | | | '_ \/ _` / _| / /
+  // \___\__,_|_|_|_.__/\__,_\__|_\_\
 
   function ContextCallback(subjectHandler, contextHandler, contractArg, subjectArg, contextArg) {
     if(!(this instanceof ContextCallback)) return new ContextCallback(subjectHandler, contextHandler, contractArg, subjectArg, contextArg);
@@ -202,9 +157,9 @@
         count(TreatJS.Statistic.CALLBACK);
 
         var context = sub.context;
-        var subject = Unknown;  //root.subject; // TODO, remove ? oder True
+        var subject = Unknown;
 
-        contextHandler(new Handle(context, subject), contractArg, subjectArg, contextArg); // TODO
+        contextHandler(new Handle(context, subject));
       }
     }
 
@@ -212,10 +167,10 @@
       if(TreatJS.Config.callback) {
         count(TreatJS.Statistic.CALLBACK);
 
-        var context = Unknown; //root.context;
+        var context = Unknown;
         var subject = sub.subject;
 
-        subjectHandler(new Handle(context, subject), contractArg, subjectArg, contextArg); // TODO
+        subjectHandler(new Handle(context, subject)); 
       }
     }
 
@@ -229,16 +184,6 @@
   ContextCallback.prototype.toString = function() {
     return "[[ContextCallback]]";
   }
-
-
-
-
-
-
-
-
-
-
 
   // ___             _   _          ___      _ _ _             _   
   //| __|  _ _ _  __| |_(_)___ _ _ / __|__ _| | | |__  __ _ __| |__
