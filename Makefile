@@ -1,9 +1,9 @@
 default:
-	./js -f src/shell.js -f bootstrap.js -f test/default.js -i
+	./js -f src/shell.js -f bootstrap.js -f contracts/contracts.js -f test/default.js -i
 
 .PHONY: test
 test:
-	./js -f src/shell.js -f bootstrap.js -f test/test.js -i
+	./js -f src/shell.js -f bootstrap.js -f contracts/contracts.js -f contracts/aliases.js -f test/test.js -i
 
 octane:
 	./js -f src/shell.js -f bootstrap.js -f benchmark/octane/octane.js -i
