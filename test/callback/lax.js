@@ -104,11 +104,61 @@
     id2Plus(f, testPlusBool);
   });
 
+  /**  TEST 5 **/
+
+  function id3 (arg) {
+    return arg;
+  }
+
+  var idPlusStr = Contract.assert(id3, Contract.AFunction([plusContract], testPlusStr));
+  idPlusStr(f);
+
+  var idPlusNum = Contract.assert(id3, Contract.AFunction([plusContract], testPlusNum));
+  idPlusNum(f);
+
+  var idPlusBool = Contract.assert(id3, Contract.AFunction([plusContract], testPlusBool));
+  idPlusBool(f);
+
+  dunit.assertNoBlame(function() {
+    idPlusStr(f);
+  });
+  dunit.assertNoBlame(function() {
+    idPlusNum(f);
+  });
+  dunit.assertNoBlame(function() {
+    idPlusBool(f);
+  });
+
+  /**  TEST 6 **/
+
+  function id4 (arg) {
+    return arg;
+  }
+
+  var idPlusStr = Contract.assert(id4, Contract.AFunction([plusContract], testPlusStr));
+  idPlusStr(plus);
+
+  var idPlusNum = Contract.assert(id4, Contract.AFunction([plusContract], testPlusNum));
+  idPlusNum(plus);
+
+  var idPlusBool = Contract.assert(id4, Contract.AFunction([plusContract], testPlusBool));
+  idPlusBool(plus);
+
+  dunit.assertNoBlame(function() {
+    idPlusStr(plus);
+  });
+  dunit.assertNoBlame(function() {
+    idPlusNum(plus);
+  });
+  dunit.assertNoBlame(function() {
+    idPlusBool(plus);
+  });
 
 
 
+  // TODO, waht ahppens if is call this wirh plus
 
-//var idPlus = Contract.assert(id, Contract.AFunction([plusContract], testPlus /*Any*/));
+
 //var PLusP = idPlus(f);
 
   /*

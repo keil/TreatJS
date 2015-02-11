@@ -104,6 +104,57 @@
     id2Plus(f, testPlusBool);
   });
 
+    /**  TEST 5 **/
+
+  function id3 (arg) {
+    return arg;
+  }
+
+  var idPlusStr = Contract.assert(id3, Contract.AFunction([plusContract], testPlusStr));
+  idPlusStr(f);
+
+  var idPlusNum = Contract.assert(id3, Contract.AFunction([plusContract], testPlusNum));
+  //idPlusNum(f);
+
+  var idPlusBool = Contract.assert(id3, Contract.AFunction([plusContract], testPlusBool));
+  //idPlusBool(f);
+
+  dunit.assertNoBlame(function() {
+    idPlusStr(f);
+  });
+  dunit.assertContextBlame(function() {
+    idPlusNum(f);
+  });
+  dunit.assertSubjectBlame(function() {
+    idPlusBool(f);
+  });
+
+  /**  TEST 6 **/
+
+  function id4 (arg) {
+    return arg;
+  }
+
+  var idPlusStr = Contract.assert(id4, Contract.AFunction([plusContract], testPlusStr));
+  idPlusStr(plus);
+
+  var idPlusNum = Contract.assert(id4, Contract.AFunction([plusContract], testPlusNum));
+  //idPlusNum(plus);
+
+  var idPlusBool = Contract.assert(id4, Contract.AFunction([plusContract], testPlusBool));
+  //idPlusBool(plus);
+
+  dunit.assertNoBlame(function() {
+    idPlusStr(plus);
+  });
+  dunit.assertSubjectBlame(function() {
+    idPlusNum(plus);
+  });
+  dunit.assertSubjectBlame(function() {
+    idPlusBool(plus);
+  });
+
+
 
 
   /*

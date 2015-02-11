@@ -94,30 +94,68 @@
 
   id2Plus(f, testPlusStr);
   //id2Plus(f, testPlusNum); 
+  //id2Plus(f, testPlusBool);
 
-  // Note, balme #[testPlus/Num] is wring, because it dies not violate 
-  // the context of f
-  
-  // Note, Root callback gets initialized with the subject and context
-  // ging into a base contract, pushs/pops an context, but it 
-  // blaming uses the context from the root
-
-
-  id2Plus(f, testPlusBool);
-  // blaming the subject is wrong, because 
-  // its the contract that violates the context
-  // however, 
-
-  /*dunit.assertNoBlame(function() {
+  dunit.assertNoBlame(function() {
     id2Plus(f, testPlusStr);
   });
   dunit.assertContextBlame(function() {
     id2Plus(f, testPlusNum);
-  });*/
-  /*dunit.assertContextBlame(function() {
+  });
+  dunit.assertContextBlame(function() {
     id2Plus(f, testPlusBool);
-  });*/
+  });
 
+  /**  TEST 5 **/
+
+  function id3 (arg) {
+    return arg;
+  }
+
+  var idPlusStr = Contract.assert(id3, Contract.AFunction([plusContract], testPlusStr));
+  idPlusStr(f);
+
+  var idPlusNum = Contract.assert(id3, Contract.AFunction([plusContract], testPlusNum));
+  //idPlusNum(f);
+
+  var idPlusBool = Contract.assert(id3, Contract.AFunction([plusContract], testPlusBool));
+  //idPlusBool(f);
+
+  dunit.assertNoBlame(function() {
+    idPlusStr(f);
+  });
+  dunit.assertContextBlame(function() {
+    idPlusNum(f);
+  });
+  dunit.assertContextBlame(function() {
+    idPlusBool(f);
+  });
+
+  /**  TEST 6 **/
+
+  function id4 (arg) {
+    return arg;
+  }
+
+  var idPlusStr = Contract.assert(id4, Contract.AFunction([plusContract], testPlusStr));
+  idPlusStr(plus);
+
+  var idPlusNum = Contract.assert(id4, Contract.AFunction([plusContract], testPlusNum));
+  //idPlusNum(plus);
+
+  var idPlusBool = Contract.assert(id4, Contract.AFunction([plusContract], testPlusBool));
+  //idPlusBool(plus);
+
+  dunit.assertNoBlame(function() {
+    idPlusStr(plus);
+  });
+  dunit.assertSubjectBlame(function() {
+    idPlusNum(plus);
+  });
+  dunit.assertContextBlame(function() {
+    idPlusBool(plus);
+  });
+  
 
   /*
 
