@@ -68,6 +68,8 @@
   var Handle =  TreatJS.Callback.Handle;
 
   var RootCallback = TreatJS.Callback.Root;
+  var SwitchCallback = TreatJS.Callback.Switch;
+
   var BaseCallback = TreatJS.Callback.Base;
   var FunctionCallback = TreatJS.Callback.Function;
   var ObjectCallback = TreatJS.Callback.Object;
@@ -188,13 +190,26 @@
     }
     return "{" + string + "}";
   }
-      
+
   //            _               _                _        
   // __ ___ _ _| |_ _ _ __ _ __| |_   __ __ _ __| |_  ___ 
   /// _/ _ \ ' \  _| '_/ _` / _|  _| / _/ _` / _| ' \/ -_)
   //\__\___/_||_\__|_| \__,_\__|\__| \__\__,_\__|_||_\___|
 
   var ccache = new WeakMap();
+
+  //            _               _    ___   __ 
+  // __ ___ _ _| |_ _ _ __ _ __| |_ / _ \ / _|
+  /// _/ _ \ ' \  _| '_/ _` / _|  _| (_) |  _|
+  //\__\___/_||_\__|_| \__,_\__|\__|\___/|_|  
+
+  function contractOf (target) {
+    return contracted(target) ? ccache.get(target).contract : undefined;
+  }
+
+  function contracted (target) {
+    return ccache.has(target);
+  }
 
   //            _           _        _           _   
   // __ ___ _ _| |_ _____ _| |_   __| |_ __ _ __| |__
@@ -203,26 +218,9 @@
 
   var ctxtStack = new Array();
 
-/*  var f = ctxtStack.pop;
-  var g = ctxtStack.push;
-
-  // TODO
-  ctxtStack.pop = function () {
-    print("### POP");
-    return f.apply(ctxtStack, arguments);
-  }
-
-  ctxtStack.push = function () {
-    print("### PUSH");
-    return g.apply(ctxtStack, arguments);
-  }*/
-
-
-
-  // TODO
   function Context(id) {
     if(!(this instanceof Context)) return new Context(id);
-    
+
     Object.defineProperties(this, {
       "id": {
         value: id
@@ -233,68 +231,44 @@
   Context.prototype.toString = function() {
     return "#" + this.id;
   }
-  
-  // TODO
-  ctxtStack.push(new Context("Global"));
 
+  function pushContext(id) {
+    var ctxt = new Context(id);
+    log("push context", ctxt);
+    ctxtStack.push(ctxt)
+  }
+
+  function popContext() {
+    var ctxt = ctxtStack.pop();
+    log("pop context", ctxt);
+  }
+
+  function lastContext() {
+    return ctxtStack[ctxtStack.length-1];
+  }
+
+  // _                         _        _       
+  //| |__  __ _ _ __  ___   __| |_ __ _| |_ ___ 
+  //| '_ \/ _` | '  \/ -_) (_-<  _/ _` |  _/ -_)
+  //|_.__/\__,_|_|_|_\___| /__/\__\__,_|\__\___|
 
   function checkBlameState(handle, contract, subject, context) {
     log("check blame state", handle);
 
-    // TODO
-    //raise-blame-error
     if(handle.context.supseteqFalse()) {
-      var msg = "Context (Caller)" + " @ " + contract.toString();
-      msg += "\n" + "@Caller (Context):   " + handle.context;
-      msg += "\n" + "@Callee (Subject):   " + handle.subject;
-      msg += "\n" + handle.toString(); // TODO
-      msg += "\n" + "Context=" + context;
+      var msg = "Context (" + context + ")" + " @ " + contract.toString();
+      msg += "\n" + "@Context:   " + handle.context;
+      msg += "\n" + "@Subject:   " + handle.subject;
+      // raise blame error
       blame(contract, TreatJSBlame.CONTEXT, msg, (new Error()).fileName, (new Error()).lineNumber);
     } else if(handle.subject.supseteqFalse()) {
       var msg = "Subject (Callee)" + " @ " + contract.toString();
-      msg += "\n" + "@Caller (Context):   " + handle.context;
-      msg += "\n" + "@Callee (Subject):   " + handle.subject;
-      msg += "\n" + handle.toString(); // TODO
-      msg += "\n" + "Subject=" + subject;
+      msg += "\n" + "@Context:   " + handle.context;
+      msg += "\n" + "@Subject:   " + handle.subject;
+      // raise blame error
       blame(contract, TreatJSBlame.SUBJECT, msg, (new Error()).fileName, (new Error()).lineNumber);
-    }
-
-    /*
-       if(handle.subject.supseteqFalse() || handle.context.supseteqFalse()) {
-
-       var blamed = ""; // TODO
-       var msg = contract.toString(); //handle.blame();
-       msg+="\n";
-       msg+="Blame is on: ";
-
-       if(handle.context.supseteqFalse() && !handle.subject.supseteqFalse()) {
-       print("##########################");
-       msg+="Caller (Context) " + contextArg;
-    //+ ctxtStack[ctxtStack.length-1];
-    //+ ctxtStack.pop(); // TODO, is pop the right command ?
-    blamed = TreatJSBlame.CONTEXT;
-    } else if(!handle.context.supseteqFalse() && handle.subject.supseteqFalse()) {
-    msg+="Callee (Subject)";
-    blamed = TreatJSBlame.SUBJECT;
-    //        } else if(handle.contract.supseteqFalse()) { // TODO
-    //          msg+="Contract (Context) " + ctxtStack.pop();
-    //          blamed = TreatJSBlame.CONTEXT; // TODO
-    } else if(handle.context.supseteqFalse() && handle.subject.supseteqFalse()) {
-    msg+="Caller, Callee";
-    } else {
-    msg+="-";
-    }
-
-
-
-    blame(contract, blamed, msg, (new Error()).fileName, (new Error()).lineNumber);
-    }
-    */
+    } 
   }
-
-  
-
-
   //                         _   
   //                        | |  
   //  __ _ ___ ___  ___ _ __| |_ 
@@ -317,50 +291,10 @@
       if(!canonical(contract)) error("Non-canonical contract", (new Error()).fileName, (new Error()).lineNumber);
     }
 
-/*    var callback = RootCallback(function(handle, contractArg, subjectArg, contextArg) {
-      log("root update", handle);
-
-      if(handle.subject.supseteqFalse() || handle.context.supseteqFalse()) { // TODO
-
-        var blamed = ""; // TODO
-        var msg = contract.toString(); handle.blame();
-        msg+="\n";
-        msg+="Blame is on: ";
-
-        if(handle.context.supseteqFalse() && !handle.subject.supseteqFalse()) {
-          print("##########################");
-          msg+="Caller (Context) " + contextArg;
-      //+ ctxtStack[ctxtStack.length-1];
-      //+ ctxtStack.pop(); // TODO, is pop the right command ?
-          blamed = TreatJSBlame.CONTEXT;
-        } else if(!handle.context.supseteqFalse() && handle.subject.supseteqFalse()) {
-          msg+="Callee (Subject)";
-          blamed = TreatJSBlame.SUBJECT;
-//        } else if(handle.contract.supseteqFalse()) { // TODO
-//          msg+="Contract (Context) " + ctxtStack.pop();
-//          blamed = TreatJSBlame.CONTEXT; // TODO
-        } else if(handle.context.supseteqFalse() && handle.subject.supseteqFalse()) {
-          msg+="Caller, Callee";
-        } else {
-          msg+="-";
-        }
-
-        msg += "\n" + "@Caller (Context):   " + handle.context;
-        msg += "\n" + "@Callee (Subject):   " + handle.subject;
-
-        blame(contract, blamed, msg, (new Error()).fileName, (new Error()).lineNumber);
-      }
-    }, contract, arg, ctxtStack[ctxtStack.length-1]);*/
-
-    var callback = RootCallback(checkBlameState, contract, arg, ctxtStack[ctxtStack.length-1]);
-
-
+    var callback = RootCallback(checkBlameState, contract, arg, new Context("Global"));
     return assertWith(arg, contract, new Global({}), callback.rootHandler);
   }
 
-  // TODO
-  // pre assert 
-  // new assert with only caches the contarct assertion
   function assertWith(arg, contract, global, callbackHandler) {
     log("assert with", contract);
     count(TreatJS.Statistic.ASSERTWITH);
@@ -377,11 +311,10 @@
       };
       ccache.set(contracted, assertion);
     }
+
     return contracted;
   }
 
-
-  // TODO
   function assertContract(arg, contract, global, callbackHandler) {
     if(!(contract instanceof Contract)) error("Wrong Contract.", (new Error()).fileName, (new Error()).lineNumber);
     if(!(callbackHandler instanceof Function)) error("Wrong Callback Handler.", (new Error()).fileName, (new Error()).lineNumber);
@@ -741,11 +674,10 @@
       var argsArg = [arg];
 
       var callback = BaseCallback(callbackHandler, contract);
-      
-      // TODO, ass this to sandbox and constructor evaluation
+
       // push new context
       if (TreatJS.Config.semantics===TreatJS.INDY) 
-        ctxtStack.push(new Context(contract.toString()));
+        pushContext( (contract.name) ? contract.toString() : "Unnamed Predicate");
 
       try {
         var result = translate(TreatJS.eval(contract.predicate, globalArg, thisArg, argsArg));
@@ -760,8 +692,8 @@
       } finally {
 
         // pop context
-        if (TreatJS.Config.semantics===TreatJS.INDY) 
-          ctxtStack.pop();
+        if (TreatJS.Config.semantics===TreatJS.INDY)
+          popContext();
 
         if(result instanceof Error) {
           throw result;
@@ -1200,89 +1132,62 @@
 
   // TODO, encapsulate assertWith
 
-  //            _               _    ___   __ 
-  // __ ___ _ _| |_ _ _ __ _ __| |_ / _ \ / _|
-  /// _/ _ \ ' \  _| '_/ _` / _|  _| (_) |  _|
-  //\__\___/_||_\__|_| \__,_\__|\__|\___/|_|  
-
-  function contractOf (target) {
-    return contracted(target) ? ccache.get(target).contract : undefined;
-  }
 
   /*function callbackOf (target) {
     return ccache.get(target) ? ccache.get(target).callbackHandler : undefined;
-  }
+    }
 
-  function globalOf (target) {
+    function globalOf (target) {
     return ccache.get(target) ? ccache.get(target).global : undefined;
-  }
+    }
 
-  function targetOf (target) {
+    function targetOf (target) {
     return ccache.get(target) ? ccache.get(target).target : undefined;
-  }*/
+    }*/
 
   // TODO, required
-  function contracted (target) {
-    return ccache.has(target);
-  }
 
 
   // TODO, teste das unwrap, and rewrap
 
 
-  function reassert(origin, target) {
-    print("@@@ CALL REASSERT");
+  //       _                              _               _      
+  // _ __ (_)_ _ _ _ ___ _ _   __ ___ _ _| |_ __ _ _ _ __| |_ ___
+  //| '  \| | '_| '_/ _ \ '_| / _/ _ \ ' \  _/ _` | '_/ _|  _(_-<
+  //|_|_|_|_|_| |_| \___/_|   \__\___/_||_\__\__,_|_| \__|\__/__/
+
+  function pickyMirror(origin, target) {
+    log("mirror contract", "(picky semanticts)");
     if(!ccache.has(origin)) return target;
 
     var assertion = ccache.get(origin);
-    var contracted = reassert(assertion.target, target);
+    var contracted = pickyMirror(assertion.target, target);
 
     return assertContract(contracted, assertion.contract, assertion.global, assertion.callbackHandler);
   }
 
-  TreatJS.extend("reassert", reassert);
-
-
-
-
-
-
-  function reassert2(origin, target) {
-    print("@@@ CALL REASSERT 2");
+  function indyMirror(origin, target) {
+    log("mirror contract", "(indy semanticts)");
     if(!ccache.has(origin)) return target;
-      //return reassert(origin, target);
-      //return target;
 
     var assertion = ccache.get(origin);
-    var contracted = reassert2(assertion.target, target);
+    var contracted = indyMirror(assertion.target, target);
 
-    // TODO
-    var callback = new RootCallback(checkBlameState, assertion.contract, contracted, ctxtStack[ctxtStack.length-1]);
-    var switched = new TreatJS.Callback.Context(assertion.callbackHandler, callback.rootHandler);
+    var root = new RootCallback(checkBlameState, assertion.contract, contracted, ctxtStack[ctxtStack.length-1]);
+    var callback = new SwitchCallback(assertion.callbackHandler, root.rootHandler);
 
-print("############3" + ctxtStack[ctxtStack.length-1]);
-
-      return assertContract(contracted, assertion.contract, assertion.global, switched.subHandler);
-    
-    //return assert(contracted, assertion.contract);
-    
-
-    // var contracted = reassert(origin, target);
-
-
+    return assertContract(contracted, assertion.contract, assertion.global, callback.subHandler);
   }
 
-  TreatJS.extend("reassert2", reassert2);
-
-
-
-
-
-  /*function instanceofOf (target, contract) {
-    // return the contarct of 
-  
-  }*/
-
+  function mirror(origin, target) {
+    if(TreatJS.Config.semantics===TreatJS.PICKY) {
+      return pickyMirror(origin, target);
+    } else if (TreatJS.Config.semantics===TreatJS.INDY) {
+      return indyMirror(origin, target);
+    } else {
+      return target;
+    }
+  }
 
   //         _               _ 
   // _____ _| |_ ___ _ _  __| |
@@ -1290,23 +1195,16 @@ print("############3" + ctxtStack[ctxtStack.length-1]);
   //\___/_\_\\__\___|_||_\__,_|
 
   TreatJS.extend("assert", assert);
-  TreatJS.extend("assertWith", assertWith); // TODO
-  TreatJS.extend("assertContract", assertContract);
+  //TreatJS.extend("assertWith", assertWith); // TODO
+  //TreatJS.extend("assertContract", assertContract);
 
   TreatJS.extend("construct", construct);
   TreatJS.extend("constructWith", constructWith); // TODO
 
-  // TODO
-  // maybe, hide those functions ans provide an
-  // reassert function, based on f', f@C --> f'@C
-  // doing this will not require to provide those functions ?
+  TreatJS.extend("mirror", mirror);
+
   TreatJS.extend("contractOf", contractOf);
-  /*TreatJS.extend("callbackOf", callbackOf); 
-  TreatJS.extend("globalOf", globalOf);
-  TreatJS.extend("targetOf", targetOf);*/
-
   TreatJS.extend("contracted", contracted);
-
 
 
   // Handler
