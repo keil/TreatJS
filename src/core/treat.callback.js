@@ -111,17 +111,52 @@
   //|   / _ \/ _ \  _| (__/ _` | | | '_ \/ _` / _| / /
   //|_|_\___/\___/\__|\___\__,_|_|_|_.__/\__,_\__|_\_\
 
+  /*
+  // TODO
+  function RootCallback(handler, contractArg, subjectArg, contextArg) {
+  if(!(this instanceof RootCallback)) return new RootCallback(handler, contractArg, subjectArg, contextArg);
+  else Callback.apply(this, arguments);
+
+  // TODO
+  Object.defineProperties(this, {
+  "contract" : { value:contractArg, enumerable:true },
+  "subject" : { value:subjectArg, enumerable:true },
+  "context" : { value:contextArg, enumerable:true }
+  });
+
+  var root = Handle.fresh();
+
+  function update() {
+  if(TreatJS.Config.callback) {
+  count(TreatJS.Statistic.CALLBACK);
+  var context = root.context;
+  var subject = root.subject;
+  handler(new Handle(context, subject), contractArg, subjectArg, contextArg); // TODO
+  }
+  }
+
+  Object.defineProperty(this, "rootHandler", {value:function(handle) {
+  root = Handle.merge(handle, handle);
+  update();
+  }});
+  }
+  RootCallback.prototype = Object.create(Callback.prototype);
+  RootCallback.prototype.toString = function() {
+  return "[[RootCallback]]";
+  }
+  */
+
   // TODO
   function RootCallback(handler, contractArg, subjectArg, contextArg) {
     if(!(this instanceof RootCallback)) return new RootCallback(handler, contractArg, subjectArg, contextArg);
     else Callback.apply(this, arguments);
 
     // TODO
-    Object.defineProperties(this, {
+    /*Object.defineProperties(this, {
       "contract" : { value:contractArg, enumerable:true },
       "subject" : { value:subjectArg, enumerable:true },
       "context" : { value:contextArg, enumerable:true }
-    });
+      });*/
 
     var root = Handle.fresh();
 
@@ -143,6 +178,67 @@
   RootCallback.prototype.toString = function() {
     return "[[RootCallback]]";
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  function ContextCallback(subjectHandler, contextHandler, contractArg, subjectArg, contextArg) {
+    if(!(this instanceof ContextCallback)) return new ContextCallback(subjectHandler, contextHandler, contractArg, subjectArg, contextArg);
+    else Callback.apply(this, arguments);
+
+    var sub = Handle.fresh();
+
+    function updateContext() {
+      if(TreatJS.Config.callback) {
+        count(TreatJS.Statistic.CALLBACK);
+
+        var context = sub.context;
+        var subject = Unknown;  //root.subject; // TODO, remove ? oder True
+
+        contextHandler(new Handle(context, subject), contractArg, subjectArg, contextArg); // TODO
+      }
+    }
+
+    function updateSubject() {
+      if(TreatJS.Config.callback) {
+        count(TreatJS.Statistic.CALLBACK);
+
+        var context = Unknown; //root.context;
+        var subject = sub.subject;
+
+        subjectHandler(new Handle(context, subject), contractArg, subjectArg, contextArg); // TODO
+      }
+    }
+
+    Object.defineProperty(this, "subHandler", {value:function(handle) {
+      sub = Handle.merge(handle, handle);
+      updateContext();
+      updateSubject();
+    }});
+  }
+  ContextCallback.prototype = Object.create(Callback.prototype);
+  ContextCallback.prototype.toString = function() {
+    return "[[ContextCallback]]";
+  }
+
+
+
+
+
+
+
+
+
+
 
   // ___             _   _          ___      _ _ _             _   
   //| __|  _ _ _  __| |_(_)___ _ _ / __|__ _| | | |__  __ _ __| |__
@@ -504,5 +600,10 @@
   TreatJS.define(TreatJS.Callback, "And", AndCallback);
   TreatJS.define(TreatJS.Callback, "Or", OrCallback);
   TreatJS.define(TreatJS.Callback, "Not", NotCallback);
+
+
+  // TODO
+  TreatJS.define(TreatJS.Callback, "Context", ContextCallback);
+
 
 })(TreatJS);

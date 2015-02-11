@@ -237,6 +237,64 @@
   // TODO
   ctxtStack.push(new Context("Global"));
 
+
+  function checkBlameState(handle, contract, subject, context) {
+    log("check blame state", handle);
+
+    // TODO
+    //raise-blame-error
+    if(handle.context.supseteqFalse()) {
+      var msg = "Context (Caller)" + " @ " + contract.toString();
+      msg += "\n" + "@Caller (Context):   " + handle.context;
+      msg += "\n" + "@Callee (Subject):   " + handle.subject;
+      msg += "\n" + handle.toString(); // TODO
+      msg += "\n" + "Context=" + context;
+      blame(contract, TreatJSBlame.CONTEXT, msg, (new Error()).fileName, (new Error()).lineNumber);
+    } else if(handle.subject.supseteqFalse()) {
+      var msg = "Subject (Callee)" + " @ " + contract.toString();
+      msg += "\n" + "@Caller (Context):   " + handle.context;
+      msg += "\n" + "@Callee (Subject):   " + handle.subject;
+      msg += "\n" + handle.toString(); // TODO
+      msg += "\n" + "Subject=" + subject;
+      blame(contract, TreatJSBlame.SUBJECT, msg, (new Error()).fileName, (new Error()).lineNumber);
+    }
+
+    /*
+       if(handle.subject.supseteqFalse() || handle.context.supseteqFalse()) {
+
+       var blamed = ""; // TODO
+       var msg = contract.toString(); //handle.blame();
+       msg+="\n";
+       msg+="Blame is on: ";
+
+       if(handle.context.supseteqFalse() && !handle.subject.supseteqFalse()) {
+       print("##########################");
+       msg+="Caller (Context) " + contextArg;
+    //+ ctxtStack[ctxtStack.length-1];
+    //+ ctxtStack.pop(); // TODO, is pop the right command ?
+    blamed = TreatJSBlame.CONTEXT;
+    } else if(!handle.context.supseteqFalse() && handle.subject.supseteqFalse()) {
+    msg+="Callee (Subject)";
+    blamed = TreatJSBlame.SUBJECT;
+    //        } else if(handle.contract.supseteqFalse()) { // TODO
+    //          msg+="Contract (Context) " + ctxtStack.pop();
+    //          blamed = TreatJSBlame.CONTEXT; // TODO
+    } else if(handle.context.supseteqFalse() && handle.subject.supseteqFalse()) {
+    msg+="Caller, Callee";
+    } else {
+    msg+="-";
+    }
+
+
+
+    blame(contract, blamed, msg, (new Error()).fileName, (new Error()).lineNumber);
+    }
+    */
+  }
+
+  
+
+
   //                         _   
   //                        | |  
   //  __ _ ___ ___  ___ _ __| |_ 
@@ -259,13 +317,13 @@
       if(!canonical(contract)) error("Non-canonical contract", (new Error()).fileName, (new Error()).lineNumber);
     }
 
-    var callback = RootCallback(function(handle, contractArg, subjectArg, contextArg) {
+/*    var callback = RootCallback(function(handle, contractArg, subjectArg, contextArg) {
       log("root update", handle);
 
       if(handle.subject.supseteqFalse() || handle.context.supseteqFalse()) { // TODO
 
         var blamed = ""; // TODO
-        var msg = contract.toString(); /*handle.blame();*/
+        var msg = contract.toString(); handle.blame();
         msg+="\n";
         msg+="Blame is on: ";
 
@@ -292,7 +350,11 @@
 
         blame(contract, blamed, msg, (new Error()).fileName, (new Error()).lineNumber);
       }
-    }, contract, arg, ctxtStack[ctxtStack.length-1]);
+    }, contract, arg, ctxtStack[ctxtStack.length-1]);*/
+
+    var callback = RootCallback(checkBlameState, contract, arg, ctxtStack[ctxtStack.length-1]);
+
+
     return assertWith(arg, contract, new Global({}), callback.rootHandler);
   }
 
@@ -1181,15 +1243,28 @@
   TreatJS.extend("reassert", reassert);
 
 
+
+
+
+
   function reassert2(origin, target) {
     print("@@@ CALL REASSERT 2");
-    if(!ccache.has(origin)) return reassert(origin, target);
+    if(!ccache.has(origin)) return target;
+      //return reassert(origin, target);
       //return target;
 
     var assertion = ccache.get(origin);
     var contracted = reassert2(assertion.target, target);
 
-    return assert(contracted, assertion.contract);
+    // TODO
+    var callback = new RootCallback(checkBlameState, assertion.contract, contracted, ctxtStack[ctxtStack.length-1]);
+    var switched = new TreatJS.Callback.Context(assertion.callbackHandler, callback.rootHandler);
+
+print("############3" + ctxtStack[ctxtStack.length-1]);
+
+      return assertContract(contracted, assertion.contract, assertion.global, switched.subHandler);
+    
+    //return assert(contracted, assertion.contract);
     
 
     // var contracted = reassert(origin, target);

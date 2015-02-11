@@ -33,7 +33,7 @@
   //Contract.assert(plus, testPlusNum);
   Contract.assert(plus, testPlusStr);
   //Contract.assert(plus, testPlusBool);
-
+  //
   dunit.assertSubjectBlame(function() {
     Contract.assert(plus, testPlusNum); 
   });
@@ -93,7 +93,7 @@
   var id2Plus = Contract.assert(id2, Contract.AFunction([plusContract], Any));
 
   id2Plus(f, testPlusStr);
-  id2Plus(f, testPlusNum); 
+  //id2Plus(f, testPlusNum); 
 
   // Note, balme #[testPlus/Num] is wring, because it dies not violate 
   // the context of f
@@ -103,7 +103,7 @@
   // blaming uses the context from the root
 
 
-  //id2Plus(f, testPlusBool);
+  id2Plus(f, testPlusBool);
   // blaming the subject is wrong, because 
   // its the contract that violates the context
   // however, 
@@ -114,9 +114,9 @@
   dunit.assertContextBlame(function() {
     id2Plus(f, testPlusNum);
   });*/
-  dunit.assertContextBlame(function() {
+  /*dunit.assertContextBlame(function() {
     id2Plus(f, testPlusBool);
-  });
+  });*/
 
 
   /*
