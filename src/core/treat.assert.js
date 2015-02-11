@@ -218,29 +218,38 @@
 
   var ctxtStack = new Array();
 
-  function Context(id) {
-    if(!(this instanceof Context)) return new Context(id);
+  function Context(name, target) {
+    if(!(this instanceof Context)) return new Context(name, target);
+
+    if((typeof name) != "string") error("Wrong Context", (new Error()).fileName, (new Error()).lineNumber);
+    if((typeof target) != "object") error("Wrong Context" + (typeof target), (new Error()).fileName, (new Error()).lineNumber);
 
     Object.defineProperties(this, {
-      "id": {
-        value: id
+      "name": {
+        value: name
+      },
+      "target": {
+        value: target
       }
     });
   }
   Context.prototype = {};
   Context.prototype.toString = function() {
-    return "#" + this.id;
+    return this.name;
   }
 
-  function pushContext(id) {
-    var ctxt = new Context(id);
-    log("push context", ctxt);
+  function pushContext(contract) {
+    if(!(contract instanceof Contract)) error("Wrong Context/Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+    var ctxt = new Context(((contract.name) ? contract.toString() : "Unnamed Context"), contract)
+      log("push context", ctxt.name);
+
     ctxtStack.push(ctxt)
   }
 
   function popContext() {
     var ctxt = ctxtStack.pop();
-    log("pop context", ctxt);
+    log("pop context", ctxt.name);
   }
 
   function lastContext() {
@@ -256,19 +265,26 @@
     log("check blame state", handle);
 
     if(handle.context.supseteqFalse()) {
-      var msg = "Context (" + context + ")" + " @ " + contract.toString();
+      // compose blame mesasge
+      var msg = "Context (" + context.name + ")" + " @ " + contract.toString();
       msg += "\n" + "@Context:   " + handle.context;
       msg += "\n" + "@Subject:   " + handle.subject;
+      msg += "\n" + "Blame is on:";
+      msg += "\n" + context;
       // raise blame error
       blame(contract, TreatJSBlame.CONTEXT, msg, (new Error()).fileName, (new Error()).lineNumber);
     } else if(handle.subject.supseteqFalse()) {
+      // compose blame mesasge
       var msg = "Subject (Callee)" + " @ " + contract.toString();
       msg += "\n" + "@Context:   " + handle.context;
       msg += "\n" + "@Subject:   " + handle.subject;
+      msg += "\n" + "Blame is on:";
+      msg += "\n" + subject;
       // raise blame error
       blame(contract, TreatJSBlame.SUBJECT, msg, (new Error()).fileName, (new Error()).lineNumber);
     } 
   }
+
   //                         _   
   //                        | |  
   //  __ _ ___ ___  ___ _ __| |_ 
@@ -291,7 +307,7 @@
       if(!canonical(contract)) error("Non-canonical contract", (new Error()).fileName, (new Error()).lineNumber);
     }
 
-    var callback = RootCallback(checkBlameState, contract, arg, new Context("Global"));
+    var callback = RootCallback(checkBlameState, contract, arg, new Context("Global Context", null));
     return assertWith(arg, contract, new Global({}), callback.rootHandler);
   }
 
@@ -638,6 +654,10 @@
       var backupGlobal = clone(contract.global);
       copy(globalArg, contract.global);
 
+
+      // push new context
+      if (TreatJS.Config.semantics===TreatJS.INDY) pushContext(contract);
+
       try {
         var result = translate(contract.predicate.apply(thisArg, argsArray));
       } catch (e) {
@@ -649,6 +669,10 @@
           var result = TreatJS.Logic.Conflict;
         }
       } finally {
+
+        // push new context
+        if (TreatJS.Config.semantics===TreatJS.INDY) popContext();
+
         if(result instanceof Error) {
           throw result;
         } else {
@@ -676,8 +700,7 @@
       var callback = BaseCallback(callbackHandler, contract);
 
       // push new context
-      if (TreatJS.Config.semantics===TreatJS.INDY) 
-        pushContext( (contract.name) ? contract.toString() : "Unnamed Predicate");
+      if (TreatJS.Config.semantics===TreatJS.INDY) pushContext(contract);
 
       try {
         var result = translate(TreatJS.eval(contract.predicate, globalArg, thisArg, argsArg));
@@ -692,8 +715,7 @@
       } finally {
 
         // pop context
-        if (TreatJS.Config.semantics===TreatJS.INDY)
-          popContext();
+        if (TreatJS.Config.semantics===TreatJS.INDY) popContext();
 
         if(result instanceof Error) {
           throw result;
@@ -1056,7 +1078,15 @@
       //globalArg["C"] = globalArg["Contract"];
       //Not really sandboxed
 
+      // push new context
+      if (TreatJS.Config.semantics===TreatJS.INDY) pushContext(constructor);
+
       var contract = (TreatJS.eval(constructor.constructor, globalArg, thisArg, argsArray));
+
+      // pop context
+      if (TreatJS.Config.semantics===TreatJS.INDY) popContext();
+
+
 
       if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
       return contract;
@@ -1130,27 +1160,6 @@
 
   }
 
-  // TODO, encapsulate assertWith
-
-
-  /*function callbackOf (target) {
-    return ccache.get(target) ? ccache.get(target).callbackHandler : undefined;
-    }
-
-    function globalOf (target) {
-    return ccache.get(target) ? ccache.get(target).global : undefined;
-    }
-
-    function targetOf (target) {
-    return ccache.get(target) ? ccache.get(target).target : undefined;
-    }*/
-
-  // TODO, required
-
-
-  // TODO, teste das unwrap, and rewrap
-
-
   //       _                              _               _      
   // _ __ (_)_ _ _ _ ___ _ _   __ ___ _ _| |_ __ _ _ _ __| |_ ___
   //| '  \| | '_| '_/ _ \ '_| / _/ _ \ ' \  _/ _` | '_/ _|  _(_-<
@@ -1173,7 +1182,7 @@
     var assertion = ccache.get(origin);
     var contracted = indyMirror(assertion.target, target);
 
-    var root = new RootCallback(checkBlameState, assertion.contract, contracted, ctxtStack[ctxtStack.length-1]);
+    var root = new RootCallback(checkBlameState, assertion.contract, contracted, lastContext());
     var callback = new SwitchCallback(assertion.callbackHandler, root.rootHandler);
 
     return assertContract(contracted, assertion.contract, assertion.global, callback.subHandler);

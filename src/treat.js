@@ -52,13 +52,18 @@ function TreatJS(configuration, verbose, out, dunit) {
   this.extend("Base", {});
   this.define(this.Base, "toString",  Function.prototype.toString);
 }
+// TreatJS Evaluation Semantics
+TreatJS.LAX   = 'LAX';
+TreatJS.PICKY = 'PICKY';
+TreatJS.INDY  = 'INDY';
+
 TreatJS.prototype = {};
 TreatJS.prototype.toString = (function() { return '[[TreatJS]]'; });
 
 // TreatJS Evaluation Semantics
-TreatJS.prototype.LAX   = 'LAX';
-TreatJS.prototype.PICKY = 'PICKY';
-TreatJS.prototype.INDY  = 'INDY';
+TreatJS.prototype.LAX   = TreatJS.LAX;
+TreatJS.prototype.PICKY = TreatJS.PICKY;
+TreatJS.prototype.INDY  = TreatJS.INDY;
 
 // TreatJS Package Extend
 TreatJS.prototype.extend = function(name, value) {
