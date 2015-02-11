@@ -4,14 +4,7 @@
 ** use an export function that exports all predefined contracts in
 ** a special object (eg. contract(s) oder con)
 
-* exclude predefined contracts/aliases from bootstrap
-
 ## Features ##
-
-* merge benchmakr results
-
-* 3ch Blaming / Multiparty Blaming
-** make tests depending on mode
 
 * Contract Abstraction
 
@@ -40,16 +33,12 @@
 
 ## Minor Tasks ##
 
-* Exclude Aliasing
-
 * Add new Contracts to Canonicalize
 
 * Add new Contracts to export/build 
 
 * Documentation and Webpage
 
-* set defualt evaluation semantics
-
 * Benchmarks
-
-* Run typed-ocaten without print output
+** Run typed-ocaten without print output
+** merge benchmark results
