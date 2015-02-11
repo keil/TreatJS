@@ -56,7 +56,7 @@ load("src/treat.js");
 var TreatJS = new TreatJS({
   /** TreatJS evaluation semantics
    * (default: TreatJS.LAX)
-   */semantics: TreatJS.prototype.INDY,
+   */semantics: TreatJS.INDY,
   /** Enable contract assertion
    * (default: true)
    */assertion: true,
@@ -74,7 +74,7 @@ var TreatJS = new TreatJS({
    */canonicalize: true,
   /** Quit execution 
    * (default: true)
-   */quitOnError: false
+   */quitOnError: false 
 },{
   /** Print contract assertions
    * (default: false)
@@ -101,17 +101,15 @@ load("src/treat.export.js");
 load("src/treat.manual.js");
 load("src/treat.print.js");
 
-
 // core api
 load("src/core/treat.base.js");
-load("src/core/treat.violation.js"); // TODO, change mode
+load("src/core/treat.violation.js");
 
 load("src/core/treat.decompile.js");
 load("src/core/treat.sandbox.js");
 
 load("src/core/treat.logic.js");
 load("src/core/treat.callback.js");
-//load("src/core/treat.callback2.js"); // nor necessary 
 
 load("src/core/treat.map.js");
 // TODO, experimental code
@@ -141,16 +139,14 @@ load("src/treat.reflect.js");
 
 var Contract = TreatJS.build();
 
-load("contracts/contracts.js");
-load("contracts/aliases.js");
-
 // ==================================================
 
+// print outputs
 TreatJS.Version.print();
 TreatJS.Config.print();
+
 //TreatJS.Statistic.print();
 //TreatJS.Build.print();
 //TreatJS.Package.print();
 
-// print the manual
 //print(TreatJS.Manual.toString());
