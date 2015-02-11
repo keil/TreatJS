@@ -60,7 +60,7 @@
     plus(true, true);
   });
 
-    /**  TEST 3 **/
+  /**  TEST 3 **/
 
   /**  TEST 3 **/
 
@@ -155,69 +155,103 @@
   dunit.assertContextBlame(function() {
     idPlusBool(plus);
   });
-  
-
-  /*
-
-     plus(true, true);
-
-     function id (arg) {
-//arg(1,2);
-//arg(true, true);
-
-//Contract.assert(plus, testPlus);
-return Contract.assert(arg, plusContract);
-//Contract.assert(arg, testPlus);
-return arg;
-}*/
-
-//var idPlus = Contract.assert(id, Contract.AFunction([plusContract], testPlus /*Any*/));
-//var PLusP = idPlus(f);
 
 })();
 
+(function() {
 
+  function f (g) {
+    return g (42);
+  }
 
-/*
-   (function() {
+  function g (x) {
+    return x;
+  }
 
-   function f (g) {
-   return g (42);
-   }
+  var D = Contract.Dependent(Contract.Constructor(function (h) {
+    return Contract.Base(function(r) {
+      return (h(0)>=0);
+    }, "Flat/ Call with 0");
+  }), "Ctor/ Call with 0");
 
-   function h (x) {
-   return x;
-   }
+  var fD = Contract.assert(f, D);
+  print( fD( g ) );
 
-   var F = Contract.AFunction([Pos], Pos);
-
-   var C = Contract.AFunction([Contract.AFunction([Pos], Pos)], Any);
-
-   var D = Contract.Dependent(Contract.Constructor(function (h) {
-   return Contract.Base(function() {
-   return (h(0)>=0);
-   }
-   }));
-
-   var B = Contract.Base(function(h) {
-   h(1);
-   return true;
-   }, "CallWith0");
-
-   var E = Contract.AFunction([B], Any);
-
-// this direction will not work because it throwsn en errort
-//var fPrime1 = Contract.assert(f, Contract.And(F, B));
-var fPrime2 = Contract.assert(h, Contract.And(B, F));
-
-var fPrime3 = Contract.assert(f, Contract.And(C, E));
-var fPrime4 = Contract.assert(f, Contract.And(E, C));
-
-// Note, function contract E,C is picky, 
-// because (assert E), (assert C) and than 
-// after calling domain_C is applyed first
-
-fPrime4(h);
+  dunit.assertNoBlame(function() {
+    print( fD( g ) );
+  });
 
 })();
-*/
+
+(function() {
+
+  function f (g) {
+    return g (42);
+  }
+
+  function g (x) {
+    return x;
+  }
+
+  var C = Contract.AFunction([Contract.AFunction([Pos], Pos)], Any);
+
+  var D = Contract.Dependent(Contract.Constructor(function (h) {
+    return Contract.Base(function(r) {
+      return (h(0)>=0);
+    }, "Flat/ Call with 0");
+  }, {},"Ctor/ Call with 0"));
+
+  // LAX style
+  var fCD = Contract.assert(f, Contract.And( C, D ));
+  print( fCD( g ) );
+
+  dunit.assertNoBlame(function() {
+    print( fCD( g ) );
+  });
+
+  // PICKY style
+  var fDC = Contract.assert(f, Contract.And( D, C ));
+  //print( fDC( g ) );
+
+  dunit.assertContextBlame(function() {
+    print( fDC( g ) );
+  });
+
+})();
+
+(function() {
+
+  function f (g) {
+    return g (42);
+  }
+
+  function g (x) {
+    return x;
+  }
+
+  var C = Contract.AFunction([Contract.AFunction([Pos], Pos)], Any);
+
+  var D = Contract.Dependent(Contract.Constructor(function (h) {
+    (h(0)>=0);
+    return Contract.Base(function(r) {
+      return true;
+    }, "Flat/ Call with 0");
+  }, {},"Ctor/ Call with 0"));
+
+  // LAX style
+  var fCD = Contract.assert(f, Contract.And( C, D ));
+  print( fCD( g ) );
+
+  dunit.assertNoBlame(function() {
+    print( fCD( g ) );
+  });
+
+  // PICKY style BUT LAX blaming semantics (sbx removes contracts)
+  var fDC = Contract.assert(f, Contract.And( D, C ));
+  //print( fDC( g ) );
+
+  dunit.assertContextBlame(function() {
+    print( fDC( g ) );
+  });
+
+})();

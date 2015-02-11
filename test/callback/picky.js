@@ -104,7 +104,7 @@
     id2Plus(f, testPlusBool);
   });
 
-    /**  TEST 5 **/
+  /**  TEST 5 **/
 
   function id3 (arg) {
     return arg;
@@ -154,76 +154,102 @@
     idPlusBool(plus);
   });
 
+})();
 
+(function() {
 
+  function f (g) {
+    return g (42);
+  }
 
-  /*
+  function g (x) {
+    return x;
+  }
 
-     plus(true, true);
+  var D = Contract.Dependent(Contract.Constructor(function (h) {
+    return Contract.Base(function(r) {
+      return (h(0)>=0);
+    }, "Flat/ Call with 0");
+  }), "Ctor/ Call with 0");
 
-     function id (arg) {
-//arg(1,2);
-//arg(true, true);
+  var fD = Contract.assert(f, D);
+  print( fD( g ) );
 
-//Contract.assert(plus, testPlus);
-return Contract.assert(arg, plusContract);
-//Contract.assert(arg, testPlus);
-return arg;
-}*/
-
-//var idPlus = Contract.assert(id, Contract.AFunction([plusContract], testPlus /*Any*/));
-//var PLusP = idPlus(f);
+  dunit.assertNoBlame(function() {
+    print( fD( g ) );
+  });
 
 })();
 
+(function() {
 
+  function f (g) {
+    return g (42);
+  }
 
-/*
-   (function() {
+  function g (x) {
+    return x;
+  }
 
-   function f (g) {
-   return g (42);
-   }
+  var C = Contract.AFunction([Contract.AFunction([Pos], Pos)], Any);
 
-   function h (x) {
-   return x;
-   }
+  var D = Contract.Dependent(Contract.Constructor(function (h) {
+    return Contract.Base(function(r) {
+      return (h(0)>=0);
+    }, "Flat/ Call with 0");
+  }, {},"Ctor/ Call with 0"));
 
-   var D = Contract.Dependent(Contract.Constructor(function (h) {
-   return Contract.Base(function() {
-   return (h(0)>=0);
-   });
-   }));
+  // LAX style
+  var fCD = Contract.assert(f, Contract.And( C, D ));
+  print( fCD( g ) );
 
+  dunit.assertNoBlame(function() {
+    print( fCD( g ) );
+  });
 
-   var fPrime = Contract.assert(f, D);
+  // PICKY style
+  var fDC = Contract.assert(f, Contract.And( D, C ));
+  //print( fDC( g ) );
 
-   print( fPrime(h) );
+  dunit.assertSubjectBlame(function() {
+    print( fDC( g ) );
+  });
 
-   })();
+})();
 
+(function() {
 
-   (function() {
+  function f (g) {
+    return g (42);
+  }
 
-   function f (g) {
-   return g (42);
-   }
+  function g (x) {
+    return x;
+  }
 
-   function h (x) {
-   return x;
-   }
+  var C = Contract.AFunction([Contract.AFunction([Pos], Pos)], Any);
 
-   var C = Contract.AFunction([Contract.AFunction([Pos], Pos)], Any);
+  var D = Contract.Dependent(Contract.Constructor(function (h) {
+    (h(0)>=0);
+    return Contract.Base(function(r) {
+      return true;
+    }, "Flat/ Call with 0");
+  }, {},"Ctor/ Call with 0"));
 
-   var D = Contract.Dependent(Contract.Constructor(function (h) {
-   return Contract.Base(function() {
-   return (h(0)>=0);
-   });
-   }));
+  // LAX style
+  var fCD = Contract.assert(f, Contract.And( C, D ));
+  print( fCD( g ) );
 
-   var fPrime = Contract.assert(f, Contract.And(D, C));
+  dunit.assertNoBlame(function() {
+    print( fCD( g ) );
+  });
 
-   print( fPrime( h ) );
+  // PICKY style BUT LAX blaming semantics (sbx removes contracts)
+  var fDC = Contract.assert(f, Contract.And( D, C ));
+  //print( fDC( g ) );
 
-   });
-   */
+  dunit.assertSubjectBlame(function() {
+    print( fDC( g ) );
+  });
+
+})();

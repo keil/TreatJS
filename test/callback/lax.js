@@ -154,83 +154,102 @@
     idPlusBool(plus);
   });
 
+})();
 
+(function() {
 
-  // TODO, waht ahppens if is call this wirh plus
+  function f (g) {
+    return g (42);
+  }
 
+  function g (x) {
+    return x;
+  }
 
-//var PLusP = idPlus(f);
+  var D = Contract.Dependent(Contract.Constructor(function (h) {
+    return Contract.Base(function(r) {
+      return (h(0)>=0);
+    }, "Flat/ Call with 0");
+  }), "Ctor/ Call with 0");
 
-  /*
+  var fD = Contract.assert(f, D);
+  print( fD( g ) );
 
-     
-
-     function id (arg) {
-//arg(1,2);
-//arg(true, true);
-
-//Contract.assert(plus, testPlus);
-return Contract.assert(arg, plusContract);
-//Contract.assert(arg, testPlus);
-return arg;
-}*/
-
-//var idPlus = Contract.assert(id, Contract.AFunction([plusContract], testPlus /*Any*/));
-//var PLusP = idPlus(f);
+  dunit.assertNoBlame(function() {
+    print( fD( g ) );
+  });
 
 })();
 
+(function() {
 
+  function f (g) {
+    return g (42);
+  }
 
+  function g (x) {
+    return x;
+  }
 
-/*
+  var C = Contract.AFunction([Contract.AFunction([Pos], Pos)], Any);
 
+  var D = Contract.Dependent(Contract.Constructor(function (h) {
+    return Contract.Base(function(r) {
+      return (h(0)>=0);
+    }, "Flat/ Call with 0");
+  }, {},"Ctor/ Call with 0"));
 
-   (function() {
+  // LAX style
+  var fCD = Contract.assert(f, Contract.And( C, D ));
+  print( fCD( g ) );
 
-   function f (g) {
-   return g (42);
-   }
+  dunit.assertNoBlame(function() {
+    print( fCD( g ) );
+  });
 
-   function h (x) {
-   return x;
-   }
+  // PICKY style BUT LAX blaming semantics (sbx removes contracts)
+  var fDC = Contract.assert(f, Contract.And( D, C ));
+  print( fDC( g ) );
 
-   var D = Contract.Dependent(Contract.Constructor(function (h) {
-   return Contract.Base(function() {
-   return (h(0)>=0);
-   });
-   }));
+  dunit.assertNoBlame(function() {
+    print( fDC( g ) );
+  });
 
+})();
 
-   var fPrime = Contract.assert(f, D);
+(function() {
 
-   print( fPrime(h) );
+  function f (g) {
+    return g (42);
+  }
 
-   });
+  function g (x) {
+    return x;
+  }
 
-   (function() {
+  var C = Contract.AFunction([Contract.AFunction([Pos], Pos)], Any);
 
-   function f (g) {
-   return g (42);
-   }
+  var D = Contract.Dependent(Contract.Constructor(function (h) {
+    (h(0)>=0);
+    return Contract.Base(function(r) {
+      return true;
+    }, "Flat/ Call with 0");
+  }, {},"Ctor/ Call with 0"));
 
-   function h (x) {
-   return x;
-   }
+  // LAX style
+  var fCD = Contract.assert(f, Contract.And( C, D ));
+  print( fCD( g ) );
 
-   var C = Contract.AFunction([Contract.AFunction([Pos], Pos)], Any);
+  dunit.assertNoBlame(function() {
+    print( fCD( g ) );
+  });
 
-   var D = Contract.Dependent(Contract.Constructor(function (h) {
-   return Contract.Base(function() {
-   return (h(0)>=0);
-   });
-   }));
+  // PICKY style BUT LAX blaming semantics (sbx removes contracts)
+  var fDC = Contract.assert(f, Contract.And( D, C ));
+  print( fDC( g ) );
 
-   var fPrime = Contract.assert(f, Contract.And( C, D ));
+  dunit.assertNoBlame(function() {
+    print( fDC( g ) );
+  });
 
-   print( fPrime( h ) );
-
-   });
-
-*/
+})();
