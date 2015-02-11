@@ -56,7 +56,7 @@ load("src/treat.js");
 var TreatJS = new TreatJS({
   /** TreatJS evaluation semantics
    * (default: TreatJS.LAX)
-   */semantics: TreatJS.INDY,
+   */semantics: TreatJS.LAX,
   /** Enable contract assertion
    * (default: true)
    */assertion: true,
