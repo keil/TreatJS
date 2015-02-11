@@ -48,7 +48,7 @@
         }
       },
       "ctor": {
-        value: TreatJS.construct.bind(this)
+        value: TreatJS.construct.bind(TreatJS, this)
       }
     });
   }

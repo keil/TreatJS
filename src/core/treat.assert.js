@@ -996,7 +996,7 @@
 
   function construct(constructor, args) {
     log("construct", constructor);
-
+print("@@@@@@" + constructor);
     if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
 
     // TODO, extend global over Constructors

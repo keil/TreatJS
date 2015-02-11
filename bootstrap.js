@@ -74,7 +74,7 @@ var TreatJS = new TreatJS({
    */canonicalize: true,
   /** Quit execution 
    * (default: true)
-   */quitOnError: false 
+   */quitOnError: true 
 },{
   /** Print contract assertions
    * (default: false)
