@@ -17,7 +17,13 @@ function TreatJSDebugger() {
   if(!(this instanceof TreatJSDebugger)) return new TreatJSDebugger();
 }
 
+TreatJSDebugger.prototype.configtest = function() {
+  if(TreatJS.Config.quitOnError!==false) throw new Error("Invalid Configuration!");
+} 
+
 TreatJSDebugger.prototype.assertNoBlame = function(fun) {
+  this.configtest();
+
   try {
     fun()
   } catch (err) {
@@ -27,6 +33,8 @@ TreatJSDebugger.prototype.assertNoBlame = function(fun) {
 }
 
 TreatJSDebugger.prototype.assertContextBlame = function(fun) {
+  this.configtest();
+
   try {
     fun()
   } catch (err) {
@@ -38,6 +46,8 @@ TreatJSDebugger.prototype.assertContextBlame = function(fun) {
 }
 
 TreatJSDebugger.prototype.assertSubjectBlame = function(fun) {
+  this.configtest();
+
   try {
     fun()
   } catch (err) {
