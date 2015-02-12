@@ -39,24 +39,17 @@
       "name": {
         value: name
       },
-      "binding": { // TODO
+      /*"binding": { // TODO
         value: binding
       },
       "build": {
         value: function() {
           return TreatJS.construct(this, arguments);
         }
-      },
+      },*/
       "ctor": {
         value: TreatJS.construct.bind(TreatJS, this)
-      },
-      /*
-      // TODO, new
-      "apply": {
-        value: function() {
-          return TreatJS.construct(this, arguments);
-        }
-      }*/
+      }
     });
   }
   ContractConstructor.prototype = Object.create(Constructor.prototype);

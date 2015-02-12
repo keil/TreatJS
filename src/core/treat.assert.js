@@ -727,20 +727,6 @@
       }
     }
 
-    // TODO, abstraction
-    //   _   _       _               _   _          
-    //  /_\ | |__ __| |_ _ _ __ _ __| |_(_)___ _ _  
-    // / _ \| '_ (_-<  _| '_/ _` / _|  _| / _ \ ' \ 
-    ///_/ \_\_.__/__/\__|_| \__,_\__|\__|_\___/_||_|
-
-    // else if(contract instanceof ContractAbstraction) {
-    //      // TODO: old code
-    //      // return assertWith(arg, construct(contract), global, callbackHandler);
-    //      return assertWith(arg, construct(contract, global.dump()), global, callbackHandler);
-    //    }
-    //    else if(true) return TreatJS.Polymorphic.assert(arg, contract, global, callbackHandler)
-
-
     //  ___             _               _           
     // / __|___ _ _  __| |_ _ _ _  _ __| |_ ___ _ _ 
     //| (__/ _ \ ' \(_-<  _| '_| || / _|  _/ _ \ '_|
@@ -749,26 +735,7 @@
     else if(contract instanceof Constructor) {
       var handler = new AbstractionHandler(arg, contract, global, callbackHandler);
       var proxy = new Proxy(contract.constructor, handler);
-
       return proxy;
-
-
-      // TODO, differ between immediate and delayed
-      // differ between non object value and object
-
-/*
-       if(!(arg instanceof Object)) callbackHandler(Handle(TreatJS.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
-
-      var handler = new FunctionHandler(contract, global, callbackHandler);
-      var proxy = new Proxy(arg, handler);
-      return proxy;
-*/
-      
-      // TODO: old code
-      // return assertWith(arg, construct(contract), global, callbackHandler);
-      // TODO, add sbc contract to the global object
-      // merge global with contracts ? and sbc contract
-      //return assertWith(arg, construct(contract, global.dump()), global, callbackHandler);
     }
 
     //    _      __           _ _   
@@ -1040,19 +1007,13 @@
   function construct(constructor) {
     log("construct", constructor);
 
+    if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
+
     // construct ( constructor[, arg0[, arg1[, ...]]] )
     var args = Array.prototype.slice.call(arguments, 0);
     args.shift();
 
-
-
-    // TODO, args has to be an arrayu ?
-
-    if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
-
-    // TODO, extend global over Constructors
-    // and merge wih arguments
-    return constructWith(constructor, ((args==undefined) ? [] : args), new Global({}));
+    return constructWith(constructor, args, new Global({}));
   }
 
   function constructWith(constructor, args, global) {
@@ -1068,6 +1029,7 @@
     if(constructor instanceof ContractConstructor) {
       // BASE CNTRACT
 
+      // TODO
       var newglobal = (constructor.binding!==undefined) ? global.merge(constructor.binding) : global;   
       var globalArg = newglobal.dump(); 
       //var globalArg = global.dump(); // TODO
@@ -1087,48 +1049,6 @@
       contract.Base = newBaseContract;
       globalArg["Contract"] = contract;
 
-
-
-      // TODO
-      //Contract.BaseContract = newBaseContract;
-
-      //globalArg["Contract"] = TreatJS.build();
-      //globalArg["Contract"].Base = newBaseContract;
-
-      //var treatjs = {};
-      //var contract = {}
-
-      // TODO, only one avaliable in Sandbox
-
-      /*for(property in TreatJS) {
-        if(property==="BaseContract") {
-        treatjs[property] = newBaseContract;
-      //__define(property, newBaseContract, treatjs);
-      }
-      else {
-      treatjs[property] = TreatJS[property];
-      //__define(property, _[property], treatjs);
-      }
-      }*/
-
-      //var build = TreatJS.build();
-
-      /*for(property in build) {
-        if(property==="Base") {
-        contract[property] = newBaseContract;
-      //__define(property, newBaseContract, contract);
-      }
-      else {
-      contract[property] = build[property];
-      //__define(property, build[property], contract);
-      }
-      }*/
-
-      //globalArg["_"] = treatjs;
-      //globalArg["Contract"] = contract;
-      //globalArg["C"] = globalArg["Contract"];
-      //Not really sandboxed
-
       // push new context
       if (TreatJS.Config.semantics===TreatJS.INDY) pushContext(constructor);
 
@@ -1136,8 +1056,6 @@
 
       // pop context
       if (TreatJS.Config.semantics===TreatJS.INDY) popContext();
-
-
 
       if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
       return contract;

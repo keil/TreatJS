@@ -137,18 +137,30 @@
   //|___/\___| .__/\___|_||_\__,_\___|_||_\__|\___\___/_||_\__|_| \__,_\__|\__|
   //         |_|                                                               
 
-  function SimpleDependentContract(name, contract) {
-    if(!(this instanceof SimpleDependentContract)) return new SimpleDependentContract(name, contract);
+  function SimpleDependentContract(constructor) {
+    if(!(this instanceof SimpleDependentContract)) return new SimpleDependentContract(constructor);
+
+    DependentContract.call(this, ContractConstructor(constructor));
+  }
+  SimpleDependentContract.prototype = Object.create(DependentContract.prototype);
+
+
+ function AdvancedDependentContract(names, contract) {
+    if(!(this instanceof AdvancedDependentContract)) return new AdvancedDependentContract(name, contract);
 
     // constructor function
     function ctor() {
-      var binding = {};
-      binding[name]=arguments;
-      return Contract.With(binding, contract);
+      var bindings = {};
+      for(var i=0; i<names.length; i++) {
+        bindings[name[i]] = arguments[i];
+      }
+      return AdvancedDependentContract;
     }
-    DependentContract.call(this, ContractConstructor(ctor, {name:name, contract:contract}));
+    DependentContract.call(this, ContractConstructor(ctor, {names:names, contract:contract}));
   }
-  SimpleDependentContract.prototype = Object.create(DependentContract.prototype);
+  AdvancedDependentContract.prototype = Object.create(DependentContract.prototype);
+
+
 
   //         _               _ 
   // _____ _| |_ ___ _ _  __| |

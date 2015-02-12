@@ -21,13 +21,13 @@
   function eqLength(preArg) {
 
     var predicate = function (postArg) {
-      return (preArg[0].length==postArg.length);
+      return (preArg.length==postArg.length);
     };
 
     return Contract.Base(predicate);
   } 
 
-  var contract = Contract.SDependent("preArg", eqLength());
+  var contract = Contract.SDependent(eqLength);
 
   var f = function(list) {
     return Array(7);
@@ -43,13 +43,13 @@
 
   function eqGlobalValue(preArg) {
     var predicate = function (postArg) {
-      return (preArg[0]==postArg);
+      return (preArg==postArg);
     };
 
     return Contract.Base(predicate);
   } 
 
-  var contract = Contract.SDependent("preArg", eqGlobalValue());
+  var contract = Contract.SDependent(eqGlobalValue);
 
   var g = function() {
     globalValue1 = true ? globalValue1 : "X";
@@ -77,7 +77,7 @@
     return Contract.Base(predicate);
   } 
 
-  var contract2 = Contract.SDependent("preArg", eqGlobalValue2());
+  var contract2 = Contract.SDependent(eqGlobalValue2);
 
   var g2 = function() {
     globalValue1 = true ? globalValue1 : {x:"X"};
@@ -118,7 +118,7 @@
     //return Contract.Base(Any);
   } 
 
-  var contractX = Contract.SDependent("preArg", callOnceX());
+  var contractX = Contract.SDependent(callOnceX);
 
   function h() {
   }
@@ -158,7 +158,7 @@
     return Contract.Base(Any);
   } 
 
-  var contract = Contract.SDependent("preArg", callOnce());
+  var contract = Contract.SDependent(callOnce);
 
   function h() {
   }

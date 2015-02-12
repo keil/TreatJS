@@ -60,12 +60,10 @@
   Constructor.prototype = Object.create(DelayedContract.prototype);
   Constructor.prototype.toString = (function() { return '[[Constructor]]'; });
   Constructor.prototype.construct = function() {
-    //var args = Array.slice(arguments);
+    // construct ( constructor[, arg0[, arg1[, ...]]] )
     var args = Array.prototype.slice.call(arguments, 0);
     args.unshift(this);
-//print(args);
     return TreatJS.construct.apply(TreatJS, args);
-    //return TreatJS.construct(this, arguments);
   }
 
   //         _               _ 

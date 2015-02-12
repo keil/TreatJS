@@ -29,6 +29,8 @@
 
 (function() {
 
+  // old style
+
   function dplus (x, y) {
     return ""+(x+y);
   }
@@ -46,7 +48,6 @@
   //plusContracted2(1,2);
   //plusContracted2("a","b");
 
-  // TODO
   //var plusContracted3 = Contract.assert(dplus, PlusCtor.build(typeOfNumber));
   //plusContracted3(1,2);
   //plusContracted3("a","b");
@@ -143,7 +144,7 @@
   //
   // 3
   //
-/*
+
   var PlusNum2 = Contract.construct(Plus, typeOfNumber);
   var dplusNum2 = Contract.assert(dplus, PlusNum);
   //dplusNum2(1,2);
@@ -160,7 +161,7 @@
     dplusNum2(true,true);
   });
 
-  var PlusStr2 = Contract.construct(Plus, [typeOfString]);
+  var PlusStr2 = Contract.construct(Plus, typeOfString);
   var dplusStr2 = Contract.assert(dplus, PlusStr);
   //dplusStr2(1,2);
   //dplusStr2("1","2");
@@ -175,9 +176,6 @@
   dunit.assertContextBlame(function() {
     dplusStr2(true,true);
   });
-
-*/
-
 
 
 
@@ -194,7 +192,7 @@
   // contarcts can be values
   //
 
-});
+})();
 
 
 // von hand erzeigen
@@ -202,7 +200,7 @@
 // im dependen contract
 //
 // test with
-
+// test empty constructor
 
 
 
