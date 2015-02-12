@@ -15,36 +15,22 @@
 
 // ==================================================
 
-(function() {
+// subset semantics
+//run("test/callback/subset.js");
 
-  // damaged plus function that does NOT fulfill the 
-  // intersection Num x Num -> Num \cap Str x Str -> Str
-  function f(x, y) {
-    return ""+(x+y);
-  }
-
-  var plusContract = Contract.Intersection(
-    Contract.AFunction([typeOfNumber,typeOfNumber], typeOfNumber),
-    Contract.AFunction([typeOfString,typeOfString], typeOfString));
-
-  var testPlusNum = Contract.Base(function(f) {
-    f(1,2);
-    return true;
-  }, "testPlus/Num");
-
-  var testPlusStr = Contract.Base(function(f) {
-    f("1","2");
-    return true;
-  }, "testPlus/Str");
-
-  var testPlusBool = Contract.Base(function(f) {
-    f(true, true);
-    return true;
-  }, "testPlus/Bool");
+// ==================================================
 
 
-  var plus = Contract.assert(f, plusContract);  
-})();
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -85,7 +71,7 @@
   plusContracted4(1,2);
   //plusContracted3("a","b");
 
-})();
+});
 
 
 

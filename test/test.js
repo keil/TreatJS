@@ -82,15 +82,15 @@ run("test/reflect/get.js");
 run("test/reflect/set.js");
 
 // evaluation semantics
-if(TreatJS.Config.semantics===TreatJS.LAX)
-  run("test/callback/lax.js");
-else if(TreatJS.Config.semantics===TreatJS.PICKY)
-  run("test/callback/picky.js");
-else if(TreatJS.Config.semantics===TreatJS.INDY)
-  run("test/callback/indy.js");
+if(TreatJS.Config.semantics===TreatJS.LAX) run("test/callback/lax.js");
+else if(TreatJS.Config.semantics===TreatJS.PICKY) run("test/callback/picky.js");
+else if(TreatJS.Config.semantics===TreatJS.INDY) run("test/callback/indy.js");
 
-  TreatJS.Version.print();
-  TreatJS.Config.print();
-  TreatJS.Statistic.print();
+// subset semantics
+run("test/callback/subset.js");
 
-  quit();
+TreatJS.Version.print();
+TreatJS.Config.print();
+TreatJS.Statistic.print();
+
+quit();
