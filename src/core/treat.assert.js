@@ -748,7 +748,8 @@
 
     else if(contract instanceof Constructor) {
       var handler = new AbstractionHandler(arg, contract, global, callbackHandler);
-      var proxy = new Proxy(contract, handler);
+      var proxy = new Proxy(contract.constructor, handler);
+
       return proxy;
 
 
@@ -1036,8 +1037,14 @@
   //| (_| (_) | | | \__ \ |_| |  | |_| | (__| |_ 
   // \___\___/|_| |_|___/\__|_|   \__,_|\___|\__|
 
-  function construct(constructor, args) {
+  function construct(constructor) {
     log("construct", constructor);
+
+    // construct ( constructor[, arg0[, arg1[, ...]]] )
+    var args = Array.prototype.slice.call(arguments, 0);
+    args.shift();
+
+
 
     // TODO, args has to be an arrayu ?
 

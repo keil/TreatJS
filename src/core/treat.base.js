@@ -26,12 +26,47 @@
   };
   Contract.prototype = {};
   Contract.prototype.toString = (function() { return '[[Contract]]'; });
+  Contract.prototype.assert = function(value) {
+    return TreatJS.assert(value, this);
+  }
+
+  function DelayedContract() {
+    if(!(this instanceof DelayedContract)) return new DelayedContract();
+  }
+  DelayedContract.prototype = Object.create(Contract.prototype);
+  DelayedContract.prototype.toString = (function() { return '[[DelayedContract]]'; });
+
+  function ImmediateContract() {
+    if(!(this instanceof ImmediateContract)) return new ImmediateContract();
+  }
+  ImmediateContract.prototype = Object.create(Contract.prototype);
+  ImmediateContract.prototype.toString = (function() { return '[[ImmediateContract]]'; });
+
+  function CombinatorContract() {
+    if(!(this instanceof CombinatorContract)) return new CombinatorContract();
+  }
+  CombinatorContract.prototype = Object.create(Contract.prototype);
+  CombinatorContract.prototype.toString = (function() { return '[[CombinatorContract]]'; });
+
+  function WrapperContract() {
+    if(!(this instanceof WrapperContract)) return new WrapperContract();
+  }
+  WrapperContract.prototype = Object.create(Contract.prototype);
+  WrapperContract.prototype.toString = (function() { return '[[WrapperContract]]'; });
 
   function Constructor() {
     if(!(this instanceof Constructor)) return new Constructor();
   }
-  Constructor.prototype = Object.create(Contract.prototype);
+  Constructor.prototype = Object.create(DelayedContract.prototype);
   Constructor.prototype.toString = (function() { return '[[Constructor]]'; });
+  Constructor.prototype.construct = function() {
+    //var args = Array.slice(arguments);
+    var args = Array.prototype.slice.call(arguments, 0);
+    args.unshift(this);
+//print(args);
+    return TreatJS.construct.apply(TreatJS, args);
+    //return TreatJS.construct(this, arguments);
+  }
 
   //         _               _ 
   // _____ _| |_ ___ _ _  __| |
@@ -40,6 +75,12 @@
 
   TreatJS.extend("Core", {});
   TreatJS.define(TreatJS.Core, "Contract", Contract);
+
+  TreatJS.define(TreatJS.Core, "Immediate", ImmediateContract);
+  TreatJS.define(TreatJS.Core, "Delayed", DelayedContract);
+  TreatJS.define(TreatJS.Core, "Combinator", CombinatorContract);
+  TreatJS.define(TreatJS.Core, "Wrapper", WrapperContract);
+
   TreatJS.define(TreatJS.Core, "Constructor", Constructor);
 
 })(TreatJS);

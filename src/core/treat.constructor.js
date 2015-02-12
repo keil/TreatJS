@@ -39,7 +39,7 @@
       "name": {
         value: name
       },
-      "binding": {
+      "binding": { // TODO
         value: binding
       },
       "build": {
@@ -49,7 +49,14 @@
       },
       "ctor": {
         value: TreatJS.construct.bind(TreatJS, this)
-      }
+      },
+      /*
+      // TODO, new
+      "apply": {
+        value: function() {
+          return TreatJS.construct(this, arguments);
+        }
+      }*/
     });
   }
   ContractConstructor.prototype = Object.create(Constructor.prototype);

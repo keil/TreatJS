@@ -22,6 +22,12 @@
   var StringMap = TreatJS.Map.StringMap;
 
   var Contract = TreatJS.Core.Contract;
+
+  var ImmediateContract = TreatJS.Core.Immediate;
+  var DelayedContract = TreatJS.Core.Delayed;
+  var CombinatorContract = TreatJS.Core.Combinator;
+  var WrapperContract = TreatJS.Core.Wrapper;
+
   var Constructor = TreatJS.Core.Constructor;
 
   //  _____            _                  _       
@@ -30,30 +36,6 @@
   //| |    / _ \| '_ \| __| '__/ _` |/ __| __/ __|
   //| |___| (_) | | | | |_| | | (_| | (__| |_\__ \
   // \_____\___/|_| |_|\__|_|  \__,_|\___|\__|___/
-
-  function DelayedContract() {
-    if(!(this instanceof DelayedContract)) return new DelayedContract();
-  }
-  DelayedContract.prototype = Object.create(Contract.prototype);
-  DelayedContract.prototype.toString = (function() { return '[[DelayedContract]]'; });
-
-  function ImmediateContract() {
-    if(!(this instanceof ImmediateContract)) return new ImmediateContract();
-  }
-  ImmediateContract.prototype = Object.create(Contract.prototype);
-  ImmediateContract.prototype.toString = (function() { return '[[ImmediateContract]]'; });
-
-  function CombinatorContract() {
-    if(!(this instanceof CombinatorContract)) return new CombinatorContract();
-  }
-  CombinatorContract.prototype = Object.create(Contract.prototype);
-  CombinatorContract.prototype.toString = (function() { return '[[CombinatorContract]]'; });
-
-  function WrapperContract() {
-    if(!(this instanceof WrapperContract)) return new WrapperContract();
-  }
-  WrapperContract.prototype = Object.create(Contract.prototype);
-  WrapperContract.prototype.toString = (function() { return '[[WrapperContract]]'; });
 
   // ___                ___         _               _   
   //| _ ) __ _ ___ ___ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -412,11 +394,6 @@
   //\___/_\_\\__\___|_||_\__,_|
 
   TreatJS.extend("Contract", {});
-
-  TreatJS.define(TreatJS.Contract, "Delayed", DelayedContract);
-  TreatJS.define(TreatJS.Contract, "Immediate", ImmediateContract);
-  TreatJS.define(TreatJS.Contract, "Combinator", CombinatorContract);
-  TreatJS.define(TreatJS.Contract, "Wrapper", WrapperContract);
 
   TreatJS.define(TreatJS.Contract, "Base", BaseContract);
 

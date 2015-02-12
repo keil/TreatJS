@@ -22,10 +22,10 @@
   var Constructor = TreatJS.Core.Constructor;
 
   // contracts
-  var DelayedContract = TreatJS.Contract.Delayed;
-  var ImmediateContract = TreatJS.Contract.Immediate;
-  var CombinatorContract = TreatJS.Contract.Combinator;
-  var WrapperContract = TreatJS.Contract.Wrapper;
+  var ImmediateContract = TreatJS.Core.Immediate;
+  var DelayedContract = TreatJS.Core.Delayed;
+  var CombinatorContract = TreatJS.Core.Combinator;
+  var WrapperContract = TreatJS.Core.Wrapper;
 
   var BaseContract = TreatJS.Contract.Base;
 
@@ -103,7 +103,7 @@
         //return false;
         break;
       default:
-        error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
+        error("Contract not implemented!" + "\n" + contract, (new Error()).fileName, (new Error()).lineNumber);
     }
   }
 
@@ -131,7 +131,7 @@
         return delayed(contract.sub);
         break;
       default:
-        error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
+        error("Contract not implemented!" + "\n" + contract, (new Error()).fileName, (new Error()).lineNumber);
     }
   }
 
@@ -159,7 +159,7 @@
         return immediate(contract.sub);
         break;
       default:
-        error("Contract not implemented", (new Error()).fileName, (new Error()).lineNumber);
+        error("Contract not implemented!" + "\n" + contract, (new Error()).fileName, (new Error()).lineNumber);
     }
   }
 
@@ -190,7 +190,7 @@
           return canonicalize(expandWith(contract));
           break;
         default:
-          error("Contract not implemented: " + contract.toString(), (new Error()).fileName, (new Error()).lineNumber);
+          error("Contract not implemented!" + "\n" + contract, (new Error()).fileName, (new Error()).lineNumber);
           break;
       }
     }
@@ -238,7 +238,7 @@
         break;
 
       default:
-        error("Contract not implemented: " + contract.toString(), (new Error()).fileName, (new Error()).lineNumber);
+        error("Contract not implemented!" + "\n" + contract, (new Error()).fileName, (new Error()).lineNumber);
         break;
     } 
   }
@@ -285,7 +285,7 @@
         break;
 
       default:
-        error("Contract not implemented: " + contract.toString(), (new Error()).fileName, (new Error()).lineNumber);
+        error("Contract not implemented!" + "\n" + contract, (new Error()).fileName, (new Error()).lineNumber);
         break;
     }
   }
@@ -311,7 +311,7 @@
         return UnionContract(IntersectionContract(contract, contractP.first), IntersectionContract(contract, contractP.second));
         break;
       default:
-        error("Contract not implemented: " + contract.toString(), (new Error()).fileName, (new Error()).lineNumber);
+        error("Contract not implemented!" + "\n" + contract, (new Error()).fileName, (new Error()).lineNumber);
         break;
     }
   }
@@ -337,7 +337,7 @@
         return UnionContract(OrContract(contract, contractP.first), OrContract(contract, contractP.second));
         break;
       default:
-        error("Contract not implemented: " + contract.toString(), (new Error()).fileName, (new Error()).lineNumber);
+        error("Contract not implemented!" + "\n" + contract, (new Error()).fileName, (new Error()).lineNumber);
         break;
     }
   }
@@ -372,7 +372,7 @@
         return expandWith(WithContract(binding, canonicalize(sub)));
         break;
       default:
-        error("Contract not implemented: " + contract.toString(), (new Error()).fileName, (new Error()).lineNumber);
+        error("Contract not implemented!" + "\n" + contract, (new Error()).fileName, (new Error()).lineNumber);
         break;
     }
   }
@@ -411,7 +411,7 @@
         return WithContract(sub.binding, NegationContract(sub.sub));
         break;
       default:
-        error("Contract not implemented: " + contract.toString(), (new Error()).fileName, (new Error()).lineNumber);
+        error("Contract not implemented!" + "\n" + contract, (new Error()).fileName, (new Error()).lineNumber);
         break;
     }
   }
@@ -450,7 +450,7 @@
         return WithContract(sub.binding, NotContract(sub.sub));
         break;
       default:
-        error("Contract not implemented: " + contract.toString(), (new Error()).fileName, (new Error()).lineNumber);
+        error("Contract not implemented!" + "\n" + contract, (new Error()).fileName, (new Error()).lineNumber);
         break;
     }
   }

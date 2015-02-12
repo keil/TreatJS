@@ -66,7 +66,7 @@
   //|______|_|  |_|  \___/|_|   
 
   function error(msg, file, line) {
-    var error =  new TreatJSError(msg);
+    var error =  new TreatJSError(msg + "\n" + file + "\n" + line);
 
     if(TreatJS.Config.quitOnError) {
       print(error);
@@ -78,7 +78,7 @@
   }
 
   function violation(msg, file, line) {
-    var error =  new TreatJSViolation(msg);
+    var error =  new TreatJSViolation(msg + "\n" + file + "\n" + line);
 
     if(TreatJS.Config.quitOnError) {
       print(error);
@@ -90,7 +90,7 @@
   }
 
   function blame(contract, blamed, msg, file, line) {
-    var error = new TreatJSBlame(contract, blamed, msg);
+    var error = new TreatJSBlame(contract, blamed, msg + "\n" + file + "\n" + line);
 
     if(TreatJS.Config.quitOnError) {
       print(error);
