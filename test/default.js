@@ -25,53 +25,91 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //Contract.assert(1, TypeOf("number"));
 
 (function() {
 
-  function plus (x, y) {
-    return (x+y);
+  function dplus (x, y) {
+    return ""+(x+y);
   }
 
   var plusContract = Contract.AFunction([typeOfNumber,typeOfNumber], typeOfNumber);
-  var plusContracted = Contract.assert(plus, plusContract);
-  plusContracted(1,2);
+  var plusContracted = Contract.assert(dplus, plusContract);
+  //plusContracted(1,2);
   //plusContracted("a","b");
 
   var PlusCtor = Contract.Constructor(function(typeOfContarct){
     return Contract.AFunction([typeOfContarct,typeOfContarct], typeOfContarct);
   });
 
-  var plusContracted2 = Contract.assert(plus, Contract.construct(PlusCtor, [typeOfNumber]));
-  plusContracted2(1,2);
+  var plusContracted2 = Contract.assert(dplus, Contract.construct(PlusCtor, [typeOfNumber]));
+  //plusContracted2(1,2);
   //plusContracted2("a","b");
 
-  var plusContracted3 = Contract.assert(plus, PlusCtor.build(typeOfNumber));
-  plusContracted3(1,2);
+  var plusContracted3 = Contract.assert(dplus, PlusCtor.build(typeOfNumber));
+  //plusContracted3(1,2);
   //plusContracted3("a","b");
 
   var plusCtor = PlusCtor.ctor;
-  var plusContracted4 = Contract.assert(plus, plusCtor([typeOfNumber]));
-  plusContracted4(1,2);
+  var plusContracted4 = Contract.assert(dplus, plusCtor([typeOfNumber]));
+  //plusContracted4(1,2);
   //plusContracted3("a","b");
 
-});
+})();
+
+
+
+(function() {
+
+  // new style
+
+  function dplus (x, y) {
+    return (x+y);
+  }
+
+  var Plus = Contract.Constructor(function(typeOfContarct){
+    return Contract.AFunction([typeOfContarct,typeOfContarct], typeOfContarct);
+  });
+
+  //var plusNum = Contract.construct(Plus, arg1, arg2, ...);
+  //var dplusNum = Contract.assert(dplus, plusNum);
+
+  //var DPlus = Contract.assert(dplus, Plus);
+  //var dplusNum2 = DPlus(arg1, arg2, ...);
+
+  // NOTE: abstraction over value
+  // contarcts can be values
+  //
+
+})();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

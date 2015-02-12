@@ -12,11 +12,9 @@
 
 * Access Permission Contracts
 
+* Subset Semantics
+
 ## Major Tasks ##
-
-* Exclude Print Output
-
-* Eclude Blame Message
 
 * New Style of Function decompilation
 ** Real Dynamic handler
@@ -25,9 +23,6 @@
 * Definition of Not/ Negation
 
 * Binding in Constructor
-
-* Capsulte Log Output
-** remove global __out functions
 
 * Not/ Negation
 
