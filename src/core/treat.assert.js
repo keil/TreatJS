@@ -747,11 +747,27 @@
     // \___\___/_||_/__/\__|_|  \_,_\__|\__\___/_|  
 
     else if(contract instanceof Constructor) {
+      var handler = new AbstractionHandler(arg, contract, global, callbackHandler);
+      var proxy = new Proxy(contract, handler);
+      return proxy;
+
+
+      // TODO, differ between immediate and delayed
+      // differ between non object value and object
+
+/*
+       if(!(arg instanceof Object)) callbackHandler(Handle(TreatJS.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
+
+      var handler = new FunctionHandler(contract, global, callbackHandler);
+      var proxy = new Proxy(arg, handler);
+      return proxy;
+*/
+      
       // TODO: old code
       // return assertWith(arg, construct(contract), global, callbackHandler);
       // TODO, add sbc contract to the global object
       // merge global with contracts ? and sbc contract
-      return assertWith(arg, construct(contract, global.dump()), global, callbackHandler);
+      //return assertWith(arg, construct(contract, global.dump()), global, callbackHandler);
     }
 
     //    _      __           _ _   
@@ -967,6 +983,32 @@
   }
   NoOpHandler.prototype = Object.create(Handler.prototype);
 
+//   _   _       _               _   _          _  _              _ _         
+//  /_\ | |__ __| |_ _ _ __ _ __| |_(_)___ _ _ | || |__ _ _ _  __| | |___ _ _ 
+// / _ \| '_ (_-<  _| '_/ _` / _|  _| / _ \ ' \| __ / _` | ' \/ _` | / -_) '_|
+///_/ \_\_.__/__/\__|_| \__,_\__|\__|_\___/_||_|_||_\__,_|_||_\__,_|_\___|_|  
+
+  function AbstractionHandler(arg, constructor, global, handler) {
+    if(!(this instanceof AbstractionHandler)) return new AbstractionHandler(constructor, global, handler);
+    else Handler.call(this);
+
+    this.apply = function(target, thisArg, argsArray) {
+      var contract = constructWith(constructor, argsArray, global);
+      return assertWith(arg, contract, global, handler);
+    };
+    this.construct = function(target, args) {
+      var obj = Object.create(target.prototype);
+      this.apply(target, obj, args);
+      return obj;
+    };
+  }
+  AbstractionHandler.prototype = Object.create(Handler.prototype);
+
+
+
+
+
+
   // ___     _                         _    _    _  _              _ _         
   //| _ \___| |_  _ _ __  ___ _ _ _ __| |_ (_)__| || |__ _ _ _  __| | |___ _ _ 
   //|  _/ _ \ | || | '  \/ _ \ '_| '_ \ ' \| / _| __ / _` | ' \/ _` | / -_) '_|
@@ -996,7 +1038,9 @@
 
   function construct(constructor, args) {
     log("construct", constructor);
-print("@@@@@@" + constructor);
+
+    // TODO, args has to be an arrayu ?
+
     if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
 
     // TODO, extend global over Constructors
