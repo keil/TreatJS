@@ -244,8 +244,47 @@
     print( fCD( g ) );
   });
 
-  // PICKY style BUT LAX blaming semantics (sbx removes contracts)
+  // PICKY style 
   var fDC = Contract.assert(f, Contract.And( D, C ));
+  //print( fDC( g ) );
+
+  dunit.assertSubjectBlame(function() {
+    print( fDC( g ) );
+  });
+
+})();
+
+(function() {
+
+  function f (g) {
+    return g (42);
+  }
+
+  function g (x) {
+    return x;
+  }
+
+  var C = Contract.AFunction([Contract.AFunction([Pos], Pos)], Any);
+
+  var D = Contract.Dependent(Contract.Constructor(function (h) {
+    (h(0)>=0);
+    return Contract.Base(function(r) {
+      return true;
+    }, "Flat/ Call with 0");
+  }, {},"Ctor/ Call with 0"));
+
+  // LAX style
+  var fC = Contract.assert(f, C);
+  var fCD = Contract.assert(fC, D);
+  print( fCD( g ) );
+
+  dunit.assertNoBlame(function() {
+    print( fCD( g ) );
+  });
+
+  // PICKY style 
+  var fD = Contract.assert(f, D);
+  var fDC = Contract.assert(fD, C);
   //print( fDC( g ) );
 
   dunit.assertSubjectBlame(function() {
