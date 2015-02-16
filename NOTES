@@ -1,2 +1,32 @@
 #2 Blame in Contracts
 - restrict throw is not a possibe because the CB structure is already updated
+
+- dynamich binding for constuctore
+
+- what happen if if i apply Ctor and Ctor
+- double abstraction
+
+Contract.AFunction([X,X], X);
+
+
+var Plus = Contract.Constructor(function(typeOf) {
+  return Contract.AFunction([typeOf,typeOf], typeOf);
+}, 'PLUS'),
+
+plus @ Plus
+
+
+var Id = var Plus = Contract.Constructor(function(typeOf) {
+  return Contract.AFunction([In('x')], Ouit('x'));
+}, 'PLUS'),
+
+
+\forall X. X->X
+
+Contract.AFunction([In(x)], Out(x));
+
+
+
+assert with X Constr
+construct
+
