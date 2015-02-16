@@ -1,3 +1,17 @@
+/*
+ * TreatJS: Higher-Order Contracts for JavaScript 
+ * http://proglang.informatik.uni-freiburg.de/treatjs/
+ *
+ * Copyright (c) 2014-2015, Proglang, University of Freiburg.
+ * http://proglang.informatik.uni-freiburg.de/treatjs/
+ * All rights reserved.
+ *
+ * Released under the MIT license
+ * http://proglang.informatik.uni-freiburg.de/treatjs/license
+ *
+ * Author Matthias Keil
+ * http://www.informatik.uni-freiburg.de/~keilr/
+ */
 (function() {
 
   // damaged plus function that does NOT fulfill the 
@@ -291,6 +305,132 @@
 
   dunit.assertContextBlame(function() {
     print( fDC( g ) );
+  });
+
+})();
+
+(function() {
+
+  var obj = {x:4711, y:4712, z:"4713"};
+  var objContract = Contract.AObject({x:typeOfNumber, y:typeOfNumber, z:typeOfNumber});
+  var objContracted = Contract.assert(obj, objContract);
+
+  var testXRead = Contract.Base(function(target) {
+    target.x;
+    return true;
+  }, "testX/Read");
+
+  var testYRead = Contract.Base(function(target) {
+    target.y;
+    return true;
+  }, "testY/Read");
+
+  var testZRead = Contract.Base(function(target) {
+    target.z;
+    return true;
+  }, "testZ/Read");
+
+  // Note:
+  // Write contracts are not possible because sbx non-interference
+
+  Contract.assert(objContracted, testXRead);
+  Contract.assert(objContracted, testYRead);
+  //Contract.assert(objContracted, testZRead);
+
+  dunit.assertNoBlame(function() {
+    Contract.assert(objContracted, testXRead);
+  });
+  dunit.assertNoBlame(function() {
+    Contract.assert(objContracted, testYRead);
+  });
+  dunit.assertSubjectBlame(function() {
+    Contract.assert(objContracted, testZRead);
+  });
+
+})();
+
+(function() {
+
+  var obj = {dplus:function(x,y) { return ""+(x+y); }, x:4712, y:"4713"};
+  var objContract = Contract.AObject({
+    dplus:Contract.Intersection(
+            Contract.AFunction([typeOfNumber,typeOfNumber], typeOfNumber),
+            Contract.AFunction([typeOfString,typeOfString], typeOfString))
+  });
+  var objContracted = Contract.assert(obj, objContract);
+
+  var testPlusNum = Contract.Base(function(f) {
+    f(1,2);
+    return true;
+  }, "testPlus/Num");
+
+  var testPlusStr = Contract.Base(function(f) {
+    f("1","2");
+    return true;
+  }, "testPlus/Str");
+
+  var testPlusBool = Contract.Base(function(f) {
+    f(true, true);
+    return true;
+  }, "testPlus/Bool");
+
+  /**  TEST 1 **/
+
+  //Contract.assert(objContracted.dplus, testPlusNum);
+  Contract.assert(objContracted.dplus, testPlusStr);
+  //Contract.assert(objContracted.dplus, testPlusBool);
+
+  dunit.assertSubjectBlame(function() {
+    Contract.assert(objContracted.dplus, testPlusNum); 
+  });
+  dunit.assertNoBlame(function() {
+    Contract.assert(objContracted.dplus, testPlusStr);
+  });
+  dunit.assertContextBlame(function() {
+    Contract.assert(objContracted.dplus, testPlusBool);
+  });
+
+})();
+
+(function() {
+
+  var obj = {dplus:function() { return (this.x+this.y); }, x:4712, y:"4713"};
+  var objContract = Contract.AObject({
+    dplus:Contract.Intersection(
+            Contract.AFunction([typeOfNumber,typeOfNumber], typeOfNumber),
+            Contract.AFunction([typeOfString,typeOfString], typeOfString))
+  });
+  var objContracted = Contract.assert(obj, objContract);
+
+  var testPlusNum = Contract.Base(function(o) {
+    o.dplus(1,2);
+    return true;
+  }, "testPlus/Num");
+
+  var testPlusStr = Contract.Base(function(o) {
+    o.dplus("1","2");
+    return true;
+  }, "testPlus/Str");
+
+  var testPlusBool = Contract.Base(function(o) {
+    o.dplus(true, true);
+    return true;
+  }, "testPlus/Bool");
+
+  /**  TEST 1 **/
+
+  //Contract.assert(objContracted, testPlusNum);
+  Contract.assert(objContracted, testPlusStr);
+  //Contract.assert(objContracted, testPlusBool);
+
+  dunit.assertSubjectBlame(function() {
+    Contract.assert(objContracted, testPlusNum); 
+  });
+  dunit.assertNoBlame(function() {
+    Contract.assert(objContracted, testPlusStr);
+  });
+  dunit.assertContextBlame(function() {
+    Contract.assert(objContracted, testPlusBool);
   });
 
 })();
