@@ -244,7 +244,7 @@
     var ctxt = new Context(((contract.name) ? contract.toString() : "Unnamed Context"), contract)
       log("push context", ctxt.name);
 
-    ctxtStack.push(ctxt)
+    ctxtStack.push(ctxt);
   }
 
   function popContext() {
@@ -292,6 +292,9 @@
   //| (_| \__ \__ \  __/ |  | |_ 
   // \__,_|___/___/\___|_|   \__|
 
+  // add global context
+  ctxtStack.push(new Context("Global Context", null));
+
   function assert(arg, contract) {
     log("assert", contract);
     count(TreatJS.Statistic.ASSERT);
@@ -307,9 +310,14 @@
       if(!canonical(contract)) error("Non-canonical contract", (new Error()).fileName, (new Error()).lineNumber);
     }
 
-    var callback = RootCallback(checkBlameState, contract, arg, new Context("Global Context", null));
+    var callback = RootCallback(checkBlameState, contract, arg, lastContext());
     return assertWith(arg, contract, new Global({}), callback.rootHandler);
   }
+
+  //                     _ __      ___ _   _    
+  // __ _ ______ ___ _ _| |\ \    / (_) |_| |_  
+  /// _` (_-<_-</ -_) '_|  _\ \/\/ /| |  _| ' \ 
+  //\__,_/__/__/\___|_|  \__|\_/\_/ |_|\__|_||_|
 
   function assertWith(arg, contract, global, callbackHandler) {
     log("assert with", contract);
@@ -330,6 +338,11 @@
 
     return contracted;
   }
+
+  //                     _    ___         _               _   
+  // __ _ ______ ___ _ _| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
+  /// _` (_-<_-</ -_) '_|  _| (__/ _ \ ' \  _| '_/ _` / _|  _|
+  //\__,_/__/__/\___|_|  \__|\___\___/_||_\__|_| \__,_\__|\__|
 
   function assertContract(arg, contract, global, callbackHandler) {
     if(!(contract instanceof Contract)) error("Wrong Contract.", (new Error()).fileName, (new Error()).lineNumber);
@@ -654,9 +667,8 @@
       var backupGlobal = clone(contract.global);
       copy(globalArg, contract.global);
 
-
       // push new context
-      if (TreatJS.Config.semantics===TreatJS.INDY) pushContext(contract);
+      pushContext(contract);
 
       try {
         var result = translate(contract.predicate.apply(thisArg, argsArray));
@@ -671,7 +683,7 @@
       } finally {
 
         // push new context
-        if (TreatJS.Config.semantics===TreatJS.INDY) popContext();
+        popContext();
 
         if(result instanceof Error) {
           throw result;
@@ -700,7 +712,7 @@
       var callback = BaseCallback(callbackHandler, contract);
 
       // push new context
-      if (TreatJS.Config.semantics===TreatJS.INDY) pushContext(contract);
+      pushContext(contract);
 
       try {
         var result = translate(TreatJS.eval(contract.predicate, globalArg, thisArg, argsArg));
@@ -715,7 +727,7 @@
       } finally {
 
         // pop context
-        if (TreatJS.Config.semantics===TreatJS.INDY) popContext();
+        popContext(); // TODO
 
         if(result instanceof Error) {
           throw result;
@@ -839,7 +851,7 @@
     else Handler.call(this);
 
     this.apply = function(target, thisArg, args) {
-      var range = constructWith(contract.constructor, args, global);
+      var range = constructContract(contract.constructor, args, global);
       var val = target.apply(thisArg, args); 
       return assertWith(val, range, global, handler);
     };
@@ -951,17 +963,17 @@
   }
   NoOpHandler.prototype = Object.create(Handler.prototype);
 
-//   _   _       _               _   _          _  _              _ _         
-//  /_\ | |__ __| |_ _ _ __ _ __| |_(_)___ _ _ | || |__ _ _ _  __| | |___ _ _ 
-// / _ \| '_ (_-<  _| '_/ _` / _|  _| / _ \ ' \| __ / _` | ' \/ _` | / -_) '_|
-///_/ \_\_.__/__/\__|_| \__,_\__|\__|_\___/_||_|_||_\__,_|_||_\__,_|_\___|_|  
+  //   _   _       _               _   _          _  _              _ _         
+  //  /_\ | |__ __| |_ _ _ __ _ __| |_(_)___ _ _ | || |__ _ _ _  __| | |___ _ _ 
+  // / _ \| '_ (_-<  _| '_/ _` / _|  _| / _ \ ' \| __ / _` | ' \/ _` | / -_) '_|
+  ///_/ \_\_.__/__/\__|_| \__,_\__|\__|_\___/_||_|_||_\__,_|_||_\__,_|_\___|_|  
 
   function AbstractionHandler(arg, constructor, global, handler) {
     if(!(this instanceof AbstractionHandler)) return new AbstractionHandler(constructor, global, handler);
     else Handler.call(this);
 
     this.apply = function(target, thisArg, argsArray) {
-      var contract = constructWith(constructor, argsArray, global);
+      var contract = constructContract(constructor, argsArray, global);
       return assertWith(arg, contract, global, handler);
     };
     this.construct = function(target, args) {
@@ -1013,10 +1025,10 @@
     var args = Array.prototype.slice.call(arguments, 0);
     args.shift();
 
-    return constructWith(constructor, args, new Global({}));
+    return constructContract(constructor, args, new Global({}));
   }
 
-  function constructWith(constructor, args, global) {
+  function constructContract(constructor, args, global) {
     log("construct with", constructor);
 
     if(!(constructor instanceof Constructor)) error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
@@ -1050,15 +1062,35 @@
       globalArg["Contract"] = contract;
 
       // push new context
-      if (TreatJS.Config.semantics===TreatJS.INDY) pushContext(constructor);
+      //if (TreatJS.Config.semantics===TreatJS.INDY) // TODO 
+      pushContext(constructor);
 
-      var contract = (TreatJS.eval(constructor.constructor, globalArg, thisArg, argsArray));
+      try {
+        var contract = (TreatJS.eval(constructor.constructor, globalArg, thisArg, argsArray))
+      } catch (e) { 
+        if(e instanceof TreatJSError) {
+          var contract = e;
+        } else if(TreatJS.Config.exceptionPassThrough) {
+          var contract = e;
+        } else {
+          var contract = undefined;
+        }
+      } finally {
 
-      // pop context
-      if (TreatJS.Config.semantics===TreatJS.INDY) popContext();
+        // pop context
+        //if (TreatJS.Config.semantics===TreatJS.INDY)
+        popContext(); // TODO
 
-      if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
-      return contract;
+        if(contract instanceof Error) {
+          throw contract;
+        } else {
+          if(!(contract instanceof Contract)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+          return contract;
+        }
+      }
+
+
+
     }
 
 
@@ -1134,22 +1166,22 @@
   //| '  \| | '_| '_/ _ \ '_| / _/ _ \ ' \  _/ _` | '_/ _|  _(_-<
   //|_|_|_|_|_| |_| \___/_|   \__\___/_||_\__\__,_|_| \__|\__/__/
 
-  function pickyMirror(origin, target) {
-    log("mirror contract", "(picky semanticts)");
+  function mirrorPickyFunction(origin, target) {
+    log("mirror function contract", "(picky semanticts)");
     if(!ccache.has(origin)) return target;
 
     var assertion = ccache.get(origin);
-    var contracted = pickyMirror(assertion.target, target);
+    var contracted = mirrorPickyFunction(assertion.target, target);
 
     return assertContract(contracted, assertion.contract, assertion.global, assertion.callbackHandler);
   }
 
-  function indyMirror(origin, target) {
-    log("mirror contract", "(indy semanticts)");
+  function mirrorIndyFunction(origin, target) {
+    log("mirror function contract", "(indy semanticts)");
     if(!ccache.has(origin)) return target;
 
     var assertion = ccache.get(origin);
-    var contracted = indyMirror(assertion.target, target);
+    var contracted = mirrorIndyFunction(assertion.target, target);
 
     var root = new RootCallback(checkBlameState, assertion.contract, contracted, lastContext());
     var callback = new SwitchCallback(assertion.callbackHandler, root.rootHandler);
@@ -1157,13 +1189,39 @@
     return assertContract(contracted, assertion.contract, assertion.global, callback.subHandler);
   }
 
-  function mirror(origin, target) {
-    if(TreatJS.Config.semantics===TreatJS.PICKY) {
-      return pickyMirror(origin, target);
-    } else if (TreatJS.Config.semantics===TreatJS.INDY) {
-      return indyMirror(origin, target);
-    } else {
+  function mirrorLaxObject(origin) {
+    log("mirror object contract", "(lax semanticts)");
+    if(!ccache.has(origin)) return origin;
+
+    var assertion = ccache.get(origin);
+
+    return mirrorLaxObject(assertion.target);
+  }
+
+  function mirrorFunction(origin, target) {
+    if(TreatJS.Config.semantics===TreatJS.LAX) {
       return target;
+    } else if(TreatJS.Config.semantics===TreatJS.PICKY) {
+      return mirrorPickyFunction(origin, target);
+    } else if (TreatJS.Config.semantics===TreatJS.INDY) {
+      return mirrorIndyFunction(origin, target);
+    } else {
+      return error("Undefined mirror semantics", (new Error()).fileName, (new Error()).lineNumber);
+    }
+  }
+
+  function mirrorObject(origin) {
+    if(TreatJS.Config.semantics===TreatJS.LAX) {
+      return mirrorLaxObject(origin); 
+    } else if(TreatJS.Config.semantics===TreatJS.PICKY) {
+      return origin; 
+    } else if (TreatJS.Config.semantics===TreatJS.INDY) {
+      // Note: Indy setting not required because 
+      // sandboxed guarantees non-interference and thus
+      // no write access (context) is allowed.
+      return origin; 
+    } else {
+      return error("Undefined mirror semantics", (new Error()).fileName, (new Error()).lineNumber);
     }
   }
 
@@ -1173,17 +1231,13 @@
   //\___/_\_\\__\___|_||_\__,_|
 
   TreatJS.extend("assert", assert);
-  //TreatJS.extend("assertWith", assertWith); // TODO
-  //TreatJS.extend("assertContract", assertContract);
-
   TreatJS.extend("construct", construct);
-  TreatJS.extend("constructWith", constructWith); // TODO
 
-  TreatJS.extend("mirror", mirror);
+  TreatJS.extend("mirrorFunction", mirrorFunction);
+  TreatJS.extend("mirrorObject", mirrorObject);
 
   TreatJS.extend("contractOf", contractOf);
   TreatJS.extend("contracted", contracted);
-
 
   // Handler
   TreatJS.extend("Handler", {});
@@ -1195,8 +1249,9 @@
   TreatJS.define(TreatJS.Handler, "Dependent", DependentHandler);
   TreatJS.define(TreatJS.Handler, "Object", ObjectHandler);
 
-  TreatJS.define(TreatJS.Handler, "Reflection", ReflectionHandler);
-  TreatJS.define(TreatJS.Handler, "NoOp", NoOpHandler);
+  /// TODO
+  //TreatJS.define(TreatJS.Handler, "Reflection", ReflectionHandler);
+  //TreatJS.define(TreatJS.Handler, "NoOp", NoOpHandler);
   //TreatJS.define(TreatJS.Handler, "Polymorphic", PolymorphicHandler);
 
 })(TreatJS);
