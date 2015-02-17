@@ -127,7 +127,10 @@
     }
 
     Object.defineProperty(this, "rootHandler", {value:function(handle) {
-      root = Handle.merge(handle, handle);
+      //root = Handle.merge(root, handle);
+      //Note: no merge required because first < false update will 
+      //immediately raise a blame error
+      root = handle;
       update();
     }});
   }
@@ -155,10 +158,8 @@
     function updateContext() {
       if(TreatJS.Config.callback) {
         count(TreatJS.Statistic.CALLBACK);
-
         var context = sub.context;
         var subject = Unknown;
-
         contextHandler(new Handle(context, subject));
       }
     }
@@ -166,16 +167,17 @@
     function updateSubject() {
       if(TreatJS.Config.callback) {
         count(TreatJS.Statistic.CALLBACK);
-
         var context = Unknown;
         var subject = sub.subject;
-
         subjectHandler(new Handle(context, subject)); 
       }
     }
 
     Object.defineProperty(this, "subHandler", {value:function(handle) {
-      sub = Handle.merge(handle, handle);
+      //sub = Handle.merge(sub, handle);
+      //Note: no merge required because first < false update will 
+      //immediately raise a blame error
+      sub = handle;
       updateContext();
       updateSubject();
     }});
@@ -245,12 +247,18 @@
     }
 
     Object.defineProperty(this, "setHandler", {value:function(handle) {
-      set = (set) ? Handle.merge(set, handle) : handle;
+      //set = (set) ? Handle.merge(set, handle) : handle;
+      //Note: no merge required because first < false update will 
+      //immediately raise a blame error
+      set = handle;
       update();
     }});
 
     Object.defineProperty(this, "getHandler", {value:function(handle) {
-      get = Handle.merge(get, handle);
+      //get = Handle.merge(get, handle);
+      //Note: no merge required because first < false update will 
+      //immediately raise a blame error
+      get = handle;
       update();
     }});
 
@@ -276,7 +284,10 @@
     }
 
     Object.defineProperty(this, "objectHandler", {value:function(handle) {
-      obj = Handle.and(obj, handle);
+      //obj = Handle.and(obj, handle);
+      //Note: no merge required because first < false update will 
+      //immediately raise a blame error
+      obj = handle;
       update();
     }});
   }
@@ -315,8 +326,6 @@
       right = Handle.merge(right, handle);
       update();
     }});
-
-
   }
   IntersectionCallback.prototype = Object.create(Callback.prototype);
   IntersectionCallback.prototype.toString = function() {
@@ -381,7 +390,10 @@
     }
 
     Object.defineProperty(this, "subHandler", {value:function(handle) {
-      sub = Handle.merge(sub, handle);
+      //sub = Handle.merge(sub, handle);
+      //Note: no merge required because first < false update will 
+      //immediately raise a blame error
+      sub = handle;
       update();
     }});
   }
@@ -483,7 +495,10 @@
     }
 
     Object.defineProperty(this, "subHandler", {value:function(handle) {
-      sub = Handle.merge(sub, handle);
+      //sub = Handle.merge(sub, handle);
+      //Note: no merge required because first < false update will 
+      //immediately raise a blame error
+      sub = handle;
       update();
     }});
   }
@@ -513,7 +528,10 @@
     }
 
     Object.defineProperty(this, "predicateHandler", {value:function(handle) {
-      predicate = Handle.merge(predicate, handle);
+      //predicate = Handle.merge(predicate, handle);
+      //Note: no merge required because first < false update will 
+      //immediately raise a blame error
+      predicate = handle;
       update();
     }});
   }
