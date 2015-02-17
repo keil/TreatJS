@@ -1,13 +1,8 @@
 #2 Blame in Contracts
 - restrict throw is not a possibe because the CB structure is already updated
 
-- dynamich binding for constuctore
-
 - what happen if if i apply Ctor and Ctor
 - double abstraction
-
-Contract.AFunction([X,X], X);
-
 
 var Plus = Contract.Constructor(function(typeOf) {
   return Contract.AFunction([typeOf,typeOf], typeOf);
