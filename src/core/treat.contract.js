@@ -21,6 +21,8 @@
   var Map = TreatJS.Map.Map;
   var StringMap = TreatJS.Map.StringMap;
 
+  var Variable = TreatJS.Variable.Variable;
+
   var Contract = TreatJS.Core.Contract;
 
   var ImmediateContract = TreatJS.Core.Immediate;
@@ -359,6 +361,48 @@
     return "(" + this.trap + " @ " + this.sub.toString() + ")";
   };
 
+  // ___      ___         _               _   
+  //|_ _|_ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
+  // | || ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
+  //|___|_||_\___\___/_||_\__|_| \__,_\__|\__|
+
+  function InContract(id) {
+    if(!(this instanceof InContract)) return new InContract(id);
+
+    if(!(id instanceof Variable)) error("Wrong Identifier", (new Error()).fileName, (new Error()).lineNumber);
+
+    Object.defineProperties(this, {
+      "id": {
+        value: id
+      }
+    });
+  }
+  InContract.prototype = Object.create(ImmediateContract.prototype);
+  InContract.prototype.toString = function() {
+    return "(in(" + this.id.toString() + "))";
+  };
+
+  //  ___       _    ___         _               _   
+  // / _ \ _  _| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
+  //| (_) | || |  _| (__/ _ \ ' \  _| '_/ _` / _|  _|
+  // \___/ \_,_|\__|\___\___/_||_\__|_| \__,_\__|\__|
+
+  function OutContract(id) {
+    if(!(this instanceof OutContract)) return new OutContract(id);
+
+    if(!(id instanceof Variable)) error("Wrong Identifier", (new Error()).fileName, (new Error()).lineNumber);
+
+    Object.defineProperties(this, {
+      "id": {
+        value: id
+      }
+    });
+  }
+  OutContract.prototype = Object.create(ImmediateContract.prototype);
+  OutContract.prototype.toString = function() {
+    return "(out(" + this.id.toString() + "))";
+  };
+
   //         _               _ 
   // _____ _| |_ ___ _ _  __| |
   /// -_) \ /  _/ -_) ' \/ _` |
@@ -384,5 +428,8 @@
   TreatJS.define(TreatJS.Contract, "Negation", NegationContract);
 
   TreatJS.define(TreatJS.Contract, "Reflection", ReflectionContract);
+
+  TreatJS.define(TreatJS.Contract, "In", InContract);
+  TreatJS.define(TreatJS.Contract, "Out", OutContract);
 
 })(TreatJS);

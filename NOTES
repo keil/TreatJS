@@ -25,3 +25,48 @@ Contract.AFunction([In(x)], Out(x));
 assert with X Constr
 construct
 
+
+-> case (context specific change of the contract)
+(Num->Num) Num->Num \cap Str->Str .. ok
+(Num->Num \cap Str->Str) Num->Num .. ? call with 1 || call with "1"
+-> subset of ?
+
+Contract.Forall([X,Y,Z], ???);
+
+[X,Y,Z] implements a new stack frame
+
+
+Contract.AFunction([In(X)], Out(x));
+
+
+var x = Contract.Variable(); // make id like sandxoc $123
+
+
+Contact.Forall([X,Y])
+Contract.AFunction([In(X),In(Y)], Contract.AObject([x:Out(X),y:Out(Y)]))
+
+Contract.Forall(  function() {
+  return Contract.AFunction([In(X)], Out(x));
+});
+
+
+
+// storyline
+
+var Id = Contract.Constructor(function(X) {
+  return Contract.AFunction([X],X);
+}, "Id");
+
+// normal abstracttion, X and X are the same contract
+
+
+var Id = Contract.Constructor(function(X) {
+  return Contract.AFunction([Contract.In(X)],Contract.Out(X));
+}, "Id");
+
+X has to be an identifier
+
+// problem 
+return Contract.AFunction([Contract.In(X)],Contract.Out(Y));
+alleine sagt nicht ueber die Spezifikation von Y aus
+

@@ -52,6 +52,9 @@
 
   var ReflectionContract = TreatJS.Contract.Reflection;
 
+  var InContract = TreatJS.Contract.In;
+  var OutContract = TreatJS.Contract.Out;
+
   // TODO, experimental
   //var VariableContract = TreatJS.Polymorphic.Variable;
   //var ContractContract = TreatJS.Polymorphic.Abstraction;
@@ -326,7 +329,7 @@
     var contracted = assertContract(arg, contract, global, callbackHandler);
 
     // cache contracted value
-    if(contracted!==arg) {
+    if((contracted!==arg) && (contracted===Object(contracted))) {
       var assertion = {
         target: arg,
         contract: contract,
@@ -633,6 +636,47 @@
       return proxy;
     }
 
+    // ___     _                         _    _          
+    //| _ \___| |_  _ _ __  ___ _ _ _ __| |_ (_)____ __  
+    //|  _/ _ \ | || | '  \/ _ \ '_| '_ \ ' \| (_-< '  \ 
+    //|_| \___/_|\_, |_|_|_\___/_| | .__/_||_|_/__/_|_|_|
+    //           |__/              |_|                   
+ 
+    // ___      
+    //|_ _|_ _  
+    // | || ' \ 
+    //|___|_||_|
+
+    // TODO
+    else if(contract instanceof InContract) {
+      //var val =  wrap(arg, contract.sub, callbackHandler);
+      var proxy = new Proxy({}, new Proxy({}, new PolymorphicHandler(callbackHandler))); 
+      
+      TreatJS.Polymorphism.wrap(contract.id, arg, proxy);
+
+      //proxies.set(id, proxy);
+      //values.set(proxy, value);
+      return proxy; 
+      
+      //return val;
+    }
+
+    //  ___       _   
+    // / _ \ _  _| |_ 
+    //| (_) | || |  _|
+    // \___/ \_,_|\__|
+
+    // TODO
+    else if(contract instanceof OutContract) {
+
+      var result = translate(TreatJS.Polymorphism.verify(contract.id, arg));
+      var handle = new Handle(TreatJS.Logic.True, result);
+
+      callbackHandler(handle);
+      
+      return TreatJS.Polymorphism.unwrap(arg);
+    }
+
     // ___               _ _              ___         _               _   
     /// __| __ _ _ _  __| | |__  _____ __/ __|___ _ _| |_ _ _ __ _ __| |_ 
     //\__ \/ _` | ' \/ _` | '_ \/ _ \ \ / (__/ _ \ ' \  _| '_/ _` / _|  _|
@@ -688,7 +732,7 @@
         if(result instanceof Error) {
           throw result;
         } else {
-          var handle = Handle(TreatJS.Logic.True, result, result);
+          var handle = Handle(TreatJS.Logic.True, result);
           callback.predicateHandler(handle);
           clear(contract.global);
           copy(backupGlobal, contract.global);
@@ -732,7 +776,7 @@
         if(result instanceof Error) {
           throw result;
         } else {
-          var handle = new Handle(TreatJS.Logic.True, result, TreatJS.Logic.True);
+          var handle = new Handle(TreatJS.Logic.True, result);
           callback.predicateHandler(handle);
           return arg;
         }
@@ -984,30 +1028,23 @@
   }
   AbstractionHandler.prototype = Object.create(Handler.prototype);
 
-
-
-
-
-
-  // ___     _                         _    _    _  _              _ _         
-  //| _ \___| |_  _ _ __  ___ _ _ _ __| |_ (_)__| || |__ _ _ _  __| | |___ _ _ 
-  //|  _/ _ \ | || | '  \/ _ \ '_| '_ \ ' \| / _| __ / _` | ' \/ _` | / -_) '_|
-  //|_| \___/_|\_, |_|_|_\___/_| | .__/_||_|_\__|_||_\__,_|_||_\__,_|_\___|_|  
-  //           |__/              |_|                                           
+  // ___     _                         _    _          _  _              _ _         
+  //| _ \___| |_  _ _ __  ___ _ _ _ __| |_ (_)____ __ | || |__ _ _ _  __| | |___ _ _ 
+  //|  _/ _ \ | || | '  \/ _ \ '_| '_ \ ' \| (_-< '  \| __ / _` | ' \/ _` | / -_) '_|
+  //|_| \___/_|\_, |_|_|_\___/_| | .__/_||_|_/__/_|_|_|_||_\__,_|_||_\__,_|_\___|_|  
+  //           |__/              |_|                                                 
 
   // TODO - testing code
-  /*function PolymorphicHandler(handler) {
-    if(!(this instanceof PolymorphicHandler)) return new PolymorphicHandler(contract, global, handler);
+
+  function PolymorphicHandler(handler) {
+    if(!(this instanceof PolymorphicHandler)) return new PolymorphicHandler(handler);
     else Handler.call(this);
 
     this.get = function(target, name, receiver) {
-    handler( TreatJS.Callback.Handle(_.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
+      handler( TreatJS.Callback.Handle(TreatJS.Logic.False, TreatJS.Logic.True));
     };
-    }
-    PolymorphicHandler.prototype = Object.create(Handler.prototype);*/
-
-
-  // TODO
+  }
+  PolymorphicHandler.prototype = Object.create(Handler.prototype);
 
   //                     _                   _   
   //                    | |                 | |  

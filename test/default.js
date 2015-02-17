@@ -15,6 +15,35 @@
 
 // ==================================================
 
+// test code for polymorphic contract
+
+var X = TreatJS.Variable.Variable();
+var Y = TreatJS.Variable.Variable();
+var Z = TreatJS.Variable.Variable(); 
+
+var idContract = Contract.AFunction([TreatJS.Contract.In(X),TreatJS.Contract.In(Y)], TreatJS.Contract.Out(X));
+
+function id(x,y) {
+  var z = x+y;
+  y=x;
+  return y;
+}
+
+var idContracted = Contract.assert(id, idContract);
+idContracted(1,2);
+
+/*
+  var x = Variable();
+  var y = Variable();
+  var z = Variable(); 
+*/
+
+
+
+
+
+// ==================================================
+
 // subset semantics
 // run("test/callback/subset.js");
 

@@ -112,6 +112,9 @@ load("src/core/treat.logic.js");
 load("src/core/treat.callback.js");
 
 load("src/core/treat.map.js");
+load("src/core/treat.variable.js");
+load("src/core/treat.polymorphism.js");
+
 // TODO, experimental code
 // not a core API at the moment ?
 // polymorphic api 
