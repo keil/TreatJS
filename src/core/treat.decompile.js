@@ -79,7 +79,7 @@
 
     // mirrors contarcts from fun to newfun
     // to support picky/indy semantics
-    newfunc = TreatJS.mirror(fun, newfun);
+    newfunc = TreatJS.mirrorFunction(fun, newfun);
 
     return new Proxy(newfunc, new DynamicHandler(newfunc, scopeHandler));
   }
