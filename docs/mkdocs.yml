@@ -2,6 +2,16 @@ site_name: TreatJS
 site_url: http://proglang.informatik.uni-freiburg.de/treatjs/
 site_description: TreatJS Documentation.
 repo_url: https://github.com/keil/TreatJS
+
 pages:
 - ['index.md', 'Home']
+- ['introduction.md', 'Introduction']
+- ['requirements.md', 'Requirements']
+- ['installation.md', 'Installation']
+- ['configuration.md', 'Configuration']
+
+- ['contracts/base.md', 'Contracts', 'Base']
+- ['contracts/function.md', 'Contracts', 'Function']
+
+
 copyright: Copyright &copy; 2015, <a href="http://proglang.informatik.uni-freiburg.de/treatjs/">Proglang, University of Freiburg</a>.
