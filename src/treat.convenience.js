@@ -140,27 +140,9 @@
   function SimpleDependentContract(constructor) {
     if(!(this instanceof SimpleDependentContract)) return new SimpleDependentContract(constructor);
 
-    DependentContract.call(this, ContractConstructor(constructor));
+    DependentContract.call(this, ContractConstructor(constructor, ""));
   }
   SimpleDependentContract.prototype = Object.create(DependentContract.prototype);
-
-
- function AdvancedDependentContract(names, contract) {
-    if(!(this instanceof AdvancedDependentContract)) return new AdvancedDependentContract(name, contract);
-
-    // constructor function
-    function ctor() {
-      var bindings = {};
-      for(var i=0; i<names.length; i++) {
-        bindings[name[i]] = arguments[i];
-      }
-      return AdvancedDependentContract;
-    }
-    DependentContract.call(this, ContractConstructor(ctor, {names:names, contract:contract}));
-  }
-  AdvancedDependentContract.prototype = Object.create(DependentContract.prototype);
-
-
 
   //         _               _ 
   // _____ _| |_ ___ _ _  __| |
