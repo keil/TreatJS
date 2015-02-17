@@ -13,80 +13,12 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-/*
-
-// ==================================================
-
-
-(function() {
-
-  var obj = {x:function(){return "1";}};
-  var objXNum = Contract.AObject({x:typeOfNumber});
-  var objXStr = Contract.AObject({x:Contract.AFunction([typeOfNumber], typeOfNumber)});
-
-  var objOrCon = Contract.Or(objXNum, objXStr);
-
-  var contracted = Contract.assert(obj, objOrCon);
-
-  contracted.x();
-
-})();
-
-*/
-
-
-
-
-
-
-//TreatJS.Statistic.print();
-//print("ENDE ...");
-//quit();
-
 // ==================================================
 
 // subset semantics
-//run("test/callback/subset.js");
+// run("test/callback/subset.js");
 
 // ==================================================
-
-
-
-
-
-//Contract.assert(1, TypeOf("number"));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 (function() {
 
