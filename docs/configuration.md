@@ -1,14 +1,13 @@
-Configuration
-=============
+# Configuration
 
-Configuration
---------------
+## Configuration
 
-Verbose
--------
+## Verbose
 
-Output
-------
+## Output
 
-Debugger
---------
+### TreatJS Shell Output
+
+## Debugger
+
+### TreatJS Debugger
