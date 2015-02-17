@@ -65,7 +65,11 @@
       return cache.get(target);
     } else {
       var membraneHandler = new Membrabe(global);
-      var proxy = new Proxy(target, membraneHandler);
+
+      // mirrors contarcts from target
+      // to support lax/picky/indy semantics
+      var newtarget = TreatJS.mirrorObject(target);
+      var proxy = new Proxy(newtarget, membraneHandler);
 
       cache.set(target, proxy);
 
@@ -210,24 +214,8 @@
   function evalInSandbox(fun, globalArg, thisArg, argsArray) {
     if(!(fun instanceof Function)) error("No Function Object", (new Error()).fileName, (new Error()).lineNumber);
 
-    var secureFun = decompile(fun);
-
-    // TODO, add to decompile, 
-    // no, not possible because of differnent globals and differnt cntarcts ?
-    // or ?
-    /*if(TreatJS.contracted(fun)) {
-      print("@@@ WRAP CONTRACTED FUNCTION");
-      var contract = TreatJS.contractOf(fun);
-      var callback = TreatJS.callbackOf(fun);
-      var global = TreatJS.globalOf(fun);
-
-      // global ?
-      // // assert with
-      var secureFun = TreatJS.assertWith(secureFun, contract, global, callback);
-    }*/
-    //return secureFun.apply(thisArg, argsArray)
-    
-    return secureFun.eval(globalArg, thisArg, argsArray); // TODO
+    var secureFun = decompile(fun);    
+    return secureFun.eval(globalArg, thisArg, argsArray);
   }
 
   /** evalNewInSandbox(fun[, globalArg, thisArg, argsArray])
