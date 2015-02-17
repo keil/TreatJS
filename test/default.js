@@ -13,18 +13,7 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-
-
-
-
-
 /*
-
-// evaluation semantics
-if(TreatJS.Config.semantics===TreatJS.LAX) run("test/callback/lax.js");
-else if(TreatJS.Config.semantics===TreatJS.PICKY) run("test/callback/picky.js");
-else if(TreatJS.Config.semantics===TreatJS.INDY) run("test/callback/indy.js");
-
 
 // ==================================================
 
@@ -42,7 +31,6 @@ else if(TreatJS.Config.semantics===TreatJS.INDY) run("test/callback/indy.js");
   contracted.x();
 
 })();
-
 
 */
 

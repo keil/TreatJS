@@ -330,7 +330,7 @@
 
   // Note:
   // Write contracts are not possible because sbx non-interference
-  
+
   Contract.assert(objContracted, testXRead);
   Contract.assert(objContracted, testYRead);
   Contract.assert(objContracted, testZRead);
@@ -377,7 +377,7 @@
   Contract.assert(objContracted.dplus, testPlusNum);
   Contract.assert(objContracted.dplus, testPlusStr);
   Contract.assert(objContracted.dplus, testPlusBool);
-  
+
   dunit.assertNoBlame(function() {
     Contract.assert(objContracted.dplus, testPlusNum); 
   });
@@ -420,7 +420,50 @@
   Contract.assert(objContracted, testPlusNum);
   Contract.assert(objContracted, testPlusStr);
   Contract.assert(objContracted, testPlusBool);
-  
+
+  dunit.assertNoBlame(function() {
+    Contract.assert(objContracted, testPlusNum); 
+  });
+  dunit.assertNoBlame(function() {
+    Contract.assert(objContracted, testPlusStr);
+  });
+  dunit.assertNoBlame(function() {
+    Contract.assert(objContracted, testPlusBool);
+  });
+
+})();
+
+(function() {
+
+  var obj = {dplus:function(x,y) { return ""+(x+y); }, x:4712, y:"4713"};
+  var objContract = Contract.AObject({
+    dplus:Contract.Intersection(
+            Contract.AFunction([typeOfNumber,typeOfNumber], typeOfNumber),
+            Contract.AFunction([typeOfString,typeOfString], typeOfString))
+  });
+  var objContracted = Contract.assert(obj, objContract);
+
+  var testPlusNum = Contract.Base(function(obj) {
+    obj.dplus(1,2);
+    return true;
+  }, "testPlus/Num");
+
+  var testPlusStr = Contract.Base(function(obj) {
+    obj.dplus("1","2");
+    return true;
+  }, "testPlus/Str");
+
+  var testPlusBool = Contract.Base(function(obj) {
+    obj.dplus(true, true);
+    return true;
+  }, "testPlus/Bool");
+
+  /**  TEST 1 **/
+
+  Contract.assert(objContracted, testPlusNum);
+  Contract.assert(objContracted, testPlusStr);
+  Contract.assert(objContracted, testPlusBool);
+
   dunit.assertNoBlame(function() {
     Contract.assert(objContracted, testPlusNum); 
   });
