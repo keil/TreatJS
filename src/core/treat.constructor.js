@@ -27,8 +27,8 @@
   //| |___| (_) | | | \__ \ |_| |  | |_| | (__| || (_) | |   
   // \_____\___/|_| |_|___/\__|_|   \__,_|\___|\__\___/|_|   
 
-  function ContractConstructor(constructor, binding, name) {
-    if(!(this instanceof ContractConstructor)) return new ContractConstructor(constructor, binding, name);
+  function ContractConstructor(constructor, name, binding) {
+    if(!(this instanceof ContractConstructor)) return new ContractConstructor(constructor, name, binding);
 
     if(!(constructor instanceof Function)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
 
@@ -39,16 +39,8 @@
       "name": {
         value: name
       },
-      /*"binding": { // TODO
+      "binding": {
         value: binding
-      },
-      "build": {
-        value: function() {
-          return TreatJS.construct(this, arguments);
-        }
-      },*/
-      "ctor": {
-        value: TreatJS.construct.bind(TreatJS, this)
       }
     });
   }
