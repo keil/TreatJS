@@ -115,11 +115,6 @@ load("src/core/treat.map.js");
 load("src/core/treat.variable.js");
 load("src/core/treat.polymorphism.js");
 
-// TODO, experimental code
-// not a core API at the moment ?
-// polymorphic api 
-//load("src/treat.polymorphic.js");
-
 load("src/core/treat.contract.js");
 load("src/core/treat.constructor.js");
 
@@ -131,9 +126,6 @@ load("src/treat.convenience.js");
 
 // reflection api
 load("src/treat.reflect.js");
-
-// polymorphic api
-//load("src/treat.polymorphic.js"); // TODO experimental code
 
 //            _               _      
 // __ ___ _ _| |_ _ _ __ _ __| |_ ___
