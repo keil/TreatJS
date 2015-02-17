@@ -31,7 +31,9 @@ run("test/contract/notcontract.js");
 
 run("test/contract/withcontract.js");
 run("test/contract/dependentcontract.js");
+
 run("test/contract/constructor.js");
+run("test/contract/abstraction.js");
 
 // sandbox tests
 run("test/sandbox/sandbox.js");
@@ -85,6 +87,9 @@ run("test/reflect/set.js");
 if(TreatJS.Config.semantics===TreatJS.LAX) run("test/callback/lax.js");
 else if(TreatJS.Config.semantics===TreatJS.PICKY) run("test/callback/picky.js");
 else if(TreatJS.Config.semantics===TreatJS.INDY) run("test/callback/indy.js");
+
+// context
+run("test/callback/context.js");
 
 // subset semantics
 run("test/callback/subset.js");
