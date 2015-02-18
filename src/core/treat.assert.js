@@ -86,6 +86,10 @@
   var UnionCallback = TreatJS.Callback.Union;
   var NegationCallback = TreatJS.Callback.Negation;
 
+  var InContract = TreatJS.Contract.In;
+  var OutContract = TreatJS.Contract.Out;
+  var ForallContract = TreatJS.Contract.Forall;
+
   // logic
   var translate = TreatJS.Logic.translate;
 
@@ -641,7 +645,26 @@
     //|  _/ _ \ | || | '  \/ _ \ '_| '_ \ ' \| (_-< '  \ 
     //|_| \___/_|\_, |_|_|_\___/_| | .__/_||_|_/__/_|_|_|
     //           |__/              |_|                   
- 
+
+
+    else if(contract instanceof ForallContract) {
+      print("@@@@@@@@@@ assert for all");
+      // TODO, amke this delayed
+      //
+      // for all is wrapper, and here i have to check if its result is 
+      // delayed or nor ?
+
+      //
+      // default length of arguments
+
+      var args = new Proxy({length:2}, new ForallHandler(callbackHandler));
+      var contract = constructContract(contract.constructor, args, global);
+      
+      return assertWith(arg, contract, global, callbackHandler);
+    }
+
+
+
     // ___      
     //|_ _|_ _  
     // | || ' \ 
@@ -650,9 +673,10 @@
     // TODO
     else if(contract instanceof InContract) {
       //var val =  wrap(arg, contract.sub, callbackHandler);
-      var proxy = new Proxy({}, new Proxy({}, new PolymorphicHandler(callbackHandler))); 
-      
-      TreatJS.Polymorphism.wrap(contract.id, arg, proxy);
+      //var proxy = new Proxy({}, new Proxy({}, new PolymorphicHandler(callbackHandler))); 
+      print("INNNNNNNNNNNNN");
+
+      TreatJS.Polymorphism.conceal(contract.id, arg); // TODO
 
       //proxies.set(id, proxy);
       //values.set(proxy, value);
@@ -668,13 +692,17 @@
 
     // TODO
     else if(contract instanceof OutContract) {
+print("OUTTTTTTTTTTTTTTT");
+      print(arg);
 
-      var result = translate(TreatJS.Polymorphism.verify(contract.id, arg));
+      var result = translate(contract.id===arg); //TreatJS.Polymorphism.verify(contract.id, arg));
+
+      print("+++++" + result);
+
       var handle = new Handle(TreatJS.Logic.True, result);
-
       callbackHandler(handle);
       
-      return TreatJS.Polymorphism.unwrap(arg);
+      return TreatJS.Polymorphism.reveal(arg); // todo
     }
 
     // ___               _ _              ___         _               _   
@@ -1036,12 +1064,33 @@
 
   // TODO - testing code
 
+ function ForallHandler(handler) {
+    if(!(this instanceof ForallHandler)) return new ForallHandler(handler);
+    else Handler.call(this);
+
+    this.has = function(target, name) {
+      print("@@@ HAS @@@ " + name + ":" + (typeof name));
+      return true;
+      //return (typeof name === "number") ? true : (name in target);
+    }
+
+    this.get = function(target, name, receiver) {
+      print("@@@ WRAP ARG @@@ " + name);
+      return (name==="length") ? target.length : {}; //new Proxy({}, new Proxy({}, new PolymorphicHandler(handler)));
+      //return target[name];
+      //return new Proxy({}, new Proxy({}, new PolymorphicHandler(handler)));
+    };
+  }
+  ForallHandler.prototype = Object.create(Handler.prototype);
+
+
   function PolymorphicHandler(handler) {
     if(!(this instanceof PolymorphicHandler)) return new PolymorphicHandler(handler);
     else Handler.call(this);
 
     this.get = function(target, name, receiver) {
-      handler( TreatJS.Callback.Handle(TreatJS.Logic.False, TreatJS.Logic.True));
+      print("@@@ TOUCHED @@@ " + name);
+      //handler( TreatJS.Callback.Handle(TreatJS.Logic.False, TreatJS.Logic.True));
     };
   }
   PolymorphicHandler.prototype = Object.create(Handler.prototype);
@@ -1125,9 +1174,6 @@
           return contract;
         }
       }
-
-
-
     }
 
 

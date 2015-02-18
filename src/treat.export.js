@@ -68,7 +68,10 @@
     make(Contract, "Set", TreatJS.Reflection.Set);
 
     // polymorphic
-    //make(Contract, "Variable", TreatJS.Polymorphic.Variable, _);
+    make(Contract, "In", TreatJS.Contract.In);
+    make(Contract, "Out", TreatJS.Contract.Out);
+    make(Contract, "Forall", TreatJS.Contract.Forall);
+
     // TODO, add more
 
     // util

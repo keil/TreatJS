@@ -15,8 +15,34 @@
 
 // ==================================================
 
-// test code for polymorphic contract
+// perfect style
+/*
+var idcon = Contract.Forall(function(x,y) {
+  return Contract.AFunction([x,y], x);
+});*/
 
+
+function id(arg1, arg2) {
+  var x = arg1 + arg2;
+  return (arg1===undefined) ? -1 : 1;
+}
+
+var idcon = Contract.Forall(Contract.Constructor(function(x,y) {
+  //print(y);
+  //print(arguments[0]);
+  //arguments[0].d;
+  //x.d;
+  return Contract.AFunction([Contract.In(x), Contract.In(y)], Contract.Out(x));
+}, "Forall", {print:print}));
+
+var cid = Contract.assert(id, idcon);
+cid(1,2);
+
+
+// test code for polymorphic contract
+/**
+ * OLD STYLE
+ 
 var X = TreatJS.Variable.Variable();
 var Y = TreatJS.Variable.Variable();
 var Z = TreatJS.Variable.Variable(); 
@@ -32,13 +58,20 @@ function id(x,y) {
 var idContracted = Contract.assert(id, idContract);
 idContracted(1,2);
 
+**/
+
 /*
   var x = Variable();
   var y = Variable();
   var z = Variable(); 
 */
 
+// TODO, verhindern dass es zu ueberschneidungen kommt.
+// 
 
+
+// delayed store -- for each call of the contract has to create a fresh abstraction
+// nested 
 
 
 
