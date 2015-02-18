@@ -21,8 +21,7 @@
   var Map = TreatJS.Map.Map;
   var StringMap = TreatJS.Map.StringMap;
 
-  // TODO
-  ///var Variable = TreatJS.Variable.Variable;
+  var Variable = TreatJS.Polymorphism.Variable;
 
   var Contract = TreatJS.Core.Contract;
 
@@ -370,8 +369,7 @@
   function InContract(id) {
     if(!(this instanceof InContract)) return new InContract(id);
 
-    // TODO
-    //if(!(id instanceof Variable)) error("Wrong Identifier", (new Error()).fileName, (new Error()).lineNumber);
+    if(!(id instanceof Variable)) error("Wrong Identifier", (new Error()).fileName, (new Error()).lineNumber);
 
     Object.defineProperties(this, {
       "id": {
@@ -392,8 +390,7 @@
   function OutContract(id) {
     if(!(this instanceof OutContract)) return new OutContract(id);
 
-    // TODO
-    //if(!(id instanceof Variable)) error("Wrong Identifier", (new Error()).fileName, (new Error()).lineNumber);
+    if(!(id instanceof Variable)) error("Wrong Identifier", (new Error()).fileName, (new Error()).lineNumber);
 
     Object.defineProperties(this, {
       "id": {
@@ -406,16 +403,10 @@
     return "(out(" + this.id.toString() + "))";
   };
 
-  
-  
-  
-// ___             _ _  ___         _               _   
-//| __|__ _ _ __ _| | |/ __|___ _ _| |_ _ _ __ _ __| |_ 
-//| _/ _ \ '_/ _` | | | (__/ _ \ ' \  _| '_/ _` / _|  _|
-//|_|\___/_| \__,_|_|_|\___\___/_||_\__|_| \__,_\__|\__|
-                                                     
-
-// TODO
+  // ___             _ _  ___         _               _   
+  //| __|__ _ _ __ _| | |/ __|___ _ _| |_ _ _ __ _ __| |_ 
+  //| _/ _ \ '_/ _` | | | (__/ _ \ ' \  _| '_/ _` / _|  _|
+  //|_|\___/_| \__,_|_|_|\___\___/_||_\__|_| \__,_\__|\__|
 
   function ForallContract(constructor) {
     if(!(this instanceof ForallContract)) return new ForallContract(constructor);
@@ -432,25 +423,6 @@
   ForallContract.prototype.toString = function() {
     return "(forall " + this.constructor.toString() + ")";
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   //         _               _ 
   // _____ _| |_ ___ _ _  __| |
@@ -480,10 +452,6 @@
 
   TreatJS.define(TreatJS.Contract, "In", InContract);
   TreatJS.define(TreatJS.Contract, "Out", OutContract);
-  // TODO, what happens if i use in and out without forall
-  // schoudnt these contracts be accassible only inside off forall
-  // if we say that the first access to a variable contract 
-  // sets the value, and each further acess verifys it
 
   TreatJS.define(TreatJS.Contract, "Forall", ForallContract);
 
