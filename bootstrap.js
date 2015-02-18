@@ -112,8 +112,7 @@ load("src/core/treat.logic.js");
 load("src/core/treat.callback.js");
 
 load("src/core/treat.map.js");
-load("src/core/treat.polymorphism2.js"); // Merge variable to
-// TODO
+load("src/core/treat.polymorphism.js");
 
 load("src/core/treat.contract.js");
 load("src/core/treat.constructor.js");

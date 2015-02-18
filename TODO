@@ -1,5 +1,8 @@
 ## Bugs ##
 
+* test delayed
+* frames / nesting
+
 Polymorphism  // TODO, what happens if i use in and out without forall
   // schoudnt these contracts be accassible only inside off forall
   // if we say that the first access to a variable contract 
