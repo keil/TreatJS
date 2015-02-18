@@ -1,5 +1,8 @@
 ## Bugs ##
 
+* define max number of arguments
+
+
 * isNaN overrides a global function in typedoctane
 ** use an export function that exports all predefined contracts in
 ** a special object (eg. contract(s) oder con)

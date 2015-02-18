@@ -25,7 +25,42 @@
   var CombinatorContract = TreatJS.Core.Combinator;
   var WrapperContract = TreatJS.Core.Wrapper;
 
-  // TODO
+  //__   __        _      _    _     
+  //\ \ / /_ _ _ _(_)__ _| |__| |___ 
+  // \ V / _` | '_| / _` | '_ \ / -_)
+  //  \_/\__,_|_| |_\__,_|_.__/_\___|
+
+  function Variable() {
+    if(!(this instanceof Variable)) return new Variable();
+  }
+  Variable.prototype = {};
+  Variable.prototype.toString = function() {
+    return "$"+this.id; 
+  }
+
+  // generates a fresh id for each variable 
+  Object.defineProperty(Variable.prototype, "id", {
+    get: (function() {
+      var i = 0;
+
+      function makeID() {
+        i = i+1;
+        return i;
+      }
+
+      return function() {
+        var id = makeID();
+        Object.defineProperty(this, "id", {value: id});
+        return id;
+      };
+    })()
+  });
+
+// ___         _                            _   
+//| __|_ ___ _(_)_ _ ___ _ _  _ __  ___ _ _| |_ 
+//| _|| ' \ V / | '_/ _ \ ' \| '  \/ -_) ' \  _|
+//|___|_||_\_/|_|_| \___/_||_|_|_|_\___|_||_\__|
+
 
   var env = new WeakMap();
 
@@ -41,9 +76,15 @@
     return (env.get(id).proxy===proxy);
   }
 
+  // TODO, check geht if exists
+  // add log messages
+  //
+
   function reveal(id) {
     return env.get(id).target;
   }
+
+
 
 
 
@@ -194,7 +235,6 @@
 
 
 
-
   //         _               _ 
   // _____ _| |_ ___ _ _  __| |
   /// -_) \ /  _/ -_) ' \/ _` |
@@ -205,5 +245,9 @@
   TreatJS.define(TreatJS.Polymorphism, "conceal", conceal);
   TreatJS.define(TreatJS.Polymorphism, "verify", verify);
   TreatJS.define(TreatJS.Polymorphism, "reveal", reveal);
+
+    TreatJS.define(TreatJS.Polymorphism, "Variable", Variable);
+
+
 
 })(TreatJS);

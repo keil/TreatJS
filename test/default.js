@@ -21,22 +21,30 @@ var idcon = Contract.Forall(function(x,y) {
   return Contract.AFunction([x,y], x);
 });*/
 
+// TODO, define number of arguments
+
+
 
 function id(arg1, arg2) {
-  var x = arg1 + arg2;
-  return (arg1===undefined) ? -1 : 1;
+  //var notallowed = arg1+arg2;
+  //arg1.x;
+  //print("===================>" + arg1);
+  
+  arg2=arg1;
+  return arg2;
 }
 
 var idcon = Contract.Forall(Contract.Constructor(function(x,y) {
-  //print(y);
-  //print(arguments[0]);
-  //arguments[0].d;
-  //x.d;
   return Contract.AFunction([Contract.In(x), Contract.In(y)], Contract.Out(x));
-}, "Forall", {print:print}));
+}, "Forall/Polymorphism", {print:print}));
 
 var cid = Contract.assert(id, idcon);
 cid(1,2);
+
+
+
+
+
 
 
 // test code for polymorphic contract
