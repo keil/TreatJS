@@ -24,7 +24,7 @@ var Z = TreatJS.Variable.Variable();
 var idContract = Contract.AFunction([TreatJS.Contract.In(X),TreatJS.Contract.In(Y)], TreatJS.Contract.Out(X));
 
 function id(x,y) {
-  var z = x+y;
+  //var z = x+y;
   y=x;
   return y;
 }

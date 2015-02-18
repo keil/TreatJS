@@ -19,6 +19,13 @@
   var violation = TreatJS.violation;
   var blame = TreatJS.blame;
 
+  // core contracts
+  var ImmediateContract = TreatJS.Core.Immediate;
+  var DelayedContract = TreatJS.Core.Delayed;
+  var CombinatorContract = TreatJS.Core.Combinator;
+  var WrapperContract = TreatJS.Core.Wrapper;
+
+
   //__   __        _      _    _     
   //\ \ / /_ _ _ _(_)__ _| |__| |___ 
   // \ V / _` | '_| / _` | '_ \ / -_)
@@ -67,7 +74,7 @@
 
   }
   Frame.prototype = Object.create(Array.prototype);
-  Frame.prototype = ;
+  //Frame.prototype = ;
 
 
 //  function last()
@@ -78,7 +85,7 @@
 
   function set(variable, proxy, value) {
     var frame = lookup(varibale); 
-    if(frame)) {
+    if(frame) {
       frame.set(variable, {proxy:proxy, value:value});
     } else {
       error("Wrong Variable Abstration", (new Error()).fileName, (new Error()).lineNumber);
@@ -87,7 +94,7 @@
 
 
   function lookup(variable) {
-      for(var i = frames.length-1; i>=0, i--) {
+      for(var i = frames.length-1; i>=0; i--) {
         if(frames[i].has(variable)) return frames[i];
       }
       return undefined;
@@ -136,7 +143,7 @@
       }
     });
   }
-  ForallContract.prototype = Object.create(WrapperContract.prototype);
+  ForallContract.prototype = Object.create(DelayedContract.prototype); // TODO delayed or wrapper ?
   ForallContract.prototype.toString = function() {
     return "(forall " + this.variables + "." + contract + ")";
   }
