@@ -48,7 +48,9 @@
 
     make(Contract, "Reflection", TreatJS.Contract.Reflection);
 
-    //__define("Polymorphic", TreatJS.Polymorphic, _);
+    make(Contract, "In", TreatJS.Contract.In);
+    make(Contract, "Out", TreatJS.Contract.Out);
+    make(Contract, "Forall", TreatJS.Contract.Forall);
 
     make(Contract, "Constructor", TreatJS.Constructor.Constructor);
 
@@ -63,16 +65,11 @@
 
     make(Contract, "SDependent", TreatJS.Convenience.SDependent);
 
+    make(Contract, "SForall", TreatJS.Convenience.SForall);
+
     // reflection     
     make(Contract, "Get", TreatJS.Reflection.Get);
     make(Contract, "Set", TreatJS.Reflection.Set);
-
-    // polymorphic
-    make(Contract, "In", TreatJS.Contract.In);
-    make(Contract, "Out", TreatJS.Contract.Out);
-    make(Contract, "Forall", TreatJS.Contract.Forall);
-
-    // TODO, add more
 
     // util
     make(Contract, "StringMap", TreatJS.Map.StringMap);
