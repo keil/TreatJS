@@ -1,23 +1,10 @@
 ## Bugs ##
 
-* test delayed
-* frames / nesting
-
-Polymorphism  // TODO, what happens if i use in and out without forall
-  // schoudnt these contracts be accassible only inside off forall
-  // if we say that the first access to a variable contract 
-  // sets the value, and each further acess verifys it
-
-* define max number of arguments
-
-
 * isNaN overrides a global function in typedoctane
 ** use an export function that exports all predefined contracts in
 ** a special object (eg. contract(s) oder con)
 
 ## Features ##
-
-* Polymorphic Contracts
 
 * Access Permission Contracts
 
@@ -32,24 +19,17 @@ Polymorphism  // TODO, what happens if i use in and out without forall
 
 * Definition of Not/ Negation
 
-* Not/ Negation
-
 ## Minor Tasks ##
-
-* Add new Contracts to Canonicalize
-
-* Add new Contracts to export/build 
 
 * Documentation and Webpage
 
 * Benchmarks
+
 ** Run typed-ocaten without print output
 ** merge benchmark results
+
+** Run benchmark without predicate evaluation
 
 * Add header to all test/example files
 
 ## Test ##
-
-Teste Delayed handler and Obect contracts ?
-
-
