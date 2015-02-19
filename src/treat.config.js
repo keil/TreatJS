@@ -72,6 +72,9 @@
   //| '  \/ _ \/ _` / -_)
   //|_|_|_\___/\__,_\___|
 
+  // max number of polymorphic arguments
+  var DEFAULT_MAXARGS = 8;
+
   // use newGlobal in sandbox
   var DEFAULT_NEWGLOBAL = false;
 
@@ -91,10 +94,15 @@
   var DEFAULT_EXCEPTIONSPASSTHROUGH = true;
 
   Object.defineProperties(Config, {
+    "maxArgs": {
+      value: ((TreatJS.configuration.maxArgs===undefined) ? 
+              DEFAULT_MAXARGS : TreatJS.configuration.maxArgs),
+        enumerable: true
+    },
     "newGlobal": {
       value: ((TreatJS.configuration.newGlobal===undefined) ? 
               DEFAULT_NEWGLOBAL : TreatJS.configuration.newGlobal),
-        enumerable: true
+      enumerable: true
     },
     "nativePassThrough":  { 
       value: ((TreatJS.configuration.nativePassThrough===undefined) ? 
