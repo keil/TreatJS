@@ -94,6 +94,9 @@ run("test/callback/context.js");
 // subset semantics
 run("test/callback/subset.js");
 
+// polymorphism/ forall 
+run("test/contract/polymorphism.js");
+
 TreatJS.Version.print();
 TreatJS.Config.print();
 TreatJS.Statistic.print();
