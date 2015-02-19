@@ -26,3 +26,6 @@
 ** Run benchmark without predicate evaluation
 
 ## Test ##
+
+* Combination of Forall and Function Contracts
+** Forall x.X->x *and* (Num->Num) ->  (Num->Num)
