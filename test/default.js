@@ -15,10 +15,71 @@
 
 // ==================================================
 
+(function() {
+
+  function id(x) {
+    return x;
+  }
+
+  function f (x, y) {
+    return y;
+  }
+
+  var NumNum = Contract.AFunction([typeOfNumber], typeOfNumber);
+
+  var False = Contract.Base(function() {return false; }, "False");
+
+  var Negation = Contract.AFunction([NumNum], False);
+
+  var idn = Contract.assert(id, Negation);
+
+  //var g = idn(f); // domain: undefined, range: false
+
+  //g(1,1); 
+  //g(1,"1");
+  //g("1",1);
+  //g("1","1");
+
+})();
+
+
+(function() {
+
+  function id(x) {
+    return x;
+  }
+
+  function f (x, y) {
+    return y;
+  }
+
+  var NumNum = Contract.AFunction([typeOfNumber], typeOfNumber);
+
+  var True = Contract.Base(function() {return true; }, "True");
+  var False = Contract.Base(function() {return false; }, "False");
+
+  var Negation = Contract.Intersection(Contract.AFunction([NumNum], False), True);
+
+  var idn = Contract.assert(id, Negation);
+
+  var g = idn(f); // domain: undefined, range: false
+
+  //g(1,1); 
+  //g(1,"1");
+  //g("1",1);
+  //g("1","1");
+
+})();
+
+
+// ==================================================
+
 // subset semantics
 // run("test/callback/subset.js");
 
 // ==================================================
+
+(function() {
 
 // f : [[Even]->Even] -> Even \cap [[Pos]->Pos] -> Pos
 function f ( g ) {
@@ -52,7 +113,7 @@ function inc (add1) {
   return add1(plus);
 }
 
-
+});
 
 // ==================================================
 
