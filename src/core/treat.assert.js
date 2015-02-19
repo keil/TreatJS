@@ -55,11 +55,8 @@
   var InContract = TreatJS.Contract.In;
   var OutContract = TreatJS.Contract.Out;
 
+  // Variable
   var Variable = TreatJS.Polymorphism.Variable;
-
-  // TODO, experimental
-  //var VariableContract = TreatJS.Polymorphic.Variable;
-  //var ContractContract = TreatJS.Polymorphic.Abstraction;
 
   // core constuctors
   var ContractConstructor = TreatJS.Constructor.Constructor;
@@ -650,22 +647,18 @@
 
 
     else if(contract instanceof ForallContract) {
-      // TODO, defualt length
-      
-      var args = new Proxy({length:2}, new ForallHandler(callbackHandler));
-      var contract = constructContract(contract.constructor, args, global);
-      
-      return assertWith(arg, contract, global, callbackHandler);
+      if(!(arg instanceof Function)) callbackHandler(Handle(TreatJS.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
+
+      var handler = new ForallHandler(contract, global, callbackHandler);
+      var proxy = new Proxy(arg, handler);
+      return proxy;
     }
-
-
 
     // ___      
     //|_ _|_ _  
     // | || ' \ 
     //|___|_||_|
 
-    // TODO
     else if(contract instanceof InContract) {
       var proxy = new Proxy({}, new Proxy({}, new PolymorphicHandler(callbackHandler)));
       TreatJS.Polymorphism.conceal(contract.id, proxy, arg);
@@ -677,12 +670,11 @@
     //| (_) | || |  _|
     // \___/ \_,_|\__|
 
-    // TODO
     else if(contract instanceof OutContract) {
       var result = translate(TreatJS.Polymorphism.verify(contract.id, arg));
       var handle = new Handle(TreatJS.Logic.True, result);
       callbackHandler(handle);
-      
+
       return TreatJS.Polymorphism.reveal(contract.id); // todo
     }
 
@@ -780,7 +772,7 @@
       } finally {
 
         // pop context
-        popContext(); // TODO
+        popContext(); 
 
         if(result instanceof Error) {
           throw result;
@@ -1043,33 +1035,45 @@
   //|_| \___/_|\_, |_|_|_\___/_| | .__/_||_|_/__/_|_|_|_||_\__,_|_||_\__,_|_\___|_|  
   //           |__/              |_|                                                 
 
-  // TODO - testing code
-
- function ForallHandler(handler) {
-    if(!(this instanceof ForallHandler)) return new ForallHandler(handler);
+  function ForallHandler(forall, global, handler) {
+    if(!(this instanceof ForallHandler)) return new ForallHandler(contract, global, handler);
     else Handler.call(this);
 
-    this.has = function(target, name) {
-      return true;
-      //return (typeof name === "number") ? true : (name in target);
-    }
+    this.apply = function(target, thisArg, args) {
+      var variables = new Proxy({length:TreatJS.Config.maxArgs}, new VariableHandler(handler));
+      var contract = constructContract(forall.constructor, variables, global);
+      var contracted = assertWith(target, contract, global, handler);
 
-    this.get = function(target, name, receiver) {
-      return (name==="length") ? target.length : new Variable(); //new Proxy({}, new Proxy({}, new PolymorphicHandler(handler)));
-      //return target[name];
-      //return new Proxy({}, new Proxy({}, new PolymorphicHandler(handler)));
+      return contracted.apply(thisArg, args);
+    };
+    this.construct = function(target, args) {
+      var obj = Object.create(target.prototype);
+      this.apply(target, this, args);
+      return obj;
     };
   }
   ForallHandler.prototype = Object.create(Handler.prototype);
 
+  function VariableHandler(handler) {
+    if(!(this instanceof VariableHandler)) return new VariableHandler(handler);
+    else Handler.call(this);
+
+    this.has = function(target, name) {
+      return true;
+    }
+
+    this.get = function(target, name, receiver) {
+      return (name==="length") ? target.length : new Variable();
+    };
+  }
+  VariableHandler.prototype = Object.create(Handler.prototype);
 
   function PolymorphicHandler(handler) {
     if(!(this instanceof PolymorphicHandler)) return new PolymorphicHandler(handler);
     else Handler.call(this);
 
     this.get = function(target, name, receiver) {
-      print("@@@ TOUCHED @@@ " + name);
-      handler( TreatJS.Callback.Handle(TreatJS.Logic.False, TreatJS.Logic.True));
+      handler(TreatJS.Callback.Handle(TreatJS.Logic.False, TreatJS.Logic.True));
     };
   }
   PolymorphicHandler.prototype = Object.create(Handler.prototype);
@@ -1104,12 +1108,8 @@
     // \___\___/_||_\__|_| \__,_\__|\__|\___\___/_||_/__/\__|_|  \_,_\__|\__\___/_|  
 
     if(constructor instanceof ContractConstructor) {
-      // BASE CNTRACT
-
-      // TODO
       var newglobal = (constructor.binding!==undefined) ? global.merge(constructor.binding) : global;   
       var globalArg = newglobal.dump(); 
-      //var globalArg = global.dump(); // TODO
       var thisArg = undefined;
       var argsArray = args;
 
@@ -1127,7 +1127,6 @@
       globalArg["Contract"] = contract;
 
       // push new context
-      //if (TreatJS.Config.semantics===TreatJS.INDY) // TODO 
       pushContext(constructor);
 
       try {
@@ -1143,8 +1142,7 @@
       } finally {
 
         // pop context
-        //if (TreatJS.Config.semantics===TreatJS.INDY)
-        popContext(); // TODO
+        popContext(); 
 
         if(contract instanceof Error) {
           throw contract;
@@ -1155,72 +1153,12 @@
       }
     }
 
-
-
-    // ___                         _       _     ___         _               _   
-    //| _ \__ _ _ _ __ _ _ __  ___| |_ _ _(_)__ / __|___ _ _| |_ _ _ __ _ __| |_ 
-    //|  _/ _` | '_/ _` | '  \/ -_)  _| '_| / _| (__/ _ \ ' \  _| '_/ _` / _|  _|
-    //|_| \__,_|_| \__,_|_|_|_\___|\__|_| |_\__|\___\___/_||_\__|_| \__,_\__|\__|
-
-    if(contract instanceof ParametricContract) {
-      //if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
-      // TODO, this must be a contract
-
-      //var handler = new MethodHandler(contract, global, callbackHandler);
-      //var proxy = new Proxy(arg, handler);
-      //return proxy;
-      return undefined;
-    } 
-
-    //__   __        _      _    _      ___         _               _   
-    //\ \ / /_ _ _ _(_)__ _| |__| |___ / __|___ _ _| |_ _ _ __ _ __| |_ 
-    // \ V / _` | '_| / _` | '_ \ / -_) (__/ _ \ ' \  _| '_/ _` / _|  _|
-    //  \_/\__,_|_| |_\__,_|_.__/_\___|\___\___/_||_\__|_| \__,_\__|\__|
-
-    if(constructor instanceof VariableContract) {
-      print(constructor);
-      print(args[constructor]);
-      return args[constructor]; // TODO test
-    }
-
-    /*
-    // ___      ___         _               _   
-    //|_ _|_ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
-    // | || ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
-    //|___|_||_\___\___/_||_\__|_| \__,_\__|\__|
-
-    if(contract instanceof InContract) {
-    //if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
-
-    //var handler = new MethodHandler(contract, global, callbackHandler);
-    //var proxy = new Proxy(arg, handler);
-    //return proxy;
-    return undefined;
-    }
-
-    //  ___       _    ___         _               _   
-    // / _ \ _  _| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
-    //| (_) | || |  _| (__/ _ \ ' \  _| '_/ _` / _|  _|
-    // \___/ \_,_|\__|\___\___/_||_\__|_| \__,_\__|\__|
-
-    if(contract instanceof OutContract) {
-    //if(!(arg instanceof Object)) callbackHandler(Handle(_.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
-
-    //var handler = new MethodHandler(contract, global, callbackHandler);
-    //var proxy = new Proxy(arg, handler);
-    //return proxy;
-    return undefined;
-    }
-    */
-
-
     //    _      __           _ _   
     // __| |___ / _|__ _ _  _| | |_ 
     /// _` / -_)  _/ _` | || | |  _|
     //\__,_\___|_| \__,_|\_,_|_|\__|
 
     else error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
-
   }
 
   //       _                              _               _      
@@ -1229,7 +1167,7 @@
   //|_|_|_|_|_| |_| \___/_|   \__\___/_||_\__\__,_|_| \__|\__/__/
 
   function mirrorPickyFunction(origin, target) {
-    log("mirror function contract", "(picky semanticts)");
+    log("mirror function", "(picky semanticts)");
     if(!ccache.has(origin)) return target;
 
     var assertion = ccache.get(origin);
@@ -1239,7 +1177,7 @@
   }
 
   function mirrorIndyFunction(origin, target) {
-    log("mirror function contract", "(indy semanticts)");
+    log("mirror function", "(indy semanticts)");
     if(!ccache.has(origin)) return target;
 
     var assertion = ccache.get(origin);
@@ -1252,7 +1190,7 @@
   }
 
   function mirrorLaxObject(origin) {
-    log("mirror object contract", "(lax semanticts)");
+    log("mirror object", "(lax semanticts)");
     if(!ccache.has(origin)) return origin;
 
     var assertion = ccache.get(origin);
@@ -1300,20 +1238,5 @@
 
   TreatJS.extend("contractOf", contractOf);
   TreatJS.extend("contracted", contracted);
-
-  // Handler
-  TreatJS.extend("Handler", {});
-
-  TreatJS.define(TreatJS.Handler, "Delayed", DelayedHandler);
-
-  TreatJS.define(TreatJS.Handler, "Function", FunctionHandler);
-  TreatJS.define(TreatJS.Handler, "Method", MethodHandler);
-  TreatJS.define(TreatJS.Handler, "Dependent", DependentHandler);
-  TreatJS.define(TreatJS.Handler, "Object", ObjectHandler);
-
-  /// TODO
-  //TreatJS.define(TreatJS.Handler, "Reflection", ReflectionHandler);
-  //TreatJS.define(TreatJS.Handler, "NoOp", NoOpHandler);
-  //TreatJS.define(TreatJS.Handler, "Polymorphic", PolymorphicHandler);
 
 })(TreatJS);

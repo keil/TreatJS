@@ -31,6 +31,8 @@
 
   var WithContract = TreatJS.Contract.With;
 
+  var ForallContract = TreatJS.Contract.Forall;
+
   // constructors
   var ContractConstructor = TreatJS.Constructor.Constructor;
 
@@ -144,6 +146,18 @@
   }
   SimpleDependentContract.prototype = Object.create(DependentContract.prototype);
 
+  // ___             _ _  ___         _               _   
+  //| __|__ _ _ __ _| | |/ __|___ _ _| |_ _ _ __ _ __| |_ 
+  //| _/ _ \ '_/ _` | | | (__/ _ \ ' \  _| '_/ _` / _|  _|
+  //|_|\___/_| \__,_|_|_|\___\___/_||_\__|_| \__,_\__|\__|
+
+  function SimpleForallContract(constructor) {
+    if(!(this instanceof SimpleForallContract)) return new SimpleForallContract(constructor);
+
+    ForallContract.call(this, ContractConstructor(constructor, ""));
+  }
+  SimpleForallContract.prototype = Object.create(ForallContract.prototype);
+
   //         _               _ 
   // _____ _| |_ ___ _ _  __| |
   /// -_) \ /  _/ -_) ' \/ _` |
@@ -160,5 +174,7 @@
   TreatJS.define(TreatJS.Convenience, "SMethod", SimpleMethodContract);
 
   TreatJS.define(TreatJS.Convenience, "SDependent", SimpleDependentContract);
+
+  TreatJS.define(TreatJS.Convenience, "SForall", SimpleForallContract);
 
 })(TreatJS);
