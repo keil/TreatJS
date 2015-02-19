@@ -15,99 +15,10 @@
 
 // ==================================================
 
-// perfect style
-/*
-var idcon = Contract.Forall(function(x,y) {
-  return Contract.AFunction([x,y], x);
-});*/
-
-// TODO, define number of arguments
-
-
-
-function id(arg1, arg2) {
-  //var notallowed = arg1+arg2;
-  //arg1.x;
-  //print("===================>" + arg1);
-  
-  arg2=arg1;
-  return arg2;
-}
-
-var idcon = Contract.Forall(Contract.Constructor(function(x,y) {
-  return Contract.AFunction([Contract.In(x), Contract.In(y)], Contract.Out(x));
-}, "Forall/Polymorphism", {print:print}));
-
-var cid = Contract.assert(id, idcon);
-cid(1,2);
-
-
-
-
-
-
-
-// test code for polymorphic contract
-/**
- * OLD STYLE
- 
-var X = TreatJS.Variable.Variable();
-var Y = TreatJS.Variable.Variable();
-var Z = TreatJS.Variable.Variable(); 
-
-var idContract = Contract.AFunction([TreatJS.Contract.In(X),TreatJS.Contract.In(Y)], TreatJS.Contract.Out(X));
-
-function id(x,y) {
-  //var z = x+y;
-  y=x;
-  return y;
-}
-
-var idContracted = Contract.assert(id, idContract);
-idContracted(1,2);
-
-**/
-
-/*
-  var x = Variable();
-  var y = Variable();
-  var z = Variable(); 
-*/
-
-// TODO, verhindern dass es zu ueberschneidungen kommt.
-// 
-
-
-// delayed store -- for each call of the contract has to create a fresh abstraction
-// nested 
-
-
-
-// ==================================================
-
 // subset semantics
 // run("test/callback/subset.js");
 
 // ==================================================
-
-(function() {
-
-  function f (x, y) {
-    return ""+(x+y);
-  }
-
-  var plus = Contract.assert(f,
-    Contract.Intersection(
-      Contract.AFunction([typeOfNumber,typeOfNumber], typeOfNumber),
-      Contract.AFunction([typeOfString,typeOfString], typeOfString)
-      )
-    );
-
-  plus("1", "2");
-  //plus(1, 2);
-
-});
-
 
 // ==================================================
 
