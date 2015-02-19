@@ -12,11 +12,6 @@
 
 ## Major Tasks ##
 
-* New Style of Function decompilation
-** Real Dynamic handler
-** Bindings in Constructor
-** Solve TODO in Sandbox Contract
-
 * Definition of Not/ Negation
 
 ## Minor Tasks ##
@@ -29,7 +24,5 @@
 ** merge benchmark results
 
 ** Run benchmark without predicate evaluation
-
-* Add header to all test/example files
 
 ## Test ##
