@@ -78,7 +78,7 @@ var TreatJS = new TreatJS({
 },{
   /** Print contract assertions
    * (default: false)
-   */assert: true,
+   */assert: false,
   /** Print sandbox operations
    * (default: false)
    */sandbox: false,
@@ -118,7 +118,7 @@ load("src/core/treat.contract.js");
 load("src/core/treat.constructor.js");
 
 load("src/core/treat.canonicalize.js");
-load("src/core/treat.assert.js"); // TODO, cleanup/ new features
+load("src/core/treat.assert.js");
 
 // convenience api
 load("src/treat.convenience.js");
