@@ -105,8 +105,6 @@
 
 })();
 
-// TODO, parametric/polymorphic contracts
-
 (function() {
 
   // damaged plus function that does NOT fulfill the 
@@ -192,4 +190,3 @@
   });
 
 })();
-

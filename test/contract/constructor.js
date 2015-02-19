@@ -267,3 +267,71 @@
   Contract.assert(4711, Contract.With({Array:Array}, contract));
   //Contract.assert(4711, contract);
 })();
+
+(function() {
+
+  var TypeOf = Contract.Constructor(function(type) {
+    var typeOf = Contract.Base(function(arg) {
+      return ((typeof arg)===type);
+    }, "typeOf");
+    return typeOf;
+  }, "TypeOf");
+
+  Contract.assert(1, TypeOf.construct('number'));
+  //Contract.assert(true, TypeOf.construct('number'));
+
+  dunit.assertNoBlame(function() {
+    Contract.assert(1, TypeOf.construct('number'));
+  });
+  dunit.assertSubjectBlame(function() {
+    Contract.assert(true, TypeOf.construct('number'));
+  });
+
+});
+
+(function() {
+
+  var TypeOf = Contract.Constructor(function() {
+    var typeOf = Contract.Base(function(arg) {
+      return ((typeof arg)===type);
+    }, "typeOf");
+    return typeOf;
+  }, "TypeOf", {type:"number"});
+
+  Contract.assert(1, TypeOf.construct());
+  //Contract.assert(1, TypeOf.construct());
+
+  dunit.assertNoBlame(function() {
+    Contract.assert(1, TypeOf.construct());
+  });
+  dunit.assertSubjectBlame(function() {
+    Contract.assert(true, TypeOf.construct());
+  });
+
+});
+
+(function() {
+
+  var TypeOf = Contract.Constructor(function() {
+    var typeOf = Contract.Base(function(arg) {
+      return ((typeof arg)===type);
+    }, "typeOf");
+    return typeOf;
+  }, "TypeOf");
+
+  var typeOf = TypeOf.construct();
+
+  Contract.assert(1, Contract.With({type:"number"}, typeOf));
+  Contract.assert(1, Contract.With({type:"number"}, typeOf));
+
+  Contract.assert(1, Contract.With({type:"number"}, TypeOf.construct()));
+  //Contract.assert(true, Contract.With({type:"number"}, TypeOf.construct()));
+
+  dunit.assertNoBlame(function() {
+    Contract.assert(1, Contract.With({type:"number"}, TypeOf.construct()));
+  });
+  dunit.assertSubjectBlame(function() {
+    Contract.assert(true, Contract.With({type:"number"}, TypeOf.construct()));
+  });
+
+})();

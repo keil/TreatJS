@@ -692,9 +692,14 @@
 
       var callback = BaseCallback(callbackHandler, contract);
 
-      // TODO, why is this required ?
-      // without new decompiling with would not work!
-      // clone object
+      /* Clone Operation
+       * This steps copies values defined in the global object.
+       *
+       * The contract.global is the global object of the sandbox.
+       * There is no fresh decompilation. For this reason, the only way to extend 
+       * variables is to extend the sandbox global. But this step has to be rolled 
+       * back after predicate evaluation.
+       */
       function clone(obj) {
         var tmp = {};
         for(var property in obj) tmp[property] = obj[property];
