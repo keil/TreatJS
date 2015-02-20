@@ -42,7 +42,7 @@
   var evenC = Contract.assert( function (x) { // @ Num -> Bool
     if(x==0) return true;
     else return oddC(x-1);
-  }, Contract.AFunction([typeOfNumber], typeOfBoolean));;
+  }, Contract.AFunction([typeOfNumber], typeOfBoolean));
 
   var oddC = Contract.assert( function (x) { // @ Num -> Bool
     if(x==0) return false;
