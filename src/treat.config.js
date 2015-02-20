@@ -33,6 +33,8 @@
   var DEFAULT_CANONICALIZE = true;
   // callback updates
   var DEFAULT_CALLBACK     = true;
+  // predicate evaluation
+  var DEFAULT_PREDICATE    = true;
 
   Object.defineProperties(Config, {
     "semantics": {
@@ -63,6 +65,11 @@
     "callback": {
       value: ((TreatJS.configuration.callback===undefined) ? 
               DEFAULT_CALLBACK : TreatJS.configuration.callback), 
+      enumerable: true
+    },
+     "predicate": {
+      value: ((TreatJS.configuration.predicate===undefined) ? 
+              DEFAULT_PREDICATE : TreatJS.configuration.predicate), 
       enumerable: true
     }
   });

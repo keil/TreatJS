@@ -721,7 +721,11 @@
       pushContext(contract);
 
       try {
-        var result = translate(contract.predicate.apply(thisArg, argsArray));
+        if(TreatJS.Config.predicate) {
+          var result = translate(contract.predicate.apply(thisArg, argsArray));
+        } else {
+          var result = translate(true);
+        }
       } catch (e) {
         if(e instanceof TreatJSError) {
           var result = e;
@@ -765,7 +769,11 @@
       pushContext(contract);
 
       try {
-        var result = translate(TreatJS.eval(contract.predicate, globalArg, thisArg, argsArg));
+        if(TreatJS.Config.predicate) {
+          var result = translate(TreatJS.eval(contract.predicate, globalArg, thisArg, argsArg));
+        } else {
+          var result = translate(true);
+        }
       } catch (e) { 
         if(e instanceof TreatJSError) {
           var result = e;
