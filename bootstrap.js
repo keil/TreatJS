@@ -69,6 +69,9 @@ var TreatJS = new TreatJS({
   /** Enable callback updates
    * (default: true)
    */callback: true,
+  /** Enable predicate evaluation
+   * (default: true)
+   */predicate: true,
   /** Enable contract normalization
    * (default: true)
    */canonicalize: true,
