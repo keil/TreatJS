@@ -29,3 +29,6 @@
 
 * Combination of Forall and Function Contracts
 ** Forall x.X->x *and* (Num->Num) ->  (Num->Num)
+
+* Test run time difference of new version
+** Flag for predicate evaluation

@@ -60,9 +60,9 @@
 
   var Negation = Contract.Intersection(Contract.AFunction([NumNum], False), True);
 
-  var idn = Contract.assert(id, Negation);
+  //var idn = Contract.assert(id, Negation);
 
-  var g = idn(f); // domain: undefined, range: false
+  //var g = idn(f); // domain: undefined, range: false
 
   //g(1,1); 
   //g(1,"1");
