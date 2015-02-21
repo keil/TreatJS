@@ -1,5 +1,10 @@
 ## Bugs ##
 
+* TODO, in case that the polymorphis argument is of type function
+** than use a function as dummp type
+** use the same abstraction mechanism as used in sbx to 
+** create pseudo object
+
 * isNaN overrides a global function in typedoctane
 ** use an export function that exports all predefined contracts in
 ** a special object (eg. contract(s) oder con)

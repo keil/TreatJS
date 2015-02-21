@@ -15,6 +15,161 @@
 
 // ==================================================
 
+
+
+(function() {
+
+  // damaged plus function that does NOT fulfill the 
+  // intersection Num x Num -> Num \cap Str x Str -> Str
+  function dplus (x, y) {
+    return ""+(x+y);
+  }
+
+  function id (arg) {
+          //return 7;
+          //print(arg);
+    return arg;
+  }
+
+  var plusNum = Contract.AFunction([typeOfNumber,typeOfNumber], typeOfNumber);
+  var plusStr = Contract.AFunction([typeOfString,typeOfString], typeOfString);
+  var plusNumStr = Contract.Intersection(plusNum, plusStr);
+
+
+  var idCon = Contract.Forall(Contract.Constructor(function(x) {
+          return Contract.AFunction([Contract.In(x)], Contract.Out(x));
+  }, "Id/Polymorphism"));
+  var idPlus = Contract.AFunction([plusNum], plusNum);
+
+  var cid = Contract.assert(id, Contract.And(idCon, idPlus)); 
+                  //);
+ 
+  //var idNum = idnum(dplus);
+ 
+  var plus = cid(dplus);
+  //plus(1,2);
+  
+
+})();
+
+
+(function() {
+
+  // damaged plus function that does NOT fulfill the 
+  // intersection Num x Num -> Num \cap Str x Str -> Str
+  function dplus (x, y) {
+    return ""+(x+y);
+  }
+
+  function id (arg) {
+          //return 7;
+          //print(arg);
+    return arg;
+  }
+
+  var plusNum = Contract.AFunction([typeOfNumber,typeOfNumber], typeOfNumber);
+  var plusStr = Contract.AFunction([typeOfString,typeOfString], typeOfString);
+  var plusNumStr = Contract.Intersection(plusNum, plusStr);
+
+
+  var idCon = Contract.Forall(Contract.Constructor(function(x) {
+          return Contract.AFunction([Contract.In(x)], Contract.Out(x));
+  }, "Id/Polymorphism"));
+  var idPlus = Contract.AFunction([plusNumStr], plusNumStr);
+
+  var cid = Contract.assert(id, Contract.And(idCon, idPlus)); 
+                  //);
+ 
+  //var idNum = idnum(dplus);
+ 
+  var plus = cid(dplus);
+  plus("1","2");
+  
+
+})();
+
+// ==================================================
+
+// TODO, intersection AND Forall not possible because the
+// range contract changes the value.
+// tehrefore, the validation hast to compare the raw values
+
+(function() {
+
+  // damaged plus function that does NOT fulfill the 
+  // intersection Num x Num -> Num \cap Str x Str -> Str
+  function dplus (x, y) {
+    return ""+(x+y);
+  }
+
+  function id (arg) {
+          //return 7;
+          //print(arg);
+    return arg;
+  }
+
+  var plusNum = Contract.AFunction([typeOfNumber,typeOfNumber], typeOfNumber);
+  var plusStr = Contract.AFunction([typeOfString,typeOfString], typeOfString);
+  var plusNumStr = Contract.Intersection(plusNum, plusStr);
+
+
+  var idCon = Contract.Forall(Contract.Constructor(function(x) {
+          return Contract.AFunction([Contract.In(x)], Contract.Out(x));
+  }, "Id/Polymorphism"));
+  var idPlus = Contract.AFunction([plusNum], plusNum);
+
+  var cid = Contract.assert(id, Contract.And(idPlus, idCon)); 
+                  //);
+ 
+  //var idNum = idnum(dplus);
+ 
+  //var plus = cid(dplus);
+  //plus(1,2);
+  
+
+})();
+
+
+(function() {
+
+  // damaged plus function that does NOT fulfill the 
+  // intersection Num x Num -> Num \cap Str x Str -> Str
+  function dplus (x, y) {
+    return ""+(x+y);
+  }
+
+  function id (arg) {
+          //return 7;
+          //print(arg);
+    return arg;
+  }
+
+  var plusNum = Contract.AFunction([typeOfNumber,typeOfNumber], typeOfNumber);
+  var plusStr = Contract.AFunction([typeOfString,typeOfString], typeOfString);
+  var plusNumStr = Contract.Intersection(plusNum, plusStr);
+
+
+  var idCon = Contract.Forall(Contract.Constructor(function(x) {
+          return Contract.AFunction([Contract.In(x)], Contract.Out(x));
+  }, "Id/Polymorphism"));
+  var idPlus = Contract.AFunction([plusNumStr], plusNumStr);
+
+  var cid = Contract.assert(id, Contract.And(idPlus, idCon)); 
+                  //);
+ 
+  //var idNum = idnum(dplus);
+ 
+  var plus = cid(dplus);
+  //plus("1","2");
+  
+
+})();
+
+
+
+
+// ==================================================
+
 (function() {
 
   function id(x) {
