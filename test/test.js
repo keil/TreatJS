@@ -38,6 +38,7 @@ run("test/contract/abstraction.js");
 // sandbox tests
 run("test/sandbox/sandbox.js");
 run("test/sandbox/bind.js");
+run("test/sandbox/clone.js");
 
 // miscellaneous tests
 run("test/miscellaneous/logic.js");
