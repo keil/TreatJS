@@ -35,6 +35,12 @@
     if(TreatJS.Verbose.statistic) TreatJS.Statistic.inc(key);
   }
 
+  //    _                       _ _     
+  // __| |___ __ ___ _ __  _ __(_) |___ 
+  /// _` / -_) _/ _ \ '  \| '_ \ | / -_)
+  //\__,_\___\__\___/_|_|_| .__/_|_\___|
+  //                      |_|           
+
   // global -> ( function -> function' )
   var dcache = new WeakMap();
 
@@ -77,21 +83,14 @@
     var scope = (new Proxy({}, scopeHandler));
     var newfun = eval("(function() { with(scope) { return " + string + " }})();");
 
+    // clones the prototype of the function
+    newfun.prototype = clone(fun.prototype);
+
     // mirrors contarcts from fun to newfun
     // to support picky/indy semantics
     newfunc = TreatJS.mirrorFunction(fun, newfun);
 
     return new Proxy(newfunc, new DynamicHandler(newfunc, scopeHandler));
-  }
-
-  function reassert(origin, arg) {
-    var target = TreatJS.targetOf(origin);
-    var contract = TreatJS.contractOf(origin);
-    var global = TreatJS.globalOf(origin);
-    var callback = TreatJS.callbackOf(origin);
-
-    return (target===undefined) ? arg : 
-      TreatJS.assertWith(reassert(target, arg), contract, global, callback);
   }
 
   // ___                   _  _              _ _         
@@ -153,11 +152,56 @@
     }
   }
 
+  //    _              
+  // __| |___ _ _  ___ 
+  /// _| / _ \ ' \/ -_)
+  //\__|_\___/_||_\___|
+
+  function clone(target) {
+    if(target instanceof Function) {
+      return cloneFunction(target);
+    } else if (target instanceof Object) {
+      return cloneObject(target);
+    } else {
+      return target;
+    }
+  }
+
+  /**
+   * cloneObject(target)
+   * clones a JavaScript Object
+   *
+   * @param target JavaScript Object
+   * @return JavaScript Object
+   */
+  function cloneObject(target) {
+    log("clone object");
+
+    var clone = Object.create(Object.getPrototypeOf(target));
+    return clone;
+  }
+
+  /**
+   * cloneFunction(target)
+   * clones a JavaScript Function
+   *
+   * @param target JavaScript Function
+   * @return JavaScript Function
+   */
+  function cloneFunction(target) {
+    log("clone function");
+
+    var clone = decompile(target);
+    return clone;
+  }
+
   //         _               _ 
   // _____ _| |_ ___ _ _  __| |
   /// -_) \ /  _/ -_) ' \/ _` |
   //\___/_\_\\__\___|_||_\__,_|
 
   TreatJS.extend("decompile", cache);
+
+  TreatJS.extend("clone", clone);
 
 })(TreatJS);
