@@ -660,7 +660,9 @@
     //|___|_||_|
 
     else if(contract instanceof InContract) {
-      var proxy = new Proxy({}, new Proxy({}, new PolymorphicHandler(callbackHandler)));
+      var dummy = TreatJS.clone(arg);
+
+      var proxy = new Proxy(dummy, new Proxy({}, new PolymorphicHandler(callbackHandler)));
       TreatJS.Polymorphism.conceal(contract.id, proxy, arg);
       return proxy; 
     }
