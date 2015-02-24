@@ -16,6 +16,48 @@
 // ==================================================
 
 
+(function() {
+
+  // damaged plus function that does NOT fulfill the 
+  // intersection Num x Num -> Num \cap Str x Str -> Str
+  function dplus (x, y) {
+    return ""+(x+y);
+  }
+
+  function id (arg) {
+    //arg(1,2);
+    //return 7;
+    //print(arg);
+    return arg;
+  }
+
+  var plusNum = Contract.AFunction([typeOfNumber,typeOfNumber], typeOfNumber);
+  var plusStr = Contract.AFunction([typeOfString,typeOfString], typeOfString);
+  var plusNumStr = Contract.Intersection(plusNum, plusStr);
+
+
+  var idCon = Contract.Forall(Contract.Constructor(function(x) {
+          return Contract.AFunction([Contract.In(x)], Contract.Out(x));
+  }, "Id/Polymorphism"));
+  var idPlus = Contract.AFunction([plusNum], plusNum);
+
+ // var cid = Contract.assert(id, Contract.And(idCon, idPlus)); 
+  var cid = Contract.assert(id, Contract.And(idPlus, idCon));
+                  //);
+ 
+  //var idNum = idnum(dplus);
+ 
+  var plus = cid(dplus);
+  //plus(1,2);
+  
+
+})();
+
+
+
+// =// ==================================================// ===================================================================================================
+
+
 
 (function() {
 
@@ -50,7 +92,7 @@
   //plus(1,2);
   
 
-})();
+});
 
 
 (function() {
@@ -86,7 +128,7 @@
   plus("1","2");
   
 
-})();
+});
 
 // ==================================================
 
@@ -127,7 +169,7 @@
   //plus(1,2);
   
 
-})();
+});
 
 
 (function() {
@@ -163,7 +205,7 @@
   //plus("1","2");
   
 
-})();
+});
 
 
 

@@ -673,7 +673,14 @@
     // \___/ \_,_|\__|
 
     else if(contract instanceof OutContract) {
-      var result = translate(TreatJS.Polymorphism.verify(contract.id, arg));
+      
+      print("@@@" + contracted(arg));
+      print("@@@" + contractOf(arg));
+      var arg = unwrap(arg);
+      //print(arg(1,2));
+      print("@@@" + contracted(arg));
+      
+      var result = translate(TreatJS.Polymorphism.verify(contract.id, arg)); // TODO
       var handle = new Handle(TreatJS.Logic.True, result);
       callbackHandler(handle);
 
@@ -1174,6 +1181,20 @@
     //\__,_\___|_| \__,_|\_,_|_|\__|
 
     else error("Wrong Constructor", (new Error()).fileName, (new Error()).lineNumber);
+  }
+
+  // _  _ _ ___ __ ___ _ __ _ _ __ 
+  //| || | ' \ V  V / '_/ _` | '_ \
+  // \_,_|_||_\_/\_/|_| \__,_| .__/
+  //                         |_|   
+
+  function unwrap(origin) {
+    print("### call upwrap");
+    if(!ccache.has(origin)) return origin;
+    print("### unwrap " + contractOf(origin));
+
+    var assertion = ccache.get(origin);
+    return unwrap(assertion.target);
   }
 
   //       _                              _               _      

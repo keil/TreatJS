@@ -5,15 +5,30 @@
 ** use the same abstraction mechanism as used in sbx to 
 ** create pseudo object
 
+** mix for all with lax/picky semantics
+
+* Unpack contracted values ?
+
 * isNaN overrides a global function in typedoctane
 ** use an export function that exports all predefined contracts in
 ** a special object (eg. contract(s) oder con)
 
 ## Features ##
 
+* Lemmas
+
+* Object Contracts as Data Type Invariants
+** Only testing lemmas
+** Or If lemma than do
+
+* Examples and security Properties
+** Access one (A or B)/ Argument of a function
+
 * Access Permission Contracts
 
 * Subset Semantics
+
+* Contract Casts
 
 ## Major Tasks ##
 
@@ -37,3 +52,5 @@
 
 * Test run time difference of new version
 ** Flag for predicate evaluation
+
+
