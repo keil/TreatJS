@@ -13,6 +13,47 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+function assert(dplus) {
+
+  var plusNum = Contract.AFunction([typeOfNumber,typeOfNumber], typeOfNumber);
+  var plusStr = Contract.AFunction([typeOfString,typeOfString], typeOfString);
+  var plusNumStr = Contract.Intersection(plusNum, plusStr);
+
+  eval("dplus = Contract.assert(dplus, plusNumStr)");
+}
+
+
+
+(function(assert) {
+
+  // damaged plus function that does NOT fulfill the 
+  // intersection Num x Num -> Num \cap Str x Str -> Str
+  function dplus (x, y) {
+    return ""+(x+y);
+  }
+
+  //assert(dplus);
+  
+    var plusNum = Contract.AFunction([typeOfNumber,typeOfNumber], typeOfNumber);
+  var plusStr = Contract.AFunction([typeOfString,typeOfString], typeOfString);
+  var plusNumStr = Contract.Intersection(plusNum, plusStr);
+
+  eval("dplus = Contract.assert(dplus, plusNumStr)");
+ 
+  
+  dplus(1,2);
+
+})(assert);
+
+
+
+
+
+
+
+
+
+
 // ==================================================
 
 
@@ -50,8 +91,8 @@
   var plus = cid(dplus);
   //plus(1,2);
   
+});
 
-})();
 
 
 
