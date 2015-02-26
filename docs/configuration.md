@@ -1,19 +1,5 @@
 # Configuration
 
-## Configuration
-
-## Verbose
-
-## Output
-
-### TreatJS Shell Output
-
-## Debugger
-
-### TreatJS Debugger
-
-# Configuration
-
 Guide to all available configuration settings.
 
 ---
