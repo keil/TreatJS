@@ -424,6 +424,27 @@
     return "(forall " + this.constructor.toString() + ")";
   }
 
+  // ___                    _          ___         _               _   
+  //| _ \___ __ _  _ _ _ __(_)_ _____ / __|___ _ _| |_ _ _ __ _ __| |_ 
+  //|   / -_) _| || | '_(_-< \ V / -_) (__/ _ \ ' \  _| '_/ _` / _|  _|
+  //|_|_\___\__|\_,_|_| /__/_|\_/\___|\___\___/_||_\__|_| \__,_\__|\__|
+
+  function RecursiveContract(constructor) {
+    if(!(this instanceof RecursiveContract)) return new RecursiveContract(constructor);
+
+    if(!(constructor instanceof Constructor)) error("Wrong Contract", (new Error()).fileName, (new Error()).lineNumber);
+
+    Object.defineProperties(this, {
+      "constructor": {
+        value: constructor
+      }
+    });
+  }
+  RecursiveContract.prototype = Object.create(ImmediateContract.prototype);
+  RecursiveContract.prototype.toString = function() {
+    return "(recursive " + this.constructor.toString() + ")";
+  }
+
   //         _               _ 
   // _____ _| |_ ___ _ _  __| |
   /// -_) \ /  _/ -_) ' \/ _` |
@@ -454,5 +475,6 @@
   TreatJS.define(TreatJS.Contract, "Out", OutContract);
 
   TreatJS.define(TreatJS.Contract, "Forall", ForallContract);
+  TreatJS.define(TreatJS.Contract, "Recursive", RecursiveContract);
 
 })(TreatJS);

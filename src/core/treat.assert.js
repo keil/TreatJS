@@ -89,6 +89,8 @@
   var OutContract = TreatJS.Contract.Out;
   var ForallContract = TreatJS.Contract.Forall;
 
+  var RecursiveContract = TreatJS.Contract.Recursive;
+
   // logic
   var translate = TreatJS.Logic.translate;
 
@@ -645,7 +647,6 @@
     //|_| \___/_|\_, |_|_|_\___/_| | .__/_||_|_/__/_|_|_|
     //           |__/              |_|                   
 
-
     else if(contract instanceof ForallContract) {
       if(!(arg instanceof Function)) callbackHandler(Handle(TreatJS.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
 
@@ -673,18 +674,27 @@
     // \___/ \_,_|\__|
 
     else if(contract instanceof OutContract) {
-      
       print("@@@" + contracted(arg));
       print("@@@" + contractOf(arg));
       var arg = unwrap(arg);
       //print(arg(1,2));
       print("@@@" + contracted(arg));
-      
+
       var result = translate(TreatJS.Polymorphism.verify(contract.id, arg)); // TODO
       var handle = new Handle(TreatJS.Logic.True, result);
       callbackHandler(handle);
 
       return TreatJS.Polymorphism.reveal(contract.id); // todo
+    }
+
+    // ___                    _          
+    //| _ \___ __ _  _ _ _ __(_)___ _ _  
+    //|   / -_) _| || | '_(_-< / _ \ ' \ 
+    //|_|_\___\__|\_,_|_| /__/_\___/_||_|
+
+    else if(contract instanceof RecursiveContract) {
+      var alpha = TreatJS.construct(contract.constructor, contract);
+      return assertWith(arg, alpha, global, callbackHandler);
     }
 
     // ___               _ _              ___         _               _   

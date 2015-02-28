@@ -32,6 +32,7 @@
   var WithContract = TreatJS.Contract.With;
 
   var ForallContract = TreatJS.Contract.Forall;
+  var RecursiveContract = TreatJS.Contract.Recursive;
 
   // constructors
   var ContractConstructor = TreatJS.Constructor.Constructor;
@@ -158,6 +159,18 @@
   }
   SimpleForallContract.prototype = Object.create(ForallContract.prototype);
 
+  // ___                    _          ___         _               _   
+  //| _ \___ __ _  _ _ _ __(_)_ _____ / __|___ _ _| |_ _ _ __ _ __| |_ 
+  //|   / -_) _| || | '_(_-< \ V / -_) (__/ _ \ ' \  _| '_/ _` / _|  _|
+  //|_|_\___\__|\_,_|_| /__/_|\_/\___|\___\___/_||_\__|_| \__,_\__|\__|
+
+  function SimpleRecursiveContract(constructor) {
+    if(!(this instanceof SimpleRecursiveContract)) return new SimpleRecursiveContract(constructor);
+
+    ForallContract.call(this, ContractConstructor(constructor, ""));
+  }
+  SimpleRecursiveContract.prototype = Object.create(RecursiveContract.prototype);
+
   //         _               _ 
   // _____ _| |_ ___ _ _  __| |
   /// -_) \ /  _/ -_) ' \/ _` |
@@ -174,7 +187,8 @@
   TreatJS.define(TreatJS.Convenience, "SMethod", SimpleMethodContract);
 
   TreatJS.define(TreatJS.Convenience, "SDependent", SimpleDependentContract);
-
   TreatJS.define(TreatJS.Convenience, "SForall", SimpleForallContract);
+  TreatJS.define(TreatJS.Convenience, "SRecursive", SimpleRecursiveContract);
+
 
 })(TreatJS);

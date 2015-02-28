@@ -51,6 +51,7 @@
     make(Contract, "In", TreatJS.Contract.In);
     make(Contract, "Out", TreatJS.Contract.Out);
     make(Contract, "Forall", TreatJS.Contract.Forall);
+    make(Contract, "Recursive", TreatJS.Contract.Recursive);
 
     make(Contract, "Constructor", TreatJS.Constructor.Constructor);
 
@@ -66,6 +67,7 @@
     make(Contract, "SDependent", TreatJS.Convenience.SDependent);
 
     make(Contract, "SForall", TreatJS.Convenience.SForall);
+    make(Contract, "SRecursive", TreatJS.Convenience.SRecursive);
 
     // reflection     
     make(Contract, "Get", TreatJS.Reflection.Get);
