@@ -96,13 +96,6 @@ a special object (eg. contract(s) oder con)
 
 
 
-*** Recursive contracts
-
-- define a predefined contract for recursive contracts based on constructores
-- e.g. similar to Mu Types.
-
-
-
 *** Better blaming semantics
 
 - Use the callback structure to produce precise blame informations. Not only to say 

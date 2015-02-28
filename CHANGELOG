@@ -1,6 +1,7 @@
 *** TreatJS 1.3.3 (PoC)
 
-*  Bugfix: clone target in Polymorphism/Forall contracts
+* Bugfix: clone target in Polymorphism/Forall contracts
+* New recursive contracts
 
 *** TreatJS 1.3.2 (PoC)
 
