@@ -13,6 +13,12 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+
+
+
+
+
+/**
 function assert(dplus) {
 
   var plusNum = Contract.AFunction([typeOfNumber,typeOfNumber], typeOfNumber);
@@ -44,7 +50,7 @@ function assert(dplus) {
   dplus(1,2);
 
 })(assert);
-
+**/
 
 
 

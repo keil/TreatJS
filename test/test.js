@@ -98,6 +98,9 @@ run("test/callback/subset.js");
 // polymorphism/ forall 
 run("test/contract/polymorphism.js");
 
+// recursiv contract 
+run("test/contract/recursive.js");
+
 TreatJS.Version.print();
 TreatJS.Config.print();
 TreatJS.Statistic.print();
