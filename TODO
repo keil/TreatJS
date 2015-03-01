@@ -6,9 +6,6 @@
 
 *** Forall only on Functions
 
-*** To many arguments for type checks 
-if(!(arg instanceof Function)) callbackHandler(Handle(TreatJS.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
-
 *** Forall-contracts
 
 * Implement lax/picky/indy semantics for forall-contracts
