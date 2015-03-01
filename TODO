@@ -4,6 +4,8 @@
 #|_.__/\_,_\__, /__/
 #          |___/    
 
+*** Forall only on Functions
+
 *** To many arguments for type checks 
 if(!(arg instanceof Function)) callbackHandler(Handle(TreatJS.Logic.True, TreatJS.Logic.False, TreatJS.Logic.False));
 
