@@ -44,9 +44,17 @@ a special object (eg. contract(s) oder con)
 #|_|  |_|_|_||_\___/_|     |_|\__,_/__/_\_\/__/
                                               
 
+*** Discuss the use cases of a Sandbox Constructor/ Sandbox Forall
+
+- to produce \x.\y.C
+
 *** Documentation and Webpage
 
 *** Benchmarks
+
+- factor over the time
+- produce list
+- make comparison for 0.17 ms
 
 # _____       _      
 #|_   _|__ __| |_ ___
@@ -62,6 +70,13 @@ a special object (eg. contract(s) oder con)
 *** Test run time difference of new version
 
 - Flag for predicate evaluation
+
+
+*** Deactivate contracts
+
+- for example: \x.e @ C->C -> deactivate 
+- after return, all contracts on the input should be deactivated
+- example from Lu; is there a use case
 
 
 # ___         _                  ___     _               _             
@@ -119,6 +134,9 @@ plus(1,2) -->* subject blame @ plus, subject does not satisfy [ Num, Num ] -> Nu
 - e.g. Access only allowed to property 'a' or property 'b', but not both at the same time
 - e.g. A function is not allowed to be called again before it returns the from the first call
 
+- e.g. access o.x; access o.y, return
+- use temporal logic/ LTL
+- use capabilities that allow to call a function
 
 
 *** Embedded contract parser/ Sugar2
