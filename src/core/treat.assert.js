@@ -666,7 +666,7 @@
     //|___|_||_|
 
     else if(contract instanceof InContract) {
-      var dummy = TreatJS.clone(arg);
+      var dummy = TreatJS.clone(arg); // TODO, bug, dummy can be an non null object
 
       var proxy = new Proxy(dummy, new Proxy({}, new PolymorphicHandler(callbackHandler)));
       TreatJS.Polymorphism.conceal(contract.id, proxy, arg);
@@ -679,11 +679,11 @@
     // \___/ \_,_|\__|
 
     else if(contract instanceof OutContract) {
-      print("@@@" + contracted(arg));
-      print("@@@" + contractOf(arg));
+      //print("@@@" + contracted(arg));
+      //print("@@@" + contractOf(arg));
       var arg = unwrap(arg);
       //print(arg(1,2));
-      print("@@@" + contracted(arg));
+      //print("@@@" + contracted(arg));
 
       var result = translate(TreatJS.Polymorphism.verify(contract.id, arg)); // TODO
       var handle = new Handle(True, result);
