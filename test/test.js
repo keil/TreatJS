@@ -96,7 +96,7 @@ run("test/callback/context.js");
 run("test/callback/subset.js");
 
 // polymorphism/ forall 
-run("test/contract/polymorphism.js");
+//run("test/contract/polymorphism.js");
 
 // recursiv contract 
 run("test/contract/recursive.js");
