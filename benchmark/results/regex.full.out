@@ -1,0 +1,41 @@
+RegExp: 1171
+Splay: 15.5
+SplayLatency: 52.3
+Violation: (/home/keilr/tmp/TreatJS/src/core/treat.assert.js:142):
+(@[TypeOfObject] *AND* )
+Violated Contract: (|[ 0:[TypeOfObject] 1:[IsNumber]]|->[Any])
+blame@/home/keilr/tmp/TreatJS/src/core/treat.violation.js:52:31
+assert/callback@/home/keilr/tmp/TreatJS/src/core/treat.assert.js:142:9
+evalCallback@/home/keilr/tmp/TreatJS/src/core/treat.callback.js:75:7
+AndCallback/<.leftHandler.get/<@/home/keilr/tmp/TreatJS/src/core/treat.callback.js:91:13
+assertWith@/home/keilr/tmp/TreatJS/src/core/treat.assert.js:304:9
+ObjectHandler/this.get@/home/keilr/tmp/TreatJS/src/core/treat.assert.js:429:9
+FunctionHandler/this.apply@/home/keilr/tmp/TreatJS/src/core/treat.assert.js:378:11
+FluidField@/home/keilr/tmp/TreatJS/benchmark/wrapped/navier-stokes.js:344:5
+setupNavierStokes@/home/keilr/tmp/TreatJS/benchmark/wrapped/navier-stokes.js:20:5
+RunNextSetup@/home/keilr/tmp/TreatJS/benchmark/typedoctane/base.js:392:33
+BenchmarkSuite.prototype.RunStep@/home/keilr/tmp/TreatJS/benchmark/typedoctane/base.js:425:9
+RunStep@/home/keilr/tmp/TreatJS/benchmark/typedoctane/base.js:157:41
+BenchmarkSuite.RunSuites@/home/keilr/tmp/TreatJS/benchmark/typedoctane/base.js:173:9
+@/home/keilr/tmp/TreatJS/benchmark/typedoctane/run.js:83:28
+@benchmark/typedoctane/typed.js:48:1
+
+[[--end-of-text--]]
+
+Process 7526 terminated (ok).
+Task completed after 25 min, 1 sec.
+Charging 1518s processor usage (54.20 Euro).
+
+Resource usage:
+Average processor load: 101%
+
+Processor idle time: 147065 sec
+Total execution time: 1501 sec
+Total processing time: 1518 sec
+Kernel mode time: 5 sec
+User mode time: 1513 sec
+
+Virtual memory size: 1073 MByte
+Resident set size: 1008 MByte
+Text/Data segment size: 1056 MByte
+Shared memory segment: 5 MByte

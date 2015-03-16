@@ -1,0 +1,222 @@
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=deltablue mode=full"
+Initializing run #1 (Fri, 06 Feb 2015 14:11:31 +0100)
+Executing process 29664 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.deltablue.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.deltablue.out
+[[--end-of-text--]]
+
+Process 29664 terminated (ok).
+Task completed after 2 days, 10 hours, 36 min, 49 sec.
+
+You have mail in /home/keilr/tfmail/inbox
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=navier-stokes mode=full"
+Initializing run #1 (Mon, 09 Feb 2015 08:24:57 +0100)
+Executing process 3285 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.navier-stokes.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.navier-stokes.out
+[[--end-of-text--]]
+
+Process 3285 terminated (ok).
+Task completed after 11 sec.
+
+You have mail in /home/keilr/tfmail/inbox
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=pdfjs mode=full"
+Initializing run #1 (Mon, 09 Feb 2015 08:25:28 +0100)
+Executing process 3339 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.pdfjs.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.pdfjs.out
+[[--end-of-text--]]
+
+Process 3339 terminated (ok).
+Task completed after 1 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=mandreel mode=full"
+Initializing run #1 (Mon, 09 Feb 2015 08:26:22 +0100)
+Executing process 3403 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.mandreel.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.mandreel.out
+[[--end-of-text--]]
+
+Process 3403 terminated (ok).
+Task completed after 0 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=gbemu mode=full"
+Initializing run #1 (Mon, 09 Feb 2015 08:30:00 +0100)
+Executing process 3575 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.gbemu.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.gbemu.out
+[[--end-of-text--]]
+
+Process 3575 terminated (ok).
+Task completed after 1 min, 12 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=zlib mode=full"
+Initializing run #1 (Mon, 09 Feb 2015 08:31:51 +0100)
+Executing process 3743 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.zlib.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.zlib.out
+[[--end-of-text--]]
+
+Process 3743 terminated (ok).
+Task completed after 11 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=typescript mode=full"
+Initializing run #1 (Mon, 09 Feb 2015 08:32:29 +0100)
+Executing process 3797 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.typescript.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.typescript.out
+[[--end-of-text--]]
+
+Process 3797 terminated (ok).
+Task completed after 3 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=pdfjs mode=full"
+Initializing run #1 (Mon, 09 Feb 2015 09:28:21 +0100)
+Executing process 6237 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.pdfjs.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.pdfjs.out
+[[--end-of-text--]]
+
+Process 6237 terminated (ok).
+Task completed after 1 sec.
+
+You have mail in /home/keilr/tfmail/inbox
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=typescript mode=full.2"
+Initializing run #1 (Mon, 09 Feb 2015 14:07:42 +0100)
+Executing process 18747 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.typescript.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.2.typescript.out
+[[--end-of-text--]]
+
+Process 18747 terminated (ok).
+Task completed after 34 min, 30 sec.
+
+You have mail in /home/keilr/tfmail/inbox
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=typescript mode=full.3"
+Initializing run #1 (Mon, 09 Feb 2015 14:52:19 +0100)
+Executing process 21308 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.typescript.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.3.typescript.out
+benchmark/typedoctane/typed.js:24:0 TypeError: _TYPES_[funID] is undefined
+make: *** [typedf] Error 3
+[[--end-of-text--]]
+
+Process 21308 terminated (error 002).
+Task completed after 2 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=typescript mode=full.3"
+Initializing run #1 (Mon, 09 Feb 2015 14:53:03 +0100)
+Executing process 21387 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.typescript.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.3.typescript.out
+benchmark/typedoctane/typed.js:24:0 TypeError: _TYPES_[funID] is undefined
+make: *** [typedf] Error 3
+[[--end-of-text--]]
+
+Process 21387 terminated (error 002).
+Task completed after 1 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=typescript mode=full.3"
+Initializing run #1 (Mon, 09 Feb 2015 14:53:38 +0100)
+Executing process 21438 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.typescript.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.3.typescript.out
+benchmark/typedoctane/typed.js:24:0 TypeError: _TYPES_[funID] is undefined
+make: *** [typedf] Error 3
+[[--end-of-text--]]
+
+Process 21438 terminated (error 002).
+Task completed after 0 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=typescript mode=full.4"
+Initializing run #1 (Mon, 09 Feb 2015 14:57:38 +0100)
+Executing process 21672 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.typescript.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.4.typescript.out
+[[--end-of-text--]]
+
+Process 21672 terminated (ok).
+Task completed after 22 min, 46 sec.
+
+You have mail in /home/keilr/tfmail/inbox
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=gbemu mode=full.X"
+Initializing run #1 (Mon, 09 Feb 2015 17:05:50 +0100)
+Executing process 28781 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.gbemu.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.X.gbemu.out
+[[--end-of-text--]]
+
+Process 28781 terminated (ok).
+Task completed after 2 sec.
+
+You have mail in /home/keilr/tfmail/inbox
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=deltablue mode=nocallback"
+Initializing run #1 (Tue, 10 Feb 2015 13:19:08 +0100)
+Executing process 25788 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.deltablue.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nocallback.deltablue.out
+[[--end-of-text--]]
+
+Process 25788 terminated (ok).
+Task completed after 1 day, 15 hours, 30 min, 53 sec.
+
+You have mail in /home/keilr/tfmail/inbox
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=deltablue mode=nodecompile"
+Initializing run #1 (Thu, 12 Feb 2015 08:41:12 +0100)
+Executing process 21771 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.deltablue.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nodecompile.deltablue.out
+[[--end-of-text--]]
+
+Process 21771 terminated (ok).
+Task completed after 1 day, 5 hours, 43 min, 45 sec.
+
+You have mail in /home/keilr/tfmail/inbox
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=deltablue mode=nomembrane"
+Initializing run #1 (Fri, 13 Feb 2015 14:52:59 +0100)
+Executing process 42723 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.deltablue.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nomembrane.deltablue.out
+[[--end-of-text--]]
+
+Process 42723 terminated (ok).
+Task completed after 1 day, 5 hours, 41 min, 53 sec.
+
+You have new mail in /home/keilr/tfmail/inbox
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=deltablue mode=statistics"
+Initializing run #1 (Mon, 16 Feb 2015 08:52:17 +0100)
+Executing process 492 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.deltablue.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/statistics.deltablue.out
+[[--end-of-text--]]
+
+Process 492 terminated (ok).
+Task completed after 2 days, 12 hours, 24 min, 28 sec.
+
+You have mail in /home/keilr/tfmail/inbox
+akoakoa:~/tmp/TreatJS_1.2.18-final$ Process 29383 terminated (Killed).
+Session closed after 1 week, 5 days, 19 hours, 28 min, 37 sec.
+Charging 17576s processor usage (627.47 Euro).
+Maximum virtual memory size was 42 MByte.
+Connection to akoakoa closed.
+You have mail in /home/keilr/tfmail/inbox
+kaanapali:~$ 
+
