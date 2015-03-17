@@ -490,7 +490,19 @@
         count(TreatJS.Statistic.CALLBACK);
         var context = True;
         var subject = or(not(sub.context), not(sub.subject));
-        print('§§§' + context + subject);
+        
+        //var subject = implies(sub.subject, not(sub.context));
+        
+
+
+        var context = True; //not(sub.context);
+        //var subject = not(implies(sub.context, sub.subject));
+        var subject = True; //implies(sub.subject, not(sub.context));
+
+        print('INPUT' + sub.context + sub.subject);
+        print('OUTPUT' + context + subject);
+
+
         handler(new Handle(context, subject));
       }
     }

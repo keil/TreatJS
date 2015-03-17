@@ -16,7 +16,7 @@ load('contracts/aliases.js');
 
 run("test/contract/notcontract.js");
 //run("test/blame/negation.js"); // TODO
-run("test/blame/not.js"); // TODO
+//run("test/blame/not.js"); // TODO
 
 
 quit();
