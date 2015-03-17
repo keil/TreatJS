@@ -248,7 +248,7 @@
   },"Zero");
 
   var GtZero = TreatJS.Contract.Base(function(arg) {
-    return (x>0);
+    return (arg>0);
   }, "GreaterThanZero");
 
   /** **/ regeister("Even", Even, CLASS_Miscellaneous);

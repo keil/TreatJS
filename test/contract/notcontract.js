@@ -57,7 +57,7 @@ test.x;
 test.y("adf");
 //test.z;
 
-//var test = Contract.assert(-4711, Contract.Not(Contract.And(IsNumber, GreaterThanZero)));
+//var test = Contract.assert(4711, Contract.Not(Contract.And(IsNumber, GreaterThanZero)));
 var test = Contract.assert(-1, Contract.Not(Contract.And(IsNumber, GreaterThanZero)));
 var test = Contract.assert(-1, Contract.Or(Contract.Not(IsNumber), Contract.Not(GreaterThanZero)));
 var test = Contract.assert("4711", Contract.Not(Contract.Or(IsNumber, False)));
