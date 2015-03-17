@@ -489,7 +489,7 @@
       if(TreatJS.Config.callback) {
         count(TreatJS.Statistic.CALLBACK);
         var context = True;
-        var subject = True;
+        var subject = implies(sub.context, not(sub.subject));
         handler(new Handle(context, subject));
       }
     }
