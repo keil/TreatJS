@@ -103,7 +103,7 @@
   var canonicalize = TreatJS.canonicalize;
 
   var True = TreatJS.Logic.True;
-  var Flase = TreatJS.Logic.False;
+  var False = TreatJS.Logic.False;
   var Conflict = TreatJS.Logic.Conflict;
 
   // blame
@@ -666,7 +666,15 @@
     //|___|_||_|
 
     else if(contract instanceof InContract) {
+
+      function Primitive(value) {
+        this.valueX = value;
+      }
+
       var dummy = TreatJS.clone(arg); // TODO, bug, dummy can be an non null object
+
+      if(dummy !== Object(dummy)) dummy = new Primitive(dummy);
+
 
       var proxy = new Proxy(dummy, new Proxy({}, new PolymorphicHandler(callbackHandler)));
       TreatJS.Polymorphism.conceal(contract.id, proxy, arg);
@@ -679,9 +687,14 @@
     // \___/ \_,_|\__|
 
     else if(contract instanceof OutContract) {
-      //print("@@@" + contracted(arg));
-      //print("@@@" + contractOf(arg));
-      var arg = unwrap(arg);
+      //print("@@@C? " + contracted(arg));
+      //print("@@@C  " + contractOf(arg));
+      //print("@@@A  " + arg);
+
+      // TODO
+      //var arg = unwrap(arg);
+
+
       //print(arg(1,2));
       //print("@@@" + contracted(arg));
 
@@ -1204,9 +1217,10 @@
   //                         |_|   
 
   function unwrap(origin) {
-    print("### call upwrap");
+    // TODO
+    //print("### call upwrap");
     if(!ccache.has(origin)) return origin;
-    print("### unwrap " + contractOf(origin));
+    //print("### unwrap " + contractOf(origin));
 
     var assertion = ccache.get(origin);
     return unwrap(assertion.target);
@@ -1243,9 +1257,9 @@
   function mirrorLaxObject(origin) {
     log("mirror object", "(lax semanticts)");
     if(!ccache.has(origin)) return origin;
-
+    
     var assertion = ccache.get(origin);
-
+    
     return mirrorLaxObject(assertion.target);
   }
 

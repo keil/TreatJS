@@ -81,7 +81,7 @@ var TreatJS = new TreatJS({
 },{
   /** Print contract assertions
    * (default: false)
-   */assert: false,
+   */assert: true,
   /** Print sandbox operations
    * (default: false)
    */sandbox: false,
