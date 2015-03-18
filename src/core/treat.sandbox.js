@@ -156,12 +156,15 @@
         }
       }
 
+      // TODO
       // pass-through of native functions
       if(TreatJS.Config.nativePassThrough) {
         if(isNativeFunction(target[name])) {
           return target[name];
         }
-        else return wrap(target[name], global);
+        else {
+          return wrap(target[name], global);
+        }
       } else {
         return wrap(target[name], global);
       }
@@ -357,7 +360,20 @@
     if(!(func instanceof Function)) return false;
 
     var toString = getToStringFunction();
-    return (toString.apply(func).indexOf('[native code]') > -1);
+    
+    /**
+     * Note: Matthias Keil
+     * This is a quick fix of
+     * treat.sandbox.js:362:14 TypeError: Function.prototype.toString called on incompatible object
+     *
+     * The newer Spidermonky version throws this error message if toString is called on a function proxy.
+     */
+    try {
+      return (toString.apply(func).indexOf('[native code]') > -1);
+    } catch(err) {
+      // works in LAX mode because it unwraps the contracted function
+      return false;
+    }
   }
 
   /** getToStringFunction()
