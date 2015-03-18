@@ -22,7 +22,19 @@
   var or = TreatJS.Logic.or;
   var not = TreatJS.Logic.not;
   var implies = TreatJS.Logic.implies;
+
+  var lesseq = TreatJS.Logic.lesseq;
+
+  var meet = TreatJS.Logic.meet;
   var join = TreatJS.Logic.join;
+  var neg = TreatJS.Logic.neg;
+  var entails = TreatJS.Logic.entails;
+
+  var subseteq = TreatJS.Logic.subseteq;
+  var convolution = TreatJS.Logic.convolution;
+
+  var make = TreatJS.Logic.make;
+  var translate = TreatJS.Logic.translate;
 
   var Unknown = TreatJS.Logic.Unknown;
   var False = TreatJS.Logic.False;
@@ -488,21 +500,15 @@
     function update() {
       if(TreatJS.Config.callback) {
         count(TreatJS.Statistic.CALLBACK);
-        var context = True;
-        var subject = or(not(sub.context), not(sub.subject));
-        
+        // TODO
+        //var context = True;
+        //var subject = or(not(sub.context), not(sub.subject)); 
         //var subject = implies(sub.subject, not(sub.context));
-        
-
-
         var context = True; //not(sub.context);
         //var subject = not(implies(sub.context, sub.subject));
-        var subject = True; //implies(sub.subject, not(sub.context));
-
-        print('INPUT' + sub.context + sub.subject);
-        print('OUTPUT' + context + subject);
-
-
+        //var subject = True; //implies(sub.subject, not(sub.context));
+        var subject = translate(!subseteq(sub.context, True)||subseteq(sub.subject, True));
+        //implies(sub.subject, neg(sub.context));
         handler(new Handle(context, subject));
       }
     }

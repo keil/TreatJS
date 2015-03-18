@@ -71,11 +71,11 @@ run("test/blame/method.js");
 
 run("test/blame/intersection.js");
 run("test/blame/union.js");
-//run("test/blame/negation.js"); // TODO
+// run("test/blame/negation.js"); // TODO, experimental
 
 run("test/blame/or.js");
 run("test/blame/and.js");
-// run("test/blame/not.js"); // TODO
+run("test/blame/not.js");
 
 // canonicalize
 load("test/canonicalize/canonicalize.js");
@@ -96,7 +96,7 @@ run("test/callback/context.js");
 run("test/callback/subset.js");
 
 // polymorphism/ forall 
-//run("test/contract/polymorphism.js");
+run("test/contract/polymorphism.js");
 
 // recursiv contract 
 run("test/contract/recursive.js");

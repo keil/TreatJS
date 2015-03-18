@@ -12,11 +12,13 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
-load('contracts/aliases.js');
 
-run("test/contract/notcontract.js");
-//run("test/blame/negation.js"); // TODO
-//run("test/blame/not.js"); // TODO
+
+
+// polymorphism/ forall 
+run("test/contract/polymorphism.js");
+
+
 
 
 quit();

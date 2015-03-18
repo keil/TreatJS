@@ -4,7 +4,7 @@
 #|_.__/\_,_\__, /__/
 #          |___/    
 
-*** Forall only on Functions
+*** Forall works only on Functions
 
 *** Forall-contracts
 
@@ -26,10 +26,6 @@ a special object (eg. contract(s) oder con)
 * Examples and security Properties
 ** Access one (A or B)/ Argument of a function
 
-
-
-
-
 # __  __       _           _____        _       
 #|  \/  |__ _ (_)___ _ _  |_   _|_ _ __| |__ ___
 #| |\/| / _` || / _ \ '_|   | |/ _` (_-< / /(_-<
@@ -37,6 +33,8 @@ a special object (eg. contract(s) oder con)
 #           |__/                                
 
 * Definition of Not/ Negation
+
+- Previous version implemented for Not
 
 # __  __ _                _____        _       
 #|  \/  (_)_ _  ___ _ _  |_   _|_ _ __| |__ ___
