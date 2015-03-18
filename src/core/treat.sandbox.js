@@ -373,6 +373,7 @@
     } catch(err) {
       // works in LAX mode because it unwraps the contracted function
       return false;
+      //throw err;
     }
   }
 
