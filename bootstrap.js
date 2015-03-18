@@ -81,13 +81,13 @@ var TreatJS = new TreatJS({
 },{
   /** Print contract assertions
    * (default: false)
-   */assert: true,
+   */assert: false,
   /** Print sandbox operations
    * (default: false)
    */sandbox: false,
   /** Print statistics
    * (default: false)
-   */statistic: true 
+   */statistic: false
 }, out, dunit);
 
 //         _               _             
