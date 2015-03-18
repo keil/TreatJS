@@ -4,6 +4,12 @@
 #|_.__/\_,_\__, /__/
 #          |___/    
 
+*** BUG in Spidermonkey Shell
+
+- treat.decompile.js:77:21 TypeError: Function.prototype.toString called on incompatible object
+- Function.prototype.toString can not be called on a function proxy
+- Quick Fix works in LAX mode
+
 *** Forall works only on Functions
 
 *** Forall-contracts

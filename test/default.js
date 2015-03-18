@@ -15,8 +15,19 @@
 
 
 
+quit();
+
+var plusp = new Proxy(plus, {});
+print(plusp(1,1));
+print(typeof plusp);
+try{
+ print(plusp);
+}catch(e) {print("L");}
+
+
+
 // polymorphism/ forall 
-run("test/contract/polymorphism.js");
+//run("test/contract/polymorphism.js");
 
 
 
