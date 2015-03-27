@@ -48,6 +48,10 @@ a special object (eg. contract(s) oder con)
 #|_|  |_|_|_||_\___/_|     |_|\__,_/__/_\_\/__/
                                               
 
+*** Summary of test cases
+
+- merge test cases and use negative tests
+
 *** Discuss the use cases of a Sandbox Constructor/ Sandbox Forall
 
 - to produce \x.\y.C
