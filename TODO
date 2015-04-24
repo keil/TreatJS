@@ -23,6 +23,9 @@ isNaN overrides a global function in typedoctane
 use an export function that exports all predefined contracts in
 a special object (eg. contract(s) oder con)
 
+*** QuickFix in Sandbox,
+Violation only if globale===traget
+
 ## Features ##
 
 * Object Contracts as Data Type Invariants

@@ -91,11 +91,11 @@
       return desc;
     };
     this.getOwnPropertyNames = function(target) {
-      log("getOwnPropertyNames", name);
+      log("getOwnPropertyNames", "");
       return Object.getOwnPropertyNames(target);
     };
     this.getPrototypeOf = function(target) {
-      log("getPrototypeOf", name);
+      log("getPrototypeOf", "");
       return Object.getPrototypeOf(target)
     };
     this.defineProperty = function(target, name, desc) {
@@ -132,17 +132,17 @@
     };
     this.has = function(target, name) {
       log("has", name);
-      if(!(name in target)) violation("Unauthorized Access " + name, (new Error()).fileName, (new Error()).lineNumber);
+      if(!(name in target) && target===global) violation("Unauthorized Access " + name, (new Error()).fileName, (new Error()).lineNumber);
       else return (name in target);
     };
     this.hasOwn = function(target, name) {
       log("hasOwn", name);
-      if(!(name in target)) violation("Unauthorized Access " + name, (new Error()).fileName, (new Error()).lineNumber);
+      if(!(name in target) && target===global) violation("Unauthorized Access " + name, (new Error()).fileName, (new Error()).lineNumber);
       else return ({}).hasOwnProperty.call(target, name); 
     };
     this.get = function(target, name, receiver) {
       log("get", name);
-      if(!(name in target)) violation("Unauthorized Access " + name, (new Error()).fileName, (new Error()).lineNumber);
+      if(!(name in target) && target===global) violation("Unauthorized Access " + name, (new Error()).fileName, (new Error()).lineNumber);
 
       // pass-through of Contract System
       if(name=="_") return target[name];
