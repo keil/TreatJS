@@ -13,6 +13,19 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+load("examples/lemma.js");
+load("examples/temporal.js");
+
+quit();
+
+
+
+
+
+
+
+
+
 (function() {
 
   function get(target, name, receiver) {
