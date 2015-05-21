@@ -147,36 +147,3 @@ TreatJS.Config.print();
 //TreatJS.Package.print();
 
 //print(TreatJS.Manual.toString());
-//
-//
-//
-//
-
-
-print("adsf");
-
-Object.equals = function(x,y,t) {
-  return x===y;
-}
-
-function TransparentProxy(target, handler) {
-  return new Proxy(target, handler);
-}
-
-
-TransparentProxy.createProxtConstructor = function() {
-  var token = {};
-  var equals = function (x, y) {
-    return Object.equals(x, y, token);
-  }
-  var constructor = function(target, handler) {
-    return new TransparentProxy(target, handler, token);
-  }
-  return {constructor:constructor, equals:equals};
-}
-
-var {constructor, equals} = TransparentProxy.createProxtConstructor();
-print(constructor);
-
-
-

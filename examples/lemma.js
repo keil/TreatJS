@@ -1,3 +1,43 @@
+
+function pred(x, y) {
+        return (x+y)===(y+y);
+}
+
+var t = new TestCase([[1,1], [2,2], ["1", 1]], pred);
+
+Contract.assert(t);
+
+pred(1,2);
+pred.apply(this, [1,2]);
+pred.call(this, 1, 2);
+pred.bind(this).bind(1).bind(2);
+
+
+var l = new Lemma([Pos, Neg, typeString], fucntion(x, y) {
+        return (x+y)===(y+y);
+});
+
+Contract.assert(t);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /** Lemma-Dummy
  */
 function Lemma(predicate) {
