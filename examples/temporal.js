@@ -65,3 +65,16 @@
 
 })();
 
+
+function Generator () {
+
+}
+
+
+function Pos () {
+
+}
+Pos.generate = function () {
+  var result = [];
+
+}

@@ -13,8 +13,8 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-load("examples/lemma.js");
-load("examples/temporal.js");
+//load("examples/lemma.js");
+//load("examples/temporal.js");
 
 quit();
 
