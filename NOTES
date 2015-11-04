@@ -1,0 +1,34 @@
+#2 Blame in Contracts
+- restrict throw is not a possibe because the CB structure is already updated
+
+- what happen if if i apply Ctor and Ctor
+- double abstraction
+
+var Plus = Contract.Constructor(function(typeOf) {
+  return Contract.AFunction([typeOf,typeOf], typeOf);
+}, 'PLUS'),
+
+plus @ Plus
+
+
+var Id = var Plus = Contract.Constructor(function(typeOf) {
+  return Contract.AFunction([In('x')], Ouit('x'));
+}, 'PLUS'),
+
+
+\forall X. X->X
+
+Contract.AFunction([In(x)], Out(x));
+
+
+
+assert with X Constr
+construct
+
+
+-> case (context specific change of the contract)
+(Num->Num) Num->Num \cap Str->Str .. ok
+(Num->Num \cap Str->Str) Num->Num .. ? call with 1 || call with "1"
+-> subset of ?
+
+

@@ -1,0 +1,25 @@
+load mandreel.js
+Mandreel: 12605
+MandreelLatency: 18532
+----
+Score (version 9): 15284
+[[--end-of-text--]]
+
+Process 60896 terminated (ok).
+Task completed after 7 sec.
+Charging 5.640s processor usage (0.20 Euro).
+
+Resource usage:
+Average processor load: 77.9%
+
+Processor idle time: 710.8 sec
+Total execution time: 7.2 sec
+Total processing time: 5.6 sec
+Kernel mode time: 0.1 sec
+User mode time: 5.6 sec
+
+Virtual memory size: 181 MByte
+Resident set size: 118 MByte
+Text/Data segment size: 164 MByte
+Shared memory segment: 5 MByte
+

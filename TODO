@@ -1,0 +1,158 @@
+# _                 
+#| |__ _  _ __ _ ___
+#| '_ \ || / _` (_-<
+#|_.__/\_,_\__, /__/
+#          |___/    
+
+*** BUG in Spidermonkey Shell
+
+- treat.decompile.js:77:21 TypeError: Function.prototype.toString called on incompatible object
+- Function.prototype.toString can not be called on a function proxy
+- Quick Fix works in LAX mode
+
+*** Forall works only on Functions
+
+*** Forall-contracts
+
+* Implement lax/picky/indy semantics for forall-contracts
+* Unpack contracted values 
+
+*** Exclude predefined contracts
+
+isNaN overrides a global function in typedoctane
+use an export function that exports all predefined contracts in
+a special object (eg. contract(s) oder con)
+
+## Features ##
+
+* Object Contracts as Data Type Invariants
+** Only testing lemmas
+** Or If lemma than do
+
+* Examples and security Properties
+** Access one (A or B)/ Argument of a function
+
+# __  __       _           _____        _       
+#|  \/  |__ _ (_)___ _ _  |_   _|_ _ __| |__ ___
+#| |\/| / _` || / _ \ '_|   | |/ _` (_-< / /(_-<
+#|_|  |_\__,_|/ \___/_|     |_|\__,_/__/_\_\/__/
+#           |__/                                
+
+* Definition of Not/ Negation
+
+- Previous version implemented for Not
+
+# __  __ _                _____        _       
+#|  \/  (_)_ _  ___ _ _  |_   _|_ _ __| |__ ___
+#| |\/| | | ' \/ _ \ '_|   | |/ _` (_-< / /(_-<
+#|_|  |_|_|_||_\___/_|     |_|\__,_/__/_\_\/__/
+
+*** White Listing for Sandboxes
+- by an object
+
+*** Summary of test cases
+
+- merge test cases and use negative tests
+
+*** Discuss the use cases of a Sandbox Constructor/ Sandbox Forall
+
+- to produce \x.\y.C
+
+*** Documentation and Webpage
+
+*** replace all unnecessary checks by an debug check
+
+*** make convenience contracts for all contracts using a constructor
+
+# _____       _      
+#|_   _|__ __| |_ ___
+#  | |/ -_|_-<  _(_-<
+#  |_|\___/__/\__/__/
+                    
+*** Combination of Forall and Function Contracts
+
+- Forall x.X->x *and* (Num->Num) ->  (Num->Num)
+
+
+
+*** Test run time difference of new version
+
+- Flag for predicate evaluation
+
+
+*** Deactivate contracts
+
+- for example: \x.e @ C->C -> deactivate 
+- after return, all contracts on the input should be deactivated
+- example from Lu; is there a use case
+
+
+# ___         _                  ___     _               _             
+#| __|__ __ _| |_ _  _ _ _ ___  | __|_ _| |_ ___ _ _  __(_)___ _ _  ___
+#| _/ -_) _` |  _| || | '_/ -_) | _|\ \ /  _/ -_) ' \(_-< / _ \ ' \(_-<
+#|_|\___\__,_|\__|\_,_|_| \___| |___/_\_\\__\___|_||_/__/_\___/_||_/__/
+                                                                      
+*** Lemma
+
+- (cf. Haskell contracts)
+- instead of asserting contracts to variables, defining a lemma with conditions.
+
+
+
+*** Cast
+
+- define a cast operator (C-D) v, that corresponds to ( \x.x @ C-D ) v
+- is there a use case?
+
+
+
+*** Subset Semantics
+
+- define a relation C < D for contracts
+
+
+
+*** Access Permission Contracts
+
+- Include Access Contracts from JSConTest2
+
+
+
+*** Better blaming semantics
+
+- Use the callback structure to produce precise blame informations. Not only to say 
+who is to blame, also say which part is violated.
+
+- For example: 
+plus = \x.\y.(""+(x+y));
+plus @ [ Num, Num ] -> Num \cap [ Str, Str ] -> Str;
+plus (true, false) -->* context blame @ plus, argument does nor match [ Num, Num ] \cup [ Str, Str ] ;
+
+- or 
+plus (true, false) -->* context blame @ plus, x @ Num \cup Str \in [ Num, Num ] \cup [ Str, Str ] \in [ Num, Num ] -> Num \cap [ Str, Str ] -> Str;
+plus(1,2) -->* subject blame @ plus, subject does not satisfy [ Num, Num ] -> Num
+
+
+
+*** Temporal Contracts
+
+- Specify the behavior of modules/functions in terms of temporal properties
+- e.g. as a sequence of events,
+
+- e.g. Access only allowed to property 'a' or property 'b', but not both at the same time
+- e.g. A function is not allowed to be called again before it returns the from the first call
+
+- e.g. access o.x; access o.y, return
+- use temporal logic/ LTL
+- use capabilities that allow to call a function
+
+
+*** Embedded contract parser/ Sugar2
+
+- an embedded parser to produce contracts
+- similar to Access Permission Contracts
+
+
+*** TAJS Extension with Gradual Checking/ Sugar2
+
+

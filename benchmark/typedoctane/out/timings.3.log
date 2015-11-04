@@ -1,0 +1,901 @@
+Initializing run #1 (Fri, 13 Feb 2015 14:53:23 +0100)
+Executing process 42767 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.crypto.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nomembrane.crypto.out
+[[--end-of-text--]]
+
+Process 42767 terminated (ok).
+Task completed after 8 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=raytrace mode=nomembrane"
+Initializing run #1 (Fri, 13 Feb 2015 14:53:45 +0100)
+Executing process 42808 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.raytrace.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nomembrane.raytrace.out
+[[--end-of-text--]]
+
+Process 42808 terminated (ok).
+Task completed after 9 hours, 49 min, 2 sec.
+
+You have mail in /home/keilr/tfmail/inbox
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=earley-boyer mode=nomembrane"
+Initializing run #1 (Sat, 14 Feb 2015 09:57:14 +0100)
+Executing process 23537 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.earley-boyer.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nomembrane.earley-boyer.out
+[[--end-of-text--]]
+
+Process 23537 terminated (ok).
+Task completed after 59 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=regexp mode=nomembrane"
+Initializing run #1 (Sat, 14 Feb 2015 09:58:33 +0100)
+Executing process 23650 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.regexp.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nomembrane.regexp.out
+[[--end-of-text--]]
+
+Process 23650 terminated (ok).
+Task completed after 8 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=splay mode=nomembrane"
+Initializing run #1 (Sat, 14 Feb 2015 09:58:54 +0100)
+Executing process 23694 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.splay.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nomembrane.splay.out
+[[--end-of-text--]]
+
+Process 23694 terminated (ok).
+Task completed after 9 min, 7 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=navier-stokes mode=nomembrane"
+Initializing run #1 (Sat, 14 Feb 2015 10:36:35 +0100)
+Executing process 24997 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.navier-stokes.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nomembrane.navier-stokes.out
+[[--end-of-text--]]
+
+Process 24997 terminated (ok).
+Task completed after 9 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=pdfjs mode=nomembrane"
+Initializing run #1 (Sat, 14 Feb 2015 10:39:02 +0100)
+Executing process 25124 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.pdfjs.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nomembrane.pdfjs.out
+[[--end-of-text--]]
+
+Process 25124 terminated (ok).
+Task completed after 6 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=mandreel mode=nomembrane"
+Initializing run #1 (Sat, 14 Feb 2015 10:39:27 +0100)
+Executing process 25168 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.mandreel.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nomembrane.mandreel.out
+[[--end-of-text--]]
+
+Process 25168 terminated (ok).
+Task completed after 5 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=gbemu mode=nomembrane"
+Initializing run #1 (Sat, 14 Feb 2015 10:39:49 +0100)
+Executing process 25209 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.gbemu.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nomembrane.gbemu.out
+[[--end-of-text--]]
+
+Process 25209 terminated (ok).
+Task completed after 1 hour, 57 min, 27 sec.
+
+You have mail in /home/keilr/tfmail/inbox
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=zlib mode=nomembrane"
+Initializing run #1 (Sat, 14 Feb 2015 12:51:38 +0100)
+Executing process 30490 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.zlib.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nomembrane.zlib.out
+[[--end-of-text--]]
+
+Process 30490 terminated (ok).
+Task completed after 13 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=typescript mode=nomembrane"
+Initializing run #1 (Sat, 14 Feb 2015 12:52:00 +0100)
+Executing process 30564 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.typescript.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nomembrane.typescript.out
+[[--end-of-text--]]
+
+Process 30564 terminated (ok).
+Task completed after 10 min, 47 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=earley-boyer mode=nodecompile.2"
+Initializing run #1 (Mon, 16 Feb 2015 08:25:58 +0100)
+Executing process 63870 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.earley-boyer.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nodecompile.2.earley-boyer.out
+[[--end-of-text--]]
+
+Process 63870 terminated (ok).
+Task completed after 1 min, 0 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=richards mode=noassertion"
+Initializing run #1 (Mon, 16 Feb 2015 08:37:41 +0100)
+Executing process 64608 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.richards.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/noassertion.richards.out
+[[--end-of-text--]]
+
+Process 64608 terminated (ok).
+Task completed after 8 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=deltablue mode=noassertion"
+Initializing run #1 (Mon, 16 Feb 2015 08:38:03 +0100)
+Executing process 64691 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.deltablue.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/noassertion.deltablue.out
+[[--end-of-text--]]
+
+Process 64691 terminated (ok).
+Task completed after 4 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=crypto mode=noassertion"
+Initializing run #1 (Mon, 16 Feb 2015 08:38:24 +0100)
+Executing process 64744 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.crypto.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/noassertion.crypto.out
+[[--end-of-text--]]
+
+Process 64744 terminated (ok).
+Task completed after 8 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=raytrace mode=noassertion"
+Initializing run #1 (Mon, 16 Feb 2015 08:38:46 +0100)
+Executing process 64802 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.raytrace.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/noassertion.raytrace.out
+[[--end-of-text--]]
+
+Process 64802 terminated (ok).
+Task completed after 4 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=earley-boyer mode=noassertion"
+Initializing run #1 (Mon, 16 Feb 2015 08:39:06 +0100)
+Executing process 64854 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.earley-boyer.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/noassertion.earley-boyer.out
+[[--end-of-text--]]
+
+Process 64854 terminated (ok).
+Task completed after 53 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=regexp mode=noassertion"
+Initializing run #1 (Mon, 16 Feb 2015 08:40:26 +0100)
+Executing process 64948 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.regexp.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/noassertion.regexp.out
+[[--end-of-text--]]
+
+Process 64948 terminated (ok).
+Task completed after 8 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=splay mode=noassertion"
+Initializing run #1 (Mon, 16 Feb 2015 08:40:48 +0100)
+Executing process 64993 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.splay.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/noassertion.splay.out
+[[--end-of-text--]]
+
+Process 64993 terminated (ok).
+Task completed after 3 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=navier-stokes mode=noassertion"
+Initializing run #1 (Mon, 16 Feb 2015 08:41:02 +0100)
+Executing process 65037 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.navier-stokes.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/noassertion.navier-stokes.out
+[[--end-of-text--]]
+
+Process 65037 terminated (ok).
+Task completed after 4 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=pdfjs mode=noassertion"
+Initializing run #1 (Mon, 16 Feb 2015 08:41:22 +0100)
+Executing process 65079 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.pdfjs.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/noassertion.pdfjs.out
+[[--end-of-text--]]
+
+Process 65079 terminated (ok).
+Task completed after 6 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=mandreel mode=noassertion"
+Initializing run #1 (Mon, 16 Feb 2015 08:41:39 +0100)
+Executing process 65123 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.mandreel.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/noassertion.mandreel.out
+[[--end-of-text--]]
+
+Process 65123 terminated (ok).
+Task completed after 5 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=gbemu mode=noassertion"
+Initializing run #1 (Mon, 16 Feb 2015 08:41:53 +0100)
+Executing process 65163 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.gbemu.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/noassertion.gbemu.out
+[[--end-of-text--]]
+
+Process 65163 terminated (ok).
+Task completed after 5 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=code-load mode=noassertion"
+Initializing run #1 (Mon, 16 Feb 2015 08:42:07 +0100)
+Executing process 65200 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.code-load.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/noassertion.code-load.out
+[[--end-of-text--]]
+
+Process 65200 terminated (ok).
+Task completed after 9 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=box2d mode=noassertion"
+Initializing run #1 (Mon, 16 Feb 2015 08:42:23 +0100)
+Executing process 65239 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.box2d.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/noassertion.box2d.out
+[[--end-of-text--]]
+
+Process 65239 terminated (ok).
+Task completed after 6 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=zlib mode=noassertion"
+Initializing run #1 (Mon, 16 Feb 2015 08:42:38 +0100)
+Executing process 65277 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.zlib.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/noassertion.zlib.out
+[[--end-of-text--]]
+
+Process 65277 terminated (ok).
+Task completed after 11 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=typescript mode=noassertion"
+Initializing run #1 (Mon, 16 Feb 2015 08:43:06 +0100)
+Executing process 65325 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.typescript.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/noassertion.typescript.out
+[[--end-of-text--]]
+
+Process 65325 terminated (ok).
+Task completed after 24 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=crypto mode=statistics"
+Initializing run #1 (Mon, 16 Feb 2015 08:52:40 +0100)
+Executing process 531 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.crypto.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/statistics.crypto.out
+[[--end-of-text--]]
+
+Process 531 terminated (ok).
+Task completed after 9 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=raytrace mode=statistics"
+Initializing run #1 (Mon, 16 Feb 2015 08:54:42 +0100)
+Executing process 627 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.raytrace.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/statistics.raytrace.out
+[[--end-of-text--]]
+
+Process 627 terminated (ok).
+Task completed after 23 hours, 12 min, 37 sec.
+
+You have mail in /home/keilr/tfmail/inbox
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=earley-boyer mode=statistics"
+Initializing run #1 (Tue, 17 Feb 2015 08:25:23 +0100)
+Executing process 64313 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.earley-boyer.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/statistics.earley-boyer.out
+[[--end-of-text--]]
+
+Process 64313 terminated (ok).
+Task completed after 1 min, 9 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=regexp mode=statistics"
+Initializing run #1 (Tue, 17 Feb 2015 08:33:40 +0100)
+Executing process 64626 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.regexp.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/statistics.regexp.out
+[[--end-of-text--]]
+
+Process 64626 terminated (ok).
+Task completed after 9 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=splay mode=statistics"
+Initializing run #1 (Tue, 17 Feb 2015 08:34:57 +0100)
+Executing process 64731 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.splay.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/statistics.splay.out
+[[--end-of-text--]]
+
+Process 64731 terminated (ok).
+Task completed after 19 min, 19 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=navier-stokes mode=statistics"
+Initializing run #1 (Tue, 17 Feb 2015 09:18:14 +0100)
+Executing process 1176 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.navier-stokes.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/statistics.navier-stokes.out
+[[--end-of-text--]]
+
+Process 1176 terminated (ok).
+Task completed after 12 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=pdfjs mode=statistics"
+Initializing run #1 (Tue, 17 Feb 2015 09:19:29 +0100)
+Executing process 1264 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.pdfjs.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/statistics.pdfjs.out
+[[--end-of-text--]]
+
+Process 1264 terminated (ok).
+Task completed after 6 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=mandreel mode=statistics"
+Initializing run #1 (Tue, 17 Feb 2015 09:20:08 +0100)
+Executing process 1312 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.mandreel.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/statistics.mandreel.out
+[[--end-of-text--]]
+
+Process 1312 terminated (ok).
+Task completed after 5 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=code-load mode=statistics"
+Initializing run #1 (Tue, 17 Feb 2015 09:20:31 +0100)
+Executing process 1355 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.code-load.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/statistics.code-load.out
+[[--end-of-text--]]
+
+Process 1355 terminated (ok).
+Task completed after 12 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=zlib mode=statistics"
+Initializing run #1 (Tue, 17 Feb 2015 09:21:01 +0100)
+Executing process 1404 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.zlib.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/statistics.zlib.out
+[[--end-of-text--]]
+
+Process 1404 terminated (ok).
+Task completed after 11 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=gbemu mode=statistics"
+Initializing run #1 (Tue, 17 Feb 2015 09:21:58 +0100)
+Executing process 1461 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.gbemu.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/statistics.gbemu.out
+[[--end-of-text--]]
+
+Process 1461 terminated (ok).
+Task completed after 4 hours, 28 min, 28 sec.
+
+You have mail in /home/keilr/tfmail/inbox
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=box2d mode=statistics"
+Initializing run #1 (Tue, 17 Feb 2015 13:51:53 +0100)
+Executing process 20437 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.box2d.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/statistics.box2d.out
+[[--end-of-text--]]
+
+Process 20437 terminated (ok).
+Task completed after 5 hours, 19 min, 49 sec.
+
+You have mail in /home/keilr/tfmail/inbox
+akoakoa:~/tmp/TreatJS_1.2.18-final$ Process 29345 terminated (Killed).
+Session closed after 1 week, 5 days, 19 hours, 28 min, 47 sec.
+Charging 6869s processor usage (245.24 Euro).
+Maximum virtual memory size was 42 MByte.
+Connection to akoakoa closed.
+You have mail in /home/keilr/tfmail/inbox
+kaanapali:~$ akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=deltablue mode=full"
+d
+bash: akoakoa:~/tmp/TreatJS_1.2.18-final$: No such file or directory
+You have mail in /home/keilr/tfmail/inbox
+kaanapali:~$ Initializing run #1 (Fri, 06 Feb 2015 14:11:31 +0100)
+a
+bash: Initializing: command not found
+kaanapali:~$ Executing process 29664 (make)
+bash: syntax error near unexpected token `('
+kaanapali:~$ 
+kaanapali:~$ [[--start-of-text--]]
+/
+bash: [[--start-of-text--]]: command not found
+kaanapali:~$ ./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.deltablue.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.deltablue.out
+
+bash: benchmark/typedoctane/out/full.deltablue.out: No such file or directory
+kaanapali:~$ [[--end-of-text--]]
+
+bash: [[--end-of-text--]]: command not found
+kaanapali:~$ 
+
+kaanapali:~$ Process 29664 terminated (ok).
+
+bash: syntax error near unexpected token `('
+kaanapali:~$ Task completed after 2 days, 10 hours, 36 min, 49 sec.
+
+bash: Task: command not found
+kaanapali:~$ 
+
+kaanapali:~$ You have mail in /home/keilr/tfmail/inbox
+
+bash: You: command not found
+kaanapali:~$ akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=navier-stokes mode=full"
+
+bash: akoakoa:~/tmp/TreatJS_1.2.18-final$: No such file or directory
+kaanapali:~$ Initializing run #1 (Mon, 09 Feb 2015 08:24:57 +0100)
+
+bash: Initializing: command not found
+kaanapali:~$ Executing process 3285 (make)
+
+bash: syntax error near unexpected token `('
+kaanapali:~$ 
+
+kaanapali:~$ [[--start-of-text--]]
+
+bash: [[--start-of-text--]]: command not found
+kaanapali:~$ ./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.navier-stokes.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.navier-stokes.out
+
+bash: benchmark/typedoctane/out/full.navier-stokes.out: No such file or directory
+kaanapali:~$ [[--end-of-text--]]
+
+bash: [[--end-of-text--]]: command not found
+kaanapali:~$ 
+
+kaanapali:~$ Process 3285 terminated (ok).
+
+bash: syntax error near unexpected token `('
+kaanapali:~$ Task completed after 11 sec.
+
+bash: Task: command not found
+kaanapali:~$ 
+
+kaanapali:~$ You have mail in /home/keilr/tfmail/inbox
+
+bash: You: command not found
+kaanapali:~$ akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=pdfjs mode=full"
+
+bash: akoakoa:~/tmp/TreatJS_1.2.18-final$: No such file or directory
+kaanapali:~$ Initializing run #1 (Mon, 09 Feb 2015 08:25:28 +0100)
+
+bash: Initializing: command not found
+kaanapali:~$ Executing process 3339 (make)
+
+bash: syntax error near unexpected token `('
+kaanapali:~$ 
+
+kaanapali:~$ [[--start-of-text--]]
+
+bash: [[--start-of-text--]]: command not found
+kaanapali:~$ ./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.pdfjs.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.pdfjs.out
+
+bash: benchmark/typedoctane/out/full.pdfjs.out: No such file or directory
+kaanapali:~$ [[--end-of-text--]]
+
+bash: [[--end-of-text--]]: command not found
+kaanapali:~$ 
+
+kaanapali:~$ Process 3339 terminated (ok).
+
+bash: syntax error near unexpected token `('
+kaanapali:~$ Task completed after 1 sec.
+
+bash: Task: command not found
+kaanapali:~$ 
+
+kaanapali:~$ akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=mandreel mode=full"
+
+bash: akoakoa:~/tmp/TreatJS_1.2.18-final$: No such file or directory
+kaanapali:~$ Initializing run #1 (Mon, 09 Feb 2015 08:26:22 +0100)
+
+bash: Initializing: command not found
+kaanapali:~$ Executing process 3403 (make)
+
+bash: syntax error near unexpected token `('
+kaanapali:~$ 
+
+kaanapali:~$ [[--start-of-text--]]
+
+bash: [[--start-of-text--]]: command not found
+kaanapali:~$ ./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.mandreel.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.mandreel.out
+
+bash: benchmark/typedoctane/out/full.mandreel.out: No such file or directory
+kaanapali:~$ [[--end-of-text--]]
+
+bash: [[--end-of-text--]]: command not found
+kaanapali:~$ 
+
+kaanapali:~$ Process 3403 terminated (ok).
+
+bash: syntax error near unexpected token `('
+kaanapali:~$ Task completed after 0 sec.
+
+bash: Task: command not found
+kaanapali:~$ 
+
+kaanapali:~$ akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=gbemu mode=full"
+
+bash: akoakoa:~/tmp/TreatJS_1.2.18-final$: No such file or directory
+kaanapali:~$ Initializing run #1 (Mon, 09 Feb 2015 08:30:00 +0100)
+
+bash: Initializing: command not found
+kaanapali:~$ Executing process 3575 (make)
+
+bash: syntax error near unexpected token `('
+kaanapali:~$ 
+
+kaanapali:~$ [[--start-of-text--]]
+
+bash: [[--start-of-text--]]: command not found
+kaanapali:~$ ./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.gbemu.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.gbemu.out
+
+bash: benchmark/typedoctane/out/full.gbemu.out: No such file or directory
+kaanapali:~$ [[--end-of-text--]]
+
+bash: [[--end-of-text--]]: command not found
+kaanapali:~$ 
+
+kaanapali:~$ Process 3575 terminated (ok).
+
+bash: syntax error near unexpected token `('
+kaanapali:~$ Task completed after 1 min, 12 sec.
+
+bash: Task: command not found
+kaanapali:~$ 
+
+kaanapali:~$ akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=zlib mode=full"
+
+bash: akoakoa:~/tmp/TreatJS_1.2.18-final$: No such file or directory
+kaanapali:~$ Initializing run #1 (Mon, 09 Feb 2015 08:31:51 +0100)
+
+bash: Initializing: command not found
+kaanapali:~$ Executing process 3743 (make)
+
+bash: syntax error near unexpected token `('
+kaanapali:~$ 
+
+kaanapali:~$ [[--start-of-text--]]
+
+bash: [[--start-of-text--]]: command not found
+kaanapali:~$ ./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.zlib.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.zlib.out
+
+bash: benchmark/typedoctane/out/full.zlib.out: No such file or directory
+kaanapali:~$ [[--end-of-text--]]
+
+bash: [[--end-of-text--]]: command not found
+kaanapali:~$ 
+
+kaanapali:~$ Process 3743 terminated (ok).
+
+bash: syntax error near unexpected token `('
+kaanapali:~$ Task completed after 11 sec.
+
+bash: Task: command not found
+kaanapali:~$ 
+
+kaanapali:~$ akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=typescript mode=full"
+
+bash: akoakoa:~/tmp/TreatJS_1.2.18-final$: No such file or directory
+kaanapali:~$ Initializing run #1 (Mon, 09 Feb 2015 08:32:29 +0100)
+
+bash: Initializing: command not found
+kaanapali:~$ Executing process 3797 (make)
+
+bash: syntax error near unexpected token `('
+kaanapali:~$ 
+
+kaanapali:~$ [[--start-of-text--]]
+
+bash: [[--start-of-text--]]: command not found
+kaanapali:~$ ./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.typescript.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.typescript.out
+
+bash: benchmark/typedoctane/out/full.typescript.out: No such file or directory
+kaanapali:~$ [[--end-of-text--]]
+
+bash: [[--end-of-text--]]: command not found
+kaanapali:~$ 
+
+kaanapali:~$ Process 3797 terminated (ok).
+
+bash: syntax error near unexpected token `('
+kaanapali:~$ Task completed after 3 sec.
+
+bash: Task: command not found
+kaanapali:~$ 
+
+kaanapali:~$ akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=pdfjs mode=full"
+
+bash: akoakoa:~/tmp/TreatJS_1.2.18-final$: No such file or directory
+kaanapali:~$ Initializing run #1 (Mon, 09 Feb 2015 09:28:21 +0100)
+
+bash: Initializing: command not found
+kaanapali:~$ Executing process 6237 (make)
+
+bash: syntax error near unexpected token `('
+kaanapali:~$ 
+
+kaanapali:~$ [[--start-of-text--]]
+
+bash: [[--start-of-text--]]: command not found
+kaanapali:~$ ./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.pdfjs.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.pd
+
+bash: benchmark/typedoctane/out/full.pd: No such file or directory
+kaanapali:~$ [[--end-of-text--]]
+
+bash: [[--end-of-text--]]: command not found
+kaanapali:~$ 
+
+kaanapali:~$ Process 6237 terminated (ok).
+
+bash: syntax error near unexpected token `('
+kaanapali:~$ Ta
+
+bash: Ta: command not found
+kaanapali:~$ 
+
+kaanapali:~$ You have mail in /home/keilr/tfmail/inbox
+bash: You: command not found
+kaanapali:~$ akoakoa:~/
+bash: akoakoa:~/: No such file or directory
+kaanapali:~$ Initializing run #1 (Mon, 09 Feb 2015 14:07:42 +0100)
+bash: Initializing: command not found
+kaanapali:~$ Executing process 18747 (make)
+bash: syntax error near unexpected token `('
+kaanapali:~$ 
+kaanapali:~$ [[--start-of-text--]]
+bash: [[--start-of-text--]]: command not found
+kaanapali:~$ ./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctan
+bash: ./js: No such file or directory
+kaanapali:~$ [[--end-of-text--]]
+bash: [[--end-of-text--]]: command not found
+kaanapali:~$ 
+kaanapali:~$ Process 18747 terminated (ok).
+bash: syntax error near unexpected token `('
+kaanapali:~$ Task completed after 34 min, 30 sec.
+bash: Task: command not found
+kaanapali:~$ 
+kaanapali:~$ You have mail in
+bash: You: command not found
+kaanapali:~$ 
+kaanapali:~$ Initializing run #1 (Mon, 09 Feb 2015 14:
+bash: Initializing: command not found
+kaanapali:~$ Executing process 21308 (make)
+bash: syntax error near unexpected token `('
+kaanapali:~$ 
+kaanapali:~$ [[--start-of-text--]]
+bash: [[--start-of-text--]]: command not found
+kaanapali:~$ ./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f be
+bash: ./js: No such file or directory
+kaanapali:~$ benchmark/typedoctane/typed.js:24:0 TypeError: _TYPES
+bash: benchmark/typedoctane/typed.js:24:0: No such file or directory
+kaanapali:~$ make: *** [typedf] Error 3
+bash: make:: command not found
+kaanapali:~$ [[
+> 
+> Process 21308 termina
+bash: conditional binary operator expected
+bash: syntax error near `21308'
+kaanapali:~$ Task completed after 2 sec.
+bash: Task: command not found
+kaanapali:~$ 
+kaanapali:~$ akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=typescript mode=full.3"
+bash: akoakoa:~/tmp/TreatJS_1.2.18-final$: No such file or directory
+kaanapali:~$ Initializing run #1 (Mon, 09 Feb 2015 14:53:03 +010
+bash: Initializing: command not found
+kaanapali:~$ Executing process 2
+bash: Executing: command not found
+kaanapali:~$ 
+kaanapali:~$ [[--start-of-text--]]
+bash: [[--start-of-text--]]: command not found
+kaanapali:~$ ./js -f
+bash: ./js: No such file or directory
+kaanapali:~$ benchmark/typedoctane/typed.
+bash: benchmark/typedoctane/typed.: No such file or directory
+kaanapali:~$ 
+kaanapali:~$ [[--end-of-text--]]
+bash: [[--end-of-text--]]: command not found
+kaanapali:~$ 
+kaanapali:~$ Process 21387 termin
+bash: Process: command not found
+kaanapali:~$ Task completed after 1 sec.
+bash: Task: command not found
+kaanapali:~$ 
+kaanapali:~$ akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make
+> Initializing run #1 (Mon, 09 Feb 2015 14:53:38 +0100)
+> Executing process 21438 (make
+> 
+> [[--start-of-text--]]
+> ./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.typescript.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.3.ty
+> benchmark/typedocta
+> 
+> [[--end-of-text--]]
+> 
+> Process 
+> Task completed after 0 sec.
+> 
+> akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=typescript mode=ful
+bash: akoakoa:~/tmp/TreatJS_1.2.18-final$: No such file or directory
+kaanapali:~$ Initializing run #1 (Mon, 09 Feb 2015 14:57:38 +0100)
+bash: Initializing: command not found
+kaanapali:~$ Executing process 21672 (make
+bash: syntax error near unexpected token `('
+kaanapali:~$ 
+kaanapali:~$ [[--start-of-text--]]
+bash: [[--start-of-text--]]: command not found
+kaanapali:~$ ./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.typescript.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.4.typescri
+bash: benchmark/typedoctane/out/full.4.typescri: No such file or directory
+kaanapali:~$ [[--end-of-text--]]
+bash: [[--end-of-text--]]: command not found
+kaanapali:~$ 
+kaanapali:~$ Process 21672 terminated (ok)
+bash: syntax error near unexpected token `('
+kaanapali:~$ Task completed after 22 min
+bash: Task: command not found
+kaanapali:~$ 
+kaanapali:~$ You have mail in /home/keilr/tfmail/inbox
+bash: You: command not found
+kaanapali:~$ akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_
+bash: akoakoa:~/tmp/TreatJS_1.2.18-final$: No such file or directory
+kaanapali:~$ Initializing run #1 (Mon, 09 Feb 2015 17:05:50 +0100)
+bash: Initializing: command not found
+kaanapali:~$ Executing process 28781 (make
+bash: syntax error near unexpected token `('
+kaanapali:~$ 
+kaanapali:~$ [[--start-of-text--]]
+bash: [[--start-of-text--]]: command not found
+kaanapali:~$ ./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.gbemu.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/full.X.gbemu.o
+bash: benchmark/typedoctane/out/full.X.gbemu.o: No such file or directory
+kaanapali:~$ [[--end-of-text--]]
+bash: [[--end-of-text--]]: command not found
+kaanapali:~$ 
+kaanapali:~$ Process 28781 terminated (ok)
+bash: syntax error near unexpected token `('
+kaanapali:~$ Task completed after 2 sec.
+bash: Task: command not found
+kaanapali:~$ 
+kaanapali:~$ You ha
+bash: You: command not found
+kaanapali:~$ 
+kaanapali:~$ Initializing run #1 (Tue, 10 Feb 2015 13:19:08 +0100)
+bash: Initializing: command not found
+kaanapali:~$ Executing process 25788 (make)
+bash: syntax error near unexpected token `('
+kaanapali:~$ 
+kaanapali:~$ [[--start-of-text--]]
+bash: [[--start-of-text--]]: command not found
+kaanapali:~$ ./js -f src/shell.j
+bash: ./js: No such file or directory
+kaanapali:~$ [[--end-of-text--]]
+bash: [[--end-of-text--]]: command not found
+kaanapali:~$ 
+kaanapali:~$ Process 25788 terminated (ok).
+bash: syntax error near unexpected token `('
+kaanapali:~$ T
+bash: T: command not found
+kaanapali:~$ 
+kaanapali:~$ You have mail in /home/keilr
+bash: You: command not found
+kaanapali:~$ 
+kaanapali:~$ Initializing run #1 (
+bash: Initializing: command not found
+kaanapali:~$ Executing process 21771 (make)
+bash: syntax error near unexpected token `('
+kaanapali:~$ 
+kaanapali:~$ [[--start-of-text--]]
+bash: [[--start-of-text--]]: command not found
+kaanapali:~$ ./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.deltablue.js -f benchmark/type
+bash: ./js: No such file or directory
+kaanapali:~$ [[--end-of-text--]]
+bash: [[--end-of-text--]]: command not found
+kaanapali:~$ 
+kaanapali:~$ Process 21771 terminated (ok)
+bash: syntax error near unexpected token `('
+kaanapali:~$ Task completed after 1 day, 
+bash: Task: command not found
+kaanapali:~$ 
+kaanapali:~$ You have mail in /home/keilr/tfmail/inbox
+bash: You: command not found
+kaanapali:~$ akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH 
+bash: akoakoa:~/tmp/TreatJS_1.2.18-final$: No such file or directory
+kaanapali:~$ Initializing run #1 (Fri, 13 Feb 2015 14:52:59 +0100)
+bash: Initializing: command not found
+kaanapali:~$ Executing process 42723 (make
+bash: syntax error near unexpected token `('
+kaanapali:~$ 
+kaanapali:~$ [[--start-of-text--]]
+bash: [[--start-of-text--]]: command not found
+kaanapali:~$ ./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.deltablue.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nomembrane.deltablue
+bash: benchmark/typedoctane/out/nomembrane.deltablue: No such file or directory
+kaanapali:~$ [[--end-of-text--]]
+bash: [[--end-of-text--]]: command not found
+kaanapali:~$ 
+kaanapali:~$ Process 42723 terminated (ok)
+bash: syntax error near unexpected token `('
+kaanapali:~$ Task completed after 1 day,
+bash: Task: command not found
+kaanapali:~$ 
+kaanapali:~$ You have new mail in /home/keilr/tfmail/inbox
+bash: You: command not found
+kaanapali:~$ akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBR
+bash: akoakoa:~/tmp/TreatJS_1.2.18-final$: No such file or directory
+kaanapali:~$ Initializing run #1 (Mon, 16 Feb 2015 08:52:17 +0100)
+bash: Initializing: command not found
+kaanapali:~$ Executing process 492 (make)
+bash: syntax error near unexpected token `('
+kaanapali:~$ 
+kaanapali:~$ 
+kaanapali:~$ ./js -f src/shell.js 
+bash: ./js: No such file or directory
+kaanapali:~$ [[--end-of-text--]]
+bash: [[--end-of-text--]]: command not found
+kaanapali:~$ 
+kaanapali:~$ Process 492 terminated (ok).
+bash: syntax error near unexpected token `('
+kaanapali:~$ Task completed after 2 days, 12 hours, 24 min, 28 sec.
+bash: Task: command not found
+kaanapali:~$ 
+kaanapali:~$ You have mail in /home/keilr/tfmail/inbox
+bash: You: command not found
+kaanapali:~$ akoakoa:~/tmp/TreatJS_1.2.18-final$ Process 2
+bash: akoakoa:~/tmp/TreatJS_1.2.18-final$: No such file or directory
+kaanapali:~$ Session closed afte
+bash: Session: command not found
+kaanapali:~$ 
+kaanapali:~$ Maximum virtual memory size w
+bash: Maximum: command not found
+kaanapali:~$ Co
+bash: Co: command not found
+kaanapali:~$ 
+kaanapali:~$ kaanapali:~$ 
+bash: kaanapali:~$: command not found
+kaanapali:~$ 
+

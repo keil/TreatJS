@@ -1,0 +1,23 @@
+PdfJS: 8095
+----
+Score (version 9): 8095
+[[--end-of-text--]]
+
+Process 40859 terminated (ok).
+Task completed after 7 sec.
+Charging 8.320s processor usage (0.30 Euro).
+
+Resource usage:
+Average processor load: 110%
+
+Processor idle time: 740 sec
+Total execution time: 8 sec
+Total processing time: 8 sec
+Kernel mode time: 0 sec
+User mode time: 8 sec
+
+Virtual memory size: 240 MByte
+Resident set size: 186 MByte
+Text/Data segment size: 223 MByte
+Shared memory segment: 5 MByte
+

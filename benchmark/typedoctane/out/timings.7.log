@@ -1,0 +1,204 @@
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.typescript.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/alternative.typescript.out
+[[--end-of-text--]]
+
+Process 12173 terminated (ok).
+Task completed after 17 min, 8 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=typescript mode=nopredicate"
+Initializing run #1 (Mon, 23 Feb 2015 13:23:06 +0100)
+Executing process 19923 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.typescript.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nopredicate.typescript.out
+[[--end-of-text--]]
+
+Process 19923 terminated (ok).
+Task completed after 9 min, 15 sec.
+
+You have mail in /home/keilr/tfmail/inbox
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=mandreel mode=nopredicate"
+Initializing run #1 (Mon, 23 Feb 2015 13:33:42 +0100)
+Executing process 20430 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.mandreel.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nopredicate.mandreel.out
+[[--end-of-text--]]
+
+Process 20430 terminated (ok).
+Task completed after 7 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=pdfjs mode=nopredicate"
+Initializing run #1 (Mon, 23 Feb 2015 13:34:09 +0100)
+Executing process 20490 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.pdfjs.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nopredicate.pdfjs.out
+[[--end-of-text--]]
+
+Process 20490 terminated (ok).
+Task completed after 6 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=navier-stokes mode=nopredicate"
+Initializing run #1 (Mon, 23 Feb 2015 13:34:42 +0100)
+Executing process 20531 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.navier-stokes.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nopredicate.navier-stokes.out
+[[--end-of-text--]]
+
+Process 20531 terminated (ok).
+Task completed after 7 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=splay mode=nopredicate"
+Initializing run #1 (Mon, 23 Feb 2015 13:35:05 +0100)
+Executing process 20578 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.splay.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nopredicate.splay.out
+[[--end-of-text--]]
+
+Process 20578 terminated (ok).
+Task completed after 7 min, 48 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=regexp mode=nopredicate"
+Initializing run #1 (Mon, 23 Feb 2015 13:44:38 +0100)
+Executing process 20918 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.regexp.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nopredicate.regexp.out
+[[--end-of-text--]]
+
+Process 20918 terminated (ok).
+Task completed after 8 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=earley-boyer mode=nopredicate"
+Initializing run #1 (Mon, 23 Feb 2015 13:45:05 +0100)
+Executing process 20972 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.earley-boyer.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nopredicate.earley-boyer.out
+[[--end-of-text--]]
+
+Process 20972 terminated (ok).
+Task completed after 56 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=crypto mode=nopredicate"
+Initializing run #1 (Mon, 23 Feb 2015 13:46:21 +0100)
+Executing process 21037 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.crypto.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nopredicate.crypto.out
+[[--end-of-text--]]
+
+Process 21037 terminated (ok).
+Task completed after 9 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool3 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=deltablue mode=nopredicate"
+Initializing run #1 (Mon, 23 Feb 2015 13:46:51 +0100)
+Executing process 21089 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.deltablue.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nopredicate.deltablue.out
+[[--end-of-text--]]
+
+Process 21089 terminated (ok).
+Task completed after 1 day, 1 hour, 51 min, 38 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ 
+
+
+====================================
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.gbemu.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/alternative.gbemu.out
+[[--end-of-text--]]
+
+Process 11669 terminated (ok).
+Task completed after 3 hours, 13 min, 13 sec.
+
+You have mail in /home/keilr/tfmail/inbox
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=zlib mode=nopredicate"
+Initializing run #1 (Mon, 23 Feb 2015 13:23:34 +0100)
+Executing process 19985 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.zlib.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nopredicate.zlib.out
+[[--end-of-text--]]
+
+Process 19985 terminated (ok).
+Task completed after 11 sec.
+
+You have mail in /home/keilr/tfmail/inbox
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=code-load mode=nopredicate"
+Initializing run #1 (Mon, 23 Feb 2015 13:24:09 +0100)
+Executing process 20063 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.code-load.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nopredicate.code-load.out
+[[--end-of-text--]]
+
+Process 20063 terminated (ok).
+Task completed after 10 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=gbemu mode=nopredicate"
+Initializing run #1 (Mon, 23 Feb 2015 13:24:37 +0100)
+Executing process 20104 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.gbemu.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nopredicate.gbemu.out
+[[--end-of-text--]]
+
+Process 20104 terminated (ok).
+Task completed after 1 hour, 39 min, 17 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=richards mode=nopredicate"
+Initializing run #1 (Mon, 23 Feb 2015 15:07:29 +0100)
+Executing process 23609 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.richards.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nopredicate.richards.out
+/home/keilr/tmp/TreatJS_1.2.18-final/benchmark/typedoctane/run.js:35:35 ReferenceError: XXX is not defined
+make: *** [typedf] Error 3
+[[--end-of-text--]]
+
+Process 23609 terminated (error 002).
+Task completed after 2 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool2 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=richards mode=nopredicate"
+Initializing run #1 (Mon, 23 Feb 2015 15:07:42 +0100)
+Executing process 23663 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.richards.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nopredicate.richards.out
+[[--end-of-text--]]
+
+Process 23663 terminated (ok).
+Task completed after 17 hours, 49 min, 5 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ 
+
+==================================================
+
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.box2d.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nopredicate.box2d.out
+[[--end-of-text--]]
+
+Process 20022 terminated (ok).
+Task completed after 1 hour, 58 min, 13 sec.
+
+You have mail in /home/keilr/tfmail/inbox
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool1 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=raytrace mode=nopredicate"
+Initializing run #1 (Mon, 23 Feb 2015 15:34:01 +0100)
+Executing process 24564 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.raytrace.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/nopredicate.raytrace.out
+[[--end-of-text--]]
+
+Process 24564 terminated (ok).
+Task completed after 8 hours, 10 min, 17 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ 
+

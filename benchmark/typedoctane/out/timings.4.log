@@ -1,0 +1,81 @@
+
+keilr@akoakoa's password: 
+   ___    ___    ______
+  /__/|  /__/|  /_____/|   Albert-Ludwigs-Universitaet Freiburg
+ |  | | |  | | |  ____|/   Technische Fakultaet, Institut f. Informatik
+ |  | | |  | | |  | |_     Softwaretechnologie & Programmiersprachen
+ |  | | |  | | |  |/_/|
+ |  | | |  | | |  ___|/
+ |  | | |  | | |  | |           http://www.informatik.uni-freiburg.de
+ |  | | |  | | |  | |           http://support.informatik.uni-freiburg.de
+ |__|/  |__|/  |__|/
+
+Welcome to server akoakoa (Linux/x86_64).
+Initializing session 22413 for Roman Matthias Keil (keilr:proglang).
+Applying resource class proglang (processor 1-5, node 0).
+Session cutoff time is Fri, 13 Mar 2015 08:39:13 +0100.
+
+Please read http://swt.informatik.uni-freiburg.de/service/compute-server
+
+akoakoa:~$ cd /tmp/TreatJS_1.2.18-final/
+-bash: cd: /tmp/TreatJS_1.2.18-final/: No such file or directory
+akoakoa:~$ cd ~/tmp/TreatJS_1.2.18-final/
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool1 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=richards mode=alternative"
+Initializing run #1 (Fri, 20 Feb 2015 10:56:01 +0100)
+Executing process 25249 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.richards.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/alternative.richards.out
+[[--end-of-text--]]
+
+Process 25249 terminated (ok).
+Task completed after 1 day, 6 hours, 59 min, 42 sec.
+
+You have mail in /home/keilr/tfmail/inbox
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool1 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=earley-boyer mode=alternative"
+Initializing run #1 (Mon, 23 Feb 2015 08:26:18 +0100)
+Executing process 11384 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.earley-boyer.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/alternative.earley-boyer.out
+[[--end-of-text--]]
+
+Process 11384 terminated (ok).
+Task completed after 1 min, 3 sec.
+
+You have mail in /home/keilr/tfmail/inbox
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool1 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=mandreel mode=alternative"
+Initializing run #1 (Mon, 23 Feb 2015 08:28:52 +0100)
+Executing process 11619 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.mandreel.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/alternative.mandreel.out
+[[--end-of-text--]]
+
+Process 11619 terminated (ok).
+Task completed after 5 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool1 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=code-load mode=alternative"
+Initializing run #1 (Mon, 23 Feb 2015 08:29:28 +0100)
+Executing process 11702 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.code-load.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/alternative.code-load.out
+[[--end-of-text--]]
+
+Process 11702 terminated (ok).
+Task completed after 12 sec.
+
+akoakoa:~/tmp/TreatJS_1.2.18-final$ vpt -w pool1 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make typedf file=box2d mode=alternative"
+Initializing run #1 (Mon, 23 Feb 2015 08:32:08 +0100)
+Executing process 11799 (make)
+
+[[--start-of-text--]]
+./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/types/types.box2d.js -f benchmark/typedoctane/typed.js >> benchmark/typedoctane/out/alternative.box2d.out
+[[--end-of-text--]]
+
+Process 11799 terminated (ok).
+Task completed after 3 hours, 52 min, 34 sec.
+
+You have mail in /home/keilr/tfmail/inbox
+akoakoa:~/tmp/TreatJS_1.2.18-final$ 
