@@ -53,6 +53,9 @@ Contract.assert(true, contract2);
 quit();
 */
 
+load("examples/objects.js");
+
+quit();
 load("examples/invariant.js");
 //load("examples/temporal.js");
 //load("examples/temporal2.js");
