@@ -33,14 +33,14 @@ function set(target, name, value) {
 var __HasProperty__ = Contract.Constructor(function (name) {
   return Contract.Base(function(target) {
     return (name in target);
-  }, "(has " + name + ")");
+  }, "[" + name + " in subject]");
 });
 
-/*var __Get__ = Contract.Constructor(function () {
-  return Contract.AFunction([hasProeprty, Any], contract);
-}*/
-
-
+var __IsProperty__ = Contract.Constructor(function (name) {
+  return Contract.Base(function(target) {
+    return (name === target);
+  }, "[" + name + "]");
+});
 
 
 
@@ -52,18 +52,14 @@ var __HasProperty__ = Contract.Constructor(function (name) {
 
 // Constructor
 function mkProeprtyContract(name, contract) {
-  print("###", __HasProperty__.construct(name));
-  return Contract.AFunction([], contract);
+  return Contract.AFunction([__HasProperty__.construct(name), __IsProperty__.construct(name)], contract);
 }
 
 
 //
 function mkObjectContract(object) {
-
-  var intersection = Contract.AFunction([__HasProperty__.construct(name), Any], Any);;
-
+  var intersection = null
   for(var property of Object.keys(object)) {
-    print("%%", property);
     var contract = mkProeprtyContract(property, object[property]);
     intersection = intersection ? Contract.Intersection(intersection, contract) : contract;
   }
@@ -89,8 +85,8 @@ var getObject = Contract.assert(get, get_object);
 print("get x:", getObject(object, "x")); // ok
 //print("get y:", getObject(object, "y")); // blame, thron return
 
-//print("get s:", getObject(object, "t")); // t is in spec, but not in object, thus sub blame
-//print("get t:", getObject(object, "s")); // s is not in spec, thus context blame
+print("get t:", getObject(object, "t")); // t is in spec, but not in object, thus sub blame
+//print("get s:", getObject(object, "s")); // s is not in spec, thus context blame
 
 
 //getObject("y");
