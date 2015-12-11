@@ -13,6 +13,89 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+/**
+ * get : target, name -> value
+ * set : target, name, value -> value
+ **/
+
+function get(target, name) {
+  return target[name];
+}
+
+function set(target, name, value) {
+  return target[name] = value;
+}
+
+/**
+ * Contracts
+ **/
+
+var __HasProperty__ = Contract.Constructor(function (name) {
+  return Contract.Base(function(target) {
+    return (name in target);
+  }, "(has " + name + ")");
+});
+
+/*var __Get__ = Contract.Constructor(function () {
+  return Contract.AFunction([hasProeprty, Any], contract);
+}*/
+
+
+
+
+
+
+
+
+
+
+
+// Constructor
+function mkProeprtyContract(name, contract) {
+  print("###", __HasProperty__.construct(name));
+  return Contract.AFunction([], contract);
+}
+
+
+//
+function mkObjectContract(object) {
+
+  var intersection = Contract.AFunction([__HasProperty__.construct(name), Any], Any);;
+
+  for(var property of Object.keys(object)) {
+    print("%%", property);
+    var contract = mkProeprtyContract(property, object[property]);
+    intersection = intersection ? Contract.Intersection(intersection, contract) : contract;
+  }
+
+  return intersection;
+}
+
+
+/**
+ * Test
+ **/
+
+var object =  {x:1, y:1};
+
+var specification = {x:typeOfNumber, y:typeOfBoolean, t:typeOfBoolean,};
+var get_object = mkObjectContract(specification);
+
+print(get_object);
+var getObject = Contract.assert(get, get_object);
+
+
+
+print("get x:", getObject(object, "x")); // ok
+//print("get y:", getObject(object, "y")); // blame, thron return
+
+//print("get s:", getObject(object, "t")); // t is in spec, but not in object, thus sub blame
+//print("get t:", getObject(object, "s")); // s is not in spec, thus context blame
+
+
+//getObject("y");
+
+quit();
 
 // TODO, normal constructor needs to return an abstraction
 /*
