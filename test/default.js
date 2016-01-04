@@ -13,6 +13,46 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+var assert = Contract.assert;
+var AFunction = Contract.AFunction;
+
+var minOne = assert(function(x) {
+  return x-1;
+}, AFunction([typeOfNumber], typeOfNumber));
+
+
+var [even, odd] = (function() {
+  function even (x) {
+//    return x==0 ? true : odd(x-1);
+    return x==0 ? true : odd(minOne(x));
+  }
+  function odd (x) {
+//    return x==0 ? false : even(x-1);
+      return x==0 ? false : even(minOne(x));
+  }
+  return [
+    assert(even, AFunction([typeOfNumber], typeOfBoolean)),
+    assert(odd, AFunction([typeOfNumber], typeOfBoolean))
+  ];
+})();
+
+even(10);
+
+
+
+
+
+
+// ==================================================
+
+TreatJS.Statistic.print();
+
+// ==================================================
+
+quit();
+quit();
+
+
 /**
  * get : target, name -> value
  * set : target, name, value -> value
