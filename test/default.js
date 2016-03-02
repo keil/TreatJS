@@ -13,6 +13,25 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+function main() {
+
+  function plus (x, y) {
+    return x+y;
+  }
+
+  var plsuNum = Contract.assert(plus, Contract.AFunction([typeOfNumber, typeOfNumber], typeOfNumber))
+
+  function addOne(x) {
+    return plus(x, 1);
+  }
+
+};
+
+print("X" + Reflect.parse(main).toString());
+
+
+quit();
+
 var assert = Contract.assert;
 var AFunction = Contract.AFunction;
 

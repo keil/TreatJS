@@ -1,6 +1,9 @@
 default:
 	./js -f src/shell.js -f bootstrap.js -f contracts/contracts.js -f test/default.js -i
 
+treatjs:
+	./js -f src/shell.js -f bootstrap.js -f contracts/contracts.js -i
+
 .PHONY: test
 test:
 	./js -f src/shell.js -f bootstrap.js -f contracts/contracts.js -f contracts/aliases.js -f test/test.js -i
