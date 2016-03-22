@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 TreatJS: Higher-Order Contracts for JavaScript
 =======
 
@@ -15,3 +16,9 @@ Requirements:
 
 * [JavaScript ECMAScript 6](http://people.mozilla.org/~jorendorff/es6-draft.html)
 * [SpiderMonkey JavaScript Engine](https://developer.mozilla.org/de/docs/SpiderMonkey)
+=======
+TreatJS
+=======
+
+Higher-Order Contracts for JavaScript
+>>>>>>> Initial commit

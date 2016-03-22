@@ -13,6 +13,9 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+load("test/default2.js");
+quit();
+
 function main() {
 
   function plus (x, y) {
