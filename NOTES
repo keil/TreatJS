@@ -1,3 +1,14 @@
+Increase Performance by reducing callback graphs
+================================================
+
+- use constraints/callback only when unrolling intersection and union.
+- than, all sub contract report to the left or right side of an combinations.
+- but, this may require the four valued login when implementing the constrains. Waht happens id the output of one side flips or subject/context are both false. Compare this with the current output.
+
+
+
+
+
 #2 Blame in Contracts
 - restrict throw is not a possibe because the CB structure is already updated
 
