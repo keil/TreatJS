@@ -239,6 +239,10 @@
     return (arg > 0);
   },"Pos");
 
+  var Nat = TreatJS.Contract.Base(function(arg) {
+    return (arg >= 0);
+  },"Nat");
+
   var Neg = TreatJS.Contract.Base(function(arg) {
     return (arg < 0);
   },"Neg");
@@ -251,9 +255,18 @@
     return (arg>0);
   }, "GreaterThanZero");
 
+
+//  var Positive = Pos;
+
+  /** **/ regeister("Positive", Pos, CLASS_Miscellaneous);
+  /** **/ regeister("Natural", Nat, CLASS_Miscellaneous);
+
+
+
   /** **/ regeister("Even", Even, CLASS_Miscellaneous);
   /** **/ regeister("Odd", Odd, CLASS_Miscellaneous);
   /** **/ regeister("Pos", Pos, CLASS_Miscellaneous);
+  /** **/ regeister("Nat", Nat, CLASS_Miscellaneous);
   /** **/ regeister("Neg", Neg, CLASS_Miscellaneous);
   /** **/ regeister("Zero", Zero, CLASS_Miscellaneous);
   /** **/ regeister("GtZero", GtZero, CLASS_Miscellaneous);
