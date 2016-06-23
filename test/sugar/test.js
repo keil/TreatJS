@@ -45,7 +45,7 @@ function test(name, addOne, n) {
   test("Test 1 / Normal",   addOne_1_normal,   100000);
   test("Test 1 / Baseline", addOne_1_baseline, 100000);
   test("Test 1 / Subset",   addOne_1_subset,   100000);
-});
+})();
 
 /* ******
  * Test 2
@@ -54,7 +54,7 @@ function test(name, addOne, n) {
   test("Test 2 / Normal",   addOne_2_normal,   100000);
   test("Test 2 / Baseline", addOne_2_baseline, 100000);
   test("Test 2 / Subset",   addOne_2_subset,   100000);
-});
+})();
 
 /* ******
  * Test 3
@@ -63,7 +63,7 @@ function test(name, addOne, n) {
   test("Test 3 / Normal",   addOne_3_normal,   100000);
   test("Test 3 / Baseline", addOne_3_baseline, 100000);
   test("Test 3 / Subset",   addOne_3_subset,   100000);
-});
+})();
 
 /* ******
  * Test 4
