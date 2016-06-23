@@ -3,37 +3,17 @@
  * =========
  */
 
-
 /*
- * Normal Code (without contarcts)
- * -------------------------------
- */
-var addOne0 = (function () {
-
-  var plus = function (x, y) {
-    return x + y;
-  }
-
-  var addOne = function (x) {
-    return plus (x, 1);
-  }
-
-  return addOne;
-
-})();
-
-
-/*
- * Normal Code (eith contarcts)
+ * Normal Code (with contarcts)
  * ----------------------------
  */
-var addOne1 = (function () {
+var addOne_2_normal = (function () {
 
   var plus = Contract.assert(function (x, y) {
     return x + y;
   }, Contract.Intersection(
-      Contract.AFunction([typeOfNumber, typeOfNumber], typeOfNumber),
-      Contract.AFunction([typeOfString, typeOfString], typeOfString)
+    Contract.AFunction([typeOfNumber, typeOfNumber], typeOfNumber),
+    Contract.AFunction([typeOfString, typeOfString], typeOfString)
     ));
 
   var addOne = function (x) {
@@ -44,12 +24,11 @@ var addOne1 = (function () {
 
 })();
 
-
 /*
  * Baseline Simplification 
  * -----------------------
  */
-var addOne2 = (function () {
+var addOne_2_baseline = (function () {
 
   var plus = function (x, y) {
     return x + y;
@@ -63,13 +42,11 @@ var addOne2 = (function () {
 
 })();
 
-
-
 /*
  * Subset Simplification 
  * ---------------------
  */
-var addOne3 = (function () {
+var addOne_2_subset = (function () {
 
   var plus = function (x, y) {
     return x + y;
@@ -77,32 +54,8 @@ var addOne3 = (function () {
 
   var addOne = Contract.assert(Contract.assert(function (x) {
     return plus (x, 1);
-  }, Contract.AFunction([], Any)), Contract.AFunction([typeOfNumber], typeOfNumber)); // TODO
+  }, Contract.AFunction([], Any)), Contract.AFunction([typeOfNumber], typeOfNumber));
 
   return addOne;
 
 })();
-
-
-
-/*
- * The Tst Procedure
- * =================
- */
-
-(function test(addOne) {
-
-  var start = Date.now();
-
-  var i = 0;
-  while (i < 100000) {
-    i = addOne(i);
-  }
-
-  var end = Date.now();
-  
-  print("Time (ms):", (end-start));
-  TreatJS.Statistic.print();
-
-})(addOne3);
-

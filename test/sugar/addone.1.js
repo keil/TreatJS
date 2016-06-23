@@ -3,8 +3,6 @@
  * =========
  */
 
-
-
 /*
  * Normal Code (with contarcts)
  * ----------------------------
@@ -23,7 +21,6 @@ var addOne_1_normal = (function () {
 
 })();
 
-
 /*
  * Baseline Simplification 
  * -----------------------
@@ -41,8 +38,6 @@ var addOne_1_baseline = (function () {
   return addOne;
 
 })();
-
-
 
 /*
  * Subset Simplification 

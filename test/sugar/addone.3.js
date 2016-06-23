@@ -3,31 +3,11 @@
  * =========
  */
 
-
 /*
- * Normal Code (without contarcts)
- * -------------------------------
- */
-var addOne0 = (function () {
-
-  var plus = function (x, y) {
-    return x + y;
-  }
-
-  var addOne = function (x) {
-    return plus (x, 1);
-  }
-
-  return addOne;
-
-})();
-
-
-/*
- * Normal Code (eith contarcts)
+ * Normal Code (with contarcts)
  * ----------------------------
  */
-var addOne1 = (function () {
+var addOne_3_normal = (function () {
 
   var plus = Contract.assert(function (x, y) {
     return x + y;
@@ -35,19 +15,17 @@ var addOne1 = (function () {
 
   var addOne =  Contract.assert(function (x) {
     return plus (x, 1);
-  }, Contract.AFunction([Positive], Positive));
-
+  }, Contract.AFunction([Natural], Natural));
 
   return addOne;
 
 })();
 
-
 /*
  * Baseline Simplification 
  * -----------------------
  */
-var addOne2 = (function () {
+var addOne_3_baseline = (function () {
 
   var plus = function (x, y) {
     return x + y;
@@ -61,13 +39,11 @@ var addOne2 = (function () {
 
 })();
 
-
-
 /*
  * Subset Simplification 
  * ---------------------
  */
-var addOne3 = (function () {
+var addOne_3_subset = (function () {
 
   var plus = function (x, y) {
     return x + y;
@@ -80,27 +56,3 @@ var addOne3 = (function () {
   return addOne;
 
 })();
-
-
-
-/*
- * The Tst Procedure
- * =================
- */
-
-(function test(addOne) {
-
-  var start = Date.now();
-
-  var i = 0;
-  while (i < 100000) {
-    i = addOne(i);
-  }
-
-  var end = Date.now();
-
-  print("Time (ms):", (end-start));
-  TreatJS.Statistic.print();
-
-})(addOne3);
-
