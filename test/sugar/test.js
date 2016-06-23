@@ -24,9 +24,10 @@ function test(name, addOne, n) {
 
   var end = Date.now();
 
-  print("Time (ms):", (end-start));
-  print("Predicates:", TreatJS.Statistic.get(TreatJS.Statistic.BASE));
+  //print("Time (ms):", (end-start));
+  //print("Predicates:", TreatJS.Statistic.get(TreatJS.Statistic.BASE));
 
+  TreatJS.Statistic.print();
   TreatJS.Statistic.reset();
 }
 
@@ -44,7 +45,7 @@ function test(name, addOne, n) {
   test("Test 1 / Normal",   addOne_1_normal,   100000);
   test("Test 1 / Baseline", addOne_1_baseline, 100000);
   test("Test 1 / Subset",   addOne_1_subset,   100000);
-})();
+});
 
 /* ******
  * Test 2
@@ -68,7 +69,7 @@ function test(name, addOne, n) {
  * Test 4
  * ******/
 (function() {
-  test("Test 4 / Normal",   addOne_3_normal,   100000);
-  test("Test 4 / Baseline", addOne_3_baseline, 100000);
-  test("Test 4 / Subset",   addOne_3_subset,   100000);
-});
+  test("Test 4 / Normal",   addOne_4_normal,   100000);
+  test("Test 4 / Baseline", addOne_4_baseline, 100000);
+  test("Test 4 / Subset",   addOne_4_subset,   100000);
+})();
