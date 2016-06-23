@@ -27,13 +27,20 @@ var addOne_1_normal = (function () {
  */
 var addOne_1_baseline = (function () {
 
+  var global = new TreatJS.Global({});
+  var _function;
+  with(TreatJS.Callback) {
+    var root = Root(function(){}, null);
+    _function = Function(root.rootHandler);
+  }
+
   var plus = function (x, y) {
     return x + y;
   }
 
-  var addOne = Contract.assert(function (x) {
-    return plus (Contract.assert(x, typeOfNumber), 1);
-  }, Contract.AFunction([], typeOfNumber));
+  var addOne = Contract.assertWith(function (x) {
+    return plus (Contract.assertWith(x, typeOfNumber, global, _function.domainHandler), 1);
+  }, Contract.AFunction([], typeOfNumber), global, _function.rangeHandler);
 
   return addOne;
 
@@ -45,13 +52,19 @@ var addOne_1_baseline = (function () {
  */
 var addOne_1_subset = (function () {
 
+  var global = new TreatJS.Global({});
+  var _root;
+  with(TreatJS.Callback) {
+    _root = Root(function(){}, null);
+  }
+
   var plus = function (x, y) {
     return x + y;
   }
 
-  var addOne = Contract.assert(function (x) {
+  var addOne = Contract.assertWith(function (x) {
     return plus (x, 1);
-  }, Contract.AFunction([typeOfNumber], typeOfNumber));
+  }, Contract.AFunction([typeOfNumber], typeOfNumber), global, _root.rootHandler);
 
   return addOne;
 

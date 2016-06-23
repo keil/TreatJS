@@ -26,6 +26,7 @@
     // assert
     make(Contract, "construct", TreatJS.construct);
     make(Contract, "assert", TreatJS.assert);
+    make(Contract, "assertWith", TreatJS.assertWith);
 
     // contract
     make(Contract, "Base", TreatJS.Contract.Base);

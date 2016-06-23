@@ -13,7 +13,12 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+//print(TreatJS.Callback.Function);
+//print(TreatJS.assertWith);
+
+
 load("test/sugar/test.js");
+
 quit();
 
 

@@ -327,4 +327,15 @@
 
   /** **/ regeister("ArrayOf", ArrayOf, CLASS_Miscellaneous);
 
+  var True = TreatJS.Contract.Base(function(arg) {
+    return true;
+  },"true");
+
+  var False = TreatJS.Contract.Base(function(arg) {
+    return false;
+  },"false");
+
+  /** **/ regeister("True", True, CLASS_Miscellaneous);
+  /** **/ regeister("False", False, CLASS_Miscellaneous);
+
 })(TreatJS);

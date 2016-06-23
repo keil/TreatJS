@@ -1627,7 +1627,13 @@
   //\___/_\_\\__\___|_||_\__,_|
 
   TreatJS.extend("assert", assert);
+  TreatJS.extend("assertWith", assertWith);
+
   TreatJS.extend("construct", construct);
+
+  TreatJS.extend("Global", Global);
+
+  TreatJS.extend("checkBlameState", checkBlameState);
 
   TreatJS.extend("mirrorFunction", mirrorFunction);
   TreatJS.extend("mirrorObject", mirrorObject);
