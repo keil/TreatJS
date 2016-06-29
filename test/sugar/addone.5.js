@@ -1,5 +1,5 @@
 /*
- * Example 4
+ * Example 5
  * =========
  */
 
@@ -7,7 +7,7 @@
  * Normal Code (with contarcts)
  * ----------------------------
  */
-var addOne_4_normal = (function () {
+var addOne_5_normal = (function () {
 
   var plus = Contract.assert(function (x, y) {
     return x + y;
@@ -17,11 +17,11 @@ var addOne_4_normal = (function () {
     ));
 
   var addOne = Contract.assert(function (x) {
-    return if(typeof x == "string") ? plus(x, "1") : plus (x, 1);
+    return (typeof x == "string") ? plus(x, "1") : plus (x, 1);
   }, Contract.Intersection(
-          Contract.AFunction([Natural], Natural),
-          Contract.AFunction([typeOfString], typeOfString)
-          );
+    Contract.AFunction([Natural], Natural),
+    Contract.AFunction([typeOfString], typeOfString)
+    ));
 
   return addOne;
 
@@ -31,7 +31,7 @@ var addOne_4_normal = (function () {
  * Baseline Simplification 
  * -----------------------
  */
-var addOne_4_baseline = (function () {
+var addOne_5_baseline = (function () {
 
   var global = new TreatJS.Global({});
   var left, right;
@@ -47,19 +47,14 @@ var addOne_4_baseline = (function () {
   }
 
   var addOne = Contract.assert(Contract.assertWith(Contract.assertWith(function (x) {
-    return if(typeof x == "string") ?
-            
-            Contract.assertWith(Contract.assertWith(
-
-            plus (Contract.assertWith(Contract.assertWith(x, typeOfString, global, _right.domainHandler), typeOfNumber, global, _left.domainHandler), 1) 
-            
-            , typeOfString, global, _right.domainHandler), typeOfNumber, global, _left.domainHandler)
-            
-            :
-
-
-            plus (Contract.assertWith(Contract.assertWith(x, typeOfString, global, _right.domainHandler), typeOfNumber, global, _left.domainHandler), 1);
-   }, Contract.AFunction([], typeOfNumber), global, _left.rangeHandler), Contract.AFunction([], typeOfString), global, _right.rangeHandler), Contract.AFunction([Natural], Natural));
+    return (typeof x == "string") ?
+    Contract.assertWith(Contract.assertWith(
+        plus (Contract.assertWith(Contract.assertWith(x, typeOfString, global, _right.domainHandler), typeOfNumber, global, _left.domainHandler), "1"),
+        typeOfString, global, _right.domainHandler), typeOfNumber, global, _left.domainHandler) :
+    Contract.assertWith(Contract.assertWith(
+        plus (Contract.assertWith(Contract.assertWith(x, typeOfString, global, _right.domainHandler), typeOfNumber, global, _left.domainHandler), 1),
+        typeOfString, global, _right.domainHandler), typeOfNumber, global, _left.domainHandler);
+  }, Contract.AFunction([], typeOfNumber), global, _left.rangeHandler), Contract.AFunction([], typeOfString), global, _right.rangeHandler), Contract.AFunction([Natural], Natural));
 
   return addOne;
 
@@ -69,7 +64,7 @@ var addOne_4_baseline = (function () {
  * Subset Simplification 
  * ---------------------
  */
-var addOne_4_subset = (function () {
+var addOne_5_subset = (function () {
 
   var global = new TreatJS.Global({});
   var _intersection;
@@ -82,11 +77,18 @@ var addOne_4_subset = (function () {
     return x + y;
   }
 
-  var addOne = Contract.assert(Contract.assertWith(function (x) {
-    return plus (x, 1);
-  }, Contract.AFunction([], False), global, _intersection.rightHandler), Contract.AFunction([Natural], Natural));
+  var addOne = Contract.assert(function (x) {
+    return (typeof x == "string") ?
+    Contract.assertWith(
+      plus (Contract.assertWith(Contract.assertWith(x, typeOfString, global, _right.domainHandler), False, global, _left.domainHandler), "1"),
+      typeOfString, global, _right.domainHandler) :
+
+    Contract.assertWith(
+      plus (Contract.assertWith(Contract.assertWith(x, False, global, _right.domainHandler), typeOfNumber, global, _left.domainHandler), 1),
+      typeOfNumber, global, _left.domainHandler);
+
+  }, Contract.AFunction([Natural], Natural));
 
   return addOne;
 
 })();
-

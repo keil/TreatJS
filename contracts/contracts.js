@@ -260,8 +260,7 @@
 
   /** **/ regeister("Positive", Pos, CLASS_Miscellaneous);
   /** **/ regeister("Natural", Nat, CLASS_Miscellaneous);
-
-
+  /** **/ regeister("Negative", Neg, CLASS_Miscellaneous);
 
   /** **/ regeister("Even", Even, CLASS_Miscellaneous);
   /** **/ regeister("Odd", Odd, CLASS_Miscellaneous);
