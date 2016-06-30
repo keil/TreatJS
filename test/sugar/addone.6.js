@@ -77,8 +77,8 @@ var addOne_6_baseline = (function () {
                         Contract.assertWith(
                           Contract.assertWith(
                             Contract.assertWith(x, typeOfString, global, _f1.domainHandler),
-                            typeOfNumber, global, f2.domainHandler),
-                          Positive, global, f3.domainHandler),
+                            typeOfNumber, global, _f2.domainHandler),
+                          Positive, global, _f3.domainHandler),
                         Natural, global, _f4.domainHandler),
                       Negative, global, _f5.domainHandler), 1);
                 }, 
