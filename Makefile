@@ -1,6 +1,12 @@
 default:
 	./js -f src/shell.js -f bootstrap.js -f contracts/contracts.js -f test/default.js -i
 
+noion:
+	./js --no-ion -f src/shell.js -f bootstrap.js -f contracts/contracts.js -f test/default.js -i
+
+nojit:
+	./js --no-ion --no-baseline -f src/shell.js -f bootstrap.js -f contracts/contracts.js -f test/default.js -i
+
 treatjs:
 	./js -f src/shell.js -f bootstrap.js -f contracts/contracts.js -i
 
