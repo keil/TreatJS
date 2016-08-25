@@ -13,13 +13,21 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+print(TreatJS);
+print(TreatJS.version);
+
+print(TreatJS.Contract);
+
+
+
+
 //print(TreatJS.Callback.Function);
 //print(TreatJS.assertWith);
 
 
-load("test/sugar/test.js");
+//load("test/sugar/test.js");
 
-quit();
+//quit();
 
 
 
@@ -27,7 +35,7 @@ quit();
 
 // ==================================================
 
-TreatJS.Statistic.print();
+//TreatJS.Statistic.print();
 
 // ==================================================
 

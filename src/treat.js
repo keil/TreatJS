@@ -20,7 +20,7 @@
 //   | | | |  __/ (_| | || |__| |____) |
 //   |_|_|  \___|\__,_|\__\____/|_____/ 
 
-var TreatJS = TreatJS || || (function() {
+var TreatJS = TreatJS || (function() {
 
   /** The TreatJS wrapper object.
   */
@@ -32,7 +32,7 @@ var TreatJS = TreatJS || || (function() {
   // \_/\___|_| /__/_\___/_||_|
 
   Object.defineProperty(TreatJS, "version", {
-    value: "TreatJS 2.0.0 (Alpha)";
+    value: "TreatJS 2.0.0 (Alpha)"
   });
 
   // _       ___ _       _           
@@ -53,15 +53,15 @@ var TreatJS = TreatJS || || (function() {
   //|___|\_/\__,_|_|\_,_\__,_|\__|_\___/_||_| |___/\___|_|_|_\__,_|_||_\__|_\__/__/
 
   Object.defineProperty(TreatJS, "LAX", {
-    value: "LAX";
+    value: "LAX"
   });
 
   Object.defineProperty(TreatJS, "PICKY", {
-    value: "PICKY";
+    value: "PICKY"
   });
 
   Object.defineProperty(TreatJS, "INDY", {
-    value: "INDY";
+    value: "INDY"
   });
 
   //  ___         _               _   
@@ -79,8 +79,24 @@ var TreatJS = TreatJS || || (function() {
     // contract is not reconfigurable
   }
 
+  Object.defineProperty(Contract, "toString", {
+    value: function() {
+      return "[[TreatJS/Contract]]";
+    }
+  });
+
+  Object.defineProperty(Contract, "version", {
+    value: TreatJS.version
+  });
+
+
+
+
+  
+  Contract.prototype = {};
+
   Object.defineProperty(Contract.prototype, "constructor", {
-    value: Contract;
+    value: Contract
   });
 
   Object.defineProperty(Contract.prototype, "toString", {
@@ -90,14 +106,14 @@ var TreatJS = TreatJS || || (function() {
   });
 
   Object.defineProperty(Contract.prototype, "version", {
-    value: TreatJS.version;
+    value: TreatJS.version
   });
 
 
 
   // 
   Object.defineProperty(TreatJS, "Contract", {
-    value: Contract;
+    value: Contract
   });
 
 
@@ -108,7 +124,6 @@ var TreatJS = TreatJS || || (function() {
 
 
 
-  % TODO, add as TreatJS, Property, only the constructor
 
 
 
@@ -127,10 +142,13 @@ var TreatJS = TreatJS || || (function() {
         //
 
         // TODO, seal, prevent extension, freeze
-        return contract;
+        //return contract;
       } 
     });
 
+
+    // TODO,
+    TreatJS.Core = {};
 
   //                       _   
   // _____ ___ __  ___ _ _| |_ 
@@ -141,7 +159,7 @@ var TreatJS = TreatJS || || (function() {
   Object.defineProperty(TreatJS, "export", {
     value: function(package) {
       for(let name in package) {
-        Object.defineProperty(TreatJS, name, {
+        Object.defineProperty(TreatJS.Core, name, {
           value: package[name], enumerable: true
         });
       }

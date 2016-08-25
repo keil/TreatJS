@@ -1,5 +1,9 @@
 default:
-	./js -f src/shell.js -f bootstrap.js -f contracts/contracts.js -f test/default.js -i
+	./js -f shell/shell.js -f bootstrap.js -f test/default.js -i
+
+# -f contracts/contracts.js
+
+
 
 noion:
 	./js --no-ion -f src/shell.js -f bootstrap.js -f contracts/contracts.js -f test/default.js -i

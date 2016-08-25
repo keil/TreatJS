@@ -13,6 +13,81 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+TreatJS.package("Contracts", function (TreatJS, Contract, configuration) {
+
+
+
+
+  function Base(predicate, name) {
+    if(!(this instanceof Base)) return new Base(predicate, name);
+
+    if(!(predicate instanceof Function)) 
+      error("Invalid Predicate", (new Error()).fileName, (new Error()).lineNumber);
+
+    Object.defineProperties(this, {
+      "predicate": {
+        value: predicate // TODO, decompile
+      },
+      "name": {
+        value: name
+      }
+    });
+  }
+  Base.prototype = Object.create(Contract.Immediate.prototype);
+  Base.prototype.constructor = Base;
+  Base.prototype.toString = function() {
+    return this.name ? "#"+this.name : "[[TreatJS/Base]]";
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+  //                       _   
+  // _____ ___ __  ___ _ _| |_ 
+  /// -_) \ / '_ \/ _ \ '_|  _|
+  //\___/_\_\ .__/\___/_|  \__|
+  //        |_|                
+
+  return {
+    "Base":         Base,
+    "Function":     Function,
+    "Object":       Object,
+    "Intersection": Intersection,
+    "Union":        Union
+
+
+
+  }
+
+
+  TreatJS.export({
+
+    Base
+
+    "Contract":     Contract,
+    "Immediate":    Immediate,
+    "Delayed":      Delayed,
+    "Combinator":   Combinator,
+    "Wrapper":      Wrapper,
+    "Constructor":  Constructor
+  });
+
+
+
+
+
+
+});
+
+
 (function(TreatJS) {
 
 
@@ -43,6 +118,8 @@
   //| |    / _ \| '_ \| __| '__/ _` |/ __| __/ __|
   //| |___| (_) | | | | |_| | | (_| | (__| |_\__ \
   // \_____\___/|_| |_|\__|_|  \__,_|\___|\__|___/
+
+
 
   // ___                ___         _               _   
   //| _ ) __ _ ___ ___ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -669,5 +746,40 @@
   TreatJS.define(TreatJS.Contract, "Yield", YieldContract);
 
   TreatJS.define(TreatJS.Contract, "Invariant", InvariantContract);
+
+
+  //               _                 
+  // _ __  __ _ __| |____ _ __ _ ___ 
+  //| '_ \/ _` / _| / / _` / _` / -_)
+  //| .__/\__,_\__|_\_\__,_\__, \___|
+  //|_|                    |___/     
+
+  TreatJS.package("Contracts", {
+    "Base":         Base,
+    "Function":     Function,
+    "Object":       Object,
+    "Intersection": Intersection,
+    "Union":        Union,
+  });
+
+  //         _               _ 
+  // _____ _| |_ ___ _ _  __| |
+  /// -_) \ /  _/ -_) ' \/ _` |
+  //\___/_\_\\__\___|_||_\__,_|
+
+  TreatJS.export(function(Contract, configuration) {
+
+
+
+
+
+    "Contract":     Contract,
+    "Immediate":    Immediate,
+    "Delayed":      Delayed,
+    "Combinator":   Combinator,
+    "Wrapper":      Wrapper,
+    "Constructor":  Constructor
+  });
+
 
 })(TreatJS);

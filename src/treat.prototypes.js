@@ -13,7 +13,7 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-(function(TreatJS) {
+TreatJS.package("Prototypes", function(TreatJS, Contract) {
 
   //  ___         _               _   
   // / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -54,7 +54,7 @@
   }
   Immediate.prototype = Object.create(Contract.prototype);
   Immediate.prototype.constructor = Immediate;
-  Immediatet.prototype.toString = function() {
+  Immediate.prototype.toString = function() {
     return '[[TreatJS/Immediate]]';
   };
 
@@ -95,24 +95,44 @@
   function Constructor() {
     if(!(this instanceof Constructor)) return new Constructor();
   }
-  Constructor.prototype = Object.create(DelayedContract.prototype); // TODO, why delayed ?
+  Constructor.prototype = Object.create(Contract.prototype);
   Constructor.prototype.constructor = Constructor;
   Constructor.prototype.toString = function() {
     return '[[TreatJS/Constructor]]';
   };
+
+
+  //               _                 
+  // _ __  __ _ __| |____ _ __ _ ___ 
+  //| '_ \/ _` / _| / / _` / _` / -_)
+  //| .__/\__,_\__|_\_\__,_\__, \___|
+  //|_|                    |___/     
+
+  TreatJS.package("Prototypes", {
+    "Contract":     Contract,
+    "Immediate":    Immediate,
+    "Delayed":      Delayed,
+    "Combinator":   Combinator,
+    "Wrapper":      Wrapper,
+    "Constructor":  Constructor
+  });
 
   //         _               _ 
   // _____ _| |_ ___ _ _  __| |
   /// -_) \ /  _/ -_) ' \/ _` |
   //\___/_\_\\__\___|_||_\__,_|
 
-  TreatJS.export({
-    "Contract",     Contract,
-    "Immediate",    ImmediateContract,
-    "Delayed",      DelayedContract,
-    "Combinator",   CombinatorContract,
-    "Wrapper",      WrapperContract,
-    "Constructor",  Constructor
+  TreatJS.export("Prototypes", {
+    "Contract":     Contract,
+    "Immediate":    Immediate,
+    "Delayed":      Delayed,
+    "Combinator":   Combinator,
+    "Wrapper":      Wrapper,
+    "Constructor":  Constructor
   });
+
+
+
+
 
 })(TreatJS);
