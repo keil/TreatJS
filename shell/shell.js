@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2016, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -12,6 +12,7 @@
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
+
 (function(print) {
   if(print) {
     print("  _____             _      _ ___ ");
@@ -23,7 +24,7 @@
     print(" * TreatJS: Higher-Order Contracts for JavaScript");
     print(" * http://proglang.informatik.uni-freiburg.de/treatjs/");
     print("");
-    print(" * Copyright (c) 2013-2015, Proglang, University of Freiburg.");
+    print(" * Copyright (c) 2013-2016, Proglang, University of Freiburg.");
     print(" * http://proglang.informatik.uni-freiburg.de/");
     print(" * All rights reserved.");
     print("");
