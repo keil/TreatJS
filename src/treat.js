@@ -145,8 +145,18 @@ var TreatJS = TreatJS || (function() {
 
 
   function resolvePath(target, path = []) {
+
     if(path.length==0) return target;
-    else return resolvePath(target[path.pop()], path)
+    else {
+
+      const name = path.pop();
+      
+      if(!target[name]) {
+        target[name] = {}; // freeze?
+      }
+        return resolvePath(target[path.pop()], path);
+
+      if() resolvePath(target[path.pop()], path); }
   }
 
 
