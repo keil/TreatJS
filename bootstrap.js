@@ -38,3 +38,9 @@ load("src/treat.js");
                                   
 var Contract  = TreatJS.initialize(/* Todo, confoguration */);
 
+
+
+// new Contract.Function()
+// new Contract.Object({'a':typeNumber});
+
+

@@ -13,7 +13,7 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-TreatJS.package("Prototypes", function(TreatJS, Contract, configuration) {
+TreatJS.package("TreatJS.Core.Prototypes", function(TreatJS, Contract, configuration) {
 
   //  ___         _               _   
   // / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -101,11 +101,10 @@ TreatJS.package("Prototypes", function(TreatJS, Contract, configuration) {
     return '[[TreatJS/Constructor]]';
   };
 
-  //                       _   
-  // _____ ___ __  ___ _ _| |_ 
-  /// -_) \ / '_ \/ _ \ '_|  _|
-  //\___/_\_\ .__/\___/_|  \__|
-  //        |_|                
+  //         _                 
+  // _ _ ___| |_ _  _ _ _ _ _  
+  //| '_/ -_)  _| || | '_| ' \ 
+  //|_| \___|\__|\_,_|_| |_||_|
 
   return {
     "Contract":     Contract,

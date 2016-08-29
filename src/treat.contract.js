@@ -13,7 +13,7 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-TreatJS.package("Contracts", function (TreatJS, Contract, configuration) {
+TreatJS.package("TreatJS.Core.Contracts", function (TreatJS, Contract, configuration) {
 
   // ___                ___         _               _   
   //| _ ) __ _ ___ ___ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -194,29 +194,19 @@ TreatJS.package("Contracts", function (TreatJS, Contract, configuration) {
     return "(" + this.first.toString() + ") + (" + this.second.toString() + ")";
   };
 
-
-
-
-
-
-  //                       _   
-  // _____ ___ __  ___ _ _| |_ 
-  /// -_) \ / '_ \/ _ \ '_|  _|
-  //\___/_\_\ .__/\___/_|  \__|
-  //        |_|                
+  //         _                 
+  // _ _ ___| |_ _  _ _ _ _ _  
+  //| '_/ -_)  _| || | '_| ' \ 
+  //|_| \___|\__|\_,_|_| |_||_|
 
   return {
     "Base":         Base,
-
-      "Object":       Object,
-
-      "Function":     Function,
-      "Dependent":    Dependent,
-
-
-      "Intersection": Intersection,
-      "Union":        Union
-  }
+    "Object":       Object,
+    "Function":     Function,
+    "Dependent":    Dependent,
+    "Intersection": Intersection,
+    "Union":        Union
+  };
 
 
 

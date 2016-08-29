@@ -22,13 +22,17 @@
 
 var TreatJS = TreatJS || (function() {
 
+  /** TreatJS version number.
+   */
+  const version = "TreatJS 2.0.0 (Alpha)"
+
   /** The TreatJS wrapper object.
   */
-  var TreatJS = {};
+  const TreatJS = {};
 
   /** The Contract interface object.
   */
-  var Contract = {};
+  const Contract = {};
 
   //                _          
   //__ _____ _ _ __(_)___ _ _  
@@ -36,11 +40,11 @@ var TreatJS = TreatJS || (function() {
   // \_/\___|_| /__/_\___/_||_|
 
   Object.defineProperty(TreatJS, "version", {
-    value: "TreatJS 2.0.0 (Alpha)"
+    value: version
   });
 
   Object.defineProperty(Contract, "version", {
-    value: TreatJS.version
+    value: version
   });
 
   // _       ___ _       _           
@@ -103,6 +107,9 @@ var TreatJS = TreatJS || (function() {
     }
   });
 
+
+
+
   // _      _ _   _      _ _        
   //(_)_ _ (_) |_(_)__ _| (_)______ 
   //| | ' \| |  _| / _` | | |_ / -_)
@@ -111,7 +118,44 @@ var TreatJS = TreatJS || (function() {
   var initialized = false;
 
 
+
+
+
+
+
+
+
+
+  function extend(target, package) {
+     for(let name of package) {
+       if(target[name]) throw new Error(`Property ${name} already exists.`);
+       else target[name] = package[name];
+      }
+  }
+
+  function xxx(name) {
+
+    const xx = name.split(".");
+
+    for(let name of path) {
+    
+    }
+  
+  }
+
+
+  function resolvePath(target, path = []) {
+    if(path.length==0) return target;
+    else return resolvePath(target[path.pop()], path)
+  }
+
+
+
+
   function initialize({name, construtor}, configuration) {
+
+
+
 
     if(TreatJS[name]) throw new Error(`Package ${name}, already exists.`);
     else TreatJS[name] = {}; // new TreatJSPackage
@@ -144,6 +188,10 @@ var TreatJS = TreatJS || (function() {
       if(initialized) throw Error("TreatJS already initialized!");
 
       for(let package of packages) {
+        initialize(package, configuration);
+      }
+
+
 
 
 
