@@ -29,11 +29,12 @@ load("lib/padding.js");
 
 load("src/treat.js");
 
-load("src/treat.prototypes.js");
+//load("src/treat.prototypes.js");
 
 //  ___         _               _   
 // / __|___ _ _| |_ _ _ __ _ __| |_ 
 //| (__/ _ \ ' \  _| '_/ _` / _|  _|
 // \___\___/_||_\__|_| \__,_\__|\__|
                                   
-var Contract  = TreatJS.build(/* Todo, confoguration */);
+var Contract  = TreatJS.initialize(/* Todo, confoguration */);
+

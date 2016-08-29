@@ -13,7 +13,7 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-TreatJS.package("Prototypes", function(TreatJS, Contract) {
+TreatJS.package("Prototypes", function(TreatJS, Contract, configuration) {
 
   //  ___         _               _   
   // / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -101,38 +101,19 @@ TreatJS.package("Prototypes", function(TreatJS, Contract) {
     return '[[TreatJS/Constructor]]';
   };
 
+  //                       _   
+  // _____ ___ __  ___ _ _| |_ 
+  /// -_) \ / '_ \/ _ \ '_|  _|
+  //\___/_\_\ .__/\___/_|  \__|
+  //        |_|                
 
-  //               _                 
-  // _ __  __ _ __| |____ _ __ _ ___ 
-  //| '_ \/ _` / _| / / _` / _` / -_)
-  //| .__/\__,_\__|_\_\__,_\__, \___|
-  //|_|                    |___/     
-
-  TreatJS.package("Prototypes", {
+  return {
     "Contract":     Contract,
     "Immediate":    Immediate,
     "Delayed":      Delayed,
     "Combinator":   Combinator,
     "Wrapper":      Wrapper,
     "Constructor":  Constructor
-  });
+  };
 
-  //         _               _ 
-  // _____ _| |_ ___ _ _  __| |
-  /// -_) \ /  _/ -_) ' \/ _` |
-  //\___/_\_\\__\___|_||_\__,_|
-
-  TreatJS.export("Prototypes", {
-    "Contract":     Contract,
-    "Immediate":    Immediate,
-    "Delayed":      Delayed,
-    "Combinator":   Combinator,
-    "Wrapper":      Wrapper,
-    "Constructor":  Constructor
-  });
-
-
-
-
-
-})(TreatJS);
+});

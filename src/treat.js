@@ -26,6 +26,10 @@ var TreatJS = TreatJS || (function() {
   */
   var TreatJS = {};
 
+  /** The Contract interface object.
+  */
+  var Contract = {};
+
   //                _          
   //__ _____ _ _ __(_)___ _ _  
   //\ V / -_) '_(_-< / _ \ ' \ 
@@ -33,6 +37,10 @@ var TreatJS = TreatJS || (function() {
 
   Object.defineProperty(TreatJS, "version", {
     value: "TreatJS 2.0.0 (Alpha)"
+  });
+
+  Object.defineProperty(Contract, "version", {
+    value: TreatJS.version
   });
 
   // _       ___ _       _           
@@ -44,6 +52,12 @@ var TreatJS = TreatJS || (function() {
   Object.defineProperty(TreatJS, "toString", {
     value: function() {
       return "[[TreatJS]]";
+    }
+  });
+
+  Object.defineProperty(Contract, "toString", {
+    value: function() {
+      return "[[Contract]]";
     }
   });
 
@@ -69,114 +83,146 @@ var TreatJS = TreatJS || (function() {
   //| (__/ _ \ ' \  _| '_/ _` / _|  _|
   // \___\___/_||_\__|_| \__,_\__|\__|
 
-  function Contract() { // TODO, arguments
-    if(!(this instanceof Contract)) return new Contract(); // TODO, arguments
-
-
-
-    // statistics
-    // verbose ?
-    // contract is not reconfigurable
-  }
-
-  Object.defineProperty(Contract, "toString", {
-    value: function() {
-      return "[[TreatJS/Contract]]";
-    }
-  });
-
-  Object.defineProperty(Contract, "version", {
-    value: TreatJS.version
-  });
-
-
-
-
-  
-  Contract.prototype = {};
-
-  Object.defineProperty(Contract.prototype, "constructor", {
-    value: Contract
-  });
-
-  Object.defineProperty(Contract.prototype, "toString", {
-    value: function() {
-      return "[[TreatJS/Contract]]";
-    }
-  });
-
-  Object.defineProperty(Contract.prototype, "version", {
-    value: TreatJS.version
-  });
-
-
-
   // 
   Object.defineProperty(TreatJS, "Contract", {
     value: Contract
   });
 
+  //               _                 
+  // _ __  __ _ __| |____ _ __ _ ___ 
+  //| '_ \/ _` / _| / / _` / _` / -_)
+  //| .__/\__,_\__|_\_\__,_\__, \___|
+  //|_|                    |___/     
+
+  var packages = new Set();
+
+  Object.defineProperty(TreatJS, "package", {
+    value: function(name, closure) {
+      if(!(closure instanceof Function)) throw new TypeError("Invalid Package")
+      else packages.add({name:name, constructor:closure});
+    }
+  });
+
+  // _      _ _   _      _ _        
+  //(_)_ _ (_) |_(_)__ _| (_)______ 
+  //| | ' \| |  _| / _` | | |_ / -_)
+  //|_|_||_|_|\__|_\__,_|_|_/__\___|
+
+  var initialized = false;
+
+
+  function initialize({name, construtor}, configuration) {
+
+    if(TreatJS[name]) throw new Error(`Package ${name}, already exists.`);
+    else TreatJS[name] = {}; // new TreatJSPackage
+
+    var export = construtor(TreatJS, Contract configuration);
+
+    TreatJS[name] = export;
+
+    
+    
+    /** Write properties to the TreatJS Contract interface. 
+     */
+    for(let name in export) {
+      Object.defineProperty(Contract, name, {
+        value: export[name], enumerable: true
+      });
+    }
+
+
+  
+  }
 
 
 
 
+  Object.defineProperty(TreatJS, "initialize", {
+    value: function(configuration) {
+
+      // Cannot re-initialize TreatJS Interface;
+      if(initialized) throw Error("TreatJS already initialized!");
+
+      for(let package of packages) {
 
 
 
+        let export = package.constructor(TreatJS, configuration);
+
+        /** Writes exported 
+        */
+        for(let name in export) {
+          Object.defineProperty(Contract, name, {
+            value: export[name], enumerable: true
+          });
+        }
+
+        /** Writes exported 
+        */
+
+        TreatJS[package.name] = {};
+
+        for(let name in export) {
+          Object.defineProperty(Contract, name, {
+            value: export[name], enumerable: true
+          });
+        }
 
 
 
-
-
-    // _         _ _    _ 
-    //| |__ _  _(_) |__| |
-    //| '_ \ || | | / _` |
-    //|_.__/\_,_|_|_\__,_|
-
-    Object.defineProperty(TreatJS, "build", {
-      value: function() {
-
-        // Todo, build instructions
-        //
-        //
-        //
-
-        // TODO, seal, prevent extension, freeze
-        //return contract;
       } 
-    });
+
+      initialized = true;
+
+      // TODO seal, freeze and so
 
 
-    // TODO,
-    TreatJS.Core = {};
 
-  //                       _   
-  // _____ ___ __  ___ _ _| |_ 
-  /// -_) \ / '_ \/ _ \ '_|  _|
-  //\___/_\_\ .__/\___/_|  \__|
-  //        |_|                
+    }
 
-  Object.defineProperty(TreatJS, "export", {
-    value: function(package) {
-      for(let name in package) {
-        Object.defineProperty(TreatJS.Core, name, {
-          value: package[name], enumerable: true
-        });
-      }
-    } 
+           //                       _   
+           // _____ ___ __  ___ _ _| |_ 
+           /// -_) \ / '_ \/ _ \ '_|  _|
+           //\___/_\_\ .__/\___/_|  \__|
+           //        |_|                
+
+           Object.defineProperty(TreatJS, "export", {
+             value: function(name, export) {
+
+
+
+             }
+
+
+
+
+                      Object.defineProperty(TreatJS, "export", {
+                      value: function(package) {
+                        for(let name in package) {
+                          Object.defineProperty(TreatJS.Core, name, {
+                            value: package[name], enumerable: true
+                          });
+                        }
+                      } 
+                    });
+
+
+
+
+           } 
   });
 
 
+  // TODO,
+  TreatJS.Core = {};
 
 
 
 
-
-
-
-
-
-  // TODO, freace/prevt extension/ seal ?
+  //         _                 
+  // _ _ ___| |_ _  _ _ _ _ _  
+  //| '_/ -_)  _| || | '_| ' \ 
+  //|_| \___|\__|\_,_|_| |_||_|
 
   /** Return the TreatJS objects
   */
