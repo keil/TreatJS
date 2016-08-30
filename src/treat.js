@@ -98,7 +98,7 @@ var TreatJS = TreatJS || (function() {
   //|_|                    |___/     
 
   /** Manages TreatJS packages.
-   */
+  */
 
   var packages = new Set();
 
@@ -118,7 +118,7 @@ var TreatJS = TreatJS || (function() {
   */
 
   function extend(target, package) {
-    for(let name of package) {
+    for(let name in package) {
       if(target[name]) throw new Error(`Property ${name} already exists.`);
       else target[name] = package[name];
     }
@@ -134,9 +134,9 @@ var TreatJS = TreatJS || (function() {
     }
   }
 
-  function build({name, construtor}, configuration) {
-    var target = resolve(TreatJS, name.split("."));
-    var package = construtor(TractJS, Contract, configuration);
+  function build({name, constructor}, configuration) {
+    var target = resolve({TreatJS:TreatJS}, name.split(".").reverse());
+    var package = constructor(TreatJS, Contract, configuration);
 
     extend(target, package);
   }
@@ -164,7 +164,9 @@ var TreatJS = TreatJS || (function() {
   }
 
   Object.defineProperty(TreatJS, "initialize", {
-    value: function(configuration) {
+    value: function(configuration = {
+    // TODO, Default configuration
+    }) {
       if(!initialized) return initialize(configuration);
       else throw Error("TreatJS already initialized!");
     }

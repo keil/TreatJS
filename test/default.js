@@ -23,6 +23,40 @@ print(Contract.version);
 print(TreatJS.Contract);
 
 
+//print(TreatJS.TreatJS.Core);
+
+
+
+
+(function() {
+
+  
+
+  function dump(path, package) {
+    for (var name in package) {
+      print(`${path} . ${name}`);
+      dump(`${path} . ${name}`, package[name]);
+    }    
+  }
+  
+  print("\n\n::: TreatJS");
+  dump("TreatJS", TreatJS);
+
+})();
+
+
+(function() {
+
+  print("\n\n::: Contract");
+  for (var name in Contract) {
+    print(`Contarct . ${name}`);
+  }
+
+})();
+
+
+
+
 
 
 

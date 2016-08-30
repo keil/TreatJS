@@ -13,7 +13,7 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-TreatJS.package("TreatJS.Core.Contracts", function (TreatJS, Contract, configuration) {
+TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) {
 
   // ___                ___         _               _   
   //| _ ) __ _ ___ ___ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -21,11 +21,11 @@ TreatJS.package("TreatJS.Core.Contracts", function (TreatJS, Contract, configura
   //|___/\__,_/__/\___|\___\___/_||_\__|_| \__,_\__|\__|
 
   function Base(predicate, name) {
-    if(!(this instanceof Base)) return new Base(arguments...);
+    if(!(this instanceof Base)) return new Base(...arguments);
 
     if(!(predicate instanceof Function))
-      throw new TypeError("Invalid Predicate");
-    
+      throw new TypeError("Invalid predicate");
+
     Object.defineProperties(this, {
       "predicate": {
         value: predicate // TODO, decompile
@@ -35,7 +35,7 @@ TreatJS.package("TreatJS.Core.Contracts", function (TreatJS, Contract, configura
       }
     });
   }
-  Base.prototype = Object.create(TreatJS.Prototypes.Immediate.prototype);
+  Base.prototype = Object.create(TreatJS.Prototype.Immediate.prototype);
   Base.prototype.constructor = Base;
   Base.prototype.toString = function() {
     return this.name ? "#"+this.name : "[[TreatJS/Base]]";
@@ -47,28 +47,30 @@ TreatJS.package("TreatJS.Core.Contracts", function (TreatJS, Contract, configura
   // \___/|_.__// \___\__|\__|\___\___/_||_\__|_| \__,_\__|\__|
   //          |__/                                             
 
-  function Object(map) {
-    if(!(this instanceof Object)) return new Object(arguments...);
+  function Object(mapping, strict=false) { // TODO, mapping
+    if(!(this instanceof Object)) return new Object(...arguments);
 
-    if(!(map instanceof Map))
-      throw new TypeError("Invalid Predicate");
+    if(!(map instanceof Object))
+      throw new TypeError("Invalid mapping");
 
     Object.defineProperties(this, {
-      "strict": {
-        value: map.strict
+      "mapping": {
+        value: mapping // doesten matter if array or object, as long 
+      // as it is iteratebale with for(var name in {a:1,b:2})
       },
-      "map": {
-        value: map
-      }
+      "strict": {
+        value: strict
+      },
     });
   }
-  Object.prototype = Object.create(TreatJS.Prototypes.Immediate.prototype);
-  Base.prototype.constructor = Base;
-
-  ObjectContract.prototype.toString = function() {
-    var lbr = (this.map.strict) ? "{" : "|";
-    var rbr = (this.map.strict) ? "}" : "|";
-    return "(" + lbr + this.map.toString() + rbr + ")";
+  Object.prototype = Object.create(TreatJS.Prototype.Immediate.prototype);
+  Object.prototype.constructor = Obejct;
+  Object.prototype.toString = function() {
+    return this.mapping.toString();
+    // TODO
+    //var lbr = (this.map.strict) ? "{" : "|";
+    //var rbr = (this.map.strict) ? "}" : "|";
+    //return "(" + lbr + this.map.toString() + rbr + ")";
   };
 
 
@@ -80,12 +82,12 @@ TreatJS.package("TreatJS.Core.Contracts", function (TreatJS, Contract, configura
   //|_| \_,_|_||_|_\_\\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
   function Function(domain, range) {
-    if(!(this instanceof Function)) return new Function(domain, range);
+    if(!(this instanceof Function)) return new Function(...arguments);
 
-    if(!(domain instanceof TreastJS.Prototypes.Contract))
-      throw new TypeError("Invalid Contract");
-    if(!(range instanceof TreastJS.Prototypes.Contract))
-      throw new TypeError("Invalid Contract");
+    if(!(domain instanceof TreastJS.Prototype.Contract))
+      throw new TypeError("Invalid contract");
+    if(!(range instanceof TreastJS.Prototype.Contract))
+      throw new TypeError("Invalid contract");
 
     Object.defineProperties(this, {
       "domain": {
@@ -96,12 +98,11 @@ TreatJS.package("TreatJS.Core.Contracts", function (TreatJS, Contract, configura
       }
     });
   }
-  Function.prototype = Object.create(TreatJS.Prototypes.Deyayed.prototype);
+  Function.prototype = Object.create(TreatJS.Prototype.Deyayed.prototype);
   Function.prototype.constructor = Function;
   Function.prototype.toString = function() {
     return this.domain.toString() + "->" + this.range.toString();
   }; 
-
 
   // ___                        _         _    ___         _               _   
   //|   \ ___ _ __  ___ _ _  __| |___ _ _| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -110,10 +111,10 @@ TreatJS.package("TreatJS.Core.Contracts", function (TreatJS, Contract, configura
   //         |_|                                                               
 
   function Dependent(constructor) {
-    if(!(this instanceof Dependent)) return new Dependent(constructor);
+    if(!(this instanceof Dependent)) return new Dependent(...arguments);
 
-    if(!(constructor instanceof Constructor))
-      throw new TypeError("Invalid Contract");
+    if(!(constructor instanceof TreatJS.Prototype.Constructor))
+      throw new TypeError("Invalid constructor");
 
     Object.defineProperties(this, {
       "constructor": {
@@ -143,12 +144,12 @@ TreatJS.package("TreatJS.Core.Contracts", function (TreatJS, Contract, configura
   //|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
   function Intersection(left, right) { 
-    if(!(this instanceof Intersection)) return new Intersection(left, right);
+    if(!(this instanceof Intersection)) return new Intersection(...arguments);
 
-    if(!(left instanceof TreatJS.Prototypes.Contract))
-      throw new TypeError("Invalid Contract");
-    if(!(right instanceof TreatJS.Prototypes.Contract))
-      throw new TypeError("Invalid Contract");
+    if(!(left instanceof TreatJS.Prototype.Contract))
+      throw new TypeError("Invalid contract");
+    if(!(right instanceof TreatJS.Prototype.Contract))
+      throw new TypeError("Invalid contract");
 
     Object.defineProperties(this, {
       "left": {
@@ -159,12 +160,11 @@ TreatJS.package("TreatJS.Core.Contracts", function (TreatJS, Contract, configura
       }
     });
   }
-  Intersection.prototype = Object.create(TreatJS.Prototypes.Combinator.prototype);
+  Intersection.prototype = Object.create(TreatJS.Prototype.Combinator.prototype);
   Intersection.prototype.constructor = Intersection;
   Intersection.prototype.toString = function() {
     return "(" + this.first.toString() + ") - (" + this.second.toString() + ")";
   };
-
 
   // _   _      _          ___         _               _   
   //| | | |_ _ (_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -172,12 +172,12 @@ TreatJS.package("TreatJS.Core.Contracts", function (TreatJS, Contract, configura
   // \___/|_||_|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
   function Union(left, right) { 
-    if(!(this instanceof Union)) return new Union(left, right);
+    if(!(this instanceof Union)) return new Union(...arguments);
 
-    if(!(left instanceof TreatJS.Prototypes.Contract))
-      throw new TypeError("Invalid Contract");
-    if(!(right instanceof TreatJS.Prototypes.Contract))
-      throw new TypeError("Invalid Contract");
+    if(!(left instanceof TreatJS.Prototype.Contract))
+      throw new TypeError("Invalid contract");
+    if(!(right instanceof TreatJS.Prototype.Contract))
+      throw new TypeError("Invalid contract");
 
     Object.defineProperties(this, {
       "left": {
@@ -188,11 +188,25 @@ TreatJS.package("TreatJS.Core.Contracts", function (TreatJS, Contract, configura
       }
     });
   }
-  Union.prototype = Object.create(TreatJS.Prototypes.Combinator.prototype);
+  Union.prototype = Object.create(TreatJS.Prototype.Combinator.prototype);
   Union.prototype.constructor = Union;
   Union.prototype.toString = function() {
     return "(" + this.first.toString() + ") + (" + this.second.toString() + ")";
   };
+
+  // _____ ___ __  ___ _ _| |_ 
+  /// -_) \ / '_ \/ _ \ '_|  _|
+  //\___/_\_\ .__/\___/_|  \__|
+  //        |_|                
+
+  TreatJS.export({
+    "Base":         Base,
+    "Object":       Object,
+    "Function":     Function,
+    "Dependent":    Dependent,
+    "Intersection": Intersection,
+    "Union":        Union
+  });
 
   //         _                 
   // _ _ ___| |_ _  _ _ _ _ _  
@@ -207,63 +221,6 @@ TreatJS.package("TreatJS.Core.Contracts", function (TreatJS, Contract, configura
     "Intersection": Intersection,
     "Union":        Union
   };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  TreatJS.export({
-
-    Base
-
-    "Contract":     Contract,
-  "Immediate":    Immediate,
-  "Delayed":      Delayed,
-  "Combinator":   Combinator,
-  "Wrapper":      Wrapper,
-  "Constructor":  Constructor
-  });
-
-
-
-
-
 
 });
 
@@ -637,39 +594,4 @@ TreatJS.package("TreatJS.Core.Contracts", function (TreatJS, Contract, configura
 
   TreatJS.define(TreatJS.Contract, "Invariant", InvariantContract);
 
-
-  //               _                 
-  // _ __  __ _ __| |____ _ __ _ ___ 
-  //| '_ \/ _` / _| / / _` / _` / -_)
-  //| .__/\__,_\__|_\_\__,_\__, \___|
-  //|_|                    |___/     
-
-  TreatJS.package("Contracts", {
-    "Base":         Base,
-    "Function":     Function,
-    "Object":       Object,
-    "Intersection": Intersection,
-    "Union":        Union,
-  });
-
-  //         _               _ 
-  // _____ _| |_ ___ _ _  __| |
-  /// -_) \ /  _/ -_) ' \/ _` |
-  //\___/_\_\\__\___|_||_\__,_|
-
-  TreatJS.export(function(Contract, configuration) {
-
-
-
-
-
-    "Contract":     Contract,
-    "Immediate":    Immediate,
-    "Delayed":      Delayed,
-    "Combinator":   Combinator,
-    "Wrapper":      Wrapper,
-    "Constructor":  Constructor
-  });
-
-
-})(TreatJS);
+});
