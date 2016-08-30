@@ -29,6 +29,8 @@ load("lib/padding.js");
 
 load("src/treat.js");
 
+load("src/treat.decompile.js");
+
 load("src/treat.prototypes.js");
 load("src/treat.contract.js");
 
