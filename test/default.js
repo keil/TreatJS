@@ -13,10 +13,17 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+
 print(TreatJS);
 print(TreatJS.version);
 
+print(Contract);
+print(Contract.version);
+
 print(TreatJS.Contract);
+
+
+
 
 
 

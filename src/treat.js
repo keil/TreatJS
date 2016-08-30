@@ -23,8 +23,8 @@
 var TreatJS = TreatJS || (function() {
 
   /** TreatJS version number.
-   */
-  const version = "TreatJS 2.0.0 (Alpha)"
+  */
+  const version = "TreatJS 2.0.0 (Alpha)";
 
   /** The TreatJS wrapper object.
   */
@@ -87,7 +87,6 @@ var TreatJS = TreatJS || (function() {
   //| (__/ _ \ ' \  _| '_/ _` / _|  _|
   // \___\___/_||_\__|_| \__,_\__|\__|
 
-  // 
   Object.defineProperty(TreatJS, "Contract", {
     value: Contract
   });
@@ -98,6 +97,9 @@ var TreatJS = TreatJS || (function() {
   //| .__/\__,_\__|_\_\__,_\__, \___|
   //|_|                    |___/     
 
+  /** Manages TreatJS packages.
+   */
+
   var packages = new Set();
 
   Object.defineProperty(TreatJS, "package", {
@@ -107,184 +109,92 @@ var TreatJS = TreatJS || (function() {
     }
   });
 
-
-
-
   // _      _ _   _      _ _        
   //(_)_ _ (_) |_(_)__ _| (_)______ 
   //| | ' \| |  _| / _` | | |_ / -_)
   //|_|_||_|_|\__|_\__,_|_|_/__\___|
 
-  var initialized = false;
-
-
-
-
-
-
-
-
-
+  /** Initialize the [[TreastJS]] obejct.
+  */
 
   function extend(target, package) {
-     for(let name of package) {
-       if(target[name]) throw new Error(`Property ${name} already exists.`);
-       else target[name] = package[name];
-      }
-  }
-
-  function xxx(name) {
-
-    const xx = name.split(".");
-
-    for(let name of path) {
-    
+    for(let name of package) {
+      if(target[name]) throw new Error(`Property ${name} already exists.`);
+      else target[name] = package[name];
     }
-  
+  }
+
+  function resolve(target, path = []) {
+    if(path.length==0){
+      return target;
+    } else {
+      const name = path.pop();      
+      if(!target[name]) target[name] = {};
+      return resolve(target[name], path);
+    }
+  }
+
+  function build({name, construtor}, configuration) {
+    var target = resolve(TreatJS, name.split("."));
+    var package = construtor(TractJS, Contract, configuration);
+
+    extend(target, package);
   }
 
 
-  function resolvePath(target, path = []) {
+  /** Flag to indicate if the initialization is complete. 
+  */
+  var initialized = false;
 
-    if(path.length==0) return target;
-    else {
+  function initialize(configuration) {
 
-      const name = path.pop();
-      
-      if(!target[name]) {
-        target[name] = {}; // freeze?
-      }
-        return resolvePath(target[path.pop()], path);
-
-      if() resolvePath(target[path.pop()], path); }
-  }
-
-
-
-
-  function initialize({name, construtor}, configuration) {
-
-
-
-
-    if(TreatJS[name]) throw new Error(`Package ${name}, already exists.`);
-    else TreatJS[name] = {}; // new TreatJSPackage
-
-    var export = construtor(TreatJS, Contract configuration);
-
-    TreatJS[name] = export;
-
-    
-    
-    /** Write properties to the TreatJS Contract interface. 
-     */
-    for(let name in export) {
-      Object.defineProperty(Contract, name, {
-        value: export[name], enumerable: true
-      });
+    for(let package of packages) {
+      build(package, configuration);
     }
 
+    // Prevent the [[TreatJS]] and [[Contract]] object from further modifications.
+    Object.freeze(TreatJS);
+    Object.freeze(Contract);
 
-  
+    // Initialization done.
+    var initialized = true;
+
+    // Return the public interface.
+    return Contract;
   }
-
-
-
 
   Object.defineProperty(TreatJS, "initialize", {
     value: function(configuration) {
-
-      // Cannot re-initialize TreatJS Interface;
-      if(initialized) throw Error("TreatJS already initialized!");
-
-      for(let package of packages) {
-        initialize(package, configuration);
-      }
-
-
-
-
-
-        let export = package.constructor(TreatJS, configuration);
-
-        /** Writes exported 
-        */
-        for(let name in export) {
-          Object.defineProperty(Contract, name, {
-            value: export[name], enumerable: true
-          });
-        }
-
-        /** Writes exported 
-        */
-
-        TreatJS[package.name] = {};
-
-        for(let name in export) {
-          Object.defineProperty(Contract, name, {
-            value: export[name], enumerable: true
-          });
-        }
-
-
-
-      } 
-
-      initialized = true;
-
-      // TODO seal, freeze and so
-
-
-
+      if(!initialized) return initialize(configuration);
+      else throw Error("TreatJS already initialized!");
     }
-
-           //                       _   
-           // _____ ___ __  ___ _ _| |_ 
-           /// -_) \ / '_ \/ _ \ '_|  _|
-           //\___/_\_\ .__/\___/_|  \__|
-           //        |_|                
-
-           Object.defineProperty(TreatJS, "export", {
-             value: function(name, export) {
-
-
-
-             }
-
-
-
-
-                      Object.defineProperty(TreatJS, "export", {
-                      value: function(package) {
-                        for(let name in package) {
-                          Object.defineProperty(TreatJS.Core, name, {
-                            value: package[name], enumerable: true
-                          });
-                        }
-                      } 
-                    });
-
-
-
-
-           } 
   });
 
 
-  // TODO,
-  TreatJS.Core = {};
 
+  //                       _   
+  // _____ ___ __  ___ _ _| |_ 
+  /// -_) \ / '_ \/ _ \ '_|  _|
+  //\___/_\_\ .__/\___/_|  \__|
+  //        |_|                
 
+  /** Builds the public [[Contract]] interface.
+  */
 
+  Object.defineProperty(TreatJS, "export", {
+    value: function(package) {
+      extend(Contract, package);
+    }
+  });
 
   //         _                 
   // _ _ ___| |_ _  _ _ _ _ _  
   //| '_/ -_)  _| || | '_| ' \ 
   //|_| \___|\__|\_,_|_| |_||_|
 
-  /** Return the TreatJS objects
+  /** Return the [[TreatJS]] objects
   */
-  return TreatJS 
+  return TreatJS; 
 
 })();
 
