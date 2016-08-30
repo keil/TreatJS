@@ -21,9 +21,9 @@ TreatJS.package("TreatJS.Prototype", function(TreatJS, Contract, configuration) 
   // \___\___/_||_\__|_| \__,_\__|\__|
 
   function Contract() {
-    if(!(this instanceof Contract)) return new Contract();
+    if(!(this instanceof Contract)) return new Contract(...arguments);
   };
-  Contract.prototype = {};
+  Contract.prototype = Object.create({});
   Contract.prototype.constructor = Contract;
   Contract.prototype.toString = function() {
     return '[[TreatJS/Contract]]'; 
@@ -35,12 +35,12 @@ TreatJS.package("TreatJS.Prototype", function(TreatJS, Contract, configuration) 
   //|___/\___|_\__,_|\_, \___\__,_|  \___\___/_||_\__|_| \__,_\__|\__|
   //                 |__/                                             
 
-  function Delayed() {
-    if(!(this instanceof Delayed)) return new Delayed();
+  function DelayedContract() {
+    if(!(this instanceof DelayedContract)) return new DelayedContract(...arguments);
   }
-  Delayed.prototype = Object.create(Contract.prototype);
-  Delayed.prototype.constructor = Delayed;
-  Delayed.prototype.toString = function() {
+  DelayedContract.prototype = Object.create(Contract.prototype);
+  DelayedContract.prototype.constructor = DelayedContract;
+  DelayedContract.prototype.toString = function() {
     return '[[TreatJS/Delayed]]';
   };
 
@@ -49,12 +49,12 @@ TreatJS.package("TreatJS.Prototype", function(TreatJS, Contract, configuration) 
   // | || '  \| '  \/ -_) _` | / _` |  _/ -_) | (__/ _ \ ' \  _| '_/ _` / _|  _|
   //|___|_|_|_|_|_|_\___\__,_|_\__,_|\__\___|  \___\___/_||_\__|_| \__,_\__|\__|
 
-  function Immediate() {
-    if(!(this instanceof Immediate)) return new Immediate();
+  function ImmediateContract() {
+    if(!(this instanceof ImmediateContract)) return new ImmediateContract(...arguments);
   }
-  Immediate.prototype = Object.create(Contract.prototype);
-  Immediate.prototype.constructor = Immediate;
-  Immediate.prototype.toString = function() {
+  ImmediateContract.prototype = Object.create(Contract.prototype);
+  ImmediateContract.prototype.constructor = ImmediateContract;
+  ImmediateContract.prototype.toString = function() {
     return '[[TreatJS/Immediate]]';
   };
 
@@ -63,12 +63,12 @@ TreatJS.package("TreatJS.Prototype", function(TreatJS, Contract, configuration) 
   //| (__/ _ \ '  \| '_ \ | ' \/ _` |  _/ _ \ '_| | (__/ _ \ ' \  _| '_/ _` / _|  _|
   // \___\___/_|_|_|_.__/_|_||_\__,_|\__\___/_|    \___\___/_||_\__|_| \__,_\__|\__|
 
-  function Combinator() {
-    if(!(this instanceof Combinator)) return new Combinator();
+  function CombinatorContract() {
+    if(!(this instanceof CombinatorContract)) return new CombinatorContract(...arguments);
   }
-  Combinator.prototype = Object.create(Contract.prototype);
-  Combinator.prototype.constructor = Combinator;
-  Combinator.prototype.toString = function() {
+  CombinatorContract.prototype = Object.create(Contract.prototype);
+  CombinatorContract.prototype.constructor = CombinatorContract;
+  CombinatorContract.prototype.toString = function() {
     return '[[TreatJS/Combinator]]';
   };
 
@@ -78,12 +78,12 @@ TreatJS.package("TreatJS.Prototype", function(TreatJS, Contract, configuration) 
   //  \_/\_/|_| \__,_| .__/ .__/\___|_|    \___\___/_||_\__|_| \__,_\__|\__|
   //                 |_|  |_|                                               
 
-  function Wrapper() {
-    if(!(this instanceof Wrapper)) return new Wrapper();
+  function WrapperContract() {
+    if(!(this instanceof Wrapper)) return new WrapperContract(...arguments);
   }
-  Wrapper.prototype = Object.create(Contract.prototype);
-  Wrapper.prototype.constructor = Wrapper;
-  Wrapper.prototype.toString = function() {
+  WrapperContract.prototype = Object.create(Contract.prototype);
+  WrapperContract.prototype.constructor = WrapperContract;
+  WrapperContract.prototype.toString = function() {
     return '[[TreatJS/Wrapper]]';
   };
 
@@ -92,12 +92,12 @@ TreatJS.package("TreatJS.Prototype", function(TreatJS, Contract, configuration) 
   //| (__/ _ \ ' \(_-<  _| '_| || / _|  _/ _ \ '_| | (__/ _ \ ' \  _| '_/ _` / _|  _|
   // \___\___/_||_/__/\__|_|  \_,_\__|\__\___/_|    \___\___/_||_\__|_| \__,_\__|\__|
 
-  function Constructor() {
-    if(!(this instanceof Constructor)) return new Constructor();
+  function ConstructorContract() {
+    if(!(this instanceof Constructor)) return new ConstructorContract(...arguments);
   }
-  Constructor.prototype = Object.create(Contract.prototype);
-  Constructor.prototype.constructor = Constructor;
-  Constructor.prototype.toString = function() {
+  ConstructorContract.prototype = Object.create(Contract.prototype);
+  ConstructorContract.prototype.constructor = ConstructorContract;
+  ConstructorContract.prototype.toString = function() {
     return '[[TreatJS/Constructor]]';
   };
 
@@ -107,12 +107,12 @@ TreatJS.package("TreatJS.Prototype", function(TreatJS, Contract, configuration) 
   //|_| \___|\__|\_,_|_| |_||_|
 
   return {
-    "Contract":     Contract,
-    "Immediate":    Immediate,
-    "Delayed":      Delayed,
-    "Combinator":   Combinator,
-    "Wrapper":      Wrapper,
-    "Constructor":  Constructor
+    Contract:     Contract,
+    Immediate:    ImmediateContract,
+    Delayed:      DelayedContract,
+    Combinator:   CombinatorContract,
+    Wrapper:      WrapperContract,
+    Constructor:  ConstructorContract
   };
 
 });

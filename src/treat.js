@@ -87,9 +87,10 @@ var TreatJS = TreatJS || (function() {
   //| (__/ _ \ ' \  _| '_/ _` / _|  _|
   // \___\___/_||_\__|_| \__,_\__|\__|
 
-  Object.defineProperty(TreatJS, "Contract", {
-    value: Contract
-  });
+  // TODO
+  //  Object.defineProperty(TreatJS, "Contract", {
+  //    value: Contract
+  //  });
 
   //               _                 
   // _ __  __ _ __| |____ _ __ _ ___ 
