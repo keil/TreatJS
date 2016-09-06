@@ -13,7 +13,16 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
+TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
+
+  // TODO, verbose mode
+
+
+  /**
+   * Function decompile (aka Function.prototype.toString).
+   * Decompiles a function and returns a string representing the source code of that function.
+   */
+  var decompile = Function.prototype.toString;
 
 
   // wrap for arguments passed the membrane
@@ -26,13 +35,13 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
   // | _|| '_| '_/ _ \ '_|
   // |___|_| |_| \___/_|  
 
-  function PureError (message) {
-    this.name = 'Pure Error';
-    this.message = 'Pure function cannot cause observable effects or call unpure functions.' + (message? '\n'+message: '');;
+  function PredicateError (message) {
+    this.name = 'Predicate Error';
+    this.message = 'Predicate function cannot cause observable effects or call functions.' + (message? '\n'+message: '');;
     this.stack = (new Error()).stack;
   }
-  PureError.prototype = Object.create(Error.prototype);
-  PureError.prototype.constructor = PureError;
+  PredicateError.prototype = Object.create(Error.prototype);
+  PredicateError.prototype.constructor = PredicateError;
 
   //__ __ ___ _ __ _ _ __ 
   //\ V  V / '_/ _` | '_ \
@@ -70,8 +79,14 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       return target;
     }
 
-    var handler = new Membrane();
-    var proxy = new Proxy(target, handler);
+    //var handler = new Membrane();
+    //var proxy = new Proxy(target, handler);
+
+    var proxy = new Proxy(target, new Proxy({}, {
+      get: function(target, name, receiver) {
+        throw new PredicateError();
+      }
+    }));
 
     /**
      * Stores the current proxy
@@ -96,11 +111,15 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
 
 
+
   // __  __           _                      
   //|  \/  |___ _ __ | |__ _ _ __ _ _ _  ___ 
   //| |\/| / -_) '  \| '_ \ '_/ _` | ' \/ -_)
   //|_|  |_\___|_|_|_|_.__/_| \__,_|_||_\___|
 
+// TODO, repicated
+ 
+  
   function Membrane() {
     if(!(this instanceof Membrane)) return new Membrane(...arguments);
 
@@ -108,90 +127,77 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
      * A trap for Object.getPrototypeOf.
      **/
     this.getPrototypeOf = function(target) {
-      return wrap(Object.getPrototypeOf(target));
+      throw new PredicateError();
     }
 
     /**
      * A trap for Object.setPrototypeOf.
      **/
     this.setPrototypeOf = function(target, prototype) {
-      throw new PureError();
+      throw new PredicateError();
     }
 
     /**
      * A trap for Object.isExtensible
      **/
     this.isExtensible = function(target) {
-      return Object.isExtensible(target);
+      throw new PredicateError();
     };
 
     /** 
      * A trap for Object.preventExtensions.
      **/
     this.preventExtensions = function(target) {
-      throw new PureError();
+      throw new PredicateError();
     };
 
     /** 
      * A trap for Object.getOwnPropertyDescriptor.
      **/
     this.getOwnPropertyDescriptor = function(target, name) {
-      return wrap(Object.getOwnPropertyDescriptor(target, name));
+      throw new PredicateError();
     };
 
     /** 
      * A trap for Object.defineProperty.
      **/
     this.defineProperty = function(target, name, desc) {
-      throw new PureError();
+      throw new PredicateError();
     };
 
     /** 
      * A trap for the in operator.
      **/
     this.has = function(target, name) {
-      return (name in target);
+      throw new PredicateError();
     };
 
     /**
      * A trap for getting property values.
      **/
     this.get = function(target, name, receiver) {
-      if(name === Symbol.toPrimitive) return wrap(target[name]);
-      if(name === Symbol.iterator) return target[name];
-
-      var desc = Object.getOwnPropertyDescriptor(target, name);
-      if(desc && desc.get) {
-        var getter = wrap(desc.get);
-        return getter.apply(this);
-      } else {
-        return wrap(target[name]);
-      }
+      throw new PredicateError();
     };
 
     /** 
      * A trap for setting property values.
      **/
     this.set = function(target, name, value, receiver) {
-      throw new PureError();
+      throw new PredicateError();
     };
 
     /**
      * A trap for the delete operator.
      **/
     this.deleteProperty = function(target, name) {
-      throw new PureError();
+      throw new PredicateError();
     };
 
     /** 
      * A trap for for...in statements.
      **/
     this.enumerate = function(target) {
-      var properties = new Set();
-      for(var property in target) {
-        properties.add(property);
-      }
-      return Array.from(properties)[Symbol.iterator]();
+      throw new PredicateError();
     };
 
     /**
@@ -205,74 +211,28 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
      * A trap for a function call.
      **/
     this.apply = function(target, thisArg, argumentsList) {
-      if(target instanceof Pure) {
-        return target.apply(wrap(thisArg), wrap(argumentsList))
-      } else {
-        throw new PureError();
-      }
+      throw new PredicateError();
     };
 
     /** 
      * A trap for the new operator. 
      **/
     this.construct = function(target, argumentsList) {
-      if(target instanceof Pure) {
-        var thisArg = Object.create(target.prototype);
-        var result = target.apply(wrap(thisArg), wrap(argumentsList));
-        return (result instanceof Object) ? result : wrap(thisArg);
-      } else {
-        throw new PureError();
-      }
+      throw new PredicateError();
     }
   }
-
-
-
-  /**
-   * Cache. Remembers already existing pure function.
-   **/
-  var cache = new Map();
-
-
-
-
-
-
-  //    _                       _ _     
-  // __| |___ __ ___ _ __  _ __(_) |___ 
-  /// _` / -_) _/ _ \ '  \| '_ \ | / -_)
-  //\__,_\___\__\___/_|_|_| .__/_|_\___|
-  //                      |_|           
-
-
-  function decompile(closure) {
-  
-  }
-
-
-
-
-  /**
-   * Regerence to the global Function constructor.
-   **/
-  var GlobalFunction = Function;
-
-  /**
-   * Cache. Remembers already existing pure function.
-   **/
-  var cache = new Map();   
 
   // _ _ ___ __ ___ _ __  _ __(_) |___ 
   //| '_/ -_) _/ _ \ '  \| '_ \ | / -_)
   //|_| \___\__\___/_|_|_| .__/_|_\___|
   //                     |_|           
 
-  function recompile(realm, closure, constructor) {
+  function recompile(realm, closure) {
     try {
 
       /**
        * Scope Proxy.
-       * Stopt the traversal of the scope chain lookup.
+       * Stops the traversal of a scope chain lookup.
        **/
       var scope = new Proxy(realm, {
         has: function() {
@@ -281,43 +241,61 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       });
 
       /**
-       * Function Body.
+       * Source Code.
        * Dcompiled function body.
        **/
-      var body = "(function() {'use strict'; return " + ("(" +  GlobalFunction.prototype.toString.call(closure) + ")") + "})();";
+      var source = decomnpile.apply(closure);
+
+      /**
+       * New Function Body.
+       * Creates a nest function body in the new scope chain.
+       **/
+      var body = "(function() {'use strict'; return " + ("(" +  source + ")") + "})();";
 
       /**
        * New Pure Function.
-       * Function is nested in the realm.
+       * Creates the new pure function.
        **/
       var pure = eval("(function() { with(scope) { return " + body + " }})();");
 
       /**
-       * Application Jandler.
-       * Wraps/Uwraps arguments and return of a function call to protect arguments/.
+       * Intercept Aplications.
+       * Wrap/Uwrap arguments and return of a function call to protect values.
        **/
-      var handler = {
+      var proxy =  new Proxy(pure, {
         apply: function(target, thisArg, argumentsList) {
           return unwrap(target.apply(wrap(thisArg), wrap(argumentsList)));
         }
-      };
-
-      /**
-       * Redefines the prototype of the pure function.
-       **/
-      Object.setPrototypeOf(pure, constructor.prototype);
+      });
 
       /**
        * Return new pure function.
        **/    
-      var proxy = new Proxy(pure, handler);
-      cache.set(proxy, pure);
       return proxy;
 
     } catch(error) {
       throw new SyntaxError("Incompatible function object." + error.message);
     } 
   }
+
+
+
+
+  //         _                 
+  // _ _ ___| |_ _  _ _ _ _ _  
+  //| '_/ -_)  _| || | '_| ' \ 
+  //|_| \___|\__|\_,_|_| |_||_|
+
+  return {
+    decompile: decompile
+  };
+
+  
+  // TODO, problem
+  // Math.abs;
+  // and so ob shoul be callable
+  //
+  //
 
 
 
