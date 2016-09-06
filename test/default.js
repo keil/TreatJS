@@ -57,6 +57,30 @@ print(TreatJS.Contract);
 
 
 
+function A() {}; A.prototype.constructor = A;
+function B() {}; B.prototype.constructor = B;
+function C() {}; C.prototype.constructor = C;
+
+var x = new B();
+print(x instanceof B);
+
+switch(x.constructor) {
+
+  case A:
+    print("A");
+    break;
+
+  case B:
+    print("B");
+    break;
+
+  case C:
+    print("C");
+    break
+
+}
+
+
 
 
 

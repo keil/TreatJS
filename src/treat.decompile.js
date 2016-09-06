@@ -15,6 +15,72 @@
 
 TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
 
+
+
+
+  // ___               _ _              ___         _               _   
+  /// __| __ _ _ _  __| | |__  _____ __/ __|___ _ _| |_ _ _ __ _ __| |_ 
+  //\__ \/ _` | ' \/ _` | '_ \/ _ \ \ / (__/ _ \ ' \  _| '_/ _` / _|  _|
+  //|___/\__,_|_||_\__,_|_.__/\___/_\_\\___\___/_||_\__|_| \__,_\__|\__|
+
+  function SandboxContract(predicate, name) {
+    if(!(this instanceof BaseContract)) return new SandboxContract(...arguments);
+
+    if(!(predicate instanceof Function))
+      throw new TypeError("Invalid predicate");
+
+    Object.defineProperties(this, {
+      "predicate": {
+        value: predicate
+      },
+      "name": {
+        value: name
+      }
+    });
+  }
+  BaseContract.prototype = Object.create(TreatJS.Contract.Base.prototype);
+  BaseContract.prototype.constructor = BaseContract;
+  BaseContract.prototype.toString = function() {
+    return this.name ? "#"+this.name : "[[TreatJS/BaseContract]]";
+  };
+
+
+/*
+  function SandboxContract(predicate, global, name) {
+    if(!(this instanceof SandboxContract)) return new SandboxContract(predicate, global, name);
+    else BaseContract.call(this, predicate, name);
+
+    if(!(global instanceof Object))
+      error("Invalid Global Argument", (new Error()).fileName, (new Error()).lineNumber);
+
+    Object.defineProperties(this, {
+      "global": {
+        value: global
+      }
+    });
+  }
+  SandboxContract.prototype = Object.create(BaseContract.prototype);
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   // TODO, verbose mode
 
 
