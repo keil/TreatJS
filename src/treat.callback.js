@@ -15,19 +15,23 @@
 
 TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) {
 
+  /*
+   * TODO
+   * - update only if handle changes
+   */
 
   // ___             _   _          ___      _ _ _             _   
   //| __|  _ _ _  __| |_(_)___ _ _ / __|__ _| | | |__  __ _ __| |__
   //| _| || | ' \/ _|  _| / _ \ ' \ (__/ _` | | | '_ \/ _` / _| / /
   //|_| \_,_|_||_\__|\__|_\___/_||_\___\__,_|_|_|_.__/\__,_\__|_\_\
 
-  function FunctionCallback(callback) {
-    if(!(this instanceof FunctionCallback)) return new FunctionCallback(...arguments);
-    else Callback.apply(this, arguments);
+  function newFunctionCallback(callback) {
 
+    // internal values
     var domain = true;
     var range = true;
 
+    // update constraint
     function update() {
       callback({
         context: (domain.subject && range.context)
@@ -35,13 +39,12 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
       });
     }
 
+    // return new callback handler
     return {
-    
       domain: function(handle) {
         domain = handle;
         update();
       },
-    
       range: function(handle) {
         range = handle;
         update();
@@ -49,19 +52,18 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
     }
   }
 
-
   // ___     _                      _   _          ___      _ _ _             _   
   //|_ _|_ _| |_ ___ _ _ ___ ___ __| |_(_)___ _ _ / __|__ _| | | |__  __ _ __| |__
   // | || ' \  _/ -_) '_(_-</ -_) _|  _| / _ \ ' \ (__/ _` | | | '_ \/ _` / _| / /
   //|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_\___\__,_|_|_|_.__/\__,_\__|_\_\
 
-  function IntersectionCallback(callback) {
-    if(!(this instanceof FunctionCallback)) return new FunctionCallback(...arguments);
-    else Callback.apply(this, arguments);
+  function newIntersectionCallback(callback) {
 
+    // internal values
     var left = true;
     var right = true;
 
+    // update constraint
     function update() {
       callback({
         context: (left.context && right.context)
@@ -69,25 +71,51 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
       });
     }
 
+    // return new callback handler
     return {
-    
-      domain: function(handle) {
-        domain = handle;
+      left: function(handle) {
+        left = handle;
         update();
       },
-    
-      range: function(handle) {
-        range = handle;
+      right: function(handle) {
+        right = handle;
         update();
       }    
     }
   }
 
 
+  // _   _      _          ___      _ _ _             _   
+  //| | | |_ _ (_)___ _ _ / __|__ _| | | |__  __ _ __| |__
+  //| |_| | ' \| / _ \ ' \ (__/ _` | | | '_ \/ _` / _| / /
+  // \___/|_||_|_\___/_||_\___\__,_|_|_|_.__/\__,_\__|_\_\
 
+  function newUnionCallback(callback) {
 
+    // intrnal values
+    var left = true;
+    var right = true;
 
+    // update constraint
+    function update() {
+      callback({
+        context: (left.context && right.context)
+        subject: (left.subject || right.subject)
+      });
+    }
 
+    // return new callback handler
+    return {
+      left: function(handle) {
+        left = handle;
+        update();
+      },
+      right: function(handle) {
+        right = handle;
+        update();
+      }    
+    }
+  }
 
   //         _                 
   // _ _ ___| |_ _  _ _ _ _ _  
@@ -95,7 +123,9 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
   //|_| \___|\__|\_,_|_| |_||_|
 
   return {
-    decompile: decompile
+    newFunctionCallback:      newFunctionCallback,
+    newIntersectionCallback:  newIntersectionCallback
+    newUnionCallback:         newUnionCallback
   };
 
 });

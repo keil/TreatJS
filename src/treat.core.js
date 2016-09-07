@@ -15,73 +15,58 @@
 
 TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
-  //  ___                 
-  // | __|_ _ _ _ ___ _ _ 
-  // | _|| '_| '_/ _ \ '_|
-  // |___|_| |_| \___/_|  
+  // ___ _                
+  //| _ ) |__ _ _ __  ___ 
+  //| _ \ / _` | '  \/ -_)
+  //|___/_\__,_|_|_|_\___|
 
-  function ContractError (message) {
-    this.name = 'Contract Violation';
-    this.message = 'Predicate function cannot cause observable effects or call functions.' + (message? '\n'+message: '');;
-    this.stack = (new Error()).stack;
-  }
-  ContractError.prototype = Object.create(Error.prototype);
-  ContractError.prototype.constructor = ContractError;
+  function Blame(message) {
+    if(!(this instanceof Blame)) return new Blame(...arguments);
+    else Error.apply(this, arguments);
 
+    this.name = "Contract Violation";
+    this.message = message || "Undefined Contract Violation";
+  } 
+  Blame.prototype = Object.create(Error.prototype);
+  Blame.prototype.constructor = Blame;
+  Blame.prototype.toString = function {
+    return '[[TreatJS/Blame]]';
+  };
 
+  function PositiveBlame(subject, contract) {
+    if(!(this instanceof PositiveBlame)) return new PositiveBlame(...arguments);
+    else Blame.apply(this, arguments);
 
+    this.message = "Subject" + " @ " + contract.toString();
+  } 
+  PositiveBlame.prototype = Object.create(Blame.prototype);
+  PositiveBlame.prototype.constructor = PositiveBlame;
+  PositiveBlame.prototype.toString = function {
+    return '[[TreatJS/PositiveBlame]]';
+  };
 
+  function NegativeBlame(context, contract) {
+    if(!(this instanceof NegativeBlame)) return new NegativeBlame(...arguments);
+    else Blame.apply(this, arguments);
 
+    this.message ="Context (" + context.id + ")" + " @ " + contract.toString();
+  } 
+  NegativeBlame.prototype = Object.create(Blame.prototype);
+  NegativeBlame.prototype.constructor = NegativeBlame;
+  NegativeBlame.prototype.toString = function {
+    return '[[TreatJS/PositiveBlame]]';
+  };
 
   //  ___         _           _   
   // / __|___ _ _| |_ _____ _| |_ 
   //| (__/ _ \ ' \  _/ -_) \ /  _|
   // \___\___/_||_\__\___/_\_\\__|
 
-  function Context(name, target) {
-    if(!(this instanceof Context)) return new Context(...arguments);
+  var Contextx = new Array();
 
-    if((typeof name) != "string") error("Wrong Context", (new Error()).fileName, (new Error()).lineNumber);
-    if((typeof target) != "object") error("Wrong Context" + (typeof target), (new Error()).fileName, (new Error()).lineNumber);
-
-    Object.defineProperties(this, {
-      "name": {
-        value: name
-      },
-      "target": {
-        value: target
-      }
-    });
-  }
-  Context.prototype = Object.create(Contract.prototype);
-  Context.prototype.constructor = ConstructorContract;
-
-  Context.prototype = Obejct;
-  Context.prototype.toString = function() {
-    return this.name;
-  }
-
-  function GlobalContext() {
-  
-  }
-
-  function ContextContext() {
-
-  }
-
-
-  // _    ___ _                ___ _        _       
-  //(_)__| _ ) |__ _ _ __  ___/ __| |_ __ _| |_ ___ 
-  //| (_-< _ \ / _` | '  \/ -_)__ \  _/ _` |  _/ -_)
-  //|_/__/___/_\__,_|_|_|_\___|___/\__\__,_|\__\___|
-
-  function isBlameState(handle) {
-
-    if(handle.context==false || handle.subject==false) {
-      throw new ContractError();
-    }
-
-  }
+  Contexts.push({
+    id: "Global Context",
+  });
 
   //                     _   
   // __ _ ______ ___ _ _| |_ 
@@ -90,23 +75,19 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
   function assert(subject, contract) {
 
-
-
-    
     if(!(contract instanceof TreatJS.Prototype.Contract))
       throw new TypeError("Invalid contract");
 
-    // TODO, check if contract is caonical
-
-
-    return assertWith()
+    return assertWith(subject, contract, function(handle) {
+      if(handle.subject==false) {
+        throw new PositiveBlame(subject, contract);
+      } else if (handle.context==false) {
+        throw new NegativeBlame(Contexts[Contexts.length-1], contract);
+      }
+    });
   }
 
-
-
-
-
-  function assertContract(subject, contract, callback) {
+  function assertWith(subject, contract, callback) {
 
     // ___                ___         _               _   
     //| _ ) __ _ ___ ___ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -114,53 +95,34 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     //|___/\__,_/__/\___|\___\___/_||_\__|_| \__,_\__|\__|
 
     else if(contract instanceof TreatJS.Contract.Base) {
-      //count(TreatJS.Statistic.BASE);
-
-      //var callback = BaseCallback(callbackHandler, contract);
-
+            
       // push new context
-      //pushContext(contract);
+      Contextx.push({
+        id:       contract.name,
+        contract: contract
+      })
 
       try {
         var result = contract.predicate.apply(undefined, subject);
-      } catch (e) { 
-        if(e instanceof TreatJSError) {
-          var result = e;
-        } else if(TreatJS.Config.exceptionPassThrough) {
-          var result = e;
+      } catch (error) {
+        if(error instanceof Blame) {
+          throw error; /// TODO, test
         } else {
-          var result = Conflict;
+          var result = false; 
         }
       } finally {
-        // pop context
-        //popContext(); 
 
+        // pop context
+        Contextx.pop(); 
+
+        // update callback graph
         callback({
           context: true,
           subject: result ? true : false;       
         });
 
-
-        if(result instanceof Error) {
-          throw result;
-        } else {
-          var handle = new Handle(True, result);
-          callback.predicateHandler(handle);
-          return arg;
-        }
       }
     }
-
-
-
-
-
-
-
-
-
-  
-
 
     //  ___  _     _        _    ___         _               _   
     // / _ \| |__ (_)___ __| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -169,6 +131,19 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     //          |__/                                             
 
     else if (contract instanceof TreatJS.Contract.Object) {
+      return (subject instanceof Object) ? new Proxy(subject, {
+        get: function (target, name, receiver) {
+        
+        },
+        set: function (target, name, value, receiver) {
+        
+        }
+      }) : subject;
+    }
+
+
+      
+      
       if(!(arg instanceof Object)) callbackHandler(Handle(True, False));
 
       /* STRICT MODE */
@@ -193,11 +168,11 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       return (subject instanceof Function) ? new Proxy(subject, {
         apply: function (target, thisArg, argumentsArg) {
           var callback = new TreatJS.Callback.Function(callback);
-        
+
           var argumentsArg = monitor(argumentsArg, contract.domain, callback.domain);
           var result = Reflect.apply(subject, thisArg, argumentsArg);
           return monitor(result, contract.range, callback.range);    
-        
+
         }
       }) : subject;
     }
@@ -221,7 +196,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
         }}) : subject;
     }
-  
+
 
 
 
@@ -307,13 +282,13 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     }
 
 
- 
+
 
     //     _   _                   _         
     // ___| |_| |_  ___ _ ___ __ _(_)___ ___ 
     /// _ \  _| ' \/ -_) '_\ V  V / (_-</ -_)
     //\___/\__|_||_\___|_|  \_/\_/|_/__/\___|
-                                       
+
     else throw new TypeError("Invalid contract");
   }
 
@@ -367,7 +342,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     // ___| |_| |_  ___ _ ___ __ _(_)___ ___ 
     /// _ \  _| ' \/ -_) '_\ V  V / (_-</ -_)
     //\___/\__|_||_\___|_|  \_/\_/|_/__/\___|
-                                       
+
     else throw new TypeError("Invalid constructor");
   }
 
@@ -389,7 +364,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
   TreatJS.export({
     assert: assert,
-    construct: construct
+  construct: construct
   });
 
   //         _                 
@@ -399,7 +374,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
   return {
     assert: assert,
-    construct: construct
+      construct: construct
   };
 
   // INDY and co
