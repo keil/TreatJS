@@ -220,6 +220,40 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
 
 
+  // delayed
+    else if (contract instanceof TreatJS.Contract.Intersection) {
+      return (subject instanceof Object) ? new Proxy(subject, {
+        
+        get: function (target, name, receiver) {
+          var callback = TreatJS.Callback.freshIntersecton(callback);
+          var contracted =  assertWith(assertWith(target, contract.left, callback.left), contract.right, callback.right);
+          return Reflect.get(contractd, name, receiver);
+        },
+
+        get: function (target, trap, receiver) {
+          
+          return function(target, ...restArgs) {
+            var callback = TreatJS.Callback.freshIntersecton(callback);
+            var contracted =  assertWith(assertWith(target, contract.left, callback.left), contract.right, callback.right);
+            return Reflect[trap](contractd, ...restAgs);
+          }
+        
+        }
+        
+        apply: function (target, thisArg, argumentsArg) {
+          var range = construct(contract, argumentsArg);
+
+          var result = Reflect.apply(subject, thisArg, argumentsArg);
+          return monitor(result, range, callback);
+
+        }}) : subject;
+
+
+
+      
+      var intersection = new TreatJS.Callback.Intersection(callback);
+      return assert(assert(subject, contract.left, union.left), contract.right, union.right);
+    }
 
 
 
