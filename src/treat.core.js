@@ -211,8 +211,9 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       return assert(assert(subject, contract.left, union.left), contract.right, union.right);
     }
 
+    // delayed
     else if (contract instanceof TreatJS.Contract.Intersection) {
-      // delayed
+      
       var intersection = new TreatJS.Callback.Intersection(callback);
       return assert(assert(subject, contract.left, union.left), contract.right, union.right);
     }
