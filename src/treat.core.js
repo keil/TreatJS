@@ -153,13 +153,15 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     //|_| \_,_|_||_|_\_\\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
     if(contract instanceof TreatJS.Contract.Function) {
+
       return (subject instanceof Function) ? new Proxy(subject, {
         apply: function (target, thisArg, argumentsArg) {
-          var callback = new TreatJS.Callback.Function(callback);
-
-          var argumentsArg = monitor(argumentsArg, contract.domain, callback.domain);
-          var result = Reflect.apply(subject, thisArg, argumentsArg);
-          return monitor(result, contract.range, callback.range);    
+          //
+          var callback = TreatJS.Callback.createFunctionCallback(callback);
+        
+          var contracted = assertWith(argumentsArg, contract.domain, callback.domain);
+          var result = Reflect.apply(subject, thisArg, contracted);
+          return assertWith(result, contract.range, callback.range);    
 
         }
       }) : subject;
