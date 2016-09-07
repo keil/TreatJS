@@ -47,7 +47,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
   // \___/|_.__// \___\__|\__|\___\___/_||_\__|_| \__,_\__|\__|
   //          |__/                                             
 
-  function ObjectContract(mapping, strict=false) { // TODO, mapping
+  function ObjectContract(mapping, strict=false) { // TODO, mapping // todo, strict mode ?
     if(!(this instanceof ObjectContract)) return new ObjectContract(...arguments);
 
     if(!(map instanceof Object))

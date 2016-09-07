@@ -130,34 +130,22 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     // \___/|_.__// \___\__|\__|\___\___/_||_\__|_| \__,_\__|\__|
     //          |__/                                             
 
+// doing this is required because indy would redirect cntext blames to its
+// wirks for INDY, as iny itself redicrets the context
+
     else if (contract instanceof TreatJS.Contract.Object) {
       return (subject instanceof Object) ? new Proxy(subject, {
         get: function (target, name, receiver) {
-        
+          var value = Reflect.get(target, name, receiver);
+          return (name in contract.mapping) ? assertWith(value, contract.mapping[name], callback) : value;
         },
         set: function (target, name, value, receiver) {
-        
+          var callback = TreatJS.Callback.createAssignment(callback);
+          var contracted = (name in contract.mapping) ? assertWith(value, contract.mapping[name], callback.contract) : value;
+          return Reflect.set(target, name, value, receiver);
         }
       }) : subject;
     }
-
-
-      
-      
-      if(!(arg instanceof Object)) callbackHandler(Handle(True, False));
-
-      /* STRICT MODE */
-      if(contract.strict) {
-        contract.map.foreach(function(key, contract) {
-          arg[key] = assertWith(arg[key], contract, global, callbackHandler);
-        });
-      }
-
-      var handler = new ObjectHandler(contract, global, callbackHandler);
-      var proxy = new Proxy(arg, handler);
-      return proxy;
-    }
-
 
     // ___          _   _   _          ___         _               _   
     //| __|  _ _ _ | |_| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
