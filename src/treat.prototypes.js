@@ -93,7 +93,7 @@ TreatJS.package("TreatJS.Prototype", function(TreatJS, Contract, configuration) 
   // \___\___/_||_/__/\__|_|  \_,_\__|\__\___/_|    \___\___/_||_\__|_| \__,_\__|\__|
 
   function ConstructorContract() {
-    if(!(this instanceof Constructor)) return new ConstructorContract(...arguments);
+    if(!(this instanceof ConstructorContract)) return new ConstructorContract(...arguments);
   }
   ConstructorContract.prototype = Object.create(Contract.prototype);
   ConstructorContract.prototype.constructor = ConstructorContract;

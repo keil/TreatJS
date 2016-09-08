@@ -55,8 +55,9 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
       throw new TypeError("Invalid constructor.");
 
     Object.defineProperties(this, {
-      "predicate": {
-        value: TreatJS.Sandbox.mkConstructor(predicate)
+      "constructor": {
+        // TODO, not good tyo have this name, as constructo is overloaded
+        value: TreatJS.Sandbox.mkConstructor(constructor)
       },
       "name": {
         value: name
@@ -251,6 +252,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
 
   TreatJS.export({
     Base:         BaseContract,
+    Constructor:  ConstructorContract,
     Object:       ObjectContract,
     Function:     FunctionContract,
     Dependent:    DependentContract,
@@ -268,6 +270,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
 
   return {
     Base:         BaseContract,
+    Constructor:  ConstructorContract,
     Object:       ObjectContract,
     Function:     FunctionContract,
     Dependent:    DependentContract,

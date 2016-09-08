@@ -20,12 +20,12 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
   //| _ \ / _` | '  \/ -_)
   //|___/_\__,_|_|_|_\___|
 
-  function Blame(message) {
+  function Blame() {
     if(!(this instanceof Blame)) return new Blame(...arguments);
     else Error.apply(this, arguments);
 
     this.name = "Contract Violation";
-    this.message = message || "Undefined Contract Violation";
+    //this.stack = (new Error()).stack;
   } 
   Blame.prototype = Object.create(Error.prototype);
   Blame.prototype.constructor = Blame;
@@ -35,9 +35,11 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
   function PositiveBlame(subject, contract) {
     if(!(this instanceof PositiveBlame)) return new PositiveBlame(...arguments);
-    else Blame.apply(this, arguments);
+    else Blame.apply(this);
 
+//    this.name = "Contract Violation";
     this.message = "Subject" + " @ " + contract.toString();
+    //this.stack = (new Error()).stack;
   } 
   PositiveBlame.prototype = Object.create(Blame.prototype);
   PositiveBlame.prototype.constructor = PositiveBlame;
@@ -47,9 +49,11 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
   function NegativeBlame(context, contract) {
     if(!(this instanceof NegativeBlame)) return new NegativeBlame(...arguments);
-    else Blame.apply(this, arguments);
+    else Blame.apply(this);
 
+//    this.name = "Contract Violation";
     this.message ="Context (" + context.id + ")" + " @ " + contract.toString();
+    //this.stack = (new Error()).stack;
   } 
   NegativeBlame.prototype = Object.create(Blame.prototype);
   NegativeBlame.prototype.constructor = NegativeBlame;
@@ -107,9 +111,6 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
       try {
         var result = contract.predicate.apply(undefined, [subject]);
-
-        print("resultxx", result);
-
       } catch (error) {
        print(error);
         if(error instanceof Blame) {
@@ -121,10 +122,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
         // pop context
         Contexts.pop(); 
-
-        print("result", result);
-
-
+        
         // update callback graph
         callback({
           context: true,
@@ -305,9 +303,9 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
   function construct(constructor, argsArray=[]) {
 
     if(!(constructor instanceof TreatJS.Prototype.Constructor))
-      throw new TypeError("Invalid Constructor");
+      throw new TypeError("Invalid constructor.");
 
-    return contructWith(constructor, argsArray);
+    return constructWith(constructor, argsArray);
   }
 
   function constructWith(constructor, argsArray) {
@@ -322,20 +320,25 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       // push new context
       // TODO
       //pushContext(constructor);
-
+      
       try {
-        var contract = constructor.constructor.apply(undefined, arguments);
+        var contract = constructor.constructor.apply(undefined, argsArray);
       } catch (error) {
+
+        print("adfadf", error);
+        
         var contract = error;
       } finally {
         // pop context // TODO
         //popContext(); 
-        throw contract;
+        return contract;
       }
 
 
       if(!(contract instanceof TreatJS.Prototype.Contract))
-        throw new TypeError("Invalid Contract");
+        throw new TypeError("Invalid Contract.");
+
+      return contract;
 
     }
 
@@ -344,7 +347,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     /// _ \  _| ' \/ -_) '_\ V  V / (_-</ -_)
     //\___/\__|_||_\___|_|  \_/\_/|_/__/\___|
 
-    else throw new TypeError("Invalid constructor");
+    else throw new TypeError("Invalid constructor....");
   }
 
 

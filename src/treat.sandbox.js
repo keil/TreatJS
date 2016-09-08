@@ -20,8 +20,8 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
   //\__ \/ _` | ' \/ _` | '_ \/ _ \ \ / (__/ _ \ ' \  _| '_/ _` / _|  _|
   //|___/\__,_|_||_\__,_|_.__/\___/_\_\\___\___/_||_\__|_| \__,_\__|\__|
 
-  function SandboxContract(predicate, name) {
-    if(!(this instanceof SandboxContract)) return new SandboxContract(...arguments);
+  function BaseContract(predicate, name) {
+    if(!(this instanceof BaseContract)) return new BaseContract(...arguments);
 
     if(!(predicate instanceof Function))
       throw new TypeError("Invalid predicate");
@@ -35,9 +35,9 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
       }
     });
   }
-  SandboxContract.prototype = Object.create(TreatJS.Contract.Base.prototype);
-  SandboxContract.prototype.constructor = SandboxContract;
-  SandboxContract.prototype.toString = function() {
+  BaseContract.prototype = Object.create(TreatJS.Contract.Base.prototype);
+  BaseContract.prototype.constructor = BaseContract;
+  BaseContract.prototype.toString = function() {
     return this.name ? "#"+this.name : "[[TreatJS/BaseContract]]";
   };
 
@@ -49,7 +49,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
   var SandboxContract = Object.create(Contract);
 
   Object.defineProperty(SandboxContract, "Base", {
-    value: SandboxContract
+    value: BaseContract
   });
 
   // ___               _ _              ___ _     _          _ 
@@ -59,7 +59,8 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
 
   var SandboxGlobal = {
     TreatJS:  TreatJS,
-    Contract: SandboxContract
+    Contract: SandboxContract,
+    print: print
   };
 
 
@@ -378,7 +379,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
 
 
   function mkConstructor (predicate) {
-    return recompile({}, predicate);
+    return recompile(SandboxGlobal, predicate);
   }
 
 

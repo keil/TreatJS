@@ -99,15 +99,55 @@ var _ = _ || (function(Contract) {
   },"typeFunction");
 
 
+
+
+  this.InstanceOf = Contract.Constructor(function(constructor) {
+
+    return Contract.Base(function(object) {
+      return (object instanceof constructor); 
+    },  `InstanceOf ${constructor.name}`);
+  }, "InstanceOf");
+
+
+  this.Between = Contract.Constructor(function(min, max) {
+    return Contract.Base(function(value) {
+      return (min <= value) && (value <= max); 
+    }, `Between ${min} ${max}`);
+  }, "BetweenXX");
+
+
   return this;
 
-}).apply({}, [Contract]);
+}).apply(this, [Contract]);
+
+//print(Contract.assert("1", _.typeNumber));
+print("AAAAAAAAA");
+
+
+var between_0_9 = Contract.construct(Between, [0,1]);
+Contract.assert(0, between_0_9);
 
 
 
-print(Contract.assert("1", _.typeNumber));
 
 
+
+
+
+print("AAAAAAAAA");
+
+//Contract.assert("1", Contract.typeNumber);
+
+var isArray = Contract.construct(InstanceOf, [Array]);
+//Contract.assert({}, isArray);
+
+
+print("XXXXXXXX");
+
+//Contract.assert("1", typeNumber);
+
+
+///Contract.assert(1, typeNumber);
 
 
 
