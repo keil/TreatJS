@@ -122,13 +122,13 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
   // | _|| '_| '_/ _ \ '_|
   // |___|_| |_| \___/_|  
 
-  function PredicateError (message) {
-    this.name = 'Predicate Error';
-    this.message = 'Predicate function cannot cause observable effects or call functions.' + (message? '\n'+message: '');;
+  function SandboxError (trapname="Undefiend operaton") {
+    this.name = 'Sandbox Error';
+    this.message = 'Sandbox function cannot cause observable effects or call functions.' + (trapname? '\n'+trapname: '');;
     this.stack = (new Error()).stack;
   }
-  PredicateError.prototype = Object.create(Error.prototype);
-  PredicateError.prototype.constructor = PredicateError;
+  SandboxError.prototype = Object.create(Error.prototype);
+  SandboxError.prototype.constructor = SandboxError;
 
   //__ __ ___ _ __ _ _ __ 
   //\ V  V / '_/ _` | '_ \
@@ -171,9 +171,12 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
 
     var proxy = new Proxy(target, new Proxy({}, {
       get: function(target, name, receiver) {
-        throw new PredicateError();
+        throw new SandboxError("get" + name);
       }
     }));
+
+    // TODO
+    var proxy = new Proxy(target, new Membrane());
 
     /**
      * Stores the current proxy
@@ -214,98 +217,101 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
      * A trap for Object.getPrototypeOf.
      **/
     this.getPrototypeOf = function(target) {
-      throw new PredicateError();
+      throw new SandboxError("getPrototypeOf");
     }
 
     /**
      * A trap for Object.setPrototypeOf.
      **/
     this.setPrototypeOf = function(target, prototype) {
-      throw new PredicateError();
+      throw new SandboxError("setPrototypeOf");
     }
 
     /**
      * A trap for Object.isExtensible
      **/
     this.isExtensible = function(target) {
-      throw new PredicateError();
+      throw new SandboxError("isExtensible");
     };
 
     /** 
      * A trap for Object.preventExtensions.
      **/
     this.preventExtensions = function(target) {
-      throw new PredicateError();
+      throw new SandboxError("preventExtensions");
     };
 
     /** 
      * A trap for Object.getOwnPropertyDescriptor.
      **/
     this.getOwnPropertyDescriptor = function(target, name) {
-      throw new PredicateError();
+      throw new SandboxError("getOwnPropertyDescriptor");
     };
 
     /** 
      * A trap for Object.defineProperty.
      **/
     this.defineProperty = function(target, name, desc) {
-      throw new PredicateError();
+      throw new SandboxError("defineProperty");
     };
 
     /** 
      * A trap for the in operator.
      **/
     this.has = function(target, name) {
-      throw new PredicateError();
+      return Reflect.has(target, name); // TODO
+      //throw new SandboxError("has");
     };
 
     /**
      * A trap for getting property values.
      **/
     this.get = function(target, name, receiver) {
-      throw new PredicateError();
+      return Reflect.get(target, name, receiver); // TODO
+      //throw new SandboxError("get");
     };
 
     /** 
      * A trap for setting property values.
      **/
     this.set = function(target, name, value, receiver) {
-      throw new PredicateError();
+      throw new SandboxError("set");
     };
 
     /**
      * A trap for the delete operator.
      **/
     this.deleteProperty = function(target, name) {
-      throw new PredicateError();
+      throw new SandboxError("deleteProperty");
     };
 
     /** 
      * A trap for for...in statements.
      **/
     this.enumerate = function(target) {
-      throw new PredicateError();
+      throw new SandboxError("enumerate");
     };
 
     /**
      * A trap for Object.getOwnPropertyNames.
      **/
     this.ownKeys = function(target) {
-      return Object.getOwnPropertyNames(target);
+      //return Object.getOwnPropertyNames(target);
+      throw new SandboxError("ownKeys");
     };
 
     /** 
      * A trap for a function call.
      **/
     this.apply = function(target, thisArg, argumentsList) {
-      throw new PredicateError();
+      throw new SandboxError("apply");
     };
 
     /** 
      * A trap for the new operator. 
      **/
     this.construct = function(target, argumentsList) {
-      throw new PredicateError();
+      throw new SandboxError("construct");
     }
   }
 

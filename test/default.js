@@ -105,7 +105,7 @@ var _ = _ || (function(Contract) {
 
 
 
-Contract.assert(1, _.typeNumber);
+print(Contract.assert("1", _.typeNumber));
 
 
 
