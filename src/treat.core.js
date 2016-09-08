@@ -201,14 +201,15 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       var union = new TreatJS.Callback.Union(callback);
       return assert(assert(subject, contract.left, union.left), contract.right, union.right);
     }
+
     // ___     _                      _   _          ___         _               _   
     //|_ _|_ _| |_ ___ _ _ ___ ___ __| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
     // | || ' \  _/ -_) '_(_-</ -_) _|  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
     //|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
-    else if (contract instanceof TreatJS.Contract.Intersection) {
-      var intersection = new TreatJS.Callback.Intersection(callback);
-      return assert(assert(subject, contract.left, union.left), contract.right, union.right);
+    else if (contract instanceof TreatJS.Contract.IIntersection) {
+      var callback = new TreatJS.Callback.Intersection(callback);
+      return assert(assert(subject, contract.left, callback.left), contract.right, callback.right);
     }
 
     // delayed

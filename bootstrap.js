@@ -39,7 +39,7 @@ load("src/treat.contract.js");
 //| (__/ _ \ ' \  _| '_/ _` / _|  _|
 // \___\___/_||_\__|_| \__,_\__|\__|
                                   
-var Contract  = TreatJS.initialize(/* Todo, confoguration */);
+var Contract  = TreatJS.initialize(/* Todo, configuration */);
 
 
 
