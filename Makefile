@@ -1,6 +1,34 @@
 default:
 	./js -f shell/shell.js -f bootstrap.js -f test/default.js -i
 
+
+
+# Subversion
+
+sync:
+	svn ci -m "sync"
+
+
+sync: commit
+
+
+tname=$(shell date +%Y%m%d)-$(shell date +%H%M%S)
+
+commit:
+	svn ci -m "sync"
+
+tag: sync       
+	svn cp . ../../tags/TreatJS2_$(tname)
+	svn ci ../../tags/TreatJS2_$(tname) -m "add new tag"
+
+ntag: sync
+	svn cp . ../../tags/TreatJS2_$(name)
+	svn ci ../../tags/TreatJS2_$(name) -m "add new tag"
+
+
+
+
+
 # -f contracts/contracts.js
 
 
