@@ -390,7 +390,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
   TreatJS.export({
     assert: assert,
-  construct: construct
+    construct: construct
   });
 
   //         _                 
@@ -400,7 +400,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
   return {
     assert: assert,
-      construct: construct
+    construct: construct
   };
 
   // INDY and co

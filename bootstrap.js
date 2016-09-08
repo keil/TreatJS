@@ -29,10 +29,12 @@ load("lib/padding.js");
 
 load("src/treat.js");
 
-load("src/treat.decompile.js");
-
 load("src/treat.prototypes.js");
 load("src/treat.contract.js");
+
+load("src/treat.core.js");
+
+load("src/treat.sandbox.js");
 
 //  ___         _               _   
 // / __|___ _ _| |_ _ _ __ _ __| |_ 

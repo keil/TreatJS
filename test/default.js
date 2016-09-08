@@ -57,30 +57,55 @@ print(TreatJS.Contract);
 
 
 
-function A() {}; A.prototype.constructor = A;
-function B() {}; B.prototype.constructor = B;
-function C() {}; C.prototype.constructor = C;
 
-var x = new B();
-print(x instanceof B);
+/**
+ * make it more felxibale, shoudl be possible to instanceit contract on this or an _
+ * or on any other contract
+ */
 
-switch(x.constructor) {
+var _ = _ || (function(Contract) {
 
-  case A:
-    print("A");
-    break;
-
-  case B:
-    print("B");
-    break;
-
-  case C:
-    print("C");
-    break
-
-}
+  this.Any = Contract.Base(function(arg) {
+    return true; 
+  },"Any");
 
 
+  this.typeUndefined = Contract.Base(function(arg) {
+    return ((typeof arg) === "undefined");
+  },"typeUndefined");
+
+  this.typeObject =  Contract.Base(function(arg) {
+    return ((typeof arg) === "object");
+  },"typeObject");
+
+  this.typeBoolean = Contract.Base(function(arg) {
+    return ((typeof arg) === "boolean");
+  },"typeBoolean");
+
+  this.typeNumber = Contract.Base(function(arg) {
+    return ((typeof arg) === "number");
+  },"typeNumber");
+
+  this.typeString = Contract.Base(function(arg) {
+    return ((typeof arg) === "string");
+  },"typeString");
+  
+  this.typeSymbol = Contract.Base(function(arg) {
+    return ((typeof arg) === "symbol");
+  },"typeSymbol");
+
+  this.typeFunction = Contract.Base(function(arg) {
+    return ((typeof arg) === "function");
+  },"typeFunction");
+
+
+  return this;
+
+}).apply({}, [Contract]);
+
+
+
+Contract.assert(1, _.typeNumber);
 
 
 
