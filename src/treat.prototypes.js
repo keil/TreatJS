@@ -110,8 +110,8 @@ TreatJS.package("TreatJS.Prototype", function(TreatJS, Contract, configuration) 
     Contract:     Contract,
     Immediate:    ImmediateContract,
     Delayed:      DelayedContract,
-    Combinator:   CombinatorContract,
-    Wrapper:      WrapperContract,
+//    Combinator:   CombinatorContract,
+//    Wrapper:      WrapperContract,
     Constructor:  ConstructorContract
   };
 

@@ -87,10 +87,17 @@ var TreatJS = TreatJS || (function() {
   //| (__/ _ \ ' \  _| '_/ _` / _|  _|
   // \___\___/_||_\__|_| \__,_\__|\__|
 
+
+
+
   // TODO
-  //  Object.defineProperty(TreatJS, "Contract", {
-  //    value: Contract
-  //  });
+    Object.defineProperty(TreatJS, "getContract", {
+      value: function() {
+        return Contract;
+      }
+    });
+
+
 
   //               _                 
   // _ __  __ _ __| |____ _ __ _ ___ 
@@ -100,6 +107,9 @@ var TreatJS = TreatJS || (function() {
 
   /** Manages TreatJS packages.
   */
+
+    // TODO, freeze before return
+
 
   var packages = new Set();
 
