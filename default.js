@@ -74,6 +74,12 @@ var between_0_9 = Contract.construct(Between, [0,1]);
 Contract.assert(0, between_0_9);
 
 
+var isTrue =  Contract.construct(Is, [NaN]);
+
+print(isTrue, NaN, NaN == NaN);
+
+Contract.assert(NaN, isTrue);
+
 
 
 

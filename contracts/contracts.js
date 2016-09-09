@@ -103,7 +103,7 @@ var Contracts = Contracts || (function() {
 
     this.Is = Contract.Constructor(function(target) {
       return Contract.Base(function(value) {
-        return value === target; 
+        return (value === target); 
       }, `Is ${target}`);
     }, "Is");
 
