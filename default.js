@@ -69,24 +69,27 @@ print(TreatJS.Contract);
 
 
 
-
-var between_0_9 = Contract.construct(Between, [0,1]);
-Contract.assert(0, between_0_9);
+print("************************************");
 
 
-var isTrue =  Contract.construct(Is, [NaN]);
+var f = new Function();
+f();
 
-print(isTrue, NaN, NaN == NaN);
+print(typeof f, f instanceof Function);
 
-Contract.assert(NaN, isTrue);
+function G() {
+  Function.apply(this);
+}
+G.prototype = Object.create(Function.prototype);
+
+var g = new G();
+print(typeof g, g instanceof G, g instanceof Function);
+g();
 
 
 
 
-
-
-
-print("AAAAAAAAA");
+print("************************************");
 
 //Contract.assert("1", Contract.typeNumber);
 
