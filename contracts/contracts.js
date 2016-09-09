@@ -20,56 +20,105 @@
 //| |___| (_) | | | | |_| | | (_| | (__| |_\__ \
 // \_____\___/|_| |_|\__|_|  \__,_|\___|\__|___/
 
-/**
- * This files instantiates a number of predefined contracts. 
- * All contracts are typically collected in the `_` obejct
- * part of the `_` object 
- */
+var Contracts = Contracts || (function() {
+
+  /** The Contracts package.
+  */
+  const Contracts = {};
+
+  // _       ___ _       _           
+  //| |_ ___/ __| |_ _ _(_)_ _  __ _ 
+  //|  _/ _ \__ \  _| '_| | ' \/ _` |
+  // \__\___/___/\__|_| |_|_||_\__, |
+  //                           |___/ 
+
+  Object.defineProperty(Contracts, "toString", {
+    value: function() {
+      return "[[Contracts]]";
+    }
+  });
+
+  // _         _ _    _ 
+  //| |__ _  _(_) |__| |
+  //| '_ \ || | | / _` |
+  //|_.__/\_,_|_|_\__,_|
+
+  function build() {
+
+    /**
+     * Any 
+     **/
+
+    this.Any = Contract.Base(function(arg) {
+      return true; 
+    },"Any");
+
+    /**
+     * Type Contract
+     **/
+
+    this.typeUndefined = Contract.Base(function(arg) {
+      return ((typeof arg) === "undefined");
+    },"typeUndefined");
+
+    this.typeObject =  Contract.Base(function(arg) {
+      return ((typeof arg) === "object");
+    },"typeObject");
+
+    this.typeBoolean = Contract.Base(function(arg) {
+      return ((typeof arg) === "boolean");
+    },"typeBoolean");
+
+    this.typeNumber = Contract.Base(function(arg) {
+      return ((typeof arg) === "number");
+    },"typeNumber");
+
+    this.typeString = Contract.Base(function(arg) {
+      return ((typeof arg) === "string");
+    },"typeString");
+
+    this.typeSymbol = Contract.Base(function(arg) {
+      return ((typeof arg) === "symbol");
+    },"typeSymbol");
+
+    this.typeFunction = Contract.Base(function(arg) {
+      return ((typeof arg) === "function");
+    },"typeFunction");
+
+    /**
+     * Constructor Contracts
+     **/
+
+    this.InstanceOf = Contract.Constructor(function(constructor) {
+      return Contract.Base(function(object) {
+        return (object instanceof constructor); 
+      },  `InstanceOf ${constructor.name}`);
+    }, "InstanceOf");
 
 
-
-var Contracts = Contracts || (function(Contract) {
-
-
-
-
-  this.Any = Contract.Base(function(arg) {
-    return true; 
-  },"Any");
+    this.Between = Contract.Constructor(function(min, max) {
+      return Contract.Base(function(value) {
+        return (min <= value) && (value <= max); 
+      }, `Between ${min} ${max}`);
+    }, "Between");
 
 
-  this.typeUndefined = Contract.Base(function(arg) {
-    return ((typeof arg) === "undefined");
-  },"typeUndefined");
+    return this;
+  }
 
-  this.typeObject =  Contract.Base(function(arg) {
-    return ((typeof arg) === "object");
-  },"typeObject");
+  Object.defineProperty(Contracts, "build", {
+    value: function(target) {
+      return build.apply(target);
+    }
+  });
 
-  this.typeBoolean = Contract.Base(function(arg) {
-    return ((typeof arg) === "boolean");
-  },"typeBoolean");
+  //         _                 
+  // _ _ ___| |_ _  _ _ _ _ _  
+  //| '_/ -_)  _| || | '_| ' \ 
+  //|_| \___|\__|\_,_|_| |_||_|
 
-  this.typeNumber = Contract.Base(function(arg) {
-    return ((typeof arg) === "number");
-  },"typeNumber");
+  /** Return the [[Contract]] objects
+  */
+  return Contracts; 
 
-  this.typeString = Contract.Base(function(arg) {
-    return ((typeof arg) === "string");
-  },"typeString");
-  
-  this.typeSymbol = Contract.Base(function(arg) {
-    return ((typeof arg) === "symbol");
-  },"typeSymbol");
-
-  this.typeFunction = Contract.Base(function(arg) {
-    return ((typeof arg) === "function");
-  },"typeFunction");
-
-
-
-
-
-  return Contracts;
-
-}).apply(this, [Contract]);
+})();

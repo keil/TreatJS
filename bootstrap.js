@@ -42,10 +42,3 @@ load("src/treat.sandbox.js");
 // \___\___/_||_\__|_| \__,_\__|\__|
                                   
 var Contract  = TreatJS.initialize(/* Todo, configuration */);
-
-
-
-// new Contract.Function()
-// new Contract.Object({'a':typeNumber});
-
-

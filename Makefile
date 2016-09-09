@@ -1,5 +1,14 @@
 default:
-	./js -f shell/shell.js -f bootstrap.js -f test/default.js -i
+	./js -f shell/shell.js -f bootstrap.js -f contracts/contracts.js -f default.js -i
+
+.PHONY: test
+test:
+	./js -f shell/shell.js -f bootstrap.js -f contracts/contracts.js -f test/run.js
+
+
+
+
+
 
 
 
@@ -24,14 +33,6 @@ tag: sync
 ntag: sync
 	svn cp . ../../tags/TreatJS2_$(name)
 	svn ci ../../tags/TreatJS2_$(name) -m "add new tag"
-
-
-
-# Test
-#
-.PHONY: test
-test:
-	./js -f shell/shell.js -f bootstrap.js -f contracts/contracts.js -f test/run.js
 
 
 
