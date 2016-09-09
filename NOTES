@@ -2,6 +2,8 @@
 
 - Abstraction should also be a contract
 
+- strict mode for objects
+
 
 Increase Performance by reducing callback graphs
 ================================================

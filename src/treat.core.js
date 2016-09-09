@@ -40,7 +40,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       if(handle.subject==false) {
         throw new TreatJS.Blame.PositiveBlame(subject, contract);
       } else if (handle.context==false) {
-        throw new TreatJs.Blame.NegativeBlame(Contexts[Contexts.length-1], contract);
+        throw new TreatJS.Blame.NegativeBlame(Contexts[Contexts.length-1], contract);
       }
     });
   }
@@ -104,8 +104,8 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
           return (name in contract.mapping) ? assertWith(value, contract.mapping[name], callback) : value;
         },
         set: function (target, name, value, receiver) {
-          var callback = TreatJS.Callback.createAssignment(callback);
-          var contracted = (name in contract.mapping) ? assertWith(value, contract.mapping[name], callback.contract) : value;
+          var assignment = TreatJS.Callback.createAssignment(callback); // TODO
+          var contracted = (name in contract.mapping) ? assertWith(value, contract.mapping[name], assignment.contract) : value;
           return Reflect.set(target, name, value, receiver);
         }
       }) : subject;

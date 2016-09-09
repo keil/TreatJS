@@ -76,27 +76,34 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
   // \___/|_.__// \___\__|\__|\___\___/_||_\__|_| \__,_\__|\__|
   //          |__/                                             
 
-  function ObjectContract(mapping, strict=false) { // TODO, mapping // todo, strict mode ?
+  function ObjectContract(mapping) { // TODO, mapping // todo, strict mode ?
     if(!(this instanceof ObjectContract)) return new ObjectContract(...arguments);
     else TreatJS.Prototype.Delayed.apply(this);
 
-    if(!(map instanceof Object))
+    if(!(mapping instanceof Object))
       throw new TypeError("Invalid mapping");
 
     Object.defineProperties(this, {
       "mapping": {
         value: mapping // doesten matter if array or object, as long 
       // as it is iteratebale with for(var name in {a:1,b:2})
-      },
-      "strict": {
-        value: strict
-      },
+      }
+//      ,
+//      "strict": {
+//        value: strict
+//      },
     });
   }
   ObjectContract.prototype = Object.create(TreatJS.Prototype.Delayed.prototype);
   ObjectContract.prototype.constructor = ObjectContract;
   ObjectContract.prototype.toString = function() {
-    return this.mapping.toString();
+    var output = "{";
+    var keys = Object.keys(this.mapping);
+    for(let i=0; i<keys.length; i++) {
+       output += `${keys[i]}:${this.mapping[keys[i]]}` + ((i<keys.length-1) ? ", " : "");
+    }
+    return output+"}";
+ //   return this.mapping;
     // TODO
     //var lbr = (this.map.strict) ? "{" : "|";
     //var rbr = (this.map.strict) ? "}" : "|";

@@ -63,6 +63,20 @@ print(TreatJS.Contract);
   }
 
 })();
+print("************************************");
+
+
+var obj = {
+  x:1,
+  y:true
+}
+
+var obj2 = Contract.assert(obj, Contract.Object({x:typeNumber, y:typeNumber}));
+
+obj2.x;
+//obj2.y;
+
+obj2.x = 'df';
 
 
 
@@ -71,20 +85,12 @@ print(TreatJS.Contract);
 
 print("************************************");
 
-
-var f = new Function();
-f();
-
-print(typeof f, f instanceof Function);
-
-function G() {
-  Function.apply(this);
+function plus(x, y) {
+  return x+y;
 }
-G.prototype = Object.create(Function.prototype);
 
-var g = new G();
-print(typeof g, g instanceof G, g instanceof Function);
-g();
+//var plusNUmber = Contract.assert(plus, )
+
 
 
 

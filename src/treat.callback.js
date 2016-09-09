@@ -28,13 +28,13 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
   function createFunctionCallback(callback) {
 
     // internal values
-    var domain = true;
-    var range = true;
+    var domain = {context:true, subject:true};
+    var range = {context:true, subject:true};
 
     // update constraint
     function update() {
       callback({
-        context: (domain.subject && range.context)
+        context: (domain.subject && range.context),
         subject: (domain.context && (!domain.subjecty || range.subject))
       });
     }
@@ -60,13 +60,13 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
   function createIntersectionCallback(callback) {
 
     // internal values
-    var left = true;
-    var right = true;
+    var left = {context:true, subject:true};
+    var right = {context:true, subject:true};
 
     // update constraint
     function update() {
       callback({
-        context: (left.context && right.context)
+        context: (left.context && right.context),
         subject: (left.subject && right.subject)
       });
     }
@@ -93,13 +93,13 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
   function createUnionCallback(callback) {
 
     // intrnal values
-    var left = true;
-    var right = true;
+    var left = {context:true, subject:true};
+    var right = {context:true, subject:true};
 
     // update constraint
     function update() {
       callback({
-        context: (left.context && right.context)
+        context: (left.context && right.context),
         subject: (left.subject || right.subject)
       });
     }
@@ -126,11 +126,11 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
   function createAssignmentCallback(callback) {
 
     // intrnal values
-    var contract = true;
+    var contract = {context:true, subject:true};
 
     // update constraint
-    function update() {      
-      callbackSubject({
+    function update() {
+      callback({
         context: (contract.context && contract.subject),
         subject: true
       });
@@ -153,19 +153,19 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
   function createForkCallback(callbackSubject, callbackContext) {
 
     // intrnal values
-    var contract = true;
+    var contract = {context:true, subject:true};
 
     // update constraint
     function update() {
 
       callbackSubject({
         context: true,
-        subject: contract.subject;
+        subject: contract.subject
       });
 
       callbackContext({
         context: contract.contet,
-        subject: true;
+        subject: true
       });
 
     }
@@ -197,10 +197,10 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
   //|_| \___|\__|\_,_|_| |_||_|
 
   return {
-    newFunctionCallback:      newFunctionCallback,
-    newIntersectionCallback:  newIntersectionCallback,
-    createAssignmentCallback: createAssignmentCallback,
-    newUnionCallback:         newUnionCallback
+    createFunction:      createFunctionCallback,
+    createIntersection:  createIntersectionCallback,
+    createAssignment: createAssignmentCallback,
+    createUnion:         createUnionCallback
   };
 
 });
