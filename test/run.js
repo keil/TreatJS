@@ -20,4 +20,4 @@ load("test/test.js");
  * Run all created tests
  **/
 
-Test.run(true);
+Test.run();

@@ -38,23 +38,10 @@ TestCase.prototype.toString = function() {
   return "[[TreatJS/TestCase]]";
 }
 
-
-
-
-
-TestCase.prototype.evaluate = function(result) {
-  try {
-    var value = closure.apply();
-  } catch (exception) {
-    var error = exception;
-  } finally {
-    return {
-      value: value, 
-        error: error
-    }
-  }
-} 
-
+/**
+ * Function: toBe
+ * Evaluates a test case and tests for a value.
+ **/
 TestCase.prototype.toBe = function(value) {  
   try {
     var result = this.closure.apply();
@@ -74,6 +61,10 @@ TestCase.prototype.toBe = function(value) {
   }
 }
 
+/**
+ * Function: toThrow
+ * Evaluates a test case and tests for an error.
+ **/
 TestCase.prototype.toThrow = function(error) {
   try {
     this.closure.apply();
@@ -95,28 +86,27 @@ TestCase.prototype.toThrow = function(error) {
 
 /**
  * Function: noBlame
+ * Predefined result.
  **/
 TestCase.prototype.noBlame = function() {
   this.toThrow();
 } 
+
 /**
  * Function: subjectBlame
+ * Predefined result.
  **/
 TestCase.prototype.subjectBlame = function() {
   this.toThrow(TreatJS.Blame.PositiveBlame);
 } 
+
 /**
  * Function: contextBalme
+ * Predefined result.
  **/
 TestCase.prototype.contextBlame = function() {
   this.toThrow(TreatJS.Blame.NegativeBlame);
 } 
-
-
-// TODO
-//TestCase.prototype.skip
-
-
 
 // _____       _   
 //|_   _|__ __| |_ 
