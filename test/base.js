@@ -79,7 +79,7 @@ TestCase.prototype.toThrow = function(error) {
     return true;
   } else {
     Test.skipped.delete(this);
-    Test.failed.add({name:this.test.name, testcase:this, expect:(error ? error.name : "No error"), given:result.name});
+    Test.failed.add({name:this.test.name, testcase:this, expect:(error ? error.name : "No error"), given:(result ? result.name : "No error")});
     return true;
   }
 }

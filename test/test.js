@@ -18,3 +18,4 @@
  **/
 
 load("test/contracts/test.base.js");
+load("test/contracts/test.constructor.js");

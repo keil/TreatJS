@@ -30,4 +30,4 @@ load("test/test.js");
  * Run all created tests
  **/
 
-Test.run();
+Test.run(true);
