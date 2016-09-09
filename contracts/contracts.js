@@ -72,4 +72,4 @@ var Contracts = Contracts || (function(Contract) {
 
   return Contracts;
 
-}).apply({}, [Contract]);
+}).apply(this, [Contract]);

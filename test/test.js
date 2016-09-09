@@ -13,7 +13,8 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-/** 
- * Load tests
- */
-load("contracts/test.base.js");
+/**
+ * Contract Tests
+ **/
+
+load("test/contracts/test.base.js");

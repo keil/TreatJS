@@ -15,52 +15,6 @@
 
 TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
-  // ___ _                
-  //| _ ) |__ _ _ __  ___ 
-  //| _ \ / _` | '  \/ -_)
-  //|___/_\__,_|_|_|_\___|
-
-  function Blame() {
-    if(!(this instanceof Blame)) return new Blame(...arguments);
-    else Error.apply(this, arguments);
-
-    this.name = "Contract Violation";
-    //this.stack = (new Error()).stack;
-  } 
-  Blame.prototype = Object.create(Error.prototype);
-  Blame.prototype.constructor = Blame;
-  Blame.prototype.toString = function() {
-    return '[[TreatJS/Blame]]';
-  };
-
-  function PositiveBlame(subject, contract) {
-    if(!(this instanceof PositiveBlame)) return new PositiveBlame(...arguments);
-    else Blame.apply(this);
-
-//    this.name = "Contract Violation";
-    this.message = "Subject" + " @ " + contract.toString();
-    //this.stack = (new Error()).stack;
-  } 
-  PositiveBlame.prototype = Object.create(Blame.prototype);
-  PositiveBlame.prototype.constructor = PositiveBlame;
-  PositiveBlame.prototype.toString = function() {
-    return '[[TreatJS/PositiveBlame]]';
-  };
-
-  function NegativeBlame(context, contract) {
-    if(!(this instanceof NegativeBlame)) return new NegativeBlame(...arguments);
-    else Blame.apply(this);
-
-//    this.name = "Contract Violation";
-    this.message ="Context (" + context.id + ")" + " @ " + contract.toString();
-    //this.stack = (new Error()).stack;
-  } 
-  NegativeBlame.prototype = Object.create(Blame.prototype);
-  NegativeBlame.prototype.constructor = NegativeBlame;
-  NegativeBlame.prototype.toString = function() {
-    return '[[TreatJS/PositiveBlame]]';
-  };
-
   //  ___         _           _   
   // / __|___ _ _| |_ _____ _| |_ 
   //| (__/ _ \ ' \  _/ -_) \ /  _|
@@ -84,9 +38,9 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
     return assertWith(subject, contract, function(handle) {
       if(handle.subject==false) {
-        throw new PositiveBlame(subject, contract);
+        throw new TreatJS.Blame.PositiveBlame(subject, contract);
       } else if (handle.context==false) {
-        throw new NegativeBlame(Contexts[Contexts.length-1], contract);
+        throw new TreatJs.Blame.NegativeBlame(Contexts[Contexts.length-1], contract);
       }
     });
   }
