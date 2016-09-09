@@ -13,6 +13,16 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+/**
+ * Build predefined contract.
+ **/
+
+Contracts.build(this);
+
+/**
+ * Load libraries.
+ **/
+
 load("test/base.js");
 load("test/test.js");
 
