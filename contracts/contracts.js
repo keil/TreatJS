@@ -89,11 +89,23 @@ var Contracts = Contracts || (function() {
      * Constructor Contracts
      **/
 
+    this.TypeOf = Contract.Constructor(function(type) {
+      return Contract.Base(function(value) {
+        return ((typeof value) === type);
+      }, `TypeOf ${type}`);
+    }, "TypeOf");
+
     this.InstanceOf = Contract.Constructor(function(constructor) {
       return Contract.Base(function(object) {
         return (object instanceof constructor); 
       },  `InstanceOf ${constructor.name}`);
     }, "InstanceOf");
+
+    this.Is = Contract.Constructor(function(target) {
+      return Contract.Base(function(value) {
+        return value === target; 
+      }, `Is ${target}`);
+    }, "Is");
 
 
     this.Between = Contract.Constructor(function(min, max) {
@@ -101,6 +113,76 @@ var Contracts = Contracts || (function() {
         return (min <= value) && (value <= max); 
       }, `Between ${min} ${max}`);
     }, "Between");
+
+
+
+    /**
+     * Instance Contracts
+     **/
+
+    /*
+    this.instanceOfObject = InstanceOf(Object);
+    this.instanceOfFunction = InstanceOf(Function);
+
+
+    this.instanceOfFunction = InstanceOf(Error);
+
+    this.instanceOfFunction = InstanceOf(Boolean);
+    this.instanceOfFunction = InstanceOf(Number);
+    this.instanceOfFunction = InstanceOf(String);
+
+    RegExp
+      Array
+
+      */
+
+/*
+ *
+ * Maybe add a global object to the base constructor
+
+    this.Between = Contract.Constructor(function(min, max) {
+      return Contract.Base(function(value) {
+        return (min <= value) && (value <= max); 
+      }, `Between ${min} ${max}`);
+    }, "Between");
+
+
+    this.Even = TreatJS.Contract.With({Math:Math}, TreatJS.Contract.Base(function(arg) {
+      return (Math.abs(arg) % 2 === 0);
+    },"Even"));
+
+    this.Odd = TreatJS.Contract.With({Math:Math}, TreatJS.Contract.Base(function(arg) {
+      return (Math.abs(arg) % 2 === 1);
+    },"Odd"));
+
+*/
+
+
+    this.Positive = TreatJS.Contract.Base(function(value) {
+      return (value > 0);
+    },"Positive");
+
+    this.Natural = TreatJS.Contract.Base(function(value) {
+      return (value >= 0);
+    },"Natural");
+
+    this.Negative = TreatJS.Contract.Base(function(value) {
+      return (value < 0);
+    },"Negative");
+
+
+
+
+
+    
+   /* 
+    var Zero = TreatJS.Contract.Base(function(arg) {
+      return (arg === 0);
+    },"Zero");
+*/
+
+
+
 
 
     return this;
