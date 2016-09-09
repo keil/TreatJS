@@ -79,7 +79,7 @@ TestCase.prototype.toThrow = function(error) {
     return true;
   } else {
     Test.skipped.delete(this);
-    Test.failed.add({name:this.test.name, testcase:this, expect:(error ? error.name : "No error"), given:(result ? result.name : "No error")});
+    Test.failed.add({name:this.test.name, testcase:this, expect:(error ? error.name : "No error"), given:(result ? result : "No error")});
     return true;
   }
 }
@@ -185,6 +185,7 @@ Test.run = function(verbose=false) {
     for(var test of Test.failed) {
       print(`\n*** Failed: ${test.name}: (given:${test.given}, expect:${test.expect}) @ ${test.testcase.test.name}`);
       if(verbose) print("*** Testcase:", test.testcase.closure);
+      if(verbose && test.given.stack) print("*** Stack:", test.given.stack);
     }
   }
 

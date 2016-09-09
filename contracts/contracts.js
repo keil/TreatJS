@@ -107,7 +107,6 @@ var Contracts = Contracts || (function() {
       }, `Is ${target}`);
     }, "Is");
 
-
     this.Between = Contract.Constructor(function(min, max) {
       return Contract.Base(function(value) {
         return (min <= value) && (value <= max); 
