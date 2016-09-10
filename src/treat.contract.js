@@ -100,17 +100,14 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
   ObjectContract.prototype = Object.create(TreatJS.Prototype.Delayed.prototype);
   ObjectContract.prototype.constructor = ObjectContract;
   ObjectContract.prototype.toString = function() {
+    const size = this.map.size;
+    var i = 0;
     var output = "{";
-    var keys = Object.keys(this.map);
-    for(let i=0; i<keys.length; i++) {
-       output += `${keys[i]}:${this.map[keys[i]]}` + ((i<keys.length-1) ? ", " : "");
+    for(var [key, value] of this.map) {
+       output += `${key}:${value}` + ((i<size-1) ? ", " : "");
+       i++;
     }
     return output+"}";
- //   return this.mapping;
-    // TODO
-    //var lbr = (this.map.strict) ? "{" : "|";
-    //var rbr = (this.map.strict) ? "}" : "|";
-    //return "(" + lbr + this.map.toString() + rbr + ")";
   };
 
 

@@ -98,7 +98,7 @@ function plus(x, y) {
 var plusNUmber = Contract.assert(plus, Contract.Function(Contract.Object([typeNumber, typeNumber]), typeNumber));
 
 print(plusNUmber(1,2));
-//plusNUmber(1,'2');
+plusNUmber(1,'2');
 
 
 
