@@ -35,7 +35,7 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
     function update() {
       callback({
         context: (domain.subject && range.context),
-        subject: (domain.context && (!domain.subjecty || range.subject))
+        subject: (domain.context && (!domain.subject || range.subject))
       });
     }
 

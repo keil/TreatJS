@@ -75,8 +75,14 @@ var obj2 = Contract.assert(obj, Contract.Object({x:typeNumber, y:typeNumber}));
 
 obj2.x;
 //obj2.y;
+//obj2.x = 'df';
 
-obj2.x = 'df';
+
+var arr = Contract.assert([1,'1'], Contract.Object([typeNumber, typeNumber]));
+arr[0];
+//arr[1];
+//arr[0] = '1';
+
 
 
 
@@ -89,9 +95,10 @@ function plus(x, y) {
   return x+y;
 }
 
-//var plusNUmber = Contract.assert(plus, )
+var plusNUmber = Contract.assert(plus, Contract.Function(Contract.Object([typeNumber, typeNumber]), typeNumber));
 
-
+print(plusNUmber(1,2));
+//plusNUmber(1,'2');
 
 
 

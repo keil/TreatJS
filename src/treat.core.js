@@ -101,11 +101,11 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       return (subject instanceof Object) ? new Proxy(subject, {
         get: function (target, name, receiver) {
           var value = Reflect.get(target, name, receiver);
-          return (name in contract.mapping) ? assertWith(value, contract.mapping[name], callback) : value;
+          return contract.map.has(name) ? assertWith(value, contract.map.get(name), callback) : value;
         },
         set: function (target, name, value, receiver) {
           var assignment = TreatJS.Callback.createAssignment(callback); // TODO
-          var contracted = (name in contract.mapping) ? assertWith(value, contract.mapping[name], assignment.contract) : value;
+          var contracted = contract.map.has(name) ? assertWith(value, contract.map.get(name), assignment.contract) : value;
           return Reflect.set(target, name, value, receiver);
         }
       }) : subject;
@@ -121,11 +121,11 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       return (subject instanceof Function) ? new Proxy(subject, {
         apply: function (target, thisArg, argumentsArg) {
           //
-          var callback = TreatJS.Callback.createFunctionCallback(callback);
+          var cbVar = TreatJS.Callback.createFunction(callback);
 
-          var contracted = assertWith(argumentsArg, contract.domain, callback.domain);
+          var contracted = assertWith(argumentsArg, contract.domain, cbVar.domain);
           var result = Reflect.apply(subject, thisArg, contracted);
-          return assertWith(result, contract.range, callback.range);    
+          return assertWith(result, contract.range, cbVar.range);    
 
         }
       }) : subject;

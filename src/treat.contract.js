@@ -76,16 +76,19 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
   // \___/|_.__// \___\__|\__|\___\___/_||_\__|_| \__,_\__|\__|
   //          |__/                                             
 
-  function ObjectContract(mapping) { // TODO, mapping // todo, strict mode ?
+  function ObjectContract(object) { // TODO, mapping // todo, strict mode ?
     if(!(this instanceof ObjectContract)) return new ObjectContract(...arguments);
     else TreatJS.Prototype.Delayed.apply(this);
 
-    if(!(mapping instanceof Object))
-      throw new TypeError("Invalid mapping");
+    if(!(object instanceof Object))
+      throw new TypeError("Invalid contract mapping.");
+
+    var map = new Map();
+    for(var key in object) map.set(key, object[key]);
 
     Object.defineProperties(this, {
-      "mapping": {
-        value: mapping // doesten matter if array or object, as long 
+      "map": {
+        value: map // doesten matter if array or object, as long 
       // as it is iteratebale with for(var name in {a:1,b:2})
       }
 //      ,
@@ -98,9 +101,9 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
   ObjectContract.prototype.constructor = ObjectContract;
   ObjectContract.prototype.toString = function() {
     var output = "{";
-    var keys = Object.keys(this.mapping);
+    var keys = Object.keys(this.map);
     for(let i=0; i<keys.length; i++) {
-       output += `${keys[i]}:${this.mapping[keys[i]]}` + ((i<keys.length-1) ? ", " : "");
+       output += `${keys[i]}:${this.map[keys[i]]}` + ((i<keys.length-1) ? ", " : "");
     }
     return output+"}";
  //   return this.mapping;
@@ -119,12 +122,12 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
   //|_| \_,_|_||_|_\_\\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
   function FunctionContract(domain, range) {
-    if(!(this instanceof Function)) return new FunctionContract(...arguments);
+    if(!(this instanceof FunctionContract)) return new FunctionContract(...arguments);
     else TreatJS.Prototype.Delayed.apply(this);
 
-    if(!(domain instanceof TreastJS.Prototype.Contract))
+    if(!(domain instanceof TreatJS.Prototype.Contract))
       throw new TypeError("Invalid contract");
-    if(!(range instanceof TreastJS.Prototype.Contract))
+    if(!(range instanceof TreatJS.Prototype.Contract))
       throw new TypeError("Invalid contract");
 
     Object.defineProperties(this, {
