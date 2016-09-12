@@ -56,6 +56,9 @@ treatjs:
 octane:
 	./js -f src/shell.js -f bootstrap.js -f benchmark/octane/octane.js -i
 
+
+
+
 inference:
 	./js -f src/shell.js -f bootstrap.js -f benchmark/typedoctane/typedoctane.js -f benchmark/typedoctane/inference.js
 

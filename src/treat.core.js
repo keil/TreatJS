@@ -98,10 +98,18 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     // wirks for INDY, as iny itself redicrets the context
 
     else if (contract instanceof TreatJS.Contract.Object) {
+
+      //var cbVar = TreatJS.Callback.Object(callback); // TODO
+
+
       return (subject instanceof Object) ? new Proxy(subject, {
-        get: function (target, name, receiver) {
+        get: function (target, name, receiver) {          
+
+          var cbVar = TreatJS.Callback.Object(callback); // TODO
+
+
           var value = Reflect.get(target, name, receiver);
-          return contract.map.has(name) ? assertWith(value, contract.map.get(name), callback) : value;
+          return contract.map.has(name) ? assertWith(value, contract.map.get(name), cbVar.properties) : value;
         },
         set: function (target, name, value, receiver) {
           var assignment = TreatJS.Callback.createAssignment(callback); // TODO
@@ -117,7 +125,6 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     //|_| \_,_|_||_|_\_\\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
     else if(contract instanceof TreatJS.Contract.Function) {
-
       return (subject instanceof Function) ? new Proxy(subject, {
         apply: function (target, thisArg, argumentsArg) {
           //
@@ -177,11 +184,10 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     }
 
     // delayed
-    else if (contract instanceof TreatJS.Contract.DIntersection) {
-
-      var intersection = new TreatJS.Callback.Intersection(callback);
-      return assert(assert(subject, contract.left, union.left), contract.right, union.right);
-    }
+//    else if (contract instanceof TreatJS.Contract.DIntersection) {
+//      var intersection = TreatJS.Callback.createIntersection(callback);
+//      return assert(assert(subject, contract.left, intersection.left), contract.right, intersection.right);
+//    }
 
 
 
@@ -190,34 +196,31 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       return (subject instanceof Object) ? new Proxy(subject, {
 
         get: function (target, name, receiver) {
-          var callback = TreatJS.Callback.freshIntersecton(callback);
-          var contracted =  assertWith(assertWith(target, contract.left, callback.left), contract.right, callback.right);
+          var cbVar = TreatJS.Callback.createIntersection(callback);
+          var contracted =  assertWith(assertWith(target, contract.left, cbVar.left), contract.right, cbVar.right);
           return Reflect.get(contractd, name, receiver);
         },
 
         set: function (target, trap, receiver) {
 
           return function(target, ...restArgs) {
-            var callback = TreatJS.Callback.freshIntersecton(callback);
+            var callback = TreatJS.Callback.createIntersecton(callback);
             var contracted =  assertWith(assertWith(target, contract.left, callback.left), contract.right, callback.right);
             return Reflect[trap](contractd, ...restAgs);
           }
 
         },
 
-      apply: function (target, thisArg, argumentsArg) {
-        var range = construct(contract, argumentsArg);
-
-        var result = Reflect.apply(subject, thisArg, argumentsArg);
-        return monitor(result, range, callback);
-
-      }}) : subject;
-
+        apply: function (subject, thisArg, argumentsArg) {
+          var cb = TreatJS.Callback.Intersection(callback);
+          var contracted = assertWith(assertWith(subject, contract.left, cb.left), contract.right, cb.right);
+          return Reflect.apply(contracted, thisArg, argumentsArg);
+          //        return monitor(result, range, callback);
+        }}) : subject;
 
 
-
-      var intersection = new TreatJS.Callback.Intersection(callback);
-      return assert(assert(subject, contract.left, union.left), contract.right, union.right);
+//      var intersection = new TreatJS.Callback.Intersection(callback);
+//      return assert(assert(subject, contract.left, union.left), contract.right, union.right);
     }
 
 

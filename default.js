@@ -91,14 +91,71 @@ arr[0];
 
 print("************************************");
 
+//function plus(x, y) {
+//  return x+y;
+//}
+
+//var plusNUmber = Contract.assert(plus, Contract.Function(Contract.Object([typeNumber, typeNumber]), typeNumber));
+
+//print(plusNUmber(1,2));
+//plusNUmber(1,'2');
+
+// todo, test uncontracted parameters in object
+
+
+print("************************************");
+
+
+function f(g) {
+  //g("1"); g(1);
+  g(1); g("1");
+  return 1;
+}
+
+function g(x) {
+  return x;
+}
+
+const AxN = Contract.Function(Contract.Object([Any]), typeNumber);
+const AxN_xN = Contract.Function(Contract.Object([AxN]), typeNumber);
+
+const AxS = Contract.Function(Contract.Object([Any]), typeString);
+const AxS_xS = Contract.Function(Contract.Object([AxS]), typeString);
+
+
+var ff = Contract.assert(f, Contract.DIntersection(AxN_xN, AxS_xS));
+
+ff(g);
+quit();
+
+
+
+
+print("************************************");
+
+// union and intersection with objects
+
 function plus(x, y) {
   return x+y;
 }
 
-var plusNUmber = Contract.assert(plus, Contract.Function(Contract.Object([typeNumber, typeNumber]), typeNumber));
+const NNxN = Contract.Function(Contract.Object([typeNumber, typeNumber]), typeNumber);
+const SSxS = Contract.Function(Contract.Object([typeString, typeString]), typeString);
 
-print(plusNUmber(1,2));
-plusNUmber(1,'2');
+
+var plus2 = Contract.assert(plus, Contract.DIntersection(NNxN, SSxS));
+
+//print(plus2(1,2));
+//print(plus2('1','2'));
+
+//print(plus2(true, true));
+//print(plus2(1,true));
+
+//print(plus2('1',2));
+print(plus2(1,'2'));
+
+
+
 
 
 

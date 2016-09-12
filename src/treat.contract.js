@@ -139,7 +139,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
   FunctionContract.prototype = Object.create(TreatJS.Prototype.Delayed.prototype);
   FunctionContract.prototype.constructor = FunctionContract;
   FunctionContract.prototype.toString = function() {
-    return this.domain.toString() + "->" + this.range.toString();
+    return this.domain.toString() + " -> " + this.range.toString();
   }; 
 
   // ___                        _         _    ___         _               _   
@@ -165,7 +165,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
   DependentContract.prototype.constructor = DependentContract;
 
   DependentContract.prototype.toString = function() {
-    return "(" + "*" + "-->" + this.constructor.toString() + ")";
+    return "(" + "*" + " -> " + this.constructor.toString() + ")";
   };
 
   // ___     _                      _   _          ___         _               _   
@@ -219,7 +219,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
   DIntersectionContract.prototype = Object.create(TreatJS.Prototype.Delayed.prototype);
   DIntersectionContract.prototype.constructor = DIntersectionContract;
   DIntersectionContract.prototype.toString = function() {
-    return "(" + this.first.toString() + ") - (" + this.second.toString() + ")";
+    return "(" + this.left.toString() + ") - (" + this.right.toString() + ")";
   };
 
 
