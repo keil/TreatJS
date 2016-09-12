@@ -105,11 +105,11 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       return (subject instanceof Object) ? new Proxy(subject, {
         get: function (target, name, receiver) {          
 
-          var cbVar = TreatJS.Callback.Object(callback); // TODO
+          //var cbVar = TreatJS.Callback.Object(callback); // TODO
 
 
           var value = Reflect.get(target, name, receiver);
-          return contract.map.has(name) ? assertWith(value, contract.map.get(name), cbVar.properties) : value;
+          return contract.map.has(name) ? assertWith(value, contract.map.get(name), callback) : value;
         },
         set: function (target, name, value, receiver) {
           var assignment = TreatJS.Callback.createAssignment(callback); // TODO
