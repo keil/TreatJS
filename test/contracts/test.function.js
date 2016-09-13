@@ -53,7 +53,7 @@ new Test('Contract/Function/2', function() {
     return plus(z, "1");
   }
 
-  var NumNum_Num = Contract.Function(Contract.Object([typeNumber, typeNumber]),typeNumber);
+  const NumNum_Num = Contract.Function(Contract.Object([typeNumber, typeNumber]),typeNumber);
 
   this.expect(function() {
     var addOneNumber = Contract.assert(addOne, Contract.Function(Contract.Object([NumNum_Num, typeNumber]),typeNumber));

@@ -214,7 +214,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 */ // TODO, implemtn it via meta proxy
 
         apply: function (subject, thisArg, argumentsArg) {
-          var cb = TreatJS.Callback.Intersection(callback);
+          var cb = TreatJS.Callback.newIntersection(callback);
           var contracted = assertWith(assertWith(subject, contract.left, cb.left), contract.right, cb.right);
           return Reflect.apply(contracted, thisArg, argumentsArg);
           //        return monitor(result, range, callback);
