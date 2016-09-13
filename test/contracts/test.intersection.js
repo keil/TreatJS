@@ -46,35 +46,35 @@ new Test('Contract/DIntersection/1', function() {
 
 /*
 
-new Test('Contract/DIntersection/2', function() {
+   new Test('Contract/DIntersection/2', function() {
 
-  function plus(x, y) {
-    return x+y;
-  }
+   function plus(x, y) {
+   return x+y;
+   }
 
-  function faultyPlus(x, y) {
-    return ""+x+y;
-  }
+   function faultyPlus(x, y) {
+   return ""+x+y;
+   }
 
-  const EvenEven_Even = Contract.Function(Contract.Object([Even, Even]), Even);
-  const PosPos_Pos = Contract.Function(Contract.Object([Positive, Positive]), Positive);
+   const EvenEven_Even = Contract.Function(Contract.Object([Even, Even]), Even);
+   const PosPos_Pos = Contract.Function(Contract.Object([Positive, Positive]), Positive);
 
-  this.expect(function() {
-    var plusEvenPos = Contract.assert(plus, Contract.DIntersection(EvenEven_Even, EvenEven_Even));
-    plusNumStr(1,1);
-  }).noBlame();
+   this.expect(function() {
+   var plusEvenPos = Contract.assert(plus, Contract.DIntersection(EvenEven_Even, EvenEven_Even));
+   plusNumStr(1,1);
+   }).noBlame();
 
-  this.expect(function() {
-    var plusEvenPos = Contract.assert(plus, Contract.DIntersection(EvenEven_Even, EvenEven_Even));
-    plusNumStr(1,2);
-  }).noBlame();
+   this.expect(function() {
+   var plusEvenPos = Contract.assert(plus, Contract.DIntersection(EvenEven_Even, EvenEven_Even));
+   plusNumStr(1,2);
+   }).noBlame();
 
-  this.expect(function() {
-    var plusEvenPos = Contract.assert(plus, Contract.DIntersection(EvenEven_Even, EvenEven_Even));
-    plusNumStr(2,2);
-  }).noBlame();
- 
-});
+   this.expect(function() {
+   var plusEvenPos = Contract.assert(plus, Contract.DIntersection(EvenEven_Even, EvenEven_Even));
+   plusNumStr(2,2);
+   }).noBlame();
+
+   });
 
 */
 
@@ -159,4 +159,3 @@ new Test('Contract/DIntersection/3', function() {
   }).subjectBlame();
 
 });
-

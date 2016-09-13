@@ -125,34 +125,6 @@ ZZZ.x=7;
 
 
 
-print("************************************");
-
-
-function f(g) {
-  //g("1"); g(1);
-  //return 1;
-
-  g("1"); g(1);
-  return 1;
- // return "1";
-}
-
-function g(x) {
-  return x;
-}
-
-const AxN = Contract.Function(Contract.Object([Any]), typeNumber);
-const AxN_xN = Contract.Function(Contract.Object([AxN]), typeNumber);
-
-const AxS = Contract.Function(Contract.Object([Any]), typeString);
-const AxS_xS = Contract.Function(Contract.Object([AxS]), typeString);
-
-
-//var ff = Contract.assert(f, Contract.DIntersection(AxN_xN, AxS_xS));
-
-//ff(g);
-//quit();
-
 
 
 
