@@ -60,7 +60,7 @@ TreatJS.package("TreatJS.Blame", function (TreatJS, Contract, configuration) {
   NegativeBlame.prototype = Object.create(Blame.prototype);
   NegativeBlame.prototype.constructor = NegativeBlame;
   NegativeBlame.prototype.toString = function() {
-    return '[[TreatJS/PositiveBlame]]';
+    return '[[TreatJS/NegativeBlame]]';
   };
 
   //         _                 

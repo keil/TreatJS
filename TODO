@@ -3,6 +3,8 @@
 - Callback update only on state-changes?
 
 
+- rename tet to tests
+
 
 
 - use of Math insude of a predicate/ constructor
