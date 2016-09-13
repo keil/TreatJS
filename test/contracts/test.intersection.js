@@ -15,27 +15,27 @@ new Test('Contract/DIntersection/1', function() {
   const StrStr_Str = Contract.Function(Contract.Object([typeString, typeString]), typeString);
 
   this.expect(function() {
-    var plusNumStr = Contract.assert(plus, Contract.DIntersection(NumNum_Num, StrStr_Str));
+    const plusNumStr = Contract.assert(plus, Contract.DIntersection(NumNum_Num, StrStr_Str));
     plusNumStr(1,1);
   }).noBlame();
 
   this.expect(function() {
-    var plusNumStr = Contract.assert(plus, Contract.DIntersection(NumNum_Num, StrStr_Str));
+    const plusNumStr = Contract.assert(plus, Contract.DIntersection(NumNum_Num, StrStr_Str));
     plusNumStr("1",1);
   }).contextBlame();
 
   this.expect(function() {
-    var plusNumStr = Contract.assert(plus, Contract.DIntersection(NumNum_Num, StrStr_Str));
+    const plusNumStr = Contract.assert(plus, Contract.DIntersection(NumNum_Num, StrStr_Str));
     plusNumStr(1,"1");
   }).contextBlame();
 
   this.expect(function() {
-    var plusNumStr = Contract.assert(plus, Contract.DIntersection(NumNum_Num, StrStr_Str));
+    const plusNumStr = Contract.assert(plus, Contract.DIntersection(NumNum_Num, StrStr_Str));
     plusNumStr(true,true);
   }).contextBlame();
 
   this.expect(function() {
-    var plusNumStr = Contract.assert(faultyPlus, Contract.DIntersection(NumNum_Num, StrStr_Str));
+    const plusNumStr = Contract.assert(faultyPlus, Contract.DIntersection(NumNum_Num, StrStr_Str));
     plusNumStr(1,1);
   }).subjectBlame();
 
@@ -60,17 +60,17 @@ new Test('Contract/DIntersection/1', function() {
    const PosPos_Pos = Contract.Function(Contract.Object([Positive, Positive]), Positive);
 
    this.expect(function() {
-   var plusEvenPos = Contract.assert(plus, Contract.DIntersection(EvenEven_Even, EvenEven_Even));
+   const plusEvenPos = Contract.assert(plus, Contract.DIntersection(EvenEven_Even, EvenEven_Even));
    plusNumStr(1,1);
    }).noBlame();
 
    this.expect(function() {
-   var plusEvenPos = Contract.assert(plus, Contract.DIntersection(EvenEven_Even, EvenEven_Even));
+   const plusEvenPos = Contract.assert(plus, Contract.DIntersection(EvenEven_Even, EvenEven_Even));
    plusNumStr(1,2);
    }).noBlame();
 
    this.expect(function() {
-   var plusEvenPos = Contract.assert(plus, Contract.DIntersection(EvenEven_Even, EvenEven_Even));
+   const plusEvenPos = Contract.assert(plus, Contract.DIntersection(EvenEven_Even, EvenEven_Even));
    plusNumStr(2,2);
    }).noBlame();
 
@@ -103,59 +103,96 @@ new Test('Contract/DIntersection/3', function() {
   const Any_Str__Str = Contract.Function(Contract.Object([Any_Str]), typeString);
 
   this.expect(function() {
-    var f = Contract.assert(function(h) {
+    const f = Contract.assert(function(h) {
       h(1); h("1"); return 1;
     }, Contract.DIntersection(Any_Num__Num, Any_Str__Str));
     f(g);
   }).contextBlame();
 
   this.expect(function() {
-    var f = Contract.assert(function(h) {
+    const f = Contract.assert(function(h) {
       h(1); h("1"); return "1";
     }, Contract.DIntersection(Any_Num__Num, Any_Str__Str));
     f(g);
   }).contextBlame();
 
   this.expect(function() {
-    var f = Contract.assert(function(h) {
+    const f = Contract.assert(function(h) {
       h("1"); h(1); return 1;
     }, Contract.DIntersection(Any_Num__Num, Any_Str__Str));
     f(g);
   }).contextBlame();
 
   this.expect(function() {
-    var f = Contract.assert(function(h) {
+    const f = Contract.assert(function(h) {
       h("1"); h(1); return "1";
     }, Contract.DIntersection(Any_Num__Num, Any_Str__Str));
     f(g);
   }).contextBlame();
 
   this.expect(function() {
-    var f = Contract.assert(function(h) {
+    const f = Contract.assert(function(h) {
       h(1); h(1); return 1;
     }, Contract.DIntersection(Any_Num__Num, Any_Str__Str));
     f(g);
   }).noBlame();
 
   this.expect(function() {
-    var f = Contract.assert(function(h) {
+    const f = Contract.assert(function(h) {
       h(1); h(1); return "1";
     }, Contract.DIntersection(Any_Num__Num, Any_Str__Str));
     f(g);
   }).subjectBlame();
 
   this.expect(function() {
-    var f = Contract.assert(function(h) {
+    const f = Contract.assert(function(h) {
       h("1"); h("1"); return "1";
     }, Contract.DIntersection(Any_Num__Num, Any_Str__Str));
     f(g);
   }).noBlame();
 
   this.expect(function() {
-    var f = Contract.assert(function(h) {
+    const f = Contract.assert(function(h) {
       h("1"); h("1"); return 1;
     }, Contract.DIntersection(Any_Num__Num, Any_Str__Str));
     f(g);
   }).subjectBlame();
 
 });
+
+
+
+
+
+new Test('Contract/DIntersection/4', function() {
+
+  const target = {
+    x:1,
+    y:"1"
+  };
+
+  const NumNumNum = Contract.Object({x:typeNumber, y:typeNumber, z:typeNumber});
+  const StrStrStr = Contract.Object({x:typeString, y:typeString, z:typeString});
+
+  this.expect(function() {
+    const object = Contract.assert(target, Contract.DIntersection(NumNumNum, StrStrStr));
+    object.x;
+  }).subjectBlame();
+
+  this.expect(function() {
+    const object = Contract.assert(target, Contract.DIntersection(NumNumNum, StrStrStr));
+    object.x = 1;
+  }).noBlame();
+
+  this.expect(function() {
+    const object = Contract.assert(target, Contract.DIntersection(NumNumNum, StrStrStr));
+    object.x = "1";
+  }).noBlame();
+
+  this.expect(function() {
+    const object = Contract.assert(target, Contract.DIntersection(NumNumNum, StrStrStr));
+    object.x = true;
+  }).contextBlame();
+
+});
+
