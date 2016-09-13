@@ -47,11 +47,6 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
   function assertWith(subject, contract, callback) {
 
-    print("assert", /*subject, "@",*/ contract);
-
-    // Constructor
-
-
     // ___                ___         _               _   
     //| _ ) __ _ ___ ___ / __|___ _ _| |_ _ _ __ _ __| |_ 
     //| _ \/ _` (_-</ -_) (__/ _ \ ' \  _| '_/ _` / _|  _|
@@ -62,7 +57,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       // push new context
       Contexts.push({
         id:       contract.name,
-      contract: contract
+        contract: contract
       })
 
       try {
@@ -129,12 +124,10 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     else if(contract instanceof TreatJS.Contract.Function) {
       return (subject instanceof Function) ? new Proxy(subject, {
         apply: function (target, thisArg, argumentsArg) {
-
-          var node = TreatJS.Callback.newFunctionConstraint(callback);
-
-          var contracted = assertWith(argumentsArg, contract.domain, cbVar.domain);
+          var constraint = TreatJS.Callback.newFunction(callback);
+          var contracted = assertWith(argumentsArg, contract.domain, constraint.domain);
           var result = Reflect.apply(subject, thisArg, contracted);
-          return assertWith(result, contract.range, cbVar.range);    
+          return assertWith(result, contract.range, constraint.range);    
 
         }
       }) : subject;

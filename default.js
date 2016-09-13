@@ -136,6 +136,10 @@ var ZZZ = Contract.assert(xxx, Contract.Union(NNN, SSS));
 ZZZ.x;
 ZZZ.x=7;
 
+// What if one or more properties are undefined
+// Normally, they are handled as true.
+//
+
 
 
 

@@ -19,3 +19,12 @@
 
 load("test/contracts/test.base.js");
 load("test/contracts/test.constructor.js");
+
+load("test/contracts/test.object.js");
+load("test/contracts/test.function.js");
+
+
+load("test/contracts/test.union.js");
+load("test/contracts/test.intersection.js");
+
+
