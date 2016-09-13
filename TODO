@@ -6,12 +6,16 @@
 - rename tet to tests
 
 
+- strict object contracts
+-- critical, as than every proeprty must be contract, also the ones comign from the
+protoype, and length.
+
 
 - use of Math insude of a predicate/ constructor
 - call of functions
 
 - new contarcts
-
+- test for dependenz
 
 # _                 
 #| |__ _  _ __ _ ___

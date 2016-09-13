@@ -61,4 +61,3 @@ new Test('Contract/DIntersection/4', function() {
   }).contextBlame();
 
 });
-

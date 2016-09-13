@@ -15,5 +15,4 @@
 
 TreatJS.package("Temporal", function (TreatJS, Contract, configuration) {
 
-
 });

@@ -90,7 +90,6 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
     }
   }
 
-
   // _   _      _          ___      _ _ _             _   
   //| | | |_ _ (_)___ _ _ / __|__ _| | | |__  __ _ __| |__
   //| |_| | ' \| / _ \ ' \ (__/ _` | | | '_ \/ _` / _| / /

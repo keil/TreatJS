@@ -25,7 +25,7 @@ TreatJS.package("TreatJS.Blame", function (TreatJS, Contract, configuration) {
     else Error.apply(this, arguments);
 
     this.name = "Blame";
-    //this.stack = (new Error()).stack;
+    this.stack = (new Error()).stack;
   } 
   Blame.prototype = Object.create(Error.prototype);
   Blame.prototype.constructor = Blame;
@@ -38,9 +38,8 @@ TreatJS.package("TreatJS.Blame", function (TreatJS, Contract, configuration) {
     else Blame.apply(this);
 
     this.name = "PositiveBlame";
-    //    this.name = "Contract Violation";
     this.message = "Subject" + " @ " + contract.toString();
-    //this.stack = (new Error()).stack;
+    this.stack = (new Error()).stack;
   } 
   PositiveBlame.prototype = Object.create(Blame.prototype);
   PositiveBlame.prototype.constructor = PositiveBlame;
@@ -53,9 +52,8 @@ TreatJS.package("TreatJS.Blame", function (TreatJS, Contract, configuration) {
     else Blame.apply(this);
 
     this.name = "NegativeBlame";
-    //    this.name = "Contract Violation";
     this.message ="Context (" + context.id + ")" + " @ " + contract.toString();
-    //this.stack = (new Error()).stack;
+    this.stack = (new Error()).stack;
   } 
   NegativeBlame.prototype = Object.create(Blame.prototype);
   NegativeBlame.prototype.constructor = NegativeBlame;
@@ -70,8 +68,8 @@ TreatJS.package("TreatJS.Blame", function (TreatJS, Contract, configuration) {
 
   return {
     Blame: Blame,
-      PositiveBlame, PositiveBlame,
-      NegativeBlame: NegativeBlame
+    PositiveBlame, PositiveBlame,
+    NegativeBlame: NegativeBlame
   };
 
 });

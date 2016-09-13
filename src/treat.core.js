@@ -91,26 +91,15 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     // \___/|_.__// \___\__|\__|\___\___/_||_\__|_| \__,_\__|\__|
     //          |__/                                             
 
-    // doing this is required because indy would redirect cntext blames to its
-    // wirks for INDY, as iny itself redicrets the context
-
     else if (contract instanceof TreatJS.Contract.Object) {
-
-      //var cbVar = TreatJS.Callback.Object(callback); // TODO
-
-
       return (subject instanceof Object) ? new Proxy(subject, {
         get: function (target, name, receiver) {          
-
-          //var cbVar = TreatJS.Callback.Object(callback); // TODO
-
-
-          var value = Reflect.get(target, name, receiver);
+          const value = Reflect.get(target, name, receiver);       
           return contract.map.has(name) ? assertWith(value, contract.map.get(name), callback) : value;
         },
         set: function (target, name, value, receiver) {
-          var assignment = TreatJS.Callback.newAssignment(callback); // TODO
-          var contracted = contract.map.has(name) ? assertWith(value, contract.map.get(name), assignment.properties) : value;
+          const node = TreatJS.Callback.newAssignment(callback);
+          const contracted = contract.map.has(name) ? assertWith(value, contract.map.get(name), node.properties) : value;
           return Reflect.set(target, name, value, receiver);
         }
       }) : subject;
@@ -124,17 +113,13 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     else if(contract instanceof TreatJS.Contract.Function) {
       return (subject instanceof Function) ? new Proxy(subject, {
         apply: function (target, thisArg, argumentsArg) {
-          var constraint = TreatJS.Callback.newFunction(callback);
-          var contracted = assertWith(argumentsArg, contract.domain, constraint.domain);
-          var result = Reflect.apply(subject, thisArg, contracted);
-          return assertWith(result, contract.range, constraint.range);    
-
+          const node = TreatJS.Callback.newFunction(callback);
+          const contracted = assertWith(argumentsArg, contract.domain, node.domain);
+          const result = Reflect.apply(subject, thisArg, contracted);
+          return assertWith(result, contract.range, node.range);    
         }
       }) : subject;
     }
-
-
-
 
     // ___                        _         _    ___         _               _   
     //|   \ ___ _ __  ___ _ _  __| |___ _ _| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -146,17 +131,10 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       return (subject instanceof Function) ? new Proxy(subject, {
         apply: function (target, thisArg, argumentsArg) {
           var range = construct(contract, argumentsArg);
-
           var result = Reflect.apply(subject, thisArg, argumentsArg);
-          return monitor(result, range, callback);
-
+          return assertWith(result, range, callback);
         }}) : subject;
     }
-
-
-
-
-    // XXX XXX XXX
 
     // _   _      _          ___         _               _   
     //| | | |_ _ (_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -178,11 +156,57 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       return assert(assert(subject, contract.left, callback.left), contract.right, callback.right);
     }
 
-    // delayed
-//    else if (contract instanceof TreatJS.Contract.DIntersection) {
-//      var intersection = TreatJS.Callback.createIntersection(callback);
-//      return assert(assert(subject, contract.left, intersection.left), contract.right, intersection.right);
-//    }
+    else if (contract instanceof TreatJS.Contract.DIntersection) {
+      return (subject instanceof Object) ? new Proxy(subject, {
+
+        get: function (target, name, receiver) {
+          var cbVar = TreatJS.Callback.newIntersection(callback);
+          var contracted =  assertWith(assertWith(target, contract.left, cbVar.left), contract.right, cbVar.right);
+          return Reflect.get(contracted, name, receiver);
+        },
+
+        set: function (target, name, value, receiver) {
+          var cbVar = TreatJS.Callback.newIntersection(callback);
+          var contracted =  assertWith(assertWith(target, contract.left, cbVar.left), contract.right, cbVar.right);
+          return Reflect.set(contracted, name, value, receiver);
+        },
+
+/*        set: function (target, trap, receiver) {
+
+          //return function(target, ...restArgs) {
+            var callback = TreatJS.Callback.newIntersecton(callback);
+            var contracted =  assertWith(assertWith(target, contract.left, callback.left), contract.right, callback.right);
+            return Reflect[trap](contractd, ...restAgs);
+          //}
+
+        },
+*/ // TODO, implemtn it via meta proxy
+
+        apply: function (subject, thisArg, argumentsArg) {
+          var cb = TreatJS.Callback.newIntersection(callback);
+          var contracted = assertWith(assertWith(subject, contract.left, cb.left), contract.right, cb.right);
+          return Reflect.apply(contracted, thisArg, argumentsArg);
+          //        return monitor(result, range, callback);
+        }}) : subject;
+
+
+//      var intersection = new TreatJS.Callback.Intersection(callback);
+//      return assert(assert(subject, contract.left, union.left), contract.right, union.right);
+    }
+
+
+
+
+
+
+
+
+
+
+
+      var intersection = TreatJS.Callback.createIntersection(callback);
+      return assert(assert(subject, contract.left, intersection.left), contract.right, intersection.right);
+    }
 
 
 
