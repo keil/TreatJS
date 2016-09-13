@@ -15,56 +15,21 @@
 
 TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) {
 
-  /*
-   * TODO
-   * - update only if handle changes
-   */
-
-  //  ___  _     _        _    ___      _ _ _             _   
-  // / _ \| |__ (_)___ __| |_ / __|__ _| | | |__  __ _ __| |__
-  //| (_) | '_ \| / -_) _|  _| (__/ _` | | | '_ \/ _` / _| / /
-  // \___/|_.__// \___\__|\__|\___\__,_|_|_|_.__/\__,_\__|_\_\
-  //          |__/                                            
-  //
-
-// TODO, because object CB collect the outcome of its subcontract, ist might hapen that it mapps context and subject to false
-
-  function createObject(callback) {
-
-    // internal values
-    var properties = {context:true, subject:true};
-
-    // update constraint
-    function update() {
-      callback(properties);
-    }
-
-    // return new callback handler
-    return {
-      properties: function({context, subject}) {
-        properties = {
-          context: (properties.context && context),
-          subject: (properties.subject && subject)
-        }
-        update();
-      }
-    }
-  }
-
-
+  /**
+   * This package contains the constructor functions for callback nodes.
+   * Each callback node implements a constraint and connects the outcome of one ore more contracts to another callback function.
+   **/
 
   // ___             _   _          ___      _ _ _             _   
   //| __|  _ _ _  __| |_(_)___ _ _ / __|__ _| | | |__  __ _ __| |__
   //| _| || | ' \/ _|  _| / _ \ ' \ (__/ _` | | | '_ \/ _` / _| / /
   //|_| \_,_|_||_\__|\__|_\___/_||_\___\__,_|_|_|_.__/\__,_\__|_\_\
 
-  function createFunctionCallback(callback) {
+  function newFunctionCallback(callback) {
 
-    // internal values
     var domain = {context:true, subject:true};
     var range = {context:true, subject:true};
 
-    // update constraint
     function update() {
       callback({
         context: (domain.subject && range.context),
@@ -72,47 +37,19 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
       });
     }
 
-    // return new callback handler
     return {
-      domain: function(handle) {
-        domain = handle;
+      domain: function({context, subject}) {
+        domain = {
+          context: (domain.context && context),
+          subject: (domain.subject && subject)
+        };
         update();
       },
-      range: function(handle) {
-        range = handle;
-        update();
-      }    
-    }
-  }
-
-
-  // ___             _   _          ___      _ _ _             _   
-  //| __|  _ _ _  __| |_(_)___ _ _ / __|__ _| | | |__  __ _ __| |__
-  //| _| || | ' \/ _|  _| / _ \ ' \ (__/ _` | | | '_ \/ _` / _| / /
-  //|_| \_,_|_||_\__|\__|_\___/_||_\___\__,_|_|_|_.__/\__,_\__|_\_\
-
-  function createFunctionCallback(callback) {
-
-    // internal values
-    var domain = {context:true, subject:true};
-    var range = {context:true, subject:true};
-
-    // update constraint
-    function update() {
-      callback({
-        context: (domain.subject && range.context),
-        subject: (domain.context && (!domain.subject || range.subject))
-      });
-    }
-
-    // return new callback handler
-    return {
-      domain: function(handle) {
-        domain = handle;
-        update();
-      },
-      range: function(handle) {
-        range = handle;
+      range: function({context, subject}) {
+        range = {
+          context: (range.context && context),
+          subject: (range.subject && subject)
+        };
         update();
       }    
     }
@@ -123,33 +60,31 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
   // | || ' \  _/ -_) '_(_-</ -_) _|  _| / _ \ ' \ (__/ _` | | | '_ \/ _` / _| / /
   //|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_\___\__,_|_|_|_.__/\__,_\__|_\_\
 
-  function createIntersectionCallback(callback) {
+  function newIntersectionCallback(callback) {
 
-    // internal values
     var left = {context:true, subject:true};
     var right = {context:true, subject:true};
-    
-    // update constraint
+
     function update() {
-      print("callback:", left.context, left.subject, right.context, right.subject);
       callback({
         context: (left.context || right.context),
         subject: (left.subject && right.subject)
       });
     }
 
-    // return new callback handler
     return {
-      left: function(handle) {
-        print("update left:", handle.context, handle.subject);
-
-        left = handle;
+      left: function({context, subject}) {
+        left = {
+          context: (left.context && context),
+          subject: (left.subject && subject)
+        };
         update();
       },
-      right: function(handle) {
-        print("update right:", handle.context, handle.subject);
-
-        right = handle;
+      right: function({context, subject}) {
+        right = {
+          context: (right.context && context),
+          subject: (right.subject && subject)
+        };
         update();
       }    
     }
@@ -161,13 +96,11 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
   //| |_| | ' \| / _ \ ' \ (__/ _` | | | '_ \/ _` / _| / /
   // \___/|_||_|_\___/_||_\___\__,_|_|_|_.__/\__,_\__|_\_\
 
-  function createUnionCallback(callback) {
+  function newUnionCallback(callback) {
 
-    // intrnal values
     var left = {context:true, subject:true};
     var right = {context:true, subject:true};
 
-    // update constraint
     function update() {
       callback({
         context: (left.context && right.context),
@@ -175,14 +108,19 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
       });
     }
 
-    // return new callback handler
     return {
-      left: function(handle) {
-        left = handle;
+      left: function({context, subject}) {
+        left = {
+          context: (left.context && context),
+          subject: (left.subject && subject)
+        };
         update();
       },
-      right: function(handle) {
-        right = handle;
+      right: function({context, subject}) {
+        right = {
+          context: (right.context && context),
+          subject: (right.subject && subject)
+        };
         update();
       }    
     }
@@ -194,23 +132,23 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
   ///_/ \_\/__/__/_\__, |_||_|_|_|_\___|_||_\__|\___\__,_|_|_|_.__/\__,_\__|_\_\
   //               |___/                                                        
 
-  function createAssignmentCallback(callback) {
+  function newAssignmentCallback(callback) {
 
-    // intrnal values
-    var contract = {context:true, subject:true};
+    var properties = {context:true, subject:true};
 
-    // update constraint
     function update() {
       callback({
-        context: (contract.context && contract.subject),
+        context: (properties.context && properties.subject),
         subject: true
       });
     }
 
-    // return new callback handler
     return {
-      contract: function(handle) {
-        contract = handle;
+      properties: function({context, subject}) {
+        properties = {
+          context: (properties.context && context),
+          subject: (properties.subject && subject)
+        };
         update();
       }
     }
@@ -221,12 +159,10 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
   //| _/ _ \ '_| / / (__/ _` | | | '_ \/ _` / _| / /
   //|_|\___/_| |_\_\\___\__,_|_|_|_.__/\__,_\__|_\_\
 
-  function createForkCallback(callbackSubject, callbackContext) {
+  function newForkCallback(callbackContext, callbackSubject) {
 
-    // intrnal values
     var contract = {context:true, subject:true};
 
-    // update constraint
     function update() {
 
       callbackSubject({
@@ -241,26 +177,16 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
 
     }
 
-    // return new callback handler
     return {
-      contract: function(handle) {
-        contract = handle;
+      contract: function({context, subject}) {
+        contract = {
+          context: (contract.context && context),
+          subject: (contract.subject && subject)
+        };
         update();
       }
     }
   }
-
-
-
-
-
-
-
-
-
-
-
-
 
   //         _                 
   // _ _ ___| |_ _  _ _ _ _ _  
@@ -268,11 +194,11 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
   //|_| \___|\__|\_,_|_| |_||_|
 
   return {
-    Object: createObject,
-    createFunction:      createFunctionCallback,
-    Intersection:  createIntersectionCallback,
-    createAssignment: createAssignmentCallback,
-    createUnion:         createUnionCallback
+    newFunction:      newFunctionCallback,
+    newIntersection:  newIntersectionCallback,
+    newUnion:         newUnionCallback, 
+    newAssignment:    newAssignmentCallback,
+    newForkCallback:  newForkCallback
   };
 
 });

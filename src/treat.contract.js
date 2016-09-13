@@ -249,7 +249,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
   UnionContract.prototype = Object.create(TreatJS.Prototype.Immediate.prototype);
   UnionContract.prototype.constructor = UnionContract;
   UnionContract.prototype.toString = function() {
-    return "(" + this.first.toString() + ") + (" + this.second.toString() + ")";
+    return "(" + this.left.toString() + ") + (" + this.right.toString() + ")";
   };
 
   // _____ ___ __  ___ _ _| |_ 

@@ -103,13 +103,54 @@ print("************************************");
 // todo, test uncontracted parameters in object
 
 
+
+
+print("************************************");
+
+var xxx = {x:4711, y:true};
+
+var NNN = Contract.Object( {x:typeNumber, y:typeNumber, z:typeNumber});
+var SSS = Contract.Object( {x:typeString, y:typeString, z:typeString});
+
+var XXX = Contract.assert(xxx, NNN);
+
+XXX.x; // no blame
+//XXX.y; // subject blame
+XXX.z = 1; // no blame
+//XXX.z = true; // context blame
+
+var YYY = Contract.assert(xxx, Contract.DIntersection(NNN, SSS));
+
+//YYY.x; // Subject blame
+YYY.x = 7;
+//YYY.x = "123";
+
+// after writing one, every read shoudl be fine, because the context can choose
+// // ?
+//YYY.x;
+
+
+
+var ZZZ = Contract.assert(xxx, Contract.Union(NNN, SSS));
+
+ZZZ.x;
+ZZZ.x=7;
+
+
+
+
+
+
 print("************************************");
 
 
 function f(g) {
   //g("1"); g(1);
-  g(1); g("1");
+  //return 1;
+
+  g("1"); g(1);
   return 1;
+ // return "1";
 }
 
 function g(x) {
@@ -123,10 +164,10 @@ const AxS = Contract.Function(Contract.Object([Any]), typeString);
 const AxS_xS = Contract.Function(Contract.Object([AxS]), typeString);
 
 
-var ff = Contract.assert(f, Contract.DIntersection(AxN_xN, AxS_xS));
+//var ff = Contract.assert(f, Contract.DIntersection(AxN_xN, AxS_xS));
 
-ff(g);
-quit();
+//ff(g);
+//quit();
 
 
 
@@ -152,7 +193,7 @@ var plus2 = Contract.assert(plus, Contract.DIntersection(NNxN, SSxS));
 //print(plus2(1,true));
 
 //print(plus2('1',2));
-print(plus2(1,'2'));
+//print(plus2(1,'2'));
 
 
 
