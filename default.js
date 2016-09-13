@@ -66,26 +66,6 @@ print(TreatJS.Contract);
 print("************************************");
 
 
-var obj = {
-  x:1,
-  y:true
-}
-
-var obj2 = Contract.assert(obj, Contract.Object({x:typeNumber, y:typeNumber}));
-
-obj2.x;
-//obj2.y;
-//obj2.x = 'df';
-
-
-var arr = Contract.assert([1,'1'], Contract.Object([typeNumber, typeNumber]));
-arr[0];
-//arr[1];
-//arr[0] = '1';
-
-
-
-
 
 
 
@@ -174,60 +154,6 @@ const AxS_xS = Contract.Function(Contract.Object([AxS]), typeString);
 //quit();
 
 
-
-
-print("************************************");
-
-// union and intersection with objects
-
-function plus(x, y) {
-  return x+y;
-}
-
-const NNxN = Contract.Function(Contract.Object([typeNumber, typeNumber]), typeNumber);
-const SSxS = Contract.Function(Contract.Object([typeString, typeString]), typeString);
-
-
-var plus2 = Contract.assert(plus, Contract.DIntersection(NNxN, SSxS));
-
-//print(plus2(1,2));
-//print(plus2('1','2'));
-
-//print(plus2(true, true));
-//print(plus2(1,true));
-
-//print(plus2('1',2));
-//print(plus2(1,'2'));
-
-
-
-
-
-
-print("************************************");
-
-//Contract.assert("1", Contract.typeNumber);
-
-var isArray = Contract.construct(InstanceOf, [Array]);
-//Contract.assert({}, isArray);
-
-
-print("XXXXXXXX");
-
-//Contract.assert("1", typeNumber);
-
-
-///Contract.assert(1, typeNumber);
-
-
-
-//print(TreatJS.Callback.Function);
-//print(TreatJS.assertWith);
-
-
-//load("test/sugar/test.js");
-
-//quit();
 
 
 
