@@ -37,7 +37,10 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
     //if((typeof object === "object") && !Native.has(object)) {
       //Native.add(object); // TODO
       for(var name of Object.getOwnPropertyNames(object)) {
-        
+        if(name==="Debugger" || name==="PerfMeasurement") continue;
+
+        // TODO, maybe check getter ! property descriptor
+
         if((object[name] instanceof Object) && !Native.has(object[name])) {
           print("add ...", name);
           Native.add(object[name]);
