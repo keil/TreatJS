@@ -113,27 +113,28 @@ var Contracts = Contracts || (function() {
       }, `Between ${min} ${max}`);
     }, "Between");
 
+    this.LengthOf = TreatJS.Constructor(function(length) {
+      return Contract.Base(function(object) {
+        return (object.length === length); 
+      }, `LengthOf ${legth}`)
+    }, "LengthOf");
 
 
     /**
      * Instance Contracts
      **/
 
-    /*
     this.instanceOfObject = InstanceOf(Object);
     this.instanceOfFunction = InstanceOf(Function);
 
+    this.instanceOfError = InstanceOf(Error);
 
-    this.instanceOfFunction = InstanceOf(Error);
+    // TODO
+    //this.instanceOfFunction = InstanceOf(Boolean);
+    //this.instanceOfFunction = InstanceOf(Number);
+    //this.instanceOfFunction = InstanceOf(String);
 
-    this.instanceOfFunction = InstanceOf(Boolean);
-    this.instanceOfFunction = InstanceOf(Number);
-    this.instanceOfFunction = InstanceOf(String);
 
-    RegExp
-      Array
-
-      */
 
 /*
  *
@@ -145,16 +146,20 @@ var Contracts = Contracts || (function() {
       }, `Between ${min} ${max}`);
     }, "Between");
 
+*/
 
-    this.Even = TreatJS.Contract.With({Math:Math}, TreatJS.Contract.Base(function(arg) {
-      return (Math.abs(arg) % 2 === 0);
-    },"Even"));
 
+
+    // TODO
+    this.Even = TreatJS.Contract.Base(function(value) {
+      return (Math.abs(calue) % 2 === 1);
+    },"Odd");
+
+    // TODO
     this.Odd = TreatJS.Contract.With({Math:Math}, TreatJS.Contract.Base(function(arg) {
       return (Math.abs(arg) % 2 === 1);
     },"Odd"));
 
-*/
 
 
     this.Positive = TreatJS.Contract.Base(function(value) {
@@ -173,12 +178,36 @@ var Contracts = Contracts || (function() {
 
 
 
-    
-   /* 
-    var Zero = TreatJS.Contract.Base(function(arg) {
-      return (arg === 0);
-    },"Zero");
-*/
+    var isNaN= TreatJS.Contract.Base(function(value) {
+      return (arg === NaN);
+    },"isNaN");
+
+    var isUndefined = TreatJS.Contract.Base(function(value) {
+      return (arg === undefined);
+    },"isUndefined");
+
+    var isNull = TreatJS.Contract.Base(function(value) {
+      return (arg === null);
+    },"isNull");
+
+    var isTrue = TreatJS.Contract.Base(function(value) {
+      return (arg) ? true : false; 
+    },"isTrue");
+
+    var isFalse = TreatJS.Contract.Base(function(value) {
+      return (arg) ? false : true; 
+    },"isFalse");
+
+
+
+
+
+
+
+
+
+
+
 
 
 

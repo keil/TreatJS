@@ -17,33 +17,11 @@
   // List of predefine contracts
   var Contracts = [];
 
-  /* Is-Contracts */
 
-  var isNaN= TreatJS.Contract.Base(function(arg) {
-    return (arg === NaN);
-  },"isNaN");
-
-  var isUndefined = TreatJS.Contract.With({undefined:undefined}, TreatJS.Contract.Base(function(arg) {
-    return (arg === undefined);
-  },"isUndefined"));
-
-  var isNull = TreatJS.Contract.Base(function(arg) {
-    return (arg === null);
-  },"isNull");
-
-  var isTrue = TreatJS.Contract.Base(function(arg) {
-    return (arg) ? true : false; 
-  },"isTrue");
-
-  var isFalse = TreatJS.Contract.Base(function(arg) {
-    return (arg) ? false : true; 
-  },"isFalse");
-
-  /** **/ regeister("isNaN", isNaN, CLASS_is);
-  /** **/ regeister("isUndefined", isUndefined, CLASS_is);
-  /** **/ regeister("isNull", isNull, CLASS_is);
-  /** **/ regeister("isTrue", isTrue, CLASS_is);
-  /** **/ regeister("isFalse", isFalse, CLASS_is);
+    
+    var Zero = TreatJS.Contract.Base(function(arg) {
+      return (arg === 0);
+    },"Zero");
 
 
 
@@ -69,28 +47,10 @@
 
 //  var Positive = Pos;
 
-  /** **/ regeister("Positive", Pos, CLASS_Miscellaneous);
-  /** **/ regeister("Natural", Nat, CLASS_Miscellaneous);
-  /** **/ regeister("Negative", Neg, CLASS_Miscellaneous);
-
-  /** **/ regeister("Even", Even, CLASS_Miscellaneous);
-  /** **/ regeister("Odd", Odd, CLASS_Miscellaneous);
-  /** **/ regeister("Pos", Pos, CLASS_Miscellaneous);
-  /** **/ regeister("Nat", Nat, CLASS_Miscellaneous);
-  /** **/ regeister("Neg", Neg, CLASS_Miscellaneous);
   /** **/ regeister("Zero", Zero, CLASS_Miscellaneous);
   /** **/ regeister("GtZero", GtZero, CLASS_Miscellaneous);
 
-  var between = TreatJS.Contract.Base(function(arg) {
-    return (min < arg) && (arg < max);
-  },"between");
-
-  var Between = TreatJS.Constructor.Constructor( function (min, max) {
-    return Contract.Base( function (arg) {
-      return (min < arg) && (arg < max);
-    }, "Between " + min + "-" + max);
-  }).ctor;
-
+ 
   /** **/ regeister("between", between, CLASS_Miscellaneous);
   /** **/ regeister("Between", Between, CLASS_Miscellaneous);
 
@@ -105,11 +65,7 @@
   /** **/ regeister("UpperCase", UpperCase, CLASS_Miscellaneous);
   /** **/ regeister("LowerCase", LowerCase, CLASS_Miscellaneous);
 
-  var LengthOf = TreatJS.Constructor.Constructor(function(length) {
-    return Contract.Base(function(arg) {
-      return (arg.length === length); 
-    },"lengthOf")
-  }, "LengthOf").ctor;
+
 
   var LengthLt = TreatJS.Constructor.Constructor(function(length) {
     return Contract.Base(function(arg) {
