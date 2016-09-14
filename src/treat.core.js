@@ -132,7 +132,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     else if(contract instanceof TreatJS.Contract.Dependent) {
       return (subject instanceof Function) ? new Proxy(subject, {
         apply: function (target, thisArg, argumentsArg) {
-          const rangeContract = construct(contract, argumentsArg);
+          const rangeContract = constructWith(contract.constructor, argumentsArg);
           const result = Reflect.apply(target, thisArg, argumentsArg);
           return assertWith(result, rangeContract, callback);
         }

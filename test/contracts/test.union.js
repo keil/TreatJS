@@ -1,8 +1,3 @@
-
-
-
-
-
 new Test('Contract/DIntersection/4', function() {
 
   const target = {
