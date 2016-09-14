@@ -73,8 +73,9 @@ Contract.assert([], InstanceOfArray);
 
 Contract.assert(2, Even);
 //Contract.assert(1, Even);
-
 Contract.assert(1, Odd);
+
+
 
 print("************************************");
 

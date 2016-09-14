@@ -23,24 +23,29 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
   
   const Global = this;
 
-//  for(var name of Object.getOwnPropertyNames(this)) {
-//    print("transform ...", name)
-//      dump[name] = this[name];
-//  }
-
-
-
-
+// _  _      _   _         
+//| \| |__ _| |_(_)_ _____ 
+//| .` / _` |  _| \ V / -_)
+//|_|\_\__,_|\__|_|\_/\___|
+                         
 
   const Native = new WeakSet();
 
   (function addGlobal(object) {
-    if((typeof object === "object") && !Native.has(object)) {
-      Native.add(object);
+    //print(typeof object);
+    //if((object instanceof Object) && !Native.has(object)) {
+    //if((typeof object === "object") && !Native.has(object)) {
+      //Native.add(object); // TODO
       for(var name of Object.getOwnPropertyNames(object)) {
-        addGlobal(object[name]);
+        
+        if((object[name] instanceof Object) && !Native.has(object[name])) {
+          print("add ...", name);
+          Native.add(object[name]);
+          addGlobal(object[name]);
+        }
+        
       }
-    }
+    //}
   })(this);
 
 
@@ -302,8 +307,12 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
     this.apply = function(target, thisArg, argumentsList) {
       if(isNative(target))
         wrap(Reflect.apply(target, thisArg, argumentsList));
-      else
+      else {
+        print(isNative(target));
+        print(Native.has(Math));
+        print(Native.has(Math.abs));
         throw new SandboxError("apply" + target, thisArg);
+      }
     };
 
     /** 
@@ -402,7 +411,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
 
   function recompilePredicate (predicate) {
     // TODO
-    return recompile(Global, predicate);
+    return recompile(wrap(Global), predicate);
   }
 
 
