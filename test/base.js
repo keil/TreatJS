@@ -70,7 +70,6 @@ TestCase.prototype.toThrow = function(error) {
     this.closure.apply();
   } catch (error) {
     var result = error;
-    print(error);
   } finally {
   }
 
@@ -162,12 +161,15 @@ Test.passed  = new Set();
  * Runs the created test tests 
  **/
 Test.run = function(verbose=false) {
+
+  Test.verbose = verbose;
+
   var start = Date.now();
 
   print(`\n`);
   for(var test of Test.tests) {
     print(`Run: ${test.name}`);
-    test.closure.apply(test, [verbose]);
+    test.closure.apply(test, []);
   }
 
   var end = Date.now();
