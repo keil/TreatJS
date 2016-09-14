@@ -189,7 +189,7 @@ Test.run = function(verbose=false) {
       print(`\n*** Failed: ${test.name}: (given:${test.given}, expect:${test.expect}) @ ${test.testcase.test.name}`);
       if(verbose) print("*** Testcase:", test.testcase.closure);
       if(verbose && test.error) print("*** Error:", test.error);
-      if(verbose && test.error.stack) print("*** Stack:", test.error.stack);
+      if(verbose && test.error && test.error.stack) print("*** Stack:", test.error.stack);
     }
   }
 

@@ -15,6 +15,41 @@
 
 TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
 
+  //  ___ _     _          _ 
+  // / __| |___| |__  __ _| |
+  //| (_ | / _ \ '_ \/ _` | |
+  // \___|_\___/_.__/\__,_|_|
+
+  
+  const Global = this;
+
+//  for(var name of Object.getOwnPropertyNames(this)) {
+//    print("transform ...", name)
+//      dump[name] = this[name];
+//  }
+
+
+
+
+
+  const Native = new WeakSet();
+
+  (function addGlobal(object) {
+    if((typeof object === "object") && !Native.has(object)) {
+      Native.add(object);
+      for(var name of Object.getOwnPropertyNames(object)) {
+        addGlobal(object[name]);
+      }
+    }
+  })(this);
+
+
+  function isNative(value) {
+    return Native.has(value);
+  }
+
+
+
   // ___               _ _              ___         _               _   
   /// __| __ _ _ _  __| | |__  _____ __/ __|___ _ _| |_ _ _ __ _ __| |_ 
   //\__ \/ _` | ' \/ _` | '_ \/ _ \ \ / (__/ _ \ ' \  _| '_/ _` / _|  _|
@@ -28,7 +63,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
 
     Object.defineProperties(this, {
       "predicate": {
-        value: predicate
+        value: predicate // TODO, wrap predicate
       },
       "name": {
         value: name
@@ -46,7 +81,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
   //\__ \/ _` | ' \/ _` | '_ \/ _ \ \ / (__/ _ \ ' \  _| '_/ _` / _|  _|
   //|___/\__,_|_||_\__,_|_.__/\___/_\_\\___\___/_||_\__|_| \__,_\__|\__|
 
-  var SandboxContract = Object.create(Contract);
+  const SandboxContract = Object.create(Contract);
 
   Object.defineProperty(SandboxContract, "Base", {
     value: BaseContract
@@ -57,60 +92,33 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
   //\__ \/ _` | ' \/ _` | '_ \/ _ \ \ / (_ | / _ \ '_ \/ _` | |
   //|___/\__,_|_||_\__,_|_.__/\___/_\_\\___|_\___/_.__/\__,_|_|
 
-  var SandboxGlobal = {
+  const SandboxGlobal = {
     TreatJS:  TreatJS,
     Contract: SandboxContract,
     print: print
   };
 
-
-
-
-
-/*
-  function SandboxContract(predicate, global, name) {
-    if(!(this instanceof SandboxContract)) return new SandboxContract(predicate, global, name);
-    else BaseContract.call(this, predicate, name);
-
-    if(!(global instanceof Object))
-      error("Invalid Global Argument", (new Error()).fileName, (new Error()).lineNumber);
-
-    Object.defineProperties(this, {
-      "global": {
-        value: global
-      }
-    });
-  }
-  SandboxContract.prototype = Object.create(BaseContract.prototype);
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // TODO, verbose mode
-
-
   /**
    * Function decompile (aka Function.prototype.toString).
    * Decompiles a function and returns a string representing the source code of that function.
    */
-  var decompile = Function.prototype.toString;
+  const decompile = Function.prototype.toString;
+
+
+  // TODO
+  const Symbols = new Set([
+    Symbol.hasInstance,
+    Symbol.isConcatSpreadable,
+    Symbol.iterator,
+    Symbol.match,
+    Symbol.replace,
+    Symbol.search,
+    Symbol.species,
+    Symbol.split,
+    Symbol.toPrimitive,
+    Symbol.toStringTag, //
+    Symbol.unscopables
+      ]);
 
 
   // wrap for arguments passed the membrane
@@ -125,7 +133,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
 
   function SandboxError (trapname="Undefiend operaton") {
     this.name = 'Sandbox Error';
-    this.message = 'Sandbox function cannot cause observable effects or call functions.' + (trapname? '\n'+trapname: '');;
+    this.message = 'Sandbox function cannot cause observable effects or call functions.' + (trapname? '\nTrap: '+trapname+'.\n' : '');;
     this.stack = (new Error()).stack;
   }
   SandboxError.prototype = Object.create(Error.prototype);
@@ -139,12 +147,12 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
   /** 
    * proxies: proxy -> target
    **/
-  var proxies = new WeakMap();
+  const proxies = new WeakMap();
 
   /** 
    * targets: target -> proxy
    **/
-  var targets = new WeakMap();
+  const targets = new WeakMap();
 
   /** 
    * wrap: target -> proxy
@@ -172,11 +180,10 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
 
     var proxy = new Proxy(target, new Proxy({}, {
       get: function(target, name, receiver) {
-        throw new SandboxError("get" + name);
+        throw new SandboxError("get " + name);
       }
     }));
 
-    // TODO
     var proxy = new Proxy(target, new Membrane());
 
     /**
@@ -207,9 +214,6 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
   //|  \/  |___ _ __ | |__ _ _ __ _ _ _  ___ 
   //| |\/| / -_) '  \| '_ \ '_/ _` | ' \/ -_)
   //|_|  |_\___|_|_|_|_.__/_| \__,_|_||_\___|
-
-// TODO, repicated
- 
   
   function Membrane() {
     if(!(this instanceof Membrane)) return new Membrane(...arguments);
@@ -218,7 +222,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
      * A trap for Object.getPrototypeOf.
      **/
     this.getPrototypeOf = function(target) {
-      throw new SandboxError("getPrototypeOf");
+      return wrap(Reflect.getPrototypeOf(target));
     }
 
     /**
@@ -232,7 +236,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
      * A trap for Object.isExtensible
      **/
     this.isExtensible = function(target) {
-      throw new SandboxError("isExtensible");
+      return wrap(Reflect.isExtensible(target));
     };
 
     /** 
@@ -246,7 +250,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
      * A trap for Object.getOwnPropertyDescriptor.
      **/
     this.getOwnPropertyDescriptor = function(target, name) {
-      throw new SandboxError("getOwnPropertyDescriptor");
+      return wrap(Reflect.getOwnPropertyDescriptor(target, name));
     };
 
     /** 
@@ -260,16 +264,15 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
      * A trap for the in operator.
      **/
     this.has = function(target, name) {
-      return Reflect.has(target, name); // TODO
-      //throw new SandboxError("has");
+      return wrap(Reflect.has(target, name));
     };
 
     /**
      * A trap for getting property values.
      **/
     this.get = function(target, name, receiver) {
-      return Reflect.get(target, name, receiver); // TODO
-      //throw new SandboxError("get");
+      return Symbols.has(name) || name=="prototype" ? Reflect.get(target, name, receiver) : 
+        wrap(Reflect.get(target, name, receiver));
     };
 
     /** 
@@ -286,35 +289,49 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
       throw new SandboxError("deleteProperty");
     };
 
-    /** 
-     * A trap for for...in statements.
-     **/
-    this.enumerate = function(target) {
-      throw new SandboxError("enumerate");
-    };
-
     /**
      * A trap for Object.getOwnPropertyNames.
      **/
     this.ownKeys = function(target) {
-      //return Object.getOwnPropertyNames(target);
-      throw new SandboxError("ownKeys");
+      return wrap(Reflect.ownKeys(target));
     };
 
     /** 
      * A trap for a function call.
      **/
     this.apply = function(target, thisArg, argumentsList) {
-      throw new SandboxError("apply");
+      if(isNative(target))
+        wrap(Reflect.apply(target, thisArg, argumentsList));
+      else
+        throw new SandboxError("apply" + target, thisArg);
     };
 
     /** 
      * A trap for the new operator. 
      **/
     this.construct = function(target, argumentsList) {
-      throw new SandboxError("construct");
+      if(isNative(target))
+        wrap(Reflect.apply(target, argumentsList));
+      else
+        throw new SandboxError("construct");
     }
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // _ _ ___ __ ___ _ __  _ __(_) |___ 
   //| '_/ -_) _/ _ \ '  \| '_ \ | / -_)
@@ -358,7 +375,15 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
        **/
       var proxy =  new Proxy(pure, {
         apply: function(target, thisArg, argumentsList) {
-          return unwrap(target.apply(wrap(thisArg), wrap(argumentsList)));
+
+          /**
+           * traverse arguments
+           **/
+          const wrappedArguments = [];
+          for(var i=0; i<argumentsList.length; i++) 
+            wrappedArguments[i] = wrap(argumentsList[i])
+
+          return unwrap(target.apply(wrap(thisArg), wrappedArguments));
         }
       });
 
@@ -373,16 +398,17 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
   }
 
 
-  function mkPredicate (predicate) {
-    return recompile({}, predicate);
+
+
+  function recompilePredicate (predicate) {
+    // TODO
+    return recompile(Global, predicate);
   }
 
 
-  function mkConstructor (predicate) {
+  function recompileConstructor (predicate) {
     return recompile(SandboxGlobal, predicate);
   }
-
-
 
   //         _                 
   // _ _ ___| |_ _  _ _ _ _ _  
@@ -390,19 +416,8 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
   //|_| \___|\__|\_,_|_| |_||_|
 
   return {
-    recompile: recompile,
-    mkPredicate: mkPredicate,
-    mkConstructor: mkConstructor
+    recompilePredicate:   recompilePredicate,
+    recompileConstructor: recompileConstructor
   };
 
-  
-  // TODO, problem
-  // Math.abs;
-  // and so ob shoul be callable
-  //
-  //
-
-
-
 });
-

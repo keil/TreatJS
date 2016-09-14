@@ -54,22 +54,27 @@ print(Contract.version);
 
 print("************************************");
 
-function plus (x, y) {
-  return (x+y);
-}
 
-function addOne(z) {
-  return plus(); plus(z, "1");
-}
 
-var addOneC = Contract.assert(addOne, Contract.Dependent(Contract.Constructor(function(z) {
-  return Contract.Base(function(value) {
-    return (typeof value) === (typeof z);
-  },"SameType");
-},"SameType")));
 
-addOneC(1);
+//addGlobal(this);
 
+
+
+
+
+
+//var Proxy = Proxy || TransparentProxy;
+
+var TransparentProxy = TransparentProxy || Proxy;
+
+Contract.assert([], InstanceOfArray);
+//Contract.assert({}, InstanceOfArray);
+
+Contract.assert(2, Even);
+//Contract.assert(1, Even);
+
+Contract.assert(1, Odd);
 
 print("************************************");
 

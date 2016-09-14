@@ -29,7 +29,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
 
     Object.defineProperties(this, {
       "predicate": {
-        value: TreatJS.Sandbox.mkPredicate(predicate)
+        value: TreatJS.Sandbox.recompilePredicate(predicate)
       },
       "name": {
         value: name
@@ -57,7 +57,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
     Object.defineProperties(this, {
       "constructor": {
         // TODO, not good tyo have this name, as constructo is overloaded
-        value: TreatJS.Sandbox.mkConstructor(constructor)
+        value: TreatJS.Sandbox.recompileConstructor(constructor)
       },
       "name": {
         value: name

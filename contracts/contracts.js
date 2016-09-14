@@ -95,11 +95,15 @@ var Contracts = Contracts || (function() {
       }, `TypeOf ${type}`);
     }, "TypeOf");
 
+    // TODO, constructior.name did not work, as it is an proeprty access
     this.InstanceOf = Contract.Constructor(function(constructor) {
       return Contract.Base(function(object) {
         return (object instanceof constructor); 
-      },  `InstanceOf ${constructor.name}`);
+      }, `InstanceOf ${constructor.name}`);
     }, "InstanceOf");
+
+    // /**/
+
 
     this.Is = Contract.Constructor(function(target) {
       return Contract.Base(function(value) {
@@ -123,7 +127,12 @@ var Contracts = Contracts || (function() {
     /**
      * Instance Contracts
      **/
-/*
+
+    this.InstanceOfArray = Contract.construct(InstanceOf, [Array])
+
+    // print(InstanceOfArray);
+
+    /*
     this.instanceOfObject = InstanceOf(Object);
     this.instanceOfFunction = InstanceOf(Function);
 
@@ -152,8 +161,8 @@ var Contracts = Contracts || (function() {
 
     // TODO
     this.Even = TreatJS.Contract.Base(function(value) {
-      return (Math.abs(calue) % 2 === 1);
-    },"Odd");
+      return (Math.abs(value) % 2 === 0);
+    },"Even");
 
     // TODO
     this.Odd = TreatJS.Contract.Base(function(value) {

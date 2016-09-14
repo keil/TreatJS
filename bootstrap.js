@@ -20,6 +20,9 @@
 
 load("lib/padding.js");
 
+// TODO, use TransparentProxy.js library 
+var TransparentProxy = TransparentProxy || Proxy;
+
 // _____             _      _ ___   ___      _                       
 //|_   _| _ ___ __ _| |_ _ | / __| | _ \__ _| |____ __ _ __ _ ___ ___
 //  | || '_/ -_) _` |  _| || \__ \ |  _/ _` | / / _/ _` / _` / -_|_-<

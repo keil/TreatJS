@@ -15,6 +15,14 @@
 
 TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
+  // ___                  
+  //| _ \_ _ _____ ___  _ 
+  //|  _/ '_/ _ \ \ / || |
+  //|_| |_| \___/_\_\\_, |
+  //                 |__/ 
+
+  const Proxy = TransparentProxy;
+
   //  ___         _           _   
   // / __|___ _ _| |_ _____ _| |_ 
   //| (__/ _ \ ' \  _/ -_) \ /  _|
@@ -66,7 +74,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
         result = contract.predicate.apply(undefined, [subject]);
       } catch (error) {
         print(error); // TODO
-        if(error instanceof Blame) {
+        if(error instanceof TreatJS.Blame.Blame) {
           throw error; /// TODO, test
         } else {
           result = false; 

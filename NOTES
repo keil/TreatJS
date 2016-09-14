@@ -1,3 +1,11 @@
+
+- need a global membrane that prevents the global objects from modifications, but allows applications
+
+
+Config: globalPathTrought
+
+
+
 - Constructor wrapped in a prozy tu use id with an direct application.
 
 - Abstraction should also be a contract
