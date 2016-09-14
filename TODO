@@ -1,5 +1,7 @@
 *** Open Points
 
+- convineinende, throe exception if functions contract pllies to a non-function value
+
 - Callback update only on state-changes?
 
 

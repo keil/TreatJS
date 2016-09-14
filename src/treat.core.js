@@ -115,7 +115,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
         apply: function (target, thisArg, argumentsArg) {
           const node = TreatJS.Callback.newFunction(callback);
           const contracted = assertWith(argumentsArg, contract.domain, node.domain);
-          const result = Reflect.apply(subject, thisArg, contracted);
+          const result = Reflect.apply(target, thisArg, contracted);
           return assertWith(result, contract.range, node.range);    
         }
       }) : subject;
@@ -131,7 +131,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       return (subject instanceof Function) ? new Proxy(subject, {
         apply: function (target, thisArg, argumentsArg) {
           var range = construct(contract, argumentsArg);
-          var result = Reflect.apply(subject, thisArg, argumentsArg);
+          var result = Reflect.apply(target, thisArg, argumentsArg);
           return assertWith(result, range, callback);
         }}) : subject;
     }
@@ -157,7 +157,20 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     }
 
     else if (contract instanceof TreatJS.Contract.DIntersection) {
-      return (subject instanceof Object) ? new Proxy(subject, {
+      return (subject instanceof Object) ? new Proxy(subject, new Proxy({}, {
+        get: function (handler, trapname) {
+          return function(target, ...trapArgs) {
+            var node = TreatJS.Callback.newIntersection(callback);
+            var contracted = assertWith(assertWith(target, contract.left, node.left), contract.right, node.right);
+            return Reflect[trapname](contracted, ...trapArgs);
+          }
+        }
+      })) : subject;
+    }
+
+/*
+
+          {
 
         get: function (target, name, receiver) {
           var cbVar = TreatJS.Callback.newIntersection(callback);
@@ -170,7 +183,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
           var contracted =  assertWith(assertWith(target, contract.left, cbVar.left), contract.right, cbVar.right);
           return Reflect.set(contracted, name, value, receiver);
         },
-
+*/
 /*        set: function (target, trap, receiver) {
 
           //return function(target, ...restArgs) {
@@ -181,7 +194,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
         },
 */ // TODO, implemtn it via meta proxy
-
+/*
         apply: function (subject, thisArg, argumentsArg) {
           var cb = TreatJS.Callback.newIntersection(callback);
           var contracted = assertWith(assertWith(subject, contract.left, cb.left), contract.right, cb.right);
@@ -193,14 +206,14 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 //      var intersection = new TreatJS.Callback.Intersection(callback);
 //      return assert(assert(subject, contract.left, union.left), contract.right, union.right);
     }
+*/
 
 
 
 
 
 
-
-
+/*
 
 
 
@@ -208,7 +221,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       return assert(assert(subject, contract.left, intersection.left), contract.right, intersection.right);
     }
 
-
+*/
 
     // delayed
     else if (contract instanceof TreatJS.Contract.DIntersection) {

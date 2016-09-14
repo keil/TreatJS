@@ -70,6 +70,7 @@ TestCase.prototype.toThrow = function(error) {
     this.closure.apply();
   } catch (error) {
     var result = error;
+    print(error);
   } finally {
   }
 

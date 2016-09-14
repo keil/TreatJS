@@ -113,7 +113,7 @@ var Contracts = Contracts || (function() {
       }, `Between ${min} ${max}`);
     }, "Between");
 
-    this.LengthOf = TreatJS.Constructor(function(length) {
+    this.LengthOf = Contract.Constructor(function(length) {
       return Contract.Base(function(object) {
         return (object.length === length); 
       }, `LengthOf ${legth}`)
@@ -123,12 +123,12 @@ var Contracts = Contracts || (function() {
     /**
      * Instance Contracts
      **/
-
+/*
     this.instanceOfObject = InstanceOf(Object);
     this.instanceOfFunction = InstanceOf(Function);
 
     this.instanceOfError = InstanceOf(Error);
-
+*/
     // TODO
     //this.instanceOfFunction = InstanceOf(Boolean);
     //this.instanceOfFunction = InstanceOf(Number);
@@ -156,9 +156,9 @@ var Contracts = Contracts || (function() {
     },"Odd");
 
     // TODO
-    this.Odd = TreatJS.Contract.With({Math:Math}, TreatJS.Contract.Base(function(arg) {
-      return (Math.abs(arg) % 2 === 1);
-    },"Odd"));
+    this.Odd = TreatJS.Contract.Base(function(value) {
+      return (Math.abs(value) % 2 === 1);
+    },"Odd");
 
 
 
