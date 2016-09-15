@@ -28,14 +28,13 @@ function _wrap_(f) {
 
 // returns a base contract
 function _makeBaseContract_(type) {
-  if(type == "number") return (typeOfNumber);
-  else if(type == "string") return (typeOfString);
-  else if(type == "boolean") return (typeOfBoolean);
-  else if(type == "undefined") return (typeOfUndefined);
-  else if(type == "object") return (typeOfObject);
-  else if(type == "function") return (typeOfFunction);
-  else return (any);
-  // throw Error("Undefined Type");
+  if(type == "number") return (typeNumber);
+  else if(type == "string") return (typeString);
+  else if(type == "boolean") return (typeBoolean);
+  else if(type == "undefined") return (typeUndefined);
+  else if(type == "object") return (typeObject);
+  else if(type == "function") return (typeFunction);
+  else return Any;
 }
 
 // returns a function contract
@@ -61,7 +60,7 @@ function _makeIntersectionContract_(calls) {
     return _makeFunctionContract_(shifted);
   } else if(calls.length>1) {
     var shifted = calls.shift();
-    return Contract.Or(_makeFunctionContract_(shifted), _makeIntersectionContract_(calls));
+    return Contract.Intersection(_makeFunctionContract_(shifted), _makeIntersectionContract_(calls));
   } else {
     return Any;
   }

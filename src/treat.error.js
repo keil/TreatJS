@@ -13,7 +13,7 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-TreatJS.package("TreatJS.Blame", function (TreatJS, Contract, configuration) {
+TreatJS.package("TreatJS.Error", function (TreatJS, Contract, configuration) {
 
   // ___ _                
   //| _ ) |__ _ _ __  ___ 

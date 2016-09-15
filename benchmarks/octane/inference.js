@@ -84,7 +84,7 @@ function _wrap_ (f) {
   return new Proxy(f, new _TypeHandler_(fid));
 }
 
-load("benchmark/typedoctane/run.js");
+load("benchmarks/octane/run.js");
 
 _print_("//-- BEGIN: TYPES --");
 

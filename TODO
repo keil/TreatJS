@@ -1,3 +1,15 @@
+Benchmarks
+==========
+
+- Make inference and run with transparent proxies.
+- Measure performance:
+  i) normal
+  ii) no-baseline
+  iii) no-ion
+
+
+
+
 Open Points
 ===========
 

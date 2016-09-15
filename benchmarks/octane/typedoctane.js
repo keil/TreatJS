@@ -19,8 +19,8 @@ print = function() {}
 
 //  makes TreatJS available under $
 //  Note: required to run the testcases
-var _ = TreatJS;
-var $ = _ ;
+//var _ = TreatJS;
+//var $ = _ ;
 
 var _file_ = undefined;
 function _load_ (path, file) {
@@ -38,32 +38,34 @@ function _freshID_() {
 
 // contarcts
 
-var typeOfNumber = TreatJS.Contract.Base(function(arg) {
-  return ((typeof arg) === "number");
-},"typeOfNumber");
+this.Any = Contract.Base(function(arg) {
+  return true; 
+},"Any");
 
-var typeOfString = TreatJS.Contract.Base(function(arg) {
-  return ((typeof arg) === "string");
-},"typeOfString");
-
-var typeOfBoolean = TreatJS.Contract.Base(function(arg) {
-  return ((typeof arg) === "boolean");
-},"typeOfBoolean");
-
-var typeOfObject =  TreatJS.Contract.Base(function(arg) {
-  return ((typeof arg) === "object");
-},"typeOfObject");
-
-var typeOfFunction = TreatJS.Contract.Base(function(arg) {
-  return ((typeof arg) === "function");
-},"typeOfFunction");
-
-var typeOfUndefined = TreatJS.Contract.Base(function(arg) {
+this.typeUndefined = Contract.Base(function(arg) {
   return ((typeof arg) === "undefined");
-},"typeOfUndefined");
+},"typeUndefined");
 
-var any = TreatJS.Contract.Base(function(arg) {
-  return true;
-},"any");
+this.typeObject =  Contract.Base(function(arg) {
+  return ((typeof arg) === "object");
+},"typeObject");
 
-quit();
+this.typeBoolean = Contract.Base(function(arg) {
+  return ((typeof arg) === "boolean");
+},"typeBoolean");
+
+this.typeNumber = Contract.Base(function(arg) {
+  return ((typeof arg) === "number");
+},"typeNumber");
+
+this.typeString = Contract.Base(function(arg) {
+  return ((typeof arg) === "string");
+},"typeString");
+
+this.typeSymbol = Contract.Base(function(arg) {
+  return ((typeof arg) === "symbol");
+},"typeSymbol");
+
+this.typeFunction = Contract.Base(function(arg) {
+  return ((typeof arg) === "function");
+},"typeFunction");

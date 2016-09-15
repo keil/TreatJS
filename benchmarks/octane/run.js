@@ -25,12 +25,11 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-//TreatJS.Statistic.reset();
-//TreatJS.Config.print();
-
-var base_dir = 'benchmark/typedoctane/';
-var wrapped_dir = 'benchmark/wrapped/';
+var base_dir = 'benchmarks/octane/';
+var wrapped_dir = 'benchmarks/octane/';
 load(base_dir + 'base.js');
+
+_load_(wrapped_dir,'test.js');
 
 //_load_(wrapped_dir,'richards.js');
 //_load_(wrapped_dir,'deltablue.js'); 
@@ -38,7 +37,7 @@ load(base_dir + 'base.js');
 //_load_(wrapped_dir,'raytrace.js');
 //_load_(wrapped_dir,'earley-boyer.js');
 //_load_(wrapped_dir,'regexp.js');
-_load_(wrapped_dir,'splay.js');
+//_load_(wrapped_dir,'splay.js');
 //_load_(wrapped_dir,'navier-stokes.js');
 //_load_(wrapped_dir,'pdfjs.js');
 
@@ -95,6 +94,6 @@ BenchmarkSuite.RunSuites({ NotifyResult: PrintResult,
 
 // print, version number, configuration, statistics
 
-TreatJS.Version.print();
-TreatJS.Config.print();
-TreatJS.Statistic.print();
+//TreatJS.Version.print();
+//TreatJS.Config.print();
+//TreatJS.Statistic.print();
