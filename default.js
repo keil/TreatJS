@@ -52,6 +52,17 @@ print(Contract.version);
 
 })();
 
+
+function plus(x,y) {
+  return (x+y);
+}
+
+var Plus = Contract.assert(plus, Contract.Function(Contract.Object([typeNumber, typeNumber]), typeNumber));
+
+print(Plus===plus);
+Plus("1",2);
+
+
 print("************************************");
 var TransparentProxy = TransparentProxy || Proxy;
 print("************************************");

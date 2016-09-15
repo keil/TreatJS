@@ -50,7 +50,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
   //|___/\__,_|_||_\__,_|_.__/\___/_\_\\___\___/_||_\__|_| \__,_\__|\__|
 
   function BaseContract(predicate, name) {
-    if(!(this instanceof BaseContract)) return new BaseContract(...arguments);
+    if(!(this instanceof BaseContract)) return new BaseContract(predicate, name);
 
     if(!(predicate instanceof Function))
       throw new TypeError("Invalid predicate");

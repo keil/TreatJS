@@ -91,7 +91,7 @@ TreatJS.package("TreatJS.Error", function (TreatJS, Contract, configuration) {
   //|_| \___|\__|\_,_|_| |_||_|
 
   return {
-    Error:          TreatJSError,
+    TreatJSError:   TreatJSError,
     PositiveBlame,  PositiveBlame,
     NegativeBlame:  NegativeBlame,
     SandboxError:   SandboxError

@@ -45,8 +45,7 @@ function _makeFunctionContract_(call) {
       args[i] = _makeBaseContract_(call[i]);
     }
   }
-  var map = TreatJS.Map.StringMap(args);
-  var domain = TreatJS.Contract.Object(map);
+  var domain = TreatJS.Contract.Object(args);
   var range = _makeBaseContract_(call[-1]);
   var contract = TreatJS.Contract.Function(domain, range);
 
@@ -60,7 +59,7 @@ function _makeIntersectionContract_(calls) {
     return _makeFunctionContract_(shifted);
   } else if(calls.length>1) {
     var shifted = calls.shift();
-    return Contract.Intersection(_makeFunctionContract_(shifted), _makeIntersectionContract_(calls));
+    return Contract.DIntersection(_makeFunctionContract_(shifted), _makeIntersectionContract_(calls));
   } else {
     return Any;
   }
@@ -73,6 +72,6 @@ function _makeContract_ (funID) {
   return contract;
 }
 
-load("benchmark/typedoctane/run.js");
+load("benchmarks/octane/run.js");
 
 quit();
