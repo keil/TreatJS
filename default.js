@@ -68,12 +68,12 @@ print("************************************");
 
 var TransparentProxy = TransparentProxy || Proxy;
 
-Contract.assert([], InstanceOfArray);
+Contract.assert([2154], InstanceOfArray);
 //Contract.assert({}, InstanceOfArray);
 
-Contract.assert(2, Even);
+//Contract.assert(2, Even);
 //Contract.assert(1, Even);
-Contract.assert(1, Odd);
+//Contract.assert(1, Odd);
 
 
 

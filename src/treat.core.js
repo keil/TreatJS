@@ -73,14 +73,17 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       try {
         result = contract.predicate.apply(undefined, [subject]);
       } catch (error) {
-        print(error); // TODO
+        //print(error); // TODO
         if(error instanceof TreatJS.Blame.Blame) {
+          
+         // print(error, error.stack);
+
           throw error; /// TODO, test
         } else {
           result = false; 
         }
       } finally {
-
+print("adfasdfadf", result);
         // pop context
         Contexts.pop(); 
 

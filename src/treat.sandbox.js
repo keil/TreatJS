@@ -20,14 +20,14 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
   //| (_ | / _ \ '_ \/ _` | |
   // \___|_\___/_.__/\__,_|_|
 
-  
+  // TODO, depent on flag
   const Global = this;
 
-// _  _      _   _         
-//| \| |__ _| |_(_)_ _____ 
-//| .` / _` |  _| \ V / -_)
-//|_|\_\__,_|\__|_|\_/\___|
-                         
+  // _  _      _   _         
+  //| \| |__ _| |_(_)_ _____ 
+  //| .` / _` |  _| \ V / -_)
+  //|_|\_\__,_|\__|_|\_/\___|
+
   // TODO, only funtions
   const Native = new WeakSet();
 
@@ -40,12 +40,9 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
     }
   })(this);
 
-
   function isNative(value) {
     return Native.has(value);
   }
-
-
 
   // ___               _ _              ___         _               _   
   /// __| __ _ _ _  __| | |__  _____ __/ __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -60,7 +57,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
 
     Object.defineProperties(this, {
       "predicate": {
-        value: predicate // TODO, wrap predicate
+        value: /*predicate //*/ wrapFunction(predicate) // TODO, wrap predicate
       },
       "name": {
         value: name
@@ -72,6 +69,11 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
   BaseContract.prototype.toString = function() {
     return this.name ? "#"+this.name : "[[TreatJS/BaseContract]]";
   };
+
+
+
+
+
 
   // ___               _ _              ___         _               _   
   /// __| __ _ _ _  __| | |__  _____ __/ __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -374,19 +376,20 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
        * Intercept Aplications.
        * Wrap/Uwrap arguments and return of a function call to protect values.
        **/
-      var proxy =  new Proxy(pure, {
+      var proxy = wrapFunction(pure);
+/*      var proxy =  new Proxy(pure, {
         apply: function(target, thisArg, argumentsList) {
 
-          /**
-           * traverse arguments
-           **/
+          // traverse arguments
+          
           const wrappedArguments = [];
           for(var i=0; i<argumentsList.length; i++) 
             wrappedArguments[i] = wrap(argumentsList[i])
 
+        // TODO, why is this required ?
           return unwrap(target.apply(wrap(thisArg), wrappedArguments));
         }
-      });
+      });*/
 
       /**
        * Return new pure function.
@@ -398,7 +401,33 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
     } 
   }
 
+  function wrapFunction(closure) {
+    return new Proxy(closure, {
+      apply: function(target, thisArg, argumentsList) {
 
+        /**
+         * traverse arguments
+         **/
+        const wrappedArguments = [];
+
+        
+        print(closure, argumentsList[0] instanceof Array, argumentsList[0] instanceof wrap(Array) , wrap(argumentsList[0]) instanceof Array );
+        print(argumentsList[0], wrap(argumentsList[0]));
+
+        for(let i=0; i<argumentsList.length; i++) {
+          print("traverse ... ", i, ";", argumentsList[i], ":");
+
+          wrappedArguments[i] = wrap(argumentsList[i])
+        }
+
+
+        return unwrap(Reflect.apply(target, thisArg, wrappedArguments));
+
+    // TODO, why is this required ?
+    //return unwrap(target.apply(wrap(thisArg), wrappedArguments));
+      }
+    });
+  }
 
 
   function recompilePredicate (predicate) {
