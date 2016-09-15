@@ -1,3 +1,22 @@
+Open Points
+===========
+
+* Use TransparentProxy realm or polyfill librarie.
+
+
+* Intigrate pure functions.
+
+
+
+
+* Nice constructors
+
+- Use proxies to build nice constructors that can be applied directly.
+  e.g.: Between(1,2); InstanceOf(Array);
+
+
+
+
 *** Open Points
 
 - Implement INDY/PICK/LAX
