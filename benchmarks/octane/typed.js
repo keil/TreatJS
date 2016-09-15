@@ -20,7 +20,7 @@ function _wrap_(f) {
   var funID = _file_+_freshID_();
   if(_TYPES_[funID]!==undefined && _TYPES_[funID].length>0) {
     var contract = _makeContract_(funID);
-    return _.assert(f, contract);
+    return Contract.assert(f, contract);
   } else {
     return f;
   }
