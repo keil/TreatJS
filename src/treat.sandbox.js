@@ -57,7 +57,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
 
     Object.defineProperties(this, {
       "predicate": {
-        value: /*predicate //*/ wrapFunction(predicate) // TODO, wrap predicate
+        value: predicate //*/ wrapFunction(predicate) // TODO, wrap predicate
       },
       "name": {
         value: name
@@ -157,6 +157,9 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
    * wrap: target -> proxy
    **/
   function wrap(target) {
+
+    // TODO
+    return target;
 
     /**
      * If target is a primitive value, return target.
@@ -299,8 +302,9 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
      * A trap for a function call.
      **/
     this.apply = function(target, thisArg, argumentsList) {
-      if(isNative(target))
-        wrap(Reflect.apply(target, thisArg, argumentsList));
+      print("call apply", argumentsList );
+      if(true || isNative(target))
+        return wrap(Reflect.apply(target, thisArg, argumentsList));
       else {
         print(isNative(target));
         print(Native.has(Math));
@@ -411,11 +415,11 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
         const wrappedArguments = [];
 
         
-        print(closure, argumentsList[0] instanceof Array, argumentsList[0] instanceof wrap(Array) , wrap(argumentsList[0]) instanceof Array );
-        print(argumentsList[0], wrap(argumentsList[0]));
+      //  print(closure, argumentsList[0] instanceof Array, argumentsList[0] instanceof wrap(Array) , wrap(argumentsList[0]) instanceof Array );
+      //  print(argumentsList[0], wrap(argumentsList[0]));
 
         for(let i=0; i<argumentsList.length; i++) {
-          print("traverse ... ", i, ";", argumentsList[i], ":");
+       //   print("traverse ... ", i, ";", argumentsList[i], ":");
 
           wrappedArguments[i] = wrap(argumentsList[i])
         }

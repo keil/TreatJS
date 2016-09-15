@@ -136,6 +136,7 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
     var properties = {context:true, subject:true};
 
     function update() {
+      print("update ...");
       callback({
         context: (properties.context && properties.subject),
         subject: true
@@ -144,6 +145,7 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
 
     return {
       properties: function({context, subject}) {
+        print("update ...");
         properties = {
           context: (properties.context && context),
           subject: (properties.subject && subject)
@@ -170,7 +172,7 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
       });
 
       callbackContext({
-        context: contract.contet,
+        context: contract.context,
         subject: true
       });
 
@@ -197,7 +199,7 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
     newIntersection:  newIntersectionCallback,
     newUnion:         newUnionCallback, 
     newAssignment:    newAssignmentCallback,
-    newForkCallback:  newForkCallback
+    newFork:          newForkCallback
   };
 
 });

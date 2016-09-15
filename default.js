@@ -53,6 +53,58 @@ print(Contract.version);
 })();
 
 print("************************************");
+var TransparentProxy = TransparentProxy || Proxy;
+print("************************************");
+
+// INDY - PICKY - LAX
+
+let f = Contract.assert(function (x) {
+  return 1;
+}, Contract.Function(Contract.Object([typeNumber]), typeNumber));
+
+let g = Contract.assert(function (x) {
+  return "1";
+}, Contract.Function(Contract.Object([typeNumber]), typeNumber));
+
+let h = Contract.assert(function (x) {
+  return "1";
+}, Contract.Function(Contract.Object([typeString]), typeString));
+
+
+let flat = Contract.Base(function(x) {
+  return x(1);
+}, "Call x");
+
+//Contract.assert(function(){return true}, flat);
+//Contract.assert(h, flat);
+
+
+
+
+let o = Contract.assert({x:1, y:"1", f:function(x){return 1;}, g:function(x){return "1";}, h:function(x){return "1";}},
+    Contract.Object({
+      x: typeNumber,
+      y: typeNumber,
+      z: typeNumber,
+      f: Contract.Function(Contract.Object([typeNumber]), typeNumber),
+      g: Contract.Function(Contract.Object([typeNumber]), typeNumber),
+      h: Contract.Function(Contract.Object([typeString]), typeString)
+    }));
+
+let flat1 = Contract.Base(function(x) {
+//  x.x="1";
+  //x.h(1);
+//  x.f="1";
+  x.f=function(x) {return "1"};
+  return true;
+}, "Call x");
+
+Contract.assert(o, flat1);
+
+//o.x = true;
+//o.f=function(x) {return "1"};
+
+o.f("1");
 
 
 
@@ -66,7 +118,7 @@ print("************************************");
 
 //var Proxy = Proxy || TransparentProxy;
 
-var TransparentProxy = TransparentProxy || Proxy;
+
 
 Contract.assert([2154], InstanceOfArray);
 //Contract.assert({}, InstanceOfArray);
