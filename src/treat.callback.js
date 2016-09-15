@@ -136,7 +136,6 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
     var properties = {context:true, subject:true};
 
     function update() {
-      print("update ...");
       callback({
         context: (properties.context && properties.subject),
         subject: true

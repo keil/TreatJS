@@ -99,7 +99,7 @@ let flat1 = Contract.Base(function(x) {
   return true;
 }, "Call x");
 
-Contract.assert(o, flat1);
+//Contract.assert(o, flat1);
 
 //o.x = true;
 //o.f=function(x) {return "1"};

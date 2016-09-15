@@ -139,6 +139,9 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
           throw error;
         } else {
           // TODO: If in verbose mode print result. 
+
+          print(error, error.stack);
+
           result = false; 
         }
       } finally {

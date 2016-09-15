@@ -159,7 +159,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
   function wrap(target) {
 
     // TODO
-    return target;
+    //return target;
 
     /**
      * If target is a primitive value, return target.
