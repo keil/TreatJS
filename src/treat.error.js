@@ -21,7 +21,7 @@ TreatJS.package("TreatJS.Error", function (TreatJS, Contract, configuration) {
   //  |_||_| \___\__,_|\__|\__/|___/ |___|_| |_| \___/_|  
 
   function TreatJSError() {
-    if(!(this instanceof Blame)) return new TreatJSError();
+    if(!(this instanceof TreatJSError)) return new TreatJSError();
     else Error.apply(this);
 
     this.name = "Blame";
