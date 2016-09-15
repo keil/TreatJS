@@ -15,11 +15,6 @@
 
 TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) {
 
-  /**
-   * This package contains the constructor functions for callback nodes.
-   * Each callback node implements a constraint and connects the outcome of one ore more contracts to another callback function.
-   **/
-
   // ___             _   _          ___      _ _ _             _   
   //| __|  _ _ _  __| |_(_)___ _ _ / __|__ _| | | |__  __ _ __| |__
   //| _| || | ' \/ _|  _| / _ \ ' \ (__/ _` | | | '_ \/ _` / _| / /
@@ -27,8 +22,8 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
 
   function newFunctionCallback(callback) {
 
-    var domain = {context:true, subject:true};
-    var range = {context:true, subject:true};
+    let domain = {context:true, subject:true};
+    let range = {context:true, subject:true};
 
     function update() {
       callback({
@@ -62,8 +57,8 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
 
   function newIntersectionCallback(callback) {
 
-    var left = {context:true, subject:true};
-    var right = {context:true, subject:true};
+    let left = {context:true, subject:true};
+    let right = {context:true, subject:true};
 
     function update() {
       callback({
@@ -97,8 +92,8 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
 
   function newUnionCallback(callback) {
 
-    var left = {context:true, subject:true};
-    var right = {context:true, subject:true};
+    let left = {context:true, subject:true};
+    let right = {context:true, subject:true};
 
     function update() {
       callback({
@@ -133,7 +128,7 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
 
   function newAssignmentCallback(callback) {
 
-    var properties = {context:true, subject:true};
+    let properties = {context:true, subject:true};
 
     function update() {
       callback({
@@ -160,7 +155,7 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
 
   function newForkCallback(callbackContext, callbackSubject) {
 
-    var contract = {context:true, subject:true};
+    let contract = {context:true, subject:true};
 
     function update() {
 

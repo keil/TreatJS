@@ -31,12 +31,12 @@ var TransparentProxy = TransparentProxy || Proxy;
 
 load("src/treat.js");
 
-load("src/treat.prototypes.js");
+load("src/treat.prototype.js");
 load("src/treat.contract.js");
 
 load("src/treat.callback.js");
 
-load("src/treat.blame.js");
+load("src/treat.error.js");
 load("src/treat.core.js");
 
 load("src/treat.sandbox.js");

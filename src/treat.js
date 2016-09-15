@@ -111,7 +111,7 @@ var TreatJS = TreatJS || (function() {
     // TODO, freeze before return
 
 
-  var packages = new Set();
+  const packages = new Set();
 
   Object.defineProperty(TreatJS, "package", {
     value: function(name, closure) {
@@ -146,16 +146,15 @@ var TreatJS = TreatJS || (function() {
   }
 
   function build({name, constructor}, configuration) {
-    var target = resolve({TreatJS:TreatJS}, name.split(".").reverse());
-    var package = constructor(TreatJS, Contract, configuration);
-
+    const target = resolve({TreatJS:TreatJS}, name.split(".").reverse());
+    const package = constructor(TreatJS, Contract, configuration);
     extend(target, package);
   }
 
 
   /** Flag to indicate if the initialization is complete. 
   */
-  var initialized = false;
+  let initialized = false;
 
   function initialize(configuration) {
 
@@ -210,83 +209,3 @@ var TreatJS = TreatJS || (function() {
   return TreatJS; 
 
 })();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-
-//                                
-//  ___ _     _          _    ___  _     _        _   
-// / __| |___| |__  __ _| |  / _ \| |__ (_)___ __| |_ 
-//| (_ | / _ \ '_ \/ _` | | | (_) | '_ \| / -_) _|  _|
-// \___|_\___/_.__/\__,_|_|  \___/|_.__// \___\__|\__|
-//                                    |__/            
-function TreatJS(configuration, verbose, out, dunit) {
-if(!(this instanceof TreatJS)) return new TreatJS(configuration, verbose, out);
-
-var version = "TreatJS 1.4.0 (PoC)";
-
-Object.defineProperties(this, {
-"version": { value: version }
-});
-
-Object.defineProperties(this, {
-"configuration": { value: (configuration===undefined) ? {} : configuration }
-});
-
-Object.defineProperties(this, {
-"verbose": { value: (verbose===undefined) ? {} : verbose }
-});
-
-Object.defineProperties(this, {
-"output": { value: (out || new TreatJSOut()) }
-});
-
-Object.defineProperties(this, {
-"debugger": { value: (dunit || new TreatJSDebugger()) }
-});
-
-// stores current Function.prototype.toString
-this.extend("Base", {});
-this.define(this.Base, "toString",  Function.prototype.toString);
-}
-
-
-TreatJS.prototype = {};
-TreatJS.prototype.toString = (function() { return '[[TreatJS]]'; });
-
-// TreatJS Evaluation Semantics
-TreatJS.prototype.LAX   = TreatJS.LAX;
-TreatJS.prototype.PICKY = TreatJS.PICKY;
-TreatJS.prototype.INDY  = TreatJS.INDY;
-
-// TreatJS Package Extend
-TreatJS.prototype.extend = function(name, value) {
-Object.defineProperty(this, name, {
-value: value, enumerable: true
-});
-}
-
-// TreatJS Package Define
-TreatJS.prototype.define = function(target, name, value) {
-Object.defineProperty(target, name, {
-value: value, enumerable: true
-});
-}
-
-*/

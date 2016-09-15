@@ -125,18 +125,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
   // flag sthat omiyt decomilation and logging?
 
   
-  //  ___                 
-  // | __|_ _ _ _ ___ _ _ 
-  // | _|| '_| '_/ _ \ '_|
-  // |___|_| |_| \___/_|  
 
-  function SandboxError (trapname="Undefiend operaton") {
-    this.name = 'Sandbox Error';
-    this.message = 'Sandbox function cannot cause observable effects or call functions.' + (trapname? '\nTrap: '+trapname+'.\n' : '');;
-    this.stack = (new Error()).stack;
-  }
-  SandboxError.prototype = Object.create(Error.prototype);
-  SandboxError.prototype.constructor = SandboxError;
 
   //__ __ ___ _ __ _ _ __ 
   //\ V  V / '_/ _` | '_ \
