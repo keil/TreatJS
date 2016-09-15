@@ -13,6 +13,20 @@ Config: globalPathTrought
 - strict mode for objects
 
 
+
+
+Indy/Pick/Lax
+=============
+
+- It is required to bind the context in the assertion, rather than only using the stack. 
+
+ The stack would als guarantee INDY semantics, but it is not able to handle assignments correclty Thus we must bind the current context.
+
+
+
+
+
+
 Increase Performance by reducing callback graphs
 ================================================
 

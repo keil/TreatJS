@@ -21,6 +21,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
   //|_| |_| \___/_\_\\_, |
   //                 |__/ 
 
+  // TODO:  Use TransparentProxy realm or polyfill librarie
   const Proxy = TransparentProxy;
 
   //  ___         _           _   
@@ -39,14 +40,14 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
   // \_/\_/|_| \__,_| .__/
   //                |_|   
 
-  // TODO, use realm-aware weak map
+  // TODO: Use realm-aware WeakMap.
   const Assertions = new WeakMap();
   
   function wrap(subject, contract, callback, handler) {
     const proxy = new Proxy(subject, handler);
 
     Assertions.set(proxy, {
-      subject: subject,
+      subject:  subject,
       contract: contract, 
       callback: callback
     });
@@ -54,59 +55,36 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     return proxy;
   }
 
-
-
-
-
-
   function unwrap(proxy) {
-    if(Assertions.has(proxy))
+    if(Assertions.has(proxy)) {
       return unwrap(Assertions.get(proxy).subject);
-    else
+    } else {
       return proxy;  
+    }
   }
-
-
 
   function mirror(proxy) {
     if(Assertions.has(proxy)) {
-
-      print("mirror subject ... ");
       
-      const assertion = Assertions.get(proxy);
+      const topassertion = Assertions.get(proxy);
 
-      const subject = mirror(assertion.subject);
+      const subject = mirror(topassertion.subject);
       const context = Contexts[Contexts.length-1];
 
       const cbFork = TreatJS.Callback.newFork(function(handle) {
         if(handle.subject==false) {
-          throw new TreatJS.Blame.PositiveBlame(subject, assertion.contract);
+          throw new TreatJS.Blame.PositiveBlame(subject, topassertion.contract);
         } else if (handle.context==false) {
-          throw new TreatJS.Blame.NegativeBlame(context, assertion.contract);
+          throw new TreatJS.Blame.NegativeBlame(context, topassertion.contract);
         }
-      }, assertion.callback);
+      }, topassertion.callback);
 
-      return assertWith(subject, assertion.contract, cbFork.contract)
-      
+      return assert(subject, topassertion.contract, cbFork.contract)
 
     } else {
-
-      print("do not mirror subject ... ");
-
       return proxy;
-      // TODO
-      //return proxy;  
     }
   }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -118,25 +96,24 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
   /// _` (_-<_-</ -_) '_|  _|
   //\__,_/__/__/\___|_|  \__|
 
-  function assert(subject, contract) {
+  function topassert(subject, contract) {
 
     if(!(contract instanceof TreatJS.Prototype.Contract))
       throw new TypeError("Invalid contract");
 
     const context = Contexts[Contexts.length-1];
 
-
-    return assertWith(subject, contract, function(handle) {
-      if(handle.subject==false) {
-        throw new TreatJS.Blame.PositiveBlame(subject, contract);
-      } else if (handle.context==false) {
+    // TODO: use root callback, with check blame state
+    return assert(subject, contract, function(handle) {
+      if (handle.context==false) {
         throw new TreatJS.Blame.NegativeBlame(context, contract);
-        //throw new TreatJS.Blame.NegativeBlame(Contexts[Contexts.length-1], contract);
+      } else if(handle.subject==false) {
+        throw new TreatJS.Blame.PositiveBlame(subject, contract);
       }
     });
   }
 
-  function assertWith(subject, contract, callback) {
+  function assert(subject, contract, callback) {
 
     // ___                ___         _               _   
     //| _ ) __ _ ___ ___ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -145,31 +122,31 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
     if(contract instanceof TreatJS.Contract.Base) {
 
-      // push new context
+      // Push contract to context stack.
       Contexts.push({
         id:       contract.toString(),
         contract: contract
       });
 
-      var result = true;
+      // Default result.
+      let result = true;
 
+      // Evaluate predicate.
       try {
-        result = contract.predicate.apply(undefined, [mirror(subject)]);
+        result = contract.predicate.apply(undefined, [mirror(subject)]); // TODO
       } catch (error) {
-        //print(error); // TODO
         if(error instanceof TreatJS.Blame.Blame) {
-          throw error; /// TODO, test
+          throw error;
         } else {
-           print(error, error.stack);
-
+          // TODO: If in verbose mode print result. 
           result = false; 
         }
       } finally {
-print("adfasdfadf", result);
-        // pop context
+        
+        // Pop contract from context stack.
         Contexts.pop(); 
 
-        // update callback graph
+        // Update callback graph.
         callback({
           context: true,
           subject: result ? true : false       
@@ -177,6 +154,7 @@ print("adfasdfadf", result);
 
       }
 
+      // Return subject.
       return subject;
     }
 
@@ -187,15 +165,14 @@ print("adfasdfadf", result);
     //          |__/                                             
 
     else if (contract instanceof TreatJS.Contract.Object) {
-      //return (subject instanceof Object) ? new Proxy(subject, {
       return (subject instanceof Object) ?  wrap(subject, contract, callback, {
         get: function (target, name, receiver) {          
           const value = Reflect.get(target, name, receiver);       
-          return contract.map.has(name) ? assertWith(value, contract.map.get(name), callback) : value;
+          return contract.map.has(name) ? assert(value, contract.map.get(name), callback) : value;
         },
         set: function (target, name, value, receiver) {
           const node = TreatJS.Callback.newAssignment(callback);
-          const contracted = contract.map.has(name) ? assertWith(value, contract.map.get(name), node.properties) : value;
+          const contracted = contract.map.has(name) ? assert(value, contract.map.get(name), node.properties) : value;
           return Reflect.set(target, name, contracted, receiver);
         }
       }) : subject;
@@ -207,13 +184,12 @@ print("adfasdfadf", result);
     //|_| \_,_|_||_|_\_\\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
     else if(contract instanceof TreatJS.Contract.Function) {
-      //return (subject instanceof Function) ? new Proxy(subject, {
       return (subject instanceof Function) ? wrap(subject, contract, callback, {
         apply: function (target, thisArg, argumentsArg) {
           const node = TreatJS.Callback.newFunction(callback);
-          const contracted = assertWith(argumentsArg, contract.domain, node.domain);
+          const contracted = assert(argumentsArg, contract.domain, node.domain);
           const result = Reflect.apply(target, thisArg, contracted);
-          return assertWith(result, contract.range, node.range);    
+          return assert(result, contract.range, node.range);    
         }
       }) : subject;
     }
@@ -225,11 +201,11 @@ print("adfasdfadf", result);
     //         |_|                                                               
 
     else if(contract instanceof TreatJS.Contract.Dependent) {
-      return (subject instanceof Function) ? new Proxy(subject, {
+      return (subject instanceof Function) ? wrap(subject, contract, callback, {
         apply: function (target, thisArg, argumentsArg) {
           const rangeContract = constructWith(contract.constructor, argumentsArg);
           const result = Reflect.apply(target, thisArg, argumentsArg);
-          return assertWith(result, rangeContract, callback);
+          return assert(result, rangeContract, callback);
         }
       }) : subject;
     }
@@ -241,7 +217,7 @@ print("adfasdfadf", result);
 
     else if (contract instanceof TreatJS.Contract.Union) {
       const node = TreatJS.Callback.newUnion(callback);
-      return assertWith(assertWith(subject, contract.left, node.left), contract.right, node.right);
+      return assert(assert(subject, contract.left, node.left), contract.right, node.right);
     }
 
     // ___     _                      _   _          ___         _               _   
@@ -251,7 +227,7 @@ print("adfasdfadf", result);
 
     else if (contract instanceof TreatJS.Contract.IIntersection) {
       const node = new TreatJS.Callback.newIntersection(callback);
-      return assert(assert(subject, contract.left, node.left), contract.right, node.right);
+      return topassert(topassert(subject, contract.left, node.left), contract.right, node.right);
     }
 
     else if (contract instanceof TreatJS.Contract.DIntersection) {
@@ -259,7 +235,7 @@ print("adfasdfadf", result);
         get: function (handler, trapname) {
           return function(target, ...trapArgs) {
             const node = TreatJS.Callback.newIntersection(callback);
-            const contracted = assertWith(assertWith(target, contract.left, node.left), contract.right, node.right);
+            const contracted = assert(assert(target, contract.left, node.left), contract.right, node.right);
             return Reflect[trapname](contracted, ...trapArgs);
           }
         }
@@ -296,28 +272,31 @@ print("adfasdfadf", result);
 
     if(constructor instanceof TreatJS.Contract.Constructor) {
 
-      // push new context
-      // TODO
-      //pushContext(constructor);
+      // Push contract to context stack.
+      Contexts.push({
+        id:       constructor.toString(),
+        contract: constructor
+      });
 
+      // The new contract.
+      let contract = null;
+
+      // Call constructor to create new contract.
       try {
-        var contract = constructor.constructor.apply(undefined, constructorArray);
+        contract = constructor.constructor.apply(undefined, constructorArray);
       } catch (error) {
-
-        print("adfadf", error);
-
-        var contract = error;
+        if(error instanceof TreatJS.Blame.Blame) {
+          throw error;
+        } else {
+          contract = false; 
+        }
       } finally {
-        // pop context // TODO
-        //popContext(); 
-        return contract;
+        // Pop contract from context stack.
+        Contexts.pop(); 
       }
 
-      if(!(contract instanceof TreatJS.Prototype.Contract))
-        throw new TypeError("Invalid Contract.");
-
+      // Return contract.
       return contract;
-
     }
 
     //     _   _                   _         
@@ -328,24 +307,13 @@ print("adfasdfadf", result);
     else throw new TypeError("Invalid constructor....");
   }
 
-
-
-
-
-
-
-
-
-
-
-
   // _____ ___ __  ___ _ _| |_ 
   /// -_) \ / '_ \/ _ \ '_|  _|
   //\___/_\_\ .__/\___/_|  \__|
   //        |_|                
 
   TreatJS.export({
-    assert: assert,
+    assert:   topassert,
     construct: construct
   });
 
@@ -355,8 +323,9 @@ print("adfasdfadf", result);
   //|_| \___|\__|\_,_|_| |_||_|
 
   return {
-    assert: assert,
+    topassert: topassert,
     construct: construct
+// assert
   };
 
 });

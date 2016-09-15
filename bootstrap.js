@@ -50,6 +50,14 @@ var Contract  = TreatJS.initialize({
   /* TreatJS evaluation semantics
    * (default: TreatJS.INDY)
    */semantics: TreatJS.INDY,
+  /* TreatJS noninterference mode
+   * (default: )
+   */ 
+
+//  STRICT, NONE, PURE
+// membrabne
+
+// nativePassThrought
 
 });
 
