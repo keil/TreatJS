@@ -28,27 +28,16 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
 //| .` / _` |  _| \ V / -_)
 //|_|\_\__,_|\__|_|\_/\___|
                          
-
+  // TODO, only funtions
   const Native = new WeakSet();
 
   (function addGlobal(object) {
-    //print(typeof object);
-    //if((object instanceof Object) && !Native.has(object)) {
-    //if((typeof object === "object") && !Native.has(object)) {
-      //Native.add(object); // TODO
-      for(var name of Object.getOwnPropertyNames(object)) {
-        if(name==="Debugger" || name==="PerfMeasurement") continue;
-
-        // TODO, maybe check getter ! property descriptor
-
-        if((object[name] instanceof Object) && !Native.has(object[name])) {
-          print("add ...", name);
-          Native.add(object[name]);
-          addGlobal(object[name]);
-        }
-        
-      }
-    //}
+    for(var name of Object.getOwnPropertyNames(object)) {
+      //print("add ...", name);
+      var desc = Object.getOwnPropertyDescriptor(object, name);
+      if(desc.value && (typeof desc.value === "function")) Native.add(desc.value);
+      if(desc.value && (typeof desc.value === "object"))  addGlobal(desc.value);
+    }
   })(this);
 
 
