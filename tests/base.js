@@ -97,7 +97,7 @@ TestCase.prototype.noBlame = function() {
  * Predefined result.
  **/
 TestCase.prototype.subjectBlame = function() {
-  this.toThrow(TreatJS.Blame.PositiveBlame);
+  this.toThrow(TreatJS.Error.PositiveBlame);
 } 
 
 /**
@@ -105,7 +105,7 @@ TestCase.prototype.subjectBlame = function() {
  * Predefined result.
  **/
 TestCase.prototype.contextBlame = function() {
-  this.toThrow(TreatJS.Blame.NegativeBlame);
+  this.toThrow(TreatJS.Error.NegativeBlame);
 } 
 
 // _____       _   

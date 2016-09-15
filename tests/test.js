@@ -17,12 +17,12 @@
  * Contract Tests
  **/
 
-load("test/contracts/test.base.js");
-load("test/contracts/test.constructor.js");
+load("tests/contracts/test.base.js");
+load("tests/contracts/test.constructor.js");
 
-load("test/contracts/test.object.js");
-load("test/contracts/test.function.js");
-load("test/contracts/test.dependent.js");
+load("tests/contracts/test.object.js");
+load("tests/contracts/test.function.js");
+load("tests/contracts/test.dependent.js");
 
-load("test/contracts/test.union.js");
-load("test/contracts/test.intersection.js");
+load("tests/contracts/test.union.js");
+load("tests/contracts/test.intersection.js");

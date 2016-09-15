@@ -23,8 +23,8 @@ Contracts.build(this);
  * Load libraries.
  **/
 
-load("test/base.js");
-load("test/test.js");
+load("tests/base.js");
+load("tests/test.js");
 
 /** 
  * Run all created tests
