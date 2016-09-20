@@ -81,7 +81,7 @@ function _wrapNoOp_ (f) {
 function _wrap_ (f) {
   var fid = _file_+_freshID_();
   _types_[fid] = new Array();
-  return new Proxy(f, new _TypeHandler_(fid));
+  return new TransparentProxy(f, new _TypeHandler_(fid));
 }
 
 load("benchmarks/octane/run.js");
