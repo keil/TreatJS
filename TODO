@@ -23,10 +23,19 @@ Open Points
 
 * Constructors
 
-- Use proxies to build nice constructors that can be applied directly.
+* Use proxies to build nice constructors that can be applied directly.
   e.g.: Between(1,2); InstanceOf(Array);
 
-- Convenience API
+* Contracts
+
+- Reflection 
+- ForAll
+- Recursive
+- Temporal
+- Invariante
+
+
+* Convenience API
 
 
 

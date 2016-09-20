@@ -367,6 +367,7 @@ BenchmarkSuite.prototype.RunStep = function(runner) {
                                 suite.benchmarks[index].Setup();
                         } catch (e) {
                                 suite.NotifyError(e);
+                                print(e, e.message);
                                 return null;
                         }
                         return RunNextBenchmark;
@@ -380,6 +381,7 @@ BenchmarkSuite.prototype.RunStep = function(runner) {
                         data = suite.RunSingleBenchmark(suite.benchmarks[index], data);
                 } catch (e) {
                         suite.NotifyError(e);
+                        print(e, e.message);
                         return null;
                 }
                 // If data is null, we're done with this benchmark.
@@ -391,6 +393,7 @@ BenchmarkSuite.prototype.RunStep = function(runner) {
                         suite.benchmarks[index++].TearDown();
                 } catch (e) {
                         suite.NotifyError(e);
+                        print(e, e.message);
                         return null;
                 }
                 return RunNextSetup;

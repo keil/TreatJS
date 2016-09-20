@@ -15,7 +15,6 @@
 
 TreatJS.package("Experimental", function (TreatJS, Contract, configuration) {
 
-
   //   _           _  ___         _               _   
   //  /_\  _ _  __| |/ __|___ _ _| |_ _ _ __ _ __| |_ 
   // / _ \| ' \/ _` | (__/ _ \ ' \  _| '_/ _` / _|  _|

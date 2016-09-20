@@ -22,7 +22,17 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
   //                 |__/ 
 
   // TODO:  Use TransparentProxy realm or polyfill librarie
-  const Proxy = TransparentProxy;
+  //const Proxy = TransparentProxy;
+
+  const realm = TransparentProxy.createRealm();
+
+  const Proxy = realm.Proxy;
+
+  const WeakMap = realm.WeakMap;
+  const WeakSet = realm.WeakSet;
+
+  const Map = realm.Map;
+  const Set = realm.Set;
 
   //  ___         _           _   
   // / __|___ _ _| |_ _____ _| |_ 
@@ -66,20 +76,20 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
   function mirror(proxy) {
     if(Assertions.has(proxy)) {
       
-      const topassertion = Assertions.get(proxy);
+      const assertion = Assertions.get(proxy);
 
-      const subject = mirror(topassertion.subject);
+      const subject = mirror(assertion.subject);
       const context = Contexts[Contexts.length-1];
 
       const cbFork = TreatJS.Callback.newFork(function(handle) {
         if(handle.subject==false) {
-          throw new TreatJS.Error.PositiveBlame(subject, topassertion.contract);
+          throw new TreatJS.Error.PositiveBlame(subject, assertion.contract);
         } else if (handle.context==false) {
-          throw new TreatJS.Error.NegativeBlame(context, topassertion.contract);
+          throw new TreatJS.Error.NegativeBlame(context, assertion.contract);
         }
-      }, topassertion.callback);
+      }, assertion.callback);
 
-      return assert(subject, topassertion.contract, cbFork.contract)
+      return assert(subject, assertion.contract, cbFork.contract)
 
     } else {
       return proxy;
@@ -131,7 +141,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       // Evaluate predicate on subject.
       let result = true;
       try {
-        result = contract.predicate.apply(undefined, [mirror(subject)]); // TODO
+        result = contract.predicate.apply(undefined, [mirror(subject)]); // TODO bottleneck
       } catch (error) {
         if(error instanceof TreatJS.Error.TreatJSError) {
           throw error;
@@ -142,8 +152,13 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
         Contexts.pop(); 
       }
 
+      /**
+       * Update Callback Graph.
+       * No `true` update.
+       **/
+
       // Update callback graph.
-      callback({
+      if(!result) callback({
         context: true,
         subject: result ? true : false       
       });
@@ -272,6 +287,8 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
         contract: constructor
       });
 
+      // TODO, semantics
+
       // Call constructor to create new contract.
       let contract = null;
       try {
@@ -300,6 +317,23 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
     else throw new TypeError("Invalid constructor.");
   }
+
+
+
+
+/*
+if(verbose) {
+
+  topassert = new Proxy(assert, {apply:function(target, name, [subject, contract])})
+
+
+
+}
+
+
+*/
+
+
 
   // _____ ___ __  ___ _ _| |_ 
   /// -_) \ / '_ \/ _ \ '_|  _|

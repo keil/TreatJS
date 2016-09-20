@@ -63,6 +63,11 @@ var Contract  = TreatJS.initialize({
 
 
 
+//% assertion, instead of calling a predicate, 
+//- every predicate is reute
+
+
+
 var x = {
   /** TreatJS evaluation semantics
    * (default: TreatJS.LAX)
