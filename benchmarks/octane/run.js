@@ -32,13 +32,13 @@ load(base_dir + 'base.js');
 // Only for testing
 //_load_(wrapped_dir,'test.js');
 
-_load_(wrapped_dir,'richards.js');
-_load_(wrapped_dir,'deltablue.js'); 
-_load_(wrapped_dir,'crypto.js');
-_load_(wrapped_dir,'raytrace.js');
-_load_(wrapped_dir,'earley-boyer.js');
-_load_(wrapped_dir,'regexp.js');
-_load_(wrapped_dir,'splay.js');
+//_load_(wrapped_dir,'richards.js');
+//_load_(wrapped_dir,'deltablue.js'); 
+//_load_(wrapped_dir,'crypto.js');
+//_load_(wrapped_dir,'raytrace.js');
+// XXX _load_(wrapped_dir,'earley-boyer.js');
+//_load_(wrapped_dir,'regexp.js');
+//_load_(wrapped_dir,'splay.js');
 _load_(wrapped_dir,'navier-stokes.js');
 _load_(wrapped_dir,'pdfjs.js');
 
@@ -52,8 +52,8 @@ _load_(wrapped_dir,'code-load.js');
 
 _load_(wrapped_dir,'box2d.js');
 
-_load_(wrapped_dir,'zlib.js');
-_load_(wrapped_dir,'zlib-data.js');
+//_load_(wrapped_dir,'zlib.js');
+//_load_(wrapped_dir,'zlib-data.js');
 
 // use online type information of typescript.js'
 _load_(wrapped_dir,'typescript.js');
