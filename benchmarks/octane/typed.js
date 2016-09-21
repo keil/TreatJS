@@ -72,6 +72,4 @@ function _makeContract_ (funID) {
   return contract;
 }
 
-load("benchmarks/octane/run.js");
-
 quit();
