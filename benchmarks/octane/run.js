@@ -40,25 +40,25 @@ load(base_dir + 'base.js');
 //_load_(wrapped_dir,'regexp.js');
 //_load_(wrapped_dir,'splay.js');
 _load_(wrapped_dir,'navier-stokes.js');
-_load_(wrapped_dir,'pdfjs.js');
+// TODO _load_(wrapped_dir,'pdfjs.js');
 
 // failed (contract #2 has to be deavtivated)
-_load_(wrapped_dir,'mandreel.js');
+// TODO _load_(wrapped_dir,'mandreel.js');
 
-_load_(wrapped_dir,'gbemu-part1.js');
-_load_(wrapped_dir,'gbemu-part2.js');
+// TODO _load_(wrapped_dir,'gbemu-part1.js');
+// TODO _load_(wrapped_dir,'gbemu-part2.js');
 
-_load_(wrapped_dir,'code-load.js');
+// TODO _load_(wrapped_dir,'code-load.js');
 
-_load_(wrapped_dir,'box2d.js');
+// TODO _load_(wrapped_dir,'box2d.js');
 
 //_load_(wrapped_dir,'zlib.js');
 //_load_(wrapped_dir,'zlib-data.js');
 
 // use online type information of typescript.js'
-_load_(wrapped_dir,'typescript.js');
-_load_(wrapped_dir,'typescript-input.js');
-_load_(wrapped_dir,'typescript-compiler.js');
+// TODO _load_(wrapped_dir,'typescript.js');
+// TODO _load_(wrapped_dir,'typescript-input.js');
+// TODO _load_(wrapped_dir,'typescript-compiler.js');
 
 
 var success = true;
