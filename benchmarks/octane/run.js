@@ -79,7 +79,7 @@ BenchmarkSuite.config.doDeterministic = true;
 BenchmarkSuite.RunSuites({ NotifyResult: PrintResult,
                            NotifyError: PrintError,
                            NotifyScore: PrintScore });
-_print_("sdfgsfg");
+
 // print, version number, configuration, statistics
 
 //TreatJS.Version.print();

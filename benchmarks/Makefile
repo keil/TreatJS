@@ -2,7 +2,8 @@
 
 # Default target for testing.
 default:
-	cd ../ && ./js.transparent -f shell/shell.js -f bootstrap.js -f ${octane}/typedoctane.js -f ${octane}/types/types.splay.js -f ${octane}/typed.js -f ${octane}/run.splay.js -f ${octane}/run.js
+	$(MAKE) --no-print-directory regexp > octane/results/regexp.${timestamp}.txt
+#	cd ../ && ./js.transparent -f shell/shell.js -f bootstrap.js -f ${octane}/typedoctane.js -f ${octane}/types/types.splay.js -f ${octane}/typed.js -f ${octane}/run.splay.js -f ${octane}/run.js
 	#cd ../ && ./js.transparent -f bootstrap.js -f ${octane}/typedoctane.js -f ${octane}/inference.js -f ${octane}/run.splay.js -f ${octane}/run.js -f ${octane}/print.js > ${octane}/types/types.splay.js
 
 # Timestamps.
@@ -63,21 +64,21 @@ octane: richards deltablue crypto raytrace earleyboyer regexp splay navierstokes
 
 # Run all octaine benchmarks and writes.
 run: 
-	$(MAKE) --no-print-directory richards > benchmarks/octane/results/richards.${timestamp}.txt
-	$(MAKE) --no-print-directory deltablue > benchmarks/octane/results/deltablue.${timestamp}.txt
-	$(MAKE) --no-print-directory crypto > benchmarks/octane/results/crypto.${timestamp}.txt
-	$(MAKE) --no-print-directory raytrace > benchmarks/octane/results/raytrace.${timestamp}.txt
-	$(MAKE) --no-print-directory earleyboyer > benchmarks/octane/results/earleyboyer.${timestamp}.txt
-	$(MAKE) --no-print-directory regexp > benchmarks/octane/results/regexp.${timestamp}.txt
-	$(MAKE) --no-print-directory splay > benchmarks/octane/results/splay.${timestamp}.txt
-	$(MAKE) --no-print-directory navierstokes > benchmarks/octane/results/navierstokes.${timestamp}.txt
-	$(MAKE) --no-print-directory pdfjs > benchmarks/octane/results/pdfjs.${timestamp}.txt
-	$(MAKE) --no-print-directory mandreel > benchmarks/octane/results/mandreel.${timestamp}.txt
-	$(MAKE) --no-print-directory gbemu > benchmarks/octane/results/gbemu.${timestamp}.txt
-	$(MAKE) --no-print-directory codeload > benchmarks/octane/results/codeload.${timestamp}.txt
-	$(MAKE) --no-print-directory box2d > benchmarks/octane/results/box2d.${timestamp}.txt
-	$(MAKE) --no-print-directory zlib > benchmarks/octane/results/zlib.${timestamp}.txt
-	$(MAKE) --no-print-directory typescript > benchmarks/octane/results/typescript.${timestamp}.txt
+	$(MAKE) --no-print-directory richards > octane/results/richards.${timestamp}.txt
+	$(MAKE) --no-print-directory deltablue > octane/results/deltablue.${timestamp}.txt
+	$(MAKE) --no-print-directory crypto > octane/results/crypto.${timestamp}.txt
+	$(MAKE) --no-print-directory raytrace > octane/results/raytrace.${timestamp}.txt
+	$(MAKE) --no-print-directory earleyboyer > octane/results/earleyboyer.${timestamp}.txt
+	$(MAKE) --no-print-directory regexp > octane/results/regexp.${timestamp}.txt
+	$(MAKE) --no-print-directory splay > octane/results/splay.${timestamp}.txt
+	$(MAKE) --no-print-directory navierstokes > octane/results/navierstokes.${timestamp}.txt
+	$(MAKE) --no-print-directory pdfjs > octane/results/pdfjs.${timestamp}.txt
+	$(MAKE) --no-print-directory mandreel > octane/results/mandreel.${timestamp}.txt
+	$(MAKE) --no-print-directory gbemu > octane/results/gbemu.${timestamp}.txt
+	$(MAKE) --no-print-directory codeload > octane/results/codeload.${timestamp}.txt
+	$(MAKE) --no-print-directory box2d > octane/results/box2d.${timestamp}.txt
+	$(MAKE) --no-print-directory zlib > octane/results/zlib.${timestamp}.txt
+	$(MAKE) --no-print-directory typescript > octane/results/typescript.${timestamp}.txt
 
 # Run type inference on all files.
 inference:
