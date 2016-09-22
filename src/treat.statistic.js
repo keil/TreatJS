@@ -33,7 +33,7 @@ TreatJS.package("TreatJS.Statistic", function (TreatJS, Contract, configuration)
   }
 
   function increment(key) {
-    Statistic.set(key, Statistics.get(key)++);
+    Statistic.set(key, (Statistic.get(key)+1));
   }
 
   function dump() {

@@ -15,121 +15,66 @@
 
 TreatJS.package("TreatJS.Log", function (TreatJS, Contract, configuration) {
 
-  const TOPASSERT = "TOPASSERT";
-  const ASSERT = "ASSERT";
+  const print = configuration.print || (function() {});
 
-  const TOPCONSTRUCT = "TOPCONSTRUCT";
-  const CONSTRUCT = "CONSTRUCT";
+  const Keys = Object.freeze({
+    ASSERT      : "ASSERT",
+    CONSTRUCT   : "CONSTRUCT",
+    SANDBOX     : "SANDBOC",
+    CALLBACK    : "CALLBACK",
+    INTERNAL    : "INTERNAL"
+  });
 
-  const SANDBOX = "SANDBOX";
-  const INTERNAL = "INTERNAL";
-  const DECOMPILE = "DECOMPILE";
+  const headWidth = 20;
+  const cmdWidth = 20;
 
-  const headWidth = 30;
-  const cmdWidth = 30;
+  const bodyWidth = 100;
 
   const seperator = ".";
   const subseperator = "... ";
 
-  const fstWidth = 100;
-  const sndWidth = 20;
-  
-  function topassert(cmd, msg) {
-    log(TOPASSERT, cmd, msg);
-  }
-
-  function assert(cmd, msg) {
-    log(ASSERT, cmd, msg);
-  }
-
-  function construct(cmd, msg) {
-    log(CONSTRUCT, cmd, msg);
-  }
-
-
-  function topconstruct(cmd, msg) {
-    log(TOPCONSTRUCT, cmd, msg);
-  }
-
-
-  function decompile(cmd, msg) {
-    log(DECOMPILE, cmd, msg);
-  }
-
-  function sandbox(cmd, msg) {
-    log(SANDBOX, cmd, msg);
-  }
-
-  function internal(cmd, msg) {
-    log(INTERNAL, cmd, msg);
-  }
-
-  /* Log 
-   */
   function log(op, cmd="", msg="") {
     if(/\r|\n/.exec(msg) | msg.length>50) {
-      out(head("["+op+"]") + " " + body(op));
-      blank();
-      raw(msg + "\n");
+      print(mkHead("["+op+"]") + " " + mkBody(cmd));
+      print(msg + "\n");
     } else {
-      out(head("["+op+"]") + " " + body(op, msg));
-      blank();
+      print(mkHead("["+op+"]") + mkBody(cmd, msg));
     }
   }
 
-  function head(id) {
-    return padding_right(id + " ", ".", headWidth);
+  function write(body) {
+    print(mkLine(body));
   }
 
-  function body(cmd, msg) {
-    return padding_right(cmd+" ", ".", cmdWidth)+((msg!==undefined) ? " "+msg : "");
+  function alert(head, body) {
+    print(mkHead(head) + mkBody(body));
   }
 
-  /** Standard Output (Head + Message)
-  */
-  function out(string) {
-    putstr(padding_right(string + " ", seperator, fstWidth));
+  function promt(body) {
+    print(mkSubLine(body));
   }
 
-  /** Sub-Standard Output (Message)
-  */
-  function subout(string) {
-    putstr(padding_right("... " + string + " ", seperator, fstWidth));
+
+
+
+
+
+  function mkHead(id) {
+    return padding_right(id+" ", ".", headWidth-1)+" ";
   }
 
-  /** Blank Output (End Of Line)
-  */
-  function blank() {
-    putstr(padding_left(seperator, seperator, sndWidth));
-    putstr("\n");
+  function mkBody(cmd, msg) {
+    return msg? 
+      padding_right(padding_right(cmd+" ", ".", cmdWidth-1)+" "+msg, seperator, bodyWidth):
+      padding_right(cmd+" ", seperator, bodyWidth);
   }
 
-  /** OK Output (End Of Line)
-  */
-  function ok() {
-    putstr(padding_left(" OK", seperator, sndWidth));
-    putstr("\n");
+  function mkLine(msg="") {
+    return padding_right(msg+" ", seperator, headWidth+bodyWidth);
   }
 
-  /** DONE Output (End Of Line)
-  */
-  function done() {
-    putstr(padding_left(" DONE", seperator, sndWidth));
-    putstr("\n");
-  }
-
-  /** FAILED Output (End Of Line)
-  */
-  function fail() {
-    putstr(padding_left(" FAILED", seperator, sndWidth));
-    putstr("\n");
-  }
-
-  /** Notice Output (Sub-Output including Blank)
-  */
-  function notice(string) {
-    putstr(padding_right(subseperator + string + " ", seperator, fstWidth+sndWidth));
-    putstr("\n");
+  function mkSubLine(msg="") {
+    return padding_right(subseperator+" "+msg+" ", seperator, headWidth+bodyWidth);
   }
 
   //         _                 
@@ -138,10 +83,11 @@ TreatJS.package("TreatJS.Log", function (TreatJS, Contract, configuration) {
   //|_| \___|\__|\_,_|_| |_||_|
 
   return {
-    assert:     assert,
-    decompile,  decompile,
-    sandbox,    sandbox,
-    internal,   internal
+    Keys:   Keys,
+    log:    log,
+    write:  write,
+    alert:  alert,
+    promt:  promt
   };
 
 });

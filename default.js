@@ -13,6 +13,12 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+TreatJS.Print.printVersion();
+TreatJS.Print.printConfiguration();
+
+quit();
+
+
 //  ___         _               _      
 // / __|___ _ _| |_ __ _ _ _ __| |_ ___
 //| (__/ _ \ ' \  _/ _` | '_/ _|  _(_-<
@@ -52,15 +58,60 @@ print(Contract.version);
 
 })();
 
+print("************************************");
+
+
+/*
+
+
+const flag = true;
+
+function define(f,g) {
+
+  return flag ? new Proxy(f, {
+    apply:function(target, thisArg, argumentsArg) {
+      g.apply(thisArg, argumentsArg);
+      return Reflect.apply(target, thisArg, argumentsArg);
+    }
+  }) : f;
+}
+
+let fibonacci = define(function (n) {
+  return n==0 ? 0 : n==1 ? 1 : fibonacci(n-1)+fibonacci(n-2);
+}, function (n) {
+  print("fibonacci of", n);
+});
+
+
+
+
+
+print(fibonacci(10));
+//print(fibonacci);
+
+quit();
+
+
+*/
+
+
+
+print("************************************");
+
+
+
+
+
 
 function plus(x,y) {
   return (x+y);
 }
 
-var Plus = Contract.assert(plus, Contract.Function(Contract.Object([typeNumber, typeNumber]), typeNumber));
+var plusNumber = Contract.assert(plus, Contract.Function(Contract.Object([typeNumber, typeNumber]), typeNumber));
 
-print(Plus===plus);
-Plus("1",2);
+print(plusNumber===plus);
+
+plusNumber("1",2);
 
 
 print("************************************");

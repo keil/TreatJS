@@ -99,6 +99,16 @@ var TreatJS = TreatJS || (function() {
 
 
 
+    // TODO STATISTIC
+    Object.defineProperty(TreatJS, "getStatistic", {
+      value: function() {
+        return TreatJS.Statistic.dump();
+      }
+    });
+
+
+
+
   //               _                 
   // _ __  __ _ __| |____ _ __ _ ___ 
   //| '_ \/ _` / _| / / _` / _` / -_)

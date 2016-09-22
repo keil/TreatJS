@@ -34,6 +34,7 @@ load("src/treat.js");
 load("src/treat.log.js");
 load("src/treat.statistic.js");
 
+load("src/treat.print.js");
 
 // dump statistic
 // print config / statisitc
@@ -61,14 +62,24 @@ var Contract  = TreatJS.initialize({
   /* TreatJS noninterference mode
    * (default: )
    */ 
-    
+  /** Enable contract assertion
+   * (default: true)
+   */assertion: true,
+
+
+
   /* Verbose mode
    * (default: false)
-   */verbose: false,
+   */verbose: true,
 
   /* Statistics
    * (default: false)
-   */statistic: false
+   */statistic: true, 
+
+
+
+  print: console.log
+
 
 //  STRICT, NONE, PURE
 // membrabne
