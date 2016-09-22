@@ -31,6 +31,14 @@ var TransparentProxy = TransparentProxy || Proxy;
 
 load("src/treat.js");
 
+load("src/treat.log.js");
+load("src/treat.statistic.js");
+
+
+// dump statistic
+// print config / statisitc
+
+
 load("src/treat.prototype.js");
 load("src/treat.contract.js");
 
@@ -53,6 +61,14 @@ var Contract  = TreatJS.initialize({
   /* TreatJS noninterference mode
    * (default: )
    */ 
+    
+  /* Verbose mode
+   * (default: false)
+   */verbose: false,
+
+  /* Statistics
+   * (default: false)
+   */statistic: false
 
 //  STRICT, NONE, PURE
 // membrabne
@@ -61,6 +77,8 @@ var Contract  = TreatJS.initialize({
 
 });
 
+
+// function for ptiny putpur
 
 
 //% assertion, instead of calling a predicate, 

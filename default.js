@@ -31,7 +31,7 @@ print(Contract.version);
 (function() {
 
   function dump(path, package) {
-    for (var name in package) {
+    if(typeof package === "object") for (var name in package) {
       print(`${path} . ${name}`);
       dump(`${path} . ${name}`, package[name]);
     }    

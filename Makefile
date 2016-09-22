@@ -4,9 +4,15 @@ default:
 
 .PHONY: test
 test:
-	./js -f shell/shell.js -f bootstrap.js -f contracts/contracts.js -f tests/run.js
+	./js.transparent -f shell/shell.js -f bootstrap.js -f contracts/contracts.js -f tests/run.js
 
+.PHONY: zzz xxx 
+zzz:
+	echo "L"
+	$(MAKE) --no-print-directory xxx
 
+xxx:
+	echo "adsfasdf" > text.txt
 
 
 

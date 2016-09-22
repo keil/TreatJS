@@ -152,6 +152,10 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
         Contexts.pop(); 
       }
 
+      if(!result) {
+        print("False! @ ", subject, typeof subject, contract);
+      }
+
       /**
        * Update Callback Graph.
        * No `true` update.
@@ -321,17 +325,33 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
 
 
-/*
-if(verbose) {
 
-  topassert = new Proxy(assert, {apply:function(target, name, [subject, contract])})
+  if(configuration.verbose) {
+
+    topassert = new Proxy(topassert, {apply:function(target, name, [subject, contract]) {
+      TreatJS.Log.assert("assert", contract);
+    }});
+
+    assert = new Proxy(assert, {apply:function(target, name, [subject, contract]) {
+      TreatJS.Log.assert(subject, contract);
+    }});
+
+    topconstruct = new Proxy(topconstruct, {apply:function(target, name, [subject, contract]) {
+      TreatJS.Log.assert(subject, contract);
+    }});
+
+    construct = new Proxy(construct, {apply:function(target, name, [subject, contract]) {
+      TreatJS.Log.assert(subject, contract);
+    }});
+
+  }
+
+  if(configuration.statistic) {
+
+  }
 
 
 
-}
-
-
-*/
 
 
 
