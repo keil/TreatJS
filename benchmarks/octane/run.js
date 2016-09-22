@@ -25,9 +25,9 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-var base_dir = 'benchmarks/octane/';
-var wrapped_dir = 'benchmarks/octane/';
-load(base_dir + 'base.js');
+//var base_dir = 'benchmarks/octane/';
+//var wrapped_dir = 'benchmarks/octane/';
+//load(base_dir + 'base.js');
 
 // Only for testing
 //_load_(wrapped_dir,'test.js');
@@ -36,30 +36,21 @@ load(base_dir + 'base.js');
 //_load_(wrapped_dir,'deltablue.js'); 
 //_load_(wrapped_dir,'crypto.js');
 //_load_(wrapped_dir,'raytrace.js');
-// XXX _load_(wrapped_dir,'earley-boyer.js');
+//_load_(wrapped_dir,'earley-boyer.js');
 //_load_(wrapped_dir,'regexp.js');
 //_load_(wrapped_dir,'splay.js');
-_load_(wrapped_dir,'navier-stokes.js');
-// TODO _load_(wrapped_dir,'pdfjs.js');
-
-// failed (contract #2 has to be deavtivated)
-// TODO _load_(wrapped_dir,'mandreel.js');
-
-// TODO _load_(wrapped_dir,'gbemu-part1.js');
-// TODO _load_(wrapped_dir,'gbemu-part2.js');
-
-// TODO _load_(wrapped_dir,'code-load.js');
-
-// TODO _load_(wrapped_dir,'box2d.js');
-
+//_load_(wrapped_dir,'navier-stokes.js');
+//_load_(wrapped_dir,'pdfjs.js');
+//_load_(wrapped_dir,'mandreel.js');
+//_load_(wrapped_dir,'gbemu-part1.js');
+//_load_(wrapped_dir,'gbemu-part2.js');
+//_load_(wrapped_dir,'code-load.js');
+//_load_(wrapped_dir,'box2d.js');
 //_load_(wrapped_dir,'zlib.js');
 //_load_(wrapped_dir,'zlib-data.js');
-
-// use online type information of typescript.js'
-// TODO _load_(wrapped_dir,'typescript.js');
-// TODO _load_(wrapped_dir,'typescript-input.js');
-// TODO _load_(wrapped_dir,'typescript-compiler.js');
-
+//_load_(wrapped_dir,'typescript.js');
+//_load_(wrapped_dir,'typescript-input.js');
+//_load_(wrapped_dir,'typescript-compiler.js');
 
 var success = true;
 
@@ -67,12 +58,10 @@ function PrintResult(name, result) {
   print(name + ': ' + result);
 }
 
-
 function PrintError(name, error) {
   PrintResult(name, error);
   success = false;
 }
-
 
 function PrintScore(score) {
   if (success) {
@@ -81,18 +70,16 @@ function PrintScore(score) {
   }
 }
 
-
 BenchmarkSuite.config.doWarmup = undefined;
 BenchmarkSuite.config.doDeterministic = undefined;
 
 BenchmarkSuite.config.doWarmup = true;
 BenchmarkSuite.config.doDeterministic = true;
 
-
 BenchmarkSuite.RunSuites({ NotifyResult: PrintResult,
                            NotifyError: PrintError,
                            NotifyScore: PrintScore });
-
+_print_("sdfgsfg");
 // print, version number, configuration, statistics
 
 //TreatJS.Version.print();
