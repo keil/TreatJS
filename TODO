@@ -13,6 +13,8 @@ Benchmarks
 Open Points
 ===========
 
+* Test implicite coercion
+
 * Use TransparentProxy realm or polyfill librarie.
 
 * Integrate pure functions.

@@ -113,6 +113,11 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
     if(!(this instanceof FunctionContract)) return new FunctionContract(domain, range);
     else TreatJS.Prototype.Delayed.apply(this);
 
+    // implicit contract conversion 
+    if(domain instanceof Array) {
+      domain = new ObjectContract(domain);
+    }
+
     if(!(domain instanceof TreatJS.Prototype.Contract))
       throw new TypeError("Invalid contract");
     if(!(range instanceof TreatJS.Prototype.Contract))
@@ -142,6 +147,11 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
   function DependentContract(constructor) {
     if(!(this instanceof DependentContract)) return new DependentContract(constructor);
     else TreatJS.Prototype.Delayed.apply(this);
+
+    // implicit contract conversion 
+    if(constructor instanceof Function) {
+      constructor = new ConstructorContract(constructor);
+    }
 
     if(!(constructor instanceof TreatJS.Prototype.Constructor))
       throw new TypeError("Invalid constructor");

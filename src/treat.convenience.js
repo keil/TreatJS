@@ -15,6 +15,14 @@
 
 TreatJS.package("TreatJS.Convenience", function (TreatJS, Contract, configuration) {
 
+  // AFUNCTION/ SFUNCTION --> Function
+  // SDependetn / Dependent
+  
+
+  // Intersection
+  // Methoid 
+
+
   // ___          _   _   _          ___         _               _   
   //| __|  _ _ _ | |_| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
   //| _| || | ' \| / /  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|

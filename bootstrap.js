@@ -20,8 +20,11 @@
 
 load("lib/padding.js");
 
+load("lib/tproxy.js");
+load("lib/pure.js");
+
 // TODO, use TransparentProxy.js library 
-var TransparentProxy = TransparentProxy || Proxy;
+//var TransparentProxy = TransparentProxy || Proxy;
 
 // _____             _      _ ___   ___      _                       
 //|_   _| _ ___ __ _| |_ _ | / __| | _ \__ _| |____ __ _ __ _ ___ ___

@@ -22,7 +22,8 @@ TreatJS.package("TreatJS.Print", function (TreatJS, Contract, configuration) {
   //|_|                                              
 
   var printVersion = function() {
-    TreatJS.Log.alert("TreatJS Version", TreatJS.version);
+    TreatJS.Log.line("TreatJS Version");
+    TreatJS.Log.subline(TreatJS.version);
   }
 
   //          _     _      ___           __ _                    _   _          
@@ -32,11 +33,9 @@ TreatJS.package("TreatJS.Print", function (TreatJS, Contract, configuration) {
   //|_|                                      |___/                              
 
   var printConfiguration = function () {
-
-    TreatJS.Log.write("TreatJS Configuration");
-
+    TreatJS.Log.line("TreatJS Configuration");
     for(var entry in configuration) {
-      TreatJS.Log.promt(":"+entry+" =", configuration[entry]);
+      TreatJS.Log.prompt(entry, configuration[entry]);
     }
   }
 
@@ -47,12 +46,12 @@ TreatJS.package("TreatJS.Print", function (TreatJS, Contract, configuration) {
   //|_|                                                  
 
   var printStatistic = function () {
-    TreatJS.Log.write("TreatJS Statistic");
+    TreatJS.Log.line("TreatJS Statistic");
 
     const Statistic = TreatJS.Statistic.dump();
 
     for(let key of TreatJS.Statistic.Statistic) {
-        TreatJS.Log.alert("#"+key+" =", Statistic[key]);
+        TreatJS.Log.prompt("#"+key+" =", Statistic[key]);
     }
   }
 

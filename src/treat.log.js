@@ -42,18 +42,17 @@ TreatJS.package("TreatJS.Log", function (TreatJS, Contract, configuration) {
     }
   }
 
-  function write(body) {
+  function line(body) {
     print(mkLine(body));
   }
 
-  function alert(head, body) {
-    print(mkHead(head) + mkBody(body));
-  }
-
-  function promt(body) {
+  function subline(body) {
     print(mkSubLine(body));
   }
 
+  function prompt(head, body) {
+    print(mkPrompt(head, body));
+  }
 
 
 
@@ -69,13 +68,19 @@ TreatJS.package("TreatJS.Log", function (TreatJS, Contract, configuration) {
       padding_right(cmd+" ", seperator, bodyWidth);
   }
 
-  function mkLine(msg="") {
+  function mkLine(msg) {
     return padding_right(msg+" ", seperator, headWidth+bodyWidth);
   }
 
-  function mkSubLine(msg="") {
+  function mkSubLine(msg) {
     return padding_right(subseperator+" "+msg+" ", seperator, headWidth+bodyWidth);
   }
+
+  function mkPrompt(key, msg) {
+    return padding_right(padding_right(subseperator+" "+key+" ", seperator, headWidth-4)+" "+msg, seperator, bodyWidth);
+  }
+
+
 
   //         _                 
   // _ _ ___| |_ _  _ _ _ _ _  
@@ -83,11 +88,11 @@ TreatJS.package("TreatJS.Log", function (TreatJS, Contract, configuration) {
   //|_| \___|\__|\_,_|_| |_||_|
 
   return {
-    Keys:   Keys,
-    log:    log,
-    write:  write,
-    alert:  alert,
-    promt:  promt
+    Keys:     Keys,
+    log:      log,
+    line:     line,
+    subline:  subline,
+    prompt:    prompt
   };
 
 });
