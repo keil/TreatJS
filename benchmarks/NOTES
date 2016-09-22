@@ -1,0 +1,16 @@
+* To run the benchmark a symlink 'js.transparent' to the JavaScript engine is
+  required.
+
+* Every benchmark must run for its own.
+
+* Use `make inference` to infer types informations.
+
+* Use `make <benchmark>` to run a particular benchmark program.
+
+* Use `make run` to run all benchmarks and to write the output to a file.
+
+* Use `vpt -w pool4 -p#99 -V LD_LIBRARY_PATH=$LD_LIBRARY_PATH -c "make octane"`
+  to run it on akoakoa.
+  (see also https://swt.informatik.uni-freiburg.de/service/compute-server)
+
+

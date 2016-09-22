@@ -71,5 +71,3 @@ function _makeContract_ (funID) {
   var contract = _makeIntersectionContract_(calls);
   return contract;
 }
-
-quit();
