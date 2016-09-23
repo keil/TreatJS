@@ -54,10 +54,6 @@ TreatJS.package("TreatJS.Log", function (TreatJS, Contract, configuration) {
     print(mkPrompt(head, body));
   }
 
-
-
-
-
   function mkHead(id) {
     return padding_right(id+" ", ".", headWidth-1)+" ";
   }
@@ -69,19 +65,17 @@ TreatJS.package("TreatJS.Log", function (TreatJS, Contract, configuration) {
   }
 
   function mkLine(msg) {
-    return padding_right(msg+" ", seperator, headWidth+cmdWidth+bodyWidth);
+    return padding_right(msg+" ", seperator, headWidth+bodyWidth);
   }
 
   function mkSubLine(msg) {
-    return padding_right(subseperator+" "+msg+" ", seperator, headWidth+cmdWidth+bodyWidth);
+    return padding_right(subseperator+" "+msg+" ", seperator, headWidth+bodyWidth);
   }
 
   function mkPrompt(key, msg) {
     if(/\r|\n/.exec(msg) || msg.length>50) msg = msg.name ? msg.name : "[unnamed function]";
-    return padding_right(padding_right(subseperator+key+" ", seperator, headWidth-4)+" "+msg, seperator, headWidth+cmdWidth+bodyWidth);
+    return padding_right(padding_right(subseperator+key+" ", seperator, headWidth-4)+" "+msg, seperator, headWidth+bodyWidth);
   }
-
-
 
   //         _                 
   // _ _ ___| |_ _  _ _ _ _ _  
@@ -89,11 +83,11 @@ TreatJS.package("TreatJS.Log", function (TreatJS, Contract, configuration) {
   //|_| \___|\__|\_,_|_| |_||_|
 
   return {
-    Keys:     Keys,
-    log:      log,
-    line:     line,
-    subline:  subline,
-    prompt:    prompt
+    Keys:    Keys,
+    log:     log,
+    line:    line,
+    subline: subline,
+    prompt:  prompt
   };
 
 });

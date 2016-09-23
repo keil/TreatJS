@@ -13,17 +13,6 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-TreatJS.Print.printVersion();
-TreatJS.Print.printConfiguration();
-TreatJS.Print.printStatistic();
-
-TreatJS.Print.printPackage();
-TreatJS.Print.printContract();
-
-
-//quit();
-
-
 //  ___         _               _      
 // / __|___ _ _| |_ __ _ _ _ __| |_ ___
 //| (__/ _ \ ' \  _/ _` | '_/ _|  _(_-<
@@ -31,73 +20,18 @@ TreatJS.Print.printContract();
 
 Contracts.build(this);
 
-// DUMP TreatJS Package
+// ___     _     _   
+//| _ \_ _(_)_ _| |_ 
+//|  _/ '_| | ' \  _|
+//|_| |_| |_|_||_\__|
 
-print(TreatJS);
-print(TreatJS.version);
-
-print(Contract);
-print(Contract.version);
-
-(function() {
-
-  function dump(path, package) {
-    if(typeof package === "object") for (var name in package) {
-      print(`${path} . ${name}`);
-      dump(`${path} . ${name}`, package[name]);
-    }    
-  }
-  
-  print("\n\n::: TreatJS");
-  dump("TreatJS", TreatJS);
-
-})();
-
-
-(function() {
-
-  print("\n\n::: Contract");
-  for (var name in Contract) {
-    print(`Contarct . ${name}`);
-  }
-
-})();
+TreatJS.Print.printVersion();
+TreatJS.Print.printConfiguration();
+TreatJS.Print.printStatistic();
+TreatJS.Print.printPackage();
+TreatJS.Print.printContract();
 
 print("************************************");
-
-
-/*
-
-
-const flag = true;
-
-function define(f,g) {
-
-  return flag ? new Proxy(f, {
-    apply:function(target, thisArg, argumentsArg) {
-      g.apply(thisArg, argumentsArg);
-      return Reflect.apply(target, thisArg, argumentsArg);
-    }
-  }) : f;
-}
-
-let fibonacci = define(function (n) {
-  return n==0 ? 0 : n==1 ? 1 : fibonacci(n-1)+fibonacci(n-2);
-}, function (n) {
-  print("fibonacci of", n);
-});
-
-
-
-
-
-print(fibonacci(10));
-//print(fibonacci);
-
-quit();
-
-
-*/
 
 
 

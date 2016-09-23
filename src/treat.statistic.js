@@ -54,10 +54,10 @@ TreatJS.package("TreatJS.Statistic", function (TreatJS, Contract, configuration)
   //|_| \___|\__|\_,_|_| |_||_|
 
   return {
-    Keys:       Keys,
-    increment:  increment,
-    reset:      initialize,
-    dump:       dump
+    Keys:      Keys,
+    increment: increment,
+    reset:     initialize,
+    dump:      dump
   };
 
 });
