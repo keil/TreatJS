@@ -26,10 +26,16 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
     let range = {context:true, subject:true};
 
     function update() {
-      callback({
+      const context = (domain.subject && range.context);
+      const subject = (domain.context && (!domain.subject || range.subject));
+
+      if(!(context && subject)) callback({context:context, subject:subject});
+
+      // TODO
+      /*callback({
         context: (domain.subject && range.context),
         subject: (domain.context && (!domain.subject || range.subject))
-      });
+      });*/
     }
 
     return {
@@ -61,10 +67,15 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
     let right = {context:true, subject:true};
 
     function update() {
-      callback({
+      const context = (left.context || right.context);
+      const subject = (left.subject && right.subject);
+
+      if(!(context && subject)) callback({context:context, subject:subject});
+
+      /*callback({
         context: (left.context || right.context),
         subject: (left.subject && right.subject)
-      });
+      });*/
     }
 
     return {
@@ -96,10 +107,15 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
     let right = {context:true, subject:true};
 
     function update() {
-      callback({
+      const context = (left.context && right.context);
+      const subject = (left.subject || right.subject);
+
+      if(!(context && subject)) callback({context:context, subject:subject});
+
+      /*callback({
         context: (left.context && right.context),
         subject: (left.subject || right.subject)
-      });
+      });*/
     }
 
     return {
@@ -131,10 +147,14 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
     let properties = {context:true, subject:true};
 
     function update() {
-      callback({
+      const context = (properties.context && properties.subject);
+
+      if(!context) callback({context:context, subject:true});
+
+      /*callback({
         context: (properties.context && properties.subject),
         subject: true
-      });
+      });*/
     }
 
     return {
@@ -158,8 +178,13 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
     let contract = {context:true, subject:true};
 
     function update() {
+      const context = contract.context;
+      const subject = contract.subject;
+      
+      if(!context) callbackContext({context:context, subject:true});
+      if(!subject) callbackSubject({context:true, subject:subject});
 
-      callbackSubject({
+      /*callbackSubject({
         context: true,
         subject: contract.subject
       });
@@ -167,7 +192,7 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
       callbackContext({
         context: contract.context,
         subject: true
-      });
+      });*/
 
     }
 

@@ -197,17 +197,13 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
         Contexts.pop(); 
       }
 
-      if(!result) {
-        print("False! @ ", subject, typeof subject, contract);
-      }
-
       /**
        * Update Callback Graph.
        * No `true` update.
        **/
 
       // Update callback graph.
-      /*if(!result)*/ callback({
+      if(!result) callback({
         context: true,
         subject: result ? true : false       
       });
