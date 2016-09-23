@@ -15,6 +15,11 @@
 
 TreatJS.Print.printVersion();
 TreatJS.Print.printConfiguration();
+TreatJS.Print.printStatistic();
+
+TreatJS.Print.printPackage();
+TreatJS.Print.printContract();
+
 
 quit();
 

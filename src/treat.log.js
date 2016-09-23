@@ -34,7 +34,7 @@ TreatJS.package("TreatJS.Log", function (TreatJS, Contract, configuration) {
   const subseperator = "... ";
 
   function log(op, cmd="", msg="") {
-    if(/\r|\n/.exec(msg) | msg.length>50) {
+    if(/\r|\n/.exec(msg) || msg.length>50) {
       print(mkHead("["+op+"]") + " " + mkBody(cmd));
       print(msg + "\n");
     } else {
@@ -69,15 +69,16 @@ TreatJS.package("TreatJS.Log", function (TreatJS, Contract, configuration) {
   }
 
   function mkLine(msg) {
-    return padding_right(msg+" ", seperator, headWidth+bodyWidth);
+    return padding_right(msg+" ", seperator, headWidth+cmdWidth+bodyWidth);
   }
 
   function mkSubLine(msg) {
-    return padding_right(subseperator+" "+msg+" ", seperator, headWidth+bodyWidth);
+    return padding_right(subseperator+" "+msg+" ", seperator, headWidth+cmdWidth+bodyWidth);
   }
 
   function mkPrompt(key, msg) {
-    return padding_right(padding_right(subseperator+" "+key+" ", seperator, headWidth-4)+" "+msg, seperator, bodyWidth);
+    if(/\r|\n/.exec(msg) || msg.length>50) msg = msg.name ? msg.name : "[unnamed function]";
+    return padding_right(padding_right(subseperator+key+" ", seperator, headWidth-4)+" "+msg, seperator, headWidth+cmdWidth+bodyWidth);
   }
 
 

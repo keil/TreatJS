@@ -47,18 +47,11 @@ TreatJS.package("TreatJS.Print", function (TreatJS, Contract, configuration) {
 
   var printStatistic = function () {
     TreatJS.Log.line("TreatJS Statistic");
-
     const Statistic = TreatJS.Statistic.dump();
-
-    for(let key of TreatJS.Statistic.Statistic) {
-        TreatJS.Log.prompt("#"+key+" =", Statistic[key]);
+    for(let key in TreatJS.Statistic.Keys) {
+      TreatJS.Log.prompt("#"+key, Statistic[key]);
     }
   }
-
-
-
-
-
 
   //          _     _     _____             _      _ ___ 
   // _ __ _ _(_)_ _| |_  |_   _| _ ___ __ _| |_ _ | / __|
@@ -67,45 +60,28 @@ TreatJS.package("TreatJS.Print", function (TreatJS, Contract, configuration) {
   //|_|                                                  
 
   var printPackage = function () {
-    output.println("TreatJS Package");
-
-    function log(msg, value) {
-      output.printsubln(msg, value);;
+    TreatJS.Log.line("TreatJS Package");
+    function dump(path, package) {
+      if(typeof package === "object") for (var name in package) {
+        TreatJS.Log.subline(`${path} . ${name}`);
+        dump(`${path} . ${name}`, package[name]);
+      }    
     }
-
-    function printPackage(package, prefix) {
-      for(var field in package) {
-        log(prefix + " " + field, "");
-        if(package[field] instanceof Object) printPackage(package[field], (prefix+"."));
-      }
-    }
-
-    printPackage(TreatJS, "");
+    dump("TreatJS", TreatJS);
   }
 
-  //          _     _     ___                   _   
-  // _ __ _ _(_)_ _| |_  | __|_ ___ __  ___ _ _| |_ 
-  //| '_ \ '_| | ' \  _| | _|\ \ / '_ \/ _ \ '_|  _|
-  //| .__/_| |_|_||_\__| |___/_\_\ .__/\___/_|  \__|
-  //|_|                          |_|                
+  //            _     _      ___         _               _   
+  // _ __ _ _(_)_ _| |_   / __|___ _ _| |_ _ _ __ _ __| |_ 
+  //| '_ \ '_| | ' \  _| | (__/ _ \ ' \  _| '_/ _` / _|  _|
+  //| .__/_| |_|_||_\__|  \___\___/_||_\__|_| \__,_\__|\__|
+  //|_|                                                    
 
-  var printExport = function () {
-    output.println("TreatJS Build");
-
-    function log(msg, value) {
-      output.printsubln(msg, value);
+  var printContract = function () {
+    TreatJS.Log.line("Contract Package");
+    for (var name in Contract) {
+      TreatJS.Log.subline(`Contarct . ${name}`);
     }
-
-    function printPackage(package, prefix) {
-      for(var field in package) {
-        log(prefix + " " + field, "");
-        if(package[field] instanceof Object) printPackage(package[field], (prefix+"."));
-      }
-    }
-
-    printPackage(TreatJS.build(), "");
   }
-
 
   //         _                 
   // _ _ ___| |_ _  _ _ _ _ _  
@@ -115,7 +91,9 @@ TreatJS.package("TreatJS.Print", function (TreatJS, Contract, configuration) {
   return {
     printVersion:       printVersion,
     printConfiguration: printConfiguration,
-    printStatistic:     printStatistic
+    printStatistic:     printStatistic,
+    printPackage:       printPackage,
+    printContract:      printContract
   };
 
 });
