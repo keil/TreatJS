@@ -21,7 +21,7 @@ TreatJS.Print.printPackage();
 TreatJS.Print.printContract();
 
 
-quit();
+//quit();
 
 
 //  ___         _               _      

@@ -73,11 +73,11 @@ var Contract  = TreatJS.initialize({
 
   /* Verbose mode
    * (default: false)
-   */verbose: false,
+   */verbose: true,
 
   /* Statistics
    * (default: false)
-   */statistic: false, 
+   */statistic: true, 
 
 
 
