@@ -70,7 +70,7 @@ function PrintScore(score) {
   }
 }
 
-const start = Date.now();
+const startBenchmark = Date.now();
 
 BenchmarkSuite.config.doWarmup = undefined;
 BenchmarkSuite.config.doDeterministic = undefined;
@@ -81,8 +81,8 @@ BenchmarkSuite.config.doDeterministic = true;
 BenchmarkSuite.RunSuites({ NotifyResult: PrintResult,
                            NotifyError: PrintError,
                            NotifyScore: PrintScore });
-const end = Date.now();
-print('Time: ' + (end-start) + ' ms');
+const endBenchmark = Date.now();
+print('Time: ' + (endBenchmark-startBenchmark) + ' ms');
 print('----');
 
 TreatJS.Print.printVersion();
