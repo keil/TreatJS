@@ -21,9 +21,6 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
   //|_| |_| \___/_\_\\_, |
   //                 |__/ 
 
-  // TODO:  Use TransparentProxy realm or polyfill librarie
-  //const Proxy = TransparentProxy;
-
   const realm = TransparentProxy.createRealm();
 
   const Proxy = realm.Proxy;
@@ -50,7 +47,6 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
   // \_/\_/|_| \__,_| .__/
   //                |_|   
 
-  // TODO: Use realm-aware WeakMap.
   const Assertions = new WeakMap();
   
   function wrap(subject, contract, callback, handler) {
@@ -73,12 +69,17 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     }
   }
 
-  function mirror(proxy) {
+  //       _                 
+  // _ __ (_)_ _ _ _ ___ _ _ 
+  //| '  \| | '_| '_/ _ \ '_|
+  //|_|_|_|_|_| |_| \___/_|  
+
+  function mirrorIndy(proxy) {
     if(Assertions.has(proxy)) {
       
       const assertion = Assertions.get(proxy);
 
-      const subject = mirror(assertion.subject);
+      const subject = mirrorIndy(assertion.subject);
       const context = Contexts[Contexts.length-1];
 
       const cbFork = TreatJS.Callback.newFork(function(handle) {
@@ -96,6 +97,55 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     }
   }
 
+  function mirrorLax(proxy) {
+    return unwrap(proxy);
+  }
+
+  // TODO, is there anything more to do?
+  function mirrorPicky(proxy) {
+    return proxy;
+  }
+
+
+
+
+  let mirror = (function() {
+     switch(configuration.semantics) {
+      case TreatJS.INDY:
+        return mirrorIndy;
+        break;
+
+      case TreatJS.LAX:
+        return mirrorPacl;
+        break;
+
+      case TreatJS.PICKY:
+        return mirrorPicky;
+        break;
+
+    }})();
+
+
+/*
+  let xxxx;
+  switch(configuration.semantics) {
+    case TreatJS.INDY:
+      //return 2435;
+      let xxxx = 4711;
+      let L = "o|o";
+      break;
+
+    case TreatJS.LAX:
+      break;
+
+    case TreatJS.PICKY:
+      break;
+
+  }
+
+  print(xxxx); print(L);
+quit();
+*/
 
   // XXX
 
@@ -106,6 +156,16 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       return Reflect.apply(target, thisArg, argumentsArg);
     }}) : target;
   }
+
+
+
+  function bake(target, addition) {
+    return configuration.verbose ? new Proxy(target, {apply:function(target, thisArg, argumentsArg) {
+      Reflect.apply(addition, thisArg, argumentsArg);
+      return Reflect.apply(target, thisArg, argumentsArg);
+    }}) : target;
+  }
+
 
 
 
@@ -135,7 +195,10 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
   }
 */
 
- let topassert = define(function(subject, contract) {
+
+
+
+ let topassert = bake(function(subject, contract) {
 
     if(!(contract instanceof TreatJS.Prototype.Contract))
       throw new TypeError("Invalid contract");
@@ -186,7 +249,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       // Evaluate predicate on subject.
       let result = true;
       try {
-        result = contract.predicate.apply(undefined, [mirror(subject)]); // TODO bottleneck
+        result = contract.predicate.apply(undefined, [mirror(subject)]); // TODO bottleneck // 
       } catch (error) {
         if(error instanceof TreatJS.Error.TreatJSError) {
           throw error;

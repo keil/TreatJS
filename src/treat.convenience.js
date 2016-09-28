@@ -15,6 +15,25 @@
 
 TreatJS.package("TreatJS.Convenience", function (TreatJS, Contract, configuration) {
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   // AFUNCTION/ SFUNCTION --> Function
   // SDependetn / Dependent
   
