@@ -33,6 +33,42 @@ TreatJS.Print.printContract();
 
 print("************************************");
 
+const NumNum_Num = Contract.Function(Contract.Object([typeNumber, typeNumber]), typeNumber);
+const StrStr_Str = Contract.Function(Contract.Object([typeString, typeString]), typeString);
+
+const PosPos_Pos = Contract.Function(Contract.Object([Positive, Positive]), Positive);
+const EvenEven_Even = Contract.Function(Contract.Object([Even, Even]), Even);
+
+const realFuncC = Contract.Intersection.from(StrStr_Str, typeFunction);
+print("====>", realFuncC);
+
+const intersection = Contract.Intersection.from(NumNum_Num, realFuncC);
+print("====>", intersection);
+
+
+/*
+quit();
+const union = Contract.Union(EvenEven_Even, PosPos_Pos);
+
+const intersection = Contract.Intersection.from(union, StrStr_Str);
+print(intersection);
+//const intersection = Contract.IIntersection(union, StrStr_Str);
+*/
+
+
+//var inter = new Contract.Intersection(plusNumber, typeFunction);
+
+//var inter = Contract.Intersection.from(plusNumber, typeFunction);
+
+//var inter = Contract.Intersection(plusNumber, typeFunction);
+//
+///const NumNuNum = Contract.Function(Contract.Object([typeNumber, typeNumber]), typeNumber);
+
+//var inter = Contract.Intersection.from(NumNuNum, typeFunction);
+//print(inter)
+
+
+//var inter = new Contract.Intersection(plusNumber, typeFunction);
 
 
 print("************************************");

@@ -164,7 +164,6 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
   }
   DependentContract.prototype = Object.create(TreatJS.Prototype.Delayed.prototype);
   DependentContract.prototype.constructor = DependentContract;
-
   DependentContract.prototype.toString = function() {
     return "(" + "*" + " -> " + this.constructor.toString() + ")";
   };
@@ -174,9 +173,9 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
   // | || ' \  _/ -_) '_(_-</ -_) _|  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
   //|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
-  function IIntersectionContract(left, right) { 
-    if(!(this instanceof IIntersectionContract)) return new IIntersectionContract(left, right);
-    else TreatJS.Prototype.Immediate.apply(this);
+  function IntersectionContract(left, right) { 
+    if(!(this instanceof IIntersectionContract)) return new IntersectionContract(left, right);
+    else TreatJS.Prototype.Contract.apply(this);
 
     if(!(left instanceof TreatJS.Prototype.Immediate))
       throw new TypeError("Invalid contract");
@@ -192,14 +191,25 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
       }
     });
   }
-  IIntersectionContract.prototype = Object.create(TreatJS.Prototype.Immediate.prototype);
-  IIntersectionContract.prototype.constructor = IIntersectionContract;
-  IIntersectionContract.prototype.toString = function() {
-    return "(" + this.first.toString() + " - " + this.second.toString() + ")";
+  IntersectionContract.prototype = Object.create(TreatJS.Prototype.Contract.prototype);
+  IntersectionContract.prototype.constructor = IntersectionContract;
+  IntersectionContract.prototype.toString = function() {
+    return "(" + this.left.toString() + " - " + this.right.toString() + ")";
   };
 
-  function DIntersectionContract(left, right) { 
-    if(!(this instanceof DIntersectionContract)) return new DIntersectionContract(left, right);
+  IntersectionContract.from = function(left, right) {
+
+    if(!(left instanceof TreatJS.Prototype.Contract))
+      throw new TypeError("Invalid contract.");
+    if(!(right instanceof TreatJS.Prototype.Contract))
+      throw new TypeError("Invalid contract.");
+
+    return TreatJS.Canonicalize.xxx(left, right);
+  }
+
+
+  function DelayedIntersectionContract(left, right) { 
+    if(!(this instanceof DIntersectionContract)) return new DelayedIntersectionContract(left, right);
     else TreatJS.Prototype.Delayed.apply(this);
 
     if(!(left instanceof TreatJS.Prototype.Delayed))
@@ -216,11 +226,17 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
       }
     });
   }
-  DIntersectionContract.prototype = Object.create(TreatJS.Prototype.Delayed.prototype);
-  DIntersectionContract.prototype.constructor = DIntersectionContract;
-  DIntersectionContract.prototype.toString = function() {
-    return "(" + this.left.toString() + " - " + this.right.toString() + ")";
-  };
+  DelayedIntersectionContract.prototype = Object.create(TreatJS.Prototype.Delayed.prototype);
+//  DelayedIntersectionContract.prototype.constructor = DIntersectionContract;
+//  DelayedIntersectionContract.prototype.toString = function() {
+//    return "(" + this.left.toString() + " - " + this.right.toString() + ")";
+//  };
+
+
+  DelayedIntersectionContract.prototype.toString = IntersectionContract.prototype.toString;
+
+  DelayedIntersectionContract.from = IntersectionContract.from;
+
 
   // _   _      _          ___         _               _   
   //| | | |_ _ (_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -229,7 +245,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
 
   function UnionContract(left, right) { 
     if(!(this instanceof UnionContract)) return new UnionContract(left, right);
-    else TreatJS.Prototype.Immediate.apply(this); 
+    else TreatJS.Prototype.Contract.apply(this); 
 
     if(!(left instanceof TreatJS.Prototype.Contract))
       throw new TypeError("Invalid contract");
@@ -245,7 +261,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
       }
     });
   }
-  UnionContract.prototype = Object.create(TreatJS.Prototype.Immediate.prototype);
+  UnionContract.prototype = Object.create(TreatJS.Prototype.Contract.prototype);
   UnionContract.prototype.constructor = UnionContract;
   UnionContract.prototype.toString = function() {
     return "(" + this.left.toString() + " + " + this.right.toString() + ")";
@@ -262,8 +278,9 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
     Object:         ObjectContract,
     Function:       FunctionContract,
     Dependent:      DependentContract,
-    IIntersection:  IIntersectionContract,
-    DIntersection:  DIntersectionContract,
+    IIntersection:  IntersectionContract, // TODO
+    Intersection:   IntersectionContract,
+    DIntersection:  DelayedIntersectionContract, // TODO
     Union:          UnionContract
   });
 
@@ -278,8 +295,9 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
     Object:         ObjectContract,
     Function:       FunctionContract,
     Dependent:      DependentContract,
-    IIntersection:  IIntersectionContract,
-    DIntersection:  DIntersectionContract,
+    IIntersection:  IntersectionContract, // TODO
+    Intersection:   IntersectionContract,
+    DIntersection:  DelayedIntersectionContract, // TODO
     Union:          UnionContract
   };
 

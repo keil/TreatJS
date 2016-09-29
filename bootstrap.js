@@ -46,6 +46,8 @@ load("src/treat.print.js");
 load("src/treat.prototype.js");
 load("src/treat.contract.js");
 
+load("src/treat.convenience.js");
+
 load("src/treat.callback.js");
 
 load("src/treat.error.js");
