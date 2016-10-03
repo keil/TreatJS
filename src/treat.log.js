@@ -20,7 +20,7 @@ TreatJS.package("TreatJS.Log", function (TreatJS, Contract, configuration) {
   const Keys = Object.freeze({
     ASSERT      : "ASSERT",
     CONSTRUCT   : "CONSTRUCT",
-    SANDBOX     : "SANDBOC",
+    SANDBOX     : "SANDBOX",
     CALLBACK    : "CALLBACK",
     INTERNAL    : "INTERNAL"
   });

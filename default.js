@@ -46,6 +46,7 @@ const intersection = Contract.Intersection.from(NumNum_Num, realFuncC);
 print("====>", intersection);
 
 
+
 /*
 quit();
 const union = Contract.Union(EvenEven_Even, PosPos_Pos);
@@ -83,7 +84,9 @@ var plusNumber = Contract.assert(plus, Contract.Function(Contract.Object([typeNu
 
 print(plusNumber===plus);
 
-plusNumber("1",2);
+plusNumber(1,2);
+
+TreatJS.Print.printStatistic();
 
 
 print("************************************");

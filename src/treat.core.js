@@ -48,7 +48,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
   //                |_|   
 
   const Assertions = new WeakMap();
-  
+
   function wrap(subject, contract, callback, handler) {
     const proxy = new Proxy(subject, handler);
 
@@ -76,7 +76,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
   function mirrorIndy(proxy) {
     if(Assertions.has(proxy)) {
-      
+
       const assertion = Assertions.get(proxy);
 
       const subject = mirrorIndy(assertion.subject);
@@ -101,16 +101,12 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     return unwrap(proxy);
   }
 
-  // TODO, is there anything more to do?
   function mirrorPicky(proxy) {
     return proxy;
   }
 
-
-
-
   let mirror = (function() {
-     switch(configuration.semantics) {
+    switch(configuration.semantics) {
       case TreatJS.INDY:
         return mirrorIndy;
         break;
@@ -125,49 +121,46 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
     }})();
 
-
-/*
-  let xxxx;
-  switch(configuration.semantics) {
-    case TreatJS.INDY:
-      //return 2435;
-      let xxxx = 4711;
-      let L = "o|o";
-      break;
-
-    case TreatJS.LAX:
-      break;
-
-    case TreatJS.PICKY:
-      break;
-
-  }
-
-  print(xxxx); print(L);
-quit();
-*/
-
-  // XXX
-
+  //    _      __ _          
+  // __| |___ / _(_)_ _  ___ 
+  /// _` / -_)  _| | ' \/ -_)
+  //\__,_\___|_| |_|_||_\___|
 
   function define(target, log, statistic) {
-    return configuration.verbose ? new Proxy(target, {apply:function(target, thisArg, argumentsArg) {
-      log.apply(thisArg, argumentsArg);
-      return Reflect.apply(target, thisArg, argumentsArg);
-    }}) : target;
+
+    if(configuration.verbose) {
+      target = new Proxy(target, {
+        apply: function(target, thisArg, argumentsArg) {
+          Reflect.apply(log, thisArg, argumentsArg);
+          return Reflect.apply(target, thisArg, argumentsArg);
+        }
+      });
+    }
+
+    if(configuration.statistic) {
+      target = new Proxy(target, {
+        apply: function(target, thisArg, argumentsArg) {
+          Reflect.apply(statistic, thisArg, argumentsArg);
+          return Reflect.apply(target, thisArg, argumentsArg);
+        }
+      });
+    }
+
+    return target;
+
   }
 
 
 
-  function bake(target, addition) {
-    return configuration.verbose ? new Proxy(target, {apply:function(target, thisArg, argumentsArg) {
-      Reflect.apply(addition, thisArg, argumentsArg);
-      return Reflect.apply(target, thisArg, argumentsArg);
-    }}) : target;
-  }
+  let noassert = define(function(subject, contract) {
 
-
-
+    return subject;
+    
+  }, function(subject, contract) {
+    TreatJS.Log.log(TreatJS.Log.Keys.ASSERT, "top assert", contract);
+  }, function(subject, contract) {
+    TreatJS.Statistic.increment(TreatJS.Statistic.Keys.TOPASSERT);
+  });
 
 
   //                     _   
@@ -175,7 +168,7 @@ quit();
   /// _` (_-<_-</ -_) '_|  _|
   //\__,_/__/__/\___|_|  \__|
 
-/*  let topassert = configuration.assertion ? function(subject, contract) {
+  let topassert = define(function(subject, contract) {
 
     if(!(contract instanceof TreatJS.Prototype.Contract))
       throw new TypeError("Invalid contract");
@@ -190,48 +183,14 @@ quit();
         throw new TreatJS.Error.PositiveBlame(subject, contract);
       }
     });
-  } : function (subject, contract) {
-    return subject;
-  }
-*/
 
-
-
-
- let topassert = bake(function(subject, contract) {
-
-    if(!(contract instanceof TreatJS.Prototype.Contract))
-      throw new TypeError("Invalid contract");
-
-    const context = Contexts[Contexts.length-1];
-
-    // TODO: use root callback, with check blame state
-    return assert(subject, contract, function(handle) {
-      if (handle.context==false) {
-        throw new TreatJS.Error.NegativeBlame(context, contract);
-      } else if(handle.subject==false) {
-        throw new TreatJS.Error.PositiveBlame(subject, contract);
-      }
-    });
   }, function(subject, contract) {
     TreatJS.Log.log(TreatJS.Log.Keys.ASSERT, "top assert", contract);
   }, function(subject, contract) {
-    
+    TreatJS.Statistic.increment(TreatJS.Statistic.Keys.TOPASSERT);
   });
 
-
-
-
-
-
-
-
-
-
-
-
-
-  let assert = function (subject, contract, callback) {
+  let assert = define(function (subject, contract, callback) {
 
     // ___                ___         _               _   
     //| _ ) __ _ ___ ___ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -365,22 +324,34 @@ quit();
     //\___/\__|_||_\___|_|  \_/\_/|_/__/\___|
 
     else throw new TypeError("Invalid contract");
-  }
+
+  }, function(subject, contract) {
+    TreatJS.Log.log(TreatJS.Log.Keys.ASSERT, "assert", contract);
+  }, function(subject, contract) {
+    TreatJS.Statistic.increment(TreatJS.Statistic.Keys.ASSERT);
+  });
+
+
 
   //                _               _   
   // __ ___ _ _  __| |_ _ _ _  _ __| |_ 
   /// _/ _ \ ' \(_-<  _| '_| || / _|  _|
   //\__\___/_||_/__/\__|_|  \_,_\__|\__|
 
-  let topconstruct = function (constructor, constructorArray=[]) {
+  let topconstruct = define(function (constructor, constructorArray=[]) {
 
     if(!(constructor instanceof TreatJS.Prototype.Constructor))
       throw new TypeError("Invalid constructor.");
 
     return construct(constructor, constructorArray);
-  }
 
-  let construct = function (constructor, constructorArray) {
+  }, function(subject, contract) {
+    TreatJS.Log.log(TreatJS.Log.Keys.CONSTRUCT, "top construct", contract);
+  }, function(subject, contract) {
+    TreatJS.Statistic.increment(TreatJS.Statistic.Keys.TOPCONSTRUCT);
+  });
+
+  let construct = define(function (constructor, constructorArray) {
 
     //  ___         _               _    ___             _               _           
     // / __|___ _ _| |_ _ _ __ _ __| |_ / __|___ _ _  __| |_ _ _ _  _ __| |_ ___ _ _ 
@@ -424,72 +395,12 @@ quit();
     //\___/\__|_||_\___|_|  \_/\_/|_/__/\___|
 
     else throw new TypeError("Invalid constructor.");
-  }
 
-
-
-  //             _                 
-  //__ _____ _ _| |__  ___ ___ ___ 
-  //\ V / -_) '_| '_ \/ _ (_-</ -_)
-  // \_/\___|_| |_.__/\___/__/\___|
-
-  if(configuration.verbose) {
-
-    topassert = new Proxy(topassert, {apply:function(target, thisArg, [subject, contract]) {
-      TreatJS.Log.log(TreatJS.Log.Keys.ASSERT, "top assert", contract);
-      return Reflect.apply(target, thisArg, [subject, contract]);
-    }});
-
-    assert = new Proxy(assert, {apply:function(target, thisArg, [subject, contract, callback]) {
-      TreatJS.Log.log(TreatJS.Log.Keys.ASSERT, "assert", contract);
-      return Reflect.apply(target, thisArg, [subject, contract, callback]);
-    }});
-
-    topconstruct = new Proxy(topconstruct, {apply:function(target, thisArg, [constructor, constructorArray]) {
-      TreatJS.Log.log(TreatJS.Log.Keys.CONSTRUCT, "top construct", constructor);
-      return Reflect.apply(target, thisArg, [constructor, constructorArray]);
-    }});
-
-    construct = new Proxy(construct, {apply:function(target, thisArg, [constructor, constructorArray]) {
-      TreatJS.Log.log(TreatJS.Log.Keys.CONSTRUCT, "construct", constructor);
-      return Reflect.apply(target, thisArg, [constructor, constructorArray]);
-    }});
-
-  }
-
-  //    _        _   _    _   _    
-  // __| |_ __ _| |_(_)__| |_(_)__ 
-  //(_-<  _/ _` |  _| (_-<  _| / _|
-  ///__/\__\__,_|\__|_/__/\__|_\__|
-
-  if(configuration.statistic) {
-
-    topassert = new Proxy(topassert, {apply:function(target, thisArg, [subject, contract]) {
-      TreatJS.Statistic.increment(TreatJS.Statistic.Keys.TOPASSERT);
-      return Reflect.apply(target, thisArg, [subject, contract]);
-    }});
-
-    assert = new Proxy(assert, {apply:function(target, thisArg, [subject, contract, callback]) {
-      TreatJS.Statistic.increment(TreatJS.Statistic.Keys.ASSERT);
-      return Reflect.apply(target, thisArg, [subject, contract, callback]);
-    }});
-
-    topconstruct = new Proxy(topconstruct, {apply:function(target, thisArg, [constructor, constructorArray]) {
-      TreatJS.Statistic.increment(TreatJS.Statistic.Keys.TOPCONSTRUCT);
-      return Reflect.apply(target, thisArg, [constructor, constructorArray]);
-    }});
-
-    construct = new Proxy(construct, {apply:function(target, thisArg, [constructor, constructorArray]) {
-      TreatJS.Statistic.increment(TreatJS.Statistic.Keys.CONSTRUCT);
-      return Reflect.apply(target, thisArg, [constructor, constructorArray]);
-    }});
-
-  }
-
-
-
-
-
+  }, function(subject, contract) {
+    TreatJS.Log.log(TreatJS.Log.Keys.CONSTRUCT, "construct", contract);
+  }, function(subject, contract) {
+    TreatJS.Statistic.increment(TreatJS.Statistic.Keys.CONSTRUCT);
+  });
 
   // _____ ___ __  ___ _ _| |_ 
   /// -_) \ / '_ \/ _ \ '_|  _|
@@ -497,7 +408,7 @@ quit();
   //        |_|                
 
   TreatJS.export({
-    assert:     topassert,
+    assert:     configuration.assertion ? topassert : noassert,
     construct:  topconstruct
   });
 

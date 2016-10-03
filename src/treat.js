@@ -168,6 +168,8 @@ var TreatJS = TreatJS || (function() {
 
   function initialize(configuration) {
 
+    Object.freeze(configuration);
+
     for(let package of packages) {
       build(package, configuration);
     }

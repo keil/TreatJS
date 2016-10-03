@@ -70,82 +70,17 @@ var Contract  = TreatJS.initialize({
   /** Enable contract assertion
    * (default: true)
    */assertion: true,
-
-
-
   /* Verbose mode
    * (default: false)
-   */verbose: false,
-
+   */verbose: true,
   /* Statistics
    * (default: false)
-   */statistic: false, 
-
-
-
-  print: console.log
-
-
-//  STRICT, NONE, PURE
-// membrabne
-
-// nativePassThrought
-
+   */statistic: true, 
+  /* Log output
+   * (default: null)
+   */print: console.log
 });
 
 
-// function for ptiny putpur
-
-
-//% assertion, instead of calling a predicate, 
-//- every predicate is reute
-
-
-
-var x = {
-  /** TreatJS evaluation semantics
-   * (default: TreatJS.LAX)
-   */semantics: TreatJS.LAX,
-  /** Enable contract assertion
-   * (default: true)
-   */assertion: true,
-  /** Enable sandbox membrane 
-   * (default: true)
-   */membrane: true,
-  /** Enable function decompilation
-   * (default: true)
-   */decompile: true,
-  /** Enable callback updates
-   * (default: true)
-   */callback: true,
-  /** Enable predicate evaluation
-   * (default: true)
-   */predicate: true,
-  /** Enable contract normalization
-   * (default: true)
-   */canonicalize: true,
-  /** Quit execution 
-   * (default: true)
-   */quitOnError: false,
-  /** Debug Mode 
-   * (default: false)
-   */debugmode: false,
-}
-var y = {
-  /** Print contract assertions
-   * (default: false)
-   */assert: false,
-  /** Print sandbox operations
-   * (default: false)
-   */sandbox: false,
-  /** Print internal operations
-   * (default: false)
-   */internal: true,
-  /** Print statistics
-   * (default: false)
-   */statistic: true 
-};
-
-
-
-
+// Sandbox Mode  STRICT, NONE, PURE
+// nativePassThrought
