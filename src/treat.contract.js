@@ -98,8 +98,8 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
     let i = 0;
     let output = "{";
     for(let [key, value] of this.map) {
-       output += `${key}:${value}` + ((i<size-1) ? ", " : "");
-       i++;
+      output += `${key}:${value}` + ((i<size-1) ? ", " : "");
+      i++;
     }
     return output+"}";
   };
@@ -113,15 +113,13 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
     if(!(this instanceof FunctionContract)) return new FunctionContract(domain, range);
     else TreatJS.Prototype.Delayed.apply(this);
 
-    // implicit contract conversion 
-    if(domain instanceof Array) {
+    if(domain instanceof Array)
       domain = new ObjectContract(domain);
-    }
 
     if(!(domain instanceof TreatJS.Prototype.Contract))
-      throw new TypeError("Invalid contract");
+      throw new TypeError("Invalid contract.");
     if(!(range instanceof TreatJS.Prototype.Contract))
-      throw new TypeError("Invalid contract");
+      throw new TypeError("Invalid contract.");
 
     Object.defineProperties(this, {
       "domain": {
@@ -148,13 +146,12 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
     if(!(this instanceof DependentContract)) return new DependentContract(constructor);
     else TreatJS.Prototype.Delayed.apply(this);
 
-    // implicit contract conversion 
     if(constructor instanceof Function) {
       constructor = new ConstructorContract(constructor);
     }
 
     if(!(constructor instanceof TreatJS.Prototype.Constructor))
-      throw new TypeError("Invalid constructor");
+      throw new TypeError("Invalid constructor.");
 
     Object.defineProperties(this, {
       "constructor": {
@@ -174,13 +171,13 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
   //|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
   function IntersectionContract(left, right) { 
-    if(!(this instanceof IIntersectionContract)) return new IntersectionContract(left, right);
+    if(!(this instanceof IntersectionContract)) return new IntersectionContract(left, right);
     else TreatJS.Prototype.Contract.apply(this);
 
     if(!(left instanceof TreatJS.Prototype.Immediate))
-      throw new TypeError("Invalid contract");
+      throw new TypeError("Invalid contract.");
     if(!(right instanceof TreatJS.Prototype.Contract))
-      throw new TypeError("Invalid contract");
+      throw new TypeError("Invalid contract.");
 
     Object.defineProperties(this, {
       "left": {
@@ -197,6 +194,11 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
     return "(" + this.left.toString() + " - " + this.right.toString() + ")";
   };
 
+  //  __               
+  // / _|_ _ ___ _ __  
+  //|  _| '_/ _ \ '  \ 
+  //|_| |_| \___/_|_|_| 
+
   IntersectionContract.from = function(left, right) {
 
     if(!(left instanceof TreatJS.Prototype.Contract))
@@ -204,18 +206,63 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
     if(!(right instanceof TreatJS.Prototype.Contract))
       throw new TypeError("Invalid contract.");
 
-    return TreatJS.Canonicalize.xxx(left, right);
+
+    // Case: I - C
+    if(left instanceof TreatJS.Prototype.Immediate) {
+      return new Intersection(left, right);
+
+    // Case: Q - C
+    } else if(left instanceof TreatJS.Prototype.Delayed) {
+
+      // Sub-Case: Q - R
+      if(right instanceof TreatJS.Prototype.Delayed) {
+        return new DelayedIntersection(left, right);
+
+      // Otherwise
+      } else {
+        return Intersection.from(right, left);
+      }
+
+    // Case: A - C
+    } else if (left instanceof TreatJS.Prototype.Constructor) {
+      throw new TypeError("Invalid contract."); 
+
+
+    // Case: (C' + D') - C
+    } else if(left instanceof Union) {
+
+      return new Union(
+          Intersection.from(left.left, right),
+          Intersection.from(left.right, right));
+
+    // Case: (C' - D') - C
+    } else if(left instanceof Intersection) {
+
+      return Intersection.from(
+          left.left,
+          Intersection.from(left.right, right));
+
+    // Otherwise
+    } else {
+      throw new TypeError("Invalid contract.");
+    }
+
   }
 
+  //    _     _                  _ 
+  // __| |___| |__ _ _  _ ___ __| |
+  /// _` / -_) / _` | || / -_) _` |
+  //\__,_\___|_\__,_|\_, \___\__,_|
+  //                 |__/          
 
   function DelayedIntersectionContract(left, right) { 
-    if(!(this instanceof DIntersectionContract)) return new DelayedIntersectionContract(left, right);
+    if(!(this instanceof DelayedIntersectionContract)) return new DelayedIntersectionContract(left, right);
     else TreatJS.Prototype.Delayed.apply(this);
 
     if(!(left instanceof TreatJS.Prototype.Delayed))
-      throw new TypeError("Invalid contract");
+      throw new TypeError("Invalid contract.");
     if(!(right instanceof TreatJS.Prototype.Delayed))
-      throw new TypeError("Invalid contract");
+      throw new TypeError("Invalid contract.");
 
     Object.defineProperties(this, {
       "left": {
@@ -227,16 +274,9 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
     });
   }
   DelayedIntersectionContract.prototype = Object.create(TreatJS.Prototype.Delayed.prototype);
-//  DelayedIntersectionContract.prototype.constructor = DIntersectionContract;
-//  DelayedIntersectionContract.prototype.toString = function() {
-//    return "(" + this.left.toString() + " - " + this.right.toString() + ")";
-//  };
-
-
+  DelayedIntersectionContract.prototype.constructor = DelayedIntersectionContract;
   DelayedIntersectionContract.prototype.toString = IntersectionContract.prototype.toString;
-
   DelayedIntersectionContract.from = IntersectionContract.from;
-
 
   // _   _      _          ___         _               _   
   //| | | |_ _ (_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -248,9 +288,9 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
     else TreatJS.Prototype.Contract.apply(this); 
 
     if(!(left instanceof TreatJS.Prototype.Contract))
-      throw new TypeError("Invalid contract");
+      throw new TypeError("Invalid contract.");
     if(!(right instanceof TreatJS.Prototype.Contract))
-      throw new TypeError("Invalid contract");
+      throw new TypeError("Invalid contract.");
 
     Object.defineProperties(this, {
       "left": {
@@ -273,15 +313,14 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
   //        |_|                
 
   TreatJS.export({
-    Base:           BaseContract,
-    Constructor:    ConstructorContract,
-    Object:         ObjectContract,
-    Function:       FunctionContract,
-    Dependent:      DependentContract,
-    IIntersection:  IntersectionContract, // TODO
-    Intersection:   IntersectionContract,
-    DIntersection:  DelayedIntersectionContract, // TODO
-    Union:          UnionContract
+    Base:                 BaseContract,
+    Constructor:          ConstructorContract,
+    Object:               ObjectContract,
+    Function:             FunctionContract,
+    Dependent:            DependentContract,
+    Intersection:         IntersectionContract,
+    DelayedIntersection:  DelayedIntersectionContract,
+    Union:                UnionContract
   });
 
   //         _                 
@@ -290,15 +329,14 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
   //|_| \___|\__|\_,_|_| |_||_|
 
   return {
-    Base:           BaseContract,
-    Constructor:    ConstructorContract,
-    Object:         ObjectContract,
-    Function:       FunctionContract,
-    Dependent:      DependentContract,
-    IIntersection:  IntersectionContract, // TODO
-    Intersection:   IntersectionContract,
-    DIntersection:  DelayedIntersectionContract, // TODO
-    Union:          UnionContract
+    Base:                 BaseContract,
+    Constructor:          ConstructorContract,
+    Object:               ObjectContract,
+    Function:             FunctionContract,
+    Dependent:            DependentContract,
+    Intersection:         IntersectionContract,
+    DelayedIntersection:  DelayedIntersectionContract,
+    Union:                UnionContract
   };
 
 });
