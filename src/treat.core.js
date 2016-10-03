@@ -342,12 +342,12 @@ quit();
     // | || ' \  _/ -_) '_(_-</ -_) _|  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
     //|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
-    else if (contract instanceof TreatJS.Contract.IIntersection) {
+    else if (contract instanceof TreatJS.Contract.Intersection) {
       const node = new TreatJS.Callback.newIntersection(callback);
       return topassert(topassert(subject, contract.left, node.left), contract.right, node.right);
     }
 
-    else if (contract instanceof TreatJS.Contract.DIntersection) {
+    else if (contract instanceof TreatJS.Contract.DelayedIntersection) {
       return (subject instanceof Object) ? new Proxy(subject, new Proxy({}, {
         get: function (handler, trapname) {
           return function(target, ...trapArgs) {

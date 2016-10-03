@@ -209,40 +209,35 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
 
     // Case: I - C
     if(left instanceof TreatJS.Prototype.Immediate) {
-      return new Intersection(left, right);
+      return new IntersectionContract(left, right);
 
-    // Case: Q - C
+      // Case: Q - C
     } else if(left instanceof TreatJS.Prototype.Delayed) {
 
       // Sub-Case: Q - R
       if(right instanceof TreatJS.Prototype.Delayed) {
-        return new DelayedIntersection(left, right);
+        return new DelayedIntersectionContract(left, right);
 
-      // Otherwise
+        // Otherwise
       } else {
-        return Intersection.from(right, left);
+        return IntersectionContract.from(right, left);
       }
 
-    // Case: A - C
-    } else if (left instanceof TreatJS.Prototype.Constructor) {
-      throw new TypeError("Invalid contract."); 
-
-
-    // Case: (C' + D') - C
-    } else if(left instanceof Union) {
+      // Case: (C' + D') - C
+    } else if(left instanceof UnionContract) {
 
       return new Union(
-          Intersection.from(left.left, right),
-          Intersection.from(left.right, right));
+          IntersectionContract.from(left.left, right),
+          IntersectionContract.from(left.right, right));
 
-    // Case: (C' - D') - C
-    } else if(left instanceof Intersection) {
+      // Case: (C' - D') - C
+    } else if(left instanceof IntersectionContract) {
 
-      return Intersection.from(
+      return IntersectionContract.from(
           left.left,
-          Intersection.from(left.right, right));
+          IntersectionContract.from(left.right, right));
 
-    // Otherwise
+      // Otherwise
     } else {
       throw new TypeError("Invalid contract.");
     }

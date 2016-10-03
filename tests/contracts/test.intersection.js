@@ -1,7 +1,7 @@
 
 
 
-new Test('Contract/DIntersection/1', function() {
+new Test('Contract/DelayedIntersection/1', function() {
 
   function plus(x, y) {
     return x+y;
@@ -15,27 +15,27 @@ new Test('Contract/DIntersection/1', function() {
   const StrStr_Str = Contract.Function(Contract.Object([typeString, typeString]), typeString);
 
   this.expect(function() {
-    const plusNumStr = Contract.assert(plus, Contract.DIntersection(NumNum_Num, StrStr_Str));
+    const plusNumStr = Contract.assert(plus, Contract.DelayedIntersection(NumNum_Num, StrStr_Str));
     plusNumStr(1,1);
   }).noBlame();
 
   this.expect(function() {
-    const plusNumStr = Contract.assert(plus, Contract.DIntersection(NumNum_Num, StrStr_Str));
+    const plusNumStr = Contract.assert(plus, Contract.DelayedIntersection(NumNum_Num, StrStr_Str));
     plusNumStr("1",1);
   }).contextBlame();
 
   this.expect(function() {
-    const plusNumStr = Contract.assert(plus, Contract.DIntersection(NumNum_Num, StrStr_Str));
+    const plusNumStr = Contract.assert(plus, Contract.DelayedIntersection(NumNum_Num, StrStr_Str));
     plusNumStr(1,"1");
   }).contextBlame();
 
   this.expect(function() {
-    const plusNumStr = Contract.assert(plus, Contract.DIntersection(NumNum_Num, StrStr_Str));
+    const plusNumStr = Contract.assert(plus, Contract.DelayedIntersection(NumNum_Num, StrStr_Str));
     plusNumStr(true,true);
   }).contextBlame();
 
   this.expect(function() {
-    const plusNumStr = Contract.assert(faultyPlus, Contract.DIntersection(NumNum_Num, StrStr_Str));
+    const plusNumStr = Contract.assert(faultyPlus, Contract.DelayedIntersection(NumNum_Num, StrStr_Str));
     plusNumStr(1,1);
   }).subjectBlame();
 
@@ -46,7 +46,7 @@ new Test('Contract/DIntersection/1', function() {
 
 /*
 
-   new Test('Contract/DIntersection/2', function() {
+   new Test('Contract/DelayedIntersection/2', function() {
 
    function plus(x, y) {
    return x+y;
@@ -60,17 +60,17 @@ new Test('Contract/DIntersection/1', function() {
    const PosPos_Pos = Contract.Function(Contract.Object([Positive, Positive]), Positive);
 
    this.expect(function() {
-   const plusEvenPos = Contract.assert(plus, Contract.DIntersection(EvenEven_Even, EvenEven_Even));
+   const plusEvenPos = Contract.assert(plus, Contract.DelayedIntersection(EvenEven_Even, EvenEven_Even));
    plusNumStr(1,1);
    }).noBlame();
 
    this.expect(function() {
-   const plusEvenPos = Contract.assert(plus, Contract.DIntersection(EvenEven_Even, EvenEven_Even));
+   const plusEvenPos = Contract.assert(plus, Contract.DelayedIntersection(EvenEven_Even, EvenEven_Even));
    plusNumStr(1,2);
    }).noBlame();
 
    this.expect(function() {
-   const plusEvenPos = Contract.assert(plus, Contract.DIntersection(EvenEven_Even, EvenEven_Even));
+   const plusEvenPos = Contract.assert(plus, Contract.DelayedIntersection(EvenEven_Even, EvenEven_Even));
    plusNumStr(2,2);
    }).noBlame();
 
@@ -78,7 +78,7 @@ new Test('Contract/DIntersection/1', function() {
 
 */
 
-new Test('Contract/DIntersection/3', function() {
+new Test('Contract/DelayedIntersection/3', function() {
 
   function g(x) {
     return x;
@@ -105,56 +105,56 @@ new Test('Contract/DIntersection/3', function() {
   this.expect(function() {
     const f = Contract.assert(function(h) {
       h(1); h("1"); return 1;
-    }, Contract.DIntersection(Any_Num__Num, Any_Str__Str));
+    }, Contract.DelayedIntersection(Any_Num__Num, Any_Str__Str));
     f(g);
   }).contextBlame();
 
   this.expect(function() {
     const f = Contract.assert(function(h) {
       h(1); h("1"); return "1";
-    }, Contract.DIntersection(Any_Num__Num, Any_Str__Str));
+    }, Contract.DelayedIntersection(Any_Num__Num, Any_Str__Str));
     f(g);
   }).contextBlame();
 
   this.expect(function() {
     const f = Contract.assert(function(h) {
       h("1"); h(1); return 1;
-    }, Contract.DIntersection(Any_Num__Num, Any_Str__Str));
+    }, Contract.DelayedIntersection(Any_Num__Num, Any_Str__Str));
     f(g);
   }).contextBlame();
 
   this.expect(function() {
     const f = Contract.assert(function(h) {
       h("1"); h(1); return "1";
-    }, Contract.DIntersection(Any_Num__Num, Any_Str__Str));
+    }, Contract.DelayedIntersection(Any_Num__Num, Any_Str__Str));
     f(g);
   }).contextBlame();
 
   this.expect(function() {
     const f = Contract.assert(function(h) {
       h(1); h(1); return 1;
-    }, Contract.DIntersection(Any_Num__Num, Any_Str__Str));
+    }, Contract.DelayedIntersection(Any_Num__Num, Any_Str__Str));
     f(g);
   }).noBlame();
 
   this.expect(function() {
     const f = Contract.assert(function(h) {
       h(1); h(1); return "1";
-    }, Contract.DIntersection(Any_Num__Num, Any_Str__Str));
+    }, Contract.DelayedIntersection(Any_Num__Num, Any_Str__Str));
     f(g);
   }).subjectBlame();
 
   this.expect(function() {
     const f = Contract.assert(function(h) {
       h("1"); h("1"); return "1";
-    }, Contract.DIntersection(Any_Num__Num, Any_Str__Str));
+    }, Contract.DelayedIntersection(Any_Num__Num, Any_Str__Str));
     f(g);
   }).noBlame();
 
   this.expect(function() {
     const f = Contract.assert(function(h) {
       h("1"); h("1"); return 1;
-    }, Contract.DIntersection(Any_Num__Num, Any_Str__Str));
+    }, Contract.DelayedIntersection(Any_Num__Num, Any_Str__Str));
     f(g);
   }).subjectBlame();
 
@@ -164,7 +164,7 @@ new Test('Contract/DIntersection/3', function() {
 
 
 
-new Test('Contract/DIntersection/4', function() {
+new Test('Contract/DelayedIntersection/4', function() {
 
   const target = {
     x:1,
@@ -175,22 +175,22 @@ new Test('Contract/DIntersection/4', function() {
   const StrStrStr = Contract.Object({x:typeString, y:typeString, z:typeString});
 
   this.expect(function() {
-    const object = Contract.assert(target, Contract.DIntersection(NumNumNum, StrStrStr));
+    const object = Contract.assert(target, Contract.DelayedIntersection(NumNumNum, StrStrStr));
     object.x;
   }).subjectBlame();
 
   this.expect(function() {
-    const object = Contract.assert(target, Contract.DIntersection(NumNumNum, StrStrStr));
+    const object = Contract.assert(target, Contract.DelayedIntersection(NumNumNum, StrStrStr));
     object.x = 1;
   }).noBlame();
 
   this.expect(function() {
-    const object = Contract.assert(target, Contract.DIntersection(NumNumNum, StrStrStr));
+    const object = Contract.assert(target, Contract.DelayedIntersection(NumNumNum, StrStrStr));
     object.x = "1";
   }).noBlame();
 
   this.expect(function() {
-    const object = Contract.assert(target, Contract.DIntersection(NumNumNum, StrStrStr));
+    const object = Contract.assert(target, Contract.DelayedIntersection(NumNumNum, StrStrStr));
     object.x = true;
   }).contextBlame();
 

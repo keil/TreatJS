@@ -58,17 +58,18 @@ TreatJS.package("TreatJS.Prototype", function(TreatJS, Contract, configuration) 
     return '[[TreatJS/Immediate]]';
   };
 
-  //  ___             _               _              ___         _               _   
-  // / __|___ _ _  __| |_ _ _ _  _ __| |_ ___ _ _   / __|___ _ _| |_ _ _ __ _ __| |_ 
-  //| (__/ _ \ ' \(_-<  _| '_| || / _|  _/ _ \ '_| | (__/ _ \ ' \  _| '_/ _` / _|  _|
-  // \___\___/_||_/__/\__|_|  \_,_\__|\__\___/_|    \___\___/_||_\__|_| \__,_\__|\__|
+  //  ___             _               _           
+  // / __|___ _ _  __| |_ _ _ _  _ __| |_ ___ _ _ 
+  //| (__/ _ \ ' \(_-<  _| '_| || / _|  _/ _ \ '_|
+  // \___\___/_||_/__/\__|_|  \_,_\__|\__\___/_|  
 
-  function ConstructorContract() {
-    if(!(this instanceof ConstructorContract)) return new ConstructorContract();
+
+  function Constructor() {
+    if(!(this instanceof Constructor)) return new Constructor();
   }
-  ConstructorContract.prototype = Object.create(Contract.prototype);
-  ConstructorContract.prototype.constructor = ConstructorContract;
-  ConstructorContract.prototype.toString = function() {
+  Constructor.prototype = Object.create({});
+  Constructor.prototype.constructor = Constructor;
+  Constructor.prototype.toString = function() {
     return '[[TreatJS/Constructor]]';
   };
 
@@ -81,7 +82,7 @@ TreatJS.package("TreatJS.Prototype", function(TreatJS, Contract, configuration) 
     Contract:     Contract,
     Immediate:    ImmediateContract,
     Delayed:      DelayedContract,
-    Constructor:  ConstructorContract
+    Constructor:  Constructor
   };
 
 });
