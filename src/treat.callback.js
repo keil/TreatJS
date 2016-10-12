@@ -30,12 +30,6 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
       const subject = (domain.context && (!domain.subject || range.subject));
 
       if(!(context && subject)) callback({context:context, subject:subject});
-
-      // TODO
-      /*callback({
-        context: (domain.subject && range.context),
-        subject: (domain.context && (!domain.subject || range.subject))
-      });*/
     }
 
     return {
@@ -71,11 +65,6 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
       const subject = (left.subject && right.subject);
 
       if(!(context && subject)) callback({context:context, subject:subject});
-
-      /*callback({
-        context: (left.context || right.context),
-        subject: (left.subject && right.subject)
-      });*/
     }
 
     return {
@@ -111,11 +100,6 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
       const subject = (left.subject || right.subject);
 
       if(!(context && subject)) callback({context:context, subject:subject});
-
-      /*callback({
-        context: (left.context && right.context),
-        subject: (left.subject || right.subject)
-      });*/
     }
 
     return {
@@ -150,11 +134,6 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
       const context = (properties.context && properties.subject);
 
       if(!context) callback({context:context, subject:true});
-
-      /*callback({
-        context: (properties.context && properties.subject),
-        subject: true
-      });*/
     }
 
     return {
@@ -183,17 +162,6 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
       
       if(!context) callbackContext({context:context, subject:true});
       if(!subject) callbackSubject({context:true, subject:subject});
-
-      /*callbackSubject({
-        context: true,
-        subject: contract.subject
-      });
-
-      callbackContext({
-        context: contract.context,
-        subject: true
-      });*/
-
     }
 
     return {
@@ -206,7 +174,6 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
       }
     }
   }
-
 
   //         _                 
   // _ _ ___| |_ _  _ _ _ _ _  
