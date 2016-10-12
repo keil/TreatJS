@@ -27,9 +27,15 @@ Contracts.build(this);
 
 TreatJS.Print.printVersion();
 TreatJS.Print.printConfiguration();
-TreatJS.Print.printStatistic();
-TreatJS.Print.printPackage();
-TreatJS.Print.printContract();
+//TreatJS.Print.printStatistic();
+//TreatJS.Print.printPackage();
+//TreatJS.Print.printContract();
+
+
+
+
+
+quit();
 
 print("************************************");
 

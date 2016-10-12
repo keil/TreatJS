@@ -69,6 +69,33 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
     return this.name ? "#"+this.name : "[[TreatJS/Constructor]]";
   };
 
+  ConstructorContract.prototype.construct = function(...argumentsList) {
+    return Contract.construct(this, argumentsList)
+  }
+
+  ConstructorContract.prototype.make = function(...argumentsList) {
+    const constructor = this;
+
+
+    return new Proxy(this.constructor, {
+      apply: function(construct, thisArg, argumentsList) {
+        print("SSSSSSSSSS", constructor);
+        return Reflect.apply(TreatJS.Core.construct, thisArg, [constructor, argumentsList]);
+      }});
+        
+    /*return new Proxy(Contract.construct.bind(this), {
+      apply: function(construct, thisArg, argumentsList) {
+        return Reflect.apply(construct, thisArg, argumentsList)
+        //return construct(argumentsList);
+      }
+        
+        )
+    return Contract.construct(this, argumentsList)*/
+
+  }
+
+
+
   //  ___  _     _        _    ___         _               _   
   // / _ \| |__ (_)___ __| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
   //| (_) | '_ \| / -_) _|  _| (__/ _ \ ' \  _| '_/ _` / _|  _|

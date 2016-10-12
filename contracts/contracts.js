@@ -95,7 +95,7 @@ var Contracts = Contracts || (function() {
       }, `TypeOf ${type}`);
     }, "TypeOf");
 
-    // TODO, constructior.name did not work, as it is an proeprty access
+    // TODO, constructior.name did not work, as it is an proeprty access on a wrapped value
     this.InstanceOf = Contract.Constructor(function(constructor) {
       return Contract.Base(function(object) {
         return (object instanceof constructor); 
@@ -128,7 +128,17 @@ var Contracts = Contracts || (function() {
      * Instance Contracts
      **/
 
-    this.InstanceOfArray = Contract.construct(InstanceOf, [Array])
+    this.InstanceOfArray = Contract.construct(InstanceOf, [Array]);
+
+
+
+    this.instanceOfObjectx = InstanceOf.construct(Object);
+
+    const InstanceOfAbs = InstanceOf.make();
+
+    print(InstanceOfAbs instanceof Contract.Constructor);
+
+    this.instanceOfObjectx = InstanceOfAbs(Array)
 
     // print(InstanceOfArray);
 

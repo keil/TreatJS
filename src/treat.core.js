@@ -325,9 +325,9 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
     else throw new TypeError("Invalid contract");
 
-  }, function(subject, contract) {
+  }, function(subject, contract, callback) {
     TreatJS.Log.log(TreatJS.Log.Keys.ASSERT, "assert", contract);
-  }, function(subject, contract) {
+  }, function(subject, contract, callback) {
     TreatJS.Statistic.increment(TreatJS.Statistic.Keys.ASSERT);
   });
 
@@ -338,16 +338,16 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
   /// _/ _ \ ' \(_-<  _| '_| || / _|  _|
   //\__\___/_||_/__/\__|_|  \_,_\__|\__|
 
-  let topconstruct = define(function (constructor, constructorArray=[]) {
+  let topconstruct = define(function (constructor, argumentsList=[]) {
 
     if(!(constructor instanceof TreatJS.Prototype.Constructor))
       throw new TypeError("Invalid constructor.");
 
-    return construct(constructor, constructorArray);
+    return construct(constructor, argumentsList);
 
-  }, function(subject, contract) {
-    TreatJS.Log.log(TreatJS.Log.Keys.CONSTRUCT, "top construct", contract);
-  }, function(subject, contract) {
+  }, function(constructor, argumentsList) {
+    TreatJS.Log.log(TreatJS.Log.Keys.CONSTRUCT, "top construct", constructor);
+  }, function(constructor, argumentsList) {
     TreatJS.Statistic.increment(TreatJS.Statistic.Keys.TOPCONSTRUCT);
   });
 
@@ -396,9 +396,9 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
     else throw new TypeError("Invalid constructor.");
 
-  }, function(subject, contract) {
-    TreatJS.Log.log(TreatJS.Log.Keys.CONSTRUCT, "construct", contract);
-  }, function(subject, contract) {
+  }, function(constructor, argumentsList) {
+    TreatJS.Log.log(TreatJS.Log.Keys.CONSTRUCT, "construct", constructor);
+  }, function(constructor, argumentsList) {
     TreatJS.Statistic.increment(TreatJS.Statistic.Keys.CONSTRUCT);
   });
 
