@@ -142,12 +142,12 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
   //|___/\___| .__/\___|_||_\__,_\___|_||_\__|\___\___/_||_\__|_| \__,_\__|\__|
   //         |_|                                                               
 
-  function DependentContract(constructor) {
+  function DependentContract(constructor, name) {
     if(!(this instanceof DependentContract)) return new DependentContract(constructor);
     else TreatJS.Prototype.Delayed.apply(this);
 
     if(constructor instanceof Function) {
-      constructor = new ConstructorContract(constructor);
+      constructor = new ConstructorContract(constructor, name);
     }
 
     if(!(constructor instanceof TreatJS.Prototype.Constructor))
