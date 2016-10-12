@@ -1,3 +1,11 @@
+*** Safty Level
+
+Implement TreatJS safty levels
+// Sandbox Mode  STRICT, NONE, PURE
+// nativePassThrought
+
+
+
 Benchmarks
 ==========
 

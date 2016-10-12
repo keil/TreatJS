@@ -82,6 +82,26 @@ var TreatJS = TreatJS || (function() {
     value: "INDY"
   });
 
+  // ___        __     _          _                _ 
+  /// __| __ _ / _|___| |_ _  _  | |   _____ _____| |
+  //\__ \/ _` |  _/ -_)  _| || | | |__/ -_) V / -_) |
+  //|___/\__,_|_| \___|\__|\_, | |____\___|\_/\___|_|
+  //                       |__/                      
+
+  Object.defineProperty(TreatJS, "NONE", {
+    value: "NONE"
+  });
+
+  Object.defineProperty(TreatJS, "PURE", {
+    value: "PURE"
+  });
+
+  Object.defineProperty(TreatJS, "STRICT", {
+    value: "STRICT"
+  });
+
+
+
   //  ___         _               _   
   // / __|___ _ _| |_ _ _ __ _ __| |_ 
   //| (__/ _ \ ' \  _| '_/ _` / _|  _|

@@ -23,14 +23,11 @@ load("lib/padding.js");
 load("lib/tproxy.js");
 load("lib/pure.js");
 
-// TODO, use TransparentProxy.js library 
-//var TransparentProxy = TransparentProxy || Proxy;
-
-// _____             _      _ ___   ___      _                       
-//|_   _| _ ___ __ _| |_ _ | / __| | _ \__ _| |____ __ _ __ _ ___ ___
-//  | || '_/ -_) _` |  _| || \__ \ |  _/ _` | / / _/ _` / _` / -_|_-<
-//  |_||_| \___\__,_|\__|\__/|___/ |_| \__,_|_\_\__\__,_\__, \___/__/
-//                                                      |___/        
+// ___      _                       
+//| _ \__ _| |____ __ _ __ _ ___ ___
+//|  _/ _` | / / _/ _` / _` / -_|_-<
+//|_| \__,_|_\_\__\__,_\__, \___/__/
+//                     |___/        
 
 load("src/treat.js");
 
@@ -38,10 +35,6 @@ load("src/treat.log.js");
 load("src/treat.statistic.js");
 
 load("src/treat.print.js");
-
-// dump statistic
-// print config / statisitc
-
 
 load("src/treat.prototype.js");
 load("src/treat.contract.js");
@@ -59,14 +52,14 @@ load("src/treat.sandbox.js");
 // / __|___ _ _| |_ _ _ __ _ __| |_ 
 //| (__/ _ \ ' \  _| '_/ _` / _|  _|
 // \___\___/_||_\__|_| \__,_\__|\__|
-                                  
+
 var Contract  = TreatJS.initialize({
   /* TreatJS evaluation semantics
    * (default: TreatJS.INDY)
    */semantics: TreatJS.INDY,
-  /* TreatJS noninterference mode
-   * (default: )
-   */ 
+  /* TreatJS safety level 
+   * (default: TreatJS.PURE)
+   */safetylevel: TreatJS.PURE,
   /** Enable contract assertion
    * (default: true)
    */assertion: true,
@@ -80,7 +73,3 @@ var Contract  = TreatJS.initialize({
    * (default: null)
    */print: console.log
 });
-
-
-// Sandbox Mode  STRICT, NONE, PURE
-// nativePassThrought
