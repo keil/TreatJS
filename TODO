@@ -9,6 +9,7 @@ Implement TreatJS safty levels
 *** Logger & Statistics
 
 - On Callbacks
+- Change Statistic flags
 
 
 *** Contracts
@@ -23,6 +24,19 @@ Implement TreatJS safty levels
 - Temporasl
 
 - Conjunction/ Cusjunction
+
+
+
+
+*** Tests
+
+- Picky/Indy/Lax semantics
+
+
+*** Constructor
+
+***
+
 
 
 Benchmarks
