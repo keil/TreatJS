@@ -20,32 +20,156 @@ TreatJS.package("Experimental", function (TreatJS, Contract, configuration) {
   // / _ \| ' \/ _` | (__/ _ \ ' \  _| '_/ _` / _|  _|
   ///_/ \_\_||_\__,_|\___\___/_||_\__|_| \__,_\__|\__|
 
-  function AndContract(first, second) {
-    if(!(this instanceof AndContract)) return new AndContract(first, second);
+  function AndContract(left, right) { 
+    if(!(this instanceof AndContract)) return new AndContract(left, right);
+    else TreatJS.Prototype.Contract.apply(this); 
 
-    if(!(first instanceof Contract))
-      error("Invalid Contract Argument", (new Error()).fileName, (new Error()).lineNumber);
-    if(!(second instanceof Contract))
-      error("Invalid Contract Argument", (new Error()).fileName, (new Error()).lineNumber);
+    if(!(left instanceof TreatJS.Prototype.Contract))
+      throw new TypeError("Invalid contract.");
+    if(!(right instanceof TreatJS.Prototype.Contract))
+      throw new TypeError("Invalid contract.");
 
     Object.defineProperties(this, {
-      "first": {
-        value: first
+      "left": {
+        value: left
       },
-      "second": {
-        value: second
+      "right": {
+        value: right
       }
     });
   }
-  AndContract.prototype = Object.create(CombinatorContract.prototype);
+  AndContract.prototype = Object.create(TreatJS.Prototype.Contract.prototype);
+  AndContract.prototype.constructor = AndContract;
   AndContract.prototype.toString = function() {
-    return "(" + this.first.toString() + "and" + this.second.toString() + ")";
+    return "(" + this.left.toString() + " & " + this.right.toString() + ")";
   };
 
   //  ___       ___         _               _   
   // / _ \ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
   //| (_) | '_| (__/ _ \ ' \  _| '_/ _` / _|  _|
   // \___/|_|  \___\___/_||_\__|_| \__,_\__|\__|
+
+    // ___     _                      _   _          ___         _               _   
+  //|_ _|_ _| |_ ___ _ _ ___ ___ __| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
+  // | || ' \  _/ -_) '_(_-</ -_) _|  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
+  //|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
+
+  function OrContract(left, right) { 
+    if(!(this instanceof OrContract)) return new OrContract(left, right);
+    else TreatJS.Prototype.Contract.apply(this);
+
+    if(!(left instanceof TreatJS.Prototype.Immediate))
+      throw new TypeError("Invalid contract.");
+    if(!(right instanceof TreatJS.Prototype.Contract))
+      throw new TypeError("Invalid contract.");
+
+    Object.defineProperties(this, {
+      "left": {
+        value: left
+      },
+      "right": {
+        value: right
+      }
+    });
+  }
+  OrContract.prototype = Object.create(TreatJS.Prototype.Contract.prototype);
+  OrContract.prototype.constructor = OrContract;
+  OrContract.prototype.toString = function() {
+    return "(" + this.left.toString() + " - " + this.right.toString() + ")";
+  };
+
+  //  __               
+  // / _|_ _ ___ _ __  
+  //|  _| '_/ _ \ '  \ 
+  //|_| |_| \___/_|_|_| 
+
+  /*OrContract.from = function(left, right) {
+
+    if(!(left instanceof TreatJS.Prototype.Contract))
+      throw new TypeError("Invalid contract.");
+    if(!(right instanceof TreatJS.Prototype.Contract))
+      throw new TypeError("Invalid contract.");
+
+
+    // Case: I - C
+    if(left instanceof TreatJS.Prototype.Immediate) {
+      return new OrContract(left, right);
+
+      // Case: Q - C
+    } else if(left instanceof TreatJS.Prototype.Delayed) {
+
+      // Sub-Case: Q - R
+      if(right instanceof TreatJS.Prototype.Delayed) {
+        return new DelayedOrContract(left, right);
+
+        // Otherwise
+      } else {
+        return OrContract.from(right, left);
+      }
+
+      // Case: (C' + D') - C
+    } else if(left instanceof UnionContract) {
+
+      return new Union(
+          OrContract.from(left.left, right),
+          OrContract.from(left.right, right));
+
+      // Case: (C' - D') - C
+    } else if(left instanceof OrContract) {
+
+      return OrContract.from(
+          left.left,
+          OrContract.from(left.right, right));
+
+      // Otherwise
+    } else {
+      throw new TypeError("Invalid contract.");
+    }
+
+  }*/
+
+  //    _     _                  _ 
+  // __| |___| |__ _ _  _ ___ __| |
+  /// _` / -_) / _` | || / -_) _` |
+  //\__,_\___|_\__,_|\_, \___\__,_|
+  //                 |__/          
+
+  function DelayedOrContract(left, right) { 
+    if(!(this instanceof DelayedOrContract)) return new DelayedOrContract(left, right);
+    else TreatJS.Prototype.Delayed.apply(this);
+
+    if(!(left instanceof TreatJS.Prototype.Delayed))
+      throw new TypeError("Invalid contract.");
+    if(!(right instanceof TreatJS.Prototype.Delayed))
+      throw new TypeError("Invalid contract.");
+
+    Object.defineProperties(this, {
+      "left": {
+        value: left
+      },
+      "right": {
+        value: right
+      }
+    });
+  }
+  DelayedOrContract.prototype = Object.create(TreatJS.Prototype.Delayed.prototype);
+  DelayedOrContract.prototype.constructor = DelayedOrContract;
+  DelayedOrContract.prototype.toString = OrContract.prototype.toString;
+  DelayedOrContract.from = OrContract.from;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   function OrContract(first, second) { 
     if(!(this instanceof OrContract)) return new OrContract(first, second);
@@ -69,78 +193,4 @@ TreatJS.package("Experimental", function (TreatJS, Contract, configuration) {
     return "(" + this.first.toString() + "or" + this.second.toString() + ")";
   };
 
-  // _  _     _    ___         _               _   
-  //| \| |___| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
-  //| .` / _ \  _| (__/ _ \ ' \  _| '_/ _` / _|  _|
-  //|_|\_\___/\__|\___\___/_||_\__|_| \__,_\__|\__|
-
-  function NotContract(sub) { 
-    if(!(this instanceof NotContract)) return new NotContract(sub);
-
-    if(!(sub instanceof Contract))
-      error("Invalid Contract Argument", (new Error()).fileName, (new Error()).lineNumber);
-
-    Object.defineProperties(this, {
-      "sub": {
-        value: sub
-      }
-    });
-  }
-  NotContract.prototype = Object.create(WrapperContract.prototype);
-  NotContract.prototype.toString = function() {
-    return "(not" + this.sub.toString() + ")";
-  };
-
-  //__      ___ _   _    ___         _               _   
-  //\ \    / (_) |_| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
-  // \ \/\/ /| |  _| ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
-  //  \_/\_/ |_|\__|_||_\___\___/_||_\__|_| \__,_\__|\__|                                                   
-
-  function WithContract(binding, sub) {
-    if(!(this instanceof WithContract)) return new WithContract(binding, sub);
-
-    if(!(binding instanceof Object)) error("Invalid Contract Argument", (new Error()).fileName, (new Error()).lineNumber);
-    if(!(sub instanceof Contract)) error("Invalid Contract Argument", (new Error()).fileName, (new Error()).lineNumber);
-
-    Object.defineProperties(this, {
-      "binding": {
-        value: binding
-      },
-      "sub": {
-        value: sub
-      }
-    });
-  }
-  WithContract.prototype = Object.create(WrapperContract.prototype);
-  WithContract.prototype.toString = function() {
-    var domain = "";
-    for(name in this.binding) domain += ((domain===""?"":",")) + name;
-    return "(with {" + domain + "}" + this.sub.toString() + ")";
-  };
-
-
-  // _  _               _   _          ___         _               _   
-  //| \| |___ __ _ __ _| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
-  //| .` / -_) _` / _` |  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
-  //|_|\_\___\__, \__,_|\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
-  //         |___/                                                     
-
-  function NegationContract(sub) { 
-    if(!(this instanceof NegationContract)) return new NegationContract(sub);
-
-    if(!(sub instanceof Contract))
-      error("Invalid Contract Argument", (new Error()).fileName, (new Error()).lineNumber);
-
-    Object.defineProperties(this, {
-      "sub": {
-        value: sub
-      }
-    }); 
-  }
-  NegationContract.prototype = Object.create(WrapperContract.prototype);
-  NegationContract.prototype.toString = function() {
-    return "(neg" + this.sub.toString() + ")";
-  };
-
-
-});
+ });

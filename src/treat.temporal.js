@@ -15,4 +15,97 @@
 
 TreatJS.package("Temporal", function (TreatJS, Contract, configuration) {
 
+
+  function Expression() {
+  }
+  Expression.prototype = {};
+
+
+
+
+
+  function Or(left, right) {
+    if(!(this instanceof Or)) return new Or(left, right);
+    else Expression.apply(this);
+
+    if(!(left instanceof Expression))
+      throw new TypeError("Invalid expression.");
+
+    if(!(right instanceof Expression))
+      throw new TypeError("Invalid expression.");
+
+    Object.defineProperties(this, {
+      "left": {
+        value: left
+      },
+      "right": {
+        value: right
+      }
+    });
+  }
+  Or.prototype = Object.create(Expression.prototype);
+  Or.prototype.constructor = And;
+  Or.prototype.toString = function() {
+    return "(" + this.left.toString() + " &" + this.right.toString() + ")";
+  };
+
+
+
+  function And(left, right) {
+    if(!(this instanceof And)) return new And(left, right);
+    else Expression.apply(this);
+
+    if(!(left instanceof Expression))
+      throw new TypeError("Invalid expression.");
+
+    if(!(right instanceof Expression))
+      throw new TypeError("Invalid expression.");
+
+    Object.defineProperties(this, {
+      "left": {
+        value: left
+      },
+      "right": {
+        value: right
+      }
+    });
+  }
+  And.prototype = Object.create(Expression.prototype);
+  And.prototype.constructor = And;
+  And.prototype.toString = function() {
+    return "(" + this.left.toString() + " &" + this.right.toString() + ")";
+  };
+
+
+
+
+  function Dot(left, right) {
+    if(!(this instanceof Dot)) return new Dot(left, right);
+    else Expression.apply(this);
+
+    if(!(left instanceof Expression))
+      throw new TypeError("Invalid expression.");
+
+    if(!(right instanceof Expression))
+      throw new TypeError("Invalid expression.");
+
+    Object.defineProperties(this, {
+      "left": {
+        value: left
+      },
+      "right": {
+        value: right
+      }
+    });
+  }
+  Dot.prototype = Object.create(Expression.prototype);
+  Dot.prototype.constructor = Dot;
+  Dot.prototype.toString = function() {
+    return "(" + this.left.toString() + "." + this.right.toString() + ")";
+  };
+
+
+
+
+
 });

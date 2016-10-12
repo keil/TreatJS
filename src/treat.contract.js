@@ -329,6 +329,88 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
     return "(" + this.left.toString() + " + " + this.right.toString() + ")";
   };
 
+
+
+
+
+
+  // Why is this not a constructor
+
+  // ___                    _          ___         _               _   
+  //| _ \___ __ _  _ _ _ __(_)_ _____ / __|___ _ _| |_ _ _ __ _ __| |_ 
+  //|   / -_) _| || | '_(_-< \ V / -_) (__/ _ \ ' \  _| '_/ _` / _|  _|
+  //|_|_\___\__|\_,_|_| /__/_|\_/\___|\___\___/_||_\__|_| \__,_\__|\__|
+
+  function RecursiveContract(constructor, name) {
+    if(!(this instanceof RecursiveContract)) return new RecursiveContract(constructor);
+    else TreatJS.Prototype.Immediate.apply(this);
+
+    if(constructor instanceof Function) {
+      constructor = new ConstructorContract(constructor, name);
+    }
+
+    if(!(constructor instanceof TreatJS.Prototype.Constructor))
+      throw new TypeError("Invalid constructor.");
+
+    Object.defineProperties(this, {
+      "constructor": {
+        value: constructor
+      }
+    });
+  }
+  DependentContract.prototype = Object.create(TreatJS.Prototype.Immediate.prototype);
+  DependentContract.prototype.constructor = DependentContract;
+  DependentContract.prototype.toString = function() {
+    return "(" + "%" + "." + this.constructor.toString() + ")";
+  };
+
+
+  // ___             _ _  ___         _               _   
+  //| __|__ _ _ __ _| | |/ __|___ _ _| |_ _ _ __ _ __| |_ 
+  //| _/ _ \ '_/ _` | | | (__/ _ \ ' \  _| '_/ _` / _|  _|
+  //|_|\___/_| \__,_|_|_|\___\___/_||_\__|_| \__,_\__|\__|
+
+  function ForallContract(constructor, name) {
+    if(!(this instanceof ForallContract)) return new ForallContract(constructor);
+    else TreatJS.Prototype.Immediate.apply(this);
+
+    if(constructor instanceof Function) {
+      constructor = new ConstructorContract(constructor, name);
+    }
+
+    if(!(constructor instanceof TreatJS.Prototype.Constructor))
+      throw new TypeError("Invalid constructor.");
+
+    Object.defineProperties(this, {
+      "constructor": {
+        value: constructor
+      }
+    });
+  }
+  DependentContract.prototype = Object.create(TreatJS.Prototype.Immediate.prototype);
+  DependentContract.prototype.constructor = DependentContract;
+  DependentContract.prototype.toString = function() {
+    return "(" + "%" + "." + this.constructor.toString() + ")";
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   // _____ ___ __  ___ _ _| |_ 
   /// -_) \ / '_ \/ _ \ '_|  _|
   //\___/_\_\ .__/\___/_|  \__|
