@@ -190,6 +190,29 @@ TreatJS.package("Temporal", function (TreatJS, Contract, configuration) {
   //|___/_\_\ .__/_| \___/__/__/_\___/_||_/__/
   //        |_|                               
 
+  // TODO
+  function Empty() {
+    if(!(this instanceof Empty)) return new Star();
+    else Expression.apply(this);
+  }
+  Empty.prototype = Object.create(Expression.prototype);
+  Empty.prototype.constructor = Empty;
+  Empty.prototype.toString = function() {
+    return "(" + this.expression.toString() + "*)";
+  };
+
+  function Null() {
+    if(!(this instanceof Null)) return new Null();
+    else Expression.apply(this);
+  }
+  Null.prototype = Object.create(Expression.prototype);
+  Null.prototype.constructor = Nul;
+  Null.prototype.toString = function() {
+    return "(" + this.expression.toString() + "*)";
+  };
+
+
+
   function Star(expression) {
     if(!(this instanceof Star)) return new Star(expression);
     else Expression.apply(this);
@@ -302,6 +325,23 @@ TreatJS.package("Temporal", function (TreatJS, Contract, configuration) {
   Dot.prototype.toString = function() {
     return "(" + this.left.toString() + "." + this.right.toString() + ")";
   };
+
+
+  function nullable(exp) {
+
+    if (exp instanceof Empty) return true;
+    else if (exp instanceof Null) return false;    
+    else if (exp instanceof Literal) return false;
+    else if (exp instanceof Star) return true;
+    else if (exp instanceof Or) return (nullable(exp.left) || nullable(exp.right));
+    else if (exp instanceof And) return (nullable(exp.left) && nullable(exp.right));
+    else if (exp instanceof Not) return !(nullable(exp.expression));
+    else if (exp instanceof Dot) return (nullable(exp.left) && nullable(exp.right));
+    else error("Type checking not implemented for given expression", (new Error()).fileName, (new Error()).lineNumber);
+  
+  
+  
+  }
 
 
 
