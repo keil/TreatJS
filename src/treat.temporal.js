@@ -363,40 +363,37 @@ TreatJS.package("Temporal", function (TreatJS, Contract, configuration) {
     else if(exp instanceof And) return (valid(exp.left, eff, equals) && valid(exp.right, eff, equals));
     else if(exp instanceof Not) return true;
 
-    else if(exp instanceof Dot) return (nullable(exp.left) ? (valid(exp.left, eff, equals) || valid(exp.right, eff, equals)) : valid(exp.left, eff, equals);
-        else throw new TypeError("Invalid expression.");
-        }
+    else if(exp instanceof Dot) return (nullable(exp.left) ? (valid(exp.left, eff, equals) || valid(exp.right, eff, equals)) : valid(exp.left, eff, equals));
+    else throw new TypeError("Invalid expression.");
+  }
 
 
 
-        function derive(exp, eff, equals) {
+  function derive(exp, eff, equals) {
 
-          if(exp instanceof Empty) return new Null();
-          else if(exp instanceof Null) return new Null();
+    if(exp instanceof Empty) return new Null();
+    else if(exp instanceof Null) return new Null();
 
-          else if(exp instanceof Get) return equals(exp.target, eff.target) ? new Empty() : new Null();
-          else if(exp instanceof Set) return equals(exp.target, eff.target) ? new Empty() : new Null();
-          else if(exp instanceof Apply) return equals(exp.target, eff.target) ? new Empty() : new Null();
-          else if(exp instanceof Return) return equals(exp.target, eff.target) ? new Empty() : new Null();
-          else if(exp instanceof Any) return equals(exp.target, eff.target) ? new Empty() : new Null();
+    else if(exp instanceof Get) return equals(exp.target, eff.target) ? new Empty() : new Null();
+    else if(exp instanceof Set) return equals(exp.target, eff.target) ? new Empty() : new Null();
+    else if(exp instanceof Apply) return equals(exp.target, eff.target) ? new Empty() : new Null();
+    else if(exp instanceof Return) return equals(exp.target, eff.target) ? new Empty() : new Null();
+    else if(exp instanceof Any) return equals(exp.target, eff.target) ? new Empty() : new Null();
 
-          else if(exp instanceof Arbitrary) return new Empty();
-          else if(exp instanceof Complement) return !(valid(exp.expression, eff, equals)) ? new Empty() : new Null();
+    else if(exp instanceof Arbitrary) return new Empty();
+    else if(exp instanceof Complement) return !(valid(exp.expression, eff, equals)) ? new Empty() : new Null();
 
-          else if(exp instanceof Star) return new Dot(derive(exp, eff, equals), exp)
+    else if(exp instanceof Star) return new Dot(derive(exp, eff, equals), exp)
 
-          else if(exp instanceof Or) return new Or(derive(exp.left, eff, equals), derive(exp.right, eff, equals));
-          else if(exp instanceof And) return new And(derive(exp.left, eff, equals), derive(exp.right, eff, equals));
+    else if(exp instanceof Or) return new Or(derive(exp.left, eff, equals), derive(exp.right, eff, equals));
+    else if(exp instanceof And) return new And(derive(exp.left, eff, equals), derive(exp.right, eff, equals));
 
-          else if(exp instanceof Not) return new Not(dertive(exp.expression, eff, equals));
+    else if(exp instanceof Not) return new Not(dertive(exp.expression, eff, equals));
 
-          else if(exp instanceof Dot) return (nullable(exp.left) ? new Or(new Dot(derive(exp.left, eff, equals), exp.right), derive(exp.right, eff, equals)) : new Dot(derive(exp.left, eff, equals), exp.right);
+    else if(exp instanceof Dot) return (nullable(exp.left) ? new Or(new Dot(derive(exp.left, eff, equals), exp.right), derive(exp.right, eff, equals)) : new Dot(derive(exp.left, eff, equals), exp.right));
 
-              else throw new TypeError("Invalid expression.");
-              }
-
-
-
+    else throw new TypeError("Invalid expression.");
+  }
 
 
 
@@ -404,4 +401,16 @@ TreatJS.package("Temporal", function (TreatJS, Contract, configuration) {
 
 
 
-              });
+
+  function final() {
+    // interface that reveals a valiable and gets the assigend contract and checks its stae
+  }
+
+
+
+
+
+
+
+
+});

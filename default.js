@@ -13,6 +13,15 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
+
+const xxx = new Proxy({x:4711}, {has:(target, name, receiver) => {print(name); return (name in target)}});
+
+print(xxx.x);
+print('x' in xxx);
+print('y' in xxx);
+
+quit();
+
 //  ___         _               _      
 // / __|___ _ _| |_ __ _ _ _ __| |_ ___
 //| (__/ _ \ ' \  _/ _` | '_/ _|  _(_-<
@@ -32,6 +41,23 @@ TreatJS.Print.printConfiguration();
 //TreatJS.Print.printContract();
 
 
+function createRealm() {
+
+  var realm = {};
+
+  realm.Map = function Map() {
+  };
+    realm.Map.prototype = Object.create(this.Map.prototype);
+
+  return realm;
+}
+
+var r = createRealm();
+var x = new r.Map();
+var y = new Map();
+
+print(y instanceof Map, y instanceof r.Map);
+print(x instanceof Map, x instanceof r.Map);
 
 
 

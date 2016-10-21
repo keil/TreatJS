@@ -241,7 +241,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     //          |__/                                             
 
     else if (contract instanceof TreatJS.Contract.Object) {
-      return (subject instanceof Object) ?  wrap(subject, contract, callback, {
+      return (subject instanceof Object) ? wrap(subject, contract, callback, {
         get: function (target, name, receiver) {          
           const value = Reflect.get(target, name, receiver);       
           return contract.map.has(name) ? assert(value, contract.map.get(name), callback) : value;
