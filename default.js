@@ -13,15 +13,6 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-
-const xxx = new Proxy({x:4711}, {has:(target, name, receiver) => {print(name); return (name in target)}});
-
-print(xxx.x);
-print('x' in xxx);
-print('y' in xxx);
-
-quit();
-
 //  ___         _               _      
 // / __|___ _ _| |_ __ _ _ _ __| |_ ___
 //| (__/ _ \ ' \  _/ _` | '_/ _|  _(_-<

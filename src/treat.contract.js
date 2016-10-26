@@ -62,6 +62,15 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
         value: name
       }
     });
+    
+    return Object.defineProperties(Object.setPrototypeOf(ConstructorContract.prototype.construct.bind(this), this), {
+      "constructor": {
+        value: TreatJS.Sandbox.recompileConstructor(constructor)
+      },
+      "name": {
+        value: name
+      }
+    });
   }
   ConstructorContract.prototype = Object.create(TreatJS.Prototype.Constructor.prototype);
   ConstructorContract.prototype.constructor = ConstructorContract;
@@ -70,32 +79,9 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
   };
 
   ConstructorContract.prototype.construct = function(...argumentsList) {
-    return Contract.construct(this, argumentsList)
+    return Contract.construct(this, argumentsList);
   }
-
-  ConstructorContract.prototype.make = function(...argumentsList) {
-    const constructor = this;
-
-
-    return new Proxy(this.constructor, {
-      apply: function(construct, thisArg, argumentsList) {
-        print("SSSSSSSSSS", constructor);
-        return Reflect.apply(TreatJS.Core.construct, thisArg, [constructor, argumentsList]);
-      }});
-        
-    /*return new Proxy(Contract.construct.bind(this), {
-      apply: function(construct, thisArg, argumentsList) {
-        return Reflect.apply(construct, thisArg, argumentsList)
-        //return construct(argumentsList);
-      }
-        
-        )
-    return Contract.construct(this, argumentsList)*/
-
-  }
-
-
-
+  
   //  ___  _     _        _    ___         _               _   
   // / _ \| |__ (_)___ __| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
   //| (_) | '_ \| / -_) _|  _| (__/ _ \ ' \  _| '_/ _` / _|  _|

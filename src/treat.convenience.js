@@ -20,10 +20,7 @@ TreatJS.package("TreatJS.Convenience", function (TreatJS, Contract, configuratio
   //|_ _|_ _| |_ ___ _ _ ___ ___ __| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
   // | || ' \  _/ -_) '_(_-</ -_) _|  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
   //|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
-
-  
-
-
+ 
   function ImmediateIntersectionContract(left, right) { 
     if(!(this instanceof ImmediateIntersectionContract)) return new ImmediateIntersectionContract(left, right);
     else TreatJS.Prototype.Immediate.apply(this);

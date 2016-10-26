@@ -95,15 +95,11 @@ var Contracts = Contracts || (function() {
       }, `TypeOf ${type}`);
     }, "TypeOf");
 
-    // TODO, constructior.name did not work, as it is an proeprty access on a wrapped value
     this.InstanceOf = Contract.Constructor(function(constructor) {
       return Contract.Base(function(object) {
         return (object instanceof constructor); 
       }, `InstanceOf ${constructor.name}`);
     }, "InstanceOf");
-
-    // /**/
-
 
     this.Is = Contract.Constructor(function(target) {
       return Contract.Base(function(value) {
@@ -117,69 +113,27 @@ var Contracts = Contracts || (function() {
       }, `Between ${min} ${max}`);
     }, "Between");
 
-    this.LengthOf = Contract.Constructor(function(length) {
+    this.Length = Contract.Constructor(function(length) {
       return Contract.Base(function(object) {
         return (object.length === length); 
-      }, `LengthOf ${legth}`)
-    }, "LengthOf");
-
+      }, `Length ${legth}`)
+    }, "Length");
 
     /**
-     * Instance Contracts
+     * Specoal Contracts
      **/
 
-    this.InstanceOfArray = Contract.construct(InstanceOf, [Array]);
-
-
-
-    this.instanceOfObjectx = InstanceOf.construct(Object);
-
-    const InstanceOfAbs = InstanceOf.make();
-
-    print(InstanceOfAbs instanceof Contract.Constructor);
-
-    this.instanceOfObjectx = InstanceOfAbs(Array)
-
-    // print(InstanceOfArray);
-
-    /*
-    this.instanceOfObject = InstanceOf(Object);
-    this.instanceOfFunction = InstanceOf(Function);
-
-    this.instanceOfError = InstanceOf(Error);
-*/
-    // TODO
-    //this.instanceOfFunction = InstanceOf(Boolean);
-    //this.instanceOfFunction = InstanceOf(Number);
-    //this.instanceOfFunction = InstanceOf(String);
-
-
-
-/*
- *
- * Maybe add a global object to the base constructor
-
-    this.Between = Contract.Constructor(function(min, max) {
+    this.Even = (Contract.Constructor(function(Math) {
       return Contract.Base(function(value) {
-        return (min <= value) && (value <= max); 
-      }, `Between ${min} ${max}`);
-    }, "Between");
+        return (Math.abs(value) % 2 === 0);
+      },"Even");
+    }, "Even"))(Math);
 
-*/
-
-
-
-    // TODO
-    this.Even = TreatJS.Contract.Base(function(value) {
-      return (Math.abs(value) % 2 === 0);
-    },"Even");
-
-    // TODO
-    this.Odd = TreatJS.Contract.Base(function(value) {
-      return (Math.abs(value) % 2 === 1);
-    },"Odd");
-
-
+    this.Odd = (Contract.Constructor(function(Math) {
+      return Contract.Base(function(value) {
+        return (Math.abs(value) % 2 === 1);
+      },"Odd");
+    }, "Odd"))(Math);
 
     this.Positive = TreatJS.Contract.Base(function(value) {
       return (value > 0);
@@ -192,45 +146,6 @@ var Contracts = Contracts || (function() {
     this.Negative = TreatJS.Contract.Base(function(value) {
       return (value < 0);
     },"Negative");
-
-
-
-
-
-    var isNaN= TreatJS.Contract.Base(function(value) {
-      return (arg === NaN);
-    },"isNaN");
-
-    var isUndefined = TreatJS.Contract.Base(function(value) {
-      return (arg === undefined);
-    },"isUndefined");
-
-    var isNull = TreatJS.Contract.Base(function(value) {
-      return (arg === null);
-    },"isNull");
-
-    var isTrue = TreatJS.Contract.Base(function(value) {
-      return (arg) ? true : false; 
-    },"isTrue");
-
-    var isFalse = TreatJS.Contract.Base(function(value) {
-      return (arg) ? false : true; 
-    },"isFalse");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     return this;
   }
