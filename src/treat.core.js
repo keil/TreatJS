@@ -254,6 +254,36 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       }) : subject;
     }
 
+    else if (contract instanceof TreatJS.Contract.StrictObject) {
+      return (subject instanceof Object) ? wrap(subject, contract, callback, {
+        get: function (target, name, receiver) {
+          const value = Reflect.get(target, name, receiver); 
+          if(contract.map.has(name)) {                  
+            return assert(value, contract.map.get(name), callback);
+          } else {
+            callback({
+              context: false,
+              subject: true       
+            });
+            return value;
+          }          
+        },
+        set: function (target, name, value, receiver) {
+          if(contract.map.has(name)) {                  
+            const node = TreatJS.Callback.newAssignment(callback);
+            const contracted = assert(value, contract.map.get(name), node.properties);
+            return Reflect.set(target, name, contracted, receiver); 
+          } else {
+            callback({
+              context: false,
+              subject: true       
+            });
+            return Reflect.set(target, name, value, receiver);
+          } 
+        }
+      }) : subject;
+    }
+
     // ___          _   _   _          ___         _               _   
     //| __|  _ _ _ | |_| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
     //| _| || | ' \| / /  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|

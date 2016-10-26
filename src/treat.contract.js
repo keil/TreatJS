@@ -102,9 +102,11 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
   // \___/|_.__// \___\__|\__|\___\___/_||_\__|_| \__,_\__|\__|
   //          |__/                                             
 
-  function ObjectContract(object) { 
-    if(!(this instanceof ObjectContract)) return new ObjectContract(object);
+  function ObjectContract(object, strict=false) { 
+    if(!(this instanceof ObjectContract)) return new ObjectContract(object, strict);
     else TreatJS.Prototype.Delayed.apply(this);
+
+    if(strict) return new StrictObjectContract(object);
 
     if(!(object instanceof Object))
       throw new TypeError("Invalid contract mapping.");
@@ -130,6 +132,18 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
     }
     return output+"}";
   };
+
+  //    _       _    _   
+  // __| |_ _ _(_)__| |_ 
+  //(_-<  _| '_| / _|  _|
+  // __/\__|_| |_\__|\__|
+  
+  function StrictObjectContract(object) {
+    if(!(this instanceof StrictObjectContract)) return new StrictObjectContract(object);
+    else ObjectContract.apply(this, [object]);
+  }
+  ObjectContract.prototype = Object.create(ObjectContract.prototype);
+  ObjectContract.prototype.constructor = StrictObjectContract;
 
   // ___          _   _   _          ___         _               _   
   //| __|  _ _ _ | |_| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -420,6 +434,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
     Base:                 BaseContract,
     Constructor:          ConstructorContract,
     Object:               ObjectContract,
+    StrictObject:         StrictObjectContract,
     Function:             FunctionContract,
     Dependent:            DependentContract,
     Intersection:         IntersectionContract,
@@ -436,6 +451,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
     Base:                 BaseContract,
     Constructor:          ConstructorContract,
     Object:               ObjectContract,
+    StrictObject:         StrictObjectContract,
     Function:             FunctionContract,
     Dependent:            DependentContract,
     Intersection:         IntersectionContract,
