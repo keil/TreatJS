@@ -1,16 +1,15 @@
+*** This-reference in Dependent Contract
+
 *** Safty Level
 
 Implement TreatJS safty levels
 // Sandbox Mode  STRICT, NONE, PURE
 // nativePassThrought
 
-
-
 *** Logger & Statistics
 
 - On Callbacks
 - Change Statistic flags
-
 
 *** Contracts
 
@@ -23,19 +22,11 @@ Implement TreatJS safty levels
 - Invariant
 - Temporasl
 
-- Conjunction/ Cusjunction
-
-
-
+- Conjunction/ Disjunction
 
 *** Tests
 
 - Picky/Indy/Lax semantics
-
-
-*** Constructor
-
-***
 
 
 
