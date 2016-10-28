@@ -53,7 +53,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
 
     if(!(constructor instanceof Function))
       throw new TypeError("Invalid constructor.");
-
+    
     Object.defineProperties(this, {
       "constructor": {
         value: TreatJS.Sandbox.recompileConstructor(constructor)
