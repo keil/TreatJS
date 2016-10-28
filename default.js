@@ -32,6 +32,14 @@ TreatJS.Print.printConfiguration();
 //TreatJS.Print.printContract();
 
 
+let XXX = (Contract.Constructor(Math => Contract.Base(subject => (Math.abs(subject) == 1))))(Math);
+
+print(XXX);
+
+Contract.assert(2, XXX);
+
+quit();
+
 function createRealm() {
 
   var realm = {};

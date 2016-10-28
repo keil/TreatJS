@@ -1,3 +1,20 @@
+*** Implicite coercions for contracts
+
+- [] and {} --> Object Contract
+- ""        --> Predicates/ Base Contracts
+- x => x    --> Dependent Contracts
+
+
+
+
+Contract.assert(1, subject => typeof subject == 'number')
+
+let f = Contract.Function([typeNumber, typeNumber], typeNumber);
+let i = Contract.Intersection();
+
+let TypeOf = Contract.Constructor(Math => Contract.Base(subject => (Math.abs(subject) == 1)));
+
+
 *** This-reference in Dependent Contract
 
 *** Safty Level
@@ -15,7 +32,7 @@ Implement TreatJS safty levels
 
 - Polymorphic // constructor
 
-- Methos Contract
+- Method Contract
 - Reflection (get/ set)
 - ForaLL
 - Recursion 
