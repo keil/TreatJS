@@ -15,6 +15,40 @@
 
 TreatJS.package("TreatJS.Convenience", function (TreatJS, Contract, configuration) {
 
+  // __  __     _   _            _  ___         _               _   
+  //|  \/  |___| |_| |_  ___  __| |/ __|___ _ _| |_ _ _ __ _ __| |_ 
+  //| |\/| / -_)  _| ' \/ _ \/ _` | (__/ _ \ ' \  _| '_/ _` / _|  _|
+  //|_|  |_\___|\__|_||_\___/\__,_|\___\___/_||_\__|_| \__,_\__|\__|
+
+    function MethodContract(target, domain, range) {
+    if(!(this instanceof MethodContract)) return new MethodContract(target, domain, range);
+    else TreatJS.Prototype.Delayed.apply(this);
+
+    // TODO
+    if(domain instanceof Array)
+      domain = new ObjectContract(domain);
+
+    if(!(domain instanceof TreatJS.Prototype.Contract))
+      throw new TypeError("Invalid contract.");
+    if(!(range instanceof TreatJS.Prototype.Contract))
+      throw new TypeError("Invalid contract.");
+
+    Object.defineProperties(this, {
+      "domain": {
+        value: domain
+      },
+      "range": {
+        value: range
+      }
+    });
+  }
+  FunctionContract.prototype = Object.create(TreatJS.Prototype.Delayed.prototype);
+  FunctionContract.prototype.constructor = FunctionContract;
+  FunctionContract.prototype.toString = function() {
+    return "(" + this.domain.toString() + " -> " + this.range.toString() + ")";
+  }; 
+
+
 
   // ___     _                      _   _          ___         _               _   
   //|_ _|_ _| |_ ___ _ _ ___ ___ __| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
