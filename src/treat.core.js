@@ -300,6 +300,23 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       }) : subject;
     }
 
+  // __  __     _   _            _  ___         _               _   
+  //|  \/  |___| |_| |_  ___  __| |/ __|___ _ _| |_ _ _ __ _ __| |_ 
+  //| |\/| / -_)  _| ' \/ _ \/ _` | (__/ _ \ ' \  _| '_/ _` / _|  _|
+  //|_|  |_\___|\__|_||_\___/\__,_|\___\___/_||_\__|_| \__,_\__|\__|
+
+    else if(contract instanceof TreatJS.Contract.Method) {
+      return (subject instanceof Function) ? wrap(subject, contract, callback, {
+        apply: function (target, thisArg, argumentsArg) {
+          const node = TreatJS.Callback.newFunction(callback);
+          const thisArgContracted = assert(thisArg, contract.target, node.domain);
+          const argumentsArgContracted = assert(argumentsArg, contract.domain, node.domain);
+          const result = Reflect.apply(target, thisArgContracted, argumentsArgContracted);
+          return assert(result, contract.range, node.range);    
+        }
+      }) : subject;
+    }
+
     // ___                        _         _    ___         _               _   
     //|   \ ___ _ __  ___ _ _  __| |___ _ _| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
     //| |) / -_) '_ \/ -_) ' \/ _` / -_) ' \  _| (__/ _ \ ' \  _| '_/ _` / _|  _|
