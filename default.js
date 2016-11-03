@@ -32,6 +32,54 @@ TreatJS.Print.printConfiguration();
 //TreatJS.Print.printContract();
 
 
+
+
+(function() {
+  let id = Contract.assert(function id(x) {
+    return x
+  }, Contract.Function([typeNumber], typeNumber));
+  let idTest = (Contract.Constructor(function test(id) {
+    return Contract.Base(function test(subject) {
+      return subject == id(subject);
+    }, "ID Test");
+  }))(id);
+
+  Contract.assert("a", idTest); // accepted
+
+});
+
+
+(function() {
+
+  let addOne = Contract.assert(function addOne(plus, z) {
+    return plus(z, '1');
+  }, Contract.Intersection(
+    Contract.Dependent(function(plus, z) {
+      return Contract.Base(function(subject) {
+        return true; // plus(z, '1');
+      },  "Plus Test");
+    }),
+    Contract.Function([Contract.Function([typeNumber], typeNumber), typeNumber], typeNumber)
+    )
+  );
+
+  addOne(function plus(x, y) {
+    return (x + y);
+  }, 2);
+
+})();
+
+
+
+
+
+
+
+quit();
+
+
+
+
 let XXX = (Contract.Constructor(Math => Contract.Base(subject => (Math.abs(subject) == 1))))(Math);
 
 print(XXX);

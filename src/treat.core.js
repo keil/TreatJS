@@ -112,7 +112,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
         break;
 
       case TreatJS.LAX:
-        return mirrorPacl;
+        return mirrorLax;
         break;
 
       case TreatJS.PICKY:
@@ -305,7 +305,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
   //| |\/| / -_)  _| ' \/ _ \/ _` | (__/ _ \ ' \  _| '_/ _` / _|  _|
   //|_|  |_\___|\__|_||_\___/\__,_|\___\___/_||_\__|_| \__,_\__|\__|
 
-    else if(contract instanceof TreatJS.Contract.Method) {
+    else if(contract instanceof TreatJS.Convenience.Method) {
       return (subject instanceof Function) ? wrap(subject, contract, callback, {
         apply: function (target, thisArg, argumentsArg) {
           const node = TreatJS.Callback.newFunction(callback);
@@ -413,7 +413,10 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
         contract: constructor
       });
 
-      // TODO, semantics
+      // Mirrors the constructor arguments.
+      for(let key in constructorArray) {
+        constructorArray[key] = mirror(constructorArray[key]);
+      }
 
       // Call constructor to create new contract.
       let contract = null;

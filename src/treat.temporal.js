@@ -175,12 +175,12 @@ TreatJS.package("Temporal", function (TreatJS, Contract, configuration) {
     return '[[TreatJS/Literal/Cmp]]'; 
   };
 
-  function Any() {
-    if(!(this instanceof Any)) return new Any();
+  function Arbitrary() {
+    if(!(this instanceof Arbitrary)) return new Arbitrary();
   }
-  Any.prototype = Object.create(Literal.prototype);
-  Any.prototype.constructor = Any;
-  Any.prototype.toString = function() {
+  Arbitrary.prototype = Object.create(Literal.prototype);
+  Arbitrary.prototype.constructor = Arbitrary;
+  Arbitrary.prototype.toString = function() {
     return '[[TreatJS/Literal/Any]]'; 
   };
 

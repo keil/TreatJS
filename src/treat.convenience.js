@@ -48,7 +48,7 @@ TreatJS.package("TreatJS.Convenience", function (TreatJS, Contract, configuratio
     });
   }
   MethodContract.prototype = Object.create(TreatJS.Prototype.Delayed.prototype);
-  MethodContract.prototype.constructor = FunctionContract;
+  MethodContract.prototype.constructor = MethodContract;
   MethodContract.prototype.toString = function() {
     return "(" + this.domain.toString() + " -> " + this.range.toString() + "|" | this.target.toString(); + ")";
   }; 
@@ -119,8 +119,8 @@ TreatJS.package("TreatJS.Convenience", function (TreatJS, Contract, configuratio
     //        |_|                
 
     TreatJS.export({
-      Method:  MethodContract,
-      ImmediateIntersection: ImmediateIntersectionContract
+      Method:                 MethodContract,
+      ImmediateIntersection:  ImmediateIntersectionContract
     });
 
     //         _                 
@@ -129,7 +129,7 @@ TreatJS.package("TreatJS.Convenience", function (TreatJS, Contract, configuratio
     //|_| \___|\__|\_,_|_| |_||_|
 
     return {
-      Method:  MethodContract,
+      Method:                 MethodContract,
       ImmediateIntersection:  ImmediateIntersectionContract,
     };
 
