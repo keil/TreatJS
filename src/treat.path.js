@@ -42,18 +42,36 @@ TreatJS.package("TreatJS.Path", function (TreatJS, Contract, configuration) {
 
   function Root(callback) {
     this.callback = callback;
+
+    // TODO
+    this.id = getID(callback);
   }
   Root.prototype = Object.create(Path.prototype);
+
+  Root.prototype.toString = function() {
+    return "(Root " + this.id + ")";
+  };
 
   // _    _      _   
   //| |  (_)_ _ | |__
   //| |__| | ' \| / /
   //|____|_|_||_|_\_\
 
-  function Link(callback) {
+  // TODO, change Link to step
+  //
+  function Link(path, callback) {
+    this.path = path;
     this.callback = callback;
+
+    // TODO
+    this.id = getID(callback);
   }
   Link.prototype = Object.create(Path.prototype);
+
+  Link.prototype.toString = function() {
+    return this.path.toString() + " . (Link " + this.id + ")";
+  };
+
 
   // ___      _ _ _   
   /// __|_ __| (_) |_ 
@@ -62,13 +80,93 @@ TreatJS.package("TreatJS.Path", function (TreatJS, Contract, configuration) {
   //    |_|           
 
   function Split(path, callback) {
+    this.path = path;
     this.callback = callback;
+
+    // TODO
+    this.id = getID(callback);
+
   }
   Split.prototype = Object.create(Path.prototype);
 
+  Split.prototype.toString = function() {
+    return this.path.toString() + " . (Split " + this.id + ")";
+  };
 
 
 
+
+  // XXX
+  //
+
+  function Chain() {
+  
+  }
+
+
+
+
+  function toChain (path) {
+    if(path instanceof Root) {
+      return path;
+    } else {
+      return traverse(path.path, path)
+    }
+  }
+
+  function traverse (path, chain) {
+
+    if(path instanceof Root) {
+      return path
+    
+    } else if (path instanceof Link) {
+      return traverse (path.path, new Chain(path, chain);
+    
+    } else if (path instanceof Split) {
+      return traverse (path.path, new Chain(path, chain);
+    
+    }
+  }
+
+  function isCompatible(p, q) {
+    return comp(toChain(p),toChain(q) )
+  
+  }
+
+
+  function comp (p, q) {
+    
+    if(p.head instanceof Root && q.head instanceof Root) {
+      if(p.head.callback!==q.head.callback) return true;
+      else return comp (p.tail, q.tail);
+    } else if(p.head instanceof Link && q.head instanceof Link) {
+      if(p.head.callback!==q.head.callback) return true;
+      else return comp (p.tail, q.tail);
+    } else if(p.head instanceof Split && q.head instanceof Split) {
+      if(p.head.callback!==q.head.callback) return false;
+      else return comp (p.tail, q.tail);
+    } else {
+      return true;
+    }
+
+  }
+
+
+
+  // TMP
+  //
+
+  let i = 0;
+  let ids = new WeakMap();
+
+  function getID(callback) {
+    if(ids.has(callback)) {
+      return "i"+ids.get(callback);
+    } else {
+      ids.set(callback, i++);
+      return getID(callback);
+    } 
+  }
 
 
 
