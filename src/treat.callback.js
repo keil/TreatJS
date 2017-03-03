@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014-2016, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2017, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -15,12 +15,38 @@
 
 TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) {
 
+  // ___          _    ___      _ _ _             _   
+  //| _ \___  ___| |_ / __|__ _| | | |__  __ _ __| |__
+  //|   / _ \/ _ \  _| (__/ _` | | | '_ \/ _` / _| / /
+  //|_|_\___/\___/\__|\___\__,_|_|_|_.__/\__,_\__|_\_\
+
+  function RootCallback(context, subject, contract) {
+
+    function throwNegativeBlame () {
+      throw new TreatJS.Error.NegativeBlame(context, contract);
+    }
+
+    function throwPositiveBlame () {
+      throw new TreatJS.Error.PositiveBlame(subject, contract);
+    }
+
+    return {
+      checkBlameState: function({context, subject}) {
+        if (context==false) {
+          throwNegativeBlame();
+        } else if(subject==false) {
+          throwPositiveBlame();
+        }
+      }
+    }
+  }
+
   // ___             _   _          ___      _ _ _             _   
   //| __|  _ _ _  __| |_(_)___ _ _ / __|__ _| | | |__  __ _ __| |__
   //| _| || | ' \/ _|  _| / _ \ ' \ (__/ _` | | | '_ \/ _` / _| / /
   //|_| \_,_|_||_\__|\__|_\___/_||_\___\__,_|_|_|_.__/\__,_\__|_\_\
 
-  function newFunctionCallback(callback) {
+  function FunctionCallback(callback) {
 
     let domain = {context:true, subject:true};
     let range = {context:true, subject:true};
@@ -55,7 +81,7 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
   // | || ' \  _/ -_) '_(_-</ -_) _|  _| / _ \ ' \ (__/ _` | | | '_ \/ _` / _| / /
   //|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_\___\__,_|_|_|_.__/\__,_\__|_\_\
 
-  function newIntersectionCallback(callback) {
+  function IntersectionCallback(callback) {
 
     let left = {context:true, subject:true};
     let right = {context:true, subject:true};
@@ -90,7 +116,7 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
   //| |_| | ' \| / _ \ ' \ (__/ _` | | | '_ \/ _` / _| / /
   // \___/|_||_|_\___/_||_\___\__,_|_|_|_.__/\__,_\__|_\_\
 
-  function newUnionCallback(callback) {
+  function UnionCallback(callback) {
 
     let left = {context:true, subject:true};
     let right = {context:true, subject:true};
@@ -126,7 +152,7 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
   ///_/ \_\/__/__/_\__, |_||_|_|_|_\___|_||_\__|\___\__,_|_|_|_.__/\__,_\__|_\_\
   //               |___/                                                        
 
-  function newAssignmentCallback(callback) {
+  function AssignmentCallback(callback) {
 
     let properties = {context:true, subject:true};
 
@@ -152,14 +178,14 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
   //| _/ _ \ '_| / / (__/ _` | | | '_ \/ _` / _| / /
   //|_|\___/_| |_\_\\___\__,_|_|_|_.__/\__,_\__|_\_\
 
-  function newForkCallback(callbackContext, callbackSubject) {
+  function ForkCallback(callbackContext, callbackSubject) {
 
     let contract = {context:true, subject:true};
 
     function update() {
       const context = contract.context;
       const subject = contract.subject;
-      
+
       if(!context) callbackContext({context:context, subject:true});
       if(!subject) callbackSubject({context:true, subject:subject});
     }
@@ -181,11 +207,12 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) 
   //|_| \___|\__|\_,_|_| |_||_|
 
   return {
-    newFunction:      newFunctionCallback,
-    newIntersection:  newIntersectionCallback,
-    newUnion:         newUnionCallback, 
-    newAssignment:    newAssignmentCallback,
-    newFork:          newForkCallback
+    Root         : RootCallback,
+    Function     : FunctionCallback,
+    Intersection : IntersectionCallback,
+    Union        : UnionCallback, 
+    Assignment   : AssignmentCallback,
+    Fork         : ForkCallback
   };
 
 });

@@ -1,5 +1,6 @@
 default:
-	./js.transparent -f shell/shell.js -f bootstrap.js -f contracts/contracts.js -f default.js
+	./js -f shell/shell.js -f bootstrap.js -f contracts/contracts.js -f default.js
+#	./js.transparent -f shell/shell.js -f bootstrap.js -f contracts/contracts.js -f default.js
 #	./js -f shell/shell.js -f bootstrap.js -f contracts/contracts.js -f default.js
 
 .PHONY: test

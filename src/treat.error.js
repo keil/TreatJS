@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014-2016, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2017, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -14,9 +14,6 @@
  */
 
 TreatJS.package("TreatJS.Error", function (TreatJS, Contract, configuration) {
-
-  // make subject and context part of the error message
-
 
   // _____             _      _ ___   ___                 
   //|_   _| _ ___ __ _| |_ _ | / __| | __|_ _ _ _ ___ _ _ 

@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014-2016, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2017, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -24,7 +24,7 @@ var TreatJS = TreatJS || (function() {
 
   /** TreatJS version number.
   */
-  const version = "TreatJS 2.0.1 (Alpha)";
+  const version = "TreatJS 2.0.2 (Alpha)";
 
   /** The TreatJS wrapper object.
   */
@@ -100,34 +100,27 @@ var TreatJS = TreatJS || (function() {
     value: "STRICT"
   });
 
-
-
   //  ___         _               _   
   // / __|___ _ _| |_ _ _ __ _ __| |_ 
   //| (__/ _ \ ' \  _| '_/ _` / _|  _|
   // \___\___/_||_\__|_| \__,_\__|\__|
 
+  Object.defineProperty(TreatJS, "getContract", {
+    value: function() {
+      return Contract;
+    }
+  });
 
+  // ___ _        _   _    _   _    
+  /// __| |_ __ _| |_(_)__| |_(_)__ 
+  //\__ \  _/ _` |  _| (_-<  _| / _|
+  //|___/\__\__,_|\__|_/__/\__|_\__|
 
-
-  // TODO
-    Object.defineProperty(TreatJS, "getContract", {
-      value: function() {
-        return Contract;
-      }
-    });
-
-
-
-    // TODO STATISTIC
-    Object.defineProperty(TreatJS, "getStatistic", {
-      value: function() {
-        return TreatJS.Statistic.dump();
-      }
-    });
-
-
-
+  Object.defineProperty(TreatJS, "getStatistic", {
+    value: function() {
+      return TreatJS.Statistic.dump();
+    }
+  });
 
   //               _                 
   // _ __  __ _ __| |____ _ __ _ ___ 
@@ -137,9 +130,6 @@ var TreatJS = TreatJS || (function() {
 
   /** Manages TreatJS packages.
   */
-
-    // TODO, freeze before return
-
 
   const packages = new Set();
 
@@ -155,7 +145,7 @@ var TreatJS = TreatJS || (function() {
   //| | ' \| |  _| / _` | | |_ / -_)
   //|_|_||_|_|\__|_\__,_|_|_/__\___|
 
-  /** Initialize the [[TreastJS]] obejct.
+  /** Initialize the [[TreastJS]] object.
   */
 
   function extend(target, package) {
@@ -180,7 +170,6 @@ var TreatJS = TreatJS || (function() {
     const package = constructor(TreatJS, Contract, configuration);
     extend(target, package);
   }
-
 
   /** Flag to indicate if the initialization is complete. 
   */
@@ -207,14 +196,29 @@ var TreatJS = TreatJS || (function() {
 
   Object.defineProperty(TreatJS, "initialize", {
     value: function(configuration = {
-    // TODO, Default configuration
+      /* TreatJS evaluation semantics
+       * (default: TreatJS.INDY)
+       */semantics: TreatJS.INDY,
+      /* TreatJS safety level 
+       * (default: TreatJS.PURE)
+       */safetylevel: TreatJS.PURE,
+      /** Enable contract assertion
+       * (default: true)
+       */assertion: true,
+      /* Verbose mode
+       * (default: false)
+       */verbose: false,
+      /* Statistics
+       * (default: false)
+       */statistic: false, 
+      /* Log output
+       * (default: undefined)
+       */print: undefined 
     }) {
       if(!initialized) return initialize(configuration);
       else throw Error("TreatJS already initialized!");
     }
   });
-
-
 
   //                       _   
   // _____ ___ __  ___ _ _| |_ 
@@ -238,6 +242,6 @@ var TreatJS = TreatJS || (function() {
 
   /** Return the [[TreatJS]] objects
   */
-  return TreatJS; 
+  return TreatJS;
 
 })();

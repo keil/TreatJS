@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014-2016, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2017, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -42,6 +42,7 @@ load("src/treat.contract.js");
 load("src/treat.convenience.js");
 
 load("src/treat.callback.js");
+load("src/treat.path.js");
 
 load("src/treat.error.js");
 load("src/treat.core.js");
@@ -56,7 +57,7 @@ load("src/treat.sandbox.js");
 var Contract  = TreatJS.initialize({
   /* TreatJS evaluation semantics
    * (default: TreatJS.INDY)
-   */semantics: TreatJS.PICKY,
+   */semantics: TreatJS.INDY,
   /* TreatJS safety level 
    * (default: TreatJS.PURE)
    */safetylevel: TreatJS.PURE,
@@ -65,10 +66,10 @@ var Contract  = TreatJS.initialize({
    */assertion: true,
   /* Verbose mode
    * (default: false)
-   */verbose: true,
+   */verbose: false,
   /* Statistics
    * (default: false)
-   */statistic: true, 
+   */statistic: false, 
   /* Log output
    * (default: null)
    */print: console.log

@@ -53,7 +53,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
 
     if(!(constructor instanceof Function))
       throw new TypeError("Invalid constructor.");
-    
+
     Object.defineProperties(this, {
       "constructor": {
         value: TreatJS.Sandbox.recompileConstructor(constructor)
@@ -62,7 +62,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
         value: name
       }
     });
-    
+
     return Object.defineProperties(Object.setPrototypeOf(ConstructorContract.prototype.construct.bind(this), this), {
       "constructor": {
         value: TreatJS.Sandbox.recompileConstructor(constructor)
@@ -81,7 +81,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
   ConstructorContract.prototype.construct = function(...argumentsList) {
     return Contract.construct(this, argumentsList);
   }
-  
+
   //  ___  _     _        _    ___         _               _   
   // / _ \| |__ (_)___ __| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
   //| (_) | '_ \| / -_) _|  _| (__/ _ \ ' \  _| '_/ _` / _|  _|
@@ -123,7 +123,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, configuration) 
   // __| |_ _ _(_)__| |_ 
   //(_-<  _| '_| / _|  _|
   // __/\__|_| |_\__|\__|
-  
+
   function StrictObjectContract(object) {
     if(!(this instanceof StrictObjectContract)) return new StrictObjectContract(object);
     else ObjectContract.apply(this, [object]);

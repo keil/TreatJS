@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014-2015, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2017, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -32,6 +32,85 @@ TreatJS.Print.printConfiguration();
 //TreatJS.Print.printContract();
 
 
+(function() {
+
+  let id = Contract.assert(function id(x) {
+    return x;
+  }, Contract.Intersection.from(
+    Contract.Function([Contract.Function([Positive], Positive)], Contract.Base(f => f(1))),
+    Contract.Function([Contract.Function([Even], Even)], Contract.Base(f => f(-2)))
+    )
+  );
+    
+  id(x => x);
+  print(id(x => x)(2));
+
+})();
+
+quit();
+
+(function() {
+
+  let addOne = Contract.assert(function addOne(x) {
+    return x+"1";
+  }, Contract.Intersection.from(
+    Contract.Function([typeNumber], typeNumber),
+    Contract.Function([typeString], typeString)
+    ));
+
+  print(addOne("1"));
+
+})();
+
+quit();
+
+(function() {
+  let t = {x:4711, y:4712, valueOf:()=>4711};
+  let p = new Proxy(t, {
+    get: (target, name, receiver) => {print("@", name.toString()); return Reflect.get(target, name, receiver)}
+  });
+
+  print(p.x, p.y, p.z);
+  print("--");
+  print(p+1);
+  print("--");
+  print(typeof p);
+
+  var obj2 = {
+    [Symbol.toPrimitive](hint) {
+      return 4711;  
+    }
+  };
+
+  print("#", obj2+1, 1+obj2, typeof obj2);
+
+})();
+
+
+
+quit();
+
+(function () {
+
+//let x = ({valueOf:(function (){return 4711;})})
+let x = function(){};
+x.valueOf = (function (){return 4711;})
+
+let y = Contract.assert(x, Contract.Function([typeNumber], typeNumber));
+
+print(x, typeof x, typeof y);
+print(x+1, y+1);
+
+y("1");
+
+
+
+})();
+
+
+
+
+quit();
 
 
 (function() {
@@ -51,9 +130,11 @@ TreatJS.Print.printConfiguration();
 
 (function() {
 
-  let addOne = Contract.assert(function addOne(plus, z) {
-    return plus(z, '1');
-  }, Contract.Intersection(
+  let addOne = Contract.assert(function addOnex(plus, z) {
+    return plus(z, "1");
+  }, Contract.Function([Contract.Function([typeNumber, typeNumber], typeNumber), typeNumber], typeNumber));
+  
+  /*Contract.Intersection(
     Contract.Dependent(function(plus, z) {
       return Contract.Base(function(subject) {
         return true; // plus(z, '1');
@@ -61,9 +142,9 @@ TreatJS.Print.printConfiguration();
     }),
     Contract.Function([Contract.Function([typeNumber], typeNumber), typeNumber], typeNumber)
     )
-  );
+  );*/
 
-  addOne(function plus(x, y) {
+  addOne(function plusx(x, y) {
     return (x + y);
   }, 2);
 

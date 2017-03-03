@@ -20,15 +20,15 @@ TreatJS.package("TreatJS.Path", function (TreatJS, Contract, configuration) {
   //|  _/ _` |  _| ' \ 
   //|_| \__,_|\__|_||_|
 
-  function Path(callback) {
+  function Path() {
   }
-  Path.prototype = Object.create(Path.prototype);
+  Path.prototype = {};
   Path.prototype.toString = function() {
     return "[[TreatJS/Path]]";
   };
 
-  Path.prototype.Link = function(callback) {
-    return new Link(this, callback);
+  Path.prototype.Step = function(callback) {
+    return new Step(this, callback);
   };
 
   Path.prototype.Split = function(callback) {
@@ -42,36 +42,20 @@ TreatJS.package("TreatJS.Path", function (TreatJS, Contract, configuration) {
 
   function Root(callback) {
     this.callback = callback;
-
-    // TODO
-    this.id = getID(callback);
   }
   Root.prototype = Object.create(Path.prototype);
 
-  Root.prototype.toString = function() {
-    return "(Root " + this.id + ")";
-  };
+  // ___ _            
+  /// __| |_ ___ _ __ 
+  //\__ \  _/ -_) '_ \
+  //|___/\__\___| .__/
+  //            |_|   
 
-  // _    _      _   
-  //| |  (_)_ _ | |__
-  //| |__| | ' \| / /
-  //|____|_|_||_|_\_\
-
-  // TODO, change Link to step
-  //
-  function Link(path, callback) {
+  function Step(path, callback) {
     this.path = path;
     this.callback = callback;
-
-    // TODO
-    this.id = getID(callback);
   }
-  Link.prototype = Object.create(Path.prototype);
-
-  Link.prototype.toString = function() {
-    return this.path.toString() + " . (Link " + this.id + ")";
-  };
-
+  Step.prototype = Object.create(Path.prototype);
 
   // ___      _ _ _   
   /// __|_ __| (_) |_ 
@@ -82,98 +66,62 @@ TreatJS.package("TreatJS.Path", function (TreatJS, Contract, configuration) {
   function Split(path, callback) {
     this.path = path;
     this.callback = callback;
-
-    // TODO
-    this.id = getID(callback);
-
   }
   Split.prototype = Object.create(Path.prototype);
 
-  Split.prototype.toString = function() {
-    return this.path.toString() + " . (Split " + this.id + ")";
-  };
+  // _                                
+  //| |_ _ _ __ ___ _____ _ _ ___ ___ 
+  //|  _| '_/ _` \ V / -_) '_(_-</ -_)
+  // \__|_| \__,_|\_/\___|_| /__/\___|
 
+  function traverse(path) {
 
-
-
-  // XXX
-  //
-
-  function Chain() {
-  
-  }
-
-
-
-
-  function toChain (path) {
     if(path instanceof Root) {
-      return path;
+      const root = {step:path, root:null, next:null};
+      return root.root = root;
     } else {
-      return traverse(path.path, path)
-    }
+      const step = traverse(path.path);
+      return step.next = {step:path, root:step.root, next:null};
+    } 
   }
 
-  function traverse (path, chain) {
+  // _     ___                      _   _ _    _     
+  //(_)___/ __|___ _ __  _ __  __ _| |_(_) |__| |___ 
+  //| (_-< (__/ _ \ '  \| '_ \/ _` |  _| | '_ \ / -_)
+  //|_/__/\___\___/_|_|_| .__/\__,_|\__|_|_.__/_\___|
+  //                    |_|                          
 
-    if(path instanceof Root) {
-      return path
-    
-    } else if (path instanceof Link) {
-      return traverse (path.path, new Chain(path, chain);
-    
-    } else if (path instanceof Split) {
-      return traverse (path.path, new Chain(path, chain);
-    
-    }
+  function isCompatible (p, q) {
+    return comp(traverse(p).root, traverse(q).root);
   }
 
-  function isCompatible(p, q) {
-    return comp(toChain(p),toChain(q) )
-  
-  }
-
+  // __ ___ _ __  _ __ 
+  /// _/ _ \ '  \| '_ \
+  //\__\___/_|_|_| .__/
+  //             |_|   
 
   function comp (p, q) {
-    
-    if(p.head instanceof Root && q.head instanceof Root) {
-      if(p.head.callback!==q.head.callback) return true;
-      else return comp (p.tail, q.tail);
-    } else if(p.head instanceof Link && q.head instanceof Link) {
-      if(p.head.callback!==q.head.callback) return true;
-      else return comp (p.tail, q.tail);
-    } else if(p.head instanceof Split && q.head instanceof Split) {
-      if(p.head.callback!==q.head.callback) return false;
-      else return comp (p.tail, q.tail);
+
+    if(p.step instanceof Root && q.step instanceof Root) {
+
+      if(p.step.callback!==q.step.callback) return true;
+      else return comp (p.next, q.next);
+
+    } else if(p.step instanceof Step && q.step instanceof Step) {
+
+      if(p.step.callback!==q.step.callback) return true;
+      else return comp (p.next, q.next);
+
+    } else if(p.step instanceof Split && q.step instanceof Split) {
+
+      if(p.step.callback!==q.step.callback) return false;
+      else return comp (p.next, q.next);
+
     } else {
       return true;
     }
 
   }
-
-
-
-  // TMP
-  //
-
-  let i = 0;
-  let ids = new WeakMap();
-
-  function getID(callback) {
-    if(ids.has(callback)) {
-      return "i"+ids.get(callback);
-    } else {
-      ids.set(callback, i++);
-      return getID(callback);
-    } 
-  }
-
-
-
-
-
-
-
 
   //         _                 
   // _ _ ___| |_ _  _ _ _ _ _  
@@ -181,11 +129,9 @@ TreatJS.package("TreatJS.Path", function (TreatJS, Contract, configuration) {
   //|_| \___|\__|\_,_|_| |_||_|
 
   return {
-//    isCompatible : isCompatible,
-//    Step         : Step,
-
+    isCompatible : isCompatible,
     Root         : Root, 
-    Link         : Link,
+    Step         : Step,
     Split        : Split
   };
 

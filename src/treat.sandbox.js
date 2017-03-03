@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014-2016, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2017, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -33,7 +33,6 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
 
   (function addGlobal(object) {
     for(var name of Object.getOwnPropertyNames(object)) {
-      //print("add ...", name);
       var desc = Object.getOwnPropertyDescriptor(object, name);
       if(desc.value && (typeof desc.value === "function")) Native.add(desc.value);
       if(desc.value && (typeof desc.value === "object"))  addGlobal(desc.value);
@@ -291,7 +290,6 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
      * A trap for a function call.
      **/
     this.apply = function(target, thisArg, argumentsList) {
-      print("call apply", argumentsList );
       if(true || isNative(target))
         return wrap(Reflect.apply(target, thisArg, argumentsList));
       else {

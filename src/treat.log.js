@@ -42,15 +42,15 @@ TreatJS.package("TreatJS.Log", function (TreatJS, Contract, configuration) {
     }
   }
 
-  function line(body) {
+  function line(body="") {
     print(mkLine(body));
   }
 
-  function subline(body) {
+  function subline(body="") {
     print(mkSubLine(body));
   }
 
-  function prompt(head, body) {
+  function prompt(head="", body="") {
     print(mkPrompt(head, body));
   }
 
@@ -58,21 +58,21 @@ TreatJS.package("TreatJS.Log", function (TreatJS, Contract, configuration) {
     return padding_right(id+" ", ".", headWidth-1)+" ";
   }
 
-  function mkBody(cmd, msg) {
+  function mkBody(cmd="", msg="") {
     return msg? 
       padding_right(padding_right(cmd+" ", ".", cmdWidth-1)+" "+msg, seperator, bodyWidth):
       padding_right(cmd+" ", seperator, bodyWidth);
   }
 
-  function mkLine(msg) {
+  function mkLine(msg="") {
     return padding_right(msg+" ", seperator, headWidth+bodyWidth);
   }
 
-  function mkSubLine(msg) {
+  function mkSubLine(msg="") {
     return padding_right(subseperator+" "+msg+" ", seperator, headWidth+bodyWidth);
   }
 
-  function mkPrompt(key, msg) {
+  function mkPrompt(key="", msg="") {
     if(/\r|\n/.exec(msg) || msg.length>50) msg = msg.name ? msg.name : "[unnamed function]";
     return padding_right(padding_right(subseperator+key+" ", seperator, headWidth-4)+" "+msg, seperator, headWidth+bodyWidth);
   }
