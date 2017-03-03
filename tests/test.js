@@ -26,3 +26,28 @@ load("tests/contracts/test.dependent.js");
 
 load("tests/contracts/test.union.js");
 load("tests/contracts/test.intersection.js");
+
+/**
+ * Convenience Tests
+ **/
+
+load("tests/convenience/test.intersection.js");
+
+/**
+ * Semantics
+ **/
+
+if(TreatJS.getConfiguration().semantics===TreatJS.INDY) {
+  load("tests/semantics/test.indy.js");
+} else if(TreatJS.getConfiguration().semantics===TreatJS.PICKY) {
+  load("tests/semantics/test.picky.js");
+} else if(TreatJS.getConfiguration().semantics===TreatJS.LAX) {
+  load("tests/semantics/test.lax.js");
+}
+
+
+
+print("@@@", TreatJS.getConfiguration().semantics);
+//if(TreatJS.)
+
+

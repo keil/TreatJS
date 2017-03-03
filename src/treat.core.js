@@ -96,7 +96,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
         }, assertion.callback);
 
         // If not dropped, reorganize contract monitor 
-        return assert(mirrorIndy(assertion.subject, path), assertion.contract, cbFork.contract, path)
+        return assert(mirrorIndy(assertion.subject, path), assertion.contract, cbFork.contract, assertion.path)
       } else {
         return mirrorIndy(assertion.subject, path);
       }
@@ -119,7 +119,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       if(TreatJS.Path.isCompatible(assertion.path, path)) {
         return assert(mirrorPicky(assertion.subject, path), assertion.contract, assertion.callback, assertion.path);
       } else {
-        return drop(assertion.subject, path);
+        return mirrorPicky(assertion.subject, path);
       }
 
     } else {
@@ -242,6 +242,9 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       try {
         result = contract.predicate.apply(undefined, [mirror(subject, path)]);
       } catch (error) {
+
+        print(error, error.stack);
+
         if(error instanceof TreatJS.Error.TreatJSError) {
           throw error;
         } else {
@@ -358,7 +361,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     else if(contract instanceof TreatJS.Contract.Dependent) {
       return (subject instanceof Function) ? wrap(subject, contract, callback, path, {
         apply: function (target, thisArg, argumentsArg) {
-          const rangeContract = construct(contract.constructor, argumentsArg, path);
+          const rangeContract = construct(contract.constructor, argumentsArg);
           const result = Reflect.apply(target, thisArg, argumentsArg);
           return assert(result, rangeContract, callback, path);
         }
@@ -381,6 +384,11 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     //|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
 
     else if (contract instanceof TreatJS.Contract.Intersection) {
+      const {left, right} = new TreatJS.Callback.Intersection(callback);
+      return assert(assert(subject, contract.left, left, path.Step(left)), contract.right, right, path.Split(right));
+    }
+
+    else if (contract instanceof TreatJS.Convenience.ImmediateIntersection) {
       const {left, right} = new TreatJS.Callback.Intersection(callback);
       return assert(assert(subject, contract.left, left, path.Step(left)), contract.right, right, path.Split(right));
     }
@@ -420,7 +428,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     if(!(constructor instanceof TreatJS.Prototype.Constructor))
       throw new TypeError("Invalid constructor.");
 
-    return construct(constructor, argumentsList, null); 
+    return construct(constructor, argumentsList); 
 
   }, function(constructor, argumentsList) {
     TreatJS.Log.log(TreatJS.Log.Keys.CONSTRUCT, "top construct", constructor);
@@ -428,7 +436,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     TreatJS.Statistic.increment(TreatJS.Statistic.Keys.TOPCONSTRUCT);
   });
 
-  let construct = define(function (constructor, constructorArray, path) {
+  let construct = define(function (constructor, constructorArray) {
 
     //  ___         _               _    ___             _               _           
     // / __|___ _ _| |_ _ _ __ _ __| |_ / __|___ _ _  __| |_ _ _ _  _ __| |_ ___ _ _ 
@@ -445,7 +453,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
       // Mirrors the constructor arguments.
       for(let key in constructorArray) {
-        constructorArray[key] = mirror(constructorArray[key], path);
+        constructorArray[key] = mirror(constructorArray[key]);
       }
 
       // Call constructor to create new contract.

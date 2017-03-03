@@ -2,7 +2,7 @@
  * TreatJS: Higher-Order Contracts for JavaScript 
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  *
- * Copyright (c) 2014-2016, Proglang, University of Freiburg.
+ * Copyright (c) 2014-2017, Proglang, University of Freiburg.
  * http://proglang.informatik.uni-freiburg.de/treatjs/
  * All rights reserved.
  *
@@ -20,11 +20,10 @@ TreatJS.package("TreatJS.Convenience", function (TreatJS, Contract, configuratio
   //| |\/| / -_)  _| ' \/ _ \/ _` | (__/ _ \ ' \  _| '_/ _` / _|  _|
   //|_|  |_\___|\__|_||_\___/\__,_|\___\___/_||_\__|_| \__,_\__|\__|
 
-    function MethodContract(target, domain, range) {
+  function MethodContract(target, domain, range) {
     if(!(this instanceof MethodContract)) return new MethodContract(target, domain, range);
     else TreatJS.Prototype.Delayed.apply(this);
 
-    // TODO
     if(domain instanceof Array)
       domain = new ObjectContract(domain);
 
@@ -53,13 +52,11 @@ TreatJS.package("TreatJS.Convenience", function (TreatJS, Contract, configuratio
     return "(" + this.domain.toString() + " -> " + this.range.toString() + "|" | this.target.toString(); + ")";
   }; 
 
-
-
   // ___     _                      _   _          ___         _               _   
   //|_ _|_ _| |_ ___ _ _ ___ ___ __| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
   // | || ' \  _/ -_) '_(_-</ -_) _|  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
   //|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
- 
+
   function ImmediateIntersectionContract(left, right) { 
     if(!(this instanceof ImmediateIntersectionContract)) return new ImmediateIntersectionContract(left, right);
     else TreatJS.Prototype.Immediate.apply(this);
@@ -83,62 +80,24 @@ TreatJS.package("TreatJS.Convenience", function (TreatJS, Contract, configuratio
   ImmediateIntersectionContract.prototype.toString = TreatJS.Contract.Intersection.prototype.toString;
   ImmediateIntersectionContract.from = TreatJS.Contract.Intersection.from;
 
+  // _____ ___ __  ___ _ _| |_ 
+  /// -_) \ / '_ \/ _ \ '_|  _|
+  //\___/_\_\ .__/\___/_|  \__|
+  //        |_|                
 
-
-  
-  // Method Contract
-  // intersection between function and object
-  //
-  //
-
-  // All others are only shoutcuts
-  // and type confertinv constructores
-  //
-  
-
-
-
-
-
-
-
-
-  //                        _         _ _        
-  //  __ __ _ _ _  ___ _ _ (_)__ __ _| (_)______ 
-  // / _/ _` | ' \/ _ \ ' \| / _/ _` | | |_ / -_)
-  // \__\__,_|_||_\___/_||_|_\__\__,_|_|_/__\___|
-
-
-
-
-
-
-    // _____ ___ __  ___ _ _| |_ 
-    /// -_) \ / '_ \/ _ \ '_|  _|
-    //\___/_\_\ .__/\___/_|  \__|
-    //        |_|                
-
-    TreatJS.export({
-      Method:                 MethodContract,
-      ImmediateIntersection:  ImmediateIntersectionContract
-    });
-
-    //         _                 
-    // _ _ ___| |_ _  _ _ _ _ _  
-    //| '_/ -_)  _| || | '_| ' \ 
-    //|_| \___|\__|\_,_|_| |_||_|
-
-    return {
-      Method:                 MethodContract,
-      ImmediateIntersection:  ImmediateIntersectionContract,
-    };
-
-
-
-
-
-
-
-
-
+  TreatJS.export({
+    Method:                 MethodContract,
+    ImmediateIntersection:  ImmediateIntersectionContract
   });
+
+  //         _                 
+  // _ _ ___| |_ _  _ _ _ _ _  
+  //| '_/ -_)  _| || | '_| ' \ 
+  //|_| \___|\__|\_,_|_| |_||_|
+
+  return {
+    Method:                 MethodContract,
+    ImmediateIntersection:  ImmediateIntersectionContract,
+  };
+
+});

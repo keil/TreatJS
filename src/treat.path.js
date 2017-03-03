@@ -92,7 +92,7 @@ TreatJS.package("TreatJS.Path", function (TreatJS, Contract, configuration) {
   //                    |_|                          
 
   function isCompatible (p, q) {
-    return comp(traverse(p).root, traverse(q).root);
+    return p===undefined || q===undefined || comp(traverse(p).root, traverse(q).root);
   }
 
   // __ ___ _ __  _ __ 

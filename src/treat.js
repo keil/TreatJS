@@ -34,6 +34,29 @@ var TreatJS = TreatJS || (function() {
   */
   const Contract = {};
 
+  /** The TreatJS configuration object.
+  */
+  const Configuration = {
+    /* TreatJS evaluation semantics
+     * (default: TreatJS.INDY)
+     */semantics: TreatJS.INDY,
+    /* TreatJS safety level 
+     * (default: TreatJS.PURE)
+     */safetylevel: TreatJS.PURE,
+    /** Enable contract assertion
+     * (default: true)
+     */assertion: true,
+    /* Verbose mode
+     * (default: false)
+     */verbose: false,
+    /* Statistics
+     * (default: false)
+     */statistic: false, 
+    /* Log output
+     * (default: undefined)
+     */print: undefined 
+  };
+
   //                _          
   //__ _____ _ _ __(_)___ _ _  
   //\ V / -_) '_(_-< / _ \ ' \ 
@@ -62,6 +85,12 @@ var TreatJS = TreatJS || (function() {
   Object.defineProperty(Contract, "toString", {
     value: function() {
       return "[[Contract]]";
+    }
+  });
+
+  Object.defineProperty(Configuration, "toString", {
+    value: function() {
+      return "[[Configuration]]";
     }
   });
 
@@ -111,6 +140,18 @@ var TreatJS = TreatJS || (function() {
     }
   });
 
+  //  ___           __ _                    _   _          
+  // / __|___ _ _  / _(_)__ _ _  _ _ _ __ _| |_(_)___ _ _  
+  //| (__/ _ \ ' \|  _| / _` | || | '_/ _` |  _| / _ \ ' \ 
+  // \___\___/_||_|_| |_\__, |\_,_|_| \__,_|\__|_\___/_||_|
+  //                    |___/                              
+
+  Object.defineProperty(TreatJS, "getConfiguration", {
+    value: function() {
+      return Configuration;
+    }
+  });
+
   // ___ _        _   _    _   _    
   /// __| |_ __ _| |_(_)__| |_(_)__ 
   //\__ \  _/ _` |  _| (_-<  _| / _|
@@ -121,6 +162,21 @@ var TreatJS = TreatJS || (function() {
       return TreatJS.Statistic.dump();
     }
   });
+
+  //              __ _                   
+  // __ ___ _ _  / _(_)__ _ _  _ _ _ ___ 
+  /// _/ _ \ ' \|  _| / _` | || | '_/ -_)
+  //\__\___/_||_|_| |_\__, |\_,_|_| \___|
+  //                  |___/              
+
+  /** Copies TreatJS configuration.
+  */
+
+  function configure(configuration) {
+    for (let key in Configuration) {
+      if(key in configuration) Configuration[key] = configuration[key];
+    }
+  }
 
   //               _                 
   // _ __  __ _ __| |____ _ __ _ ___ 
@@ -176,16 +232,16 @@ var TreatJS = TreatJS || (function() {
   let initialized = false;
 
   function initialize(configuration) {
-
-    Object.freeze(configuration);
+    configure(configuration);
 
     for(let package of packages) {
-      build(package, configuration);
+      build(package, Configuration);
     }
 
-    // Prevent the [[TreatJS]] and [[Contract]] object from further modifications.
+    // Prevent the [[TreatJS]], [[Contract]] and [[Configuration]] object from further modifications.
     Object.freeze(TreatJS);
     Object.freeze(Contract);
+    Object.freeze(Configuration);
 
     // Initialization done.
     var initialized = true;
@@ -195,26 +251,7 @@ var TreatJS = TreatJS || (function() {
   }
 
   Object.defineProperty(TreatJS, "initialize", {
-    value: function(configuration = {
-      /* TreatJS evaluation semantics
-       * (default: TreatJS.INDY)
-       */semantics: TreatJS.INDY,
-      /* TreatJS safety level 
-       * (default: TreatJS.PURE)
-       */safetylevel: TreatJS.PURE,
-      /** Enable contract assertion
-       * (default: true)
-       */assertion: true,
-      /* Verbose mode
-       * (default: false)
-       */verbose: false,
-      /* Statistics
-       * (default: false)
-       */statistic: false, 
-      /* Log output
-       * (default: undefined)
-       */print: undefined 
-    }) {
+    value: function(configuration = {}) {
       if(!initialized) return initialize(configuration);
       else throw Error("TreatJS already initialized!");
     }

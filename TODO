@@ -1,45 +1,40 @@
-*** Implicite coercions for contracts
-
+*** Implicit coercions for contracts
 - [] and {} --> Object Contract
 - ""        --> Predicates/ Base Contracts
 - x => x    --> Dependent Contracts
 
 
 
-
-Contract.assert(1, subject => typeof subject == 'number')
-
-let f = Contract.Function([typeNumber, typeNumber], typeNumber);
-let i = Contract.Intersection();
-
-let TypeOf = Contract.Constructor(Math => Contract.Base(subject => (Math.abs(subject) == 1)));
+*** Contracts
+- Dependent Method Contract, see "this" in the pre and postcondition
+- This-reference in Dependent Contract
 
 
-*** This-reference in Dependent Contract
 
 *** Safty Level
+- Implement TreatJS safty levels
+- Sandbox Mode  STRICT, NONE, PURE
+- nativePassThrought
 
-Implement TreatJS safty levels
-// Sandbox Mode  STRICT, NONE, PURE
-// nativePassThrought
 
 *** Logger & Statistics
 
 - On Callbacks
 - Change Statistic flags
 
+
+
 *** Contracts
 
 - Polymorphic // constructor
-
-- Method Contract
 - Reflection (get/ set)
 - ForaLL
 - Recursion 
 - Invariant
 - Temporasl
-
 - Conjunction/ Disjunction
+
+
 
 *** Tests
 
@@ -67,19 +62,8 @@ New Features
 
 - Temporal Contract
 
-* Implement Root-Callback
-
 * Use proxies to build nice constructors that can be applied directly.
   e.g.: Between(1,2); InstanceOf(Array);
-
-* Contracts
-
-- Reflection 
-- ForAll
-- Recursive
-- Temporal
-- Invariante
-
 
 
 *** Convenience API
@@ -246,22 +230,6 @@ a special object (eg. contract(s) oder con)
 
 
 
-*** Better blaming semantics
-
-- Use the callback structure to produce precise blame informations. Not only to say 
-who is to blame, also say which part is violated.
-
-- For example: 
-plus = \x.\y.(""+(x+y));
-plus @ [ Num, Num ] -> Num \cap [ Str, Str ] -> Str;
-plus (true, false) -->* context blame @ plus, argument does nor match [ Num, Num ] \cup [ Str, Str ] ;
-
-- or 
-plus (true, false) -->* context blame @ plus, x @ Num \cup Str \in [ Num, Num ] \cup [ Str, Str ] \in [ Num, Num ] -> Num \cap [ Str, Str ] -> Str;
-plus(1,2) -->* subject blame @ plus, subject does not satisfy [ Num, Num ] -> Num
-
-
-
 *** Temporal Contracts
 
 - Specify the behavior of modules/functions in terms of temporal properties
@@ -273,14 +241,3 @@ plus(1,2) -->* subject blame @ plus, subject does not satisfy [ Num, Num ] -> Nu
 - e.g. access o.x; access o.y, return
 - use temporal logic/ LTL
 - use capabilities that allow to call a function
-
-
-*** Embedded contract parser/ Sugar2
-
-- an embedded parser to produce contracts
-- similar to Access Permission Contracts
-
-
-*** TAJS Extension with Gradual Checking/ Sugar2
-
-

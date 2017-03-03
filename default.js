@@ -32,35 +32,10 @@ TreatJS.Print.printConfiguration();
 //TreatJS.Print.printContract();
 
 
-(function() {
 
-  let id = Contract.assert(function id(x) {
-    return x;
-  }, Contract.Intersection.from(
-    Contract.Function([Contract.Function([Positive], Positive)], Contract.Base(f => f(1))),
-    Contract.Function([Contract.Function([Even], Even)], Contract.Base(f => f(-2)))
-    )
-  );
-    
-  id(x => x);
-  print(id(x => x)(2));
 
-})();
 
-quit();
 
-(function() {
-
-  let addOne = Contract.assert(function addOne(x) {
-    return x+"1";
-  }, Contract.Intersection.from(
-    Contract.Function([typeNumber], typeNumber),
-    Contract.Function([typeString], typeString)
-    ));
-
-  print(addOne("1"));
-
-})();
 
 quit();
 
@@ -87,68 +62,6 @@ quit();
 })();
 
 
-
-quit();
-
-(function () {
-
-//let x = ({valueOf:(function (){return 4711;})})
-let x = function(){};
-x.valueOf = (function (){return 4711;})
-
-let y = Contract.assert(x, Contract.Function([typeNumber], typeNumber));
-
-print(x, typeof x, typeof y);
-print(x+1, y+1);
-
-y("1");
-
-
-
-})();
-
-
-
-
-quit();
-
-
-(function() {
-  let id = Contract.assert(function id(x) {
-    return x
-  }, Contract.Function([typeNumber], typeNumber));
-  let idTest = (Contract.Constructor(function test(id) {
-    return Contract.Base(function test(subject) {
-      return subject == id(subject);
-    }, "ID Test");
-  }))(id);
-
-  Contract.assert("a", idTest); // accepted
-
-});
-
-
-(function() {
-
-  let addOne = Contract.assert(function addOnex(plus, z) {
-    return plus(z, "1");
-  }, Contract.Function([Contract.Function([typeNumber, typeNumber], typeNumber), typeNumber], typeNumber));
-  
-  /*Contract.Intersection(
-    Contract.Dependent(function(plus, z) {
-      return Contract.Base(function(subject) {
-        return true; // plus(z, '1');
-      },  "Plus Test");
-    }),
-    Contract.Function([Contract.Function([typeNumber], typeNumber), typeNumber], typeNumber)
-    )
-  );*/
-
-  addOne(function plusx(x, y) {
-    return (x + y);
-  }, 2);
-
-})();
 
 
 

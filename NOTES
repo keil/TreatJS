@@ -20,24 +20,6 @@ Config: globalPathTrought
 
 
 
-Indy/Pick/Lax
-=============
-
-- It is required to bind the context in the assertion, rather than only using the stack. 
-
- The stack would als guarantee INDY semantics, but it is not able to handle assignments correclty Thus we must bind the current context.
-
-
-
-
-
-
-Increase Performance by reducing callback graphs
-================================================
-
-- use constraints/callback only when unrolling intersection and union.
-- than, all sub contract report to the left or right side of an combinations.
-- but, this may require the four valued login when implementing the constrains. Waht happens id the output of one side flips or subject/context are both false. Compare this with the current output.
 
 
 
@@ -67,8 +49,6 @@ Contract.AFunction([In(x)], Out(x));
 
 
 
-assert with X Constr
-construct
 
 
 -> case (context specific change of the contract)

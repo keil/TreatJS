@@ -1,6 +1,3 @@
-
-
-
 new Test('Contract/DelayedIntersection/1', function() {
 
   function plus(x, y) {

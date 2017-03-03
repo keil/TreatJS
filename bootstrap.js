@@ -57,7 +57,7 @@ load("src/treat.sandbox.js");
 var Contract  = TreatJS.initialize({
   /* TreatJS evaluation semantics
    * (default: TreatJS.INDY)
-   */semantics: TreatJS.INDY,
+   */semantics: TreatJS.LAX,
   /* TreatJS safety level 
    * (default: TreatJS.PURE)
    */safetylevel: TreatJS.PURE,
