@@ -242,9 +242,6 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       try {
         result = contract.predicate.apply(undefined, [mirror(subject, path)]);
       } catch (error) {
-
-        print(error, error.stack);
-
         if(error instanceof TreatJS.Error.TreatJSError) {
           throw error;
         } else {
