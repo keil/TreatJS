@@ -71,11 +71,11 @@ new Test('Semantics/Lax/3', function() {
   }).noBlame();
 
   this.expect(function() {
-    Contract.assert("1", idTest);    
-  }).subjectBlame();
+    Contract.assert("a", idTest);    
+  }).noBlame();
 
   this.expect(function() {
     Contract.assert(0, idTest);    
-  }).subjectBlame();
+  }).noBlame();
 
 });
