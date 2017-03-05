@@ -113,6 +113,30 @@ var Contracts = Contracts || (function() {
       }, `Between ${min} ${max}`);
     }, "Between");
 
+    this.GreaterThan = Contract.Constructor(function(value) {
+      return Contract.Base(function(subject) {
+        return (subject > value); 
+      }, `Greather Than ${value}`);
+    }, "GreaterThan");
+
+    this.GreaterEqualsThan = Contract.Constructor(function(value) {
+      return Contract.Base(function(subject) {
+        return (subject >= value); 
+      }, `Greather Equals Than ${value}`);
+    }, "GreaterEqualsThan");
+
+    this.LowerThan = Contract.Constructor(function(value) {
+      return Contract.Base(function(subject) {
+        return (subject < value); 
+      }, `Lower Than ${value}`);
+    }, "LowerThan");
+
+    this.LowerEqualsThan = Contract.Constructor(function(value) {
+      return Contract.Base(function(subject) {
+        return (subject > value); 
+      }, `Lower Equals Than ${value}`);
+    }, "LowerEqualsThan");
+
     this.Length = Contract.Constructor(function(length) {
       return Contract.Base(function(object) {
         return (object.length === length); 
@@ -120,7 +144,7 @@ var Contracts = Contracts || (function() {
     }, "Length");
 
     /**
-     * Specoal Contracts
+     * Special Contracts
      **/
 
     this.Even = (Contract.Constructor(function(Math) {
@@ -146,6 +170,10 @@ var Contracts = Contracts || (function() {
     this.Negative = TreatJS.Contract.Base(function(value) {
       return (value < 0);
     },"Negative");
+
+    this.Primitive = TreatJS.Contract.Base(function(value) {
+      return  (target !== Object(target));
+    },"Primitive");
 
     return this;
   }

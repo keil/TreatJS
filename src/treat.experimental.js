@@ -49,11 +49,6 @@ TreatJS.package("Experimental", function (TreatJS, Contract, configuration) {
   //| (_) | '_| (__/ _ \ ' \  _| '_/ _` / _|  _|
   // \___/|_|  \___\___/_||_\__|_| \__,_\__|\__|
 
-    // ___     _                      _   _          ___         _               _   
-  //|_ _|_ _| |_ ___ _ _ ___ ___ __| |_(_)___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
-  // | || ' \  _/ -_) '_(_-</ -_) _|  _| / _ \ ' \ (__/ _ \ ' \  _| '_/ _` / _|  _|
-  //|___|_||_\__\___|_| /__/\___\__|\__|_\___/_||_\___\___/_||_\__|_| \__,_\__|\__|
-
   function OrContract(left, right) { 
     if(!(this instanceof OrContract)) return new OrContract(left, right);
     else TreatJS.Prototype.Contract.apply(this);

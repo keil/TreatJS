@@ -20,7 +20,6 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
   //| (_ | / _ \ '_ \/ _` | |
   // \___|_\___/_.__/\__,_|_|
 
-  // TODO, depent on flag
   const Global = this;
 
   // _  _      _   _         
@@ -28,7 +27,6 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
   //| .` / _` |  _| \ V / -_)
   //|_|\_\__,_|\__|_|\_/\___|
 
-  // TODO, only funtions
   const Native = new WeakSet();
 
   (function addGlobal(object) {
@@ -56,7 +54,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
 
     Object.defineProperties(this, {
       "predicate": {
-        value: predicate //*/ wrapFunction(predicate) // TODO, wrap predicate
+        value: predicate
       },
       "name": {
         value: name
@@ -110,14 +108,6 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
       Symbol.toStringTag, //
       Symbol.unscopables
   ]);
-
-
-  // wrap for arguments passed the membrane
-  // cache ? 
-  // flag sthat omiyt decomilation and logging?
-
-
-
 
   //__ __ ___ _ __ _ _ __ 
   //\ V  V / '_/ _` | '_ \
@@ -468,19 +458,6 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
        * Wrap/Uwrap arguments and return of a function call to protect values.
        **/
       var proxy = wrapFunction(pure);
-      /*      var proxy =  new Proxy(pure, {
-              apply: function(target, thisArg, argumentsList) {
-
-      // traverse arguments
-
-      const wrappedArguments = [];
-      for(var i=0; i<argumentsList.length; i++) 
-      wrappedArguments[i] = wrap(argumentsList[i])
-
-      // TODO, why is this required ?
-      return unwrap(target.apply(wrap(thisArg), wrappedArguments));
-      }
-      });*/
 
       /**
        * Return new pure function.
@@ -501,21 +478,11 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
          **/
         const wrappedArguments = [];
 
-
-        //  print(closure, argumentsList[0] instanceof Array, argumentsList[0] instanceof wrap(Array) , wrap(argumentsList[0]) instanceof Array );
-        //  print(argumentsList[0], wrap(argumentsList[0]));
-
         for(let i=0; i<argumentsList.length; i++) {
-          //   print("traverse ... ", i, ";", argumentsList[i], ":");
-
           wrappedArguments[i] = wrap(argumentsList[i])
         }
 
-
-        return unwrap(Reflect.apply(target, thisArg, wrappedArguments));
-
-        // TODO, why is this required ?
-        //return unwrap(target.apply(wrap(thisArg), wrappedArguments));
+        return Reflect.apply(target, thisArg, wrappedArguments);
       }
     });
   }
