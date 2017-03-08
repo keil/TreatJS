@@ -24,7 +24,7 @@ var TreatJS = TreatJS || (function() {
 
   /** TreatJS version number.
   */
-  const version = "TreatJS 2.0.2 (Alpha)";
+  const version = "TreatJS 2.0.3 (Alpha)";
 
   /** The TreatJS wrapper object.
   */
