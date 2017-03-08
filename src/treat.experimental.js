@@ -13,7 +13,7 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-TreatJS.package("Experimental", function (TreatJS, Contract, configuration) {
+TreatJS.package("Experimental", function (TreatJS, Contract, Configuration, Realm) {
 
   //   _           _  ___         _               _   
   //  /_\  _ _  __| |/ __|___ _ _| |_ _ _ __ _ __| |_ 

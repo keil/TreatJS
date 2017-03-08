@@ -44,10 +44,3 @@ if(TreatJS.getConfiguration().semantics===TreatJS.INDY) {
 } else if(TreatJS.getConfiguration().semantics===TreatJS.LAX) {
   load("tests/semantics/test.lax.js");
 }
-
-
-
-print("@@@", TreatJS.getConfiguration().semantics);
-//if(TreatJS.)
-
-

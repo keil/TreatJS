@@ -13,7 +13,7 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
+TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, Configuration, Realm) {
 
   //  ___ _     _          _ 
   // / __| |___| |__  __ _| |
@@ -27,7 +27,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
   //| .` / _` |  _| \ V / -_)
   //|_|\_\__,_|\__|_|\_/\___|
 
-  const Native = new WeakSet();
+  const Native = new Realm.WeakSet();
 
   (function addGlobal(object) {
     for(var name of Object.getOwnPropertyNames(object)) {
@@ -95,7 +95,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
    */
   const decompile = Function.prototype.toString;
 
-  const Symbols = new Set([
+  const Symbols = new Realm.Set([
       Symbol.hasInstance,
       Symbol.isConcatSpreadable,
       Symbol.iterator,
@@ -117,12 +117,12 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
   /** 
    * proxies: proxy -> target
    **/
-  const proxies = new WeakMap();
+  const proxies = new Realm.WeakMap();
 
   /** 
    * targets: target -> proxy
    **/
-  const targets = new WeakMap();
+  const targets = new Realm.WeakMap();
 
   /** 
    * wrap: target -> proxy
@@ -145,16 +145,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
       return target;
     }
 
-    //var handler = new Membrane();
-    //var proxy = new Proxy(target, handler);
-
-    var proxy = new Proxy(target, new Proxy({}, {
-      get: function(target, name, receiver) {
-        throw new TreatJS.Error.SandboxError("get " + name);
-      }
-    }));
-
-    var proxy = new Proxy(target, new Membrane());
+    let proxy = new Realm.Proxy(target, new Membrane());
 
     /**
      * Stores the current proxy
@@ -402,7 +393,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
   //|_|  |_\___|_|_|_|_.__/_| \__,_|_||_\___|
 
   let Membrane = (function() {
-    switch(configuration.safetylevel) {
+    switch(Configuration.safetylevel) {
       case TreatJS.NONE:
         return NoneMembrane;
         break;
@@ -429,7 +420,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
        * Scope Proxy.
        * Stops the traversal of a scope chain lookup.
        **/
-      var scope = new Proxy(realm, {
+      var scope = new Realm.Proxy(realm, {
         has: function() {
           return true;
         }
@@ -470,7 +461,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
   }
 
   function wrapFunction(closure) {
-    return new Proxy(closure, {
+    return new Realm.Proxy(closure, {
       apply: function(target, thisArg, argumentsList) {
 
         /**
@@ -501,8 +492,8 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, configuration) {
   //|_| \___|\__|\_,_|_| |_||_|
 
   return {
-    recompilePredicate:   (configuration.safetylevel===TreatJS.NONE) ? x=>x : recompilePredicate,
-    recompileConstructor: (configuration.safetylevel===TreatJS.NONE) ? x=>x : recompileConstructor
+    recompilePredicate:   (Configuration.safetylevel===TreatJS.NONE) ? x=>x : recompilePredicate,
+    recompileConstructor: (Configuration.safetylevel===TreatJS.NONE) ? x=>x : recompileConstructor
   };
 
 });

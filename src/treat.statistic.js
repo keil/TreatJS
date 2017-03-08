@@ -13,7 +13,7 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-TreatJS.package("TreatJS.Statistic", function (TreatJS, Contract, configuration) {
+TreatJS.package("TreatJS.Statistic", function (TreatJS, Contract, Configuration, Realm) {
 
   const Keys = Object.freeze({
     TOPASSERT   : "TOPASSERT",

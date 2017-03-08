@@ -13,26 +13,25 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-TreatJS.package("TreatJS.Conversion", function (TreatJS, Contract, configuration) {
+TreatJS.package("TreatJS.Conversion", function (TreatJS, Contract, Configuration, Realm) {
 
 
-        function convert(subject) {
+  function convert(subject) {
 
-                if(subject instanceof TreatJS.Prototype.Contract) return subejct;
-                else if(subject instanceof TreatJS.Prototype.Constructor) return subejct;
-                else {
-        
+    if(subject instanceof TreatJS.Prototype.Contract) return subject;
+    else if(subject instanceof TreatJS.Prototype.Constructor) return subject;
+    else {
 
-                        if(subject instanceof Function) {
-                                return new Contract.Constructor(subject)
-                        } else if(subject instanceof Array) {
-                                return new Contract.Object(subject);
-                        } else if (subject instanceof Object) {
-                                return new Contract.Object(subject);
-                        } 
-                }
+      if(subject instanceof Function) {
+        return new Contract.Constructor(subject)
+      } else if(subject instanceof Array) {
+        return new Contract.Object(subject);
+      } else if (subject instanceof Object) {
+        return new Contract.Object(subject);
+      } 
+    }
 
-        }
+  }
 
 
 

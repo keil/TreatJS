@@ -13,23 +13,7 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
-
-  // ___                  
-  //| _ \_ _ _____ ___  _ 
-  //|  _/ '_/ _ \ \ / || |
-  //|_| |_| \___/_\_\\_, |
-  //                 |__/ 
-
-  const realm = TransparentProxy.createRealm();
-
-  const Proxy = realm.Proxy;
-
-  const WeakMap = realm.WeakMap;
-  const WeakSet = realm.WeakSet;
-
-  const Map = realm.Map;
-  const Set = realm.Set;
+TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Realm) {
 
   //  ___         _           _   
   // / __|___ _ _| |_ _____ _| |_ 
@@ -47,10 +31,10 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
   // \_/\_/|_| \__,_| .__/
   //                |_|   
 
-  const Assertions = new WeakMap();
+  const Assertions = new Realm.WeakMap();
 
   function wrap(subject, contract, callback, path, handler) {
-    const proxy = new Proxy(subject, handler);
+    const proxy = new Realm.Proxy(subject, handler);
 
     Assertions.set(proxy, {
       subject  : subject,
@@ -142,7 +126,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
   //|_|_|_|_|_| |_| \___/_|  
 
   let mirror = (function() {
-    switch(configuration.semantics) {
+    switch(Configuration.semantics) {
       case TreatJS.INDY:
         return mirrorIndy;
         break;
@@ -164,8 +148,8 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
 
   function define(target, log, statistic) {
 
-    if(configuration.verbose) {
-      target = new Proxy(target, {
+    if(Configuration.verbose) {
+      target = new Realm.Proxy(target, {
         apply: function(target, thisArg, argumentsArg) {
           Reflect.apply(log, thisArg, argumentsArg);
           return Reflect.apply(target, thisArg, argumentsArg);
@@ -173,8 +157,8 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
       });
     }
 
-    if(configuration.statistic) {
-      target = new Proxy(target, {
+    if(Configuration.statistic) {
+      target = new Realm.Proxy(target, {
         apply: function(target, thisArg, argumentsArg) {
           Reflect.apply(statistic, thisArg, argumentsArg);
           return Reflect.apply(target, thisArg, argumentsArg);
@@ -391,7 +375,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
     }
 
     else if (contract instanceof TreatJS.Contract.DelayedIntersection) {
-      return (subject instanceof Object) ? new Proxy(subject, new Proxy({}, {
+      return (subject instanceof Object) ? new Realm.Proxy(subject, new Realm.Proxy({}, {
         get: function (handler, trapname) {
           return function(target, ...trapArgs) {
             const {left, right} = TreatJS.Callback.Intersection(callback);
@@ -493,7 +477,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, configuration) {
   //        |_|                
 
   TreatJS.export({
-    assert:     configuration.assertion ? topassert : noassert,
+    assert:     Configuration.assertion ? topassert : noassert,
     construct:  topconstruct
   });
 

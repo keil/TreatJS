@@ -13,9 +13,9 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-TreatJS.package("TreatJS.Log", function (TreatJS, Contract, configuration) {
+TreatJS.package("TreatJS.Log", function (TreatJS, Contract, Configuration, Realm) {
 
-  const print = configuration.print || (function() {});
+  const print = Configuration.print || (function() {});
 
   const Keys = Object.freeze({
     ASSERT      : "ASSERT",

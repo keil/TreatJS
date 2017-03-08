@@ -13,7 +13,7 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-TreatJS.package("TreatJS.Convenience", function (TreatJS, Contract, configuration) {
+TreatJS.package("TreatJS.Convenience", function (TreatJS, Contract, Configuration, Realm) {
 
   // __  __     _   _            _  ___         _               _   
   //|  \/  |___| |_| |_  ___  __| |/ __|___ _ _| |_ _ _ __ _ __| |_ 

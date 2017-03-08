@@ -34,11 +34,24 @@ TreatJS.Print.printConfiguration();
 // ==================================================
 
 
+let id = Contract.assert(function id(x) {
+  return x;
+}, Contract.Intersection.from(
+  Contract.Function([Contract.Function([Positive], Positive)], Contract.Base(f => f(1))),
+  Contract.Function([Contract.Function([Even], Even)], Contract.Base(f => f(-2)))
+  )
+);
+
+print(id(x => x)(2));
+//print(id(x => x)(-2));
 
 
 
 
 
+
+
+/*
 (function() {
   let t = {x:4711, y:4712, valueOf:()=>4711};
   let p = new Proxy(t, {
@@ -60,6 +73,7 @@ TreatJS.Print.printConfiguration();
   print("#", obj2+1, 1+obj2, typeof obj2);
 
 });
+*/
 
 
 
@@ -68,14 +82,10 @@ TreatJS.Print.printConfiguration();
 
 
 
+//let XXX = (Contract.Constructor(Math => Contract.Base(subject => (Math.abs(subject) == 1))))(Math);
+//print(XXX);
+//Contract.assert(2, XXX);
 
-let XXX = (Contract.Constructor(Math => Contract.Base(subject => (Math.abs(subject) == 1))))(Math);
-
-print(XXX);
-
-Contract.assert(2, XXX);
-
-quit();
 
 
 

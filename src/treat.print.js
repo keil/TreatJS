@@ -13,7 +13,7 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-TreatJS.package("TreatJS.Print", function (TreatJS, Contract, configuration) {
+TreatJS.package("TreatJS.Print", function (TreatJS, Contract, Configuration, Realm) {
 
   //          _     _    __   __          _          
   // _ __ _ _(_)_ _| |_  \ \ / /__ _ _ __(_)___ _ _  
@@ -34,8 +34,8 @@ TreatJS.package("TreatJS.Print", function (TreatJS, Contract, configuration) {
 
   var printConfiguration = function () {
     TreatJS.Log.line("TreatJS Configuration");
-    for(var entry in configuration) {
-      TreatJS.Log.prompt(entry, configuration[entry]);
+    for(var entry in Configuration) {
+      TreatJS.Log.prompt(entry, Configuration[entry]);
     }
   }
 

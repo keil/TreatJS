@@ -13,7 +13,7 @@
  * http://www.informatik.uni-freiburg.de/~keilr/
  */
 
-TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, configuration) {
+TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, Configuration, Realm) {
 
   // ___          _    ___      _ _ _             _   
   //| _ \___  ___| |_ / __|__ _| | | |__  __ _ __| |__
