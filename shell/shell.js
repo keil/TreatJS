@@ -24,7 +24,7 @@
     print(" * TreatJS: Higher-Order Contracts for JavaScript");
     print(" * http://proglang.informatik.uni-freiburg.de/treatjs/");
     print("");
-    print(" * Copyright (c) 2013-2016, Proglang, University of Freiburg.");
+    print(" * Copyright (c) 2013-2017, Proglang, University of Freiburg.");
     print(" * http://proglang.informatik.uni-freiburg.de/");
     print(" * All rights reserved.");
     print("");
