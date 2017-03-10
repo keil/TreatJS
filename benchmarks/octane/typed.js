@@ -59,7 +59,7 @@ function _makeIntersectionContract_(calls) {
     return _makeFunctionContract_(shifted);
   } else if(calls.length>1) {
     var shifted = calls.shift();
-    return Contract.DIntersection(_makeFunctionContract_(shifted), _makeIntersectionContract_(calls));
+    return Contract.DelayedIntersection(_makeFunctionContract_(shifted), _makeIntersectionContract_(calls));
   } else {
     return Any;
   }
