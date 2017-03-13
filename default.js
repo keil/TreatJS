@@ -34,6 +34,53 @@ TreatJS.Print.printConfiguration();
 // ==================================================
 
 
+(function() {
+  let t = {x:4711, y:4712, valueOf:()=>4711};
+  let p = new Proxy(t, {
+    get: (target, name, receiver) => {print("@", name.toString()); return Reflect.get(target, name, receiver)}
+  });
+
+  print(p.x, p.y, p.z);
+  print("--");
+  print(p+1);
+  print("--");
+  print(typeof p);
+
+  var obj2 = 
+    /*valueOf: function() {
+      return 4711;
+    },*/
+    (function(){})[Symbol.toPrimitive] = function(hint) {
+      return 4711;  
+    }
+  ;
+
+  print("#", obj2+1, 1+obj2, typeof obj2);
+
+});
+
+
+
+
+(function() {
+
+  let pp = Contract.Function([Positive], Positive);
+  let f  = Contract.assert(4711, pp);
+
+  print(typeof f);
+  print(f(1));
+
+
+
+
+})()
+
+
+
+
+
+quit();
+
 let id = Contract.assert(function id(x) {
   return x;
 }, Contract.Intersection.from(

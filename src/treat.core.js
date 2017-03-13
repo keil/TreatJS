@@ -267,7 +267,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
           const contracted = contract.map.has(name) ? assert(value, contract.map.get(name), properties, path.Step(properties)) : value;
           return Reflect.set(target, name, contracted, receiver);
         }
-      }) : subject;
+      }) : assert(toObject(subject), contract, callback, path);
     }
 
     else if (contract instanceof TreatJS.Contract.StrictObject) {
@@ -297,7 +297,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
             return Reflect.set(target, name, value, receiver);
           } 
         }
-      }) : subject;
+      }) : assert(toObject(subject), contract, callback, path);
     }
 
     // ___          _   _   _          ___         _               _   
@@ -313,7 +313,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
           const result = Reflect.apply(target, thisArg, contracted);
           return assert(result, contract.range, range, path.Step(range));
         }
-      }) : subject;
+      }) : assert(toFunction(subject), contract, callback, path);
     }
 
     // __  __     _   _            _  ___         _               _   
@@ -330,7 +330,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
           const result = Reflect.apply(target, thisArgContracted, argumentsArgContracted);
           return assert(result, contract.range, range, path.Step(range));
         }
-      }) : subject;
+      }) : assert(toFunction(subject), contract, callback, path);
     }
 
     // ___                        _         _    ___         _               _   
@@ -346,7 +346,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
           const result = Reflect.apply(target, thisArg, argumentsArg);
           return assert(result, rangeContract, callback, path);
         }
-      }) : subject;
+      }) : assert(toFunction(subject), contract, callback, path);
     }
 
     // _   _      _          ___         _               _   
@@ -470,6 +470,30 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
   }, function(constructor, argumentsList) {
     TreatJS.Statistic.increment(TreatJS.Statistic.Keys.CONSTRUCT);
   });
+
+  // _       ___                       
+  //| |_ ___|   \ _  _ _ __  _ __ _  _ 
+  //|  _/ _ \ |) | || | '  \| '  \ || |
+  // \__\___/___/ \_,_|_|_|_|_|_|_\_, |
+  //                              |__/ 
+
+  function toFunction (subject) {
+    const dummy = (function(){
+      throw new TypeError("subject is not a function");
+    });
+    dummy[Symbol.toPrimitive] = function(hint) {
+      return subject;  
+    }
+    return dummy;
+  }
+
+  function toObject (subject) {
+    const dummy = {};
+    dummy[Symbol.toPrimitive] = function(hint) {
+      return subject;  
+    }
+    return dummy;
+  }
 
   // _____ ___ __  ___ _ _| |_ 
   /// -_) \ / '_ \/ _ \ '_|  _|
