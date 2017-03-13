@@ -35,48 +35,60 @@ TreatJS.Print.printConfiguration();
 
 
 (function() {
-  let t = {x:4711, y:4712, valueOf:()=>4711};
-  let p = new Proxy(t, {
-    get: (target, name, receiver) => {print("@", name.toString()); return Reflect.get(target, name, receiver)}
-  });
 
-  print(p.x, p.y, p.z);
-  print("--");
-  print(p+1);
-  print("--");
-  print(typeof p);
+  /**
+   * Node
+   */
+  function Node (value, left, right) {
+    this.value = value;
+    this.left = left;
+    this.right = right;
+  }
+  Node.prototype.toString = function () {
+    return (this.left + "," + this.value + "," + this.right);
+  }  
+  Node.prototype.hightOf = function () {
+    return (Math.max(this.left.hightOf(),this.right.hightOf())+1);
+  }
 
-  var obj2 = 
-    /*valueOf: function() {
-      return 4711;
-    },*/
-    (function(){})[Symbol.toPrimitive] = function(hint) {
-      return 4711;  
+  /** 
+   * Leaf
+   */
+  function Leaf(value) {
+    this.value = value;
+  }
+  Leaf.prototype.toString = function () {
+    return this.value;
+  }
+  Leaf.prototype.hightOf = function () {
+    return 0;
+  }
+
+
+
+  let root = new Node(2, new Node(1, new Leaf(0), new Leaf(0)), new Node(1, new Leaf(0), new Leaf(0)));
+  print(root, root.hightOf());
+
+
+
+  function isBalanced(node) {
+
+    if(node instanceof Node) {
+      const lhs = node.left.hight;
+      const rhs = node.right.hight;
+      return isBalanced(node.left) && isBalanced(node.right) && (Math.abs(lhs - rhs) <= 1);
+    } else {
+      return true;
     }
-  ;
 
-  print("#", obj2+1, 1+obj2, typeof obj2);
-
-});
-
-
-
-
-(function() {
-
-  let pp = Contract.Function([Positive], Positive);
-  let f  = Contract.assert(4711, pp);
-
-  print(typeof f);
-  print(f(1));
-
-
+  }
 
 
 })()
 
-
-
+//The left and right subtrees' heights differ by at most one, AND
+//The left subtree is balanced, AND
+//The right subtree is balanced
 
 
 quit();

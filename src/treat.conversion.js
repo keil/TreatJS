@@ -15,25 +15,30 @@
 
 TreatJS.package("TreatJS.Conversion", function (TreatJS, Contract, Configuration, Realm) {
 
+  /**
+   * Implivite conversions of contract:
+   * [], {}   --> Object Contract
+   * x => x   --> Constructor
+   * 
+   **/
 
-  function convert(subject) {
 
-    if(subject instanceof TreatJS.Prototype.Contract) return subject;
-    else if(subject instanceof TreatJS.Prototype.Constructor) return subject;
+  function convert(target) {
+
+    if(subject instanceof TreatJS.Prototype.Contract) return target;
+    else if(subject instanceof TreatJS.Prototype.Constructor) return target;
     else {
 
       if(subject instanceof Function) {
-        return new Contract.Constructor(subject)
+        return new Contract.Constructor(target)
       } else if(subject instanceof Array) {
-        return new Contract.Object(subject);
+        return new Contract.Object(target);
       } else if (subject instanceof Object) {
-        return new Contract.Object(subject);
+        return new Contract.Object(target);
       } 
     }
 
   }
-
-
 
   // _____ ___ __  ___ _ _| |_ 
   /// -_) \ / '_ \/ _ \ '_|  _|

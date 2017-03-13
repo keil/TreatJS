@@ -169,7 +169,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, Configuration, 
   //|___/\___| .__/\___|_||_\__,_\___|_||_\__|\___\___/_||_\__|_| \__,_\__|\__|
   //         |_|                                                               
 
-  function DependentContract(constructor, name) {
+  function DependentContract(constructor) {
     if(!(this instanceof DependentContract)) return new DependentContract(constructor);
     else TreatJS.Prototype.Delayed.apply(this);
 
@@ -333,6 +333,33 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, Configuration, 
 
 
 
+  function InvariantContract(base) {
+    if(!(this instanceof InvariantContract)) return new InvariantContract(constructor);
+    else TreatJS.Prototype.Immediate.apply(this);
+
+    if(constructor instanceof Function) {
+      constructor = new ConstructorContract(constructor, name);
+    }
+
+    if(!(constructor instanceof TreatJS.Prototype.Constructor))
+      throw new TypeError("Invalid constructor.");
+
+    Object.defineProperties(this, {
+      "constructor": {
+        value: constructor
+      }
+    });
+  }
+  InvariantContract.prototype = Object.create(TreatJS.Prototype.Immediate.prototype);
+  InvariantContract.prototype.constructor = DependentContract;
+  InvariantContract.prototype.toString = function() {
+    return "(" + "%" + "." + this.constructor.toString() + ")";
+  };
+
+
+
+
+
 
   // Why is this not a constructor
 
@@ -341,7 +368,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, Configuration, 
   //|   / -_) _| || | '_(_-< \ V / -_) (__/ _ \ ' \  _| '_/ _` / _|  _|
   //|_|_\___\__|\_,_|_| /__/_|\_/\___|\___\___/_||_\__|_| \__,_\__|\__|
 
-  function RecursiveContract(constructor, name) {
+  function RecursiveContract(constructor) {
     if(!(this instanceof RecursiveContract)) return new RecursiveContract(constructor);
     else TreatJS.Prototype.Immediate.apply(this);
 
@@ -358,9 +385,9 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, Configuration, 
       }
     });
   }
-  DependentContract.prototype = Object.create(TreatJS.Prototype.Immediate.prototype);
-  DependentContract.prototype.constructor = DependentContract;
-  DependentContract.prototype.toString = function() {
+  RecursiveContract.prototype = Object.create(TreatJS.Prototype.Immediate.prototype);
+  RecursiveContract.prototype.constructor = RecursiveContract;
+  RecursiveContract.prototype.toString = function() {
     return "(" + "%" + "." + this.constructor.toString() + ")";
   };
 
@@ -370,7 +397,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, Configuration, 
   //| _/ _ \ '_/ _` | | | (__/ _ \ ' \  _| '_/ _` / _|  _|
   //|_|\___/_| \__,_|_|_|\___\___/_||_\__|_| \__,_\__|\__|
 
-  function ForallContract(constructor, name) {
+  /*function ForallContract(constructor, name) {
     if(!(this instanceof ForallContract)) return new ForallContract(constructor);
     else TreatJS.Prototype.Immediate.apply(this);
 
@@ -391,7 +418,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, Configuration, 
   DependentContract.prototype.constructor = DependentContract;
   DependentContract.prototype.toString = function() {
     return "(" + "%" + "." + this.constructor.toString() + ")";
-  };
+  };*/
 
 
 
