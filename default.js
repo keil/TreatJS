@@ -39,49 +39,118 @@ TreatJS.Print.printConfiguration();
   /**
    * Node
    */
+  
   function Node (value, left, right) {
     this.value = value;
     this.left = left;
     this.right = right;
   }
-  Node.prototype.toString = function () {
-    return (this.left + "," + this.value + "," + this.right);
-  }  
-  Node.prototype.hightOf = function () {
-    return (Math.max(this.left.hightOf(),this.right.hightOf())+1);
+
+  Node.prototype = {
+
+    get hight() {
+      return (Math.max(this.left.hight,this.right.hight)+1);
+    },
+
+    toString() {
+      return (this.left + "," + this.value + "," + this.right); 
+    }
+
   }
 
   /** 
    * Leaf
    */
+
   function Leaf(value) {
     this.value = value;
   }
-  Leaf.prototype.toString = function () {
-    return this.value;
+
+  Leaf.prototype = {
+
+    get hight() {
+      return 0;
+    },
+
+    toString() {
+      return this.value;
+    }
+
   }
-  Leaf.prototype.hightOf = function () {
-    return 0;
-  }
+
+  let root1 = new Node(2, new Node(1, new Leaf(0), new Leaf(0)), new Node(1, new Leaf(0), new Leaf(0)));
+  let root2 = new Node(3, new Node(2, new Node(1, new Leaf(0), new Leaf(0)), new Leaf(0)), new Leaf(0));
+  
+  print(root1, root1.hight);
+  print(root2, root2.hight);
 
 
-
-  let root = new Node(2, new Node(1, new Leaf(0), new Leaf(0)), new Node(1, new Leaf(0), new Leaf(0)));
-  print(root, root.hightOf());
-
-
+  /** 
+   * isBalanced
+   */
 
   function isBalanced(node) {
 
     if(node instanceof Node) {
       const lhs = node.left.hight;
       const rhs = node.right.hight;
+      print(lhs, rhs,  (Math.abs(lhs - rhs) <= 1));
       return isBalanced(node.left) && isBalanced(node.right) && (Math.abs(lhs - rhs) <= 1);
     } else {
       return true;
     }
 
   }
+
+  print(isBalanced(root1));
+  print(isBalanced(root2));
+
+
+
+/*  let isBalancedB = (Contract.Constructor(function(Node, Math) {
+    return Contract.Base(function isBalanced(node) {
+      if(node instanceof Node) {
+        const lhs = node.left.hight;
+        const rhs = node.right.hight;
+        //print(lhs, rhs,  (Math.abs(lhs - rhs) <= 1));
+        return isBalanced(node.left) && isBalanced(node.right) && (Math.abs(lhs - rhs) <= 1);
+      } else {
+        return true;
+      }
+    } ,"isBalanced");
+  }, "IsBalanced"))(Node, Math);
+*/
+//  let isBalancedC = Contract.Invariant(isBalancedB, "isBalanced");
+//  print(isBalancedC);
+
+//  let root1_Inv = Contract.assert(root1, isBalancedC);
+  //root1_Inv.right = root2;
+  //let root2_Inv = Contract.assert(root2, isBalancedC);
+
+
+
+
+// is it possible to have other values 
+// nesting of constructores
+
+  let Balanced = (Contract.Constructor(function(Balanced) {
+
+    return Contract.Object({
+      left: Balanced,
+      right: Balanced
+
+    });
+
+  }, "Balanced"));
+
+
+  let BalancedR = Contract.Recursive(Balanced);
+  print(BalancedR);
+  let root1_r = Contract.assert(root1, BalancedR);
+
+
+
+
 
 
 })()

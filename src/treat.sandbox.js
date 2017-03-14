@@ -63,9 +63,38 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, Configuration, R
   }
   BaseContract.prototype = Object.create(TreatJS.Contract.Base.prototype);
   BaseContract.prototype.constructor = BaseContract;
-  BaseContract.prototype.toString = function() {
-    return this.name ? "#"+this.name : "[[TreatJS/BaseContract]]";
-  };
+
+  // ___               _ _                ___             _               _            ___         _               _   
+  /// __| __ _ _ _  __| | |__  _____ __  / __|___ _ _  __| |_ _ _ _  _ __| |_ ___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
+  //\__ \/ _` | ' \/ _` | '_ \/ _ \ \ / | (__/ _ \ ' \(_-<  _| '_| || / _|  _/ _ \ '_| (__/ _ \ ' \  _| '_/ _` / _|  _|
+  //|___/\__,_|_||_\__,_|_.__/\___/_\_\  \___\___/_||_/__/\__|_|  \_,_\__|\__\___/_|  \___\___/_||_\__|_| \__,_\__|\__|
+
+  function ConstructorContract(constructor, name) {
+    if(!(this instanceof ConstructorContract)) return new ConstructorContract(constructor, name);
+
+    if(!(constructor instanceof Function))
+      throw new TypeError("Invalid constructor.");
+
+    Object.defineProperties(this, {
+      "constructor": {
+        value: constructor
+      },
+      "name": {
+        value: name
+      }
+    });
+
+    return Object.defineProperties(Object.setPrototypeOf(ConstructorContract.prototype.construct.bind(this), this), {
+      "constructor": {
+        value: TreatJS.Sandbox.recompileConstructor(constructor)
+      },
+      "name": {
+        value: name
+      }
+    });
+  }
+  ConstructorContract.prototype = Object.create(TreatJS.Contract.Constructor.prototype);
+  ConstructorContract.prototype.constructor = ConstructorContract;
 
   // ___               _ _              ___         _               _   
   /// __| __ _ _ _  __| | |__  _____ __/ __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -76,6 +105,10 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, Configuration, R
 
   Object.defineProperty(SandboxContract, "Base", {
     value: BaseContract
+  });
+
+  Object.defineProperty(SandboxContract, "Constructor", {
+    value: ConstructorContract
   });
 
   // ___               _ _              ___ _     _          _ 

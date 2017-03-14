@@ -226,6 +226,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
       try {
         result = contract.predicate.apply(undefined, [mirror(subject, path)]);
       } catch (error) {
+        print(error, error.stack);// TODO
         if(error instanceof TreatJS.Error.TreatJSError) {
           throw error;
         } else {
@@ -386,6 +387,49 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
       })) : subject;
     }
 
+    // ___                  _          _    ___         _               _   
+    //|_ _|_ ___ ____ _ _ _(_)__ _ _ _| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
+    // | || ' \ V / _` | '_| / _` | ' \  _| (__/ _ \ ' \  _| '_/ _` / _|  _|
+    //|___|_||_\_/\__,_|_| |_\__,_|_||_\__|\___\___/_||_\__|_| \__,_\__|\__|
+
+    else if(contract instanceof TreatJS.Contract.Invariant) {
+      return assert(subject, contract.base, callback, path) && (subject instanceof Object) ? 
+        wrap(subject, contract, callback, path, new Proxy(Reflect, {
+
+          get: function(target, name, receiver) {
+
+            return (function(){
+              const result = target[name](...arguments);
+              assert(subject, contract.base, callback, path);
+              return result;
+            });
+
+          }
+        })) : subject;
+    }
+
+
+    // ___                    _          ___         _               _   
+    //| _ \___ __ _  _ _ _ __(_)_ _____ / __|___ _ _| |_ _ _ __ _ __| |_ 
+    //|   / -_) _| || | '_(_-< \ V / -_) (__/ _ \ ' \  _| '_/ _` / _|  _|
+    //|_|_\___\__|\_,_|_| /__/_|\_/\___|\___\___/_||_\__|_| \__,_\__|\__|
+
+    else if(contract instanceof TreatJS.Contract.Recursive) {
+      const unrolled = construct(contract.constructor, [contract]);
+      return (subject instanceof Object) ? assert(subject, unrolled, callback, path) : assert(toObject(subject), unrolled, callback, path);
+    }
+
+
+
+
+
+
+
+
+
+
+
+    
     //     _   _                   _         
     // ___| |_| |_  ___ _ ___ __ _(_)___ ___ 
     /// _ \  _| ' \/ -_) '_\ V  V / (_-</ -_)
