@@ -33,7 +33,6 @@ TreatJS.Print.printConfiguration();
 
 // ==================================================
 
-
 (function() {
 
   /**
@@ -129,10 +128,12 @@ TreatJS.Print.printConfiguration();
 
 
 
-
+// TODO
 // is it possible to have other values 
 // nesting of constructores
 
+
+/*
   let Balanced = (Contract.Constructor(function(Balanced) {
 
     return Contract.Object({
@@ -147,6 +148,57 @@ TreatJS.Print.printConfiguration();
   let BalancedR = Contract.Recursive(Balanced);
   print(BalancedR);
   let root1_r = Contract.assert(root1, BalancedR);
+  root1_r.left;
+  root1_r.right = root2;
+*/
+
+//  let root2_r = Contract.assert(root1, BalancedR);
+//  root2_r.left;
+//  root2_r.right;
+
+
+  let Balanced = (Contract.Constructor(function(Node, Math) {
+    return Contract.Base(function isBalanced(node) {
+      if(node instanceof Node) {
+        const lhs = node.left.hight;
+        const rhs = node.right.hight;
+        return /*isBalanced(node.left) && isBalanced(node.right) &&*/ (Math.abs(lhs - rhs) <= 1);
+      } else {
+        return true;
+      }
+    } ,"Balanced");
+  }, "Balanced"))(Node, Math);
+
+  let BalancedNode = Contract.Invariant(Balanced, "BalancedNode");
+
+  let BalancedTree = (Contract.Constructor(function(BalancedNode, typeNumber) {
+    return Contract.Recursive(function(self) {
+      print("4$$$$$$$$$$$$$", BalancedNode, typeNumber);
+      return Contract.Intersection.from(BalancedNode, Contract.Object({
+        value: typeNumber,
+        left:  Balanced,
+        right: Balanced
+      }));
+    });
+  }, "BalancedTree"))(BalancedNode, typeNumber);
+
+
+  // Problem, recusiv contract compiles internally to a full constructor, which removes the bindings to the contarcts
+  
+  print("@@@", BalancedNode, BalancedTree);
+
+  let x = Contract.assert(root1, BalancedTree);
+
+
+
+
+//  let BalancedR = Contract.Recursive(Balanced);
+//  print(BalancedR);
+//  let root1_r = Contract.assert(root1, BalancedR);
+//  root1_r.left;
+// root1_r.right = root2;
+
+
 
 
 

@@ -60,7 +60,7 @@ var Contract  = TreatJS.initialize({
    */semantics: TreatJS.INDY,
   /* TreatJS safety level 
    * (default: TreatJS.PURE)
-   */safetylevel: TreatJS.NONE,
+   */safetylevel: TreatJS.PURE,
   /** Enable contract assertion
    * (default: true)
    */assertion: true,

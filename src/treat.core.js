@@ -486,6 +486,10 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
       try {
         contract = constructor.constructor.apply(undefined, constructorArray);
       } catch (error) {
+
+
+        print(error, error.stack); // TODO
+
         if(error instanceof TreatJS.Error.TreatJSError) {
           throw error;
         } else {
@@ -494,6 +498,8 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
       } finally {
         Contexts.pop(); 
       }
+
+      print("_______________" ,contract);
 
       // Return constructed contract or throw an error.
       if(contract instanceof TreatJS.Prototype.Contract)

@@ -174,7 +174,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, Configuration, 
     else TreatJS.Prototype.Delayed.apply(this);
 
     if(constructor instanceof Function) {
-      constructor = new ConstructorContract(constructor, name);
+      constructor = new ConstructorContract(constructor);
     }
 
     if(!(constructor instanceof TreatJS.Prototype.Constructor))
@@ -374,7 +374,7 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, Configuration, 
     else TreatJS.Prototype.Immediate.apply(this);
 
     if(constructor instanceof Function) {
-      constructor = new ConstructorContract(constructor, name);
+      constructor = new ConstructorContract(constructor);
     }
 
     if(!(constructor instanceof TreatJS.Prototype.Constructor))

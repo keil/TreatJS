@@ -37,8 +37,11 @@ TreatJS.package("TreatJS.Conversion", function (TreatJS, Contract, Configuration
         return new Contract.Object(target);
       } 
     }
-
   }
+
+
+  
+
 
   // _____ ___ __  ___ _ _| |_ 
   /// -_) \ / '_ \/ _ \ '_|  _|

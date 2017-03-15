@@ -86,7 +86,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, Configuration, R
 
     return Object.defineProperties(Object.setPrototypeOf(ConstructorContract.prototype.construct.bind(this), this), {
       "constructor": {
-        value: TreatJS.Sandbox.recompileConstructor(constructor)
+        value: constructor
       },
       "name": {
         value: name
@@ -166,6 +166,13 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, Configuration, R
      * If target is a primitive value, return target.
      **/
     if (target !== Object(target)) {
+      return target;
+    }
+
+    /**
+     * Avoid wrapping of contracts.
+     **/
+    if(target instanceof TreatJS.Prototype.Contract || target instanceof TreatJS.Prototype.Constructor) {
       return target;
     }
 
