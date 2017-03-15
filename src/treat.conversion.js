@@ -23,42 +23,76 @@ TreatJS.package("TreatJS.Conversion", function (TreatJS, Contract, Configuration
    **/
 
 
-  function convert(target) {
+  function toContract(target) {
 
-    if(subject instanceof TreatJS.Prototype.Contract) return target;
-    else if(subject instanceof TreatJS.Prototype.Constructor) return target;
+    if(target instanceof TreatJS.Prototype.Contract) return target;
     else {
 
       if(subject instanceof Function) {
-        return new Contract.Constructor(target)
+        return new Contract.Base(target);
       } else if(subject instanceof Array) {
         return new Contract.Object(target);
       } else if (subject instanceof Object) {
         return new Contract.Object(target);
-      } 
+      } else {
+        throw new TypeError("Invalid contract.");
+      }
+    }
+  }
+
+  function toContract(target) {
+
+    if(subject instanceof TreatJS.Prototype.Constructor) return target;
+    else {
+
+      if(subject instanceof Function) {
+        return new Contract.Constructor(target);
+      } else {
+        throw new TypeError("Invalid contract.");
+      }
     }
   }
 
 
-  
 
 
-  // _____ ___ __  ___ _ _| |_ 
-  /// -_) \ / '_ \/ _ \ '_|  _|
-  //\___/_\_\ .__/\___/_|  \__|
-  //        |_|                
+  function Context() {
 
-  TreatJS.export({
-    convert: convert
-  });
+    Object.defineProperties(this, {
+      contract: {
+        value: toContract
+      },
+      constructor: {
+        value: toConstructor
+      },
+    }
+    });
 
-  //         _                 
-  // _ _ ___| |_ _  _ _ _ _ _  
-  //| '_/ -_)  _| || | '_| ' \ 
-  //|_| \___|\__|\_,_|_| |_||_|
 
-  return {
-    convert: convert
-  };
+
+}
+
+
+
+
+
+
+// _____ ___ __  ___ _ _| |_ 
+/// -_) \ / '_ \/ _ \ '_|  _|
+//\___/_\_\ .__/\___/_|  \__|
+//        |_|                
+
+TreatJS.export({
+  convert: convert
+});
+
+//         _                 
+// _ _ ___| |_ _  _ _ _ _ _  
+//| '_/ -_)  _| || | '_| ' \ 
+//|_| \___|\__|\_,_|_| |_||_|
+
+return {
+  convert: convert
+};
 
 });
