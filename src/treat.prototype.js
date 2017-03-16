@@ -67,7 +67,8 @@ TreatJS.package("TreatJS.Prototype", function(TreatJS, Contract, Configuration, 
   function Constructor() {
     if(!(this instanceof Constructor)) return new Constructor();
   }
-  Constructor.prototype = Object.create({});
+  // Constructor.prototype = Object.create({}); // TODO
+  Constructor.prototype = Object.create(Contract.prototype);
   Constructor.prototype.constructor = Constructor;
   Constructor.prototype.toString = function() {
     return '[[TreatJS/Constructor]]';

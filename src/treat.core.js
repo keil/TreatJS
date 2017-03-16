@@ -376,7 +376,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
     }
 
     else if (contract instanceof TreatJS.Contract.DelayedIntersection) {
-      return (subject instanceof Object) ? new Realm.Proxy(subject, new Realm.Proxy({}, {
+      return (subject instanceof Object) ?wrap(subject, contract, callback, path, new Realm.Proxy({}, {
         get: function (handler, trapname) {
           return function(target, ...trapArgs) {
             const {left, right} = TreatJS.Callback.Intersection(callback);
@@ -499,8 +499,6 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
         Contexts.pop(); 
       }
 
-      print("_______________" ,contract);
-
       // Return constructed contract or throw an error.
       if(contract instanceof TreatJS.Prototype.Contract)
         return contract;
@@ -545,6 +543,27 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
     return dummy;
   }
 
+
+
+
+  function subjectOf(subject, contract) {
+    if(Assertions.has(subject)) {
+      print("#has"); // TODO
+      const assertion = Assertions.get(subject);
+
+      if(assertion.contract===contract) return true;
+      else return subjectOf(assertion.subject, contract);
+    
+    } else {
+      print("#has not"); // TODO
+      return false;
+    }
+  }
+
+
+
+
+
   // _____ ___ __  ___ _ _| |_ 
   /// -_) \ / '_ \/ _ \ '_|  _|
   //\___/_\_\ .__/\___/_|  \__|
@@ -552,7 +571,8 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
 
   TreatJS.export({
     assert:     Configuration.assertion ? topassert : noassert,
-    construct:  topconstruct
+    construct:  topconstruct,
+    subjectOf:  subjectOf
   });
 
   //         _                 

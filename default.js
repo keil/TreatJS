@@ -29,7 +29,9 @@ TreatJS.Print.printVersion();
 TreatJS.Print.printConfiguration();
 //TreatJS.Print.printStatistic();
 //TreatJS.Print.printPackage();
-//TreatJS.Print.printContract();
+TreatJS.Print.printContract();
+
+//quit();
 
 // ==================================================
 
@@ -162,6 +164,8 @@ TreatJS.Print.printConfiguration();
       if(node instanceof Node) {
         const lhs = node.left.hight;
         const rhs = node.right.hight;
+        //return isBalanced(node.left) && isBalanced(node.right) && (Math.abs(lhs - rhs) <= 1);
+
         return /*isBalanced(node.left) && isBalanced(node.right) &&*/ (Math.abs(lhs - rhs) <= 1);
       } else {
         return true;
@@ -172,14 +176,13 @@ TreatJS.Print.printConfiguration();
   let BalancedNode = Contract.Invariant(Balanced, "BalancedNode");
 
   let BalancedTree = (Contract.Constructor(function(BalancedNode, typeNumber) {
-    return Contract.Recursive(function(self) {
-      print("4$$$$$$$$$$$$$", BalancedNode, typeNumber);
+    return Contract.Recursive(Contract.Constructor(function(self) {
       return Contract.Intersection.from(BalancedNode, Contract.Object({
         value: typeNumber,
-        left:  Balanced,
-        right: Balanced
+        left:  self,
+        right: self
       }));
-    });
+    }));
   }, "BalancedTree"))(BalancedNode, typeNumber);
 
 
@@ -188,6 +191,11 @@ TreatJS.Print.printConfiguration();
   print("@@@", BalancedNode, BalancedTree);
 
   let x = Contract.assert(root1, BalancedTree);
+
+//  x.left = new Node(0, new Leaf(1), new Leaf(1));
+//
+
+  print(Contract.subjectOf(x, BalancedTree));
 
 
 

@@ -15,6 +15,13 @@
 
 TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, Configuration, Realm) {
 
+  // _      ___               _ _             
+  //(_)_ _ / __| __ _ _ _  __| | |__  _____ __
+  //| | ' \\__ \/ _` | ' \/ _` | '_ \/ _ \ \ /
+  //|_|_||_|___/\__,_|_||_\__,_|_.__/\___/_\_\                                        
+
+  let inSandbox = false;
+
   //  ___ _     _          _ 
   // / __| |___| |__  __ _| |
   //| (_ | / _ \ '_ \/ _` | |
@@ -41,76 +48,6 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, Configuration, R
     return Native.has(value);
   }
 
-  // ___               _ _               ___                ___         _               _   
-  /// __| __ _ _ _  __| | |__  _____ __ | _ ) __ _ ___ ___ / __|___ _ _| |_ _ _ __ _ __| |_ 
-  //\__ \/ _` | ' \/ _` | '_ \/ _ \ \ / | _ \/ _` (_-</ -_) (__/ _ \ ' \  _| '_/ _` / _|  _|
-  //|___/\__,_|_||_\__,_|_.__/\___/_\_\ |___/\__,_/__/\___|\___\___/_||_\__|_| \__,_\__|\__|
-
-  function BaseContract(predicate, name) {
-    if(!(this instanceof BaseContract)) return new BaseContract(predicate, name);
-
-    if(!(predicate instanceof Function))
-      throw new TypeError("Invalid predicate");
-
-    Object.defineProperties(this, {
-      "predicate": {
-        value: predicate
-      },
-      "name": {
-        value: name
-      }
-    });
-  }
-  BaseContract.prototype = Object.create(TreatJS.Contract.Base.prototype);
-  BaseContract.prototype.constructor = BaseContract;
-
-  // ___               _ _                ___             _               _            ___         _               _   
-  /// __| __ _ _ _  __| | |__  _____ __  / __|___ _ _  __| |_ _ _ _  _ __| |_ ___ _ _ / __|___ _ _| |_ _ _ __ _ __| |_ 
-  //\__ \/ _` | ' \/ _` | '_ \/ _ \ \ / | (__/ _ \ ' \(_-<  _| '_| || / _|  _/ _ \ '_| (__/ _ \ ' \  _| '_/ _` / _|  _|
-  //|___/\__,_|_||_\__,_|_.__/\___/_\_\  \___\___/_||_/__/\__|_|  \_,_\__|\__\___/_|  \___\___/_||_\__|_| \__,_\__|\__|
-
-  function ConstructorContract(constructor, name) {
-    if(!(this instanceof ConstructorContract)) return new ConstructorContract(constructor, name);
-
-    if(!(constructor instanceof Function))
-      throw new TypeError("Invalid constructor.");
-
-    Object.defineProperties(this, {
-      "constructor": {
-        value: constructor
-      },
-      "name": {
-        value: name
-      }
-    });
-
-    return Object.defineProperties(Object.setPrototypeOf(ConstructorContract.prototype.construct.bind(this), this), {
-      "constructor": {
-        value: constructor
-      },
-      "name": {
-        value: name
-      }
-    });
-  }
-  ConstructorContract.prototype = Object.create(TreatJS.Contract.Constructor.prototype);
-  ConstructorContract.prototype.constructor = ConstructorContract;
-
-  // ___               _ _              ___         _               _   
-  /// __| __ _ _ _  __| | |__  _____ __/ __|___ _ _| |_ _ _ __ _ __| |_ 
-  //\__ \/ _` | ' \/ _` | '_ \/ _ \ \ / (__/ _ \ ' \  _| '_/ _` / _|  _|
-  //|___/\__,_|_||_\__,_|_.__/\___/_\_\\___\___/_||_\__|_| \__,_\__|\__|
-
-  const SandboxContract = Object.create(Contract);
-
-  Object.defineProperty(SandboxContract, "Base", {
-    value: BaseContract
-  });
-
-  Object.defineProperty(SandboxContract, "Constructor", {
-    value: ConstructorContract
-  });
-
   // ___               _ _              ___ _     _          _ 
   /// __| __ _ _ _  __| | |__  _____ __/ __| |___| |__  __ _| |
   //\__ \/ _` | ' \/ _` | '_ \/ _ \ \ / (_ | / _ \ '_ \/ _` | |
@@ -118,7 +55,7 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, Configuration, R
 
   const SandboxGlobal = {
     TreatJS:  TreatJS,
-    Contract: SandboxContract,
+    Contract: Contract,
     print: print
   };
 
@@ -505,6 +442,11 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, Configuration, R
       apply: function(target, thisArg, argumentsList) {
 
         /**
+         * Enable sandbox mode.
+         **/
+        inSandbox = true;
+
+        /**
          * traverse arguments
          **/
         const wrappedArguments = [];
@@ -513,17 +455,45 @@ TreatJS.package("TreatJS.Sandbox", function (TreatJS, Contract, Configuration, R
           wrappedArguments[i] = wrap(argumentsList[i])
         }
 
-        return Reflect.apply(target, thisArg, wrappedArguments);
+        const result = Reflect.apply(target, thisArg, wrappedArguments);
+
+        /**
+         * Disnable sandbox mode.
+         **/
+        inSandbox = false;
+
+        return result;
+      }
+    });
+  }
+
+  function wrapSecure(closure) {
+    return new Realm.Proxy(closure, {
+      apply: function(target, thisArg, argumentsList) {
+
+        /**
+         * Enable sandbox mode.
+         **/
+        inSandbox = true;
+
+        const result = Reflect.apply(target, thisArg, argumentsList);
+
+        /**
+         * Disnable sandbox mode.
+         **/
+        inSandbox = false;
+
+        return result;
       }
     });
   }
 
   function recompilePredicate (predicate) {
-    return recompile(wrap(Global), predicate);
+    return inSandbox ? wrapSecure(predicate) : recompile(wrap(Global), predicate);
   }
 
-  function recompileConstructor (predicate) {
-    return recompile(SandboxGlobal, predicate);
+  function recompileConstructor (constructor) {
+    return inSandbox ? wrapSecure(constructor) : recompile(SandboxGlobal, constructor);
   }
 
   //         _                 

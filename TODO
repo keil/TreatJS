@@ -1,33 +1,12 @@
-*** Implicit coercions for contracts
-- [] and {} --> Object Contract
-- ""        --> Predicates/ Base Contracts
-- x => x    --> Dependent Contracts
-
-
-- sandbox constructor
-
-
 *** Contracts
 - Dependent Method Contract, see "this" in the pre and postcondition
 - This-reference in Dependent Contract
 
-
-
-*** Safty Level
-- Implement TreatJS safty levels
-- Sandbox Mode  STRICT, NONE, PURE
-- nativePassThrought
-
-
 *** Logger & Statistics
-
 - On Callbacks
 - Change Statistic flags
 
-
-
 *** Contracts
-
 - Polymorphic // constructor
 - Reflection (get/ set)
 - ForaLL
@@ -36,12 +15,8 @@
 - Temporasl
 - Conjunction/ Disjunction
 
-
-
-*** Tests
-
-- Picky/Indy/Lax semantics
-
+*** Sandbox
+- Integrate Pure.js, allow access to all pure elements, including calls of pure getter functions. 
 
 
 Benchmarks
@@ -66,50 +41,6 @@ New Features
 
 * Use proxies to build nice constructors that can be applied directly.
   e.g.: Between(1,2); InstanceOf(Array);
-
-
-*** Convenience API
-
-- Immediate Intersection
-- Method
-
-
-*** Open Points
-
-- Sandbox/ Prapping of lobal objects
-
-- Statistics
-- Verbose Mode
-
-
-- convineinende, throe exception if functions contract pllies to a non-function value
-
-- Callback update only on state-changes?
-
-
-- rename tet to tests
-- Intigrate Pure.js
-
-
-
-- strict object contracts
--- critical, as than every proeprty must be contract, also the ones comign from the
-protoype, and length.
-
-
-- use of Math insude of a predicate/ constructor
-- call of functions
-
-
-
-Tests
-=====
-
-* Canonicalize
-
-* Test implicite coercion
-
-* Integrate pure functions.
 
 
 # _                 

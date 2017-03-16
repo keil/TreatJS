@@ -1,3 +1,9 @@
+*** TreatJS 2.0.4 (Alpha)
+
+- [New] Nesting of contract constructors
+- [New] Invariant contract
+- [New] Recursion Contract
+
 *** TreatJS 2.0.3 (Alpha)
 
 * [Bugfix] Transparent Proxt Realm
