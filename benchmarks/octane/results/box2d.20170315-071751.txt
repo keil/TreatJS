@@ -1,4 +1,4 @@
-cd ../ && ./js.transparent -f shell/shell.js -f bootstrap.js -f benchmarks/octane/typedoctane.js -f benchmarks/octane/types/types.deltablue.js -f benchmarks/octane/typed.js -f benchmarks/octane/run.deltablue.js -f benchmarks/octane/run.js
+cd ../ && ./js.transparent -f shell/shell.js -f bootstrap.js -f benchmarks/octane/typedoctane.js -f benchmarks/octane/types/types.box2d.js -f benchmarks/octane/typed.js -f benchmarks/octane/run.box2d.js -f benchmarks/octane/run.js
   _____             _      _ ___ 
  |_   _| _ ___ __ _| |_ _ | / __|
    | || '_/ -_) _` |  _| || \__ \
@@ -14,11 +14,11 @@ cd ../ && ./js.transparent -f shell/shell.js -f bootstrap.js -f benchmarks/octan
  * Author Matthias Keil
  * http://www.informatik.uni-freiburg.de/~keilr/
 
-load deltablue.js
-DeltaBlue: 2.21
+load box2d.js
+Box2D: 29.5
 ----
-Score (version 9): 2.21
-Time: 26326546 ms
+Score (version 9): 29.5
+Time: 2213151 ms
 ----
 TreatJS Version ........................................................................................................
 ...  TreatJS 2.0.3 (Alpha) .............................................................................................
