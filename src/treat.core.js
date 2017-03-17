@@ -226,7 +226,6 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
       try {
         result = contract.predicate.apply(undefined, [mirror(subject, path)]);
       } catch (error) {
-        print(error, error.stack);// TODO
         if(error instanceof TreatJS.Error.TreatJSError) {
           throw error;
         } else {
@@ -384,7 +383,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
             return Reflect[trapname](contracted, ...trapArgs);
           }
         }
-      })) : subject;
+      })) : assert(toObject(subject), contract, callback, path);;
     }
 
     // ___                  _          _    ___         _               _   
@@ -393,21 +392,17 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
     //|___|_||_\_/\__,_|_| |_\__,_|_||_\__|\___\___/_||_\__|_| \__,_\__|\__|
 
     else if(contract instanceof TreatJS.Contract.Invariant) {
-      return assert(subject, contract.base, callback, path) && (subject instanceof Object) ? 
-        wrap(subject, contract, callback, path, new Proxy(Reflect, {
-
+      return (subject instanceof Object) ? wrap(subject, contract, callback, path, new Proxy(Reflect, {
           get: function(target, name, receiver) {
-
             return (function(){
               const result = target[name](...arguments);
-              assert(subject, contract.base, callback, path);
+              const {properties} = TreatJS.Callback.Assignment(callback);
+              assert(subject, contract.base, properties, path.Step(properties));
               return result;
             });
-
           }
-        })) : subject;
+        })) : assert(toObject(subject), contract, callback, path);
     }
-
 
     // ___                    _          ___         _               _   
     //| _ \___ __ _  _ _ _ __(_)_ _____ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -418,18 +413,7 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
       const unrolled = construct(contract.constructor, [contract]);
       return (subject instanceof Object) ? assert(subject, unrolled, callback, path) : assert(toObject(subject), unrolled, callback, path);
     }
-
-
-
-
-
-
-
-
-
-
-
-    
+  
     //     _   _                   _         
     // ___| |_| |_  ___ _ ___ __ _(_)___ ___ 
     /// _ \  _| ' \/ -_) '_\ V  V / (_-</ -_)
@@ -486,10 +470,6 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
       try {
         contract = constructor.constructor.apply(undefined, constructorArray);
       } catch (error) {
-
-
-        print(error, error.stack); // TODO
-
         if(error instanceof TreatJS.Error.TreatJSError) {
           throw error;
         } else {
@@ -543,27 +523,6 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
     return dummy;
   }
 
-
-
-
-  function subjectOf(subject, contract) {
-    if(Assertions.has(subject)) {
-      print("#has"); // TODO
-      const assertion = Assertions.get(subject);
-
-      if(assertion.contract===contract) return true;
-      else return subjectOf(assertion.subject, contract);
-    
-    } else {
-      print("#has not"); // TODO
-      return false;
-    }
-  }
-
-
-
-
-
   // _____ ___ __  ___ _ _| |_ 
   /// -_) \ / '_ \/ _ \ '_|  _|
   //\___/_\_\ .__/\___/_|  \__|
@@ -572,7 +531,6 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
   TreatJS.export({
     assert:     Configuration.assertion ? topassert : noassert,
     construct:  topconstruct,
-    subjectOf:  subjectOf
   });
 
   //         _                 

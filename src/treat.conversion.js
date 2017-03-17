@@ -16,12 +16,8 @@
 TreatJS.package("TreatJS.Conversion", function (TreatJS, Contract, Configuration, Realm) {
 
   /**
-   * Implivite conversions of contract:
-   * [], {}   --> Object Contract
-   * x => x   --> Constructor
-   * 
+   * Converts an input value to a contract.
    **/
-
 
   function toContract(target) {
 
@@ -40,7 +36,12 @@ TreatJS.package("TreatJS.Conversion", function (TreatJS, Contract, Configuration
     }
   }
 
-  function toContract(target) {
+
+  /**
+   * Converts an input value to a constructor.
+   **/
+
+  function toConstructor(target) {
 
     if(subject instanceof TreatJS.Prototype.Constructor) return target;
     else {
@@ -53,46 +54,22 @@ TreatJS.package("TreatJS.Conversion", function (TreatJS, Contract, Configuration
     }
   }
 
+  // _____ ___ __  ___ _ _| |_ 
+  /// -_) \ / '_ \/ _ \ '_|  _|
+  //\___/_\_\ .__/\___/_|  \__|
+  //        |_|                
 
+  TreatJS.export({
+    convert: convert
+  });
 
+  //         _                 
+  // _ _ ___| |_ _  _ _ _ _ _  
+  //| '_/ -_)  _| || | '_| ' \ 
+  //|_| \___|\__|\_,_|_| |_||_|
 
-  function Context() {
-
-    Object.defineProperties(this, {
-      contract: {
-        value: toContract
-      },
-      constructor: {
-        value: toConstructor
-      },
-    }
-    });
-
-
-
-}
-
-
-
-
-
-
-// _____ ___ __  ___ _ _| |_ 
-/// -_) \ / '_ \/ _ \ '_|  _|
-//\___/_\_\ .__/\___/_|  \__|
-//        |_|                
-
-TreatJS.export({
-  convert: convert
-});
-
-//         _                 
-// _ _ ___| |_ _  _ _ _ _ _  
-//| '_/ -_)  _| || | '_| ' \ 
-//|_| \___|\__|\_,_|_| |_||_|
-
-return {
-  convert: convert
-};
+  return {
+    convert: convert
+  };
 
 });

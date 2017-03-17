@@ -1,3 +1,6 @@
+*** Sandbox
+- duplicate all core contracts to get rid of the inSandbox flag
+
 *** Contracts
 - Dependent Method Contract, see "this" in the pre and postcondition
 - This-reference in Dependent Contract

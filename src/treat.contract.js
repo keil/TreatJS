@@ -329,9 +329,6 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, Configuration, 
     return "(" + this.left.toString() + " + " + this.right.toString() + ")";
   };
 
-
-
-
   // ___                  _          _    ___         _               _   
   //|_ _|_ ___ ____ _ _ _(_)__ _ _ _| |_ / __|___ _ _| |_ _ _ __ _ __| |_ 
   // | || ' \ V / _` | '_| / _` | ' \  _| (__/ _ \ ' \  _| '_/ _` / _|  _|
@@ -355,14 +352,6 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, Configuration, 
   InvariantContract.prototype.toString = function() {
     return "(" + "&" + this.base.toString() + ")";
   };
-
-
-
-
-  // make a context that requests with implicit coversions
-
-
-  // Why is this not a constructor
 
   // ___                    _          ___         _               _   
   //| _ \___ __ _  _ _ _ __(_)_ _____ / __|___ _ _| |_ _ _ __ _ __| |_ 
@@ -392,7 +381,6 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, Configuration, 
     return "(" + "*" + "." + this.constructor.toString() + ")";
   };
 
-
   // ___             _ _  ___         _               _   
   //| __|__ _ _ __ _| | |/ __|___ _ _| |_ _ _ __ _ __| |_ 
   //| _/ _ \ '_/ _` | | | (__/ _ \ ' \  _| '_/ _` / _|  _|
@@ -420,24 +408,6 @@ TreatJS.package("TreatJS.Contract", function (TreatJS, Contract, Configuration, 
   DependentContract.prototype.toString = function() {
     return "(" + "%" + "." + this.constructor.toString() + ")";
   };*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   // _____ ___ __  ___ _ _| |_ 
   /// -_) \ / '_ \/ _ \ '_|  _|
