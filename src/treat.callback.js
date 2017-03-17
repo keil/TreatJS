@@ -201,6 +201,41 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, Configuration, 
     }
   }
 
+  //   _           _  ___      _ _ _             _   
+  //  /_\  _ _  __| |/ __|__ _| | | |__  __ _ __| |__
+  // / _ \| ' \/ _` | (__/ _` | | | '_ \/ _` / _| / /
+  ///_/ \_\_||_\__,_|\___\__,_|_|_|_.__/\__,_\__|_\_\
+
+  function AndCallback(callback) {
+
+    let left = {context:true, subject:true};
+    let right = {context:true, subject:true};
+
+    function update() {
+      const context = (left.context && right.context);
+      const subject = (left.subject && right.subject);
+
+      if(!(context && subject)) callback({context:context, subject:subject});
+    }
+
+    return {
+      left: function({context, subject}) {
+        left = {
+          context: (left.context && context),
+          subject: (left.subject && subject)
+        };
+        update();
+      },
+      right: function({context, subject}) {
+        right = {
+          context: (right.context && context),
+          subject: (right.subject && subject)
+        };
+        update();
+      }    
+    }
+  }
+
   //         _                 
   // _ _ ___| |_ _  _ _ _ _ _  
   //| '_/ -_)  _| || | '_| ' \ 
@@ -212,7 +247,8 @@ TreatJS.package("TreatJS.Callback", function (TreatJS, Contract, Configuration, 
     Intersection : IntersectionCallback,
     Union        : UnionCallback, 
     Assignment   : AssignmentCallback,
-    Fork         : ForkCallback
+    Fork         : ForkCallback,
+    And          : AndCallback
   };
 
 });

@@ -40,6 +40,7 @@ load("src/treat.prototype.js");
 load("src/treat.contract.js");
 
 load("src/treat.convenience.js");
+load("src/treat.experimental.js");
 
 load("src/treat.callback.js");
 load("src/treat.path.js");

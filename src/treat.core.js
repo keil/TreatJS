@@ -414,6 +414,20 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
       const unrolled = construct(contract.constructor, [contract]);
       return (subject instanceof Object) ? assert(subject, unrolled, callback, path) : assert(toObject(subject), unrolled, callback, path);
     }
+
+    //   _           _  ___         _               _   
+    //  /_\  _ _  __| |/ __|___ _ _| |_ _ _ __ _ __| |_ 
+    // / _ \| ' \/ _` | (__/ _ \ ' \  _| '_/ _` / _|  _|
+    ///_/ \_\_||_\__,_|\___\___/_||_\__|_| \__,_\__|\__|
+
+    else if(contract instanceof TreatJS.Experimental.And) {
+      const {left, right} = new TreatJS.Callback.And(callback);
+      return assert(assert(subject, contract.left, left, path.Step(left)), contract.right, right, path.Split(right));
+    }
+
+
+
+
   
     //     _   _                   _         
     // ___| |_| |_  ___ _ ___ __ _(_)___ ___ 

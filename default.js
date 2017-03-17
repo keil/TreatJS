@@ -93,7 +93,7 @@ TreatJS.Print.printConfiguration();
 
  let BalancedTree = (Contract.Constructor(function(BalancedNode, typeNumber) {
    return Contract.Recursive(Contract.Constructor(function(self) {
-     return Contract.Intersection.from(BalancedNode, Contract.Object({
+     return Contract.And(BalancedNode, Contract.Object({
        value: typeNumber,
        left:  self,
        right: self
@@ -102,7 +102,7 @@ TreatJS.Print.printConfiguration();
  }, "BalancedTree"))(BalancedNode, typeNumber);
 
  let balanced_tree = Contract.assert(root1, BalancedTree);
- balanced_tree.left = new Node(3, new Node(2, new Node(1, new Leaf(0), new Leaf(0)), new Leaf(0)), new Leaf(0));
+ balanced_tree.right.left = new Node(3, new Node(2, new Node(1, new Leaf(0), new Leaf(0)), new Leaf(0)), new Leaf(0));
 
 
 //balanced_tree.left.right = root2;
