@@ -9,14 +9,14 @@
 - On Callbacks
 - Change Statistic flags
 
+*** New Implicit Contract Conversion
+
 *** Contracts
-- Polymorphic // constructor
-- Reflection (get/ set)
-- ForaLL
-- Recursion 
-- Invariant
-- Temporasl
-- Conjunction/ Disjunction
+- Polymorphic
+- Reflection (get/ set/ ..)
+- ForAll
+- Temporal Contract
+- Disjunction/ Negation
 
 *** Sandbox
 - Integrate Pure.js, allow access to all pure elements, including calls of pure getter functions. 
