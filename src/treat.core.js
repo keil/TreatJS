@@ -392,7 +392,8 @@ TreatJS.package("TreatJS.Core", function (TreatJS, Contract, Configuration, Real
     //|___|_||_\_/\__,_|_| |_\__,_|_||_\__|\___\___/_||_\__|_| \__,_\__|\__|
 
     else if(contract instanceof TreatJS.Contract.Invariant) {
-      return (subject instanceof Object) ? wrap(subject, contract, callback, path, new Proxy(Reflect, {
+      return assert(subject, contract.base, callback, path) && 
+        (subject instanceof Object) ? wrap(subject, contract, callback, path, new Proxy(Reflect, {
           get: function(target, name, receiver) {
             return (function(){
               const result = target[name](...arguments);
