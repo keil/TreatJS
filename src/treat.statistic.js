@@ -18,7 +18,8 @@ TreatJS.package("TreatJS.Statistic", function (TreatJS, Contract, Configuration,
   const Keys = Object.freeze({
     TOPASSERT   : "TOPASSERT",
     ASSERT      : "ASSERT",
-    PREDICTAES  : "PREDICATES",
+    CONSTRUCT   : "CONSTRUCT",
+    PREDICATES  : "PREDICATES",
     MEMBRANE    : "MEMBRANE",
     DECOMPILE   : "DECOMPILE",
     CALLBACK    : "CALLBACK"
