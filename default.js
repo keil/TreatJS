@@ -33,6 +33,19 @@ TreatJS.Print.printConfiguration();
 
 // ==================================================
 
+(function () {
+
+  let plus = Contract.assert((x,y) => x+y, Contract.Function([typeNumber, typeNumber], typeNumber));
+  print(plus(1,2));
+
+
+})();
+
+TreatJS.Print.printStatistic();
+
+quit();
+
+
 (function() {
 
   function Node (value, left, right) {
@@ -102,7 +115,7 @@ TreatJS.Print.printConfiguration();
  }, "BalancedTree"))(BalancedNode, typeNumber);
 
  let balanced_tree = Contract.assert(root1, BalancedTree);
- balanced_tree.right.left = new Node(3, new Node(2, new Node(1, new Leaf(0), new Leaf(0)), new Leaf(0)), new Leaf(0));
+ //balanced_tree.right.left = new Node(3, new Node(2, new Node(1, new Leaf(0), new Leaf(0)), new Leaf(0)), new Leaf(0));
 
 
 //balanced_tree.left.right = root2;
